@@ -114,6 +114,62 @@ export type PortfolioDoc = {
   updatedAt: string
 }
 
+export type ServicePageDoc = {
+  _id?: ObjectId
+  slug: string // e.g. 'shopify', 'wordpress', 'woocommerce', 'seo'
+  title: string
+  status: 'draft' | 'published'
+  hero: {
+    eyebrow: string
+    headline: string
+    subheadline: string
+    desc: string
+    bullets: string[]
+    ctaPrimary: string
+    ctaSecondary: string
+    startingPrice?: string
+  }
+  services: {
+    id: string
+    title: string
+    tagline: string
+    price: string
+    time: string
+    desc: string
+    features: string[]
+    perfectFor?: string[]
+    results?: string[]
+    supported?: string[]
+    plans?: { tier: string; price: string; features: string[] }[]
+  }[]
+  whyUs: {
+    icon: string
+    title: string
+    desc: string
+  }[]
+  process: {
+    n: string
+    title: string
+    sub: string
+    desc: string
+    time: string
+  }[]
+  portfolio: {
+    name: string
+    industry: string
+    challenge: string
+    solution: string
+    result: string
+    resultLabel: string
+  }[]
+  faqs: {
+    q: string
+    a: string
+  }[]
+  seo: SeoFields
+  updatedAt: Date
+}
+
 export type RedirectDoc = {
   _id?: ObjectId
   from: string

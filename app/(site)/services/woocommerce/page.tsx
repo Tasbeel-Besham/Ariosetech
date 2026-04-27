@@ -1,5 +1,6 @@
-'use client'
 import Link from 'next/link'
+import { getCollection } from '@/lib/db/mongodb'
+import { ServicePageDoc } from '@/types'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -207,7 +208,32 @@ const FAQS = [
   { q: 'Do you develop custom WooCommerce plugins?', a: "Yes! We develop custom plugins and extensions to add unique functionality to your WooCommerce store that isn't available in existing plugins." },
 ]
 
-export default function WooCommercePage() {
+export default async function WooCommercePage() {
+  let dbData: Partial<ServicePageDoc> | null = null
+  try {
+    const col = await getCollection<ServicePageDoc>('services')
+    dbData = await col.findOne({ slug: 'woocommerce' })
+  } catch (err) {}
+
+  const activeServices = dbData?.services?.length ? dbData.services : SERVICES
+  const activeFaqs = dbData?.faqs?.length ? dbData.faqs : FAQS
+  const heroData = dbData?.hero || {
+    eyebrow: 'WooCommerce Services',
+    headline: 'Custom WooCommerce',
+    subheadline: 'Development Services',
+    desc: 'Transform your WordPress site into a powerful online store that drives sales. We create custom WooCommerce solutions that combine the flexibility of WordPress with robust e-commerce functionality. Trusted by 40+ businesses worldwide.',
+    bullets: [
+      'Custom Development — Tailored to your exact needs',
+      'WordPress Integration — Seamless blend of content and commerce',
+      'Scalable Solutions — Grow from startup to enterprise',
+      'Mobile-Optimized — Perfect shopping experience on all devices',
+      '24/7 Expert Support — Always here when you need us'
+    ],
+    ctaPrimary: 'Get Free WooCommerce Consultation',
+    ctaSecondary: 'View WooCommerce Portfolio',
+    startingPrice: 'Starting at $1,299 · 30-Day Money-Back Guarantee · Free Post-Launch Training'
+  }
+
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
@@ -215,21 +241,21 @@ export default function WooCommercePage() {
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 80% 80% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.4 }} />
         <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '50%', height: '70%', background: 'radial-gradient(ellipse, rgba(155,109,255,0.12) 0%, transparent 65%)', borderRadius: '50%', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <p className="eyebrow">WooCommerce Services</p>
+          <p className="eyebrow">{heroData.eyebrow}</p>
           <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '8px', maxWidth: '800px' }}>
-            Custom WooCommerce
+            {heroData.headline}
           </h1>
           <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '20px', maxWidth: '800px', ...P }}>
-            Development Services
+            {heroData.subheadline}
           </h1>
           <p style={{ ...hs, fontSize: '17px', fontWeight: 600, color: 'var(--text-2)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '8px' }}>
             Build Powerful E-commerce Stores with WordPress &amp; WooCommerce
           </p>
           <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, maxWidth: '580px', marginBottom: '24px' }}>
-            Transform your WordPress site into a powerful online store that drives sales. We create custom WooCommerce solutions that combine the flexibility of WordPress with robust e-commerce functionality. Trusted by 40+ businesses worldwide.
+            {heroData.desc}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
-            {['Custom Development — Tailored to your exact needs', 'WordPress Integration — Seamless blend of content and commerce', 'Scalable Solutions — Grow from startup to enterprise', 'Mobile-Optimized — Perfect shopping experience on all devices', '24/7 Expert Support — Always here when you need us'].map(b => (
+            {heroData.bullets?.map((b: string) => (
               <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={14} /></span>
                 <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>{b}</span>
@@ -237,10 +263,10 @@ export default function WooCommercePage() {
             ))}
           </div>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">Get Free WooCommerce Consultation <ArrowSVG size={16} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">View WooCommerce Portfolio</Link>
+            <Link href="/contact" className="btn btn-primary btn-lg">{heroData.ctaPrimary} <ArrowSVG size={16} /></Link>
+            <Link href="/portfolio" className="btn btn-outline btn-lg">{heroData.ctaSecondary}</Link>
           </div>
-          <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)' }}>Starting at $1,299 · 30-Day Money-Back Guarantee · Free Post-Launch Training</p>
+          <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)' }}>{heroData.startingPrice}</p>
         </div>
       </section>
 
@@ -252,7 +278,7 @@ export default function WooCommercePage() {
             Complete WooCommerce Solutions for E-commerce Success
           </h2>
 
-          {SERVICES.map((svc) => (
+          {activeServices.map((svc: any) => (
             <div key={svc.id} id={svc.id} style={{ marginBottom: '48px', scrollMarginTop: '90px' }}>
               <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden' }}>
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
@@ -271,7 +297,7 @@ export default function WooCommercePage() {
                   <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '24px', maxWidth: '780px' }}>{svc.desc}</p>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '8px 24px', marginBottom: '24px' }}>
-                    {svc.features.map(f => (
+                    {svc.features.map((f: any) => (
                       <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px', fontSize: '13px', color: 'var(--text-2)' }}>
                         <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={13} /></span> {f}
                       </div>
@@ -282,7 +308,7 @@ export default function WooCommercePage() {
                     <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '12px' }}>Expected Results</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {svc.results.map(r => (
+                        {svc.results.map((r: any) => (
                           <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--primary)' }}>
                             <CheckSVG size={12} /> {r}
                           </span>
@@ -295,7 +321,7 @@ export default function WooCommercePage() {
                     <div style={{ marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Supported Platforms</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.supported.map(p => (
+                        {svc.supported.map((p: any) => (
                           <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
                         ))}
                       </div>
@@ -304,12 +330,12 @@ export default function WooCommercePage() {
 
                   {'plans' in svc && svc.plans && (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-                      {svc.plans.map(plan => (
+                      {svc.plans.map((plan: any) => (
                         <div key={plan.tier} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px' }}>
                           <p style={{ ...hs, fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{plan.tier}</p>
                           <p style={{ ...hs, fontSize: '1.3rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '14px' }}>{plan.price}</p>
                           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            {plan.features.map(f => (
+                            {plan.features.map((f: any) => (
                               <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '7px', fontSize: '12px', color: 'var(--text-2)' }}>
                                 <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={11} /></span> {f}
                               </li>
@@ -324,7 +350,7 @@ export default function WooCommercePage() {
                     <div style={{ marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Perfect For</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.perfectFor.map(p => (
+                        {svc.perfectFor.map((p: any) => (
                           <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
                         ))}
                       </div>
@@ -357,9 +383,7 @@ export default function WooCommercePage() {
               { icon: '🔒', title: 'Security First', desc: 'Enterprise-grade security measures protect your store and customer data from threats, ensuring trust and compliance.' },
               { icon: '📈', title: 'Growth Partnership', desc: "We don't just build stores; we create growth-focused solutions that scale with your business and support long-term success." },
             ].map(r => (
-              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(155,109,255,0.35)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}>
+              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }} className="card-hover">
                 <p style={{ fontSize: '28px', marginBottom: '12px', lineHeight: 1 }}>{r.icon}</p>
                 <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
                 <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
@@ -382,9 +406,7 @@ export default function WooCommercePage() {
               { name: 'Dr. Scents International', industry: 'Perfume & Cosmetics', challenge: '32 different country-specific websites', solution: 'Multi-site WooCommerce with localization', result: '32', resultLabel: 'countries launched in under 4 months' },
               { name: 'GeoMag World', industry: 'Educational Toys', challenge: 'Complex product catalog with learning resources', solution: 'WooCommerce with custom product configurator', result: '200%', resultLabel: 'increase in average order value' },
             ].map((cs, i) => (
-              <div key={i} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.25s' }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateY(-4px)' }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}>
+              <div key={i} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.25s' }} className="card-hover">
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
                 <div style={{ padding: '28px' }}>
                   <p style={{ ...hs, fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{cs.name}</p>
@@ -420,7 +442,7 @@ export default function WooCommercePage() {
               <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={15} /></Link>
             </div>
             <div>
-              {FAQS.map(({ q, a }, i) => (
+              {activeFaqs.map(({ q, a }: any, i: number) => (
                 <details key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '6px' }}>
                   <summary style={{ padding: '18px 22px', cursor: 'pointer', ...hs, fontSize: '15px', fontWeight: 600, color: '#fff', listStyle: 'none', userSelect: 'none' }}>
                     {q}

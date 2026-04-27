@@ -1,6 +1,8 @@
-'use client'
-import { useState, useEffect, useRef } from 'react'
+
 import Link from 'next/link'
+import ApproachSection from '@/components/sections/ApproachSection'
+import { getCollection } from '@/lib/db/mongodb'
+import { ServicePageDoc } from '@/types'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -167,87 +169,40 @@ const FAQS = [
   { q: 'How much does WordPress maintenance cost?', a: 'Our maintenance plans start at $79/month and include updates, backups, security monitoring, and support.' },
 ]
 
-/* ── Sliding Approach Section ─────────────────────────────────── */
-function ApproachSection() {
-  const wrapperRef = useRef<HTMLDivElement>(null)
-  const stripRef   = useRef<HTMLDivElement>(null)
-  const [tx, setTx]             = useState(0)
-  const [activeIdx, setActiveIdx] = useState(0)
-  const [showHint, setShowHint]   = useState(true)
+export default async function WordPressPage() {
+  let dbData: Partial<ServicePageDoc> | null = null
+  try {
+    const col = await getCollection<ServicePageDoc>('services')
+    dbData = await col.findOne({ slug: 'wordpress' })
+  } catch (err) {}
 
-  useEffect(() => {
-    const wrapper = wrapperRef.current
-    const strip   = stripRef.current
-    if (!wrapper || !strip) return
-
-    const onScroll = () => {
-      const rect      = wrapper.getBoundingClientRect()
-      const maxScroll = wrapper.offsetHeight - window.innerHeight
-      const scrolled  = Math.max(0, -rect.top)
-      const progress  = Math.min(1, scrolled / maxScroll)
-
-      const maxTx = strip.scrollWidth - window.innerWidth
-      setTx(-(progress * maxTx))
-      setActiveIdx(Math.min(PROCESS.length - 1, Math.floor(progress * PROCESS.length)))
-      setShowHint(progress < 0.05)
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  return (
-    <div ref={wrapperRef} className="approach-wrapper" style={{ height:`${PROCESS.length * 100 + 60}vh`, position:'relative' }}>
-      <div className="approach-sticky" style={{ position:'sticky', top:0, height:'100vh', overflow:'hidden', display:'flex', flexDirection:'column', background:'var(--bg)' }}>
-        <div className="approach-header" style={{ textAlign:'center', padding:'52px 0 28px', flexShrink:0 }}>
-          <p className="eyebrow sr" style={{ justifyContent:'center' }}>How We Work</p>
-          <h2 className="sr" style={{ ...hs, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'20px' }}>
-            WordPress Development <span style={P}>Process</span>
-          </h2>
-          <div style={{ display:'flex', justifyContent:'center', gap:'8px' }}>
-            {PROCESS.map((_, i) => (
-              <div key={i} style={{ width: i === activeIdx ? '24px' : '6px', height:'6px', borderRadius:'9999px', background: i === activeIdx ? 'var(--primary)' : 'rgba(118,108,255,0.25)', transition:'all 0.4s var(--ease)' }} />
-            ))}
-          </div>
-        </div>
-
-        <div className="approach-strip-container" style={{ flex:1, overflow:'hidden', display:'flex', alignItems:'center', position:'relative' }}>
-          <div className="approach-fade" style={{ position:'absolute', left:0, top:0, bottom:0, width:'80px', background:'linear-gradient(to right, var(--bg), transparent)', zIndex:2, pointerEvents:'none' }} />
-          <div className="approach-fade" style={{ position:'absolute', right:0, top:0, bottom:0, width:'80px', background:'linear-gradient(to left, var(--bg), transparent)', zIndex:2, pointerEvents:'none' }} />
-
-          <div ref={stripRef} className="approach-strip" style={{ display:'flex', gap:'20px', paddingLeft:'8vw', paddingRight:'8vw', transform:`translateX(${tx}px)`, willChange:'transform', transition:'transform 0.06s linear' }}>
-            {PROCESS.map((item, i) => {
-              const isActive = i === activeIdx
-              return (
-                <div key={item.n} className={`approach-card ${isActive ? 'active' : ''}`} style={{ width:'min(460px, 82vw)', flexShrink:0, background: isActive ? 'linear-gradient(145deg, rgba(118,108,255,0.13) 0%, rgba(10,10,18,0.95) 80%)' : 'var(--bg-2)', border:`1px solid ${isActive ? 'rgba(118,108,255,0.45)' : 'var(--border)'}`, borderRadius:'24px', padding:'44px 40px', position:'relative', overflow:'hidden', transform: isActive ? 'scale(1.02)' : 'scale(0.95)', opacity: isActive ? 1 : 0.45, transition:'all 0.45s var(--ease)', boxShadow: isActive ? '0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(118,108,255,0.1)' : 'none' }}>
-                  <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', opacity: isActive ? 1 : 0, transition:'opacity 0.4s' }} />
-                  <p className="approach-ghost-num" style={{ ...hs, fontSize:'clamp(8rem,13vw,14rem)', fontWeight:900, color:'rgba(255,255,255,0.04)', position:'absolute', top:'10px', right:'16px', lineHeight:1, userSelect:'none', letterSpacing:'-0.06em', pointerEvents:'none' }}>{item.n}</p>
-                  <div className="approach-pill" style={{ display:'inline-flex', alignItems:'center', gap:'6px', padding:'4px 12px', borderRadius:'9999px', background:'rgba(118,108,255,0.12)', border:'1px solid rgba(118,108,255,0.25)', marginBottom:'clamp(32px,5vw,64px)' }}>
-                    <span style={{ ...hm, fontSize:'11px', fontWeight:700, color:'var(--primary)', letterSpacing:'0.14em' }}>{item.n}</span>
-                  </div>
-                  <h3 style={{ ...hs, fontSize:'clamp(1.8rem, 2.8vw, 2.2rem)', fontWeight:900, color:'#fff', letterSpacing:'-0.02em', lineHeight:1.1, marginBottom:'18px', textTransform:'uppercase', overflowWrap:'anywhere', wordBreak:'break-word' }}>{item.title}</h3>
-                  <p style={{ ...hm, fontSize:'11px', fontWeight:700, color:'var(--primary)', marginBottom:'14px', textTransform:'uppercase', letterSpacing:'0.12em' }}>{item.sub}</p>
-                  <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.85, maxWidth:'340px' }}>{item.desc}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        <div className="approach-hint" style={{ textAlign:'center', padding:'16px 0 20px', flexShrink:0, opacity: showHint ? 1 : 0, transition:'opacity 0.5s', pointerEvents:'none' }}>
-          <div style={{ display:'inline-flex', alignItems:'center', gap:'8px' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-            <span style={{ ...hm, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.14em' }}>Scroll to explore</span>
-          </div>
-        </div>
-        <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'1px', background:'var(--border)' }} />
-      </div>
-    </div>
-  )
-}
-
-export default function WordPressPage() {
+  const activeServices = dbData?.services?.length ? dbData.services : SERVICES
+  const activeProcess = dbData?.process?.length ? dbData.process : PROCESS
+  const activeFaqs = dbData?.faqs?.length ? dbData.faqs : FAQS
+  const activeWhyUs = dbData?.whyUs?.length ? dbData.whyUs : [
+    { icon: 'expertise', title: '7+ Years WordPress Expertise', desc: "We've been perfecting WordPress development since 2017, delivering 50+ successful WordPress projects across various industries." },
+    { icon: 'performance', title: 'Performance-First Approach', desc: 'Every WordPress site we build is optimized for speed, security, and search engines from day one.' },
+    { icon: 'security', title: 'Security-Focused Development', desc: 'We implement enterprise-grade security measures to protect your WordPress site from threats.' },
+    { icon: 'mobile', title: 'Mobile-First Design', desc: 'All our WordPress sites are built with mobile users in mind, ensuring perfect performance across all devices.' },
+    { icon: 'support', title: 'Ongoing Support', desc: "We don't just build and leave. Our team provides continuous support to ensure your WordPress site thrives." },
+    { icon: 'pricing', title: 'Transparent Pricing', desc: 'No hidden costs or surprise fees. Our WordPress development pricing is upfront and honest.' },
+  ]
+  const heroData = dbData?.hero || {
+    eyebrow: 'WordPress Services',
+    headline: 'Professional WordPress',
+    subheadline: 'Development Services',
+    desc: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.',
+    bullets: [
+      'Custom Development — Tailored to your exact needs',
+      'Lightning Fast — Optimized for Core Web Vitals',
+      '100% Secure — Enterprise-grade security',
+      'SEO-Ready — Built for search engine success',
+      '24/7 Support — Always here when you need us'
+    ],
+    ctaPrimary: 'Get Free WordPress Consultation',
+    ctaSecondary: 'View WordPress Portfolio',
+    startingPrice: 'Starting at $799 · 30-Day Money-Back Guarantee · Free Post-Launch Support'
+  }
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
@@ -255,21 +210,21 @@ export default function WordPressPage() {
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 80% 80% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.4 }} />
         <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '50%', height: '70%', background: 'radial-gradient(ellipse, rgba(79,110,247,0.14) 0%, transparent 65%)', borderRadius: '50%', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <p className="eyebrow sr">WordPress Services</p>
+          <p className="eyebrow sr">{heroData.eyebrow}</p>
           <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '8px', maxWidth: '800px' }}>
-            Professional WordPress
+            {heroData.headline}
           </h1>
           <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '20px', maxWidth: '800px', ...P, animationDelay: '0.1s' }}>
-            Development Services
+            {heroData.subheadline}
           </h1>
           <p className="sr" style={{ ...hs, fontSize: '17px', fontWeight: 600, color: 'var(--text-2)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '8px', animationDelay: '0.15s' }}>
             Display Your Business Online with a WordPress Website
           </p>
           <p className="sr" style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, maxWidth: '580px', marginBottom: '24px', animationDelay: '0.2s' }}>
-            From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.
+            {heroData.desc}
           </p>
           <div className="sr" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '32px', animationDelay: '0.25s' }}>
-            {['Custom Development — Tailored to your exact needs', 'Lightning Fast — Optimized for Core Web Vitals', '100% Secure — Enterprise-grade security', 'SEO-Ready — Built for search engine success', '24/7 Support — Always here when you need us'].map(b => (
+            {heroData.bullets?.map((b: string) => (
               <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={14} /></span>
                 <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>{b}</span>
@@ -277,10 +232,10 @@ export default function WordPressPage() {
             ))}
           </div>
           <div className="sr" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px', animationDelay: '0.3s' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">Get Free WordPress Consultation <ArrowSVG size={16} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">View WordPress Portfolio</Link>
+            <Link href="/contact" className="btn btn-primary btn-lg">{heroData.ctaPrimary} <ArrowSVG size={16} /></Link>
+            <Link href="/portfolio" className="btn btn-outline btn-lg">{heroData.ctaSecondary}</Link>
           </div>
-          <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s' }}>Starting at $799 · 30-Day Money-Back Guarantee · Free Post-Launch Support</p>
+          <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s' }}>{heroData.startingPrice}</p>
         </div>
       </section>
 
@@ -293,7 +248,7 @@ export default function WordPressPage() {
           </h2>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
-            {SERVICES.map((svc, i) => {
+            {activeServices.map((svc: any, i: number) => {
               const isEven = i % 2 === 0;
               return (
                 <div key={svc.id} id={svc.id} className="sr grid grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center" style={{ animationDelay: '0.1s' }}>
@@ -328,7 +283,7 @@ export default function WordPressPage() {
                       
                       <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>What&apos;s Included</p>
                       <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', marginBottom: '32px', listStyle: 'none' }}>
-                        {svc.features.map(f => (
+                        {svc.features.map((f: any) => (
                           <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.5 }}>
                             <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '4px', background: 'rgba(118,108,255,0.15)', borderRadius: '50%', padding: '2px' }}><CheckSVG size={12} /></span>
                             {f}
@@ -341,7 +296,7 @@ export default function WordPressPage() {
                         <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                           <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>Expected Results</p>
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                            {svc.results.map(r => (
+                            {svc.results.map((r: any) => (
                                <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px' }}>
                                  <span style={{ color: 'var(--primary)' }}><CheckSVG size={12} /></span> {r}
                                </span>
@@ -354,7 +309,7 @@ export default function WordPressPage() {
                       {'plans' in svc && svc.plans && (
                         <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
-                            {svc.plans.map(plan => (
+                            {svc.plans.map((plan: any) => (
                               <div key={plan.tier} style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px' }}>
                                 <p style={{ ...hs, fontSize: '13px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>{plan.tier}</p>
                                 <p style={{ ...hs, fontSize: '20px', fontWeight: 800, color: '#fff' }}>{plan.price}</p>
@@ -381,28 +336,23 @@ export default function WordPressPage() {
             Why Choose ARIOSETECH for WordPress Development?
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
-            {[
-              { icon: ICONS.expertise, title: '7+ Years WordPress Expertise', desc: "We've been perfecting WordPress development since 2017, delivering 50+ successful WordPress projects across various industries." },
-              { icon: ICONS.performance, title: 'Performance-First Approach', desc: 'Every WordPress site we build is optimized for speed, security, and search engines from day one.' },
-              { icon: ICONS.security, title: 'Security-Focused Development', desc: 'We implement enterprise-grade security measures to protect your WordPress site from threats.' },
-              { icon: ICONS.mobile, title: 'Mobile-First Design', desc: 'All our WordPress sites are built with mobile users in mind, ensuring perfect performance across all devices.' },
-              { icon: ICONS.support, title: 'Ongoing Support', desc: "We don't just build and leave. Our team provides continuous support to ensure your WordPress site thrives." },
-              { icon: ICONS.pricing, title: 'Transparent Pricing', desc: 'No hidden costs or surprise fees. Our WordPress development pricing is upfront and honest.' },
-            ].map((r, i) => (
+            {activeWhyUs.map((r: any, i: number) => {
+              const Icon = typeof r.icon === 'string' ? ICONS[r.icon as keyof typeof ICONS] : r.icon
+              return (
               <div key={r.title} className="card card-hover sr" style={{ padding: '36px', animationDelay: `${i * 0.08}s` }}>
                 <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', marginBottom: '20px' }}>
-                  {r.icon}
+                  {Icon || ICONS.expertise}
                 </div>
                 <p style={{ ...hs, fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '10px' }}>{r.title}</p>
                 <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.8 }}>{r.desc}</p>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </section>
 
       {/* ── PROCESS ────────────────────────────────────────────────── */}
-      <ApproachSection />
+      <ApproachSection processItems={activeProcess} title="WordPress Development Process" />
 
       {/* ── PORTFOLIO HIGHLIGHTS ──────────────────────────────────── */}
       <section className="section section--dark">
@@ -422,9 +372,7 @@ export default function WordPressPage() {
               { industry: 'Retail', challenge: 'WordPress with e-commerce functionality', solution: 'WooCommerce integration with custom features', result: '150%', resultLabel: 'increase in online sales' },
               { industry: 'International Business', challenge: '5-language website with complex navigation', solution: 'WPML-powered multilingual WordPress site', result: '300%', resultLabel: 'increase in international inquiries' },
             ].map((cs, i) => (
-              <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.1}s` }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateY(-6px)'; el.style.boxShadow = '0 28px 70px rgba(0,0,0,0.45)' }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = ''; el.style.boxShadow = '' }}>
+              <div key={i} className="sr card-hover" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.1}s` }}>
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
                 <div style={{ padding: '36px' }}>
                   <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: '16px' }}>{cs.industry}</p>
@@ -465,7 +413,7 @@ export default function WordPressPage() {
               <Link href="/contact" className="btn btn-primary btn-lg sr" style={{ animationDelay: '0.2s' }}>Ask Us Anything <ArrowSVG size={15} /></Link>
             </div>
             <div style={{ flex: '2', display: 'flex', flexDirection: 'column', gap: '8px' }} className="md:w-2/3">
-              {FAQS.map(({ q, a }, i) => (
+              {activeFaqs.map(({ q, a }: any, i: number) => (
                 <details key={i} className="sr" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', animationDelay: `${i * 0.08}s` }}>
                   <summary style={{ padding: '22px 28px', cursor: 'pointer', ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', listStyle: 'none', userSelect: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {q}

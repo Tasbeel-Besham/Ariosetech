@@ -17,7 +17,7 @@ const config: Config = {
         'bg-4': '#17172a',
       },
       fontFamily: {
-        display: ['var(--font-manrope)', 'Manrope',      'system-ui', 'sans-serif'],
+        display: ['var(--font-logo)',    'RoadRadio',     'system-ui', 'sans-serif'],
         body:    ['var(--font-inter)',   'Inter',         'system-ui', 'sans-serif'],
         mono:    ['ui-monospace',        'Fira Code',     'monospace'],
       },

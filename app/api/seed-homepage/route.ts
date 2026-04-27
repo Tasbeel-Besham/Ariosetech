@@ -1,72 +1,45 @@
 import { NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
-import { initRegistry } from '@/components/builder/sections/registry-init'
-import { getSection } from '@/lib/builder/registry'
 import { ObjectId } from 'mongodb'
 import type { PageDoc } from '@/types'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_request: Request) {
-  try {
-    initRegistry()
-    const pagesCol = await getCollection<PageDoc>('pages')
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const secret = searchParams.get('secret')
+  if (secret !== process.env.ADMIN_JWT_SECRET) {
+    return NextResponse.json({ error: 'Missing or wrong secret. Add ?secret=YOUR_ADMIN_JWT_SECRET to the URL.' }, { status: 401 })
+  }
 
-    const sectionTypes = [
-      'hero',
-      'stats',
-      'logos',
-      'services',
-      'whyus',
-      'impact',
-      'howitworks',
-      'approach',
-      'portfolio',
-      'testimonials',
-      'process',
-      'audit'
+  try {
+    const sections = [
+      { id: new ObjectId().toHexString(), type: 'hero', props: { eyebrow: 'Trusted by 100+ Businesses Worldwide', headline: 'We Build Websites That Drive\nReal Business Growth', subheadline: 'Expert WordPress, Shopify & WooCommerce development — optimized for speed, conversions, and long-term scale.', ctaPrimaryLabel: 'Get Free Strategy Call', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View Case Studies', ctaSecondaryHref: '/portfolio', trust: '7+ Years of Excellence,100+ Projects Delivered,24/7 Expert Support,30-Day Guarantee' } },
+      { id: new ObjectId().toHexString(), type: 'stats', props: { items: [{ value: '100+', label: 'Projects Delivered' }, { value: '7+', label: 'Years of Excellence' }, { value: '98%', label: 'Client Satisfaction' }, { value: '40+', label: 'Industries Served' }] } },
+      { id: new ObjectId().toHexString(), type: 'logos', props: { label: 'Trusted by 100+ businesses', items: [{ value: 'The Kapra' }, { value: 'Dr. Scents' }, { value: 'Janya.pk' }, { value: 'GeoMag World' }, { value: 'Genovie' }, { value: 'WYOX Sports' }, { value: 'Snap Glam Spa' }, { value: 'CTV Promo' }, { value: 'US Bidding Estimating' }, { value: 'CMA Digital' }, { value: 'Zoom PC Hire' }, { value: 'Ocean Tech BPO' }, { value: 'Staffing Ocean' }, { value: 'BGMG Cosmetics' }, { value: 'Accident Law' }, { value: 'Fabric Wholesale' }] } },
+      { id: new ObjectId().toHexString(), type: 'services', props: { eyebrow: 'What We Offer', headline: 'Comprehensive Web Development Solutions for Your Business Growth', items: [{ icon: '✏️', title: 'WordPress Development', headline: 'Build Powerful, Scalable Websites', desc: 'From custom themes to complex functionality, we create WordPress sites that grow with your business. Speed-optimized, secure, and SEO-ready.', features: 'Custom Development,Speed Optimization,Maintenance & Support,Migration Services', price: '$799', href: '/services/wordpress' }, { icon: '🛒', title: 'WooCommerce Development', headline: 'Launch Your Dream E-commerce Store', desc: 'Turn your vision into a profitable online store. Custom WooCommerce solutions with seamless payment integration and conversion optimization.', features: 'Store Setup & Customization,Payment Gateway Integration,Multi-vendor Solutions,Performance Optimization', price: '$1,299', href: '/services/woocommerce' }, { icon: '🛍️', title: 'Shopify Development', headline: 'Scale Your Business with Shopify', desc: 'Professional Shopify stores built for growth. From startup stores to Shopify Plus enterprises, we deliver results that matter.', features: 'Custom Store Development,Shopify Plus Solutions,App Integration,Conversion Optimization', price: '$999', href: '/services/shopify' }, { icon: '🔍', title: 'SEO Services', headline: 'Rank Higher, Get Found Faster', desc: 'Business-first SEO built for real growth. From technical fixes to local SEO and content strategy — stronger search presence that drives leads.', features: 'Website SEO,Local SEO,Technical SEO,SEO Content Strategy', price: 'Custom', href: '/services/seo' }] } },
+      { id: new ObjectId().toHexString(), type: 'whyus', props: { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: [{ icon: '💰', title: 'Cost-Effective Excellence', subhead: 'Save 60% Without Compromising Quality', desc: 'Get premium web development at a fraction of US agency costs. Professional results, affordable pricing, transparent communication.' }, { icon: '⚡', title: 'Lightning-Fast Delivery', subhead: 'From Concept to Launch in 30 Days', desc: 'Our streamlined process and dedicated team ensure rapid turnaround without cutting corners. Most projects completed ahead of schedule.' }, { icon: '🛡️', title: 'Professional Support', subhead: '24/7 Expert Assistance When You Need It', desc: 'Round-the-clock support across time zones. Emergency fixes, regular maintenance, and proactive monitoring included.' }, { icon: '📈', title: 'Proven Results', subhead: 'Track Record of Growing Businesses', desc: 'Our clients see average 150% increase in conversions and 40% improvement in site speed. Real results, measurable impact.' }] } },
+      { id: new ObjectId().toHexString(), type: 'impact', props: { eyebrow: 'Results That Matter', headline: 'The Impact, Quantified', subheadline: "Numbers don't lie. Here's what working with ARIOSETECH actually delivers for your business.", items: [{ value: '150%', label: 'Avg Conversion Lift', desc: 'Our tailored e-commerce strategies and optimized UX consistently drive 150%+ conversion improvements for clients.' }, { value: '98%', label: 'Client Satisfaction', desc: 'Every project is delivered with near-perfect precision — on time, on spec, and fully aligned with your business goals.' }, { value: '40%', label: 'Site Speed Gain', desc: 'Performance-first builds mean faster stores, better SEO rankings, and higher revenue from the same traffic.' }] } },
+      { id: new ObjectId().toHexString(), type: 'howitworks', props: { eyebrow: 'Our Process', headline: 'How It Works', subheadline: 'From setup to scale — a proven 5-step process that takes you from idea to a live, high-performing site.', items: [{ n: '01', title: 'Discovery & Strategy', sub: 'Understand Your Vision', desc: 'We kick off with a deep-dive consultation to understand your business goals, target audience, tech stack, and growth plans — so every decision is rooted in strategy.' }, { n: '02', title: 'Planning & Design', sub: 'Blueprint for Success', desc: 'Detailed project roadmaps, wireframes, and pixel-perfect design mockups that align with your brand identity and maximize conversion at every touchpoint.' }, { n: '03', title: 'Development', sub: 'Bringing Ideas to Life', desc: 'Expert WordPress, Shopify, or WooCommerce development using clean code, reusable components, and scalable architecture built to grow with your business.' }, { n: '04', title: 'Testing & Optimization', sub: 'Ensuring Perfection', desc: "Rigorous cross-device QA, speed optimization via Core Web Vitals, security hardening, and SEO validation — nothing ships until it's flawless." }, { n: '05', title: 'Launch & Scale', sub: 'Your Success, Our Priority', desc: 'A smooth go-live, comprehensive handover training, and 30 days of free post-launch support. After that, flexible monthly plans keep your site at peak performance.' }] } },
+      { id: new ObjectId().toHexString(), type: 'approach', props: { items: [{ n: '01', title: 'COST-EFFECTIVE', sub: 'Save 60% Without Compromising Quality', desc: 'Premium web development at a fraction of US agency costs. Professional results, transparent pricing, zero compromise on quality.' }, { n: '02', title: 'TRANSPARENT', sub: 'Open Communication at Every Step', desc: 'We share project progress, insights, and feedback in real-time so you always know exactly where your investment stands.' }, { n: '03', title: 'RELIABLE', sub: 'Consistently Delivered. Always On-Time.', desc: '100+ projects delivered on time and within budget. Our clients come back because our track record speaks for itself.' }, { n: '04', title: 'SCALABLE', sub: 'Built to Grow With Your Business', desc: 'Every site we build is architected for scale — whether you launch small or enterprise-level, our code grows seamlessly with your business.' }, { n: '05', title: 'SUPPORTED', sub: '24/7 Expert Assistance, Always On', desc: 'Round-the-clock support across time zones. Emergency fixes, proactive monitoring, and regular maintenance included in every plan.' }] } },
+      { id: new ObjectId().toHexString(), type: 'portfolio', props: { eyebrow: 'Our Work', headline: 'Success Stories That Speak for Themselves', intro: "Discover how we've transformed businesses across industries with custom web solutions that drive growth and maximize ROI.", ctaLabel: 'Explore All Projects', ctaHref: '/portfolio', items: [{ title: 'The Kapra', client: 'E-commerce Fashion Store', platform: 'Custom WooCommerce', result: '300%', resultLabel: 'Increase in online sales', quote: 'ARIOSETECH transformed our vision into reality with custom code solutions.', slug: 'thekapra' }, { title: 'Dr. Scents', client: 'International Perfume Online Store', platform: 'Multi-site WooCommerce', result: '32', resultLabel: 'Countries launched in under 4 months', quote: 'Incredible speed and quality. They delivered beyond our expectations.', slug: 'drscents' }, { title: 'WYOX Sports', client: 'USA-Based Sports Equipment', platform: 'Shopify + Custom Solutions', result: '250%', resultLabel: 'Business growth', quote: 'Professional, reliable, and always available when we need them.', slug: 'wyox' }] } },
+      { id: new ObjectId().toHexString(), type: 'testimonials', props: { eyebrow: 'Client Reviews', headline: 'What Our Clients Say About Working With Us', items: [{ name: 'Dr. Fred Sahafi', role: 'Founder of Genovie', initials: 'FS', quote: 'ARIOSETECH delivered an exceptional Shopify store that exceeded our expectations. Their attention to detail and ongoing support have been invaluable to our business growth.' }, { name: 'Michael Chen', role: 'CEO of GeoMag World', initials: 'MC', quote: 'Working with ARIOSETECH was seamless. They understood our complex requirements and delivered a custom WooCommerce solution that perfectly fits our business model.' }, { name: 'Muhammad Hannan', role: 'Director of Janya.pk', initials: 'MH', quote: 'Fast, reliable, and cost-effective. ARIOSETECH helped us launch our wholesale platform on Shopify ahead of schedule and under budget.' }] } },
+      { id: new ObjectId().toHexString(), type: 'process', props: { eyebrow: 'How We Work', headline: 'Your Success Journey in 5 Simple Steps', items: [{ n: '01', title: 'Discovery & Strategy', sub: 'Understand Your Vision', desc: 'We start with a comprehensive consultation to understand your business goals, target audience, and technical requirements.', time: '1-2 days' }, { n: '02', title: 'Planning & Design', sub: 'Blueprint for Success', desc: 'Detailed project planning, wireframing, and design mockups that align with your brand and conversion goals.', time: '3-5 days' }, { n: '03', title: 'Development', sub: 'Bringing Ideas to Life', desc: 'Expert development using best practices, clean code, and scalable architecture that grows with your business.', time: '15-20 days' }, { n: '04', title: 'Testing & Optimization', sub: 'Ensuring Perfection', desc: 'Rigorous testing across devices, speed optimization, and security checks before launch.', time: '3-5 days' }, { n: '05', title: 'Launch & Support', sub: 'Your Success, Our Priority', desc: 'Smooth launch with comprehensive training and ongoing support to ensure continuous success.', time: 'Ongoing' }] } },
+      { id: new ObjectId().toHexString(), type: 'audit', props: { eyebrow: 'Free Audit', headline: 'Get Your Free Website Performance Audit', subheadline: "Discover what's holding your website back from peak performance.", desc: "Find out exactly how to improve your site's speed, SEO, security, and conversion rates with our comprehensive 25-point website audit.", note: 'No spam, ever. Detailed report delivered within 24 hours.', ctaLabel: 'Get My Free Audit Report', ctaHref: '/contact', items: [{ value: 'Performance bottleneck analysis' }, { value: 'SEO issues & keyword opportunities' }, { value: 'Conversion barrier identification' }, { value: 'Security vulnerability check' }, { value: 'Mobile experience assessment' }, { value: 'Detailed action plan — no obligation' }] } },
+      { id: new ObjectId().toHexString(), type: 'blog', props: { eyebrow: 'Knowledge Base', headline: 'Latest Insights & Tutorials', ctaLabel: 'All Articles', ctaHref: '/blog', limit: 3 } },
+      { id: new ObjectId().toHexString(), type: 'faq', props: { eyebrow: 'FAQ', headline: 'Frequently Asked Questions', subheadline: "Can't find what you're looking for? We're here to help.", ctaLabel: 'Ask Us Anything', ctaHref: '/contact', items: [{ q: 'How long does a WordPress website take?', a: 'Most WordPress websites are completed within 2-4 weeks, depending on complexity and requirements. Complex projects may take 4-6 weeks.' }, { q: 'What is included in your maintenance plans?', a: 'Our maintenance plans include regular updates, security monitoring, performance optimization, backup management, and priority support. Plans start at $79/month.' }, { q: 'Do you offer a money-back guarantee?', a: "Yes. We offer a 30-day money-back guarantee on all our development projects. If you're not satisfied, we'll refund you in full." }, { q: 'Can you work with my existing WordPress site?', a: 'Absolutely. We work with existing WordPress sites for redesigns, migrations, speed optimization, security fixes, and feature additions.' }, { q: 'Do you offer ongoing support after launch?', a: 'Yes. Every project includes 30 days of free post-launch support. After that, we offer flexible monthly maintenance plans starting at $79/month.' }, { q: 'Can you migrate my existing store to Shopify or WooCommerce?', a: 'Yes! We provide complete migration services from all major e-commerce platforms including Shopify, WooCommerce, Magento, BigCommerce, and custom solutions.' }] } },
+      { id: new ObjectId().toHexString(), type: 'cta', props: { eyebrow: 'Get Started Today', headline: 'Start Your Success Story Today', subheadline: 'Join 100+ successful businesses that chose ARIOSETECH for their web development needs. Professional results, affordable pricing, and ongoing support.', ctaPrimaryLabel: 'Schedule Free Consultation', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View Our Portfolio', ctaSecondaryHref: '/portfolio', tags: 'No Long-Term Contracts,30-Day Money-Back Guarantee,Free Post-Launch Support,Transparent Pricing' } },
     ]
 
-    const sections = sectionTypes.map(type => {
-      const def = getSection(type)
-      if (!def) throw new Error(`Section type "${type}" not found in registry!`)
-      return {
-        id: new ObjectId().toHexString(),
-        type: def.type,
-        props: def.defaultProps,
-      }
-    })
-
+    const pagesCol = await getCollection<PageDoc>('pages')
     const existing = await pagesCol.findOne({ fullPath: '/' })
 
     if (existing) {
-      await pagesCol.updateOne(
-        { fullPath: '/' },
-        { 
-          $set: { 
-            'layout.sections': sections,
-            updatedAt: new Date()
-          } 
-        }
-      )
-      return NextResponse.json({ message: 'Homepage layout updated successfully in database!' })
+      await pagesCol.updateOne({ fullPath: '/' }, { $set: { 'layout.sections': sections, updatedAt: new Date() } })
+      return NextResponse.json({ message: `Homepage updated with ${sections.length} sections — all hardcoded content is now in the builder!` })
     } else {
-      await pagesCol.insertOne({
-        title: 'Home',
-        slug: '',
-        parentId: null,
-        fullPath: '/',
-        layout: { sections },
-        status: 'published',
-        seo: {
-          title: 'ARIOSETECH — Consider It Solved',
-          description: 'Professional WordPress, Shopify & WooCommerce development since 2017.',
-          robots: { index: true, follow: true }
-        },
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
-      return NextResponse.json({ message: 'Homepage layout created successfully in database!' })
+      await pagesCol.insertOne({ title: 'Home', slug: '', parentId: null, fullPath: '/', layout: { sections }, status: 'published', seo: { title: 'ARIOSETECH — Consider It Solved', description: 'Professional WordPress, Shopify & WooCommerce development since 2017. Trusted by 100+ businesses.', robots: { index: true, follow: true } }, createdAt: new Date(), updatedAt: new Date() })
+      return NextResponse.json({ message: `Homepage created with ${sections.length} sections — all hardcoded content is now in the builder!` })
     }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error)

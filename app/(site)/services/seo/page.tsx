@@ -1,5 +1,6 @@
-'use client'
 import Link from 'next/link'
+import { getCollection } from '@/lib/db/mongodb'
+import { ServicePageDoc } from '@/types'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -94,7 +95,33 @@ const FAQS = [
   { q: 'Do you also help with SEO content?',          a: "Yes. We help with service page optimization, blog planning, keyword clustering, content updates, and search-focused content strategy to strengthen your site's topical coverage." },
 ]
 
-export default function SEOPage() {
+export default async function SEOPage() {
+  let dbData: Partial<ServicePageDoc> | null = null
+  try {
+    const col = await getCollection<ServicePageDoc>('services')
+    dbData = await col.findOne({ slug: 'seo' })
+  } catch (err) {}
+
+  const activeServices = dbData?.services?.length ? dbData.services : SEO_SERVICES
+  const activeFaqs = dbData?.faqs?.length ? dbData.faqs : FAQS
+  const activeWhyUs = dbData?.whyUs?.length ? dbData.whyUs : [
+    { icon: '🎯', title: 'Business-First SEO', desc: 'We focus on visibility that supports real business outcomes, not just traffic numbers.' },
+    { icon: '⚙️', title: 'Development and SEO in Sync', desc: 'Because our team works across websites, structure, and performance, we can align SEO with how your site is actually built.' },
+    { icon: '✅', title: 'Clean, Practical Execution', desc: 'We focus on the changes that make the biggest impact without creating confusion or unnecessary complexity.' },
+    { icon: '📈', title: 'Long-Term Growth Thinking', desc: 'We build SEO in a way that supports stronger performance over time, not just short-term spikes.' },
+    { icon: '🏪', title: 'Support for Different Business Types', desc: 'We work with service businesses, local brands, and eCommerce companies that need stronger digital visibility.' },
+  ]
+  const heroData = dbData?.hero || {
+    eyebrow: 'SEO Services for Growing Brands',
+    headline: 'SEO Services That Help',
+    subheadline: 'Your Business Get Found',
+    desc: 'Ariosetech helps businesses grow through strategic SEO built around visibility, traffic, leads, and long-term digital performance. From technical fixes to local SEO and content strategy, we build a stronger search presence that supports real business growth.',
+    bullets: ['Website SEO', 'Local SEO', 'Technical SEO', 'SEO Content'],
+    ctaPrimary: 'Book a Free SEO Consultation',
+    ctaSecondary: 'Get a Website Audit',
+    startingPrice: ''
+  }
+
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
@@ -105,30 +132,30 @@ export default function SEOPage() {
           {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 14px 5px 10px', borderRadius: '20px', background: 'rgba(79,110,247,0.08)', border: '1px solid rgba(79,110,247,0.2)', marginBottom: '24px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', display: 'block' }} />
-            <span style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>SEO Services for Growing Brands</span>
+            <span style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>{heroData.eyebrow}</span>
           </div>
 
           <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '8px', maxWidth: '800px' }}>
-            SEO Services That Help
+            {heroData.headline}
           </h1>
           <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '24px', maxWidth: '800px', ...P }}>
-            Your Business Get Found
+            {heroData.subheadline}
           </h1>
 
           <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '600px', marginBottom: '32px' }}>
-            Ariosetech helps businesses grow through strategic SEO built around visibility, traffic, leads, and long-term digital performance. From technical fixes to local SEO and content strategy, we build a stronger search presence that supports real business growth.
+            {heroData.desc}
           </p>
 
           {/* Trust strip */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '36px' }}>
-            {['Website SEO', 'Local SEO', 'Technical SEO', 'SEO Content'].map(b => (
+            {heroData.bullets?.map((b: string) => (
               <span key={b} style={{ ...hm, fontSize: '11px', color: 'var(--primary)', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px', padding: '5px 14px', fontWeight: 700, letterSpacing: '0.06em' }}>{b}</span>
             ))}
           </div>
 
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={16} /></Link>
-            <Link href="/contact?audit=1" className="btn btn-outline btn-lg">Get a Website Audit</Link>
+            <Link href="/contact" className="btn btn-primary btn-lg">{heroData.ctaPrimary} <ArrowSVG size={16} /></Link>
+            <Link href="/contact?audit=1" className="btn btn-outline btn-lg">{heroData.ctaSecondary}</Link>
           </div>
         </div>
       </section>
@@ -187,11 +214,9 @@ export default function SEOPage() {
             We offer focused SEO solutions built to improve search visibility, site performance, and growth potential.
           </p>
 
-          {SEO_SERVICES.map((svc) => (
+          {activeServices.map((svc: any) => (
             <div key={svc.id} id={svc.id} style={{ marginBottom: '40px', scrollMarginTop: '90px' }}>
-              <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = `rgba(118,108,255,0.4)`)}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}>
+              <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'border-color 0.2s' }}>
                 <div style={{ height: '3px', background: `linear-gradient(90deg, var(--primary), rgba(118,108,255,0.6))` }} />
                 <div style={{ padding: '36px' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginBottom: '20px' }}>
@@ -204,7 +229,7 @@ export default function SEOPage() {
                       <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.85, marginBottom: '24px', maxWidth: '720px' }}>{svc.desc}</p>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '12px' }}>{"What's Included:"}</p>
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '8px 24px', marginBottom: '24px' }}>
-                        {svc.features.map(f => (
+                        {svc.features.map((f: string) => (
                           <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px', fontSize: '13px', color: 'var(--text-2)' }}>
                             <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={13} /></span> {f}
                           </div>
@@ -233,16 +258,8 @@ export default function SEOPage() {
             SEO works best when strategy, structure, and execution move in the same direction. That is why our work connects technical improvements, content decisions, website structure, and growth goals instead of treating SEO like a checklist.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-            {[
-              { icon: '🎯', title: 'Business-First SEO', desc: 'We focus on visibility that supports real business outcomes, not just traffic numbers.' },
-              { icon: '⚙️', title: 'Development and SEO in Sync', desc: 'Because our team works across websites, structure, and performance, we can align SEO with how your site is actually built.' },
-              { icon: '✅', title: 'Clean, Practical Execution', desc: 'We focus on the changes that make the biggest impact without creating confusion or unnecessary complexity.' },
-              { icon: '📈', title: 'Long-Term Growth Thinking', desc: 'We build SEO in a way that supports stronger performance over time, not just short-term spikes.' },
-              { icon: '🏪', title: 'Support for Different Business Types', desc: 'We work with service businesses, local brands, and eCommerce companies that need stronger digital visibility.' },
-            ].map(r => (
-              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(79,110,247,0.35)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}>
+            {activeWhyUs.map((r: any) => (
+              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }}>
                 <p style={{ fontSize: '28px', marginBottom: '12px', lineHeight: 1 }}>{r.icon}</p>
                 <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
                 <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
@@ -372,9 +389,7 @@ export default function SEOPage() {
                 { icon: '🏪', label: 'WooCommerce Development', href: '/services/woocommerce' },
               ].map(link => (
                 <Link key={link.href} href={link.href}
-                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '18px 22px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', textDecoration: 'none', transition: 'all 0.2s' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(79,110,247,0.4)'; e.currentTarget.style.transform = 'translateX(4px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = '' }}>
+                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '18px 22px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', textDecoration: 'none', transition: 'all 0.2s' }} className="card-hover">
                   <span style={{ fontSize: '22px' }}>{link.icon}</span>
                   <span style={{ ...hs, fontSize: '14px', fontWeight: 600, color: '#fff' }}>{link.label}</span>
                   <ArrowSVG size={14} />
@@ -400,7 +415,7 @@ export default function SEOPage() {
               <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={15} /></Link>
             </div>
             <div>
-              {FAQS.map(({ q, a }, i) => (
+              {activeFaqs.map(({ q, a }: any, i: number) => (
                 <details key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '6px' }}>
                   <summary style={{ padding: '18px 22px', cursor: 'pointer', ...hs, fontSize: '15px', fontWeight: 600, color: '#fff', listStyle: 'none', userSelect: 'none' }}>
                     {q}

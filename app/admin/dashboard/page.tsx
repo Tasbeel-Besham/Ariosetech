@@ -4,10 +4,10 @@ import Link from 'next/link'
 import AdminShell from '@/components/layout/AdminShell'
 import { FileText, Briefcase, Layers, MessageSquare, ArrowRight, Plus, Globe, Settings } from 'lucide-react'
 
-type Stats = { blogs: number; portfolio: number; pages: number; leads: number; newLeads: number }
+type Stats = { blogs: number; portfolio: number; pages: number; leads: number; newLeads: number; services: number }
 
 export default function Dashboard() {
-  const [stats, setStats] = useState<Stats>({ blogs: 0, portfolio: 0, pages: 0, leads: 0, newLeads: 0 })
+  const [stats, setStats] = useState<Stats>({ blogs: 0, portfolio: 0, pages: 0, leads: 0, newLeads: 0, services: 0 })
 
   useEffect(() => {
     Promise.all([
@@ -15,7 +15,8 @@ export default function Dashboard() {
       fetch('/api/portfolio?admin=1').then(r => r.json()),
       fetch('/api/pages').then(r => r.json()),
       fetch('/api/leads').then(r => r.json()),
-    ]).then(([blogs, portfolio, pages, leads]) => {
+      fetch('/api/services').then(r => r.json()),
+    ]).then(([blogs, portfolio, pages, leads, services]) => {
       const leadsArr = Array.isArray(leads) ? leads : []
       setStats({
         blogs: blogs.length,
@@ -23,6 +24,7 @@ export default function Dashboard() {
         pages: pages.length,
         leads: leadsArr.length,
         newLeads: leadsArr.filter((l: { status: string }) => l.status === 'new').length,
+        services: Array.isArray(services) ? services.length : 0,
       })
     })
   }, [])
@@ -31,6 +33,7 @@ export default function Dashboard() {
     { label: 'Blog Posts',      value: stats.blogs,     href: '/admin/blogs',     icon: FileText,       color: '#4f6ef7' },
     { label: 'Portfolio Items', value: stats.portfolio, href: '/admin/portfolio', icon: Briefcase,      color: '#9b6dff' },
     { label: 'Pages',           value: stats.pages,     href: '/admin/pages',     icon: Layers,         color: '#00e5a0' },
+    { label: 'Services',        value: stats.services,  href: '/admin/services',  icon: Layers,         color: '#ff6b6b' },
     { label: 'Leads',           value: stats.leads,     href: '/admin/leads',     icon: MessageSquare,  color: '#fbbf24',
       badge: stats.newLeads > 0 ? `${stats.newLeads} new` : undefined },
   ]
@@ -39,6 +42,7 @@ export default function Dashboard() {
     { label: 'New Blog Post',      href: '/admin/blogs/new',    color: '#4f6ef7' },
     { label: 'New Portfolio Item', href: '/admin/portfolio',    color: '#9b6dff' },
     { label: 'New Page',           href: '/admin/pages',        color: '#00e5a0' },
+    { label: 'Manage Services',    href: '/admin/services',     color: '#ff6b6b' },
     { label: 'Header Builder',     href: '/admin/header',       color: '#fbbf24' },
     { label: 'Footer Builder',     href: '/admin/footer',       color: '#00e5a0' },
     { label: 'Menus',              href: '/admin/menus',        color: '#4f6ef7' },

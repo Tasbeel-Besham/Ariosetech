@@ -1,5 +1,6 @@
-'use client'
 import Link from 'next/link'
+import { getCollection } from '@/lib/db/mongodb'
+import { ServicePageDoc } from '@/types'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -201,7 +202,34 @@ const FAQS = [
   { q: 'Can you develop custom Shopify apps?', a: 'Absolutely! We develop both private apps for individual stores and public apps for the Shopify App Store.' },
 ]
 
-export default function ShopifyPage() {
+export default async function ShopifyPage() {
+  let dbData: Partial<ServicePageDoc> | null = null
+  try {
+    const col = await getCollection<ServicePageDoc>('services')
+    dbData = await col.findOne({ slug: 'shopify' })
+  } catch (err) {
+    // Fall back to hardcoded data if DB connection fails
+  }
+
+  const activeServices = dbData?.services?.length ? dbData.services : SERVICES
+  const activeFaqs = dbData?.faqs?.length ? dbData.faqs : FAQS
+  const heroData = dbData?.hero || {
+    eyebrow: 'Shopify Services',
+    headline: 'Professional Shopify',
+    subheadline: 'Development Services',
+    desc: 'From startup stores to enterprise Shopify Plus platforms, we create high-converting e-commerce experiences that drive sales. Trusted by 30+ Shopify businesses worldwide.',
+    bullets: [
+      'Custom Development — Unique stores that stand out',
+      'Conversion-Focused — Optimized for maximum sales',
+      'Shopify Plus Ready — Enterprise solutions available',
+      'Mobile-Optimized — Perfect on every device',
+      '24/7 Expert Support — Always here to help'
+    ],
+    ctaPrimary: 'Get Free Shopify Store Audit',
+    ctaSecondary: 'View Shopify Portfolio',
+    startingPrice: 'Starting at $999 · 30-Day Money-Back Guarantee · Free Post-Launch Training'
+  }
+
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
@@ -209,21 +237,21 @@ export default function ShopifyPage() {
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 80% 80% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.4 }} />
         <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '50%', height: '70%', background: 'radial-gradient(ellipse, rgba(118,108,255,0.12) 0%, transparent 65%)', borderRadius: '50%', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <p className="eyebrow">Shopify Services</p>
+          <p className="eyebrow">{heroData.eyebrow}</p>
           <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '8px', maxWidth: '800px' }}>
-            Professional Shopify
+            {heroData.headline}
           </h1>
           <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '20px', maxWidth: '800px', ...P }}>
-            Development Services
+            {heroData.subheadline}
           </h1>
           <p style={{ ...hs, fontSize: '17px', fontWeight: 600, color: 'var(--text-2)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '8px' }}>
             Scale Your E-commerce Business with Expert Shopify Solutions
           </p>
           <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, maxWidth: '580px', marginBottom: '24px' }}>
-            From startup stores to enterprise Shopify Plus platforms, we create high-converting e-commerce experiences that drive sales. Trusted by 30+ Shopify businesses worldwide.
+            {heroData.desc}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
-            {['Custom Development — Unique stores that stand out', 'Conversion-Focused — Optimized for maximum sales', 'Shopify Plus Ready — Enterprise solutions available', 'Mobile-Optimized — Perfect on every device', '24/7 Expert Support — Always here to help'].map(b => (
+            {heroData.bullets?.map(b => (
               <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <CheckSVG size={14} />
                 <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>{b}</span>
@@ -231,10 +259,10 @@ export default function ShopifyPage() {
             ))}
           </div>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">Get Free Shopify Store Audit <ArrowSVG size={16} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">View Shopify Portfolio</Link>
+            <Link href="/contact" className="btn btn-primary btn-lg">{heroData.ctaPrimary} <ArrowSVG size={16} /></Link>
+            <Link href="/portfolio" className="btn btn-outline btn-lg">{heroData.ctaSecondary}</Link>
           </div>
-          <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)' }}>Starting at $999 · 30-Day Money-Back Guarantee · Free Post-Launch Training</p>
+          <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)' }}>{heroData.startingPrice}</p>
         </div>
       </section>
 
@@ -246,7 +274,7 @@ export default function ShopifyPage() {
             Complete Shopify Solutions for E-commerce Success
           </h2>
 
-          {SERVICES.map((svc) => (
+          {activeServices.map((svc: any) => (
             <div key={svc.id} id={svc.id} style={{ marginBottom: '48px', scrollMarginTop: '90px' }}>
               <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden' }}>
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
@@ -265,7 +293,7 @@ export default function ShopifyPage() {
                   <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '24px', maxWidth: '780px' }}>{svc.desc}</p>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '8px 24px', marginBottom: '24px' }}>
-                    {svc.features.map(f => (
+                    {svc.features.map((f: any) => (
                       <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px', fontSize: '13px', color: 'var(--text-2)' }}>
                         <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={13} /></span> {f}
                       </div>
@@ -276,7 +304,7 @@ export default function ShopifyPage() {
                     <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '12px' }}>Expected Results</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {svc.results.map(r => (
+                        {svc.results.map((r: any) => (
                           <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--primary)' }}>
                             <CheckSVG size={12} /> {r}
                           </span>
@@ -289,7 +317,7 @@ export default function ShopifyPage() {
                     <div style={{ marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Supported Platforms</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.supported.map(p => (
+                        {svc.supported.map((p: any) => (
                           <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
                         ))}
                       </div>
@@ -298,12 +326,12 @@ export default function ShopifyPage() {
 
                   {'plans' in svc && svc.plans && (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-                      {svc.plans.map(plan => (
+                      {svc.plans.map((plan: any) => (
                         <div key={plan.tier} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px' }}>
                           <p style={{ ...hs, fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{plan.tier}</p>
                           <p style={{ ...hs, fontSize: '1.3rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '14px' }}>{plan.price}</p>
                           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            {plan.features.map(f => (
+                            {plan.features.map((f: any) => (
                               <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '7px', fontSize: '12px', color: 'var(--text-2)' }}>
                                 <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={11} /></span> {f}
                               </li>
@@ -318,7 +346,7 @@ export default function ShopifyPage() {
                     <div style={{ marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Perfect For</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.perfectFor.map(p => (
+                        {svc.perfectFor.map((p: any) => (
                           <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
                         ))}
                       </div>
@@ -351,9 +379,7 @@ export default function ShopifyPage() {
               { icon: '🔧', title: 'Ongoing Partnership', desc: "We're your long-term Shopify growth partner, supporting your business at every stage of expansion." },
               { icon: '⚡', title: 'Performance Obsessed', desc: 'Every Shopify store we develop loads fast and ranks well in search engines.' },
             ].map(r => (
-              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(118,108,255,0.35)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}>
+              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }} className="card-hover">
                 <p style={{ fontSize: '28px', marginBottom: '12px', lineHeight: 1 }}>{r.icon}</p>
                 <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
                 <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
@@ -376,9 +402,7 @@ export default function ShopifyPage() {
               { name: 'Genovie', industry: 'Fashion & Lifestyle', challenge: 'High-end brand representation with seamless UX', solution: 'Custom Shopify Plus store with advanced personalization', result: '180%', resultLabel: 'increase in average order value' },
               { name: 'Janya.pk', industry: 'Wholesale Fashion', challenge: 'B2B wholesale functionality with complex pricing', solution: 'Shopify Plus with custom wholesale portal integration', result: '300%', resultLabel: 'increase in wholesale orders' },
             ].map((cs, i) => (
-              <div key={i} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.25s' }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateY(-4px)' }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}>
+              <div key={i} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.25s' }} className="card-hover">
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
                 <div style={{ padding: '28px' }}>
                   <p style={{ ...hs, fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{cs.name}</p>
@@ -414,7 +438,7 @@ export default function ShopifyPage() {
               <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={15} /></Link>
             </div>
             <div>
-              {FAQS.map(({ q, a }, i) => (
+              {activeFaqs.map(({ q, a }, i) => (
                 <details key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '6px' }}>
                   <summary style={{ padding: '18px 22px', cursor: 'pointer', ...hs, fontSize: '15px', fontWeight: 600, color: '#fff', listStyle: 'none', userSelect: 'none' }}>
                     {q}
