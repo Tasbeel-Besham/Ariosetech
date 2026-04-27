@@ -1,0 +1,108 @@
+'use client'
+import { useEffect, useState } from 'react'
+import AdminShell from '@/components/layout/AdminShell'
+import { Save, Eye } from 'lucide-react'
+import toast from 'react-hot-toast'
+
+type Config = Record<string, unknown>
+
+export default function HeaderAdmin() {
+  const [config, setConfig] = useState<Config>({})
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/header').then(r => r.json()).then(setConfig).finally(() => setLoading(false))
+  }, [])
+
+  const set = (key: string, val: unknown) => setConfig(c => ({ ...c, [key]: val }))
+  const save = async () => {
+    setSaving(true)
+    await fetch('/api/header', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(config) })
+    setSaving(false)
+    toast.success('Header saved!')
+  }
+
+  const inp = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box' as const, fontFamily: 'var(--font-body)' }
+  const lbl = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
+  const card = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '20px' }
+
+  if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
+
+  return (
+    <AdminShell>
+      <div style={{ padding: '32px', maxWidth: '800px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+          <div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.03em' }}>Header Builder</h1>
+            <p style={{ fontSize: '13px', color: 'var(--text-3)', marginTop: '4px' }}>Configure your site header</p>
+          </div>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <a href="/" target="_blank" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', borderRadius: '10px', border: '1px solid var(--border)', color: 'var(--text-3)', textDecoration: 'none', fontSize: '13px' }} className="hover:text-[var(--text)]">
+              <Eye size={14} /> Preview
+            </a>
+            <button onClick={save} disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
+              <Save size={14} /> {saving ? 'Saving…' : 'Save'}
+            </button>
+          </div>
+        </div>
+
+        {/* Logo */}
+        <div style={card}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>🖼 Logo</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px', gap: '12px' }}>
+            <div><label style={lbl}>Logo URL</label><input value={String(config.logo || '/logo.png')} onChange={e => set('logo', e.target.value)} placeholder="/logo.png" style={inp} /></div>
+            <div><label style={lbl}>Logo Alt Text</label><input value={String(config.logoAlt || '')} onChange={e => set('logoAlt', e.target.value)} style={inp} /></div>
+            <div><label style={lbl}>Width (px)</label><input type="number" value={Number(config.logoWidth || 160)} onChange={e => set('logoWidth', Number(e.target.value))} style={inp} /></div>
+          </div>
+        </div>
+
+        {/* Top bar */}
+        <div style={card}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>📢 Top Bar</h2>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input type="checkbox" checked={Boolean(config.showTopBar)} onChange={e => set('showTopBar', e.target.checked)} />
+              <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>Show top bar</span>
+            </label>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div><label style={lbl}>Phone</label><input value={String(config.topBarPhone || '')} onChange={e => set('topBarPhone', e.target.value)} style={inp} /></div>
+            <div><label style={lbl}>Email</label><input value={String(config.topBarEmail || '')} onChange={e => set('topBarEmail', e.target.value)} style={inp} /></div>
+            <div style={{ gridColumn: 'span 2' }}><label style={lbl}>Status Text</label><input value={String(config.topBarText || '')} onChange={e => set('topBarText', e.target.value)} placeholder="Available for new projects" style={inp} /></div>
+          </div>
+        </div>
+
+        {/* CTA Buttons */}
+        <div style={card}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>🔘 CTA Buttons</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div><label style={lbl}>Primary Button Label</label><input value={String(config.ctaPrimaryLabel || '')} onChange={e => set('ctaPrimaryLabel', e.target.value)} style={inp} /></div>
+            <div><label style={lbl}>Primary Button URL</label><input value={String(config.ctaPrimaryHref || '')} onChange={e => set('ctaPrimaryHref', e.target.value)} style={inp} /></div>
+            <div><label style={lbl}>Secondary Button Label</label><input value={String(config.ctaSecondaryLabel || '')} onChange={e => set('ctaSecondaryLabel', e.target.value)} style={inp} /></div>
+            <div><label style={lbl}>Secondary Button URL</label><input value={String(config.ctaSecondaryHref || '')} onChange={e => set('ctaSecondaryHref', e.target.value)} style={inp} /></div>
+          </div>
+        </div>
+
+        {/* Options */}
+        <div style={card}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>⚙️ Options</h2>
+          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+            {[
+              { key: 'sticky', label: 'Sticky header', desc: 'Header stays on scroll' },
+              { key: 'transparent', label: 'Transparent on load', desc: 'Transparent until scrolled' },
+            ].map(({ key, label, desc }) => (
+              <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                <input type="checkbox" checked={Boolean(config[key])} onChange={e => set(key, e.target.checked)} style={{ width: '16px', height: '16px' }} />
+                <div>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text)' }}>{label}</p>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)' }}>{desc}</p>
+                </div>
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
+    </AdminShell>
+  )
+}
