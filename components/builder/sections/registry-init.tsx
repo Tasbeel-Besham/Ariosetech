@@ -48,6 +48,7 @@ export function initRegistry() {
       { type: 'text',     name: 'ctaSecondaryLabel', label: 'Secondary CTA label' },
       { type: 'text',     name: 'ctaSecondaryHref',  label: 'Secondary CTA URL' },
       { type: 'textarea', name: 'trust',             label: 'Trust indicators (comma separated)' },
+      { type: 'list',     name: 'stats',             label: 'Stats (value + label)' },
     ],
   })
 

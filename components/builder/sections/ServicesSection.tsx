@@ -3,48 +3,52 @@ import Link from 'next/link'
 type Item = { icon: string; title: string; headline: string; desc: string; features: string; price: string; href: string }
 type Props = { eyebrow?: string; headline?: string; items?: Item[] }
 
-export default function ServicesSection({ eyebrow='What We Offer', headline='Comprehensive Web Development Solutions', items=[] }: Props) {
-  const F = { fontFamily: 'var(--font-display)' } as const
-  const M = { fontFamily: 'var(--font-mono)' } as const
-  const safeItems: Item[] = Array.isArray(items) ? items : []
+export default function ServicesSection({ eyebrow='What We Offer', headline='Comprehensive Web Development Solutions for Your Business Growth', items=[] }: Props) {
+  const F = { fontFamily:'var(--font-display)' } as const
+  const M = { fontFamily:'var(--font-mono)' } as const
+  const safe = Array.isArray(items) ? items : []
   return (
     <section className="section section--dark">
       <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <p className="eyebrow" style={{ justifyContent: 'center' }}>{eyebrow}</p>
-          <h2 style={{ ...F, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', color: '#fff' }}>{headline}</h2>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px', alignItems:'end', marginBottom:'60px' }}>
+          <div>
+            <p className="eyebrow sr">{eyebrow}</p>
+            <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>{headline}</h2>
+          </div>
+          <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8 }}>Three core platforms. One expert team. We don&apos;t dabble — we specialise so you get the best results every time.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(safeItems.length || 3, 3)}, 1fr)`, gap: '20px' }}>
-          {safeItems.map((svc, i) => {
-            const featureList = (svc.features || '').split(',').map(f => f.trim()).filter(Boolean)
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'20px' }}>
+          {safe.map((svc,i) => {
+            const featureList = (svc.features||'').split(',').map(f=>f.trim()).filter(Boolean)
             return (
-              <div key={i} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ height: '3px', background: 'var(--grad)' }} />
-                <div style={{ padding: '26px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ marginBottom: '14px', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(118,108,255,0.1)', borderRadius: '12px', color: 'var(--primary)' }} dangerouslySetInnerHTML={{ __html: svc.icon }} />
-                  <h3 style={{ ...F, fontSize: '17px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>{svc.title}</h3>
-                  <p style={{ ...F, fontSize: '13px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px' }}>{svc.headline}</p>
-                  <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75, flex: 1, marginBottom: '18px' }}>{svc.desc}</p>
-                  <ul style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '20px' }}>
+              <div key={i} className="card card-hover sr" style={{ display:'flex', flexDirection:'column', animationDelay:`${i*0.07}s` }}>
+                <div style={{ height:'3px', background:'var(--grad)' }} />
+                <div style={{ padding:'36px', flex:1, display:'flex', flexDirection:'column' }}>
+                  <div style={{ display:'flex', alignItems:'flex-start', gap:'16px', marginBottom:'20px' }}>
+                    <div style={{ width:'52px', height:'52px', borderRadius:'14px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'26px', flexShrink:0 }}>{svc.icon}</div>
+                    <div>
+                      <h3 style={{ ...F, fontSize:'20px', fontWeight:800, color:'#fff', marginBottom:'4px' }}>{svc.title}</h3>
+                      <p style={{ ...F, fontSize:'13px', fontWeight:600, color:'var(--primary)' }}>{svc.headline}</p>
+                    </div>
+                  </div>
+                  <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'22px', flex:1 }}>{svc.desc}</p>
+                  <ul style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px 16px', marginBottom:'28px' }}>
                     {featureList.map(f => (
-                      <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'var(--text-2)' }}>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
+                      <li key={f} style={{ display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', color:'var(--text-2)' }}>
+                        <div style={{ width:'16px', height:'16px', borderRadius:'50%', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, color:'var(--primary)' }}>
+                          <svg width="9" height="9" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </div>
                         {f}
                       </li>
                     ))}
                   </ul>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
+                  <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:'22px', borderTop:'1px solid var(--border)' }}>
                     <div>
-                      <p style={{ ...M, fontSize: '9px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '2px' }}>Starting at</p>
-                      <p style={{ ...F, fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>{svc.price}</p>
+                      <p style={{ ...M, fontSize:'9px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:700, marginBottom:'2px' }}>Starting at</p>
+                      <p style={{ ...F, fontSize:'1.5rem', fontWeight:800, color:'var(--primary)' }}>{svc.price}</p>
                     </div>
-                    <Link href={svc.href || '#'} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '7px 14px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-display)', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.3)', color: 'var(--primary)', textDecoration: 'none' }}>
-                      Learn More 
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-                      </svg>
+                    <Link href={svc.href||'#'} className="btn btn-primary btn-md">Learn More
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </Link>
                   </div>
                 </div>

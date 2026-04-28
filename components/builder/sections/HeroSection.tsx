@@ -55,6 +55,7 @@ function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
   return <span ref={ref}>{val}{suffix}</span>
 }
 
+type StatItem = { value: string | number; suffix?: string; label: string }
 type Props = {
   eyebrow?: string
   headline?: string
@@ -64,6 +65,7 @@ type Props = {
   ctaSecondaryLabel?: string
   ctaSecondaryHref?: string
   trust?: string
+  stats?: StatItem[]
 }
 
 export default function HeroSection({
@@ -74,16 +76,19 @@ export default function HeroSection({
   ctaSecondaryLabel = 'View Case Studies',
   ctaSecondaryHref = '/portfolio',
   trust = '',
+  stats: statsProp = [],
 }: Props) {
   const trustItems = trust
     ? trust.split(',').map(s => s.trim()).filter(Boolean)
     : ['7+ Years of Excellence', '100+ Projects Delivered', '24/7 Expert Support', '30-Day Guarantee']
 
-  const stats = [
+  const DEFAULT_STATS = [
     { value: 100, suffix: '+', label: 'Projects Delivered' },
     { value: 7,   suffix: '+', label: 'Years of Excellence' },
     { value: 98,  suffix: '%', label: 'Client Satisfaction' },
     { value: 40,  suffix: '+', label: 'Industries Served' },
+  ]
+  const stats = statsProp.length ? statsProp.map(s => ({ value: Number(String(s.value).replace(/[^0-9]/,"")), suffix: s.suffix ?? String(s.value).replace(/[0-9]/g,""), label: s.label })) : DEFAULT_STATS
   ]
 
   return (
