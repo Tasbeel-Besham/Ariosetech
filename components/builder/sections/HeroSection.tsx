@@ -89,7 +89,6 @@ export default function HeroSection({
     { value: 40,  suffix: '+', label: 'Industries Served' },
   ]
   const stats = statsProp.length ? statsProp.map(s => ({ value: Number(String(s.value).replace(/[^0-9]/,"")), suffix: s.suffix ?? String(s.value).replace(/[0-9]/g,""), label: s.label })) : DEFAULT_STATS
-  ]
 
   return (
     <>
