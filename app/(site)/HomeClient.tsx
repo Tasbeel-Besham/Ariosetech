@@ -411,7 +411,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', alignItems:'start' }}>
 
             {/* LEFT — sticky */}
-            <div style={{ position:'sticky', top:'88px' }}>
+            <div className="relative md:sticky md:top-[88px]">
               <p className="eyebrow sr">Why Choose Us</p>
               <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
                 Why 100+ Businesses Trust{' '}
@@ -796,7 +796,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', alignItems:'start' }}>
 
             {/* LEFT — sticky */}
-            <div style={{ position:'sticky', top:'88px' }}>
+            <div className="relative md:sticky md:top-[88px]">
               <p className="eyebrow">FAQ</p>
               <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
                 Frequently Asked{' '}
