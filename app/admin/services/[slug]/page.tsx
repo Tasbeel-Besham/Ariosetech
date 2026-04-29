@@ -62,7 +62,7 @@ export default function ServiceEditorPage() {
       toast.success('Service page saved successfully')
       
       if (isNew) router.push(`/admin/services/${data.slug}`)
-    } catch (err) {
+    } catch {
       toast.error('Error saving data')
     } finally {
       setSaving(false)

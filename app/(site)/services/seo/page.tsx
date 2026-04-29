@@ -100,7 +100,7 @@ export default async function SEOPage() {
   try {
     const col = await getCollection<ServicePageDoc>('services')
     dbData = await col.findOne({ slug: 'seo' })
-  } catch (err) {}
+  } catch {}
 
   const activeServices = dbData?.services?.length ? dbData.services : SEO_SERVICES
   const activeFaqs = dbData?.faqs?.length ? dbData.faqs : FAQS
@@ -214,7 +214,7 @@ export default async function SEOPage() {
             We offer focused SEO solutions built to improve search visibility, site performance, and growth potential.
           </p>
 
-          {activeServices.map((svc: any) => (
+          {activeServices.map((svc: unknown) => (
             <div key={svc.id} id={svc.id} style={{ marginBottom: '40px', scrollMarginTop: '90px' }}>
               <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'border-color 0.2s' }}>
                 <div style={{ height: '3px', background: `linear-gradient(90deg, var(--primary), rgba(118,108,255,0.6))` }} />
@@ -258,7 +258,7 @@ export default async function SEOPage() {
             SEO works best when strategy, structure, and execution move in the same direction. That is why our work connects technical improvements, content decisions, website structure, and growth goals instead of treating SEO like a checklist.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-            {activeWhyUs.map((r: any) => (
+            {activeWhyUs.map((r: unknown) => (
               <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }}>
                 <p style={{ fontSize: '28px', marginBottom: '12px', lineHeight: 1 }}>{r.icon}</p>
                 <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
@@ -415,7 +415,7 @@ export default async function SEOPage() {
               <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={15} /></Link>
             </div>
             <div>
-              {activeFaqs.map(({ q, a }: any, i: number) => (
+              {activeFaqs.map(({ q, a }: unknown, i: number) => (
                 <details key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '6px' }}>
                   <summary style={{ padding: '18px 22px', cursor: 'pointer', ...hs, fontSize: '15px', fontWeight: 600, color: '#fff', listStyle: 'none', userSelect: 'none' }}>
                     {q}

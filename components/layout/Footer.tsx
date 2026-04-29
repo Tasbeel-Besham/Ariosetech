@@ -1,9 +1,7 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 
-const LOGO = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png'
 
 const LINKS = {
   WordPress: [
@@ -61,7 +59,6 @@ const SOCIALS = [
   { icon:<Twitter   size={16} />, href:'https://twitter.com/ariosetech', label:'Twitter' },
 ]
 
-const _F = { fontFamily: 'var(--font-display)' } as const
 const M = { fontFamily: 'var(--font-mono)' } as const
 
 export default function Footer() {

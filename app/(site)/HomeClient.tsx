@@ -30,12 +30,6 @@ const F  = { fontFamily:'var(--font-display)' } as const
 const M  = { fontFamily:'var(--font-mono)'    } as const
 
 /* ── Content — verbatim from Google Doc ─────────────────────── */
-const _STATS = [
-  { value:'100+', label:'Projects Delivered' },
-  { value:'7+',   label:'Years of Excellence' },
-  { value:'5.0★', label:'Clutch Rating' },
-  { value:'40+',  label:'Industries Served' },
-]
 
 const CLIENT_LOGOS = [
   'The Kapra','Dr. Scents','Janya.pk','GeoMag World','Genovie',

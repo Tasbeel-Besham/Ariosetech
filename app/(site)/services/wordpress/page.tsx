@@ -174,7 +174,7 @@ export default async function WordPressPage() {
   try {
     const col = await getCollection<ServicePageDoc>('services')
     dbData = await col.findOne({ slug: 'wordpress' })
-  } catch (err) {}
+  } catch {}
 
   const activeServices = dbData?.services?.length ? dbData.services : SERVICES
   const activeProcess = dbData?.process?.length ? dbData.process : PROCESS
@@ -248,7 +248,7 @@ export default async function WordPressPage() {
           </h2>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
-            {activeServices.map((svc: any, i: number) => {
+            {activeServices.map((svc: unknown, i: number) => {
               const isEven = i % 2 === 0;
               return (
                 <div key={svc.id} id={svc.id} className="sr grid grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center" style={{ animationDelay: '0.1s' }}>
@@ -283,7 +283,7 @@ export default async function WordPressPage() {
                       
                       <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>What&apos;s Included</p>
                       <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', marginBottom: '32px', listStyle: 'none' }}>
-                        {svc.features.map((f: any) => (
+                        {svc.features.map((f: unknown) => (
                           <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.5 }}>
                             <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '4px', background: 'rgba(118,108,255,0.15)', borderRadius: '50%', padding: '2px' }}><CheckSVG size={12} /></span>
                             {f}
@@ -296,7 +296,7 @@ export default async function WordPressPage() {
                         <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                           <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>Expected Results</p>
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                            {svc.results.map((r: any) => (
+                            {svc.results.map((r: unknown) => (
                                <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px' }}>
                                  <span style={{ color: 'var(--primary)' }}><CheckSVG size={12} /></span> {r}
                                </span>
@@ -309,7 +309,7 @@ export default async function WordPressPage() {
                       {'plans' in svc && svc.plans && (
                         <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
-                            {svc.plans.map((plan: any) => (
+                            {svc.plans.map((plan: unknown) => (
                               <div key={plan.tier} style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px' }}>
                                 <p style={{ ...hs, fontSize: '13px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>{plan.tier}</p>
                                 <p style={{ ...hs, fontSize: '20px', fontWeight: 800, color: '#fff' }}>{plan.price}</p>
@@ -336,7 +336,7 @@ export default async function WordPressPage() {
             Why Choose ARIOSETECH for WordPress Development?
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
-            {activeWhyUs.map((r: any, i: number) => {
+            {activeWhyUs.map((r: unknown, i: number) => {
               const Icon = typeof r.icon === 'string' ? ICONS[r.icon as keyof typeof ICONS] : r.icon
               return (
               <div key={r.title} className="card card-hover sr" style={{ padding: '36px', animationDelay: `${i * 0.08}s` }}>
@@ -413,7 +413,7 @@ export default async function WordPressPage() {
               <Link href="/contact" className="btn btn-primary btn-lg sr" style={{ animationDelay: '0.2s' }}>Ask Us Anything <ArrowSVG size={15} /></Link>
             </div>
             <div style={{ flex: '2', display: 'flex', flexDirection: 'column', gap: '8px' }} className="md:w-2/3">
-              {activeFaqs.map(({ q, a }: any, i: number) => (
+              {activeFaqs.map(({ q, a }: unknown, i: number) => (
                 <details key={i} className="sr" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', animationDelay: `${i * 0.08}s` }}>
                   <summary style={{ padding: '22px 28px', cursor: 'pointer', ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', listStyle: 'none', userSelect: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {q}

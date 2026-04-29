@@ -38,7 +38,7 @@ export default function ServicesAdminPage() {
       if (!res.ok) throw new Error('Failed to delete')
       setServices(s => s.filter(x => x.slug !== slug))
       toast.success('Service page deleted')
-    } catch (err) {
+    } catch {
       toast.error('Error deleting service page')
     }
   }
