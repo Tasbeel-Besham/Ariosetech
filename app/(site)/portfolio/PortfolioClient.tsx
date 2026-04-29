@@ -5,14 +5,14 @@ import Link from 'next/link'
 import { ArrowRight } from '@/components/ui/Icons'
 
 const PROJECTS = [
-  { num: '01', cat: 'woocommerce', url: 'https://thekapra.com', name: 'The Kapra', tags: [{ lbl: 'WooCommerce', cls: 'twoo' }, { lbl: '★ Featured', cls: 'tfeat' }], desc: 'Premium Pakistani fashion brand with custom product configurator and complex inventory management.', s1: '+300%', l1: 'Revenue', s2: '4.2%', l2: 'Conversion' },
-  { num: '02', cat: 'woocommerce', url: 'https://drscents.com', name: 'Dr. Scents', tags: [{ lbl: 'WooCommerce', cls: 'twoo' }, { lbl: '★ Featured', cls: 'tfeat' }], desc: 'International luxury fragrance brand launched across 32 countries with multi-site WooCommerce.', s1: '32', l1: 'Countries', s2: '4mo', l2: 'Launch' },
-  { num: '03', cat: 'shopify', url: 'https://wyoxsports.com', name: 'WYOX Sports', tags: [{ lbl: 'Shopify', cls: 'tshop' }, { lbl: '★ Featured', cls: 'tfeat' }], desc: 'USA-based sports equipment brand with B2B wholesale portal and custom product builder.', s1: '+250%', l1: 'Intl Sales', s2: '+150%', l2: 'B2B Orders' },
-  { num: '04', cat: 'shopify', url: 'https://genovie.com', name: 'Genovie', tags: [{ lbl: 'Shopify', cls: 'tshop' }], desc: 'Premium skincare brand with AI-powered quiz converting at 38%.', s1: '38%', l1: 'Quiz Conv.', s2: '+85%', l2: 'Revenue' },
-  { num: '05', cat: 'woocommerce', url: 'https://geomagworld.com', name: 'GeoMag World', tags: [{ lbl: 'WooCommerce', cls: 'twoo' }], desc: 'Global educational toy brand with 15 languages and multi-currency across 30+ markets.', s1: '15', l1: 'Languages', s2: '30+', l2: 'Markets' },
-  { num: '06', cat: 'shopify', url: 'https://janya.pk', name: 'Janya.pk', tags: [{ lbl: 'Shopify', cls: 'tshop' }], desc: 'Pakistani fashion marketplace with 50+ vendors and JazzCash/EasyPaisa integration.', s1: '50+', l1: 'Vendors', s2: '2k+', l2: 'Orders/mo' },
-  { num: '07', cat: 'wordpress', url: 'https://snapglammedspa.com', name: 'Snap Glammed Spa', tags: [{ lbl: 'WordPress', cls: 'twp' }], desc: 'Luxury spa with online booking, gift cards, and client loyalty program.', s1: '+400%', l1: 'Bookings', s2: '+200%', l2: 'Gift Cards' },
-  { num: '08', cat: 'wordpress', url: 'https://ctvpromo.com', name: 'CTV Promo', tags: [{ lbl: 'WordPress', cls: 'twp' }], desc: 'Promotional products company with custom quote system and HubSpot CRM integration.', s1: '-80%', l1: 'Time Saved', s2: '+120%', l2: 'Lead Quality' },
+  { slug: 'the-kapra', image: '', num: '01', cat: 'woocommerce', url: 'https://thekapra.com', name: 'The Kapra', tags: [{ lbl: 'WooCommerce', cls: 'twoo' }, { lbl: '★ Featured', cls: 'tfeat' }], desc: 'Premium Pakistani fashion brand with custom product configurator and complex inventory management.', s1: '+300%', l1: 'Revenue', s2: '4.2%', l2: 'Conversion' },
+  { slug: 'dr-scents', image: '', num: '02', cat: 'woocommerce', url: 'https://drscents.com', name: 'Dr. Scents', tags: [{ lbl: 'WooCommerce', cls: 'twoo' }, { lbl: '★ Featured', cls: 'tfeat' }], desc: 'International luxury fragrance brand launched across 32 countries with multi-site WooCommerce.', s1: '32', l1: 'Countries', s2: '4mo', l2: 'Launch' },
+  { slug: 'wyox-sports', image: '', num: '03', cat: 'shopify', url: 'https://wyoxsports.com', name: 'WYOX Sports', tags: [{ lbl: 'Shopify', cls: 'tshop' }, { lbl: '★ Featured', cls: 'tfeat' }], desc: 'USA-based sports equipment brand with B2B wholesale portal and custom product builder.', s1: '+250%', l1: 'Intl Sales', s2: '+150%', l2: 'B2B Orders' },
+  { slug: 'genovie', image: '', num: '04', cat: 'shopify', url: 'https://genovie.com', name: 'Genovie', tags: [{ lbl: 'Shopify', cls: 'tshop' }], desc: 'Premium skincare brand with AI-powered quiz converting at 38%.', s1: '38%', l1: 'Quiz Conv.', s2: '+85%', l2: 'Revenue' },
+  { slug: 'geomag-world', image: '', num: '05', cat: 'woocommerce', url: 'https://geomagworld.com', name: 'GeoMag World', tags: [{ lbl: 'WooCommerce', cls: 'twoo' }], desc: 'Global educational toy brand with 15 languages and multi-currency across 30+ markets.', s1: '15', l1: 'Languages', s2: '30+', l2: 'Markets' },
+  { slug: 'janya', image: '', num: '06', cat: 'shopify', url: 'https://janya.pk', name: 'Janya.pk', tags: [{ lbl: 'Shopify', cls: 'tshop' }], desc: 'Pakistani fashion marketplace with 50+ vendors and JazzCash/EasyPaisa integration.', s1: '50+', l1: 'Vendors', s2: '2k+', l2: 'Orders/mo' },
+  { slug: 'snap-glammed-spa', image: '', num: '07', cat: 'wordpress', url: 'https://snapglammedspa.com', name: 'Snap Glammed Spa', tags: [{ lbl: 'WordPress', cls: 'twp' }], desc: 'Luxury spa with online booking, gift cards, and client loyalty program.', s1: '+400%', l1: 'Bookings', s2: '+200%', l2: 'Gift Cards' },
+  { slug: 'ctv-promo', image: '', num: '08', cat: 'wordpress', url: 'https://ctvpromo.com', name: 'CTV Promo', tags: [{ lbl: 'WordPress', cls: 'twp' }], desc: 'Promotional products company with custom quote system and HubSpot CRM integration.', s1: '-80%', l1: 'Time Saved', s2: '+120%', l2: 'Lead Quality' },
 ]
 
 export default function PortfolioClient() {
@@ -82,7 +82,7 @@ export default function PortfolioClient() {
     if (!hovered) return
 
     const url = hovered.url
-    const ssUrl = `https://image.thum.io/get/width/600/crop/1200/noanimate/${url}`
+    const ssUrl = hovered.image || `https://image.thum.io/get/width/600/crop/1200/noanimate/${url}`
     setImgError(false)
 
     const startScroll = () => {
@@ -210,7 +210,7 @@ export default function PortfolioClient() {
 
           <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '80px' }}>
             {filtered.map((item, i) => (
-              <a key={item.num} href={item.url} target="_blank" rel="noopener noreferrer" className="pi sr" style={{ animationDelay: `${i * 0.05}s` }}
+              <Link key={item.num} href={`/portfolio/${item.slug}`} className="pi" style={{ animationDelay: `${i * 0.05}s` }}
                 onMouseEnter={() => setHovered(item)}
                 onMouseLeave={() => setHovered(null)}
               >
@@ -240,7 +240,7 @@ export default function PortfolioClient() {
                 </div>
                 
                 <div className="parr">→</div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
