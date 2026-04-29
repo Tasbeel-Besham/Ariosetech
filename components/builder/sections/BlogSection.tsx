@@ -1,18 +1,21 @@
+'use client'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { getCollection } from '@/lib/db/mongodb'
 
+type Post = { _id: string; slug: string; title: string; excerpt: string; category: string; date: string; readTime: number }
 type Props = { eyebrow?: string; headline?: string; ctaLabel?: string; ctaHref?: string; limit?: number }
 
-export default async function BlogSection({ eyebrow='Knowledge Base', headline='Latest Insights & Tutorials', ctaLabel='All Articles', ctaHref='/blog', limit=3 }: Props) {
+export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest Insights & Tutorials', ctaLabel='All Articles', ctaHref='/blog', limit=3 }: Props) {
+  const [posts, setPosts] = useState<Post[]>([])
   const F = { fontFamily:'var(--font-display)' } as const
   const M = { fontFamily:'var(--font-mono)' } as const
 
-  let posts: { _id: string; slug: string; title: string; excerpt: string; category: string; date: string; readTime: number }[] = []
-  try {
-    const col = await getCollection<{ slug:string; title:string; excerpt:string; category:string; date:string; readTime?:number; readingTime?:number }>('blogs')
-    const raw = await col.find({ published: true }).sort({ date: -1 }).limit(limit).toArray()
-    posts = raw.map(b => ({ _id: String(b._id), slug: b.slug, title: b.title, excerpt: b.excerpt, category: b.category, date: b.date, readTime: b.readTime ?? b.readingTime ?? 5 }))
-  } catch { /* no blogs yet */ }
+  useEffect(() => {
+    fetch(`/api/blogs?limit=${limit}&published=true`)
+      .then(r => r.json())
+      .then(data => setPosts(Array.isArray(data) ? data.slice(0, limit) : []))
+      .catch(() => setPosts([]))
+  }, [limit])
 
   if (posts.length === 0) return null
 
