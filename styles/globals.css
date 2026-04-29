@@ -271,3 +271,12 @@ header { animation: slideDown 0.4s var(--ease) both; }
   *,*::before,*::after { animation:none !important; transition:none !important; }
   .sr { opacity:1 !important; transform:none !important; }
 }
+
+/* ── BUILDER CANVAS: disable scroll animations ─────────────────── */
+.builder-canvas .sr,
+.builder-canvas .sr-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+

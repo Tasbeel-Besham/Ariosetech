@@ -68,7 +68,7 @@ export default function BuilderPage() {
         <SectionListPanel onAddSection={() => setPickerOpen(true)} />
 
         {/* CENTER: Canvas */}
-        <div style={{ flex: 1, overflowY: 'auto', background: 'var(--bg)', position: 'relative' }}>
+        <div className='builder-canvas' style={{ flex: 1, overflowY: 'auto', background: 'var(--bg)', position: 'relative' }}>
           {layout.sections.length === 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80%', gap: 'var(--space-4)', padding: 'var(--space-8)' }}>
               <div style={{ width: '64px', height: '64px', borderRadius: 'var(--radius-xl)', background: 'rgba(79,110,247,0.1)', border: '1px solid rgba(79,110,247,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
