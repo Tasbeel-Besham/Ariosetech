@@ -7,6 +7,31 @@ import toast from 'react-hot-toast'
 
 type Config = Record<string, unknown>
 
+function MediaGrid({ onSelect }: { onSelect: (url: string) => void }) {
+  const [items, setItems] = useState<Array<{_id: string, url: string}>>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/media').then(r => r.json()).then(data => {
+      setItems(Array.isArray(data) ? data : [])
+    }).catch(console.error).finally(() => setLoading(false))
+  }, [])
+
+  if (loading) return <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-3)' }}>Loading media...</div>
+  if (!items.length) return <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-3)' }}>No media found. Upload something first!</div>
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '12px' }}>
+      {items.map(item => (
+        <button key={item._id} onClick={() => onSelect(item.url)} style={{ border: '1px solid var(--border)', background: 'var(--bg-3)', borderRadius: '8px', padding: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', width: '100%' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={item.url} alt="Media" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function HeaderAdmin() {
   const [config, setConfig] = useState<Config>({})
   const [loading, setLoading] = useState(true)
@@ -95,11 +120,18 @@ export default function HeaderAdmin() {
               <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}
                 onChange={e => { if (e.target.files?.[0]) uploadLogo(e.target.files[0]) }} />
 
-              <button onClick={() => fileRef.current?.click()} disabled={uploading}
-                style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border-2)', background: 'var(--bg-3)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', width: '100%', justifyContent: 'center' }}>
-                <Upload size={14} />
-                {uploading ? 'Uploading…' : 'Upload Logo Image'}
-              </button>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+                <button onClick={() => fileRef.current?.click()} disabled={uploading}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border-2)', background: 'var(--bg-3)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', justifyContent: 'center' }}>
+                  <Upload size={14} />
+                  {uploading ? 'Uploading…' : 'Upload New'}
+                </button>
+                <button onClick={() => set('showMediaModal', true)}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border-2)', background: 'var(--bg-3)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', justifyContent: 'center' }}>
+                  <Eye size={14} />
+                  Media Library
+                </button>
+              </div>
 
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', marginBottom: '10px' }}>
                 PNG, SVG, WebP recommended. Transparent background works best.
@@ -126,6 +158,21 @@ export default function HeaderAdmin() {
             <div><label style={lbl}>Width (px)</label><input type="number" value={Number(config.logoWidth || 160)} onChange={e => set('logoWidth', Number(e.target.value))} style={inp} /></div>
           </div>
         </div>
+
+        {/* Media Modal */}
+        {config.showMediaModal && (
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', width: '100%', maxWidth: '800px', maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ padding: '20px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700 }}>Select from Media Library</h3>
+                <button onClick={() => set('showMediaModal', false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-2)', cursor: 'pointer' }}><X size={20} /></button>
+              </div>
+              <div style={{ padding: '20px', overflowY: 'auto', flex: 1 }}>
+                <MediaGrid onSelect={(url) => { set('logo', url); set('showMediaModal', false) }} />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Top bar */}
         <div style={card}>

@@ -72,10 +72,24 @@ const slideVariants = {
 }
 
 /* ── Builder-compatible component (accepts editable header props) */
+interface TabItem {
+  id?: string | number
+  label: string
+  title: string
+  sub: string
+  desc: string
+  features: string | string[]
+  price: string
+  href: string
+  bg: string
+  icon: string | React.ReactNode
+}
+
 interface Props {
   eyebrow?: string
   headline?: string
   intro?: string
+  items?: TabItem[]
   [key: string]: unknown
 }
 
@@ -83,15 +97,21 @@ export default function ServicesAccordionSection({
   eyebrow  = 'What We Offer',
   headline = 'Comprehensive Web Development Solutions',
   intro    = "Three core platforms. One expert team. We don't dabble — we specialise so you get the best results every time.",
+  items    = TABS,
 }: Props) {
   const [active, setActive] = useState(0)
   const [prev, setPrev]     = useState(0)
   const w   = useW()
   const isMd = w >= 768
 
-  const tab = TABS[active]
+  const tab = items[active] || items[0]
   const dir = active - prev
   const go  = (i: number) => { setPrev(active); setActive(i) }
+
+  // Parse features safely whether string or array
+  const featuresList = Array.isArray(tab?.features) 
+    ? tab.features 
+    : (typeof tab?.features === 'string' ? tab.features.split(',').map(f => f.trim()) : [])
 
   return (
     <section className="section section--dark">
@@ -128,11 +148,11 @@ export default function ServicesAccordionSection({
             borderBottom: !isMd ? '1px solid rgba(255,255,255,0.07)' : 'none',
             background: 'rgba(5,5,10,0.6)',
           }}>
-            {TABS.map((t, i) => {
+            {items.map((t, i) => {
               const isActive = i === active
               return (
                 <button
-                  key={t.id}
+                  key={t.id || i}
                   onClick={() => go(i)}
                   style={{
                     display: 'flex',
@@ -159,7 +179,11 @@ export default function ServicesAccordionSection({
                     color: isActive ? '#fff' : 'var(--primary)',
                     transition: 'all 0.2s',
                   }}>
-                    {t.icon}
+                    {typeof t.icon === 'string' ? (
+                      <div dangerouslySetInnerHTML={{ __html: t.icon }} style={{ display: 'flex', width: '22px', height: '22px' }} />
+                    ) : (
+                      t.icon
+                    )}
                   </div>
                   {/* Desktop vertical label */}
                   <span style={{ ...F, fontSize: '11px', fontWeight: 700, color: isActive ? '#fff' : 'rgba(255,255,255,0.4)', writingMode: isMd ? 'vertical-lr' : undefined, transform: isMd ? 'rotate(180deg)' : undefined, whiteSpace: 'nowrap', display: isMd ? 'block' : 'none', transition: 'color 0.2s' }}>
@@ -176,56 +200,58 @@ export default function ServicesAccordionSection({
 
           {/* ── Content panel ── */}
           <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: isMd ? undefined : '320px' }}>
-            <div style={{ position: 'absolute', inset: 0, background: tab.bg, transition: 'background 0.4s' }} />
+            <div style={{ position: 'absolute', inset: 0, background: tab?.bg || '#05050a', transition: 'background 0.4s' }} />
             <div style={{ position: 'absolute', inset: 0, opacity: 0.045, backgroundImage: 'linear-gradient(rgba(118,108,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,108,255,1) 1px,transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', top: '-20%', right: '5%', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(118,108,255,0.18) 0%,transparent 70%)', filter: 'blur(24px)', pointerEvents: 'none' }} />
 
             <AnimatePresence mode="wait" custom={dir}>
-              <motion.div
-                key={active}
-                custom={dir}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.28, ease: [0.22,1,0.36,1] }}
-                style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                  background: 'rgba(5,5,8,0.72)',
-                  padding: isMd ? '36px 40px' : '22px 20px',
-                  overflowY: 'auto',
-                }}
-              >
-                <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
-                  {tab.sub}
-                </p>
-                <h3 style={{ ...F, fontSize: isMd ? 'clamp(1.5rem,2.5vw,2.1rem)' : '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '12px' }}>
-                  {tab.title}
-                </h3>
-                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, marginBottom: '18px', maxWidth: '520px' }}>
-                  {tab.desc}
-                </p>
-                <div style={{ display: 'grid', gridTemplateColumns: isMd ? 'repeat(3,1fr)' : 'repeat(2,1fr)', gap: '7px 16px', marginBottom: '22px' }}>
-                  {tab.features.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
-                      <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: 'rgba(118,108,255,0.2)', border: '1px solid rgba(118,108,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
-                        <Check />
-                      </span>
-                      {f}
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '14px' }}>
-                  <div>
-                    <p style={{ ...M, fontSize: '8px', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '2px' }}>Starting at</p>
-                    <p style={{ ...F, fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{tab.price}</p>
+              {tab && (
+                <motion.div
+                  key={active}
+                  custom={dir}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.28, ease: [0.22,1,0.36,1] }}
+                  style={{
+                    position: 'absolute', inset: 0,
+                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                    background: 'rgba(5,5,8,0.72)',
+                    padding: isMd ? '36px 40px' : '22px 20px',
+                    overflowY: 'auto',
+                  }}
+                >
+                  <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
+                    {tab.sub}
+                  </p>
+                  <h3 style={{ ...F, fontSize: isMd ? 'clamp(1.5rem,2.5vw,2.1rem)' : '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '12px' }}>
+                    {tab.title}
+                  </h3>
+                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, marginBottom: '18px', maxWidth: '520px' }}>
+                    {tab.desc}
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: isMd ? 'repeat(3,1fr)' : 'repeat(2,1fr)', gap: '7px 16px', marginBottom: '22px' }}>
+                    {featuresList.map(f => (
+                      <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
+                        <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: 'rgba(118,108,255,0.2)', border: '1px solid rgba(118,108,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
+                          <Check />
+                        </span>
+                        {f}
+                      </div>
+                    ))}
                   </div>
-                  <Link href={tab.href} className="btn btn-primary btn-md">
-                    Learn More <Arrow />
-                  </Link>
-                </div>
-              </motion.div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '14px' }}>
+                    <div>
+                      <p style={{ ...M, fontSize: '8px', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '2px' }}>Starting at</p>
+                      <p style={{ ...F, fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{tab.price}</p>
+                    </div>
+                    <Link href={tab.href || '#'} className="btn btn-primary btn-md">
+                      Learn More <Arrow />
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
 

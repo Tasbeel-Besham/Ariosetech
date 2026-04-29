@@ -64,11 +64,28 @@ export function initRegistry() {
       eyebrow: 'What We Offer',
       headline: 'Comprehensive Web Development Solutions',
       intro: "Three core platforms. One expert team. We don't dabble — we specialise so you get the best results every time.",
+      items: [
+        { label: 'WordPress', title: 'WordPress Development', sub: 'Build Powerful, Scalable Websites', desc: 'From custom themes to complex functionality, we create WordPress sites that grow with your business. Speed-optimized, secure, and SEO-ready.', features: 'Custom Development,Speed Optimization,Maintenance & Support,Migration Services,Security Hardening,SEO-Ready Builds', price: '$799', href: '/services/wordpress', bg: 'radial-gradient(ellipse 90% 80% at 10% 90%, rgba(118,108,255,0.32) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 90% 10%, rgba(80,60,220,0.18) 0%, transparent 50%), linear-gradient(160deg,#0c0a1c,#05050a)', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' },
+        { label: 'WooCommerce', title: 'WooCommerce Development', sub: 'Launch Your Dream E-commerce Store', desc: 'Turn your vision into a profitable online store. Custom WooCommerce solutions with seamless payment integration and conversion optimization.', features: 'Store Setup & Customization,Payment Gateway Integration,Multi-vendor Solutions,Performance Optimization,Inventory Management,Mobile-Optimized', price: '$1,299', href: '/services/woocommerce', bg: 'radial-gradient(ellipse 90% 80% at 90% 80%, rgba(118,108,255,0.32) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 10% 10%, rgba(60,50,200,0.18) 0%, transparent 50%), linear-gradient(160deg,#08081a,#05050a)', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' },
+        { label: 'Shopify', title: 'Shopify Development', sub: 'Scale Your Business with Shopify', desc: 'Professional Shopify stores built for growth. From startup stores to Shopify Plus enterprises, we deliver results that matter.', features: 'Custom Store Development,Shopify Plus Solutions,App Integration,Conversion Optimization,Theme Customization,Migration Services', price: '$999', href: '/services/shopify', bg: 'radial-gradient(ellipse 90% 80% at 50% 110%, rgba(118,108,255,0.32) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 50% -10%, rgba(90,80,240,0.16) 0%, transparent 50%), linear-gradient(160deg,#0a0818,#05050a)', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' },
+        { label: 'SEO', title: 'SEO Services', sub: 'Rank Higher, Get Found Faster', desc: 'Business-first SEO built for real growth. From technical fixes to local SEO and content strategy — stronger search presence that drives leads.', features: 'Website SEO,Local SEO,Technical SEO,SEO Content Strategy,Core Web Vitals,Competitor Analysis', price: 'Custom', href: '/services/seo', bg: 'radial-gradient(ellipse 70% 70% at 20% 20%, rgba(118,108,255,0.30) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(80,70,220,0.18) 0%, transparent 50%), linear-gradient(160deg,#08081a,#05050a)', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>' },
+      ],
     },
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline', label: 'Section headline' },
       { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
+      { type: 'repeater', name: 'items', label: 'Service Tabs', fields: [
+        { type: 'text',     name: 'label',    label: 'Tab Label' },
+        { type: 'text',     name: 'title',    label: 'Service Title' },
+        { type: 'text',     name: 'sub',      label: 'Subheading' },
+        { type: 'textarea', name: 'desc',     label: 'Description' },
+        { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
+        { type: 'text',     name: 'price',    label: 'Starting Price' },
+        { type: 'text',     name: 'href',     label: 'Button URL' },
+        { type: 'text',     name: 'icon',     label: 'SVG Icon code' },
+        { type: 'textarea', name: 'bg',       label: 'Background CSS (gradient)' },
+      ]},
     ],
   })
 
