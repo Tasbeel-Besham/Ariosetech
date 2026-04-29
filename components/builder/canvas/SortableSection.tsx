@@ -6,6 +6,34 @@ import { sectionRegistry } from '@/lib/builder/registry'
 import FallbackSection from '../sections/FallbackSection'
 import { GripVertical, Copy, Trash2, EyeOff, Eye, Settings2 } from 'lucide-react'
 import type { SectionInstance } from '@/types'
+import React from 'react'
+
+// Error boundary to prevent one broken section from crashing the whole canvas
+class SectionErrorBoundary extends React.Component<
+  { children: React.ReactNode; type: string },
+  { hasError: boolean; error: string }
+> {
+  constructor(props: { children: React.ReactNode; type: string }) {
+    super(props)
+    this.state = { hasError: false, error: '' }
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error: error.message }
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '24px', background: 'rgba(255,77,109,0.06)', border: '1px solid rgba(255,77,109,0.2)', borderRadius: '12px', margin: '8px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--red)', marginBottom: '4px', fontWeight: 700 }}>
+            ⚠ Section render error: {this.props.type}
+          </p>
+          <p style={{ fontSize: '11px', color: 'var(--text-3)' }}>{this.state.error}</p>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 export function SortableSection({ section }: { section: SectionInstance }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: section.id })
@@ -67,11 +95,13 @@ export function SortableSection({ section }: { section: SectionInstance }) {
       </div>
 
       {/* Section content */}
-      {def ? (
-        <def.component {...section.props as Record<string, unknown>} />
-      ) : (
-        <FallbackSection type={section.type} />
-      )}
+      <SectionErrorBoundary type={section.type}>
+        {def ? (
+          <def.component {...section.props as Record<string, unknown>} />
+        ) : (
+          <FallbackSection type={section.type} />
+        )}
+      </SectionErrorBoundary>
     </div>
   )
 }
