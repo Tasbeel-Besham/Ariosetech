@@ -3,7 +3,7 @@ import Link from 'next/link'
 type Item = { icon: string; title: string; subhead: string; desc: string }
 type Props = { eyebrow?: string; headline?: string; items?: Item[] }
 
-export default function WhyUsSection({ eyebrow='Why Choose Us', headline: _headline='Why 100+ Businesses Trust ARIOSETECH for Their Success', items=[] }: Props) {
+export default function WhyUsSection({ eyebrow='Why Choose Us', items=[] }: Props) {
   const F = { fontFamily:'var(--font-display)' } as const
   const safe = Array.isArray(items) ? items : []
   return (

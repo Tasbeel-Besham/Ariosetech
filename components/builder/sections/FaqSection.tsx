@@ -5,7 +5,7 @@ import Link from 'next/link'
 type Item = { q: string; a: string }
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; ctaLabel?: string; ctaHref?: string; items?: Item[] }
 
-export default function FaqSection({ eyebrow='FAQ', headline: _headline='Frequently Asked Questions', subheadline="Can't find what you're looking for? We're here to help.", ctaLabel='Ask Us Anything', ctaHref='/contact', items=[] }: Props) {
+export default function FaqSection({ eyebrow='FAQ', subheadline="Can't find what you're looking for? We're here to help.", ctaLabel='Ask Us Anything', ctaHref='/contact', items=[] }: Props) {
   const [open, setOpen] = useState<number|null>(null)
   const F = { fontFamily:'var(--font-display)' } as const
   const safe = Array.isArray(items) ? items : []

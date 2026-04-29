@@ -7,7 +7,7 @@ export async function GET() {
     const col = await getCollection<ServicePageDoc>('services')
     const services = await col.find({}, { projection: { slug: 1, title: 1, status: 1, updatedAt: 1 } }).toArray()
     return NextResponse.json(services)
-  } catch (error: unknown) {
+  } catch (error: Record<string, unknown>) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     const result = await col.insertOne(doc as ServicePageDoc)
     return NextResponse.json({ success: true, id: result.insertedId })
-  } catch (error: unknown) {
+  } catch (error: Record<string, unknown>) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

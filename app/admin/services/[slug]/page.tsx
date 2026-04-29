@@ -121,7 +121,7 @@ export default function ServiceEditorPage() {
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-3)', marginBottom: '6px' }}>Status</label>
-                  <select value={data.status || 'draft'} onChange={e => setData({ ...data, status: e.target.value as any })} style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', color: '#fff' }}>
+                  <select value={data.status || 'draft'} onChange={e => setData({ ...data, status: e.target.value as 'draft' | 'published' })} style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', color: '#fff' }}>
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
                   </select>
