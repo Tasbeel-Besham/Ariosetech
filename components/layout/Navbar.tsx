@@ -432,16 +432,17 @@ function MobileDrawer({
 
 /* ── Main Navbar ── */
 export default function Navbar() {
-  const [scrolled, setScrolled]   = useState(false)
-  const [logoUrl, setLogoUrl]     = useState('')
-  const [siteName, setSiteName]   = useState('ARIOSETECH')
-  const [tagline]                 = useState('Consider It Solved')
+  const [scrolled, setScrolled]     = useState(false)
+  const [logoUrl, setLogoUrl]       = useState('')
+  const [logoWidth, setLogoWidth]   = useState(160)
+  const [siteName, setSiteName]     = useState('ARIOSETECH')
+  const [tagline]                   = useState('Consider It Solved')
   const [mobileOpen, setMobileOpen] = useState(false)
 
   // Services shifting state
-  const [megaOpen, setMegaOpen]     = useState(false)
-  const [activeTab, setActiveTab]   = useState<number | null>(null)
-  const [tabDir, setTabDir]         = useState<'l' | 'r' | null>(null)
+  const [megaOpen, setMegaOpen]   = useState(false)
+  const [activeTab, setActiveTab] = useState<number | null>(null)
+  const [tabDir, setTabDir]       = useState<'l' | 'r' | null>(null)
 
   // Tools state
   const [toolsOpen, setToolsOpen] = useState(false)
@@ -454,7 +455,8 @@ export default function Navbar() {
     fetch('/api/header').then(r => r.json()).then(d => {
       const logo = String(d.logo || '').trim()
       if (logo) setLogoUrl(logo)
-      if (d.logoAlt) setSiteName(String(d.logoAlt))
+      if (d.logoAlt)   setSiteName(String(d.logoAlt))
+      if (d.logoWidth) setLogoWidth(Number(d.logoWidth) || 160)
     }).catch(() => {})
   }, [])
 
@@ -509,7 +511,12 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
           {logoUrl ? (
-            <img src={logoUrl} alt={siteName} style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
+            <img
+              src={logoUrl}
+              alt={siteName}
+              style={{ height: '36px', maxWidth: `${logoWidth}px`, width: 'auto', objectFit: 'contain' }}
+              onError={() => setLogoUrl('')}
+            />
           ) : (
             <div style={{ fontFamily: 'var(--font-logo), sans-serif', fontSize: '24px', color: '#fff', letterSpacing: '1px', lineHeight: 1 }}>
               {siteName}

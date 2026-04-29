@@ -61,38 +61,14 @@ export default function Preloader() {
           key="preloader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, delay: 0.5 }}
+          transition={{ duration: 0.5 }}
           style={{
             position: 'fixed', inset: 0, zIndex: 9999,
             background: '#07070f',
             display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center',
-            overflow: 'hidden',
           }}
         >
-          {/* ── Top curtain panel ── */}
-          <motion.div
-            initial={{ y: 0 }}
-            exit={{ y: '-100%' }}
-            transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1], delay: 0 }}
-            style={{
-              position: 'absolute', inset: '0 0 50% 0',
-              background: '#07070f',
-              display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-              paddingBottom: '4px',
-            }}
-          />
-
-          {/* ── Bottom curtain panel ── */}
-          <motion.div
-            initial={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1], delay: 0.08 }}
-            style={{
-              position: 'absolute', inset: '50% 0 0 0',
-              background: '#07070f',
-            }}
-          />
 
           {/* ── Content (centered, sits above curtain seam) ── */}
           <div style={{
@@ -103,18 +79,20 @@ export default function Preloader() {
             {/* Counter */}
             <div style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(5rem, 16vw, 13rem)',
+              fontSize: 'clamp(4rem, 13vw, 11rem)',
               fontWeight: 900,
               lineHeight: 1,
-              letterSpacing: '-0.06em',
+              letterSpacing: '-0.04em',
               background: 'linear-gradient(135deg, #a78bfa 0%, #766cff 40%, #60a5fa 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               marginBottom: '0.05em',
-              tabularNums: 'tabular-nums',
+              textAlign: 'center',
+              width: '100%',
+              fontVariantNumeric: 'tabular-nums',
             } as React.CSSProperties}>
-              {String(count).padStart(2, '0')}
+              {count}
             </div>
 
             {/* Brand name with stagger reveal */}
