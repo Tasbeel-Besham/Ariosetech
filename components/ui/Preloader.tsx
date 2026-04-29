@@ -60,9 +60,11 @@ export default function Preloader() {
         <motion.div
           key="preloader"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, delay: 0.5 }}
           style={{
             position: 'fixed', inset: 0, zIndex: 9999,
+            background: '#07070f',
             display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center',
             overflow: 'hidden',

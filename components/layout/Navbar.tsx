@@ -452,8 +452,8 @@ export default function Navbar() {
 
   useEffect(() => {
     fetch('/api/header').then(r => r.json()).then(d => {
-      const logo = String(d.logo || '')
-      if (logo.startsWith('http')) setLogoUrl(logo)
+      const logo = String(d.logo || '').trim()
+      if (logo) setLogoUrl(logo)
       if (d.logoAlt) setSiteName(String(d.logoAlt))
     }).catch(() => {})
   }, [])
