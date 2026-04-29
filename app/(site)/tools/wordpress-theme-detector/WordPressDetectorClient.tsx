@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, ArrowRight, Check, ExternalLink, AlertCircle, Loader2 } from 'lucide-react'
+import { Search, ArrowRight, Check, ExternalLink, AlertCircle, Loader } from '@/components/ui/Icons'
 
 const F = { fontFamily:'var(--font-display)' } as const
 const M = { fontFamily:'var(--font-mono)'    } as const
@@ -84,7 +84,7 @@ export default function WordPressDetectorClient() {
               />
             </div>
             <button onClick={detect} disabled={loading || !url.trim()} className="btn btn-primary btn-lg" style={{ flexShrink:0 }}>
-              {loading ? <Loader2 size={16} style={{ animation:'spin 0.7s linear infinite' }} /> : <Search size={15} />}
+              {loading ? <Loader size={16} /> : <Search size={15} />}
               {loading ? 'Detecting…' : 'Detect Theme'}
             </button>
           </div>

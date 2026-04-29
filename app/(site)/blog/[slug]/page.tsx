@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, Clock, Calendar } from 'lucide-react'
+import { ArrowLeft, Clock, Calendar } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc } from '@/types'
 

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check } from '@/components/ui/Icons'
 type Item = { icon: string; title: string; headline: string; desc: string; features: string; price: string; href: string }
 type Props = { eyebrow?: string; headline?: string; items?: Item[] }
 export default function ServicesSection({ eyebrow='What We Offer', headline='Comprehensive Web Development Solutions', items=[] }: Props) {

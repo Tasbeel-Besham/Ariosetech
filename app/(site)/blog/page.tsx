@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc } from '@/types'
 

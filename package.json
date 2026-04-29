@@ -24,6 +24,7 @@
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.54.0",
     "react-hot-toast": "^2.4.1",
+    "react-use-measure": "^2.1.7",
     "resend": "^4.8.0",
     "tailwind-merge": "^2.5.5",
     "zod": "^3.23.8",

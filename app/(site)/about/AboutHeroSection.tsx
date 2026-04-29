@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRef } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from '@/components/ui/Icons'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 const hs = { fontFamily: 'var(--font-display)' } as const

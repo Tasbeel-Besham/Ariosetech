@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown } from '@/components/ui/Icons'
 
 type Item = { q: string; a: string }
 type Props = { eyebrow?: string; headline?: string; items?: Item[] }

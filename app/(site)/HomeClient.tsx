@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import ClutchWidget from '@/components/ui/ClutchWidget'
 import HeroSection from '@/components/builder/sections/HeroSection'
+import ServicesAccordion from '@/components/sections/ServicesAccordion'
 
 const ArrowSVG = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
@@ -345,59 +346,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       </div>
 
       {/* ══ SERVICES ════════════════════════════════════════════════ */}
-      <section className="section section--dark">
-        <div className="container">
-          {/* Section header — left aligned like Utility */}
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px', alignItems:'end', marginBottom:'60px' }}>
-            <div>
-              <p className="eyebrow sr">What We Offer</p>
-              <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>
-                Comprehensive Web Development Solutions<br />for Your Business Growth
-              </h2>
-            </div>
-            <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8 }}>
-              Three core platforms. One expert team. We don&apos;t dabble — we specialise so you get the best results every time.
-            </p>
-          </div>
-
-          {/* 2×2 grid */}
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'20px' }}>
-            {SERVICES.map((svc,i) => (
-              <div key={svc.title} className="card card-hover sr" style={{ display:'flex', flexDirection:'column', animationDelay:`${i*0.07}s` }}>
-                {/* Colored top bar */}
-                <div style={{ height:'3px', background:'var(--grad)' }} />
-                <div style={{ padding:'36px', flex:1, display:'flex', flexDirection:'column' }}>
-                  <div style={{ display:'flex', alignItems:'flex-start', gap:'16px', marginBottom:'20px' }}>
-                    <div style={{ width:'52px', height:'52px', borderRadius:'14px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'26px', flexShrink:0 }}>{svc.icon}</div>
-                    <div>
-                      <h3 style={{ ...F, fontSize:'20px', fontWeight:800, color:'#fff', marginBottom:'4px' }}>{svc.title}</h3>
-                      <p style={{ ...F, fontSize:'13px', fontWeight:600, color:'var(--primary)' }}>{svc.headline}</p>
-                    </div>
-                  </div>
-                  <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'22px', flex:1 }}>{svc.desc}</p>
-                  <ul style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px 16px', marginBottom:'28px' }}>
-                    {svc.features.map(f => (
-                      <li key={f} style={{ display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', color:'var(--text-2)' }}>
-                        <div style={{ width:'16px', height:'16px', borderRadius:'50%', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                          <CheckSVG size={9} />
-                        </div>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:'22px', borderTop:'1px solid var(--border)' }}>
-                    <div>
-                      <p style={{ ...M, fontSize:'9px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:700, marginBottom:'2px' }}>Starting at</p>
-                      <p style={{ ...F, fontSize:'1.5rem', fontWeight:800, color:'var(--primary)' }}>{svc.price}</p>
-                    </div>
-                    <Link href={svc.href} className="btn btn-primary btn-md">Learn More <ArrowSVG size={14} /></Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServicesAccordion />
 
       {/* ══ WHY CHOOSE US ══════════════════════════════════════════ */}
       <section className="section" style={{ overflow: 'visible' }}>
@@ -521,7 +470,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                 >
                   {/* Left slot */}
                   {isRight ? (
-                    <div />
+                    <div className="how-step__empty" />
                   ) : (
                     <div
                       style={{
@@ -542,7 +491,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                   )}
 
                   {/* Centre connector dot */}
-                  <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'0' }}>
+                  <div className="how-step__dot" style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'0' }}>
                     <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:'var(--primary-soft)', border:'2px solid rgba(118,108,255,0.35)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                       <span style={{ ...F, fontSize:'12px', fontWeight:800, color:'var(--primary)' }}>{step.n}</span>
                     </div>
@@ -550,7 +499,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
                   {/* Right slot */}
                   {!isRight ? (
-                    <div />
+                    <div className="how-step__empty" />
                   ) : (
                     <div
                       style={{
@@ -703,8 +652,8 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             </h2>
           </div>
 
-          {/* Horizontal steps with large numbers — Utility style */}
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)' }}>
+          {/* Horizontal steps with large numbers */}
+          <div className="process-grid" style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)' }}>
             {PROCESS.map(({ n, title, sub, desc, time },i) => (
               <div key={n} className="sr" style={{ padding:'0 28px 0 0', borderRight:i<4?'1px solid var(--border)':'none', paddingRight:i<4?'28px':'0', animationDelay:`${i*0.07}s` }}>
                 <p style={{ ...F, fontSize:'clamp(3.5rem,5vw,5rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{n}</p>

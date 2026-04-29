@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Mail, Phone, MapPin, Clock, MessageCircle } from 'lucide-react'
+import { ArrowRight, Mail, Phone, MapPin, Clock, MessageCircle } from '@/components/ui/Icons'
 import ClutchWidget from '@/components/ui/ClutchWidget'
 
 const F = { fontFamily: 'var(--font-display)' } as const

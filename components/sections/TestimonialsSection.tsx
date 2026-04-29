@@ -1,4 +1,4 @@
-import { Star } from 'lucide-react'
+import { Star } from '@/components/ui/Icons'
 type Item = { name: string; role: string; initials: string; quote: string }
 type Props = { eyebrow?: string; headline?: string; items?: Item[] }
 export default function TestimonialsSection({ eyebrow='Client Reviews', headline='What Our Clients Say About Working With Us', items=[] }: Props) {

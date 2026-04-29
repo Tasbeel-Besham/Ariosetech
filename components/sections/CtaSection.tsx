@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from '@/components/ui/Icons'
 type Props = { eyebrow?: string; headline?: string; desc?: string; trust?: string; ctaLabel?: string; ctaHref?: string; secondaryLabel?: string; secondaryHref?: string }
 export default function CtaSection({ eyebrow='Get Started', headline='Start Your Success Story Today', desc='Join 100+ successful businesses that chose ARIOSETECH.', trust='', ctaLabel='Schedule Free Consultation', ctaHref='/contact', secondaryLabel='View Our Portfolio', secondaryHref='/portfolio' }: Props) {
   const F = { fontFamily: 'var(--font-display)' } as const

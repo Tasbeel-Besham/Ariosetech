@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check } from '@/components/ui/Icons'
 
 type Props = { eyebrow?: string; headline?: string; subhead?: string; desc?: string; ctaLabel?: string; ctaHref?: string; guarantee?: string }
 

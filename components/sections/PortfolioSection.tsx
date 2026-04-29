@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from '@/components/ui/Icons'
 
 type Item = { title: string; client: string; platform: string; result: string; resultLabel: string; quote: string; image?: string }
 type Props = { eyebrow?: string; headline?: string; intro?: string; items?: Item[]; ctaLabel?: string; ctaHref?: string }
