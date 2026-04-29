@@ -452,12 +452,18 @@ export default function Navbar() {
   const toolsTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    fetch('/api/header').then(r => r.json()).then(d => {
-      const logo = String(d.logo || '').trim()
+    Promise.all([
+      fetch('/api/header').then(r => r.json()).catch(() => ({})),
+      fetch('/api/settings').then(r => r.json()).catch(() => ({}))
+    ]).then(([headerData, settingsData]) => {
+      const logo = String(settingsData.logo_url || headerData.logo || '').trim()
       if (logo) setLogoUrl(logo)
-      if (d.logoAlt)   setSiteName(String(d.logoAlt))
-      if (d.logoWidth) setLogoWidth(Number(d.logoWidth) || 160)
-    }).catch(() => {})
+      
+      const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
+      if (alt) setSiteName(alt)
+      
+      if (headerData.logoWidth) setLogoWidth(Number(headerData.logoWidth) || 160)
+    })
   }, [])
 
   useEffect(() => {

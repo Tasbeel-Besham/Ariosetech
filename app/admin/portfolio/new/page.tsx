@@ -5,6 +5,7 @@ import AdminShell from '@/components/layout/AdminShell'
 import { Save, ArrowLeft, Plus, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 
 type Result = { label: string; value: string }
 
@@ -13,6 +14,7 @@ const CATS = ['wordpress', 'woocommerce', 'shopify', 'seo']
 export default function NewPortfolio() {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
+  const [showMediaModal, setShowMediaModal] = useState(false)
   const [results, setResults] = useState<Result[]>([])
   const [form, setForm] = useState({
     title: '', client: '', clientUrl: '', slug: '', category: 'wordpress',
@@ -92,7 +94,15 @@ export default function NewPortfolio() {
                 {CATS.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
-            <div><label style={lbl}>Cover Image URL</label><input value={form.image} onChange={e => set('image', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="https://… or /image.jpg" /></div>
+            <div>
+              <label style={lbl}>Cover Image URL</label>
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <input value={form.image} onChange={e => set('image', e.target.value)} style={{...inp, flex: 1}} onFocus={onF} onBlur={onB} placeholder="https://… or /image.jpg" />
+                <button onClick={() => setShowMediaModal(true)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px', whiteSpace: 'nowrap' }}>
+                  Library
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -125,6 +135,12 @@ export default function NewPortfolio() {
             </div>
           ))}
         </div>
+        {showMediaModal && (
+          <MediaPickerModal 
+            onClose={() => setShowMediaModal(false)}
+            onSelect={(url) => { set('image', url); setShowMediaModal(false) }}
+          />
+        )}
       </div>
     </AdminShell>
   )

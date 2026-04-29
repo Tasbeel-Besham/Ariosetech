@@ -1,6 +1,7 @@
 'use client'
 import { useBuilderStore } from '@/lib/builder/store'
 import { sectionRegistry } from '@/lib/builder/registry'
+import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 import type { FieldSchema } from '@/types'
 
 export function PropertiesPanel() {
@@ -89,10 +90,21 @@ export function PropertiesPanel() {
         return (
           <div key={key}>
             <label style={lbl}>{field.label}</label>
-            <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} placeholder="https://… or /image.jpg" style={inp} />
+            <div style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
+              <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} placeholder="https://… or /image.jpg" style={{ ...inp, flex: 1, marginBottom: 0 }} />
+              <button onClick={() => updateMeta(section.id, { _mediaField: field.name })} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px' }}>
+                Library
+              </button>
+            </div>
             {Boolean(value) && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={String(value)} alt="" style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px', marginTop: '6px', border: '1px solid var(--border)' }} />
+              <img src={String(value)} alt="" style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--border)' }} />
+            )}
+            {section.meta?._mediaField === field.name && (
+              <MediaPickerModal 
+                onClose={() => updateMeta(section.id, { _mediaField: undefined })} 
+                onSelect={(url) => { update(field.name, url); updateMeta(section.id, { _mediaField: undefined }) }} 
+              />
             )}
           </div>
         )

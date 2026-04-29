@@ -4,6 +4,7 @@ import AdminShell from '@/components/layout/AdminShell'
 import { Save, Upload, RefreshCw } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
+import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 
 const LOGO_URL    = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png'
 const FAVICON_URL = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539349/ariosetech/cmeul8vugjeeujikb4e5.png'
@@ -108,13 +109,16 @@ export default function SettingsAdmin() {
                   ? <Image src={settings.logo_url} alt="Logo" width={180} height={45} style={{ maxHeight:'48px', width:'auto', objectFit:'contain' }} />
                   : <span style={{ fontSize:'12px', color:'var(--text-3)' }}>No logo set</span>}
               </div>
-              <div style={{ display:'flex', gap:'8px', marginBottom:'10px' }}>
-                <label style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'7px', padding:'8px', borderRadius:'8px', border:'1px solid var(--border-2)', background:'var(--bg-3)', cursor:'pointer', fontSize:'13px', color:'var(--text-2)', fontFamily:'var(--font-display)', fontWeight:600, transition:'all 0.15s' }}
+              <div style={{ display:'flex', gap:'8px', marginBottom:'10px', flexWrap:'wrap' }}>
+                <label style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'7px', padding:'8px', borderRadius:'8px', border:'1px solid var(--border-2)', background:'var(--bg-3)', cursor:'pointer', fontSize:'13px', color:'var(--text-2)', fontFamily:'var(--font-display)', fontWeight:600, transition:'all 0.15s', minWidth: '120px' }}
                   onMouseEnter={e=>{ e.currentTarget.style.borderColor='var(--primary)'; e.currentTarget.style.color='var(--primary)' }}
                   onMouseLeave={e=>{ e.currentTarget.style.borderColor='var(--border-2)'; e.currentTarget.style.color='var(--text-2)' }}>
-                  {uploading==='logo' ? <><RefreshCw size={13} style={{ animation:'spin 1s linear infinite' }} /> Uploading…</> : <><Upload size={13} /> Upload Logo</>}
+                  {uploading==='logo' ? <><RefreshCw size={13} style={{ animation:'spin 1s linear infinite' }} /> Uploading…</> : <><Upload size={13} /> Upload New</>}
                   <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => { const f=e.target.files?.[0]; if(f) upload(f,'logo'); e.target.value='' }} />
                 </label>
+                <button onClick={() => set('showMediaModal', 'logo')} className="btn btn-outline btn-sm" style={{ flex:1, padding:'8px', minWidth: '120px' }}>
+                  Media Library
+                </button>
                 <button onClick={()=>resetToDefault('logo')} className="btn btn-ghost btn-sm" title="Reset to default" style={{ flexShrink:0 }}>
                   <RefreshCw size={13} />
                 </button>
@@ -133,13 +137,16 @@ export default function SettingsAdmin() {
                   ? <Image src={settings.favicon_url} alt="Favicon" width={64} height={64} style={{ width:'48px', height:'48px', objectFit:'contain' }} />
                   : <span style={{ fontSize:'12px', color:'var(--text-3)' }}>No favicon set</span>}
               </div>
-              <div style={{ display:'flex', gap:'8px', marginBottom:'10px' }}>
-                <label style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'7px', padding:'8px', borderRadius:'8px', border:'1px solid var(--border-2)', background:'var(--bg-3)', cursor:'pointer', fontSize:'13px', color:'var(--text-2)', fontFamily:'var(--font-display)', fontWeight:600, transition:'all 0.15s' }}
+              <div style={{ display:'flex', gap:'8px', marginBottom:'10px', flexWrap:'wrap' }}>
+                <label style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'7px', padding:'8px', borderRadius:'8px', border:'1px solid var(--border-2)', background:'var(--bg-3)', cursor:'pointer', fontSize:'13px', color:'var(--text-2)', fontFamily:'var(--font-display)', fontWeight:600, transition:'all 0.15s', minWidth: '120px' }}
                   onMouseEnter={e=>{ e.currentTarget.style.borderColor='var(--primary)'; e.currentTarget.style.color='var(--primary)' }}
                   onMouseLeave={e=>{ e.currentTarget.style.borderColor='var(--border-2)'; e.currentTarget.style.color='var(--text-2)' }}>
-                  {uploading==='favicon' ? <><RefreshCw size={13} style={{ animation:'spin 1s linear infinite' }} /> Uploading…</> : <><Upload size={13} /> Upload Favicon</>}
+                  {uploading==='favicon' ? <><RefreshCw size={13} style={{ animation:'spin 1s linear infinite' }} /> Uploading…</> : <><Upload size={13} /> Upload New</>}
                   <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => { const f=e.target.files?.[0]; if(f) upload(f,'favicon'); e.target.value='' }} />
                 </label>
+                <button onClick={() => set('showMediaModal', 'favicon')} className="btn btn-outline btn-sm" style={{ flex:1, padding:'8px', minWidth: '120px' }}>
+                  Media Library
+                </button>
                 <button onClick={()=>resetToDefault('favicon')} className="btn btn-ghost btn-sm" title="Reset to default" style={{ flexShrink:0 }}>
                   <RefreshCw size={13} />
                 </button>
@@ -204,6 +211,13 @@ export default function SettingsAdmin() {
             <Save size={15} /> {saving ? 'Saving…' : 'Save All Settings'}
           </button>
         </div>
+
+        {settings.showMediaModal && (
+          <MediaPickerModal 
+            onClose={() => set('showMediaModal', '')} 
+            onSelect={(url) => { set(settings.showMediaModal === 'logo' ? 'logo_url' : 'favicon_url', url); set('showMediaModal', '') }} 
+          />
+        )}
 
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>

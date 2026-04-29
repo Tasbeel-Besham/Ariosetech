@@ -66,10 +66,16 @@ export default function Footer() {
   const [logoUrl, setLogoUrl] = useState('')
   const [siteName, setSiteName] = useState('ARIOSETECH')
   useEffect(() => {
-    fetch('/api/header').then(r => r.json()).then(d => {
-      const logo = String(d.logo || ''); if (logo.startsWith('http')) setLogoUrl(logo)
-      if (d.logoAlt) setSiteName(String(d.logoAlt))
-    }).catch(() => {})
+    Promise.all([
+      fetch('/api/header').then(r => r.json()).catch(() => ({})),
+      fetch('/api/settings').then(r => r.json()).catch(() => ({}))
+    ]).then(([headerData, settingsData]) => {
+      const logo = String(settingsData.logo_url || headerData.logo || '').trim()
+      if (logo && logo.startsWith('http')) setLogoUrl(logo)
+      
+      const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
+      if (alt) setSiteName(alt)
+    })
   }, [])
   return (
     <footer style={{ background:'var(--bg-2)', borderTop:'1px solid var(--border)' }}>

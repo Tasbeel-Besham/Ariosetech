@@ -5,6 +5,7 @@ import AdminShell from '@/components/layout/AdminShell'
 import { ArrowLeft, Save, Eye } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
 
@@ -12,6 +13,7 @@ export default function EditBlogPost() {
   const { id } = useParams<{ id: string }>()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [showMediaModal, setShowMediaModal] = useState(false)
   const [form, setForm] = useState({
     title: '', slug: '', excerpt: '', category: 'WordPress',
     author: 'ARIOSETECH Team', date: new Date().toISOString().split('T')[0],
@@ -159,7 +161,15 @@ export default function EditBlogPost() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div><label style={lbl}>Keywords</label><input value={form.seo.keywords} onChange={e => setSeo('keywords', e.target.value)} placeholder="wordpress, speed" style={inp} /></div>
-              <div><label style={lbl}>OG Image URL</label><input value={form.seo.ogImage} onChange={e => setSeo('ogImage', e.target.value)} style={inp} /></div>
+              <div>
+                <label style={lbl}>OG Image URL</label>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <input value={form.seo.ogImage} onChange={e => setSeo('ogImage', e.target.value)} style={{...inp, flex: 1}} />
+                  <button onClick={() => setShowMediaModal(true)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px', whiteSpace: 'nowrap' }}>
+                    Library
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -171,6 +181,13 @@ export default function EditBlogPost() {
             {saving ? 'Saving…' : 'Publish'}
           </button>
         </div>
+
+        {showMediaModal && (
+          <MediaPickerModal 
+            onClose={() => setShowMediaModal(false)}
+            onSelect={(url) => { setSeo('ogImage', url); setShowMediaModal(false) }}
+          />
+        )}
       </div>
     </AdminShell>
   )

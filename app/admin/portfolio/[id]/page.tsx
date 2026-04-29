@@ -5,6 +5,7 @@ import AdminShell from '@/components/layout/AdminShell'
 import { Save, ArrowLeft, Plus, Trash2, ChevronUp, ChevronDown, GripVertical } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 
 /* ── Types ─────────────────────────────────────────────────────── */
 type Result = { label: string; value: string }
@@ -52,6 +53,7 @@ export default function EditPortfolio() {
   const [blocks, setBlocks]     = useState<Block[]>([])
   const [meta, setMeta]         = useState({ slug: '', clientUrl: '', image: '', category: 'wordpress', featured: false, published: true })
   const [picking, setPicking]   = useState(false)
+  const [mediaTarget, setMediaTarget] = useState<string | null>(null)
 
   /* Load */
   useEffect(() => {
@@ -196,7 +198,15 @@ export default function EditPortfolio() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '20px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px' }}>
           <div><label style={lbl}>Slug</label><input value={meta.slug} onChange={e => setMeta(m => ({ ...m, slug: e.target.value }))} style={{ ...inp, fontFamily: 'var(--font-mono)', fontSize: '11px' }} onFocus={onF} onBlur={onB} placeholder="project-slug" /></div>
           <div><label style={lbl}>Client URL</label><input value={meta.clientUrl} onChange={e => setMeta(m => ({ ...m, clientUrl: e.target.value }))} style={inp} onFocus={onF} onBlur={onB} placeholder="https://…" /></div>
-          <div><label style={lbl}>Cover Image URL</label><input value={meta.image} onChange={e => setMeta(m => ({ ...m, image: e.target.value }))} style={inp} onFocus={onF} onBlur={onB} placeholder="https://…" /></div>
+          <div>
+            <label style={lbl}>Cover Image URL</label>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <input value={meta.image} onChange={e => setMeta(m => ({ ...m, image: e.target.value }))} style={{...inp, flex: 1}} onFocus={onF} onBlur={onB} placeholder="https://…" />
+              <button onClick={() => setMediaTarget('meta')} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px', whiteSpace: 'nowrap' }}>
+                Library
+              </button>
+            </div>
+          </div>
           <div>
             <label style={lbl}>Category</label>
             <select value={meta.category} onChange={e => setMeta(m => ({ ...m, category: e.target.value }))} style={{ ...inp, cursor: 'pointer' }} onFocus={onF} onBlur={onB}>
@@ -278,7 +288,12 @@ export default function EditPortfolio() {
                     {/* Image */}
                     {block.type === 'image' && (
                       <div><label style={lbl}>Image URL</label>
-                        <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} style={inp} onFocus={onF} onBlur={onB} placeholder="https://… or /image.jpg" />
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} style={{...inp, flex: 1}} onFocus={onF} onBlur={onB} placeholder="https://… or /image.jpg" />
+                          <button onClick={() => setMediaTarget(block.id)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '12px', whiteSpace: 'nowrap' }}>
+                            Library
+                          </button>
+                        </div>
                         {block.value && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={block.value} alt="" style={{ marginTop: '8px', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--border)', width: '100%' }} />
@@ -386,6 +401,20 @@ export default function EditPortfolio() {
         <div className="info-box" style={{ marginTop: '14px' }}>
           💡 Use ▲ ▼ arrows to reorder any block. Core blocks (blue) can be reordered but not deleted. Custom blocks (green) can be removed. All blocks render in order on the live case study page.
         </div>
+
+        {mediaTarget && (
+          <MediaPickerModal 
+            onClose={() => setMediaTarget(null)}
+            onSelect={(url) => {
+              if (mediaTarget === 'meta') {
+                setMeta(m => ({ ...m, image: url }))
+              } else {
+                update(mediaTarget, { value: url })
+              }
+              setMediaTarget(null)
+            }}
+          />
+        )}
       </div>
     </AdminShell>
   )

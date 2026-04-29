@@ -5,12 +5,14 @@ import AdminShell from '@/components/layout/AdminShell'
 import { ArrowLeft, Save, Eye } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
 
 export default function NewBlogPost() {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
+  const [showMediaModal, setShowMediaModal] = useState(false)
   const [form, setForm] = useState({
     title: '',
     slug: '',
@@ -223,7 +225,12 @@ export default function NewBlogPost() {
               </div>
               <div>
                 <label style={lbl}>OG Image URL</label>
-                <input value={form.seo.ogImage} onChange={e => setSeo('ogImage', e.target.value)} placeholder="https://ariosetech.com/images/post.jpg" style={inp} />
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <input value={form.seo.ogImage} onChange={e => setSeo('ogImage', e.target.value)} placeholder="https://ariosetech.com/images/post.jpg" style={{...inp, flex: 1}} />
+                  <button onClick={() => setShowMediaModal(true)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px', whiteSpace: 'nowrap' }}>
+                    Library
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -257,6 +264,13 @@ export default function NewBlogPost() {
             {saving ? 'Publishing…' : 'Publish Post'}
           </button>
         </div>
+
+        {showMediaModal && (
+          <MediaPickerModal 
+            onClose={() => setShowMediaModal(false)}
+            onSelect={(url) => { setSeo('ogImage', url); setShowMediaModal(false) }}
+          />
+        )}
       </div>
     </AdminShell>
   )
