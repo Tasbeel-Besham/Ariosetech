@@ -84,15 +84,11 @@ export default function Navbar() {
   const timerRef = useRef<ReturnType<typeof setTimeout>|null>(null)
 
   useEffect(() => {
-    // Read from header config first (Header Builder), fallback to settings
     fetch('/api/header').then(r => r.json()).then(d => {
-      if (d.logo) setLogoUrl(String(d.logo).replace(/^\/+/, ''))
-      if (d.logoAlt) setSiteName(d.logoAlt)
-    }).catch(() => {})
-    fetch('/api/settings').then(r => r.json()).then(d => {
-      if (d.logo_url) setLogoUrl(prev => prev || String(d.logo_url).replace(/^\/+/, ''))
-      if (d.site_name) setSiteName(prev => prev || d.site_name)
-      if (d.tagline) setTagline(d.tagline)
+      // Only use logo if it's a real URL (not the default /logo.png placeholder)
+      const logo = String(d.logo || '')
+      if (logo.startsWith('http')) setLogoUrl(logo)
+      if (d.logoAlt) setSiteName(String(d.logoAlt))
     }).catch(() => {})
   }, [])
 

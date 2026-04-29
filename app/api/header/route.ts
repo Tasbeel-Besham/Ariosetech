@@ -5,7 +5,7 @@ import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 
 const DEFAULT: Record<string, unknown> = {
-  key: 'header', logo: '/logo.png', logoAlt: 'ARIOSETECH', logoWidth: 160,
+  key: 'header', logo: '', logoAlt: 'ARIOSETECH', logoWidth: 160,
   showTopBar: true, topBarPhone: '+92 300 9484 739', topBarEmail: 'info@ariosetech.com',
   topBarText: 'Available for new projects',
   ctaPrimaryLabel: 'Get Free Quote', ctaPrimaryHref: '/contact',

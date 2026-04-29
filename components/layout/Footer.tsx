@@ -67,8 +67,8 @@ export default function Footer() {
   const [siteName, setSiteName] = useState('ARIOSETECH')
   useEffect(() => {
     fetch('/api/header').then(r => r.json()).then(d => {
-      if (d.logo) setLogoUrl(String(d.logo).replace(/^\/+/, ''))
-      if (d.logoAlt) setSiteName(d.logoAlt)
+      const logo = String(d.logo || ''); if (logo.startsWith('http')) setLogoUrl(logo)
+      if (d.logoAlt) setSiteName(String(d.logoAlt))
     }).catch(() => {})
   }, [])
   return (
