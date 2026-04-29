@@ -81,6 +81,14 @@ export default function Navbar() {
   const timerRef = useRef<ReturnType<typeof setTimeout>|null>(null)
 
   useEffect(() => {
+    fetch('/api/settings').then(r => r.json()).then(d => {
+      if (d.logo_url) setLogoUrl(d.logo_url)
+      if (d.site_name) setSiteName(d.site_name)
+      if (d.tagline) setTagline(d.tagline)
+    }).catch(() => {})
+  }, [])
+
+  useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 24)
     window.addEventListener('scroll', fn, { passive:true })
     return () => window.removeEventListener('scroll', fn)
@@ -105,10 +113,14 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link href="/" style={{ display:'flex', alignItems:'center', textDecoration:'none', flexShrink:0 }}>
-          <div style={{ fontFamily:'var(--font-logo), sans-serif', fontSize:'24px', color:'#fff', letterSpacing:'1px', lineHeight:1 }}>
-            ARIOSETECH
-            <div style={{ ...M, fontSize:'8px', color:'var(--primary)', letterSpacing:'0.05em', textAlign:'right', marginTop:'2px' }}>Consider It Solved</div>
-          </div>
+          {logoUrl ? (
+            <img src={logoUrl} alt={siteName} style={{ height:'36px', width:'auto', objectFit:'contain' }} />
+          ) : (
+            <div style={{ fontFamily:'var(--font-logo), sans-serif', fontSize:'24px', color:'#fff', letterSpacing:'1px', lineHeight:1 }}>
+              {siteName}
+              <div style={{ ...M, fontSize:'8px', color:'var(--primary)', letterSpacing:'0.05em', textAlign:'right', marginTop:'2px' }}>{tagline}</div>
+            </div>
+          )}
         </Link>
 
         {/* Mobile nav */}

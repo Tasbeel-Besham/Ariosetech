@@ -1,4 +1,5 @@
 'use client'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 
@@ -62,6 +63,14 @@ const SOCIALS = [
 const M = { fontFamily: 'var(--font-mono)' } as const
 
 export default function Footer() {
+  const [logoUrl, setLogoUrl] = useState('')
+  const [siteName, setSiteName] = useState('ARIOSETECH')
+  useEffect(() => {
+    fetch('/api/settings').then(r => r.json()).then(d => {
+      if (d.logo_url) setLogoUrl(d.logo_url)
+      if (d.site_name) setSiteName(d.site_name)
+    }).catch(() => {})
+  }, [])
   return (
     <footer style={{ background:'var(--bg-2)', borderTop:'1px solid var(--border)' }}>
       {/* CTA banner */}
@@ -92,7 +101,7 @@ export default function Footer() {
           <div>
             <Link href="/" style={{ display:'flex', alignItems:'center', textDecoration:'none', flexShrink:0, marginBottom:'16px' }}>
               <div style={{ fontFamily:'var(--font-logo), sans-serif', fontSize:'24px', color:'#fff', letterSpacing:'1px', lineHeight:1 }}>
-                ARIOSETECH
+                {logoUrl ? <img src={logoUrl} alt={siteName} style={{ height:'32px', width:'auto', objectFit:'contain', display:'block' }} /> : siteName}
                 <div style={{ ...M, fontSize:'8px', color:'var(--primary)', letterSpacing:'0.05em', textAlign:'right', marginTop:'2px' }}>Consider It Solved</div>
               </div>
             </Link>
