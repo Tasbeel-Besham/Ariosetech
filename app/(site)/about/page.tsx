@@ -19,7 +19,7 @@ export default function AboutPage() {
       <AboutHeroSection />
 
       {/* Story */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '80px 0' }}>
+      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0' }}>
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -64,7 +64,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '80px 0', background: 'var(--bg-2)' }}>
+      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0', background: 'var(--bg-2)' }}>
         <div className="container">
           <Reveal>
             <p className="eyebrow">Our Values</p>
@@ -81,7 +81,7 @@ export default function AboutPage() {
               { icon: '🤝', title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth — we\'re your long-term web partner.' },
             ].map(({ icon, title, desc }) => (
               <div key={title} className='card' style={{ background: 'var(--bg-3)', padding: '28px' }}>
-                <div style={{ fontSize: '32px', marginBottom: '16px' }}>{icon}</div>
+                <div style={{ width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', marginBottom:'16px', fontSize:'22px' }}>{icon}</div>
                 <h3 style={{ ...hs, fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '10px' }}>{title}</h3>
                 <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{desc}</p>
               </div>
@@ -92,7 +92,7 @@ export default function AboutPage() {
       </section>
 
       {/* Clients we&apos;ve served */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '80px 0' }}>
+      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0' }}>
         <div className="container">
           <Reveal>
             <p className="eyebrow">Industries We Serve</p>
@@ -111,7 +111,7 @@ export default function AboutPage() {
       </section>
 
       {/* Clutch live review cards */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '80px 0', background: 'var(--bg-2)' }}>
+      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0', background: 'var(--bg-2)' }}>
         <div className="container">
           <Reveal>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
