@@ -1,19 +1,23 @@
-import { NextResponse } from 'next/server'
-import { getCollection } from '@/lib/db/mongodb'
-import { ObjectId } from 'mongodb'
-import type { PageDoc } from '@/types'
+import { MongoClient, ObjectId } from 'mongodb'
+import fs from 'fs'
 
-export const dynamic = 'force-dynamic'
+const envPath = '.env.local'
+if (fs.existsSync(envPath)) {
+  const content = fs.readFileSync(envPath, 'utf8')
+  content.split('\n').forEach(line => {
+    const match = line.match(/^([^=]+)=(.*)$/)
+    if (match) process.env[match[1]] = match[2].trim()
+  })
+}
+async function run() {
+  const uri = process.env.MONGODB_URI
+  if (!uri) throw new Error('No URI')
+  const client = new MongoClient(uri)
+  await client.connect()
+  const db = client.db(process.env.MONGODB_DB)
+  const pagesCol = db.collection('pages')
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const secret = searchParams.get('secret')
-  if (secret !== process.env.ADMIN_JWT_SECRET) {
-    return NextResponse.json({ error: 'Missing or wrong secret. Add ?secret=YOUR_ADMIN_JWT_SECRET to the URL.' }, { status: 401 })
-  }
-
-  try {
-    const sections = [
+  const sections = [
       { id: new ObjectId().toHexString(), type: 'hero', props: { eyebrow: 'Trusted by 100+ Businesses Worldwide', headline: 'We Build Websites That Drive\nReal Business Growth', subheadline: 'Expert WordPress, Shopify & WooCommerce development — optimized for speed, conversions, and long-term scale.', ctaPrimaryLabel: 'Get Free Strategy Call', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View Case Studies', ctaSecondaryHref: '/portfolio', trust: '7+ Years of Excellence,100+ Projects Delivered,24/7 Expert Support,30-Day Guarantee', stats: [{ value: '100+', label: 'Projects Delivered' }, { value: '7+', label: 'Years of Excellence' }, { value: '98%', label: 'Client Satisfaction' }, { value: '40+', label: 'Industries Served' }] } },
       { id: new ObjectId().toHexString(), type: 'logos', props: { label: 'Trusted by 100+ businesses', items: [{ value: 'The Kapra' }, { value: 'Dr. Scents' }, { value: 'Janya.pk' }, { value: 'GeoMag World' }, { value: 'Genovie' }, { value: 'WYOX Sports' }, { value: 'Snap Glam Spa' }, { value: 'CTV Promo' }, { value: 'US Bidding Estimating' }, { value: 'CMA Digital' }, { value: 'Zoom PC Hire' }, { value: 'Ocean Tech BPO' }, { value: 'Staffing Ocean' }, { value: 'BGMG Cosmetics' }, { value: 'Accident Law' }, { value: 'Fabric Wholesale' }] } },
       { id: new ObjectId().toHexString(), type: 'services-accordion', props: { eyebrow: 'What We Offer', headline: 'Comprehensive Web Development Solutions', intro: "Three core platforms. One expert team. We don't dabble — we specialise so you get the best results every time." } },
@@ -28,20 +32,10 @@ export async function GET(request: Request) {
       { id: new ObjectId().toHexString(), type: 'blog', props: { eyebrow: 'Knowledge Base', headline: 'Latest Insights & Tutorials', ctaLabel: 'All Articles', ctaHref: '/blog', limit: 3 } },
       { id: new ObjectId().toHexString(), type: 'faq', props: { eyebrow: 'FAQ', headline: 'Frequently Asked Questions', subheadline: "Can't find what you're looking for? We're here to help.", ctaLabel: 'Ask Us Anything', ctaHref: '/contact', items: [{ q: 'How long does a WordPress website take?', a: 'Most WordPress websites are completed within 2-4 weeks, depending on complexity and requirements. Complex projects may take 4-6 weeks.' }, { q: 'What is included in your maintenance plans?', a: 'Our maintenance plans include regular updates, security monitoring, performance optimization, backup management, and priority support. Plans start at $79/month.' }, { q: 'Do you offer a money-back guarantee?', a: "Yes. We offer a 30-day money-back guarantee on all our development projects. If you're not satisfied, we'll refund you in full." }, { q: 'Can you work with my existing WordPress site?', a: 'Absolutely. We work with existing WordPress sites for redesigns, migrations, speed optimization, security fixes, and feature additions.' }, { q: 'Do you offer ongoing support after launch?', a: 'Yes. Every project includes 30 days of free post-launch support. After that, we offer flexible monthly maintenance plans starting at $79/month.' }, { q: 'Can you migrate my existing store to Shopify or WooCommerce?', a: 'Yes! We provide complete migration services from all major e-commerce platforms including Shopify, WooCommerce, Magento, BigCommerce, and custom solutions.' }] } },
       { id: new ObjectId().toHexString(), type: 'cta', props: { eyebrow: 'Get Started Today', headline: 'Start Your Success Story Today', subheadline: 'Join 100+ successful businesses that chose ARIOSETECH for their web development needs. Professional results, affordable pricing, and ongoing support.', ctaPrimaryLabel: 'Schedule Free Consultation', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View Our Portfolio', ctaSecondaryHref: '/portfolio', tags: 'No Long-Term Contracts,30-Day Money-Back Guarantee,Free Post-Launch Support,Transparent Pricing' } },
-    ]
+  ]
 
-    const pagesCol = await getCollection<PageDoc>('pages')
-    const existing = await pagesCol.findOne({ fullPath: '/' })
-
-    if (existing) {
-      await pagesCol.updateOne({ fullPath: '/' }, { $set: { 'layout.sections': sections, updatedAt: new Date() } })
-      return NextResponse.json({ message: `Homepage updated with ${sections.length} sections — all hardcoded content is now in the builder!` })
-    } else {
-      await pagesCol.insertOne({ title: 'Home', slug: '', parentId: null, fullPath: '/', layout: { sections }, status: 'published', seo: { title: 'ARIOSETECH — Consider It Solved', description: 'Professional WordPress, Shopify & WooCommerce development since 2017. Trusted by 100+ businesses.', robots: { index: true, follow: true } }, createdAt: new Date(), updatedAt: new Date() })
-      return NextResponse.json({ message: `Homepage created with ${sections.length} sections — all hardcoded content is now in the builder!` })
-    }
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error)
-    return NextResponse.json({ error: message }, { status: 500 })
-  }
+  const r = await pagesCol.updateOne({ fullPath: '/' }, { $set: { 'layout.sections': sections, updatedAt: new Date() } })
+  console.log('Update result:', r)
+  await client.close()
 }
+run()

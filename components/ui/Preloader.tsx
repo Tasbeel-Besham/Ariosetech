@@ -90,6 +90,7 @@ export default function Preloader() {
               marginBottom: '0.05em',
               textAlign: 'center',
               width: '100%',
+              paddingRight: '0.08em', // Prevent slanted font from clipping on the right
               fontVariantNumeric: 'tabular-nums',
             } as React.CSSProperties}>
               {count}
