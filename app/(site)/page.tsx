@@ -1,23 +1,10 @@
 import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc, PortfolioDoc } from '@/types'
 import HomeClient from './HomeClient'
-import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
-import type { PageDoc, SectionInstance } from '@/types'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  // Prefer rendering the homepage from the Builder layout (so admin can edit sections).
-  try {
-    const pagesCol = await getCollection<PageDoc>('pages')
-    const home = await pagesCol.findOne({ fullPath: '/' })
-    const layout = (home as unknown as PageDoc | null)?.layout
-    const sections = (layout?.sections || []) as SectionInstance[]
-    if (sections.length > 0) return <BuilderRenderer sections={sections} />
-  } catch {
-    // DB not configured — fall back to hardcoded HomeClient
-  }
-
   let blogs: Parameters<typeof HomeClient>[0]['blogs'] = []
   let portfolio: Parameters<typeof HomeClient>[0]['portfolio'] = []
 
