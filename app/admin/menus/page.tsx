@@ -9,6 +9,8 @@ type Menu    = { _id?: string; location: string; name: string; items: NavItem[] 
 
 const LOCATIONS = [
   { value: 'header', label: 'Header Navigation' },
+  { value: 'services_mega', label: 'Services Mega Menu' },
+  { value: 'tools', label: 'Tools Dropdown' },
   { value: 'footer', label: 'Footer Navigation' },
   { value: 'mobile', label: 'Mobile Menu' },
 ]
@@ -17,13 +19,67 @@ const LOCATIONS = [
 const DEFAULTS: Record<string, NavItem[]> = {
   header: [
     { label: 'Home',      href: '/' },
-    { label: 'WordPress', href: '/services/wordpress' },
-    { label: 'Shopify',   href: '/services/shopify' },
-    { label: 'WooCommerce', href: '/services/woocommerce' },
+    { label: 'Services',  href: '/services/wordpress' },
     { label: 'Portfolio', href: '/portfolio' },
-    { label: 'About Us',  href: '/about' },
-    { label: 'Contact',   href: '/contact' },
+    { label: 'Tools',     href: '/tools/wordpress-theme-detector' },
+    { label: 'About',     href: '/about' },
     { label: 'Blog',      href: '/blog' },
+  ],
+  services_mega: [
+    {
+      label: 'WordPress', href: '/services/wordpress',
+      children: [
+        { label: 'Website Development',   href: '/services/wordpress' },
+        { label: 'Migration Services',    href: '/services/wordpress#migration' },
+        { label: 'Bug & Error Fixing',    href: '/services/wordpress#bugs' },
+        { label: 'Maintenance & Support', href: '/services/wordpress#maintenance' },
+        { label: 'Speed Optimization',    href: '/services/wordpress#speed' },
+        { label: 'Security Services',     href: '/services/wordpress#security' },
+        { label: 'Virus Removal',         href: '/services/wordpress#virus-removal' },
+        { label: 'Backup Solutions',      href: '/services/wordpress#backup' },
+        { label: 'Website Redesign',      href: '/services/wordpress#redesign' },
+        { label: 'Multilingual Websites', href: '/services/wordpress#multilingual' },
+      ]
+    },
+    {
+      label: 'WooCommerce', href: '/services/woocommerce',
+      children: [
+        { label: 'Store Development',        href: '/services/woocommerce' },
+        { label: 'Theme Customization',      href: '/services/woocommerce#theme' },
+        { label: 'Payment Gateway',          href: '/services/woocommerce#payments' },
+        { label: 'Performance Optimization', href: '/services/woocommerce#performance' },
+        { label: 'Maintenance & Support',    href: '/services/woocommerce#maintenance' },
+        { label: 'Multi-vendor Solutions',   href: '/services/woocommerce#multivendor' },
+        { label: 'Multilingual Websites',    href: '/services/woocommerce#multilingual' },
+        { label: 'Migration Services',       href: '/services/woocommerce#migration' },
+      ]
+    },
+    {
+      label: 'Shopify', href: '/services/shopify',
+      children: [
+        { label: 'Store Development',        href: '/services/shopify' },
+        { label: 'Migration Services',       href: '/services/shopify#migration' },
+        { label: 'Performance Optimization', href: '/services/shopify#performance' },
+        { label: 'Integration Services',     href: '/services/shopify#integrations' },
+        { label: 'Maintenance & Support',    href: '/services/shopify#maintenance' },
+        { label: 'Shopify Plus',             href: '/services/shopify#plus' },
+        { label: 'Store Redesign',           href: '/services/shopify#redesign' },
+        { label: 'App Development',          href: '/services/shopify#app-dev' },
+      ]
+    },
+    {
+      label: 'SEO', href: '/services/seo',
+      children: [
+        { label: 'Website SEO',   href: '/services/seo#website-seo' },
+        { label: 'Local SEO',     href: '/services/seo#local-seo' },
+        { label: 'Technical SEO', href: '/services/seo#technical-seo' },
+        { label: 'SEO Content',   href: '/services/seo#seo-content' },
+      ]
+    }
+  ],
+  tools: [
+    { label: 'WordPress Theme Detector', href: '/tools/wordpress-theme-detector' },
+    { label: 'Shopify Theme Detector',   href: '/tools/shopify-theme-detector' },
   ],
   footer: [
     { 
@@ -69,10 +125,10 @@ const DEFAULTS: Record<string, NavItem[]> = {
   ],
   mobile: [
     { label: 'Home',      href: '/' },
-    { label: 'WordPress', href: '/services/wordpress' },
-    { label: 'Shopify',   href: '/services/shopify' },
-    { label: 'WooCommerce', href: '/services/woocommerce' },
+    { label: 'Services',  href: '/services/wordpress' },
     { label: 'Portfolio', href: '/portfolio' },
+    { label: 'Blog',      href: '/blog' },
+    { label: 'About',     href: '/about' },
     { label: 'Contact',   href: '/contact' },
   ],
 }

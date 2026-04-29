@@ -108,6 +108,44 @@ const NAV_LINKS = [
   { label: 'Blog',      href: '/blog' },
 ]
 
+// ICONS mapping for dynamic services
+const ICONS: Record<string, React.ReactNode> = {
+  wordpress: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </svg>
+  ),
+  woocommerce: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+  ),
+  shopify: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+    </svg>
+  ),
+  seo: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>
+  ),
+  default: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+    </svg>
+  )
+}
+
+function getIcon(label: string) {
+  const l = label.toLowerCase()
+  if (l.includes('wordpress')) return ICONS.wordpress
+  if (l.includes('woocommerce')) return ICONS.woocommerce
+  if (l.includes('shopify')) return ICONS.shopify
+  if (l.includes('seo')) return ICONS.seo
+  return ICONS.default
+}
+
 /* ── Nub pointer ── */
 function Nub({ selected }: { selected: number | null }) {
   const [left, setLeft] = useState(0)
@@ -137,12 +175,14 @@ function ServicesPanel({
   onEnter,
   onLeave,
   onTabHover,
+  tabs
 }: {
   selected: number | null
   dir: 'l' | 'r' | null
   onEnter: () => void
   onLeave: () => void
   onTabHover: (tabId: number) => void
+  tabs: any[]
 }) {
   return (
     <motion.div
@@ -170,7 +210,7 @@ function ServicesPanel({
       <div className="container" style={{ padding: '28px 0 32px' }}>
         {/* Tab row */}
         <div style={{ display: 'flex', gap: '6px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '20px' }}>
-          {SERVICE_TABS.map(t => (
+          {tabs.map(t => (
             <a
               key={t.id}
               id={`svc-tab-${t.id}`}
@@ -196,7 +236,7 @@ function ServicesPanel({
 
         {/* Sliding content */}
         <div style={{ overflow: 'hidden', minHeight: '180px' }}>
-          {SERVICE_TABS.map(t => (
+          {tabs.map(t => (
             <div key={t.id} style={{ display: selected === t.id ? 'block' : 'none' }}>
               {selected === t.id && (
                 <motion.div
@@ -205,7 +245,7 @@ function ServicesPanel({
                   transition={{ duration: 0.22, ease: 'easeOut' }}
                 >
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '4px' }}>
-                    {t.items.map(item => (
+                    {t.items.map((item: any) => (
                       <Link key={item.href} href={item.href} style={{
                         display: 'flex', alignItems: 'center', gap: '8px',
                         padding: '9px 12px', borderRadius: '8px',
@@ -251,7 +291,7 @@ function ServicesPanel({
 }
 
 /* ── Tools mini dropdown ── */
-function ToolsPanel({ onEnter, onLeave }: { onEnter: () => void; onLeave: () => void }) {
+function ToolsPanel({ onEnter, onLeave, links }: { onEnter: () => void; onLeave: () => void; links: any[] }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 6 }}
@@ -274,7 +314,7 @@ function ToolsPanel({ onEnter, onLeave }: { onEnter: () => void; onLeave: () => 
       }}
     >
       <div style={{ position: 'absolute', top: '-12px', left: 0, right: 0, height: '12px' }} />
-      {TOOL_LINKS.map(t => (
+      {links.map(t => (
         <Link key={t.href} href={t.href} style={{
           display: 'flex', alignItems: 'flex-start', gap: '10px',
           padding: '10px 8px', borderRadius: '10px',
@@ -287,7 +327,7 @@ function ToolsPanel({ onEnter, onLeave }: { onEnter: () => void; onLeave: () => 
           <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)', flexShrink: 0, display: 'block', marginTop: '7px' }} />
           <span>
             <p style={{ ...F, fontSize: '14px', fontWeight: 600, marginBottom: '2px' }}>{t.label}</p>
-            <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)' }}>{t.desc}</p>
+            {t.desc && <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)' }}>{t.desc}</p>}
           </span>
         </Link>
       ))}
@@ -297,7 +337,7 @@ function ToolsPanel({ onEnter, onLeave }: { onEnter: () => void; onLeave: () => 
 
 /* ── Mobile Drawer ── */
 function MobileDrawer({
-  open, setOpen, isActive, siteName, tagline, logoUrl
+  open, setOpen, isActive, siteName, tagline, logoUrl, navLinks, serviceTabs
 }: {
   open: boolean
   setOpen: (v: boolean) => void
@@ -305,6 +345,8 @@ function MobileDrawer({
   siteName: string
   tagline: string
   logoUrl: string
+  navLinks: any[]
+  serviceTabs: any[]
 }) {
   const [scope, animate] = useAnimate()
   const [drawerRef, { height }] = useMeasure()
@@ -387,7 +429,7 @@ function MobileDrawer({
 
           {/* Primary links */}
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '28px' }}>
-            {NAV_LINKS.map(item => (
+            {navLinks.map(item => (
               <Link key={item.href} href={item.href} style={{
                 display: 'block', padding: '12px 14px', borderRadius: '12px',
                 ...F, fontSize: '16px', fontWeight: 600, textDecoration: 'none',
@@ -405,7 +447,7 @@ function MobileDrawer({
           <div style={{ marginBottom: '32px' }}>
             <p style={{ ...M, fontSize: '9px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: '12px', paddingLeft: '14px' }}>Services</p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
-              {SERVICE_TABS.map(t => (
+              {serviceTabs.map(t => (
                 <Link key={t.id} href={t.href} style={{
                   display: 'flex', alignItems: 'center', gap: '8px',
                   padding: '10px 12px', borderRadius: '10px',
@@ -439,6 +481,11 @@ export default function Navbar() {
   const [tagline]                   = useState('Consider It Solved')
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  // Dynamic state
+  const [navLinks, setNavLinks] = useState(NAV_LINKS)
+  const [serviceTabs, setServiceTabs] = useState(SERVICE_TABS)
+  const [toolLinks, setToolLinks] = useState(TOOL_LINKS)
+
   // Services shifting state
   const [megaOpen, setMegaOpen]   = useState(false)
   const [activeTab, setActiveTab] = useState<number | null>(null)
@@ -454,8 +501,11 @@ export default function Navbar() {
   useEffect(() => {
     Promise.all([
       fetch('/api/header').then(r => r.json()).catch(() => ({})),
-      fetch('/api/settings').then(r => r.json()).catch(() => ({}))
-    ]).then(([headerData, settingsData]) => {
+      fetch('/api/settings').then(r => r.json()).catch(() => ({})),
+      fetch('/api/menus?location=header').then(r => r.json()).catch(() => []),
+      fetch('/api/menus?location=services_mega').then(r => r.json()).catch(() => []),
+      fetch('/api/menus?location=tools').then(r => r.json()).catch(() => [])
+    ]).then(([headerData, settingsData, headerMenu, servicesMenu, toolsMenu]) => {
       const logo = String(settingsData.logo_url || headerData.logo || '').trim()
       if (logo) setLogoUrl(logo)
       
@@ -463,6 +513,32 @@ export default function Navbar() {
       if (alt) setSiteName(alt)
       
       if (headerData.logoWidth) setLogoWidth(Number(headerData.logoWidth) || 160)
+
+      if (Array.isArray(headerMenu) && headerMenu.length > 0) {
+        setNavLinks(headerMenu[0].items.map((i: any) => ({
+          ...i,
+          hasMega: i.label.toLowerCase() === 'services',
+          hasTools: i.label.toLowerCase() === 'tools',
+        })))
+      }
+
+      if (Array.isArray(servicesMenu) && servicesMenu.length > 0) {
+        setServiceTabs(servicesMenu[0].items.map((i: any, idx: number) => ({
+          id: idx + 1,
+          label: i.label,
+          href: i.href,
+          icon: getIcon(i.label),
+          items: i.children || []
+        })))
+      }
+
+      if (Array.isArray(toolsMenu) && toolsMenu.length > 0) {
+        setToolLinks(toolsMenu[0].items.map((i: any) => ({
+          label: i.label,
+          href: i.href,
+          desc: i.desc || ''
+        })))
+      }
     })
   }, [])
 
@@ -486,7 +562,7 @@ export default function Navbar() {
       setTabDir(activeTab !== null && activeTab !== tabId ? (activeTab > tabId ? 'r' : 'l') : null)
       setActiveTab(tabId)
     } else if (activeTab === null) {
-      setActiveTab(SERVICE_TABS[0].id)
+      setActiveTab(serviceTabs[0]?.id || 1)
     }
   }
   const closeMega = () => {
@@ -546,63 +622,46 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex" style={{ flex: 1, alignItems: 'center', gap: '2px' }}>
-
-          {/* Services trigger — lives outside the tab tabs */}
-          <div
-            style={{ position: 'relative' }}
-            onMouseEnter={() => openMega()}
-            onMouseLeave={closeMega}
-          >
-            <Link href="/services/wordpress" style={{
-              display: 'flex', alignItems: 'center', gap: '4px', padding: '7px 12px', borderRadius: '8px',
-              ...F, fontSize: '14px', fontWeight: 500,
-              color: isActive('/services') ? '#fff' : 'var(--text-2)',
-              background: isActive('/services') ? 'var(--primary-soft)' : megaOpen ? 'rgba(255,255,255,0.05)' : 'transparent',
-              transition: 'all 0.2s cubic-bezier(0.22,1,0.36,1)',
-              textDecoration: 'none',
-            }}
-              onMouseEnter={e => { if (!isActive('/services')) { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)' } }}
-              onMouseLeave={e => { if (!isActive('/services') && !megaOpen) { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.background = 'transparent' } }}
-            >
-              Services
-              <ChevronSVG open={megaOpen} />
-            </Link>
-          </div>
-
-          {/* Other nav items */}
-          {NAV_LINKS.filter(i => !i.hasMega).map(item => (
+          {navLinks.map(item => {
+            const hasMega = item.hasMega
+            const hasTools = item.hasTools
+            
+            return (
             <div key={item.href} style={{ position: 'relative' }}
-              onMouseEnter={item.hasTools ? openTools : undefined}
-              onMouseLeave={item.hasTools ? closeTools : undefined}
+              onMouseEnter={hasMega ? () => openMega() : (hasTools ? openTools : undefined)}
+              onMouseLeave={hasMega ? closeMega : (hasTools ? closeTools : undefined)}
             >
               <Link href={item.href} style={{
                 display: 'flex', alignItems: 'center', gap: '4px', padding: '7px 12px', borderRadius: '8px',
                 ...F, fontSize: '14px', fontWeight: 500,
                 color: isActive(item.href) ? '#fff' : 'var(--text-2)',
-                background: isActive(item.href) ? 'var(--primary-soft)' : 'transparent',
+                background: isActive(item.href) ? 'var(--primary-soft)' : (hasMega && megaOpen) ? 'rgba(255,255,255,0.05)' : 'transparent',
                 transition: 'all 0.2s cubic-bezier(0.22,1,0.36,1)',
                 textDecoration: 'none',
               }}
                 onMouseEnter={e => { if (!isActive(item.href)) { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)' } }}
-                onMouseLeave={e => { if (!isActive(item.href)) { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.background = 'transparent' } }}
+                onMouseLeave={e => { if (!isActive(item.href) && !(hasMega && megaOpen)) { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.background = 'transparent' } }}
               >
                 {item.label}
-                {item.hasTools && <ChevronSVG open={toolsOpen} />}
+                {hasMega && <ChevronSVG open={megaOpen} />}
+                {hasTools && <ChevronSVG open={toolsOpen} />}
               </Link>
 
               {/* Tools dropdown */}
               <AnimatePresence>
-                {item.hasTools && toolsOpen && (
-                  <ToolsPanel onEnter={openTools} onLeave={closeTools} />
+                {hasTools && toolsOpen && (
+                  <ToolsPanel onEnter={openTools} onLeave={closeTools} links={toolLinks} />
                 )}
               </AnimatePresence>
             </div>
-          ))}
+            )
+          })}
 
           {/* Services mega panel — tab tabs inside it */}
           <AnimatePresence>
             {megaOpen && (
               <ServicesPanel
+                tabs={serviceTabs}
                 selected={activeTab}
                 dir={tabDir}
                 onTabHover={(tabId) => {
@@ -633,7 +692,16 @@ export default function Navbar() {
     </header>
 
     {/* ── Mobile Drawer ── */}
-    <MobileDrawer open={mobileOpen} setOpen={setMobileOpen} isActive={isActive} siteName={siteName} tagline={tagline} logoUrl={logoUrl} />
+    <MobileDrawer 
+      open={mobileOpen} 
+      setOpen={setMobileOpen} 
+      isActive={isActive} 
+      siteName={siteName} 
+      tagline={tagline} 
+      logoUrl={logoUrl} 
+      navLinks={navLinks}
+      serviceTabs={serviceTabs}
+    />
     </>
   )
 }
