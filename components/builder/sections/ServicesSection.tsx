@@ -52,8 +52,7 @@ export default function ServicesSection({ eyebrow='What We Offer', headline='Com
             const svgIcon = getIcon(svc.icon, svc.title)
             return (
               <div key={i} className="card card-hover sr" style={{ display:'flex', flexDirection:'column', animationDelay:`${i*0.07}s` }}>
-                <div style={{ height:'3px', background:'var(--grad)' }} />
-                <div style={{ padding:'36px', flex:1, display:'flex', flexDirection:'column' }}>
+                                <div style={{ padding:'36px', flex:1, display:'flex', flexDirection:'column' }}>
                   <div style={{ display:'flex', alignItems:'flex-start', gap:'16px', marginBottom:'20px' }}>
                     <div style={{ width:'52px', height:'52px', borderRadius:'14px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, color:'var(--primary)', padding:'12px' }}
                       dangerouslySetInnerHTML={{ __html: svgIcon }} />

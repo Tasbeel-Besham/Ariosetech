@@ -57,7 +57,7 @@ export default async function PortfolioPage() {
                 const color = CAT_COLOR[item.category] || '#766cff'
                 return (
                   <Link key={String(item._id)} href={`/portfolio/${item.slug}`}
-                    style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.3s var(--ease)' }}
+                    className='card card-hover' style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', transition: 'all 0.3s var(--ease)' }}
                     onMouseEnter={undefined} className="card-hover">
                     <div style={{ height: '4px', background: `linear-gradient(90deg, ${color}, ${color}66)` }} />
                     <div style={{ padding: '26px', flex: 1, display: 'flex', flexDirection: 'column' }}>

@@ -63,8 +63,7 @@ export default function PortfolioSection({ eyebrow='Our Work', headline='Success
                 if (img) img.style.transform = 'translateY(0%)'
               }}
             >
-              <div style={{ height: '3px', background: 'var(--grad)' }} />
-              {/* Image preview (scroll on hover) */}
+                            {/* Image preview (scroll on hover) */}
               <div style={{ height: '180px', overflow: 'hidden', position: 'relative', borderBottom: '1px solid var(--border)' }}>
                 <div
                   data-ps-img

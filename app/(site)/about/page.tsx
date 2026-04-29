@@ -52,7 +52,7 @@ export default function AboutPage() {
                   { value: '40+', label: 'Industries Served', color: 'var(--green)' },
                   { value: '5.0★', label: 'Clutch Rating', color: 'var(--amber)' },
                 ].map(({ value, label, color }) => (
-                  <div key={label} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', textAlign: 'center' }}>
+                  <div key={label} className='card' style={{ padding: '28px', textAlign: 'center' }}>
                     <p style={{ ...hs, fontSize: '2rem', fontWeight: 800, color, lineHeight: 1, marginBottom: '8px' }}>{value}</p>
                     <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{label}</p>
                   </div>
@@ -80,7 +80,7 @@ export default function AboutPage() {
               { icon: '⚡', title: 'Speed Without Compromise', desc: 'We deliver fast because we\'ve done it before. Our team knows these platforms inside out — no learning on your dime.' },
               { icon: '🤝', title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth — we\'re your long-term web partner.' },
             ].map(({ icon, title, desc }) => (
-              <div key={title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
+              <div key={title} className='card' style={{ background: 'var(--bg-3)', padding: '28px' }}>
                 <div style={{ fontSize: '32px', marginBottom: '16px' }}>{icon}</div>
                 <h3 style={{ ...hs, fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '10px' }}>{title}</h3>
                 <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{desc}</p>

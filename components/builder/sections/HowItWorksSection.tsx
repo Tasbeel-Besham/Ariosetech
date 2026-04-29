@@ -19,7 +19,7 @@ export default function HowItWorksSection({ eyebrow='Our Process', headline='How
           {safe.map((step,i) => {
             const isRight = i % 2 !== 0
             const card = (dir: 'left'|'right') => (
-              <div style={{ background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'20px', padding:'32px 36px', transition:'all 0.3s var(--ease)' }}
+              <div style={{ background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'20px', padding:'32px 36px', overflow:'hidden', position:'relative', transition:'all 0.3s var(--ease)' }}
                 onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='rgba(118,108,255,0.35)';el.style.transform=`translateX(${dir==='left'?'-':''}6px)`}}
                 onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor='var(--border)';el.style.transform=''}}>
                 <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>

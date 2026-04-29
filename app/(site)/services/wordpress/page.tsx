@@ -279,7 +279,7 @@ export default async function WordPressPage() {
 
                   {/* Feature Card */}
                   <div style={{ order: isEven ? 2 : 1 }} className={isEven ? "lg:order-2" : "lg:order-1"}>
-                    <div style={{ background: 'linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '40px', boxShadow: '0 24px 64px rgba(0,0,0,0.4)', position: 'relative', overflow: 'hidden' }}>
+                    <div className='card' style={{ padding: '40px' }}>
                       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '2px', background: 'var(--grad)' }} />
                       
                       <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>What&apos;s Included</p>
@@ -373,7 +373,7 @@ export default async function WordPressPage() {
               { industry: 'Retail', challenge: 'WordPress with e-commerce functionality', solution: 'WooCommerce integration with custom features', result: '150%', resultLabel: 'increase in online sales' },
               { industry: 'International Business', challenge: '5-language website with complex navigation', solution: 'WPML-powered multilingual WordPress site', result: '300%', resultLabel: 'increase in international inquiries' },
             ].map((cs, i) => (
-              <div key={i} className="sr card-hover" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.1}s` }}>
+              <div key={i} className='card card-hover sr' style={{ background: 'var(--bg-3)', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.1}s` }}>
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
                 <div style={{ padding: '36px' }}>
                   <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: '16px' }}>{cs.industry}</p>

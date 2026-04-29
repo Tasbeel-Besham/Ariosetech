@@ -50,8 +50,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
             <Link key={post._id} href={`/blog/${post.slug}`} className="sr" style={{ display:'flex', flexDirection:'column', textDecoration:'none', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'20px', overflow:'hidden', transition:'all 0.25s var(--ease)' }}
               onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='rgba(118,108,255,0.3)';el.style.transform='translateY(-5px)'}}
               onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor='var(--border)';el.style.transform=''}}>
-              <div style={{ height:'3px', background:'var(--grad)' }} />
-              <div style={{ padding:'26px', flex:1, display:'flex', flexDirection:'column' }}>
+                            <div style={{ padding:'26px', flex:1, display:'flex', flexDirection:'column' }}>
                 <span style={{ ...M, fontSize:'9px', textTransform:'uppercase', letterSpacing:'0.14em', color:'var(--primary)', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', padding:'4px 12px', borderRadius:'var(--r-f)', display:'inline-block', marginBottom:'14px', width:'fit-content', fontWeight:700 }}>{post.category}</span>
                 <h3 style={{ ...F, fontSize:'17px', fontWeight:700, color:'#fff', lineHeight:1.3, marginBottom:'10px', flex:1 }}>{post.title}</h3>
                 <p style={{ fontSize:'13px', color:'var(--text-3)', lineHeight:1.7, marginBottom:'16px', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden' }}>{post.excerpt}</p>
