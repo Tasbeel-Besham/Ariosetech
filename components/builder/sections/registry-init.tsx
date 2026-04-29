@@ -3,6 +3,7 @@ import { registerSection, getSection } from '@/lib/builder/registry'
 // ── All section components ────────────────────────────────────────
 import HeroSection from './HeroSection'
 import ServicesSection from './ServicesSection'
+import ServicesAccordionSection from './ServicesAccordionSection'
 import WhyUsSection from './WhyUsSection'
 import PortfolioSection from './PortfolioSection'
 import TestimonialsSection from './TestimonialsSection'
@@ -55,7 +56,23 @@ export function initRegistry() {
     ],
   })
 
-  // ── SERVICES ──────────────────────────────────────────────────
+  // ── SERVICES ACCORDION ─────────────────────────────────────────
+  registerSection({
+    type: 'services-accordion', label: 'Services Accordion (Tabs)', category: 'Sections', icon: '🗂️',
+    component: ServicesAccordionSection as React.FC<Record<string, unknown>>,
+    defaultProps: {
+      eyebrow: 'What We Offer',
+      headline: 'Comprehensive Web Development Solutions',
+      intro: "Three core platforms. One expert team. We don't dabble — we specialise so you get the best results every time.",
+    },
+    schema: [
+      { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
+      { type: 'text',     name: 'headline', label: 'Section headline' },
+      { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
+    ],
+  })
+
+  // ── SERVICES GRID ─────────────────────────────────────────────
   registerSection({
     type: 'services', label: 'Services Grid', category: 'Sections', icon: '⚙️',
     component: ServicesSection as React.FC<Record<string, unknown>>,
