@@ -28,6 +28,64 @@ export default function FooterAdmin() {
   const removeLink = (ci: number, li: number) => updateCol(ci, 'links', cols[ci].links.filter((_, j) => j !== li))
   const updateLink = (ci: number, li: number, key: string, val: string) => updateCol(ci, 'links', cols[ci].links.map((l, j) => j === li ? { ...l, [key]: val } : l))
 
+  const populateMegaMenu = () => {
+    if (confirm('This will replace your current columns with the WordPress, WooCommerce, and Shopify mega menu columns. Continue?')) {
+      setCols([
+        {
+          title: 'WordPress',
+          links: [
+            { label: 'Website Development',   href: '/services/wordpress' },
+            { label: 'Migration Services',    href: '/services/wordpress#migration' },
+            { label: 'Bug & Error Fixing',    href: '/services/wordpress#bugs' },
+            { label: 'Maintenance & Support', href: '/services/wordpress#maintenance' },
+            { label: 'Speed Optimization',    href: '/services/wordpress#speed' },
+            { label: 'Security Services',     href: '/services/wordpress#security' },
+            { label: 'Virus Removal',         href: '/services/wordpress#virus-removal' },
+            { label: 'Backup Solutions',      href: '/services/wordpress#backup' },
+            { label: 'Website Redesign',      href: '/services/wordpress#redesign' },
+            { label: 'Multilingual Websites', href: '/services/wordpress#multilingual' },
+          ]
+        },
+        {
+          title: 'WooCommerce',
+          links: [
+            { label: 'Store Development',        href: '/services/woocommerce' },
+            { label: 'Theme Customization',      href: '/services/woocommerce#theme' },
+            { label: 'Payment Gateway',          href: '/services/woocommerce#payments' },
+            { label: 'Performance Optimization', href: '/services/woocommerce#performance' },
+            { label: 'Maintenance & Support',    href: '/services/woocommerce#maintenance' },
+            { label: 'Multi-vendor Solutions',   href: '/services/woocommerce#multivendor' },
+            { label: 'Multilingual Websites',    href: '/services/woocommerce#multilingual' },
+            { label: 'Migration Services',       href: '/services/woocommerce#migration' },
+          ]
+        },
+        {
+          title: 'Shopify',
+          links: [
+            { label: 'Store Development',        href: '/services/shopify' },
+            { label: 'Migration Services',       href: '/services/shopify#migration' },
+            { label: 'Performance Optimization', href: '/services/shopify#performance' },
+            { label: 'Integration Services',     href: '/services/shopify#integrations' },
+            { label: 'Maintenance & Support',    href: '/services/shopify#maintenance' },
+            { label: 'Shopify Plus',             href: '/services/shopify#plus' },
+            { label: 'Store Redesign',           href: '/services/shopify#redesign' },
+            { label: 'App Development',          href: '/services/shopify#app-dev' },
+          ]
+        },
+        {
+          title: 'Company',
+          links: [
+            { label: 'About Us',  href: '/about' },
+            { label: 'Portfolio', href: '/portfolio' },
+            { label: 'Blog',      href: '/blog' },
+            { label: 'Contact',   href: '/contact' },
+          ]
+        }
+      ]);
+      toast.success('Columns populated! Remember to click Save Footer.');
+    }
+  }
+
   const save = async () => {
     setSaving(true)
     await fetch('/api/footer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(config) })
@@ -81,7 +139,10 @@ export default function FooterAdmin() {
         <div style={card}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>🔗 Navigation Columns</h2>
-            <button onClick={addCol} className="btn btn-outline btn-sm"><Plus size={12} /> Add Column</button>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button onClick={populateMegaMenu} className="btn btn-outline btn-sm" style={{ borderColor: 'rgba(118,108,255,0.4)', color: 'var(--primary)' }}>Populate Mega Menu</button>
+              <button onClick={addCol} className="btn btn-outline btn-sm"><Plus size={12} /> Add Column</button>
+            </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px' }}>
             {cols.map((col, ci) => (

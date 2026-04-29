@@ -87,7 +87,7 @@ export default function Footer() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize:'clamp(1.4rem,3vw,2rem)', fontWeight:800, color:'#fff', marginBottom:'6px', letterSpacing:'-0.02em' }}>
               {ctaHeadline}
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize:'15px', color:'var(--text-2)', lineHeight:1.6 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize:'15px', color:'var(--text-2)', lineHeight:1.6, fontWeight: 500 }}>
               {ctaDesc}
             </p>
           </div>
@@ -111,22 +111,22 @@ export default function Footer() {
                 {logoUrl ? <img src={logoUrl} alt={siteName} style={{ height:'32px', width:'auto', objectFit:'contain', display:'block' }} /> : siteName}
               </div>
             </Link>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize:'14px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'24px', maxWidth:'280px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'24px', maxWidth:'280px', fontWeight: 500 }}>
               {tagline}
             </p>
             {/* Contact quick links */}
             <div style={{ display:'flex', flexDirection:'column', gap:'10px', marginBottom:'22px' }}>
-              <a href="mailto:info@ariosetech.com" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'8px', fontSize:'14px', color:'var(--text-3)', textDecoration:'none' }}
+              <a href="mailto:info@ariosetech.com" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', color:'var(--text-3)', textDecoration:'none', fontWeight: 500 }}
                 onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
                 onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
                 <Mail size={14} style={{ flexShrink:0 }} /> info@ariosetech.com
               </a>
-              <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'8px', fontSize:'14px', color:'var(--text-3)', textDecoration:'none' }}
+              <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', color:'var(--text-3)', textDecoration:'none', fontWeight: 500 }}
                 onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
                 onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
                 <Phone size={14} style={{ flexShrink:0 }} /> +92 300 9484 739
               </a>
-              <p style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'flex-start', gap:'8px', fontSize:'14px', color:'var(--text-3)', margin:0, maxWidth:'240px', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'flex-start', gap:'8px', fontSize:'13px', color:'var(--text-3)', margin:0, maxWidth:'240px', lineHeight: 1.6, fontWeight: 500 }}>
                 <MapPin size={14} style={{ flexShrink:0, marginTop:'3px' }} />
                 95 College Road, Block E, PCSIR Staff Colony, Lahore, 54770
               </p>
@@ -152,7 +152,7 @@ export default function Footer() {
                 <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'12px' }}>
                   {col.links.map((item: any) => (
                     <li key={item.href}>
-                      <Link href={item.href} target={item.target || '_self'} style={{ fontFamily: 'var(--font-body)', fontSize:'14px', color:'rgba(255,255,255,0.65)', textDecoration:'none', transition:'color 0.2s', fontWeight: 500 }}
+                      <Link href={item.href} target={item.target || '_self'} style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', transition:'color 0.2s', fontWeight: 500 }}
                         onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
                         onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.65)')}>
                         {item.label}
