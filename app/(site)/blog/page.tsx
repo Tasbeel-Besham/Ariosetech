@@ -42,9 +42,7 @@ export default async function BlogPage() {
           <div className="container">
             <p className="eyebrow sr" style={{ marginBottom:'24px' }}>Featured Article</p>
             <Link href={`/blog/${featured.slug}`} className="card card-hover sr"
-              style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px', alignItems:'center', textDecoration:'none', padding:'48px', transition:'all 0.3s var(--ease)' }}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)'}}
-              onMouseLeave={e=>{e.currentTarget.style.transform=''}}>
+              style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px', alignItems:'center', textDecoration:'none', padding:'48px', transition:'all 0.3s var(--ease)' }}>
               <div>
                 <span style={{ ...hm, fontSize:'10px', textTransform:'uppercase', letterSpacing:'0.1em', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.25)', color:'var(--primary)', padding:'4px 12px', borderRadius:'100px', display:'inline-block', marginBottom:'20px' }}>
                   {featured.category}
@@ -76,9 +74,7 @@ export default async function BlogPage() {
               {rest.map((post, i) => (
                 <Link key={String(post._id)} href={`/blog/${post.slug}`}
                   className="card card-hover sr"
-                  style={{ display:'flex', flexDirection:'column', textDecoration:'none', transition:'all 0.25s var(--ease)', animationDelay:`${i*0.06}s` }}
-                  onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)'}}
-                  onMouseLeave={e=>{e.currentTarget.style.transform=''}}>
+                  style={{ display:'flex', flexDirection:'column', textDecoration:'none', transition:'all 0.25s var(--ease)', animationDelay:`${i*0.06}s` }}>
                   <div style={{ padding:'26px', flex:1, display:'flex', flexDirection:'column' }}>
                     <span style={{ ...hm, fontSize:'9px', textTransform:'uppercase', letterSpacing:'0.14em', color:'var(--primary)', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', padding:'4px 12px', borderRadius:'var(--r-f)', display:'inline-block', marginBottom:'14px', width:'fit-content', fontWeight:700 }}>
                       {post.category}

@@ -57,9 +57,7 @@ export default async function PortfolioPage() {
                 return (
                   <Link key={String(item._id)} href={`/portfolio/${item.slug}`}
                     className="card card-hover sr"
-                    style={{ display:'flex', flexDirection:'column', textDecoration:'none', transition:'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}
-                    onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)'}}
-                    onMouseLeave={e=>{e.currentTarget.style.transform=''}}>
+                    style={{ display:'flex', flexDirection:'column', textDecoration:'none', transition:'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
                     <div style={{ padding:'26px', flex:1, display:'flex', flexDirection:'column' }}>
                       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'12px' }}>
                         <span style={{ ...M, fontSize:'9px', textTransform:'uppercase', letterSpacing:'0.1em', color, background:`${color}18`, border:`1px solid ${color}35`, padding:'3px 10px', borderRadius:'100px' }}>

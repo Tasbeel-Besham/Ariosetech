@@ -148,6 +148,7 @@
   }
   .card-hover:hover {
     border-color: rgba(118,108,255,0.3);
+    transform: translateY(-5px);
     transform: translateY(-6px);
     box-shadow: 0 32px 80px rgba(0,0,0,0.6);
   }
