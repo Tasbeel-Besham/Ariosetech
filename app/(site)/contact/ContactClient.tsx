@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Mail, Phone, MapPin, Clock, MessageCircle } from '@/components/ui/Icons'
 import ClutchWidget from '@/components/ui/ClutchWidget'
