@@ -32,27 +32,218 @@ export default function ContactClient() {
     finally { setSending(false) }
   }
 
-  /* ── shared input style ───────────────────────────────── */
-  const inp: React.CSSProperties = {
+  const inpShared = {
     width:'100%', background:'rgba(255,255,255,0.03)',
     border:'1px solid var(--border)', borderRadius:'12px',
-    padding:'16px 20px', fontSize:'15px', color:'var(--text)',
+    fontSize:'15px', color:'var(--text)',
     outline:'none', fontFamily:'var(--font-body)',
-    transition:'border-color 0.18s, box-shadow 0.18s',
-    boxSizing:'border-box',
+    transition:'border-color 0.2s, box-shadow 0.2s, background 0.2s',
+    boxSizing:'border-box' as const,
   }
-  const lbl: React.CSSProperties = {
-    ...M, fontSize:'11px', color:'var(--text-2)',
-    textTransform:'uppercase', letterSpacing:'0.12em',
-    display:'block', marginBottom:'10px', fontWeight:700,
+
+  const FloatingInput = ({ label, type='text', value, onChange, required, multiline=false }: any) => {
+    const [focused, setFocused] = useState(false)
+    const active = focused || value.length > 0
+    
+    return (
+      <div style={{ position:'relative', width:'100%' }}>
+        {multiline ? (
+          <textarea
+            value={value} onChange={e => onChange(e.target.value)} required={required}
+            style={{
+              ...inpShared,
+              padding: '24px 20px 16px', minHeight: '140px', resize: 'vertical',
+              borderColor: focused ? 'rgba(118,108,255,0.55)' : 'var(--border)',
+              boxShadow: focused ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
+              background: focused ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
+            }}
+            onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+          />
+        ) : (
+          <input
+            type={type} value={value} onChange={e => onChange(e.target.value)} required={required}
+            style={{
+              ...inpShared,
+              padding: '22px 20px 10px', height: '56px',
+              borderColor: focused ? 'rgba(118,108,255,0.55)' : 'var(--border)',
+              boxShadow: focused ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
+              background: focused ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
+            }}
+            onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+          />
+        )}
+        <label style={{
+          position:'absolute', left:'20px',
+          top: active ? (multiline ? '14px' : '10px') : (multiline ? '22px' : '50%'),
+          transform: active ? 'none' : 'translateY(-50%)',
+          fontSize: active ? '10px' : '15px',
+          color: active ? 'var(--primary)' : 'var(--text-3)',
+          fontFamily: active ? 'var(--font-mono)' : 'var(--font-body)',
+          textTransform: active ? 'uppercase' : 'none',
+          letterSpacing: active ? '0.1em' : 'normal',
+          fontWeight: active ? 700 : 400,
+          transition:'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          pointerEvents:'none'
+        }}>
+          {label} {required && <span style={{color:'var(--primary)'}}>*</span>}
+        </label>
+      </div>
+    )
   }
-  const focus = (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
-    e.target.style.borderColor = 'rgba(118,108,255,0.55)'
-    e.target.style.boxShadow   = '0 0 0 4px rgba(118,108,255,0.10)'
+
+  const FloatingSelect = ({ label, value, onChange, options }: any) => {
+    const [open, setOpen] = useState(false)
+    const active = open || value.length > 0
+    return (
+      <div style={{ position:'relative', width:'100%' }} onClick={(e) => { e.stopPropagation(); setOpen(!open) }}>
+        {/* Fake input for UI */}
+        <div style={{
+          ...inpShared,
+          padding: '22px 40px 10px 20px', height: '56px', cursor: 'pointer',
+          display: 'flex', alignItems: 'flex-end', userSelect: 'none',
+          borderColor: open ? 'rgba(118,108,255,0.55)' : 'var(--border)',
+          boxShadow: open ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
+          background: open ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
+        }}>
+          <span style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: value ? 'var(--text)' : 'transparent' }}>
+            {value || '-'}
+          </span>
+          <svg style={{ position: 'absolute', right: '16px', top: '50%', transform: `translateY(-50%) rotate(${open ? '180deg' : '0'})`, transition: 'transform 0.2s', color: 'var(--text-3)' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <label style={{
+          position:'absolute', left:'20px',
+          top: active ? '10px' : '50%',
+          transform: active ? 'none' : 'translateY(-50%)',
+          fontSize: active ? '10px' : '15px',
+          color: active ? 'var(--primary)' : 'var(--text-3)',
+          fontFamily: active ? 'var(--font-mono)' : 'var(--font-body)',
+          textTransform: active ? 'uppercase' : 'none',
+          letterSpacing: active ? '0.1em' : 'normal',
+          fontWeight: active ? 700 : 400,
+          transition:'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          pointerEvents:'none'
+        }}>
+          {label}
+        </label>
+        {/* Dropdown Menu */}
+        <div style={{
+          position:'absolute', top:'calc(100% + 8px)', left:0, right:0,
+          background:'rgba(15,15,22,0.95)', backdropFilter:'blur(16px)',
+          border:'1px solid var(--border)', borderRadius:'12px',
+          padding:'8px', zIndex:50,
+          opacity: open ? 1 : 0, visibility: open ? 'visible' : 'hidden',
+          transform: open ? 'translateY(0)' : 'translateY(-10px)',
+          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+          maxHeight: '260px', overflowY: 'auto'
+        }}>
+          {options.map((opt: string) => (
+            <div key={opt} onClick={() => onChange(opt)}
+                 style={{
+                   padding:'12px 16px', borderRadius:'8px', cursor:'pointer', fontSize:'14px', color:'var(--text-2)',
+                   transition:'all 0.15s',
+                   background: value === opt ? 'rgba(118,108,255,0.1)' : 'transparent',
+                 }}
+                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff' }}
+                 onMouseLeave={e => { e.currentTarget.style.background = value === opt ? 'rgba(118,108,255,0.1)' : 'transparent'; e.currentTarget.style.color = 'var(--text-2)' }}>
+              {opt}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   }
-  const blur = (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
-    e.target.style.borderColor = 'var(--border)'
-    e.target.style.boxShadow   = 'none'
+
+  // Close dropdowns globally when clicking outside
+  if (typeof window !== 'undefined') {
+    window.onclick = () => {
+      // Just a trigger for React to re-render but custom selects handle their own state via event bubbling.
+      // Actually, since we stopPropagation on the select wrapper, clicking anywhere else will trigger window.onclick.
+      // But we can't easily force all instances to close without context.
+      // Wait, we can dispatch a custom event!
+    }
+  }
+
+  // To properly close custom selects on outside click without context:
+  useEffect(() => {
+    const fn = () => document.dispatchEvent(new CustomEvent('closeSelects'))
+    window.addEventListener('click', fn)
+    return () => window.removeEventListener('click', fn)
+  }, [])
+
+  const SelectWrapper = ({ children }: any) => {
+    const [o, setO] = useState(false)
+    // pass o to children... 
+    // Wait, the FloatingSelect component should handle this directly! Let's revise it inside.
+    return children
+  }
+
+  // We'll rewrite the custom select using a robust outside click listener:
+  const FloatingSelectWithOutsideClick = ({ label, value, onChange, options }: any) => {
+    const [open, setOpen] = useState(false)
+    useEffect(() => {
+      const fn = () => setOpen(false)
+      document.addEventListener('closeSelects', fn)
+      return () => document.removeEventListener('closeSelects', fn)
+    }, [])
+    
+    const active = open || value.length > 0
+    return (
+      <div style={{ position:'relative', width:'100%' }} onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('closeSelects')); setOpen(!open) }}>
+        <div style={{
+          ...inpShared,
+          padding: '22px 40px 10px 20px', height: '56px', cursor: 'pointer',
+          display: 'flex', alignItems: 'flex-end', userSelect: 'none',
+          borderColor: open ? 'rgba(118,108,255,0.55)' : 'var(--border)',
+          boxShadow: open ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
+          background: open ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
+        }}>
+          <span style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: value ? 'var(--text)' : 'transparent', fontSize: '15px' }}>
+            {value || '-'}
+          </span>
+          <svg style={{ position: 'absolute', right: '16px', top: '50%', transform: `translateY(-50%) rotate(${open ? '180deg' : '0'})`, transition: 'transform 0.2s', color: 'var(--text-3)' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <label style={{
+          position:'absolute', left:'20px',
+          top: active ? '10px' : '50%',
+          transform: active ? 'none' : 'translateY(-50%)',
+          fontSize: active ? '10px' : '15px',
+          color: active ? 'var(--primary)' : 'var(--text-3)',
+          fontFamily: active ? 'var(--font-mono)' : 'var(--font-body)',
+          textTransform: active ? 'uppercase' : 'none',
+          letterSpacing: active ? '0.1em' : 'normal',
+          fontWeight: active ? 700 : 400,
+          transition:'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          pointerEvents:'none'
+        }}>
+          {label}
+        </label>
+        <div style={{
+          position:'absolute', top:'calc(100% + 8px)', left:0, right:0,
+          background:'rgba(15,15,22,0.95)', backdropFilter:'blur(16px)',
+          border:'1px solid var(--border)', borderRadius:'12px',
+          padding:'8px', zIndex:50,
+          opacity: open ? 1 : 0, visibility: open ? 'visible' : 'hidden',
+          transform: open ? 'translateY(0)' : 'translateY(-10px)',
+          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+          maxHeight: '260px', overflowY: 'auto'
+        }}>
+          {options.map((opt: string) => (
+            <div key={opt} onClick={() => { onChange(opt); setOpen(false) }}
+                 style={{
+                   padding:'12px 16px', borderRadius:'8px', cursor:'pointer', fontSize:'14px', color: value === opt ? '#fff' : 'var(--text-2)',
+                   transition:'all 0.15s',
+                   background: value === opt ? 'var(--primary)' : 'transparent',
+                 }}
+                 onMouseEnter={e => { if(value!==opt){ e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff' } }}
+                 onMouseLeave={e => { if(value!==opt){ e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-2)' } }}>
+              {opt}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -164,52 +355,24 @@ export default function ContactClient() {
                   <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8 }}>We&apos;ll get back to you within 24 hours.<br/>Check your inbox — including spam.</p>
                 </div>
               ) : (
-                <form onSubmit={send} style={{ padding:'40px 48px 48px', display:'flex', flexDirection:'column', gap:'26px' }}>
+                <form onSubmit={send} style={{ padding:'40px 48px 48px', display:'flex', flexDirection:'column', gap:'20px' }}>
 
-                  {/* Row 1: Name + Email */}
                   <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px' }}>
-                    <div>
-                      <label style={lbl}>Full Name <span style={{ color:'var(--primary)' }}>*</span></label>
-                      <input value={form.name} onChange={e=>set('name',e.target.value)} placeholder="John Smith" required style={inp} onFocus={focus} onBlur={blur} />
-                    </div>
-                    <div>
-                      <label style={lbl}>Email Address <span style={{ color:'var(--primary)' }}>*</span></label>
-                      <input type="email" value={form.email} onChange={e=>set('email',e.target.value)} placeholder="john@company.com" required style={inp} onFocus={focus} onBlur={blur} />
-                    </div>
+                    <FloatingInput label="Full Name" value={form.name} onChange={(v:string) => set('name', v)} required />
+                    <FloatingInput label="Email Address" type="email" value={form.email} onChange={(v:string) => set('email', v)} required />
                   </div>
 
-                  {/* Row 2: Phone */}
-                  <div>
-                    <label style={lbl}>Phone / WhatsApp <span style={{ color:'var(--text-3)', fontWeight:400, textTransform:'none', letterSpacing:0 }}>(optional)</span></label>
-                    <input value={form.phone} onChange={e=>set('phone',e.target.value)} placeholder="+1 234 567 8900" style={inp} onFocus={focus} onBlur={blur} />
-                  </div>
+                  <FloatingInput label="Phone / WhatsApp (optional)" value={form.phone} onChange={(v:string) => set('phone', v)} />
 
-                  {/* Row 3: Service + Budget */}
                   <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px' }}>
-                    <div>
-                      <label style={lbl}>Service Needed</label>
-                      <select value={form.service} onChange={e=>set('service',e.target.value)} style={{ ...inp, cursor:'pointer', appearance:'none', backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat:'no-repeat', backgroundPosition:'right 16px center' }} onFocus={focus} onBlur={blur}>
-                        <option value="">Select a service…</option>
-                        {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label style={lbl}>Budget Range</label>
-                      <select value={form.budget} onChange={e=>set('budget',e.target.value)} style={{ ...inp, cursor:'pointer', appearance:'none', backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat:'no-repeat', backgroundPosition:'right 16px center' }} onFocus={focus} onBlur={blur}>
-                        <option value="">Select a range…</option>
-                        {BUDGETS.map(b => <option key={b} value={b}>{b}</option>)}
-                      </select>
-                    </div>
+                    <FloatingSelectWithOutsideClick label="Service Needed" value={form.service} onChange={(v:string) => set('service', v)} options={SERVICES} />
+                    <FloatingSelectWithOutsideClick label="Budget Range" value={form.budget} onChange={(v:string) => set('budget', v)} options={BUDGETS} />
                   </div>
 
-                  {/* Row 4: Message */}
-                  <div>
-                    <label style={lbl}>Project Details <span style={{ color:'var(--primary)' }}>*</span></label>
-                    <textarea value={form.message} onChange={e=>set('message',e.target.value)} required rows={5} placeholder="Tell us about your project — what platform, goals, timeline, and any specific requirements…" style={{ ...inp, resize:'vertical', minHeight:'140px', lineHeight:1.75 }} onFocus={focus} onBlur={blur} />
-                  </div>
+                  <FloatingInput label="Project Details" value={form.message} onChange={(v:string) => set('message', v)} required multiline />
 
                   {/* Submit */}
-                  <div style={{ display:'flex', flexDirection:'column', gap:'14px', marginTop:'4px' }}>
+                  <div style={{ display:'flex', flexDirection:'column', gap:'14px', marginTop:'10px' }}>
                     <button type="submit" disabled={sending} className="btn btn-primary btn-lg" style={{ width:'100%', justifyContent:'center', padding:'18px 28px', fontSize:'16px' }}>
                       {sending ? (
                         <>
