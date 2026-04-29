@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getCollection } from '@/lib/db/mongodb'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
