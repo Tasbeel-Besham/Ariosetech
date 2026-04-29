@@ -75,6 +75,9 @@ const TOOL_LINKS = [
 
 export default function Navbar() {
   const [scrolled, setScrolled]   = useState(false)
+  const [logoUrl, setLogoUrl]       = useState('')
+  const [siteName, setSiteName]     = useState('ARIOSETECH')
+  const [tagline, setTagline]       = useState('Consider It Solved')
   const [megaOpen, setMegaOpen]   = useState(false)
   const [toolsOpen, setToolsOpen] = useState(false)
   const pathname = usePathname()
