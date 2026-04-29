@@ -4,54 +4,7 @@ import Link from 'next/link'
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from '@/components/ui/Icons'
 
 
-const LINKS = {
-  WordPress: [
-    { label:'Website Development',   href:'/services/wordpress' },
-    { label:'Migration Services',     href:'/services/wordpress#migration' },
-    { label:'Bug & Error Fixing',     href:'/services/wordpress#bugs' },
-    { label:'Maintenance & Support',  href:'/services/wordpress#maintenance' },
-    { label:'Speed Optimization',     href:'/services/wordpress#speed' },
-    { label:'Security Services',      href:'/services/wordpress#security' },
-    { label:'Virus Removal',          href:'/services/wordpress#virus-removal' },
-    { label:'Backup Solutions',       href:'/services/wordpress#backup' },
-    { label:'Website Redesign',       href:'/services/wordpress#redesign' },
-    { label:'Multilingual Websites',  href:'/services/wordpress#multilingual' },
-  ],
-  Shopify: [
-    { label:'Store Development',        href:'/services/shopify' },
-    { label:'Migration Services',       href:'/services/shopify#migration' },
-    { label:'Performance Optimization', href:'/services/shopify#performance' },
-    { label:'Integration Services',     href:'/services/shopify#integrations' },
-    { label:'Maintenance & Support',    href:'/services/shopify#maintenance' },
-    { label:'Shopify Plus',             href:'/services/shopify#plus' },
-    { label:'Store Redesign',           href:'/services/shopify#redesign' },
-    { label:'App Development',          href:'/services/shopify#app-dev' },
-  ],
-  WooCommerce: [
-    { label:'Store Development',        href:'/services/woocommerce' },
-    { label:'Theme Customization',      href:'/services/woocommerce#theme' },
-    { label:'Payment Gateway',          href:'/services/woocommerce#payments' },
-    { label:'Performance Optimization', href:'/services/woocommerce#performance' },
-    { label:'Maintenance & Support',    href:'/services/woocommerce#maintenance' },
-    { label:'Multi-vendor Solutions',   href:'/services/woocommerce#multivendor' },
-    { label:'Multilingual Websites',    href:'/services/woocommerce#multilingual' },
-    { label:'Migration Services',       href:'/services/woocommerce#migration' },
-  ],
-  SEO: [
-    { label:'Website SEO',    href:'/services/seo#website-seo' },
-    { label:'Local SEO',      href:'/services/seo#local-seo' },
-    { label:'Technical SEO',  href:'/services/seo#technical-seo' },
-    { label:'SEO Content',    href:'/services/seo#seo-content' },
-  ],
-  Company: [
-    { label:'About Us',          href:'/about' },
-    { label:'Portfolio',         href:'/portfolio' },
-    { label:'Blog',              href:'/blog' },
-    { label:'Contact',           href:'/contact' },
-    { label:'Privacy Policy',    href:'/privacy' },
-    { label:'Terms of Service',  href:'/terms' },
-  ],
-}
+
 
 const SOCIALS = [
   { icon:<Facebook  size={16} />, href:'https://www.facebook.com/ArioseTech/', label:'Facebook' },
@@ -65,16 +18,51 @@ const M = { fontFamily: 'var(--font-mono)' } as const
 export default function Footer() {
   const [logoUrl, setLogoUrl] = useState('')
   const [siteName, setSiteName] = useState('ARIOSETECH')
+  const [navItems, setNavItems] = useState<any[]>([])
+
   useEffect(() => {
     Promise.all([
       fetch('/api/header').then(r => r.json()).catch(() => ({})),
-      fetch('/api/settings').then(r => r.json()).catch(() => ({}))
-    ]).then(([headerData, settingsData]) => {
+      fetch('/api/settings').then(r => r.json()).catch(() => ({})),
+      fetch('/api/menus?location=footer').then(r => r.json()).catch(() => [])
+    ]).then(([headerData, settingsData, menusData]) => {
       const logo = String(settingsData.logo_url || headerData.logo || '').trim()
       if (logo && logo.startsWith('http')) setLogoUrl(logo)
       
       const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
       if (alt) setSiteName(alt)
+
+      if (Array.isArray(menusData) && menusData.length > 0) {
+        setNavItems(menusData[0].items || [])
+      } else {
+        // Fallback matching default layout
+        setNavItems([
+          { label: 'WordPress', children: [
+            { label: 'Website Development', href: '/services/wordpress' },
+            { label: 'Migration Services', href: '/services/wordpress#migration' },
+            { label: 'Speed Optimization', href: '/services/wordpress#speed' },
+            { label: 'Website Redesign', href: '/services/wordpress#redesign' },
+          ]},
+          { label: 'Shopify', children: [
+            { label: 'Store Development', href: '/services/shopify' },
+            { label: 'Migration Services', href: '/services/shopify#migration' },
+            { label: 'Store Redesign', href: '/services/shopify#redesign' },
+            { label: 'App Development', href: '/services/shopify#app-dev' },
+          ]},
+          { label: 'WooCommerce', children: [
+            { label: 'Store Development', href: '/services/woocommerce' },
+            { label: 'Theme Customization', href: '/services/woocommerce#theme' },
+            { label: 'Payment Gateway', href: '/services/woocommerce#payments' },
+            { label: 'Migration Services', href: '/services/woocommerce#migration' },
+          ]},
+          { label: 'Company', children: [
+            { label: 'About Us', href: '/about' },
+            { label: 'Portfolio', href: '/portfolio' },
+            { label: 'Blog', href: '/blog' },
+            { label: 'Contact', href: '/contact' },
+          ]}
+        ])
+      }
     })
   }, [])
   return (
@@ -145,20 +133,22 @@ export default function Footer() {
           </div>
 
           {/* Link columns */}
-          {(Object.entries(LINKS) as [string, {label:string;href:string}[]][]).map(([col, items]) => (
-            <div key={col}>
-              <p style={{ ...M, fontSize:'9px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'16px' }}>{col}</p>
-              <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'9px' }}>
-                {items.map(item => (
-                  <li key={item.href}>
-                    <Link href={item.href} style={{ fontSize:'12px', color:'var(--text-3)', textDecoration:'none', transition:'color 0.2s' }}
-                      onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-                      onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          {navItems.map((col, idx) => (
+            <div key={idx}>
+              <p style={{ ...M, fontSize:'9px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'16px' }}>{col.label}</p>
+              {col.children && col.children.length > 0 && (
+                <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'9px' }}>
+                  {col.children.map((item: any) => (
+                    <li key={item.href}>
+                      <Link href={item.href} target={item.target || '_self'} style={{ fontSize:'12px', color:'var(--text-3)', textDecoration:'none', transition:'color 0.2s' }}
+                        onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
+                        onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
         </div>

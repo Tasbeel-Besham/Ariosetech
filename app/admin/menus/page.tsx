@@ -26,21 +26,53 @@ const DEFAULTS: Record<string, NavItem[]> = {
     { label: 'Blog',      href: '/blog' },
   ],
   footer: [
-    { label: 'WordPress Development',   href: '/services/wordpress' },
-    { label: 'WooCommerce Development', href: '/services/woocommerce' },
-    { label: 'Shopify Development',     href: '/services/shopify' },
-    { label: 'SEO Services',            href: '/services/seo' },
-    { label: 'About',     href: '/about' },
-    { label: 'Portfolio', href: '/portfolio' },
-    { label: 'Blog',      href: '/blog' },
-    { label: 'Contact',   href: '/contact' },
+    { 
+      label: 'WordPress', 
+      href: '#',
+      children: [
+        { label: 'Website Development',   href: '/services/wordpress' },
+        { label: 'Migration Services',    href: '/services/wordpress#migration' },
+        { label: 'Speed Optimization',    href: '/services/wordpress#speed' },
+        { label: 'Website Redesign',      href: '/services/wordpress#redesign' },
+      ]
+    },
+    { 
+      label: 'Shopify', 
+      href: '#',
+      children: [
+        { label: 'Store Development',        href: '/services/shopify' },
+        { label: 'Migration Services',       href: '/services/shopify#migration' },
+        { label: 'Store Redesign',           href: '/services/shopify#redesign' },
+        { label: 'App Development',          href: '/services/shopify#app-dev' },
+      ]
+    },
+    { 
+      label: 'WooCommerce', 
+      href: '#',
+      children: [
+        { label: 'Store Development',        href: '/services/woocommerce' },
+        { label: 'Theme Customization',      href: '/services/woocommerce#theme' },
+        { label: 'Payment Gateway',          href: '/services/woocommerce#payments' },
+        { label: 'Migration Services',       href: '/services/woocommerce#migration' },
+      ]
+    },
+    { 
+      label: 'Company', 
+      href: '#',
+      children: [
+        { label: 'About Us',          href: '/about' },
+        { label: 'Portfolio',         href: '/portfolio' },
+        { label: 'Blog',              href: '/blog' },
+        { label: 'Contact',           href: '/contact' },
+      ]
+    },
   ],
   mobile: [
     { label: 'Home',      href: '/' },
-    { label: 'Services',  href: '/services/wordpress' },
+    { label: 'WordPress', href: '/services/wordpress' },
+    { label: 'Shopify',   href: '/services/shopify' },
+    { label: 'WooCommerce', href: '/services/woocommerce' },
     { label: 'Portfolio', href: '/portfolio' },
-    { label: 'Blog',      href: '/blog' },
-    { label: 'About',     href: '/about' },
     { label: 'Contact',   href: '/contact' },
   ],
 }
