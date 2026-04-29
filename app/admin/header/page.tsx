@@ -1,7 +1,8 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save, Eye } from 'lucide-react'
+import { Save, Eye, Upload, X } from 'lucide-react'
+import Image from 'next/image'
 import toast from 'react-hot-toast'
 
 type Config = Record<string, unknown>
@@ -10,22 +11,48 @@ export default function HeaderAdmin() {
   const [config, setConfig] = useState<Config>({})
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     fetch('/api/header').then(r => r.json()).then(setConfig).finally(() => setLoading(false))
   }, [])
 
   const set = (key: string, val: unknown) => setConfig(c => ({ ...c, [key]: val }))
+
   const save = async () => {
     setSaving(true)
     await fetch('/api/header', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(config) })
     setSaving(false)
-    toast.success('Header saved!')
+    toast.success('Header saved! Refresh the site to see changes.')
+  }
+
+  const uploadLogo = async (file: File) => {
+    setUploading(true)
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('alt', String(config.logoAlt || 'ARIOSETECH Logo'))
+    try {
+      const res = await fetch('/api/media/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      const url = data.url || data[0]?.url
+      if (url) {
+        set('logo', url)
+        toast.success('Logo uploaded!')
+      } else {
+        toast.error('Upload failed')
+      }
+    } catch {
+      toast.error('Upload failed')
+    }
+    setUploading(false)
   }
 
   const inp = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box' as const, fontFamily: 'var(--font-body)' }
   const lbl = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
   const card = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '20px' }
+
+  const logoUrl = String(config.logo || '').replace(/^\/+/, '')
 
   if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
 
@@ -38,7 +65,7 @@ export default function HeaderAdmin() {
             <p style={{ fontSize: '13px', color: 'var(--text-3)', marginTop: '4px' }}>Configure your site header</p>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <a href="/" target="_blank" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', borderRadius: '10px', border: '1px solid var(--border)', color: 'var(--text-3)', textDecoration: 'none', fontSize: '13px' }} className="hover:text-[var(--text)]">
+            <a href="/" target="_blank" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', borderRadius: '10px', border: '1px solid var(--border)', color: 'var(--text-3)', textDecoration: 'none', fontSize: '13px' }}>
               <Eye size={14} /> Preview
             </a>
             <button onClick={save} disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
@@ -50,8 +77,51 @@ export default function HeaderAdmin() {
         {/* Logo */}
         <div style={card}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>🖼 Logo</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px', gap: '12px' }}>
-            <div><label style={lbl}>Logo URL</label><input value={String(config.logo || '/logo.png')} onChange={e => set('logo', e.target.value)} placeholder="/logo.png" style={inp} /></div>
+
+          {/* Upload area */}
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', marginBottom: '16px' }}>
+
+            {/* Preview box */}
+            <div style={{ width: '120px', height: '80px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', position: 'relative' }}>
+              {logoUrl && logoUrl.startsWith('http') ? (
+                <Image src={logoUrl} alt="Logo preview" fill style={{ objectFit: 'contain', padding: '8px' }} unoptimized />
+              ) : (
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)' }}>No logo</span>
+              )}
+            </div>
+
+            {/* Upload controls */}
+            <div style={{ flex: 1 }}>
+              <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}
+                onChange={e => { if (e.target.files?.[0]) uploadLogo(e.target.files[0]) }} />
+
+              <button onClick={() => fileRef.current?.click()} disabled={uploading}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border-2)', background: 'var(--bg-3)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', width: '100%', justifyContent: 'center' }}>
+                <Upload size={14} />
+                {uploading ? 'Uploading…' : 'Upload Logo Image'}
+              </button>
+
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', marginBottom: '10px' }}>
+                PNG, SVG, WebP recommended. Transparent background works best.
+              </p>
+
+              {/* Or paste URL */}
+              <div>
+                <label style={lbl}>Or paste URL directly</label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input value={logoUrl} onChange={e => set('logo', e.target.value)}
+                    placeholder="https://..." style={{ ...inp, flex: 1 }} />
+                  {logoUrl && (
+                    <button onClick={() => set('logo', '')} style={{ padding: '10px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-3)', color: 'var(--red)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                      <X size={14} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px', gap: '12px' }}>
             <div><label style={lbl}>Logo Alt Text</label><input value={String(config.logoAlt || '')} onChange={e => set('logoAlt', e.target.value)} style={inp} /></div>
             <div><label style={lbl}>Width (px)</label><input type="number" value={Number(config.logoWidth || 160)} onChange={e => set('logoWidth', Number(e.target.value))} style={inp} /></div>
           </div>
