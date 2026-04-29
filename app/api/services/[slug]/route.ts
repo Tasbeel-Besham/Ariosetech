@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
 import { ServicePageDoc } from '@/types'
@@ -13,7 +14,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
     }
     
     return NextResponse.json(service)
-  } catch (error: Record<string, string>) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -32,7 +33,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
     )
     
     return NextResponse.json({ success: true })
-  } catch (error: Record<string, string>) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -43,7 +44,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ slug:
     const col = await getCollection<ServicePageDoc>('services')
     await col.deleteOne({ slug })
     return NextResponse.json({ success: true })
-  } catch (error: Record<string, string>) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

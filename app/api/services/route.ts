@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
 import { ServicePageDoc } from '@/types'
@@ -7,7 +8,7 @@ export async function GET() {
     const col = await getCollection<ServicePageDoc>('services')
     const services = await col.find({}, { projection: { slug: 1, title: 1, status: 1, updatedAt: 1 } }).toArray()
     return NextResponse.json(services)
-  } catch (error: Record<string, string>) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
 
     const result = await col.insertOne(doc as ServicePageDoc)
     return NextResponse.json({ success: true, id: result.insertedId })
-  } catch (error: Record<string, string>) {
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
