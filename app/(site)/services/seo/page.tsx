@@ -214,7 +214,7 @@ export default async function SEOPage() {
             We offer focused SEO solutions built to improve search visibility, site performance, and growth potential.
           </p>
 
-          {activeServices.map((svc: Record<string, unknown>) => (
+          {activeServices.map((svc: Record<string, string>) => (
             <div key={svc.id} id={svc.id} style={{ marginBottom: '40px', scrollMarginTop: '90px' }}>
               <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'border-color 0.2s' }}>
                 <div style={{ height: '3px', background: `linear-gradient(90deg, var(--primary), rgba(118,108,255,0.6))` }} />

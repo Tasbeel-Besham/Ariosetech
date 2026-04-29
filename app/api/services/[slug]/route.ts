@@ -13,7 +13,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
     }
     
     return NextResponse.json(service)
-  } catch (error: Record<string, unknown>) {
+  } catch (error: Record<string, string>) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -24,7 +24,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
     const data = await req.json()
     const col = await getCollection<ServicePageDoc>('services')
     
-    const { _id: _, ...updateData } = data
+    const { ...updateData } = data
     
     await col.updateOne(
       { slug },
@@ -32,7 +32,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
     )
     
     return NextResponse.json({ success: true })
-  } catch (error: Record<string, unknown>) {
+  } catch (error: Record<string, string>) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
@@ -43,7 +43,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ slug:
     const col = await getCollection<ServicePageDoc>('services')
     await col.deleteOne({ slug })
     return NextResponse.json({ success: true })
-  } catch (error: Record<string, unknown>) {
+  } catch (error: Record<string, string>) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

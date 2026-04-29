@@ -274,7 +274,7 @@ export default async function ShopifyPage() {
             Complete Shopify Solutions for E-commerce Success
           </h2>
 
-          {activeServices.map((svc: Record<string, unknown>) => (
+          {activeServices.map((svc: Record<string, string>) => (
             <div key={svc.id} id={svc.id} style={{ marginBottom: '48px', scrollMarginTop: '90px' }}>
               <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden' }}>
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
@@ -293,7 +293,7 @@ export default async function ShopifyPage() {
                   <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '24px', maxWidth: '780px' }}>{svc.desc}</p>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '8px 24px', marginBottom: '24px' }}>
-                    {svc.features.map((f: Record<string, unknown>) => (
+                    {svc.features.map((f: Record<string, string>) => (
                       <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px', fontSize: '13px', color: 'var(--text-2)' }}>
                         <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={13} /></span> {f}
                       </div>
@@ -317,7 +317,7 @@ export default async function ShopifyPage() {
                     <div style={{ marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Supported Platforms</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.supported.map((p: Record<string, unknown>) => (
+                        {svc.supported.map((p: Record<string, string>) => (
                           <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
                         ))}
                       </div>
@@ -326,12 +326,12 @@ export default async function ShopifyPage() {
 
                   {'plans' in svc && svc.plans && (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-                      {svc.plans.map((plan: Record<string, unknown>) => (
+                      {svc.plans.map((plan: Record<string, string>) => (
                         <div key={plan.tier} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px' }}>
                           <p style={{ ...hs, fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{plan.tier}</p>
                           <p style={{ ...hs, fontSize: '1.3rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '14px' }}>{plan.price}</p>
                           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            {plan.features.map((f: Record<string, unknown>) => (
+                            {plan.features.map((f: Record<string, string>) => (
                               <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '7px', fontSize: '12px', color: 'var(--text-2)' }}>
                                 <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={11} /></span> {f}
                               </li>
@@ -346,7 +346,7 @@ export default async function ShopifyPage() {
                     <div style={{ marginBottom: '24px' }}>
                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Perfect For</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.perfectFor.map((p: Record<string, unknown>) => (
+                        {svc.perfectFor.map((p: Record<string, string>) => (
                           <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
                         ))}
                       </div>
