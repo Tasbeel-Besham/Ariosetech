@@ -13,8 +13,8 @@ export default function AdminLogin() {
   const [logoUrl, setLogoUrl] = useState('')
 
   useEffect(() => {
-    fetch('/api/settings').then(r => r.json()).then(d => {
-      if (d.logo_url) setLogoUrl(d.logo_url)
+    fetch('/api/header').then(r => r.json()).then(d => {
+      if (d.logo) setLogoUrl(String(d.logo).replace(/^\/+/, ''))
     }).catch(() => {})
   }, [])
 

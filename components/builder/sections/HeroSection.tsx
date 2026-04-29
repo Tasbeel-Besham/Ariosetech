@@ -398,15 +398,7 @@ export default function HeroSection({
           </div>
         </div>
 
-        {/* ── Scroll cue ── */}
-        <div style={{
-          position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, zIndex: 1,
-          animation: 'hero-fade-in 0.6s ease 1.4s both',
-        }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'rgba(255,255,255,0.18)', textTransform: 'uppercase', letterSpacing: '0.22em' }}>Scroll</span>
-          <div style={{ width: 1, height: 32, background: 'linear-gradient(to bottom, rgba(255,255,255,0.18), transparent)' }} />
-        </div>
+
       </section>
 
       {/* Show badges on desktop via CSS */}
