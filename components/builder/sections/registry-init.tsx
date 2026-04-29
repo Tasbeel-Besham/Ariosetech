@@ -42,13 +42,16 @@ export function initRegistry() {
       { type: 'text',     name: 'eyebrow',          label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline',          label: 'Main headline' },
       { type: 'textarea', name: 'subheadline',       label: 'Subheadline' },
-      { type: 'textarea', name: 'supportingText',    label: 'Supporting text' },
       { type: 'text',     name: 'ctaPrimaryLabel',   label: 'Primary CTA label' },
       { type: 'text',     name: 'ctaPrimaryHref',    label: 'Primary CTA URL' },
       { type: 'text',     name: 'ctaSecondaryLabel', label: 'Secondary CTA label' },
       { type: 'text',     name: 'ctaSecondaryHref',  label: 'Secondary CTA URL' },
       { type: 'textarea', name: 'trust',             label: 'Trust indicators (comma separated)' },
       { type: 'repeater', name: 'stats', label: 'Stats', fields: [{ type: 'text', name: 'value', label: 'Value (e.g. 100+)' }, { type: 'text', name: 'label', label: 'Label' }] },
+      { type: 'text', name: 'badgeLeftValue',  label: 'Left badge value (e.g. ~30 Days)' },
+      { type: 'text', name: 'badgeLeftLabel',  label: 'Left badge label (e.g. Avg Delivery)' },
+      { type: 'text', name: 'badgeRightValue', label: 'Right badge value (e.g. 5.0 ★)' },
+      { type: 'text', name: 'badgeRightLabel', label: 'Right badge label (e.g. Clutch Rating)' },
     ],
   })
 

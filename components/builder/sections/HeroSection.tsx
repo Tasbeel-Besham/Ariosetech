@@ -66,6 +66,10 @@ type Props = {
   ctaSecondaryHref?: string
   trust?: string
   stats?: StatItem[]
+  badgeLeftValue?: string
+  badgeLeftLabel?: string
+  badgeRightValue?: string
+  badgeRightLabel?: string
 }
 
 export default function HeroSection({
@@ -77,6 +81,10 @@ export default function HeroSection({
   ctaSecondaryHref = '/portfolio',
   trust = '',
   stats: statsProp = [],
+  badgeLeftValue = '~30 Days',
+  badgeLeftLabel = 'Avg Delivery',
+  badgeRightValue = '5.0 ★',
+  badgeRightLabel = 'Clutch Rating',
 }: Props) {
   const trustItems = trust
     ? trust.split(',').map(s => s.trim()).filter(Boolean)
@@ -200,8 +208,8 @@ export default function HeroSection({
             <Zap size={15} />
           </div>
           <div>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#fff', lineHeight: 1 }}>~30 Days</p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 3 }}>Avg delivery</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#fff', lineHeight: 1 }}>{badgeLeftValue}</p>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 3 }}>{badgeLeftLabel}</p>
           </div>
         </div>
 
@@ -219,8 +227,8 @@ export default function HeroSection({
             <Star size={15} />
           </div>
           <div>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#fff', lineHeight: 1 }}>5.0 ★</p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 3 }}>Clutch Rating</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#fff', lineHeight: 1 }}>{badgeRightValue}</p>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 3 }}>{badgeRightLabel}</p>
           </div>
         </div>
 

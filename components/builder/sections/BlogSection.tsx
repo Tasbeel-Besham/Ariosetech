@@ -7,17 +7,30 @@ type Props = { eyebrow?: string; headline?: string; ctaLabel?: string; ctaHref?:
 
 export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest Insights & Tutorials', ctaLabel='All Articles', ctaHref='/blog', limit=3 }: Props) {
   const [posts, setPosts] = useState<Post[]>([])
+  const [loaded, setLoaded] = useState(false)
   const F = { fontFamily:'var(--font-display)' } as const
   const M = { fontFamily:'var(--font-mono)' } as const
 
   useEffect(() => {
     fetch(`/api/blogs?limit=${limit}&published=true`)
       .then(r => r.json())
-      .then(data => setPosts(Array.isArray(data) ? data.slice(0, limit) : []))
-      .catch(() => setPosts([]))
+      .then(data => { setPosts(Array.isArray(data) ? data.slice(0, limit) : []); setLoaded(true) })
+      .catch(() => { setPosts([]); setLoaded(true) })
   }, [limit])
 
-  if (posts.length === 0) return null
+  // Show placeholder in builder if no posts yet
+  if (loaded && posts.length === 0) {
+    return (
+      <section className="section section--dark">
+        <div className="container" style={{ textAlign:'center', padding:'60px 0' }}>
+          <p style={{ ...F, fontSize:'14px', color:'var(--text-3)', marginBottom:'8px' }}>📝 Blog Section</p>
+          <p style={{ fontSize:'13px', color:'var(--text-3)' }}>No published blog posts yet. Run the seed or add posts in Admin → Blog.</p>
+        </div>
+      </section>
+    )
+  }
+
+  if (!loaded || posts.length === 0) return null
 
   return (
     <section className="section section--dark">
