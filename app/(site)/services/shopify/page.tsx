@@ -17,6 +17,11 @@ const CheckSVG = ({ size = 13 }: { size?: number }) => (
     <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
+const ChevSVG = ({ open }: { open: boolean }) => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: open ? 'rotate(180deg)' : '', transition: 'transform 0.25s', flexShrink: 0 }}>
+    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
 
 /* ── SERVICES DATA ─────────────────────────────────────────────── */
 const SERVICES = [
@@ -268,110 +273,126 @@ export default async function ShopifyPage() {
       </section>
 
       {/* ── SERVICES ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
+      <section className="section" style={{ padding: '120px 0', background: 'var(--bg)' }}>
         <div className="container">
-          <p className="eyebrow">All Services</p>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '56px' }}>
-            Complete Shopify Solutions for E-commerce Success
+          <p className="eyebrow sr" style={{ justifyContent: 'center' }}>All Services</p>
+          <h2 className="sr" style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '80px', textAlign: 'center', animationDelay: '0.1s' }}>
+            Complete Shopify Solutions
           </h2>
 
-          {activeServices.map((svc) => (
-            <div key={svc.id} id={svc.id} style={{ marginBottom: '48px', scrollMarginTop: '90px' }}>
-              <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden' }}>
-                <div style={{ height: '3px', background: 'var(--grad)' }} />
-                <div style={{ padding: '36px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
-                    <div>
-                      <h3 style={{ ...hs, fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{svc.title}</h3>
-                      <p style={{ ...hs, fontSize: '14px', fontWeight: 600, color: 'var(--primary)' }}>{svc.tagline}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
+            {activeServices.map((svc: any, i: number) => {
+              const isEven = i % 2 === 0;
+              return (
+                <div key={svc.id} id={svc.id} className="sr grid grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center" style={{ animationDelay: '0.1s' }}>
+                  
+                  {/* Text Content */}
+                  <div style={{ order: isEven ? 1 : 2 }} className={isEven ? "lg:order-1" : "lg:order-2"}>
+                    <p style={{ ...hm, fontSize: '12px', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>{svc.tagline}</p>
+                    <h3 style={{ ...hs, fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 800, color: '#fff', marginBottom: '24px', lineHeight: 1.1, letterSpacing: '-0.02em' }}>{svc.title}</h3>
+                    <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>{svc.desc}</p>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px' }}>
+                      <div>
+                        <p style={{ fontSize: '12px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Starting at</p>
+                        <p style={{ ...hs, fontSize: '1.8rem', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{svc.price}</p>
+                      </div>
+                      <div style={{ width: '1px', height: '40px', background: 'var(--border)' }} />
+                      <div>
+                        <p style={{ fontSize: '12px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Timeline</p>
+                        <p style={{ ...hs, fontSize: '1.2rem', fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{svc.time}</p>
+                      </div>
                     </div>
-                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                      <p style={{ ...hs, fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{svc.price}</p>
-                      <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', marginTop: '3px' }}>{svc.time}</p>
-                    </div>
+
+                    <Link href="/contact" className="btn btn-primary btn-lg">
+                      {svc.cta} <ArrowSVG size={15} />
+                    </Link>
                   </div>
 
-                  <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '24px', maxWidth: '780px' }}>{svc.desc}</p>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '8px 24px', marginBottom: '24px' }}>
-                    {svc.features.map((f) => (
-                      <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px', fontSize: '13px', color: 'var(--text-2)' }}>
-                        <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={13} /></span> {f}
-                      </div>
-                    ))}
-                  </div>
-
-                  {'results' in svc && svc.results && (
-                    <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
-                      <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '12px' }}>Expected Results</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {svc.results.map((r: Record<string, unknown>) => (
-                          <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--primary)' }}>
-                            <CheckSVG size={12} /> {r}
-                          </span>
+                  {/* Feature Card */}
+                  <div style={{ order: isEven ? 2 : 1 }} className={isEven ? "lg:order-2" : "lg:order-1"}>
+                    <div className='card' style={{ padding: '40px' }}>
+                      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '2px', background: 'var(--grad)' }} />
+                      
+                      <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>What&apos;s Included</p>
+                      <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', marginBottom: '32px', listStyle: 'none' }}>
+                        {svc.features.map((f: string) => (
+                          <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.5 }}>
+                            <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '4px', background: 'rgba(118,108,255,0.15)', borderRadius: '50%', padding: '2px' }}><CheckSVG size={12} /></span>
+                            {f}
+                          </li>
                         ))}
-                      </div>
-                    </div>
-                  )}
+                      </ul>
 
-                  {'supported' in svc && svc.supported && (
-                    <div style={{ marginBottom: '24px' }}>
-                      <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Supported Platforms</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.supported.map((p) => (
-                          <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {'plans' in svc && svc.plans && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-                      {svc.plans.map((plan) => (
-                        <div key={plan.tier} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px' }}>
-                          <p style={{ ...hs, fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{plan.tier}</p>
-                          <p style={{ ...hs, fontSize: '1.3rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '14px' }}>{plan.price}</p>
-                          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            {plan.features.map((f) => (
-                              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '7px', fontSize: '12px', color: 'var(--text-2)' }}>
-                                <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={11} /></span> {f}
-                              </li>
-                            ))}
-                          </ul>
+                      {/* Results if any */}
+                      {'results' in svc && svc.results && (
+                        <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                          <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>Expected Results</p>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                            {svc.results.map((r: string) => (
+                               <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px' }}>
+                                 <span style={{ color: 'var(--primary)' }}><CheckSVG size={12} /></span> {r}
+                               </span>
+                             ))}
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
+                      )}
 
-                  {svc.perfectFor && svc.perfectFor.length > 0 && (
-                    <div style={{ marginBottom: '24px' }}>
-                      <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '10px' }}>Perfect For</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {svc.perfectFor.map((p) => (
-                          <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                      {/* Supported Platforms if any */}
+                      {'supported' in svc && svc.supported && (
+                        <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                          <p style={{ ...hm, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>Supported Platforms</p>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                            {svc.supported.map((p: string) => (
+                              <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
-                  <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 22px', borderRadius: '9px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.28)', color: 'var(--primary)', textDecoration: 'none', fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-display)' }}>
-                    {svc.cta} <ArrowSVG size={13} />
-                  </Link>
+                      {/* Perfect For if any */}
+                      {svc.perfectFor && svc.perfectFor.length > 0 && (
+                        <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                          <p style={{ ...hm, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>Perfect For</p>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                            {svc.perfectFor.map((p: string) => (
+                              <span key={p} style={{ ...hm, fontSize: '11px', color: 'var(--text-2)', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '4px 12px' }}>{p}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Plans if any */}
+                      {'plans' in svc && svc.plans && (
+                        <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+                            {svc.plans.map((plan: any) => (
+                              <div key={plan.tier} style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px' }}>
+                                <p style={{ ...hs, fontSize: '13px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>{plan.tier}</p>
+                                <p style={{ ...hs, fontSize: '20px', fontWeight: 800, color: '#fff' }}>{plan.price}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-            </div>
-          ))}
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
+      <section className="section section--dark">
         <div className="container">
-          <p className="eyebrow">Why Choose Us</p>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '48px' }}>
+          <p className="eyebrow sr">Why Choose Us</p>
+          <h2 className="sr" style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '48px', animationDelay: '0.1s' }}>
             Why Choose ARIOSETECH for Shopify Development?
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
             {[
               { icon: '🏆', title: 'Shopify Partner Excellence', desc: 'Official Shopify Partners with proven expertise in building successful e-commerce stores across various industries.' },
               { icon: '💰', title: 'Conversion-Focused Approach', desc: 'Every store we build is optimized for sales with proven conversion tactics and user experience best practices.' },
@@ -379,75 +400,93 @@ export default async function ShopifyPage() {
               { icon: '📱', title: 'Mobile-Commerce Experts', desc: 'Deep understanding of mobile shopping behaviors ensures your store performs perfectly on all devices.' },
               { icon: '🔧', title: 'Ongoing Partnership', desc: "We're your long-term Shopify growth partner, supporting your business at every stage of expansion." },
               { icon: '⚡', title: 'Performance Obsessed', desc: 'Every Shopify store we develop loads fast and ranks well in search engines.' },
-            ].map(r => (
-              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }} className="card-hover">
-                <p style={{ fontSize: '28px', marginBottom: '12px', lineHeight: 1 }}>{r.icon}</p>
-                <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
-                <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
+            ].map((r, i) => (
+              <div key={r.title} className="card card-hover sr" style={{ padding: '36px', animationDelay: `${i * 0.08}s` }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', marginBottom: '20px' }}>
+                  {r.icon}
+                </div>
+                <p style={{ ...hs, fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '10px' }}>{r.title}</p>
+                <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.8 }}>{r.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── PORTFOLIO ────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
+      {/* ── PORTFOLIO HIGHLIGHTS ──────────────────────────────────── */}
+      <section className="section section--dark">
         <div className="container">
-          <p className="eyebrow">Our Work</p>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '48px' }}>
-            Shopify Portfolio Highlights
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '36px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
+            <div>
+              <p className="eyebrow sr">Our Work</p>
+              <h2 className="sr" style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', animationDelay: '0.1s' }}>
+                Shopify Portfolio Highlights
+              </h2>
+            </div>
+            <Link href="/portfolio" className="btn btn-outline btn-lg sr" style={{ animationDelay: '0.15s' }}>View Full Shopify Portfolio <ArrowSVG size={15} /></Link>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '36px' }} className="md:grid md:grid-cols-3 md:gap-5">
             {[
-              { name: 'WYOX Sports', industry: 'Sports Equipment (USA)', challenge: 'Complex product variations and US market requirements', solution: 'Custom Shopify store with advanced filtering and checkout optimization', result: '250%', resultLabel: 'increase in online sales' },
-              { name: 'Genovie', industry: 'Fashion & Lifestyle', challenge: 'High-end brand representation with seamless UX', solution: 'Custom Shopify Plus store with advanced personalization', result: '180%', resultLabel: 'increase in average order value' },
-              { name: 'Janya.pk', industry: 'Wholesale Fashion', challenge: 'B2B wholesale functionality with complex pricing', solution: 'Shopify Plus with custom wholesale portal integration', result: '300%', resultLabel: 'increase in wholesale orders' },
+              { industry: 'Sports Equipment (USA)', challenge: 'Complex product variations and US market requirements', solution: 'Custom Shopify store with advanced filtering and checkout optimization', result: '250%', resultLabel: 'increase in online sales' },
+              { industry: 'Fashion & Lifestyle', challenge: 'High-end brand representation with seamless UX', solution: 'Custom Shopify Plus store with advanced personalization', result: '180%', resultLabel: 'increase in average order value' },
+              { industry: 'Wholesale Fashion', challenge: 'B2B wholesale functionality with complex pricing', solution: 'Shopify Plus with custom wholesale portal integration', result: '300%', resultLabel: 'increase in wholesale orders' },
             ].map((cs, i) => (
-              <div key={i} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.25s' }} className="card-hover">
+              <div key={i} className='card card-hover sr' style={{ background: 'var(--bg-3)', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.1}s` }}>
                 <div style={{ height: '3px', background: 'var(--grad)' }} />
-                <div style={{ padding: '28px' }}>
-                  <p style={{ ...hs, fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{cs.name}</p>
-                  <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '12px' }}>{cs.industry}</p>
-                  <p style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '6px' }}><strong style={{ color: 'var(--text-2)' }}>Challenge:</strong> {cs.challenge}</p>
-                  <p style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '20px' }}><strong style={{ color: 'var(--text-2)' }}>Solution:</strong> {cs.solution}</p>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
-                    <p style={{ ...hs, fontSize: '2rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{cs.result}</p>
-                    <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{cs.resultLabel}</p>
+                <div style={{ padding: '36px' }}>
+                  <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: '16px' }}>{cs.industry}</p>
+                  
+                  <div style={{ marginBottom: '24px' }}>
+                    <p style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Challenge</p>
+                    <p style={{ ...hs, fontSize: '15px', color: '#fff', fontWeight: 600, lineHeight: 1.5 }}>{cs.challenge}</p>
+                  </div>
+                  
+                  <div style={{ marginBottom: '32px' }}>
+                    <p style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Solution</p>
+                    <p style={{ ...hs, fontSize: '15px', color: '#fff', fontWeight: 600, lineHeight: 1.5 }}>{cs.solution}</p>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
+                    <p style={{ ...hs, fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{cs.result}</p>
+                    <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>{cs.resultLabel}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">View Full Shopify Portfolio <ArrowSVG size={15} /></Link>
-          </div>
         </div>
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
+      <section className="section section--dark" style={{ overflow: 'visible' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
-            <div style={{ position: 'sticky', top: '100px' }}>
+          <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
+            <div className="sr sticky-mobile-fix" style={{ position: 'sticky', top: '100px' }}>
               <p className="eyebrow">FAQ</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-                Shopify Development FAQ
+              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
+                Shopify Development <span style={P}>FAQ</span>
               </h2>
-              <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>
-                30-day money-back guarantee | Free post-launch training | Ongoing support available
+              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>
+                Everything you need to know about our Shopify approach and how we help businesses grow online.
               </p>
               <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={15} /></Link>
+              <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', marginTop: '24px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
+                30-day money-back guarantee | Free training
+              </p>
             </div>
-            <div>
-              {activeFaqs.map(({ q, a }, i) => (
-                <details key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '6px' }}>
-                  <summary style={{ padding: '18px 22px', cursor: 'pointer', ...hs, fontSize: '15px', fontWeight: 600, color: '#fff', listStyle: 'none', userSelect: 'none' }}>
-                    {q}
-                  </summary>
-                  <div style={{ padding: '0 22px 18px' }}>
-                    <p style={{ fontSize: '14px', color: 'var(--text-2)', lineHeight: 1.85 }}>{a}</p>
-                  </div>
-                </details>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {activeFaqs.map(({ q, a }: any, i: number) => (
+                <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
+                  <details style={{ width:'100%' }}>
+                    <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+                      <span style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{q}</span>
+                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG open={false} /></div>
+                    </summary>
+                    <div style={{ padding: '0 28px 24px' }}>
+                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
+                    </div>
+                  </details>
+                </div>
               ))}
             </div>
           </div>
@@ -455,15 +494,27 @@ export default async function ShopifyPage() {
       </section>
 
       {/* ── CTA ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(118,108,255,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <section className="section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(118,108,255,0.1) 0%, transparent 80%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.3 }} />
+        
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '32px' }}>
-            Ready to Launch Your Shopify Store?
-          </h2>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">Start Your Store <ArrowSVG size={15} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">View Our Work</Link>
+          <div className="sr">
+            <p className="eyebrow" style={{ justifyContent:'center' }}>Get Started Today</p>
+            <h2 style={{ ...hs, fontSize: 'clamp(2.4rem,6vw,4.5rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '24px', color:'#fff' }}>
+              Ready to Launch Your<br />
+              <span style={P}>Shopify Store?</span>
+            </h2>
+            <p style={{ fontSize: '18px', color: 'var(--text-2)', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.8 }}>
+              Whether you are migrating, launching a new store, or scaling with Shopify Plus, Ariosetech is ready to help you succeed.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <Link href="/contact" className="btn btn-primary btn-lg">Start Your Store <ArrowSVG size={15} /></Link>
+              <Link href="/portfolio" className="btn btn-outline btn-lg">View Our Work</Link>
+            </div>
+            <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', marginTop: '32px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
+              Tell us your vision, and we&apos;ll help you map the next move.
+            </p>
           </div>
         </div>
       </section>

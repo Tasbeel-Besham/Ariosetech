@@ -19,6 +19,11 @@ const CheckSVG = ({ size = 13 }: { size?: number }) => (
     <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
+const ChevSVG = ({ open }: { open: boolean }) => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: open ? 'rotate(180deg)' : '', transition: 'transform 0.25s', flexShrink: 0 }}>
+    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
 
 const ICONS = {
   expertise: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>,
@@ -400,30 +405,35 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────────── */}
-      <section className="section" style={{ overflow: 'visible' }}>
+      <section className="section section--dark" style={{ overflow: 'visible' }}>
         <div className="container">
-          <div className="flex flex-col md:flex-row items-start gap-12 lg:gap-24">
-            <div style={{ flex: '1', position: 'sticky', top: '120px' }} className="md:w-1/3 shrink-0">
-              <p className="eyebrow sr">FAQ</p>
-              <h2 className="sr" style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px', animationDelay: '0.1s' }}>
-                WordPress FAQ
+          <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
+            <div className="sr sticky-mobile-fix" style={{ position: 'sticky', top: '100px' }}>
+              <p className="eyebrow">FAQ</p>
+              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
+                WordPress Development <span style={P}>FAQ</span>
               </h2>
-              <p className="sr" style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px', animationDelay: '0.15s' }}>
-                30-day money-back guarantee on all WordPress development services.
+              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>
+                Everything you need to know about our WordPress approach and how we help businesses grow online.
               </p>
-              <Link href="/contact" className="btn btn-primary btn-lg sr" style={{ animationDelay: '0.2s' }}>Ask Us Anything <ArrowSVG size={15} /></Link>
+              <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={15} /></Link>
+              <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', marginTop: '24px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
+                30-day money-back guarantee | Free training
+              </p>
             </div>
-            <div style={{ flex: '2', display: 'flex', flexDirection: 'column', gap: '8px' }} className="md:w-2/3">
-              {activeFaqs.map(({ q, a }: unknown, i: number) => (
-                <details key={i} className="sr" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', animationDelay: `${i * 0.08}s` }}>
-                  <summary style={{ padding: '22px 28px', cursor: 'pointer', ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', listStyle: 'none', userSelect: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    {q}
-                    <span style={{ color: 'var(--primary)' }}>+</span>
-                  </summary>
-                  <div style={{ padding: '0 28px 22px' }}>
-                    <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
-                  </div>
-                </details>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {activeFaqs.map(({ q, a }: any, i: number) => (
+                <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
+                  <details style={{ width:'100%' }}>
+                    <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+                      <span style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{q}</span>
+                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG open={false} /></div>
+                    </summary>
+                    <div style={{ padding: '0 28px 24px' }}>
+                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
+                    </div>
+                  </details>
+                </div>
               ))}
             </div>
           </div>
@@ -431,18 +441,27 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── CTA ─────────────────────────────────────────────────── */}
-      <section className="section section--dark" style={{ textAlign: 'center' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(118,108,255,0.10) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <section className="section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(79,110,247,0.1) 0%, transparent 80%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.3 }} />
+        
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <h2 className="sr" style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '20px' }}>
-            Ready to Build Your WordPress Site?
-          </h2>
-          <p className="sr" style={{ fontSize: '16px', color: 'var(--text-2)', maxWidth: '480px', margin: '0 auto 32px', lineHeight: 1.7, animationDelay: '0.1s' }}>
-            Get a free consultation and project quote within 24 hours. No commitment required.
-          </p>
-          <div className="sr" style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', animationDelay: '0.2s' }}>
-            <Link href="/contact" className="btn btn-primary btn-xl">Get Free Consultation <ArrowSVG size={16} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-xl">View Our Work</Link>
+          <div className="sr">
+            <p className="eyebrow" style={{ justifyContent:'center' }}>Get Started Today</p>
+            <h2 style={{ ...hs, fontSize: 'clamp(2.4rem,6vw,4.5rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '24px', color:'#fff' }}>
+              Ready to Build Your<br />
+              <span style={P}>WordPress Site?</span>
+            </h2>
+            <p style={{ fontSize: '18px', color: 'var(--text-2)', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.8 }}>
+              Whether you are migrating, launching a new site, or needing ongoing support, Ariosetech is ready to help you succeed.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <Link href="/contact" className="btn btn-primary btn-lg">Start Your Project <ArrowSVG size={15} /></Link>
+              <Link href="/portfolio" className="btn btn-outline btn-lg">View Our Work</Link>
+            </div>
+            <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', marginTop: '32px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
+              Tell us your vision, and we&apos;ll help you map the next move.
+            </p>
           </div>
         </div>
       </section>

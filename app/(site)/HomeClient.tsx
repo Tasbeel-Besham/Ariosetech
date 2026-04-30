@@ -310,7 +310,6 @@ type BlogItem      = { _id:string; slug:string; title:string; excerpt:string; ca
 type PortfolioItem = { _id:string; slug:string; title:string; client:string; category:string; summary:string; results:{label:string;value:string}[]; stack:string[]; featured:boolean }
 
 export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; portfolio:PortfolioItem[] }) {
-  const [openFaq, setOpenFaq] = useState<number|null>(null)
 
   const displayPortfolio = portfolio.length > 0
     ? portfolio.slice(0,3).map((p,i) => ({
@@ -734,36 +733,39 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       )}
 
       {/* ══ FAQ ═════════════════════════════════════════════════════ */}
-      <section className="section" style={{ overflow: 'visible' }}>
+      <section className="section section--dark" style={{ overflow: 'visible' }}>
         <div className="container">
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', alignItems:'start' }}>
+          <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
 
             {/* LEFT — sticky */}
-            <div style={{ position:'sticky', top:'88px' }}>
+            <div className="sr sticky-mobile-fix" style={{ position:'sticky', top:'100px' }}>
               <p className="eyebrow">FAQ</p>
-              <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
+              <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'24px' }}>
                 Frequently Asked{' '}
-                <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Questions</span>
+                <span style={P}>Questions</span>
               </h2>
-              <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.8, marginBottom:'32px' }}>
+              <p style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8, marginBottom:'32px' }}>
                 Can&apos;t find what you&apos;re looking for? We&apos;re here to help.
               </p>
-              <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={16} /></Link>
+              <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={15} /></Link>
+              <p style={{ ...M, fontSize: '12px', color: 'var(--text-3)', marginTop: '24px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
+                30-day money-back guarantee | Free training
+              </p>
             </div>
 
             {/* RIGHT — scrollable */}
-            <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
-              {FAQS.map(({ q, a },i) => (
-                <div key={i} style={{ background:'var(--bg-2)', border:`1px solid ${openFaq===i?'rgba(118,108,255,0.35)':'var(--border)'}`, borderRadius:'14px', overflow:'hidden', transition:'border-color 0.2s' }}>
-                  <button onClick={() => setOpenFaq(openFaq===i?null:i)} style={{ width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center', padding:'20px 22px', background:'none', border:'none', cursor:'pointer', gap:'16px', textAlign:'left' }}>
-                    <span style={{ ...F, fontSize:'15px', fontWeight:600, color:openFaq===i?'var(--primary)':'#fff', flex:1, lineHeight:1.4 }}>{q}</span>
-                    <span style={{ color: openFaq===i ? 'var(--primary)' : 'var(--text-3)' }}><ChevSVG open={openFaq===i} /></span>
-                  </button>
-                  {openFaq===i && (
-                    <div style={{ padding:'0 22px 20px' }}>
-                      <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.85 }}>{a}</p>
+            <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
+              {FAQS.map(({ q, a }: any, i: number) => (
+                <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
+                  <details style={{ width:'100%' }}>
+                    <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+                      <span style={{ ...F, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{q}</span>
+                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG open={false} /></div>
+                    </summary>
+                    <div style={{ padding: '0 28px 24px' }}>
+                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
                     </div>
-                  )}
+                  </details>
                 </div>
               ))}
             </div>
@@ -773,10 +775,10 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       </section>
 
       {/* ══ FINAL CTA ═══════════════════════════════════════════════ */}
-      <section style={{ padding:'120px 0', borderBottom:'1px solid var(--border)', position:'relative', overflow:'hidden', background:'var(--bg-2)' }}>
-        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(118,108,255,0.10) 0%, transparent 70%)', pointerEvents:'none' }} />
-        <div style={{ position:'absolute', inset:0, backgroundImage:'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize:'80px 80px', maskImage:'radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%)', pointerEvents:'none' }} />
-        <div className="container" style={{ textAlign:'center', position:'relative', zIndex:1 }}>
+      <section className="section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(79,110,247,0.1) 0%, transparent 80%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.3 }} />
+        <div className="container" style={{ position:'relative', zIndex:1 }}>
           <p className="eyebrow sr" style={{ justifyContent:'center' }}>Get Started Today</p>
           <h2 className="sr" style={{ ...F, fontSize:'clamp(2.5rem,6vw,5rem)', fontWeight:800, letterSpacing:'-0.05em', lineHeight:0.95, color:'#fff', marginBottom:'20px' }}>
             Start Your Success<br />
