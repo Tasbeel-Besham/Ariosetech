@@ -332,8 +332,8 @@ export default function InteractiveHeroSection({
           <div style={{ display: 'flex', gap: '14px' }}>
             {[
               { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: B_PRI, c2: B_SEC, bar: 0.92 },
-              { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: '#f472b6', c2: '#fb923c', bar: 1.0 },
-              { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: '#22c55e', c2: '#06b6d4', bar: 0.98 },
+              { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: B_PRI, c2: B_SEC, bar: 1.0 },
+              { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ].map(m => (
               <div key={m.lbl} style={{ flex: 1, background: 'rgba(15,15,30,0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px', position: 'relative', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.3)' }}>
                 <div style={{ color: m.c1, marginBottom: '8px', display: 'flex' }}>{m.ico}</div>
