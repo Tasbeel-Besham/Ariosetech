@@ -91,31 +91,32 @@ export default function InteractiveHeroSection({
 
     // ── CANVAS NODES ─────────────────────────────────────────────
     const services = [
-      { label: 'WordPress Dev', sub: 'Custom themes & plugins', color: [118, 108, 255], size: 52, icon: '⚡' },
-      { label: 'E-Commerce', sub: 'WooCommerce & Shopify', color: [167, 139, 250], size: 46, icon: '🛒' },
-      { label: 'SEO & Speed', sub: '40% faster, rank higher', color: [244, 114, 182], size: 42, icon: '🔍' },
-      { label: 'UI/UX Design', sub: 'Pixel-perfect interfaces', color: [34, 211, 238], size: 44, icon: '🎨' },
-      { label: '24/7 Support', sub: 'Always here for you', color: [74, 222, 128], size: 40, icon: '🛡️' },
-      { label: 'Web Apps', sub: 'Scalable & secure builds', color: [251, 146, 60], size: 38, icon: '⚙️' },
+      { label: 'WordPress Dev', sub: 'Custom themes', color: [118, 108, 255], size: 52, icon: '⚡' },
+      { label: 'E-Commerce', sub: 'Shopify & Woo', color: [167, 139, 250], size: 46, icon: '🛒' },
+      { label: 'SEO & Speed', sub: 'Performance', color: [244, 114, 182], size: 42, icon: '🔍' },
+      { label: 'UI/UX Design', sub: 'Interfaces', color: [34, 211, 238], size: 44, icon: '🎨' },
+      { label: '24/7 Support', sub: 'Always here', color: [74, 222, 128], size: 40, icon: '🛡️' },
+      { label: 'Web Apps', sub: 'Scalable builds', color: [251, 146, 60], size: 38, icon: '⚙️' },
     ]
 
     let nodes = services.map((s, i) => {
       const angle = (i / services.length) * Math.PI * 2
-      const radiusX = window.innerWidth * 0.22
+      const radiusX = window.innerWidth * 0.20
       const radiusY = window.innerHeight * 0.28
-      const cx = window.innerWidth * 0.72
-      const cy = window.innerHeight * 0.48
+      // PUSH NODES TO THE RIGHT to avoid text overlap
+      const cx = window.innerWidth * 0.82
+      const cy = window.innerHeight * 0.5
       return {
         ...s,
         x: cx + Math.cos(angle) * radiusX,
-        y: cy + Math.sin(angle) * radiusY * 0.7,
+        y: cy + Math.sin(angle) * radiusY * 0.8,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         baseX: cx + Math.cos(angle) * radiusX,
-        baseY: cy + Math.sin(angle) * radiusY * 0.7,
+        baseY: cy + Math.sin(angle) * radiusY * 0.8,
         angle: angle,
         orbitSpeed: 0.003 + Math.random() * 0.002,
-        orbitR: 3 + Math.random() * 4,
+        orbitR: 4 + Math.random() * 6,
         phase: Math.random() * Math.PI * 2,
         glowPulse: Math.random() * Math.PI * 2,
         hover: 0,
@@ -126,10 +127,10 @@ export default function InteractiveHeroSection({
     const particles = Array.from({ length: 120 }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
       r: Math.random() * 1.5 + 0.3,
-      alpha: Math.random() * 0.4 + 0.05,
+      alpha: Math.random() * 0.3 + 0.05,
       color: [[118, 108, 255], [167, 139, 250], [244, 114, 182], [255, 255, 255]][Math.floor(Math.random() * 4)],
     }))
 
@@ -138,7 +139,7 @@ export default function InteractiveHeroSection({
     const onMouseMoveRipple = () => {
       const now = Date.now()
       if (now - lastRipple > 80) {
-        ripples.push({ x: mx, y: my, r: 0, alpha: 0.18, life: 1 })
+        ripples.push({ x: mx, y: my, r: 0, alpha: 0.15, life: 1 })
         lastRipple = now
       }
     }
@@ -152,18 +153,14 @@ export default function InteractiveHeroSection({
       ctx.fillRect(0, 0, W, H)
 
       // Grid
-      const sp = 60
-      const ox = (mx * 0.04) % sp
-      const oy = (my * 0.04) % sp
-      ctx.strokeStyle = 'rgba(118,108,255,0.04)'
-      ctx.lineWidth = 1
+      const sp = 60; const ox = (mx * 0.04) % sp; const oy = (my * 0.04) % sp
+      ctx.strokeStyle = 'rgba(118,108,255,0.03)'; ctx.lineWidth = 1
       for (let x = -sp + ox; x < W + sp; x += sp) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
       for (let y = -sp + oy; y < H + sp; y += sp) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
 
       // Ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
-        const rp = ripples[i]
-        rp.r += 2.5; rp.life -= 0.04
+        const rp = ripples[i]; rp.r += 2.2; rp.life -= 0.035
         if (rp.life <= 0) { ripples.splice(i, 1); continue }
         ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2)
         ctx.strokeStyle = `rgba(118,108,255,${rp.alpha * rp.life})`; ctx.stroke()
@@ -171,9 +168,7 @@ export default function InteractiveHeroSection({
 
       // Particles
       particles.forEach(p => {
-        const dx = mx - p.x, dy = my - p.y; const d = Math.sqrt(dx*dx + dy*dy)
-        if (d < 100) { p.vx -= dx/d * 0.2; p.vy -= dy/d * 0.2 }
-        p.vx *= 0.97; p.vy *= 0.97; p.x += p.vx; p.y += p.vy
+        p.x += p.vx; p.y += p.vy
         if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0
         const [r,g,b] = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${r},${g},${b},${p.alpha})`; ctx.fill()
       })
@@ -183,24 +178,16 @@ export default function InteractiveHeroSection({
         nodes.slice(i + 1).forEach(m => {
           const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx*dx + dy*dy)
           if (d < 220) {
-            ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y)
-            ctx.strokeStyle = `rgba(${n.color[0]},${n.color[1]},${n.color[2]},${(1 - d/220) * 0.15})`; ctx.stroke()
+            ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.strokeStyle = `rgba(118,108,255,${(1 - d/220) * 0.12})`; ctx.stroke()
           }
         })
-        const dx = mx - n.x, dy = my - n.y, d = Math.sqrt(dx*dx + dy*dy)
-        if (d < 280) {
-          ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mx, my)
-          ctx.strokeStyle = `rgba(${n.color[0]},${n.color[1]},${n.color[2]},${(1 - d/280) * 0.5})`; ctx.setLineDash([4, 8]); ctx.stroke(); ctx.setLineDash([])
-        }
       })
 
       // Nodes
       nodes.forEach((n, i) => {
-        n.glowPulse += 0.025
+        n.glowPulse += 0.02
         const dx = mx - n.x, dy = my - n.y, dist = Math.sqrt(dx*dx + dy*dy)
-        const hovered = dist < n.size + 16
-        n.hover += (hovered ? 1 : -1) * 0.08
-        n.hover = Math.max(0, Math.min(1, n.hover))
+        const hovered = dist < n.size + 15; n.hover += (hovered ? 1 : -1) * 0.08; n.hover = Math.max(0, Math.min(1, n.hover))
 
         if (dist < 160 && dist > 0) { const force = (160 - dist) / 160; n.vx -= (dx / dist) * force * 1.4; n.vy -= (dy / dist) * force * 1.4 }
         const targetX = n.baseX + Math.cos(t * 0.001 * 40 + n.phase) * n.orbitR
@@ -208,12 +195,11 @@ export default function InteractiveHeroSection({
         n.vx += (targetX - n.x) * 0.018; n.vy += (targetY - n.y) * 0.018
         n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy
 
-        const [r,g,b] = n.color; const glow = 0.5 + Math.sin(n.glowPulse) * 0.3; const sz = n.size + n.hover * 10
+        const [r,g,b] = n.color; const sz = n.size + n.hover * 10; const glow = 0.5 + Math.sin(n.glowPulse) * 0.3
         const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, sz * 2.5)
-        grad.addColorStop(0, `rgba(${r},${g},${b},${0.15 * glow + n.hover * 0.2})`); grad.addColorStop(1, `rgba(${r},${g},${b},0)`)
+        grad.addColorStop(0, `rgba(${r},${g},${b},${0.12 * glow + n.hover * 0.15})`); grad.addColorStop(1, `rgba(${r},${g},${b},0)`)
         ctx.beginPath(); ctx.arc(n.x, n.y, sz * 2.5, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill()
-        ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(${r},${g},${b},${0.45 + n.hover * 0.4})`; ctx.lineWidth = 1.5; ctx.stroke()
+        ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, Math.PI * 2); ctx.strokeStyle = `rgba(${r},${g},${b},${0.4 + n.hover * 0.4})`; ctx.lineWidth = 1.5; ctx.stroke()
         ctx.font = `${sz * 0.52}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.icon, n.x, n.y)
         if (n.hover > 0.1) {
           ctx.globalAlpha = n.hover; ctx.font = `700 13px var(--font-display)`; ctx.fillStyle = '#fff'; ctx.fillText(n.label, n.x, n.y + sz + 18)
@@ -222,11 +208,8 @@ export default function InteractiveHeroSection({
       })
 
       // Vignette
-      const vg = ctx.createRadialGradient(W/2, H/2, H*0.3, W/2, H/2, H*0.85)
-      vg.addColorStop(0, 'rgba(5,5,8,0)'); vg.addColorStop(1, 'rgba(5,5,8,0.75)')
-      ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
+      const vg = ctx.createRadialGradient(W/2, H/2, H*0.3, W/2, H/2, H*0.9); vg.addColorStop(0, 'rgba(5,5,8,0)'); vg.addColorStop(1, 'rgba(5,5,8,0.85)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
 
-      // Cursor
       if (cdotRef.current) { cdotRef.current.style.left = `${mx}px`; cdotRef.current.style.top = `${my}px` }
       rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13
       if (cringRef.current) { cringRef.current.style.left = `${rx}px`; cringRef.current.style.top = `${ry}px` }
@@ -239,15 +222,7 @@ export default function InteractiveHeroSection({
     raf = requestAnimationFrame(loop)
 
     document.body.style.cursor = 'none'
-
-    return () => {
-      cancelAnimationFrame(raf)
-      window.removeEventListener('resize', resize)
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mousemove', onMouseMoveRipple)
-      document.body.removeChild(trailContainer)
-      document.body.style.cursor = 'auto'
-    }
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMouseMove); window.removeEventListener('mousemove', onMouseMoveRipple); document.body.removeChild(trailContainer); document.body.style.cursor = 'auto' }
   }, [])
 
   return (
@@ -262,76 +237,77 @@ export default function InteractiveHeroSection({
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none' }}>
-        <div style={{ maxWidth: '900px' }}>
+        <div style={{ maxWidth: '980px' }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             
             {/* Eyebrow */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
               <div style={{ width: '24px', height: '2px', background: 'var(--grad)' }} />
-              <span style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>{eyebrow}</span>
+              <span style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700 }}>{eyebrow}</span>
             </div>
 
-            {/* Headline */}
-            <h1 style={{ ...F, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', marginBottom: '24px' }}>
+            {/* Headline — High Contrast & Balanced Split */}
+            <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', marginBottom: '28px' }}>
               Professional WordPress, <br />
               <span style={{ display: 'block', paddingLeft: '3.5rem', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', backgroundSize: '200%', animation: 'gAnim 5s ease-in-out infinite alternate' }}>
                 Shopify & WooCommerce <br />
-                <span style={{ color: '#fff', paddingLeft: '1.5rem' }}>Development Since 2017</span>
+                <span style={{ color: '#fff', paddingLeft: '2rem' }}>Development Since 2017</span>
               </span>
             </h1>
 
             {/* Subheadline */}
-            <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '520px', marginBottom: '44px' }}>
+            <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '540px', marginBottom: '48px', fontWeight: 400 }}>
               {subheadline}
             </p>
 
             {/* CTAs */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', pointerEvents: 'all' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', pointerEvents: 'all' }}>
               <Link href={ctaPrimaryHref} className="btn btn-primary btn-xl">
                 {ctaPrimaryLabel} →
               </Link>
-              <Link href={ctaSecondaryHref} style={{ ...M, fontSize: '13px', color: 'var(--text-2)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Link href={ctaSecondaryHref} style={{ ...M, fontSize: '13px', fontWeight: 700, color: 'var(--text-2)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {ctaSecondaryLabel} <span style={{ fontSize: '16px' }}>→</span>
               </Link>
             </div>
 
-            {/* Stats */}
-            <div style={{ display: 'flex', gap: '48px', marginTop: '64px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '32px' }}>
+            {/* Stats Bar — Clean & Brand Aligned */}
+            <div style={{ display: 'flex', gap: '56px', marginTop: '64px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '32px' }}>
               {stats.map((s) => (
                 <div key={s.label}>
                   <div style={{ ...F, fontSize: '28px', fontWeight: 900, background: 'linear-gradient(to bottom, #fff, rgba(255,255,255,0.5))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{s.value}</div>
-                  <div style={{ ...M, fontSize: '9px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px' }}>{s.label}</div>
+                  <div style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: '4px', fontWeight: 700 }}>{s.label}</div>
                 </div>
               ))}
             </div>
+
           </motion.div>
         </div>
       </div>
 
-      {/* Interaction Hint */}
+      {/* interaction hint */}
       <div style={{ position: 'absolute', bottom: '40px', right: '40px', zIndex: 20, display: 'flex', alignItems: 'center', gap: '12px' }}>
          <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '10px' }}>↗</div>
          <span style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Move cursor to play</span>
       </div>
 
       {/* Ticker */}
-      <div className="ticker-wrap" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 15, background: 'rgba(5,5,8,0.8)', backdropFilter: 'blur(10px)', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '12px 0', overflow: 'hidden' }}>
+      <div className="ticker-wrap" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 15, background: 'rgba(5,5,8,0.85)', backdropFilter: 'blur(12px)', borderTop: '1px solid var(--border)', padding: '12px 0', overflow: 'hidden' }}>
         <div className="ticker-track" style={{ display: 'flex', whiteSpace: 'nowrap', animation: 'ticker 40s linear infinite' }}>
           {[
             'WordPress Development', 'E-Commerce Stores', 'SEO Optimization', 'Custom Web Apps', 
             'Speed Optimization', '24/7 Support', 'UI/UX Design', 'Conversion Rate Optimization'
           ].map((text, i) => (
-            <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.12em', ...M }}>
+            <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.14em', ...M, fontWeight: 700 }}>
               <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
               {text}
             </span>
           ))}
-          {/* Repeat for seamless loop */}
+          {/* Repeat */}
           {[
             'WordPress Development', 'E-Commerce Stores', 'SEO Optimization', 'Custom Web Apps', 
             'Speed Optimization', '24/7 Support', 'UI/UX Design', 'Conversion Rate Optimization'
           ].map((text, i) => (
-            <span key={'repeat-'+i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.12em', ...M }}>
+            <span key={'repeat-'+i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.14em', ...M, fontWeight: 700 }}>
               <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
               {text}
             </span>
