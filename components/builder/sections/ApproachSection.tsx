@@ -217,6 +217,5 @@ export default function ApproachSection({
           }
         `}</style>
       </div>
-    </div>
-  )
+    )
 }

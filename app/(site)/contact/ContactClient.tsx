@@ -423,7 +423,8 @@ export default function ContactClient() {
             </a>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* ══ FAQ ══════════════════════════════════════════════════════ */}
       <section className="section">
