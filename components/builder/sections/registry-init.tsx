@@ -2,6 +2,7 @@ import { registerSection, getSection } from '@/lib/builder/registry'
 
 // ── All section components ────────────────────────────────────────
 import HeroSection from './HeroSection'
+import InteractiveHeroSection from './InteractiveHeroSection'
 import ServicesSection from './ServicesSection'
 import ServicesAccordionSection from './ServicesAccordionSection'
 import WhyUsSection from './WhyUsSection'
@@ -27,7 +28,7 @@ export function initRegistry() {
   // ── HERO ──────────────────────────────────────────────────────
   registerSection({
     type: 'hero', label: 'Hero Banner', category: 'Sections', icon: '🚀',
-    component: HeroSection as React.FC<Record<string, unknown>>,
+    component: InteractiveHeroSection as React.FC<Record<string, unknown>>,
     defaultProps: {
       eyebrow: 'Available for new projects',
       headline: 'Professional WordPress, Shopify & WooCommerce Development Since 2017',
