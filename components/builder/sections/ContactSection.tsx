@@ -20,14 +20,15 @@ export default function ContactSection({
           <h2 style={{ ...F, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', color: '#fff', marginBottom: '10px' }}>{headline}</h2>
           <p style={{ fontSize: '14px', color: 'var(--text-3)' }}>{guarantee}</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', maxWidth: '900px', margin: '0 auto' }}>
           {[{ icon: '📧', label: 'Email', value: email, href: `mailto:${email}` }, 
             { icon: '📱', label: 'Phone/WhatsApp', value: phone, href: `tel:${cleanPhone}` }, 
             { icon: '🏢', label: 'Address', value: address, href: undefined }].map(({ icon, label, value, href }) => (
-            <div key={label} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px 16px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ fontSize: '28px', marginBottom: '12px' }}>{icon}</p>
-              <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>{label}</p>
-              {href ? <a href={href} style={{ ...F, fontSize: '14px', fontWeight: 600, color: '#fff', display: 'block', textDecoration: 'none' }}>{value}</a> : <p style={{ ...F, fontSize: '14px', fontWeight: 600, color: '#fff', lineHeight: 1.5 }}>{value}</p>}
+            <div key={label} className="card-hover" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '40px 24px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '3px', background: 'var(--grad)' }} />
+              <p style={{ fontSize: '32px', marginBottom: '16px' }}>{icon}</p>
+              <p style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '12px', fontWeight: 700 }}>{label}</p>
+              {href ? <a href={href} style={{ ...F, fontSize: '15px', fontWeight: 600, color: '#fff', display: 'block', textDecoration: 'none' }}>{value}</a> : <p style={{ ...F, fontSize: '15px', fontWeight: 600, color: '#fff', lineHeight: 1.5 }}>{value}</p>}
             </div>
           ))}
         </div>

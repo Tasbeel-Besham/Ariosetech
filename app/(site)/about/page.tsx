@@ -13,6 +13,12 @@ export const metadata: Metadata = {
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
 
+const ArrowSVG = ({ size = 15 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
 export default function AboutPage() {
   return (
     <>
@@ -49,8 +55,8 @@ export default function AboutPage() {
                 {[
                   { value: '100+', label: 'Projects Delivered', color: 'var(--primary)' },
                   { value: '7+', label: 'Years Experience', color: 'var(--primary)' },
-                  { value: '40+', label: 'Industries Served', color: 'var(--green)' },
-                  { value: '5.0★', label: 'Clutch Rating', color: 'var(--amber)' },
+                  { value: '40+', label: 'Industries Served', color: 'var(--primary)' },
+                  { value: '5.0★', label: 'Clutch Rating', color: 'var(--primary)' },
                 ].map(({ value, label, color }) => (
                   <div key={label} className='card' style={{ padding: '28px', textAlign: 'center' }}>
                     <p style={{ ...hs, fontSize: '2rem', fontWeight: 800, color, lineHeight: 1, marginBottom: '8px' }}>{value}</p>
@@ -74,24 +80,25 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              { icon: '🎯', title: 'Specialists Only', desc: 'We only work with WordPress, WooCommerce, and Shopify. This focus means deeper expertise and better results for you.' },
-              { icon: '💬', title: 'Transparent Communication', desc: 'No hidden fees, no surprises. You know exactly what you\'re getting, when you\'re getting it, and what it costs.' },
-              { icon: '⚡', title: 'Speed Without Compromise', desc: 'We deliver fast because we\'ve done it before. Our team knows these platforms inside out — no learning on your dime.' },
-              { icon: '🤝', title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth — we\'re your long-term web partner.' },
-            ].map(({ icon, title, desc }) => (
-              <div key={title} className='card' style={{ background: 'var(--bg-3)', padding: '28px' }}>
-                <div style={{ width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', marginBottom:'16px', fontSize:'22px' }}>{icon}</div>
-                <h3 style={{ ...hs, fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '10px' }}>{title}</h3>
-                <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{desc}</p>
-              </div>
-            ))}
+              {[
+                { icon: '🎯', title: 'Specialists Only', desc: 'We only work with WordPress, WooCommerce, and Shopify. This focus means deeper expertise and better results for you.' },
+                { icon: '💬', title: 'Transparent Communication', desc: "No hidden fees, no surprises. You know exactly what you're getting, when you're getting it, and what it costs." },
+                { icon: '⚡', title: 'Speed Without Compromise', desc: 'We deliver fast because we\'ve done it before. Our team knows these platforms inside out — no learning on your dime.' },
+                { icon: '🤝', title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth — we\'re your long-term web partner.' }
+              ].map(({ icon, title, desc }) => (
+                <div key={title} className='card card-hover' style={{ background: 'var(--bg-3)', padding: '36px', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '3px', background: 'var(--grad)' }} />
+                  <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', marginBottom: '20px', fontSize: '22px' }}>{icon}</div>
+                  <h3 style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>{title}</h3>
+                  <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.8 }}>{desc}</p>
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Clients we&apos;ve served */}
+      {/* Industries We Serve */}
       <section className="section">
         <div className="container">
           <Reveal>
@@ -114,35 +121,29 @@ export default function AboutPage() {
       <section className="section section--dark">
         <div className="container">
           <Reveal>
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <p className="eyebrow" style={{ justifyContent: 'center' }}>Verified Reviews</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', color: '#fff' }}>
-                What clients say on Clutch
+            <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+              <p className="eyebrow" style={{ justifyContent: 'center' }}>Client Reviews</p>
+              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em' }}>
+                Trusted by Businesses <span style={{ background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Worldwide</span>
               </h2>
             </div>
           </Reveal>
-          <Reveal delay={0.06}>
-            <ClutchWidget widgetType={4} height="auto" reviews="449566,412231,406618,406326,405095" />
-          </Reveal>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <ClutchWidget />
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section">
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(79,110,247,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
+      <section className="section" style={{ textAlign: 'center' }}>
+        <div className="container">
           <Reveal>
-            <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '20px' }}>
-              Ready to work with specialists?
+            <h2 style={{ ...hs, fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '32px' }}>
+              Ready to start your project?
             </h2>
-            <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.75, maxWidth: '480px', margin: '0 auto 36px' }}>
-              Get a free consultation and see why 100+ businesses chose ARIOSETECH.
-            </p>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-              <Link href="/contact" className="btn btn-primary btn-lg" style={{ ...hs, fontWeight: 700 }}>Start a Project <ArrowRight size={16} /></Link>
-              <Link href="/portfolio" className="btn btn-outline btn-lg" style={{ ...hs, fontWeight: 600 }}>View Our Work</Link>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link href="/contact" className="btn btn-primary btn-lg">Schedule a Free Consultation <ArrowSVG size={16} /></Link>
+              <Link href="/portfolio" className="btn btn-outline btn-lg">View Our Portfolio</Link>
             </div>
           </Reveal>
         </div>
