@@ -20,6 +20,58 @@ const CheckSVG = ({ size = 13 }: { size?: number }) => (
   </svg>
 )
 
+/* ── ICONS ─────────────────────────────────────────────────── */
+const TargetSVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+  </svg>
+)
+const SyncSVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+  </svg>
+)
+const PracticalSVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+)
+const ChartSVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+  </svg>
+)
+const StoreSVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+)
+const ToolSVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+  </svg>
+)
+const WP_SVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+  </svg>
+)
+const ShopifySVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+  </svg>
+)
+const Woo_SVG = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+  </svg>
+)
+const ChevSVG = ({ open }: { open: boolean }) => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: open ? 'rotate(180deg)' : '', transition: 'transform 0.25s', flexShrink: 0 }}>
+    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
 
 /* ── SERVICES (from Doc) ──────────────────────────────────────── */
 const SEO_SERVICES = [
@@ -108,11 +160,11 @@ export default async function SEOPage() {
   const activeServices = dbData?.services?.length ? dbData.services : SEO_SERVICES
   const activeFaqs = dbData?.faqs?.length ? dbData.faqs : FAQS
   const activeWhyUs = dbData?.whyUs?.length ? dbData.whyUs : [
-    { icon: '🎯', title: 'Business-First SEO', desc: 'We focus on visibility that supports real business outcomes, not just traffic numbers.' },
-    { icon: '⚙️', title: 'Development and SEO in Sync', desc: 'Because our team works across websites, structure, and performance, we can align SEO with how your site is actually built.' },
-    { icon: '✅', title: 'Clean, Practical Execution', desc: 'We focus on the changes that make the biggest impact without creating confusion or unnecessary complexity.' },
-    { icon: '📈', title: 'Long-Term Growth Thinking', desc: 'We build SEO in a way that supports stronger performance over time, not just short-term spikes.' },
-    { icon: '🏪', title: 'Support for Different Business Types', desc: 'We work with service businesses, local brands, and eCommerce companies that need stronger digital visibility.' },
+    { icon: <TargetSVG />,    title: 'Business-First SEO', desc: 'We focus on visibility that supports real business outcomes, not just traffic numbers.' },
+    { icon: <SyncSVG />,      title: 'Development and SEO in Sync', desc: 'Because our team works across websites, structure, and performance, we can align SEO with how your site is actually built.' },
+    { icon: <PracticalSVG />, title: 'Clean, Practical Execution', desc: 'We focus on the changes that make the biggest impact without creating confusion or unnecessary complexity.' },
+    { icon: <ChartSVG />,     title: 'Long-Term Growth Thinking', desc: 'We build SEO in a way that supports stronger performance over time, not just short-term spikes.' },
+    { icon: <StoreSVG />,     title: 'Support for Different Business Types', desc: 'We work with service businesses, local brands, and eCommerce companies that need stronger digital visibility.' },
   ]
   const heroData = dbData?.hero || {
     eyebrow: 'SEO Services for Growing Brands',
@@ -203,13 +255,13 @@ export default async function SEOPage() {
       </section>
 
       {/* ── INTRO ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
+      <section className="section section--dark">
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
-            <div>
+            <div className="sr">
               <p className="eyebrow">Our Approach</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '20px' }}>
-                SEO That Supports Real Growth
+              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
+                SEO That Supports <span style={P}>Real Growth</span>
               </h2>
               <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.85, marginBottom: '20px' }}>
                 Ranking on Google is not just about adding keywords to a page. Strong SEO comes from the right structure, better content, technical health, internal linking, local relevance, and a website that actually deserves to rank.
@@ -221,13 +273,14 @@ export default async function SEOPage() {
                 Whether you run a local business, a service-based company, or an eCommerce brand, we build SEO strategies around your goals, website condition, and growth stage.
               </p>
             </div>
-            <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '36px' }}>
-              <p style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '20px' }}>Why SEO Still Matters</p>
-              <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '20px' }}>
+            <div className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '24px', padding: '40px', position:'relative', overflow:'hidden' }}>
+              <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
+              <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>Why SEO Still Matters</p>
+              <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '24px' }}>
                 Search is still one of the strongest channels for long-term digital growth. When your business ranks for the right searches, you build visibility, trust, and steady traffic without relying only on paid ads.
               </p>
-              <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>A strong SEO setup helps your business:</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '16px' }}>A strong SEO setup helps your business:</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
                   'Show up when customers are actively searching',
                   'Build trust through better visibility',
@@ -235,8 +288,8 @@ export default async function SEOPage() {
                   'Improve lead generation over time',
                   'Support long-term growth with compounding results',
                 ].map(b => (
-                  <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: 'var(--text-2)' }}>
-                    <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={14} /></span> {b}
+                  <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '14px', color: 'var(--text-2)' }}>
+                    <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '3px', display:'flex' }}><CheckSVG size={14} /></span> {b}
                   </div>
                 ))}
               </div>
@@ -254,40 +307,52 @@ export default async function SEOPage() {
       />
 
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
+      <section className="section">
         <div className="container">
-          <p className="eyebrow">Why Choose Us</p>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-            Why Businesses Choose Ariosetech for SEO
-          </h2>
-          <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '600px', marginBottom: '48px' }}>
-            SEO works best when strategy, structure, and execution move in the same direction. That is why our work connects technical improvements, content decisions, website structure, and growth goals instead of treating SEO like a checklist.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-            {activeWhyUs.map((r: Record<string, any>) => (
-              <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }}>
-                <p style={{ fontSize: '28px', marginBottom: '12px', lineHeight: 1 }}>{r.icon}</p>
-                <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
-                <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
-              </div>
-            ))}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
+            {/* Left - Sticky */}
+            <div className="sr" style={{ position: 'sticky', top: '100px' }}>
+              <p className="eyebrow">Why Choose Us</p>
+              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
+                Why Businesses Choose <span style={P}>ARIOSETECH</span> for SEO
+              </h2>
+              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.85, marginBottom: '32px' }}>
+                SEO works best when strategy, structure, and execution move in the same direction. That is why our work connects technical improvements, content decisions, website structure, and growth goals instead of treating SEO like a checklist.
+              </p>
+              <Link href="/contact" className="btn btn-primary btn-lg">Start a Project <ArrowSVG size={16} /></Link>
+            </div>
+
+            {/* Right - Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {activeWhyUs.map((r: any, i: number) => (
+                <div key={r.title} className="sr" style={{ display: 'flex', gap: '20px', padding: '28px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.08}s` }}>
+                  <div style={{ flexShrink: 0, width: '52px', height: '52px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+                    {r.icon}
+                  </div>
+                  <div>
+                    <p style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
+                    <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── PROBLEMS WE SOLVE ──────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
+      <section className="section section--dark">
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
-            <div>
+            <div className="sr">
               <p className="eyebrow">Common Issues</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-                Common SEO Problems We Help Fix
+              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,2.8rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: '20px' }}>
+                Common SEO Problems <span style={P}>We Help Fix</span>
               </h2>
               <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>
                 Many businesses come to us with the same core issues. Their website is live, but growth is slow and search visibility is weak.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {[
                   'Your website is not ranking for important keywords',
                   'You are getting traffic, but not qualified leads',
@@ -298,36 +363,40 @@ export default async function SEOPage() {
                   'Your pages are not connected properly through internal links',
                   'Your competitors are outranking you consistently',
                 ].map(p => (
-                  <div key={p} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 16px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '10px', fontSize: '14px', color: 'var(--text-2)' }}>
-                    <span style={{ color: 'var(--primary)', fontWeight: 700, flexShrink: 0 }}>→</span> {p}
+                  <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '16px 20px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '14px', fontSize: '14px', color: 'var(--text-2)', transition:'all 0.2s var(--ease)' }}>
+                    <span style={{ color: 'var(--primary)', display:'flex' }}><CheckSVG size={14} /></span> {p}
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Who We Work With */}
-            <div>
+            <div className="sr">
               <p className="eyebrow">Who We Work With</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-                Who Our SEO Services Are For
+              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.4rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '20px' }}>
+                Who Our SEO Services <span style={P}>Are For</span>
               </h2>
               <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '28px' }}>
                 Our SEO services are designed for businesses that want more than surface-level optimization. We work best with brands that want a stronger digital foundation and are ready to improve visibility with the right strategy.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '36px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '40px' }}>
                 {['Local service businesses', 'Agencies and consultants', 'eCommerce brands', 'Startups and growing companies', 'Businesses with underperforming websites', 'Brands needing technical SEO and content support'].map(who => (
-                  <div key={who} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: 'var(--text-2)' }}>
-                    <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={14} /></span> {who}
+                  <div key={who} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <CheckSVG size={10} />
+                    </div>
+                    {who}
                   </div>
                 ))}
               </div>
 
               {/* Results */}
-              <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px' }}>
-                <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>What Better SEO Can Do for Your Business</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ background: 'linear-gradient(145deg, rgba(118,108,255,0.08) 0%, rgba(10,10,18,0.4) 100%)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '24px', padding: '36px', position:'relative' }}>
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
+                <p style={{ ...hs, fontSize: '17px', fontWeight: 700, color: '#fff', marginBottom: '20px' }}>What Better SEO Can Do for Your Business</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   {['Stronger search visibility', 'Better keyword reach', 'Improved local presence', 'More qualified traffic', 'Better lead potential', 'Stronger content foundation', 'Healthier website structure'].map(r => (
-                    <div key={r} style={{ display: 'flex', alignItems: 'center', gap: '9px', fontSize: '13px', color: 'var(--text-2)' }}>
+                    <div key={r} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'var(--text-2)' }}>
                       <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={12} /></span> {r}
                     </div>
                   ))}
@@ -342,35 +411,47 @@ export default async function SEOPage() {
       <ApproachSection title="Our SEO Process" processItems={seoProcessItems} />
 
       {/* ── SEO + WEBSITE ALIGNMENT ─────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
+      <section className="section">
         <div className="container">
-          <div style={{ background: 'linear-gradient(135deg, rgba(79,110,247,0.08), rgba(155,109,255,0.05))', border: '1px solid rgba(79,110,247,0.15)', borderRadius: '24px', padding: 'clamp(40px,5vw,64px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '56px', alignItems: 'center' }}>
-            <div>
+          <div style={{ background: 'linear-gradient(135deg, rgba(79,110,247,0.1) 0%, rgba(118,108,255,0.05) 100%)', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: 'clamp(40px,6vw,80px)', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '80px', alignItems: 'center', position:'relative', overflow:'hidden' }}>
+            <div style={{ position:'absolute', top:'-20%', right:'-10%', width:'40%', height:'60%', background:'radial-gradient(ellipse, rgba(118,108,255,0.08) 0%, transparent 70%)', pointerEvents:'none' }} />
+            
+            <div className="sr">
               <p className="eyebrow">Website & SEO Together</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(1.6rem,3vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-                SEO Works Better When Your Website Is Built Right
+              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: '24px' }}>
+                SEO Works Better When Your Website Is <span style={P}>Built Right</span>
               </h2>
-              <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.85, marginBottom: '16px' }}>
+              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.85, marginBottom: '20px' }}>
                 One of the biggest SEO problems businesses face is trying to grow search traffic on top of a weak website foundation. Poor structure, slow speed, weak UX, and disconnected content can limit results no matter how many keywords you target.
               </p>
               <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.85 }}>
                 Because Ariosetech works across web development, Shopify, WordPress, SEO, and automation, we can improve SEO with a broader understanding of how digital performance actually works.
               </p>
-              <p style={{ ...hm, fontSize: '12px', color: 'var(--primary)', marginTop: '20px', fontStyle: 'italic' }}>
-                SEO is stronger when the website behind it is built to support growth.
-              </p>
+              <div style={{ display:'flex', alignItems:'center', gap:'12px', marginTop:'32px', padding:'16px 20px', background:'rgba(255,255,255,0.03)', border:'1px solid var(--border)', borderRadius:'14px', width:'fit-content' }}>
+                <ToolSVG />
+                <p style={{ ...hm, fontSize: '12px', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  SEO is stronger when the website supports growth.
+                </p>
+              </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+
+            <div className="sr" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px' }}>
               {[
-                { icon: '🔧', label: 'WordPress Development', href: '/services/wordpress' },
-                { icon: '🛒', label: 'Shopify Development', href: '/services/shopify' },
-                { icon: '🏪', label: 'WooCommerce Development', href: '/services/woocommerce' },
-              ].map(link => (
+                { icon: <WP_SVG />, label: 'WordPress Development', href: '/services/wordpress', desc: 'Custom themes built for speed and crawlability.' },
+                { icon: <ShopifySVG />, label: 'Shopify Development', href: '/services/shopify', desc: 'E-commerce SEO that drives organic sales.' },
+                { icon: <Woo_SVG />, label: 'WooCommerce Development', href: '/services/woocommerce', desc: 'Scalable store structures with clean code.' },
+              ].map((link, i) => (
                 <Link key={link.href} href={link.href}
-                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '18px 22px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', textDecoration: 'none', transition: 'all 0.2s' }} className="card-hover">
-                  <span style={{ fontSize: '22px' }}>{link.icon}</span>
-                  <span style={{ ...hs, fontSize: '14px', fontWeight: 600, color: '#fff' }}>{link.label}</span>
-                  <ArrowSVG size={14} />
+                  className="card-hover"
+                  style={{ display: 'flex', gap: '20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textDecoration: 'none', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.1}s` }}>
+                  <div style={{ flexShrink: 0, width: '48px', height: '48px', borderRadius: '12px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+                    {link.icon}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{link.label}</p>
+                    <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.5 }}>{link.desc}</p>
+                  </div>
+                  <div style={{ color:'var(--text-3)', marginTop:'4px' }}><ArrowSVG size={16} /></div>
                 </Link>
               ))}
             </div>
@@ -379,29 +460,35 @@ export default async function SEOPage() {
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
+      <section className="section section--dark">
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
-            <div style={{ position: 'sticky', top: '100px' }}>
+            {/* Left - Sticky */}
+            <div className="sr" style={{ position: 'sticky', top: '100px' }}>
               <p className="eyebrow">FAQ</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-                SEO Questions Answered
+              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
+                SEO Questions <span style={P}>Answered</span>
               </h2>
-              <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>
-                Tell us where your website stands, and we&apos;ll help you map the next move.
+              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>
+                Everything you need to know about our SEO approach and how we help businesses grow organic visibility.
               </p>
-              <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={15} /></Link>
+              <Link href="/contact" className="btn btn-primary btn-lg">Book a Free Consultation <ArrowSVG size={16} /></Link>
             </div>
-            <div>
+
+            {/* Right - Accordions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {activeFaqs.map(({ q, a }: any, i: number) => (
-                <details key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '6px' }}>
-                  <summary style={{ padding: '18px 22px', cursor: 'pointer', ...hs, fontSize: '15px', fontWeight: 600, color: '#fff', listStyle: 'none', userSelect: 'none' }}>
-                    {q}
-                  </summary>
-                  <div style={{ padding: '0 22px 18px' }}>
-                    <p style={{ fontSize: '14px', color: 'var(--text-2)', lineHeight: 1.85 }}>{a}</p>
-                  </div>
-                </details>
+                <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
+                  <details style={{ width:'100%' }}>
+                    <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+                      <span style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{q}</span>
+                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG open={false} /></div>
+                    </summary>
+                    <div style={{ padding: '0 28px 24px' }}>
+                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
+                    </div>
+                  </details>
+                </div>
               ))}
             </div>
           </div>
@@ -409,22 +496,28 @@ export default async function SEOPage() {
       </section>
 
       {/* ── CTA ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 70% at 50% 50%, rgba(79,110,247,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <section className="section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(118,108,255,0.1) 0%, transparent 80%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.3 }} />
+        
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-            Ready to Improve Your Search Visibility?
-          </h2>
-          <p style={{ fontSize: '16px', color: 'var(--text-2)', maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.7 }}>
-            Whether you need technical fixes, stronger local SEO, better website optimization, or a content strategy that supports rankings, Ariosetech is ready to help.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={15} /></Link>
-            <Link href="/contact?audit=1" className="btn btn-outline btn-lg">Get a Website Audit</Link>
+          <div className="sr">
+            <p className="eyebrow" style={{ justifyContent:'center' }}>Get Started Today</p>
+            <h2 style={{ ...hs, fontSize: 'clamp(2.4rem,6vw,4.5rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '24px', color:'#fff' }}>
+              Ready to Improve Your<br />
+              <span style={P}>Search Visibility?</span>
+            </h2>
+            <p style={{ fontSize: '18px', color: 'var(--text-2)', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.8 }}>
+              Whether you need technical fixes, stronger local SEO, better website optimization, or a content strategy that supports rankings, Ariosetech is ready to help.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={16} /></Link>
+              <Link href="/contact?audit=1" className="btn btn-outline btn-lg">Get a Website Audit</Link>
+            </div>
+            <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', marginTop: '32px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
+              Tell us where your website stands, and we&apos;ll help you map the next move.
+            </p>
           </div>
-          <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', marginTop: '20px', fontStyle: 'italic' }}>
-            Tell us where your website stands, and we&apos;ll help you map the next move.
-          </p>
         </div>
       </section>
     </>
