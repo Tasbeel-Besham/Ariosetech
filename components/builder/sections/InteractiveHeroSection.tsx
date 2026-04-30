@@ -182,8 +182,13 @@ export default function InteractiveHeroSection({
     ]
 
     let raf: number
+    let isVisible = true
+    const obs = new IntersectionObserver(([e]) => { isVisible = e.isIntersecting }, { threshold: 0.01 })
+    obs.observe(cv)
+
     const loop = () => {
       raf = requestAnimationFrame(loop)
+      if (!isVisible) return
       ctx.fillStyle = '#05050e'; ctx.fillRect(0, 0, W, H)
       const sp = 52, ox = (mx * 0.028) % sp, oy = (my * 0.028) % sp
       ctx.strokeStyle = 'rgba(118,108,255,0.035)'; ctx.lineWidth = 1
@@ -230,7 +235,7 @@ export default function InteractiveHeroSection({
     }
     loop()
     document.body.style.cursor = 'none'
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); window.removeEventListener('mousemove', onMoveRip); trailEls.forEach(el => document.body.removeChild(el)); document.body.style.cursor = 'auto' }
+    return () => { cancelAnimationFrame(raf); obs.disconnect(); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); window.removeEventListener('mousemove', onMoveRip); trailEls.forEach(el => document.body.removeChild(el)); document.body.style.cursor = 'auto' }
   }, [])
 
   /* ── Headline Rendering Logic ── */
