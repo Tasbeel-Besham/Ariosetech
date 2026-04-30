@@ -50,6 +50,7 @@ export default function EditPortfolio() {
   const { id } = useParams<{ id: string }>()
   const [loading, setLoading]   = useState(true)
   const [saving, setSaving]     = useState(false)
+  const [isCustomCat, setIsCustomCat] = useState(false)
   const [blocks, setBlocks]     = useState<Block[]>([])
   const [meta, setMeta]         = useState({ slug: '', clientUrl: '', image: '', category: 'wordpress', featured: false, published: true })
   const [picking, setPicking]   = useState(false)
@@ -209,10 +210,37 @@ export default function EditPortfolio() {
           </div>
           <div>
             <label style={lbl}>Category</label>
-            <input list="cat-list" value={meta.category} onChange={e => setMeta(m => ({ ...m, category: e.target.value }))} style={inp} onFocus={onF} onBlur={onB} placeholder="e.g. ecommerce" />
-            <datalist id="cat-list">
-              {CATS.map(c => <option key={c} value={c} />)}
-            </datalist>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <select 
+                value={isCustomCat ? 'new' : (CATS.includes(meta.category) ? meta.category : (meta.category ? meta.category : ''))}
+                onChange={e => {
+                  if (e.target.value === 'new') {
+                    setIsCustomCat(true)
+                    setMeta(m => ({ ...m, category: '' }))
+                  } else {
+                    setIsCustomCat(false)
+                    setMeta(m => ({ ...m, category: e.target.value }))
+                  }
+                }}
+                style={{...inp, flex: isCustomCat ? '0 0 auto' : 1, width: isCustomCat ? '130px' : 'auto'}}
+                onFocus={onF} onBlur={onB}
+              >
+                <option value="" disabled>Select...</option>
+                {CATS.map(c => <option key={c} value={c}>{c}</option>)}
+                {!CATS.includes(meta.category) && meta.category && !isCustomCat && <option value={meta.category}>{meta.category}</option>}
+                <option value="new">+ Custom...</option>
+              </select>
+              {isCustomCat && (
+                <input 
+                  value={meta.category} 
+                  onChange={e => setMeta(m => ({ ...m, category: e.target.value }))} 
+                  style={{...inp, flex: 1}} 
+                  onFocus={onF} onBlur={onB} 
+                  placeholder="Type custom category..." 
+                  autoFocus
+                />
+              )}
+            </div>
           </div>
         </div>
 

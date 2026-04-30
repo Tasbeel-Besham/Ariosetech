@@ -14,6 +14,7 @@ const CATS = ['wordpress', 'woocommerce', 'shopify', 'seo']
 export default function NewPortfolio() {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
+  const [isCustomCat, setIsCustomCat] = useState(false)
   const [showMediaModal, setShowMediaModal] = useState(false)
   const [results, setResults] = useState<Result[]>([])
   const [form, setForm] = useState({
@@ -90,10 +91,37 @@ export default function NewPortfolio() {
             <div><label style={lbl}>Client Website</label><input value={form.clientUrl} onChange={e => set('clientUrl', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="https://client.com" /></div>
             <div>
               <label style={lbl}>Category</label>
-              <input list="cat-list" value={form.category} onChange={e => set('category', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="e.g. ecommerce" />
-              <datalist id="cat-list">
-                {CATS.map(c => <option key={c} value={c} />)}
-              </datalist>
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <select 
+                  value={isCustomCat ? 'new' : (CATS.includes(form.category) ? form.category : (form.category ? form.category : ''))}
+                  onChange={e => {
+                    if (e.target.value === 'new') {
+                      setIsCustomCat(true)
+                      set('category', '')
+                    } else {
+                      setIsCustomCat(false)
+                      set('category', e.target.value)
+                    }
+                  }}
+                  style={{...inp, flex: isCustomCat ? '0 0 auto' : 1, width: isCustomCat ? '130px' : 'auto'}}
+                  onFocus={onF} onBlur={onB}
+                >
+                  <option value="" disabled>Select...</option>
+                  {CATS.map(c => <option key={c} value={c}>{c}</option>)}
+                  {!CATS.includes(form.category) && form.category && !isCustomCat && <option value={form.category}>{form.category}</option>}
+                  <option value="new">+ Custom...</option>
+                </select>
+                {isCustomCat && (
+                  <input 
+                    value={form.category} 
+                    onChange={e => set('category', e.target.value)} 
+                    style={{...inp, flex: 1}} 
+                    onFocus={onF} onBlur={onB} 
+                    placeholder="Type custom category..." 
+                    autoFocus
+                  />
+                )}
+              </div>
             </div>
             <div>
               <label style={lbl}>Cover Image URL</label>
