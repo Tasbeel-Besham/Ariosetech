@@ -158,8 +158,9 @@ export default function InteractiveHeroSection({
     const trailEls: HTMLDivElement[] = []
     for (let i = 0; i < TCOUNT; i++) {
       const el = document.createElement('div')
+      el.className = 'custom-cursor'
       const s = Math.max(0.5, 4 - i * 0.26)
-      el.style.cssText = `position:fixed; pointer-events:none; z-index:9990; border-radius:50%; transform:translate(-50%,-50%); width:${s}px; height:${s}px; background:rgba(118,108,255,${(1 - i / TCOUNT) * 0.32});`
+      el.style.cssText = `position:fixed; pointer-events:none; z-index:9990; border-radius:50%; transform:translate(-50%,-50%); width:${s}px; height:${s}px; background:rgba(118,108,255,${(1 - i / TCOUNT) * 0.32}); opacity:0; transition:opacity 0.3s;`
       document.body.appendChild(el); trailEls.push(el)
     }
 
@@ -234,8 +235,7 @@ export default function InteractiveHeroSection({
       }
     }
     loop()
-    document.body.style.cursor = 'none'
-    return () => { cancelAnimationFrame(raf); obs.disconnect(); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); window.removeEventListener('mousemove', onMoveRip); trailEls.forEach(el => document.body.removeChild(el)); document.body.style.cursor = 'auto' }
+    return () => { cancelAnimationFrame(raf); obs.disconnect(); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); window.removeEventListener('mousemove', onMoveRip); trailEls.forEach(el => document.body.removeChild(el)) }
   }, [])
 
   /* ── Headline Rendering Logic ── */
@@ -253,12 +253,12 @@ export default function InteractiveHeroSection({
   }
 
   return (
-    <section style={{ position: 'relative', minHeight: '100vh', width: '100%', overflow: 'hidden', background: '#05050e', display: 'flex', flexDirection: 'column' }}>
+    <section className="hero-section-wrapper" style={{ position: 'relative', minHeight: '100vh', width: '100%', overflow: 'hidden', background: '#05050e', display: 'flex', flexDirection: 'column' }}>
       
       {/* Interaction Background */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-        <div ref={cdotRef} style={{ position: 'fixed', zIndex: 9999, width: '6px', height: '6px', background: '#fff', borderRadius: '50%', transform: 'translate(-50%, -50%)' }} />
-        <div ref={cringRef} style={{ position: 'fixed', zIndex: 9999, width: '32px', height: '32px', border: '1px solid rgba(255,255,255,0.45)', borderRadius: '50%', transform: 'translate(-50%, -50%)' }} />
+        <div ref={cdotRef} className="custom-cursor" style={{ position: 'fixed', zIndex: 9999, width: '6px', height: '6px', background: '#fff', borderRadius: '50%', transform: 'translate(-50%, -50%)', opacity: 0, transition: 'opacity 0.3s' }} />
+        <div ref={cringRef} className="custom-cursor" style={{ position: 'fixed', zIndex: 9999, width: '32px', height: '32px', border: '1px solid rgba(255,255,255,0.45)', borderRadius: '50%', transform: 'translate(-50%, -50%)', opacity: 0, transition: 'opacity 0.3s' }} />
         <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
       </div>
 
@@ -371,6 +371,8 @@ export default function InteractiveHeroSection({
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes chipBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
         @keyframes cblink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .hero-section-wrapper { cursor: none; }
+        .hero-section-wrapper:hover .custom-cursor { opacity: 1 !important; }
         .cta-custom-primary {
           background: var(--grad); color: #fff; padding: 0.8rem 1.7rem; border-radius: 12px;
           font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500;
