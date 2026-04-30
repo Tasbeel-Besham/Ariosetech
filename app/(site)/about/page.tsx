@@ -19,6 +19,27 @@ const ArrowSVG = ({ size = 15 }: { size?: number }) => (
   </svg>
 )
 
+const ValIcon1 = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+  </svg>
+)
+const ValIcon2 = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+)
+const ValIcon3 = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </svg>
+)
+const ValIcon4 = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+)
+
 export default function AboutPage() {
   return (
     <>
@@ -97,14 +118,14 @@ export default function AboutPage() {
             {/* Right - Horizontal Cards */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
               {[
-                { icon: '🎯', title: 'Specialists Only', desc: 'We only work with WordPress, WooCommerce, and Shopify. This focus means deeper expertise and better results for you.' },
-                { icon: '💬', title: 'Transparent Communication', desc: "No hidden fees, no surprises. You know exactly what you're getting, when you're getting it, and what it costs." },
-                { icon: '⚡', title: 'Speed Without Compromise', desc: 'We deliver fast because we\'ve done it before. Our team knows these platforms inside out — no learning on your dime.' },
-                { icon: '🤝', title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth — we\'re your long-term web partner.' }
+                { icon: <ValIcon1 />, title: 'Specialists Only', desc: 'We only work with WordPress, WooCommerce, and Shopify. This focus means deeper expertise and better results for you.' },
+                { icon: <ValIcon2 />, title: 'Transparent Communication', desc: "No hidden fees, no surprises. You know exactly what you're getting, when you're getting it, and what it costs." },
+                { icon: <ValIcon3 />, title: 'Speed Without Compromise', desc: 'We deliver fast because we\'ve done it before. Our team knows these platforms inside out — no learning on your dime.' },
+                { icon: <ValIcon4 />, title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth — we\'re your long-term web partner.' }
               ].map((v, i) => (
                 <div key={v.title} className='card card-hover' style={{ display: 'flex', gap: '24px', padding: '32px', position: 'relative', overflow: 'hidden', alignItems: 'flex-start', animationDelay: `${i * 0.1}s` }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
-                  <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', fontSize: '24px', flexShrink: 0 }}>
+                  <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
                     {v.icon}
                   </div>
                   <div>
@@ -129,8 +150,8 @@ export default function AboutPage() {
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', maxWidth: '1000px', margin: '0 auto' }}>
             {['Fashion & Apparel', 'Sports Equipment', 'Beauty & Skincare', 'Fragrances & Perfumes', 'Educational Products', 'Promotional Products', 'Health & Wellness', 'Food & Beverage', 'Electronics', 'Jewelry', 'Home Décor', 'B2B Wholesale', 'SaaS Products', 'Professional Services', 'Real Estate', 'Healthcare', 'Travel & Tourism', 'Non-profits'].map(i => (
-              <span key={i} className="card" style={{ fontSize: '13px', padding: '10px 20px', borderRadius: '12px', background: 'var(--bg-2)', border: '1px solid var(--border)', fontWeight: 600, color: 'var(--text-2)', transition: 'all 0.2s ease' }}>
-                {i}
+              <span key={i} className="card card-hover" style={{ fontSize: '13px', padding: '12px 24px', borderRadius: '14px', background: 'var(--bg-2)', border: '1px solid var(--border)', fontWeight: 600, color: 'var(--text-2)', transition: 'all 0.3s var(--ease)', cursor: 'default' }}>
+                <span style={{ color: 'var(--primary)', marginRight: '8px', opacity: 0.7 }}>#</span>{i}
               </span>
             ))}
           </div>
@@ -147,8 +168,8 @@ export default function AboutPage() {
               Trusted by Businesses <span style={{ background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Worldwide</span>
             </h2>
           </div>
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <ClutchWidget />
+          <div style={{ maxWidth: '1000px', margin: '0 auto', background: 'var(--bg-3)', padding: '40px', borderRadius: '24px', border: '1px solid var(--border)' }}>
+            <ClutchWidget widgetType={2} height={400} />
           </div>
         </div>
       </section>
