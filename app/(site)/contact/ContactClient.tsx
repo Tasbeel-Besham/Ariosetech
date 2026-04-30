@@ -279,9 +279,9 @@ export default function ContactClient() {
       </section>
 
       {/* ══ FORM + INFO ══════════════════════════════════════════════ */}
-      <section style={{ padding:'96px 0', borderBottom:'1px solid var(--border)' }} id="quote">
+      <section className="section" id="quote">
         <div className="container">
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1.45fr', gap:'72px', alignItems:'start' }}>
+          <div className="g-2" style={{ gap:'72px', alignItems:'start' }}>
 
             {/* ── LEFT: info ──────────────────────────────────── */}
             <div>
@@ -337,7 +337,7 @@ export default function ContactClient() {
             </div>
 
             {/* ── RIGHT: form ─────────────────────────────────── */}
-            <div style={{ background:'var(--bg-2)', border:'1px solid rgba(118,108,255,0.2)', borderRadius:'24px', overflow:'hidden', position:'sticky', top:'88px', boxShadow:'0 32px 80px rgba(0,0,0,0.45)' }}>
+            <div style={{ background:'var(--bg-2)', border:'1px solid rgba(118,108,255,0.2)', borderRadius:'24px', overflow:'hidden', position:'relative', top:0, boxShadow:'0 32px 80px rgba(0,0,0,0.45)' }} className="lg:sticky lg:top-[88px]">
               {/* Header */}
               <div style={{ padding:'36px 48px 28px', borderBottom:'1px solid var(--border)', background:'linear-gradient(135deg,rgba(118,108,255,0.09),rgba(118,108,255,0.03))' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px' }}>
@@ -357,14 +357,14 @@ export default function ContactClient() {
               ) : (
                 <form onSubmit={send} style={{ padding:'40px 48px 48px', display:'flex', flexDirection:'column', gap:'20px' }}>
 
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px' }}>
+                  <div className="g-2" style={{ gap:'20px' }}>
                     <FloatingInput label="Full Name" value={form.name} onChange={(v:string) => set('name', v)} required />
                     <FloatingInput label="Email Address" type="email" value={form.email} onChange={(v:string) => set('email', v)} required />
                   </div>
 
                   <FloatingInput label="Phone / WhatsApp (optional)" value={form.phone} onChange={(v:string) => set('phone', v)} />
 
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px' }}>
+                  <div className="g-2" style={{ gap:'20px' }}>
                     <FloatingSelectWithOutsideClick label="Service Needed" value={form.service} onChange={(v:string) => set('service', v)} options={SERVICES} />
                     <FloatingSelectWithOutsideClick label="Budget Range" value={form.budget} onChange={(v:string) => set('budget', v)} options={BUDGETS} />
                   </div>
@@ -395,8 +395,9 @@ export default function ContactClient() {
       </section>
 
       {/* ══ STRATEGY SESSION ════════════════════════════════════════ */}
-      <section style={{ padding:'96px 0', borderBottom:'1px solid var(--border)', background:'var(--bg-2)' }}>
-        <div className="container" style={{ display:'grid', gridTemplateColumns:'1.1fr 0.9fr', gap:'56px', alignItems:'center' }}>
+      <section className="section section--dark">
+        <div className="container">
+          <div className="g-2" style={{ gap:'56px', alignItems:'center' }}>
           <div>
             <p className="eyebrow">Schedule a Call</p>
             <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3.2rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'18px', color:'#fff' }}>
@@ -425,11 +426,11 @@ export default function ContactClient() {
       </section>
 
       {/* ══ FAQ ══════════════════════════════════════════════════════ */}
-      <section style={{ padding:'96px 0', borderBottom:'1px solid var(--border)' }}>
+      <section className="section">
         <div className="container">
           <p className="eyebrow">FAQ</p>
           <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'40px', color:'#fff' }}>Common Questions</h2>
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
+          <div className="g-2" style={{ gap:'16px' }}>
             {[
               { q:'How long does a website project take?',        a:'Most projects complete in 15–30 days. WordPress: 2–3 weeks. WooCommerce: 3–5 weeks. Shopify: 2–4 weeks. You receive a detailed timeline in every proposal.' },
               { q:'What is your pricing structure?',             a:'WordPress starts at $799, Shopify at $999, WooCommerce at $1,299. Fixed-price quotes — no hourly surprises. Typically 50% upfront, 50% on completion.' },

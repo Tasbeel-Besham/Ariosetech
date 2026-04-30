@@ -115,84 +115,107 @@ export default function ApproachSection({
           <div className="approach-fade" style={{ position:'absolute', left:0, top:0, bottom:0, width:'80px', background:'linear-gradient(to right, var(--bg), transparent)', zIndex:2, pointerEvents:'none' }} />
           <div className="approach-fade" style={{ position:'absolute', right:0, top:0, bottom:0, width:'80px', background:'linear-gradient(to left, var(--bg), transparent)', zIndex:2, pointerEvents:'none' }} />
 
-          <div
-            ref={stripRef}
-            className="approach-strip"
-            style={{
-              display:'flex',
-              gap:'20px',
-              paddingLeft:'8vw',
-              paddingRight:'8vw',
-              transform:`translateX(${tx}px)`,
-              willChange:'transform',
-              transition:'transform 0.06s linear',
-            }}
-          >
-            {safeItems.map((item, i) => {
-              const isActive = i === activeIdx
-              return (
-                <div
-                  key={item.n || i}
-                  className={`approach-card ${isActive ? 'active' : ''}`}
-                  style={{
-                    width:'min(460px, 82vw)',
-                    flexShrink:0,
-                    background: isActive
-                      ? 'linear-gradient(145deg, rgba(118,108,255,0.13) 0%, rgba(10,10,18,0.95) 80%)'
-                      : 'var(--bg-2)',
-                    border:`1px solid ${isActive ? 'rgba(118,108,255,0.45)' : 'var(--border)'}`,
-                    borderRadius:'24px',
-                    padding:'44px 40px',
-                    position:'relative',
-                    overflow:'hidden',
-                    transform: isActive ? 'scale(1.02)' : 'scale(0.95)',
-                    opacity: isActive ? 1 : 0.45,
-                    transition:'all 0.45s var(--ease)',
-                    boxShadow: isActive ? '0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(118,108,255,0.1)' : 'none',
-                  }}
-                >
-                  {/* Gradient top bar */}
-                  <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', opacity: isActive ? 1 : 0, transition:'opacity 0.4s' }} />
-
-                  {/* Ghost number */}
-                  <p className="approach-ghost-num" style={{ ...F, fontSize:'clamp(8rem,13vw,14rem)', fontWeight:900, color:'rgba(255,255,255,0.04)', position:'absolute', top:'10px', right:'16px', lineHeight:1, userSelect:'none', letterSpacing:'-0.06em', pointerEvents:'none' }}>
-                    {item.n}
-                  </p>
-
-                  {/* Step number pill */}
-                  <div className="approach-pill" style={{ display:'inline-flex', alignItems:'center', gap:'6px', padding:'4px 12px', borderRadius:'9999px', background:'rgba(118,108,255,0.12)', border:'1px solid rgba(118,108,255,0.25)', marginBottom:'clamp(32px,5vw,64px)' }}>
-                    <span style={{ ...M, fontSize:'11px', fontWeight:700, color:'var(--primary)', letterSpacing:'0.14em' }}>{item.n}</span>
+            <div
+              ref={stripRef}
+              className="approach-strip"
+              style={{
+                display:'flex',
+                flexDirection:'var(--approach-flex-dir, row)',
+                gap:'20px',
+                paddingLeft:'var(--approach-pad-l, 8vw)',
+                paddingRight:'var(--approach-pad-r, 8vw)',
+                transform:`translateX(var(--approach-tx, ${tx}px))`,
+                willChange:'transform',
+                transition:'transform 0.06s linear',
+              }}
+            >
+              {safeItems.map((item, i) => {
+                const isActive = i === activeIdx
+                return (
+                  <div
+                    key={item.n || i}
+                    className={`approach-card ${isActive ? 'active' : ''}`}
+                    style={{
+                      width:'min(460px, 82vw)',
+                      flexShrink:0,
+                      background: isActive
+                        ? 'linear-gradient(145deg, rgba(118,108,255,0.13) 0%, rgba(10,10,18,0.95) 80%)'
+                        : 'var(--bg-2)',
+                      border:`1px solid ${isActive ? 'rgba(118,108,255,0.45)' : 'var(--border)'}`,
+                      borderRadius:'24px',
+                      padding:'44px 40px',
+                      position:'relative',
+                      overflow:'hidden',
+                      transform: isActive ? 'scale(1.02)' : 'scale(0.95)',
+                      opacity: isActive ? 1 : 0.45,
+                      transition:'all 0.45s var(--ease)',
+                      boxShadow: isActive ? '0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(118,108,255,0.1)' : 'none',
+                    }}
+                  >
+                    {/* Gradient top bar */}
+                    <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', opacity: isActive ? 1 : 0, transition:'opacity 0.4s' }} />
+  
+                    {/* Ghost number */}
+                    <p className="approach-ghost-num" style={{ ...F, fontSize:'clamp(8rem,13vw,14rem)', fontWeight:900, color:'rgba(255,255,255,0.04)', position:'absolute', top:'10px', right:'16px', lineHeight:1, userSelect:'none', letterSpacing:'-0.06em', pointerEvents:'none' }}>
+                      {item.n}
+                    </p>
+  
+                    {/* Step number pill */}
+                    <div className="approach-pill" style={{ display:'inline-flex', alignItems:'center', gap:'6px', padding:'4px 12px', borderRadius:'9999px', background:'rgba(118,108,255,0.12)', border:'1px solid rgba(118,108,255,0.25)', marginBottom:'clamp(32px,5vw,64px)' }}>
+                      <span style={{ ...M, fontSize:'11px', fontWeight:700, color:'var(--primary)', letterSpacing:'0.14em' }}>{item.n}</span>
+                    </div>
+  
+                    {/* Title */}
+                    <h3 style={{ ...F, fontSize:'clamp(1.8rem, 2.8vw, 2.2rem)', fontWeight:900, color:'#fff', letterSpacing:'-0.02em', lineHeight:1.1, marginBottom:'18px', textTransform:'uppercase', overflowWrap:'anywhere', wordBreak:'break-word' }}>
+                      {item.title}
+                    </h3>
+  
+                    <p style={{ ...M, fontSize:'11px', fontWeight:700, color:'var(--primary)', marginBottom:'14px', textTransform:'uppercase', letterSpacing:'0.12em' }}>
+                      {item.sub}
+                    </p>
+                    <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.85, maxWidth:'340px' }}>
+                      {item.desc}
+                    </p>
                   </div>
-
-                  {/* Title */}
-                  <h3 style={{ ...F, fontSize:'clamp(1.8rem, 2.8vw, 2.2rem)', fontWeight:900, color:'#fff', letterSpacing:'-0.02em', lineHeight:1.1, marginBottom:'18px', textTransform:'uppercase', overflowWrap:'anywhere', wordBreak:'break-word' }}>
-                    {item.title}
-                  </h3>
-
-                  <p style={{ ...M, fontSize:'11px', fontWeight:700, color:'var(--primary)', marginBottom:'14px', textTransform:'uppercase', letterSpacing:'0.12em' }}>
-                    {item.sub}
-                  </p>
-                  <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.85, maxWidth:'340px' }}>
-                    {item.desc}
-                  </p>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
-        </div>
-
-        {/* Scroll hint */}
-        <div className="approach-hint" style={{ textAlign:'center', padding:'16px 0 20px', flexShrink:0, opacity: showHint ? 1 : 0, transition:'opacity 0.5s', pointerEvents:'none' }}>
-          <div style={{ display:'inline-flex', alignItems:'center', gap:'8px' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-            <span style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.14em' }}>Scroll to explore</span>
+  
+          {/* Scroll hint */}
+          <div className="approach-hint" style={{ textAlign:'center', padding:'16px 0 20px', flexShrink:0, opacity: showHint ? 1 : 0, transition:'opacity 0.5s', pointerEvents:'none' }}>
+            <div style={{ display:'inline-flex', alignItems:'center', gap:'8px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+              </svg>
+              <span style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.14em' }}>Scroll to explore</span>
+            </div>
           </div>
+  
+          {/* Border bottom */}
+          <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'1px', background:'var(--border)' }} />
         </div>
-
-        {/* Border bottom */}
-        <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'1px', background:'var(--border)' }} />
+        <style>{`
+          @media (max-width: 768px) {
+            .approach-wrapper { height: auto !important; }
+            .approach-sticky { position: static !important; height: auto !important; }
+            .approach-strip-container { display: block !important; padding: 40px 0 !important; }
+            .approach-strip { 
+              --approach-flex-dir: column !important; 
+              --approach-tx: 0 !important; 
+              --approach-pad-l: 20px !important; 
+              --approach-pad-r: 20px !important;
+              padding-bottom: 40px !important;
+            }
+            .approach-card { 
+              width: 100% !important; 
+              opacity: 1 !important; 
+              transform: scale(1) !important; 
+              margin-bottom: 12px !important;
+            }
+            .approach-hint, .approach-fade { display: none !important; }
+          }
+        `}</style>
       </div>
     </div>
   )

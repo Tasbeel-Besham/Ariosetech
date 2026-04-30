@@ -19,7 +19,7 @@ export default function AboutPage() {
       <AboutHeroSection />
 
       {/* Story */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0' }}>
+      <section className="section">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -45,7 +45,7 @@ export default function AboutPage() {
               </Reveal>
             </div>
             <Reveal delay={0.06}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="g-2" style={{ gap: '16px' }}>
                 {[
                   { value: '100+', label: 'Projects Delivered', color: 'var(--primary)' },
                   { value: '7+', label: 'Years Experience', color: 'var(--primary)' },
@@ -64,7 +64,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0', background: 'var(--bg-2)' }}>
+      <section className="section section--dark">
         <div className="container">
           <Reveal>
             <p className="eyebrow">Our Values</p>
@@ -92,7 +92,7 @@ export default function AboutPage() {
       </section>
 
       {/* Clients we&apos;ve served */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0' }}>
+      <section className="section">
         <div className="container">
           <Reveal>
             <p className="eyebrow">Industries We Serve</p>
@@ -111,7 +111,7 @@ export default function AboutPage() {
       </section>
 
       {/* Clutch live review cards */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0', background: 'var(--bg-2)' }}>
+      <section className="section section--dark">
         <div className="container">
           <Reveal>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
@@ -128,7 +128,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section style={{ borderBottom: '1px solid var(--border)', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
+      <section className="section">
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(79,110,247,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <Reveal>

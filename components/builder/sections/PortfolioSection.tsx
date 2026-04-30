@@ -219,6 +219,15 @@ export default function PortfolioSection({
         
         .spin { width: 24px; height: 24px; border: 2px solid rgba(118,108,255,.2); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+          .pi { grid-template-columns: 40px 1fr 36px; gap: 12px; padding: 20px 0; }
+          .pnum { font-size: 11px; }
+          .pname { fontSize: 1.15rem; }
+          .pdesc { -webkit-line-clamp: 2; max-width: 100%; font-size: 13px; }
+          .parr { width: 30px; height: 30px; transform: rotate(0); }
+          .portfolio-popup { display: none !important; }
+        }
       `}} />
 
       {/* Grid */}
@@ -299,7 +308,7 @@ export default function PortfolioSection({
       </section>
 
       {/* POPUP */}
-      <div ref={wrapRef} style={{
+      <div ref={wrapRef} className="portfolio-popup" style={{
         position: 'fixed', width: '300px', height: '220px', borderRadius: '16px', overflow: 'hidden', pointerEvents: 'none', zIndex: 9999,
         opacity: hovered ? 1 : 0, transform: hovered ? 'scale(1) translateY(0)' : 'scale(0.88) translateY(8px)',
         transition: 'opacity .22s cubic-bezier(.16,1,.3,1), transform .22s cubic-bezier(.16,1,.3,1)',

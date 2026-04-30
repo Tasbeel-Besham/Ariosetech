@@ -39,14 +39,14 @@ export default function ServicesSection({ eyebrow='What We Offer', headline='Com
   return (
     <section className="section section--dark">
       <div className="container">
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px', alignItems:'end', marginBottom:'60px' }}>
+        <div className="g-2" style={{ gap:'48px', alignItems:'end', marginBottom:'60px' }}>
           <div>
             <p className="eyebrow sr">{eyebrow}</p>
             <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>{headline}</h2>
           </div>
           <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8 }}>Three core platforms. One expert team. We don&apos;t dabble — we specialise so you get the best results every time.</p>
         </div>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'20px' }}>
+        <div className="g-2" style={{ gap:'20px' }}>
           {safe.map((svc,i) => {
             const featureList = (svc.features||'').split(',').map(f=>f.trim()).filter(Boolean)
             const svgIcon = getIcon(svc.icon, svc.title)
@@ -62,7 +62,7 @@ export default function ServicesSection({ eyebrow='What We Offer', headline='Com
                     </div>
                   </div>
                   <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'22px', flex:1 }}>{svc.desc}</p>
-                  <ul style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px 16px', marginBottom:'28px' }}>
+                  <ul className="g-2" style={{ gap:'8px 16px', marginBottom:'28px' }}>
                     {featureList.map(f => (
                       <li key={f} style={{ display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', color:'var(--text-2)' }}>
                         <div style={{ width:'16px', height:'16px', borderRadius:'50%', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, color:'var(--primary)', padding:'3px' }}>

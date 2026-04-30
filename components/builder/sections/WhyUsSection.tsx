@@ -27,8 +27,8 @@ export default function WhyUsSection({ eyebrow='Why Choose Us', headline='Why 10
   return (
     <section className="section" style={{ overflow:'visible' }}>
       <div className="container">
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', alignItems:'start' }}>
-          <div style={{ position:'sticky', top:'88px' }}>
+        <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
+          <div style={{ position:'relative', top:0 }} className="lg:sticky lg:top-[88px]">
             <p className="eyebrow sr">{eyebrow}</p>
             <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
               Why 100+ Businesses Trust{' '}

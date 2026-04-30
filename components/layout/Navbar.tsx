@@ -596,7 +596,8 @@ export default function Navbar() {
             <img
               src={logoUrl}
               alt={siteName}
-              style={{ height: '36px', maxWidth: `${logoWidth}px`, width: 'auto', objectFit: 'contain' }}
+              style={{ height: '36px', maxWidth: 'min(140px, 100%)', width: 'auto', objectFit: 'contain' }}
+              className="lg:max-w-[var(--logo-width)]"
               onError={() => setLogoUrl('')}
             />
           ) : (

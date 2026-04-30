@@ -17,7 +17,7 @@ export default function ImpactSection({ eyebrow='Results That Matter', headline=
           </h2>
           {sub && <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8, maxWidth:'520px', margin:'16px auto 0' }}>{sub}</p>}
         </div>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'24px' }}>
+        <div className="g-3" style={{ gap:'24px' }}>
           {safe.map((m,i) => (
             <div key={i} className="sr" style={{ animationDelay:`${i*0.1}s`, background:'rgba(10,10,18,0.7)', border:'1px solid rgba(118,108,255,0.18)', borderRadius:'24px', padding:'44px 36px', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', position:'relative', overflow:'hidden', transition:'all 0.3s var(--ease)' }}
               onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='rgba(118,108,255,0.45)';el.style.transform='translateY(-8px)';el.style.boxShadow='0 32px 80px rgba(0,0,0,0.6),0 0 60px rgba(118,108,255,0.08)'}}

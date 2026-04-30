@@ -19,7 +19,7 @@ export default function TestimonialsSection({ eyebrow='Client Reviews', headline
           </div>
           <div className="sr"><ClutchWidget widgetType={7} height={65} /></div>
         </div>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'20px', marginBottom:'40px' }}>
+        <div className="g-3" style={{ gap:'20px', marginBottom:'40px' }}>
           {safe.map((t,i) => (
             <div key={i} className="card sr" style={{ padding:'32px', animationDelay:`${i*0.08}s` }}>
               <div style={{ display:'flex', gap:'3px', marginBottom:'20px' }}>
