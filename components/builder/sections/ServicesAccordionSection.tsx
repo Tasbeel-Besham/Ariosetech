@@ -147,6 +147,8 @@ export default function ServicesAccordionSection({
             borderRight: isMd ? '1px solid rgba(255,255,255,0.07)' : 'none',
             borderBottom: !isMd ? '1px solid rgba(255,255,255,0.07)' : 'none',
             background: 'rgba(5,5,10,0.6)',
+            overflowX: isMd ? 'visible' : 'auto',
+            WebkitOverflowScrolling: 'touch',
           }}>
             {items.map((t, i) => {
               const isActive = i === active
@@ -199,7 +201,7 @@ export default function ServicesAccordionSection({
           </div>
 
           {/* ── Content panel ── */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: isMd ? undefined : '320px' }}>
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: isMd ? '440px' : 'auto' }}>
             <div style={{ position: 'absolute', inset: 0, background: tab?.bg || '#05050a', transition: 'background 0.4s' }} />
             <div style={{ position: 'absolute', inset: 0, opacity: 0.045, backgroundImage: 'linear-gradient(rgba(118,108,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,108,255,1) 1px,transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', top: '-20%', right: '5%', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(118,108,255,0.18) 0%,transparent 70%)', filter: 'blur(24px)', pointerEvents: 'none' }} />
@@ -215,11 +217,11 @@ export default function ServicesAccordionSection({
                   exit="exit"
                   transition={{ duration: 0.28, ease: [0.22,1,0.36,1] }}
                   style={{
-                    position: 'absolute', inset: 0,
+                    position: isMd ? 'absolute' : 'relative', 
+                    inset: isMd ? 0 : 'auto',
                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
                     background: 'rgba(5,5,8,0.72)',
-                    padding: isMd ? '36px 40px' : '22px 20px',
-                    overflowY: 'auto',
+                    padding: isMd ? '36px 40px' : '32px 20px',
                   }}
                 >
                   <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
