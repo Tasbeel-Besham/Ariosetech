@@ -52,7 +52,7 @@ export default function ApproachSection({ processItems, title = 'Development Pro
           <h2 className="sr" style={{ ...hs, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'20px' }}>
             {title.split(' ').slice(0, -1).join(' ')} <span style={P}>{title.split(' ').slice(-1)}</span>
           </h2>
-          <div style={{ display:'flex', justifyContent:'center', gap:'8px' }}>
+          <div className="approach-dots" style={{ display:'flex', justifyContent:'center', gap:'8px' }}>
             {processItems.map((_, i) => (
               <div key={i} style={{ width: i === activeIdx ? '24px' : '6px', height:'6px', borderRadius:'9999px', background: i === activeIdx ? 'var(--primary)' : 'rgba(118,108,255,0.25)', transition:'all 0.4s var(--ease)' }} />
             ))}
