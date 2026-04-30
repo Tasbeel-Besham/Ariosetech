@@ -256,7 +256,7 @@ function ServicesPanel({
                       }}
                         onMouseEnter={e => {
                           e.currentTarget.style.color = 'var(--primary)'
-                          e.currentTarget.style.background = 'var(--primary-soft)'
+                          e.currentTarget.style.background = 'transparent'
                           e.currentTarget.style.transform = 'translateX(3px)'
                         }}
                         onMouseLeave={e => {
@@ -640,7 +640,7 @@ export default function Navbar() {
                 transition: 'all 0.2s cubic-bezier(0.22,1,0.36,1)',
                 textDecoration: 'none',
               }}
-                onMouseEnter={e => { if (!isActive(item.href)) { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.background = 'var(--primary-soft)' } }}
+                onMouseEnter={e => { if (!isActive(item.href)) { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.background = 'transparent' } }}
                 onMouseLeave={e => { if (!isActive(item.href) && !(hasMega && megaOpen)) { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.background = 'transparent' } }}
               >
                 {item.label}
