@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { getCollection } from '@/lib/db/mongodb'
 import { ServicePageDoc } from '@/types'
+import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -123,6 +124,36 @@ export default async function SEOPage() {
     startingPrice: ''
   }
 
+  // Map services to accordion format
+  const seoTabItems = activeServices.map((svc: any, i: number) => {
+    const labels = ['Website', 'Local', 'Technical', 'Content'];
+    const icons = [
+      <svg key="1" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+      <svg key="2" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+      <svg key="3" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>,
+      <svg key="4" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
+    ];
+    const bgs = [
+      'radial-gradient(ellipse 90% 80% at 10% 90%, rgba(118,108,255,0.32) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 90% 10%, rgba(80,60,220,0.18) 0%, transparent 50%), linear-gradient(160deg,#0c0a1c,#05050a)',
+      'radial-gradient(ellipse 90% 80% at 90% 80%, rgba(118,108,255,0.32) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 10% 10%, rgba(60,50,200,0.18) 0%, transparent 50%), linear-gradient(160deg,#08081a,#05050a)',
+      'radial-gradient(ellipse 90% 80% at 50% 110%, rgba(118,108,255,0.32) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 50% -10%, rgba(90,80,240,0.16) 0%, transparent 50%), linear-gradient(160deg,#0a0818,#05050a)',
+      'radial-gradient(ellipse 70% 70% at 20% 20%, rgba(118,108,255,0.30) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(80,70,220,0.18) 0%, transparent 50%), linear-gradient(160deg,#08081a,#05050a)',
+    ];
+
+    return {
+      id: svc.id || i,
+      label: labels[i] || 'SEO',
+      title: svc.title,
+      sub: svc.tagline,
+      desc: svc.desc,
+      features: svc.features,
+      price: 'Custom',
+      href: '/contact',
+      bg: bgs[i] || bgs[0],
+      icon: icons[i] || icons[0],
+    };
+  });
+
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
@@ -205,48 +236,12 @@ export default async function SEOPage() {
       </section>
 
       {/* ── SERVICES ─────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
-          <p className="eyebrow">Our SEO Services</p>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '16px' }}>
-            Our SEO Services
-          </h2>
-          <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '560px', marginBottom: '56px' }}>
-            We offer focused SEO solutions built to improve search visibility, site performance, and growth potential.
-          </p>
-
-          {activeServices.map((svc) => (
-            <div key={svc.id} id={svc.id} style={{ marginBottom: '40px', scrollMarginTop: '90px' }}>
-              <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', transition: 'border-color 0.2s' }}>
-                <div style={{ height: '3px', background: `linear-gradient(90deg, var(--primary), rgba(118,108,255,0.6))` }} />
-                <div style={{ padding: '36px' }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginBottom: '20px' }}>
-                    <div style={{ flexShrink: 0 }}>
-                      <p style={{ ...hs, fontSize: 'clamp(3rem,4vw,4rem)', fontWeight: 800, color: `rgba(118,108,255,0.22)`, lineHeight: 1, userSelect: 'none' }}>{svc.number}</p>
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <h3 style={{ ...hs, fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{svc.title}</h3>
-                      <p style={{ ...hs, fontSize: '14px', fontWeight: 600, color: 'var(--primary)', marginBottom: '16px' }}>{svc.tagline}</p>
-                      <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.85, marginBottom: '24px', maxWidth: '720px' }}>{svc.desc}</p>
-                      <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '12px' }}>{"What's Included:"}</p>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '8px 24px', marginBottom: '24px' }}>
-                        {svc.features.map((f: string) => (
-                          <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px', fontSize: '13px', color: 'var(--text-2)' }}>
-                            <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px', display:'flex' }}><CheckSVG size={13} /></span> {f}
-                          </div>
-                        ))}
-                      </div>
-                      <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 22px', borderRadius: '9px', background: `rgba(118,108,255,0.15)`, border: `1px solid rgba(118,108,255,0.4)`, color: 'var(--primary)', textDecoration: 'none', fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-display)' }}>
-                        Get Started <ArrowSVG size={13} />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ServicesAccordionSection 
+        eyebrow="Our SEO Services"
+        headline="Our SEO Services"
+        intro="We offer focused SEO solutions built to improve search visibility, site performance, and growth potential."
+        items={seoTabItems}
+      />
 
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
       <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
@@ -259,7 +254,7 @@ export default async function SEOPage() {
             SEO works best when strategy, structure, and execution move in the same direction. That is why our work connects technical improvements, content decisions, website structure, and growth goals instead of treating SEO like a checklist.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-            {activeWhyUs.map((r: Record<string, unknown>) => (
+            {activeWhyUs.map((r: Record<string, any>) => (
               <div key={r.title} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', transition: 'border-color 0.2s' }}>
                 <p style={{ fontSize: '28px', marginBottom: '12px', lineHeight: 1 }}>{r.icon}</p>
                 <p style={{ ...hs, fontSize: '15px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
@@ -416,7 +411,7 @@ export default async function SEOPage() {
               <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={15} /></Link>
             </div>
             <div>
-              {activeFaqs.map(({ q, a }: unknown, i: number) => (
+              {activeFaqs.map(({ q, a }: any, i: number) => (
                 <details key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', marginBottom: '6px' }}>
                   <summary style={{ padding: '18px 22px', cursor: 'pointer', ...hs, fontSize: '15px', fontWeight: 600, color: '#fff', listStyle: 'none', userSelect: 'none' }}>
                     {q}
