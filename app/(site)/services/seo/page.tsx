@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getCollection } from '@/lib/db/mongodb'
 import { ServicePageDoc } from '@/types'
 import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
+import ApproachSection from '@/components/sections/ApproachSection'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -153,6 +154,15 @@ export default async function SEOPage() {
       icon: icons[i] || icons[0],
     };
   });
+
+  // Map SEO Process to ApproachSection format
+  const seoProcessItems = [
+    { n: '01', title: 'Audit',        sub: 'Strengthening Your Foundation', desc: 'We review your website, search presence, content, and technical condition to understand what is holding performance back.', time: '1-2 days' },
+    { n: '02', title: 'Strategy',     sub: 'Tailored Growth Roadmap',       desc: 'We build an SEO plan based on your business model, audience, goals, and search opportunities.', time: '2-3 days' },
+    { n: '03', title: 'Optimization', sub: 'Improving Search Visibility',    desc: 'We improve your pages, structure, technical setup, content targeting, and internal SEO foundation.', time: '10-15 days' },
+    { n: '04', title: 'Content & Growth', sub: 'Building Topical Strength', desc: 'Where needed, we build supporting content, improve weak pages, and strengthen site-wide relevance.', time: 'Ongoing' },
+    { n: '05', title: 'Ongoing Improvement', sub: 'Data-Driven Success',    desc: 'SEO is not static. We continue refining based on performance, search trends, and growth priorities.', time: 'Monthly' },
+  ]
 
   return (
     <>
@@ -329,35 +339,7 @@ export default async function SEOPage() {
       </section>
 
       {/* ── PROCESS ────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
-        <div className="container">
-          <p className="eyebrow" style={{ justifyContent: 'center', display: 'flex' }}>Our Process</p>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.8rem,4vw,2.8rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '12px', textAlign: 'center' }}>
-            Our SEO Process
-          </h2>
-          <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, textAlign: 'center', maxWidth: '500px', margin: '0 auto 56px' }}>
-            We keep the process clear, focused, and tied to business priorities.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '2px' }}>
-            {[
-              { n: '01', label: 'Audit',        desc: 'We review your website, search presence, content, and technical condition to understand what is holding performance back.' },
-              { n: '02', label: 'Strategy',     desc: 'We build an SEO plan based on your business model, audience, goals, and search opportunities.' },
-              { n: '03', label: 'Optimization', desc: 'We improve your pages, structure, technical setup, content targeting, and internal SEO foundation.' },
-              { n: '04', label: 'Content & Growth', desc: 'Where needed, we build supporting content, improve weak pages, and strengthen site-wide relevance.' },
-              { n: '05', label: 'Ongoing Improvement', desc: 'SEO is not static. We continue refining based on performance, search trends, and growth priorities.' },
-            ].map((step, i) => (
-              <div key={step.n} style={{ padding: '28px 20px', borderRight: i < 4 ? '1px solid var(--border)' : 'none', background: 'var(--bg-3)' }}>
-                <p style={{ ...hs, fontSize: 'clamp(2.5rem,3.5vw,3.5rem)', fontWeight: 800, color: 'rgba(79,110,247,0.15)', lineHeight: 1, marginBottom: '14px', userSelect: 'none' }}>{step.n}</p>
-                <p style={{ ...hs, fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '10px' }}>{step.label}</p>
-                <p style={{ fontSize: '12px', color: 'var(--text-3)', lineHeight: 1.8 }}>{step.desc}</p>
-              </div>
-            ))}
-          </div>
-          <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', textAlign: 'center', marginTop: '32px', fontStyle: 'italic' }}>
-            Clear strategy. Focused execution. Better search performance.
-          </p>
-        </div>
-      </section>
+      <ApproachSection title="Our SEO Process" processItems={seoProcessItems} />
 
       {/* ── SEO + WEBSITE ALIGNMENT ─────────────────────────────────── */}
       <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
