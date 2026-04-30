@@ -22,6 +22,7 @@ export default function PortfolioSection({
   
   const safeItems: Item[] = Array.isArray(items) ? items : []
   
+  const [dbItems, setDbItems] = useState<Item[]>([])
   const [filter, setFilter] = useState('all')
   const [hovered, setHovered] = useState<Item | null>(null)
   
@@ -36,6 +37,33 @@ export default function PortfolioSection({
   const cache = useRef<Record<string, string>>({})
   const [loadingImg, setLoadingImg] = useState(false)
   const [imgError, setImgError] = useState(false)
+
+  // Fetch complete DB portfolio
+  useEffect(() => {
+    fetch('/api/portfolio')
+      .then(r => r.json())
+      .then(data => {
+        if (!Array.isArray(data)) return
+        const mapped = data.map((item: any) => {
+          const result = item.results && item.results[0] ? item.results[0].value : ''
+          const resultLabel = item.results && item.results[0] ? item.results[0].label : ''
+          return {
+            title: item.title,
+            client: item.client,
+            platform: item.category || 'other',
+            cat: item.category || 'other',
+            result,
+            resultLabel,
+            quote: item.quote || item.summary || '',
+            image: item.image,
+            url: item.clientUrl,
+            slug: item.slug
+          }
+        })
+        setDbItems(mapped)
+      })
+      .catch(console.error)
+  }, [])
 
   // Track mouse
   useEffect(() => {
@@ -152,7 +180,9 @@ export default function PortfolioSection({
     }
   }, [hovered])
 
-  const filtered = filter === 'all' ? safeItems : safeItems.filter(p => (p.cat || '').toLowerCase() === filter)
+  const displayItems = dbItems.length > 0 ? dbItems : safeItems
+  const displayCats = Array.from(new Set(displayItems.map(item => (item.cat || 'other').toLowerCase())))
+  const filtered = filter === 'all' ? displayItems : displayItems.filter(p => (p.cat || '').toLowerCase() === filter)
 
   // Styles mapping to Ariosetech system
   const F = { fontFamily: 'var(--font-display)' } as const
@@ -162,10 +192,10 @@ export default function PortfolioSection({
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
+        .ptag { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,0.7); }
         .ptag.woocommerce { background: rgba(155,109,255,.1); border: 1px solid rgba(155,109,255,.22); color: #b49bff; }
         .ptag.shopify { background: rgba(79,186,124,.08); border: 1px solid rgba(79,186,124,.22); color: #4fba7c; }
         .ptag.wordpress { background: rgba(79,110,247,.1); border: 1px solid rgba(79,110,247,.22); color: #6b8ff7; }
-        .ptag.other { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,0.7); }
         .fb { padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.13); background: transparent; color: rgba(255,255,255,0.4); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; font-weight: 600; }
         .fb.on, .fb:hover { border-color: rgba(118,108,255,.45); background: rgba(118,108,255,.12); color: var(--primary); }
         .pi { display: grid; grid-template-columns: 60px 1fr auto 36px; align-items: center; gap: 20px; padding: 24px 0; border-top: 1px solid var(--border); cursor: pointer; position: relative; transition: background .2s; text-decoration: none; }
@@ -209,9 +239,11 @@ export default function PortfolioSection({
 
           <div style={{ display: 'flex', gap: '10px', paddingBottom: '32px', flexWrap: 'wrap' }}>
             <button className={`fb ${filter === 'all' ? 'on' : ''}`} onClick={() => setFilter('all')}>All Projects</button>
-            <button className={`fb ${filter === 'woocommerce' ? 'on' : ''}`} onClick={() => setFilter('woocommerce')}>WooCommerce</button>
-            <button className={`fb ${filter === 'shopify' ? 'on' : ''}`} onClick={() => setFilter('shopify')}>Shopify</button>
-            <button className={`fb ${filter === 'wordpress' ? 'on' : ''}`} onClick={() => setFilter('wordpress')}>WordPress</button>
+            {displayCats.map(c => (
+              <button key={c} className={`fb ${filter === c ? 'on' : ''}`} onClick={() => setFilter(c)}>
+                {c.toUpperCase()}
+              </button>
+            ))}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '40px' }}>

@@ -90,9 +90,10 @@ export default function NewPortfolio() {
             <div><label style={lbl}>Client Website</label><input value={form.clientUrl} onChange={e => set('clientUrl', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="https://client.com" /></div>
             <div>
               <label style={lbl}>Category</label>
-              <select value={form.category} onChange={e => set('category', e.target.value)} style={{ ...inp, cursor: 'pointer' }} onFocus={onF} onBlur={onB}>
-                {CATS.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <input list="cat-list" value={form.category} onChange={e => set('category', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="e.g. ecommerce" />
+              <datalist id="cat-list">
+                {CATS.map(c => <option key={c} value={c} />)}
+              </datalist>
             </div>
             <div>
               <label style={lbl}>Cover Image URL</label>

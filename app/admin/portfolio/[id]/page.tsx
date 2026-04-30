@@ -209,9 +209,10 @@ export default function EditPortfolio() {
           </div>
           <div>
             <label style={lbl}>Category</label>
-            <select value={meta.category} onChange={e => setMeta(m => ({ ...m, category: e.target.value }))} style={{ ...inp, cursor: 'pointer' }} onFocus={onF} onBlur={onB}>
-              {CATS.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
+            <input list="cat-list" value={meta.category} onChange={e => setMeta(m => ({ ...m, category: e.target.value }))} style={inp} onFocus={onF} onBlur={onB} placeholder="e.g. ecommerce" />
+            <datalist id="cat-list">
+              {CATS.map(c => <option key={c} value={c} />)}
+            </datalist>
           </div>
         </div>
 
