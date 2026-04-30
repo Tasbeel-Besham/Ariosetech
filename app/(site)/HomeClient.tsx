@@ -370,15 +370,23 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
               <Link href="/contact" className="btn btn-primary btn-lg sr">Start a Project <ArrowSVG size={16} /></Link>
             </div>
 
-            {/* RIGHT — scrollable */}
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'20px' }}>
+            {/* RIGHT — scrollable vertical cards */}
+            <div style={{ display:'grid', gridTemplateColumns:'1fr', gap:'16px' }}>
               {WHY_US.map((b,i) => (
-                <div key={b.title} className="sr card card-hover" style={{ padding:'36px', animationDelay:`${i*0.08}s` }}>
-                  <div style={{ position:'absolute', top:0, left:0, width:'100%', height:'2px', background:'var(--grad)' }} />
-                  <div style={{ flexShrink:0, width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', marginBottom:'20px' }}>{b.icon}</div>
-                  <h3 style={{ ...F, fontSize:'18px', fontWeight:800, color:'#fff', marginBottom:'10px' }}>{b.title}</h3>
-                  <p style={{ ...F, fontSize:'12px', fontWeight:600, color:'var(--primary)', marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.05em' }}>{b.subhead}</p>
-                  <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8 }}>{b.desc}</p>
+                <div key={b.title} className="sr card card-hover" style={{ display:'flex', gap:'24px', padding:'32px', animationDelay:`${i*0.08}s`, position:'relative', overflow:'hidden', alignItems:'flex-start' }}>
+                  <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
+                  
+                  {/* Icon Box */}
+                  <div style={{ flexShrink:0, width:'56px', height:'56px', borderRadius:'14px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', fontSize:'24px' }}>
+                    {b.icon}
+                  </div>
+
+                  {/* Content */}
+                  <div>
+                    <h3 style={{ ...F, fontSize:'18px', fontWeight:800, color:'#fff', marginBottom:'8px', letterSpacing:'-0.02em' }}>{b.title}</h3>
+                    <p style={{ ...F, fontSize:'11px', fontWeight:700, color:'var(--primary)', marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.06em' }}>{b.subhead}</p>
+                    <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8 }}>{b.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
