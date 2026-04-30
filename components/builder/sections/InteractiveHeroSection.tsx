@@ -26,7 +26,25 @@ const COLOR_MAP = {
   com: 'rgba(255,255,255,.22)', kw: '#60a5fa', fn: '#fbbf24', attr: '#a78bfa', str: '#4ade80', v: 'rgba(255,255,255,.55)'
 }
 
-export default function InteractiveHeroSection() {
+type Props = {
+  eyebrow?: string
+  headline?: string
+  subheadline?: string
+  ctaPrimaryLabel?: string
+  ctaPrimaryHref?: string
+  ctaSecondaryLabel?: string
+  ctaSecondaryHref?: string
+}
+
+export default function InteractiveHeroSection({
+  eyebrow = 'Professional Web Development Since 2017',
+  headline = 'Professional WordPress, Shopify & WooCommerce Development',
+  subheadline = "Transform your business with custom e-commerce solutions that drive results. We've helped 100+ businesses across the globe scale their online presence with expert development, lightning-fast performance, and ongoing support.",
+  ctaPrimaryLabel = 'Get Free Quote & Strategy Call',
+  ctaPrimaryHref = '/contact',
+  ctaSecondaryLabel = 'View Our Portfolio',
+  ctaSecondaryHref = '/portfolio',
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const cdotRef = useRef<HTMLDivElement>(null)
   const cringRef = useRef<HTMLDivElement>(null)
@@ -181,21 +199,18 @@ export default function InteractiveHeroSection() {
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '22px' }}>
               <div style={{ width: '22px', height: '1.5px', background: 'var(--grad)' }} />
               <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)', opacity: 0.6 }} />
-              <span style={{ ...M, fontSize: '10.5px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>Professional Web Development Since 2017</span>
+              <span style={{ ...M, fontSize: '10.5px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>{eyebrow}</span>
             </div>
           </motion.div>
 
           <div ref={headlineRef} style={{ marginBottom: '20px' }}>
             <h1 style={{ ...F, fontSize: 'clamp(2rem, 5.2vw, 3.8rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.04em', color: '#fff', cursor: 'none' }}>
-              <div style={{ display: 'block' }}>{renderChar('Professional')}</div>
-              <div style={{ display: 'block' }}>{renderChar('WordPress, ')}{renderChar('Shopify')}</div>
-              <div style={{ display: 'block' }}>{renderChar('& ')}{renderChar('WooCommerce')}</div>
-              <div style={{ display: 'block' }}>{renderChar('Development', true)}</div>
+              {renderChar(headline)}
             </h1>
           </div>
 
           <p style={{ ...B, fontSize: '15px', lineHeight: 1.78, color: 'rgba(255,255,255,0.38)', maxWidth: '430px', marginBottom: '16px', fontWeight: 300 }}>
-            Transform your business with custom e-commerce solutions that drive results. We've helped <strong style={{ color: 'rgba(255,255,255,0.62)', fontWeight: 400 }}>100+ businesses across the globe</strong> scale their online presence with expert development, <strong style={{ color: 'rgba(255,255,255,0.62)', fontWeight: 400 }}>lightning-fast performance</strong>, and ongoing support.
+            {subheadline}
           </p>
 
           <p style={{ ...B, fontSize: '12.5px', color: 'rgba(255,255,255,0.28)', marginBottom: '24px', fontStyle: 'italic' }}>
@@ -203,8 +218,8 @@ export default function InteractiveHeroSection() {
           </p>
 
           <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '100px', padding: '14px 28px' }}>Get Free Quote & Strategy Call</Link>
-            <Link href="/portfolio" className="btn btn-outline btn-lg" style={{ borderRadius: '100px', padding: '14px 28px', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.42)', background: 'none' }}>View Our Portfolio →</Link>
+            <Link href={ctaPrimaryHref} className="btn btn-primary btn-lg" style={{ borderRadius: '100px', padding: '14px 28px' }}>{ctaPrimaryLabel}</Link>
+            <Link href={ctaSecondaryHref} className="btn btn-outline btn-lg" style={{ borderRadius: '100px', padding: '14px 28px', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.42)', background: 'none' }}>{ctaSecondaryLabel} →</Link>
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
