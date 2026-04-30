@@ -391,13 +391,13 @@ export default async function SEOPage() {
               </div>
 
               {/* Results */}
-              <div style={{ background: 'linear-gradient(145deg, rgba(118,108,255,0.08) 0%, rgba(10,10,18,0.4) 100%)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '24px', padding: '36px', position:'relative' }}>
+              <div className="sr" style={{ background: 'linear-gradient(145deg, rgba(118,108,255,0.08) 0%, rgba(10,10,18,0.4) 100%)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '24px', padding: '40px', position:'relative', overflow:'hidden' }}>
                 <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
-                <p style={{ ...hs, fontSize: '17px', fontWeight: 700, color: '#fff', marginBottom: '20px' }}>What Better SEO Can Do for Your Business</p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <p style={{ ...hs, fontSize: '15px', fontWeight: 800, color: '#fff', marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>What Better SEO Can Do for Your Business</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 24px' }}>
                   {['Stronger search visibility', 'Better keyword reach', 'Improved local presence', 'More qualified traffic', 'Better lead potential', 'Stronger content foundation', 'Healthier website structure'].map(r => (
-                    <div key={r} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'var(--text-2)' }}>
-                      <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={12} /></span> {r}
+                    <div key={r} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'var(--text-2)' }}>
+                      <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={14} /></span> {r}
                     </div>
                   ))}
                 </div>
