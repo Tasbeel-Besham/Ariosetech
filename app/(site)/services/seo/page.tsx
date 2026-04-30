@@ -263,6 +263,10 @@ export default async function SEOPage() {
               <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
                 SEO That Supports <span style={P}>Real Growth</span>
               </h2>
+              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.85 }}>
+                SEO is not just about rankings; it is about visibility that creates results. We focus on technical foundations, content that ranks, and strategies that turn searchers into customers.
+              </p>
+            </div>
             <div className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '24px', padding: 'clamp(24px, 5vw, 40px)', position:'relative', overflow:'hidden' }}>
               <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
               <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>Why SEO Still Matters</p>
