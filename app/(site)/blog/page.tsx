@@ -41,8 +41,8 @@ export default async function BlogPage() {
         <section className="section section--dark">
           <div className="container">
             <p className="eyebrow sr" style={{ marginBottom:'24px' }}>Featured Article</p>
-            <Link href={`/blog/${featured.slug}`} className="card card-hover sr"
-              style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px', alignItems:'center', textDecoration:'none', padding:'48px', transition:'all 0.3s var(--ease)', position: 'relative', overflow: 'hidden' }}>
+            <Link href={`/blog/${featured.slug}`} className="card card-hover sr featured-blog-card"
+              style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'48px', alignItems:'center', textDecoration:'none', transition:'all 0.3s var(--ease)', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '3px', background: 'var(--grad)' }} />
               <div>
                 <span style={{ ...hm, fontSize:'10px', textTransform:'uppercase', letterSpacing:'0.1em', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.25)', color:'var(--primary)', padding:'4px 12px', borderRadius:'100px', display:'inline-block', marginBottom:'20px' }}>
@@ -71,7 +71,7 @@ export default async function BlogPage() {
         <section className="section">
           <div className="container">
             <p className="eyebrow sr" style={{ marginBottom:'36px' }}>All Articles</p>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'20px' }}>
+            <div className="g-3">
               {rest.map((post, i) => (
                 <Link key={String(post._id)} href={`/blog/${post.slug}`}
                   className="card card-hover sr"
@@ -96,6 +96,13 @@ export default async function BlogPage() {
           </div>
         </section>
       )}
+
+      <style>{`
+        .featured-blog-card { padding: 48px; }
+        @media (max-width: 768px) {
+          .featured-blog-card { padding: 32px 24px !important; gap: 32px !important; }
+        }
+      `}</style>
 
       {posts.length === 0 && (
         <section className="section">

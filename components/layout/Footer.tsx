@@ -187,7 +187,7 @@ export default function Footer() {
             ))}
           </div>
           <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
-            <div style={{ width:'6px', height:'6px', borderRadius:'50%', background:'var(--green)', boxShadow:'0 0 6px var(--green)' }} />
+            <div style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#22c55e', boxShadow:'0 0 6px #22c55e' }} />
             <p style={{ ...M, fontSize:'10px', color:'var(--text-3)' }}>All systems operational</p>
           </div>
         </div>

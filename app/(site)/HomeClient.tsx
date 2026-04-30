@@ -506,13 +506,13 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             </p>
           </div>
 
-          <div style={{ display:'flex', flexDirection:'column', gap:'32px', maxWidth:'900px', margin:'0 auto' }}>
+          <div className="how-it-works-grid" style={{ display:'flex', flexDirection:'column', gap:'32px', maxWidth:'900px', margin:'0 auto' }}>
             {HOW_IT_WORKS.map((step, i) => {
               const isRight = i % 2 !== 0
               return (
                 <div
                   key={step.n}
-                  className="sr"
+                  className="sr how-step-row"
                   style={{
                     animationDelay: `${i * 0.1}s`,
                     display: 'grid',
@@ -522,55 +522,59 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                   }}
                 >
                   {/* Left slot */}
-                  {isRight ? (
-                    <div className="how-step__empty" />
-                  ) : (
-                    <div
-                      style={{
-                        background: 'var(--bg-2)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '20px',
-                        padding: '32px 36px',
-                        transition: 'all 0.3s var(--ease)',
-                      }}
-                      onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateX(-6px)' }}
-                      onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}
-                    >
-                      <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
-                      <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
-                      <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
-                      <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{step.desc}</p>
-                    </div>
-                  )}
+                  <div className={isRight ? "how-step__empty hidden-mobile" : "how-step__card"}>
+                    {!isRight && (
+                      <div
+                        style={{
+                          background: 'var(--bg-2)',
+                          border: '1px solid var(--border)',
+                          borderRadius: '20px',
+                          padding: '32px 36px',
+                          transition: 'all 0.3s var(--ease)',
+                          position: 'relative', overflow: 'hidden'
+                        }}
+                        onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateX(-6px)' }}
+                        onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}
+                      >
+                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.5 }} />
+                        <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
+                        <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
+                        <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
+                        <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{step.desc}</p>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Centre connector dot */}
-                  <div className="how-step__dot" style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'0' }}>
+                  <div className="how-step__dot hidden-mobile" style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'0' }}>
                     <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:'var(--primary-soft)', border:'2px solid rgba(118,108,255,0.35)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                       <span style={{ ...F, fontSize:'12px', fontWeight:800, color:'var(--primary)' }}>{step.n}</span>
                     </div>
                   </div>
 
                   {/* Right slot */}
-                  {!isRight ? (
-                    <div className="how-step__empty" />
-                  ) : (
-                    <div
-                      style={{
-                        background: 'var(--bg-2)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '20px',
-                        padding: '32px 36px',
-                        transition: 'all 0.3s var(--ease)',
-                      }}
-                      onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateX(6px)' }}
-                      onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}
-                    >
-                      <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
-                      <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
-                      <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
-                      <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{step.desc}</p>
-                    </div>
-                  )}
+                  <div className={!isRight ? "how-step__empty hidden-mobile" : "how-step__card"}>
+                    {isRight && (
+                      <div
+                        style={{
+                          background: 'var(--bg-2)',
+                          border: '1px solid var(--border)',
+                          borderRadius: '20px',
+                          padding: '32px 36px',
+                          transition: 'all 0.3s var(--ease)',
+                          position: 'relative', overflow: 'hidden'
+                        }}
+                        onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateX(6px)' }}
+                        onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}
+                      >
+                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.5 }} />
+                        <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
+                        <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
+                        <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
+                        <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{step.desc}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )
             })}
@@ -706,9 +710,9 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           </div>
 
           {/* Horizontal steps with large numbers */}
-          <div className="process-grid" style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)' }}>
+          <div className="process-grid" style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', borderTop:'1px solid var(--border)', paddingTop:'40px' }}>
             {PROCESS.map(({ n, title, sub, desc, time },i) => (
-              <div key={n} className="sr" style={{ padding:'0 28px 0 0', borderRight:i<4?'1px solid var(--border)':'none', paddingRight:i<4?'28px':'0', animationDelay:`${i*0.07}s` }}>
+              <div key={n} className="sr process-item" style={{ padding:'0 28px 0 0', borderRight:i<4?'1px solid var(--border)':'none', paddingRight:i<4?'28px':'0', animationDelay:`${i*0.07}s` }}>
                 <p style={{ ...F, fontSize:'clamp(3.5rem,5vw,5rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{n}</p>
                 <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'5px' }}>{title}</p>
                 <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'10px' }}>{sub}</p>
@@ -717,6 +721,16 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
               </div>
             ))}
           </div>
+          <style>{`
+            @media (max-width: 1024px) {
+              .process-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 40px 20px; }
+              .process-item { border-right: none !important; padding-right: 0 !important; }
+            }
+            @media (max-width: 768px) {
+              .how-step-row { grid-template-columns: 1fr !important; }
+              .process-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
         </div>
       </section>
 

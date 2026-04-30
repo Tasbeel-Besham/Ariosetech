@@ -263,17 +263,7 @@ export default async function SEOPage() {
               <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
                 SEO That Supports <span style={P}>Real Growth</span>
               </h2>
-              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.85, marginBottom: '20px' }}>
-                Ranking on Google is not just about adding keywords to a page. Strong SEO comes from the right structure, better content, technical health, internal linking, local relevance, and a website that actually deserves to rank.
-              </p>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.85, marginBottom: '20px' }}>
-                At Ariosetech, we take a business-first approach to SEO. That means we do not chase vanity traffic or empty rankings. We focus on the type of visibility that helps your brand attract the right audience, bring in qualified traffic, and create more opportunities for leads and sales.
-              </p>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.85 }}>
-                Whether you run a local business, a service-based company, or an eCommerce brand, we build SEO strategies around your goals, website condition, and growth stage.
-              </p>
-            </div>
-            <div className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '24px', padding: '40px', position:'relative', overflow:'hidden' }}>
+            <div className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '24px', padding: 'clamp(24px, 5vw, 40px)', position:'relative', overflow:'hidden' }}>
               <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
               <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>Why SEO Still Matters</p>
               <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '24px' }}>
@@ -323,9 +313,10 @@ export default async function SEOPage() {
             </div>
 
             {/* Right - Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
               {activeWhyUs.map((r: any, i: number) => (
-                <div key={r.title} className="sr" style={{ display: 'flex', gap: '20px', padding: '28px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.08}s` }}>
+                <div key={r.title} className="sr" style={{ display: 'flex', gap: '20px', padding: '28px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.08}s`, position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.6 }} />
                   <div style={{ flexShrink: 0, width: '52px', height: '52px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
                     {r.icon}
                   </div>
@@ -413,7 +404,7 @@ export default async function SEOPage() {
       {/* ── SEO + WEBSITE ALIGNMENT ─────────────────────────────────── */}
       <section className="section">
         <div className="container">
-          <div style={{ background: 'linear-gradient(135deg, rgba(79,110,247,0.1) 0%, rgba(118,108,255,0.05) 100%)', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: 'clamp(32px,6vw,80px)', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '40px 80px', alignItems: 'center', position:'relative', overflow:'hidden' }}>
+          <div style={{ background: 'linear-gradient(135deg, rgba(79,110,247,0.1) 0%, rgba(118,108,255,0.05) 100%)', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: 'clamp(24px,6vw,80px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px 80px', alignItems: 'center', position:'relative', overflow:'hidden' }}>
             <div style={{ position:'absolute', top:'-20%', right:'-10%', width:'40%', height:'60%', background:'radial-gradient(ellipse, rgba(118,108,255,0.08) 0%, transparent 70%)', pointerEvents:'none' }} />
             
             <div className="sr">
@@ -443,7 +434,8 @@ export default async function SEOPage() {
               ].map((link, i) => (
                 <Link key={link.href} href={link.href}
                   className="card-hover"
-                  style={{ display: 'flex', gap: '20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textDecoration: 'none', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.1}s` }}>
+                  style={{ display: 'flex', gap: '20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textDecoration: 'none', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.1}s`, position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.5 }} />
                   <div style={{ flexShrink: 0, width: '48px', height: '48px', borderRadius: '12px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
                     {link.icon}
                   </div>

@@ -81,7 +81,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
         <section style={{ padding: '56px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
           <div className="container">
             <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '28px', textAlign: 'center' }}>Results Achieved</p>
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(item.results.length, 4)}, 1fr)`, gap: '20px' }}>
+            <div className="portfolio-stats-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(item.results.length, 4)}, 1fr)`, gap: '20px' }}>
               {item.results.map((r) => (
                 <div key={r.label} style={{ textAlign: 'center', padding: '28px 20px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px' }}>
                   <p style={{ ...F, fontSize: '2.4rem', fontWeight: 800, color, lineHeight: 1, marginBottom: '8px' }}>{r.value}</p>
@@ -96,7 +96,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
       {/* Challenge + Solution */}
       <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }}>
+          <div className="g-2" style={{ gap: '48px' }}>
             {item.challenge && (
               <div>
                 <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '14px' }}>The Challenge</p>
@@ -182,7 +182,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
             )}
 
             {sec.type === 'metrics' && sec.items && (
-              <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(sec.items.length, 4)}, 1fr)`, gap: '20px' }}>
+              <div className="portfolio-stats-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(sec.items.length, 4)}, 1fr)`, gap: '20px' }}>
                 {sec.items.map((item, i) => {
                   const [val, lbl] = item.split('::')
                   return (
@@ -237,6 +237,14 @@ export default async function PortfolioDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+      <style>{`
+        @media (max-width: 1024px) {
+          .portfolio-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 640px) {
+          .portfolio-stats-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </>
   )
 }
