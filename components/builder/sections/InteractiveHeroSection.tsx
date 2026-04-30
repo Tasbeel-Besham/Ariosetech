@@ -35,20 +35,18 @@ export default function InteractiveHeroSection({
   const cringRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLElement>(null)
   
-  const F = { fontFamily: "'Syne', sans-serif" } as const
-  const M = { fontFamily: "'DM Sans', sans-serif" } as const
+  const F = { fontFamily: 'var(--font-display)' } as const
+  const M = { fontFamily: 'var(--font-mono)' } as const
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const cv = canvasRef.current
-    if (!cv) return
-    const ctx = cv.getContext('2d')
-    if (!ctx) return
+    const cv = canvasRef.current; if (!cv) return
+    const ctx = cv.getContext('2d'); if (!ctx) return
 
     let W: number, H: number
-    let mx = -200, my = -200
-    let rx = -200, ry = -200
+    let mx = -2000, my = -2000
+    let rx = -2000, ry = -2000
 
     const resize = () => {
       W = cv.width = window.innerWidth
@@ -58,13 +56,12 @@ export default function InteractiveHeroSection({
     window.addEventListener('resize', resize)
 
     const onMouseMove = (e: MouseEvent) => {
-      mx = e.clientX
-      my = e.clientY
+      mx = e.clientX; my = e.clientY
     }
     window.addEventListener('mousemove', onMouseMove)
 
     // ── CURSOR TRAIL LOGIC ───────────────────────────────────────
-    const TRAIL_COUNT = 18
+    const TRAIL_COUNT = 15
     const trails: { el: HTMLDivElement; x: number; y: number }[] = []
     const trailContainer = document.createElement('div')
     trailContainer.style.pointerEvents = 'none'
@@ -78,130 +75,87 @@ export default function InteractiveHeroSection({
       t.style.zIndex = '9998'
       t.style.transform = 'translate(-50%, -50%)'
       t.style.transition = 'opacity .5s'
-      const s = 6 - i * 0.25
-      const op = (1 - i / TRAIL_COUNT) * 0.35
-      t.style.width = `${s}px`
-      t.style.height = `${s}px`
-      t.style.background = `rgba(79, 123, 255, ${op})`
+      const s = 5 - i * 0.3
+      const op = (1 - i / TRAIL_COUNT) * 0.3
+      t.style.width = `${s}px`; t.style.height = `${s}px`
+      t.style.background = `var(--primary)`
+      t.style.opacity = `${op}`
       trailContainer.appendChild(t)
-      trails.push({ el: t, x: -200, y: -200 })
+      trails.push({ el: t, x: -2000, y: -2000 })
     }
 
     // ── CANVAS NODES ─────────────────────────────────────────────
     const services = [
-      { label: 'WordPress Dev', sub: 'Custom themes & plugins', color: [79, 123, 255], size: 52, icon: '⚡' },
-      { label: 'E-Commerce', sub: 'WooCommerce & Shopify', color: [167, 139, 250], size: 46, icon: '🛒' },
-      { label: 'SEO & Speed', sub: '40% faster, rank higher', color: [244, 114, 182], size: 42, icon: '🔍' },
-      { label: 'UI/UX Design', sub: 'Pixel-perfect interfaces', color: [34, 211, 238], size: 44, icon: '🎨' },
-      { label: '24/7 Support', sub: 'Always here for you', color: [74, 222, 128], size: 40, icon: '🛡️' },
-      { label: 'Web Apps', sub: 'Scalable & secure builds', color: [251, 146, 60], size: 38, icon: '⚙️' },
+      { label: 'WordPress Dev', sub: 'Custom themes', color: [118, 108, 255], size: 52, icon: '⚡' },
+      { label: 'E-Commerce', sub: 'Shopify & Woo', color: [155, 143, 255], size: 46, icon: '🛒' },
+      { label: 'SEO & Speed', sub: 'Performance', color: [180, 160, 255], size: 42, icon: '🔍' },
+      { label: 'UI/UX Design', sub: 'Interfaces', color: [118, 108, 255], size: 44, icon: '🎨' },
+      { label: '24/7 Support', sub: 'Always here', color: [155, 143, 255], size: 40, icon: '🛡️' },
+      { label: 'Web Apps', sub: 'Scalable builds', color: [180, 160, 255], size: 38, icon: '⚙️' },
     ]
 
     let nodes = services.map((s, i) => {
       const angle = (i / services.length) * Math.PI * 2
-      const radiusX = window.innerWidth * 0.22
-      const radiusY = window.innerHeight * 0.28
-      const cx = window.innerWidth * 0.72
-      const cy = window.innerHeight * 0.48
+      const radiusX = window.innerWidth * 0.22, radiusY = window.innerHeight * 0.28
+      const cx = window.innerWidth * 0.72, cy = window.innerHeight * 0.48
       return {
         ...s,
         x: cx + Math.cos(angle) * radiusX,
         y: cy + Math.sin(angle) * radiusY * 0.7,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
+        vx: 0, vy: 0,
         baseX: cx + Math.cos(angle) * radiusX,
         baseY: cy + Math.sin(angle) * radiusY * 0.7,
-        angle: angle,
-        orbitSpeed: 0.003 + Math.random() * 0.002,
         orbitR: 3 + Math.random() * 4,
         phase: Math.random() * Math.PI * 2,
         glowPulse: Math.random() * Math.PI * 2,
-        hover: 0,
-        grabbed: false,
+        hover: 0
       }
     })
 
-    const particles = Array.from({ length: 120 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.5 + 0.3,
-      alpha: Math.random() * 0.4 + 0.05,
-      color: [[79, 123, 255], [167, 139, 250], [244, 114, 182], [255, 255, 255]][Math.floor(Math.random() * 4)],
+    const particles = Array.from({ length: 100 }, () => ({
+      x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+      r: Math.random() * 1.5 + 0.3, alpha: Math.random() * 0.3 + 0.05,
+      color: [118, 108, 255]
     }))
 
     const ripples: any[] = []
     let lastRipple = 0
     const onMouseMoveRipple = () => {
       const now = Date.now()
-      if (now - lastRipple > 80) {
-        ripples.push({ x: mx, y: my, r: 0, alpha: 0.18, life: 1 })
+      if (now - lastRipple > 100 && mx > 0) {
+        ripples.push({ x: mx, y: my, r: 0, life: 1 })
         lastRipple = now
       }
     }
     window.addEventListener('mousemove', onMouseMoveRipple)
 
-    let grabbedNode: any = null
-    let grabOffX = 0, grabOffY = 0
-    const onMouseDown = () => {
-      for (const n of nodes) {
-        const dx = mx - n.x, dy = my - n.y
-        if (Math.sqrt(dx * dx + dy * dy) < n.size + 10) {
-          grabbedNode = n
-          n.grabbed = true
-          grabOffX = dx; grabOffY = dy
-          if (cdotRef.current) { cdotRef.current.style.width = '0px'; cdotRef.current.style.height = '0px' }
-          if (cringRef.current) { cringRef.current.style.width = '70px'; cringRef.current.style.height = '70px' }
-          break
-        }
-      }
-    }
-    const onMouseUp = () => {
-      if (grabbedNode) {
-        grabbedNode.grabbed = false
-        grabbedNode.vx = (mx - grabbedNode.x) * 0.15
-        grabbedNode.vy = (my - grabbedNode.y) * 0.15
-        grabbedNode = null
-        if (cdotRef.current) { cdotRef.current.style.width = '10px'; cdotRef.current.style.height = '10px' }
-        if (cringRef.current) { cringRef.current.style.width = '40px'; cringRef.current.style.height = '40px' }
-      }
-    }
-    window.addEventListener('mousedown', onMouseDown)
-    window.addEventListener('mouseup', onMouseUp)
-
     let raf: number
     const loop = (t: number) => {
       raf = requestAnimationFrame(loop)
       ctx.clearRect(0, 0, W, H)
-      ctx.fillStyle = '#080810'
+      ctx.fillStyle = '#050508'
       ctx.fillRect(0, 0, W, H)
 
       // Grid
-      const sp = 60
-      const ox = (mx * 0.04) % sp
-      const oy = (my * 0.04) % sp
-      ctx.strokeStyle = 'rgba(79,123,255,0.04)'
-      ctx.lineWidth = 1
+      const sp = 60; const ox = (mx * 0.03) % sp; const oy = (my * 0.03) % sp
+      ctx.strokeStyle = 'rgba(118,108,255,0.03)'; ctx.lineWidth = 1
       for (let x = -sp + ox; x < W + sp; x += sp) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
       for (let y = -sp + oy; y < H + sp; y += sp) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
 
       // Ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
-        const rp = ripples[i]
-        rp.r += 2.5; rp.life -= 0.04
+        const rp = ripples[i]; rp.r += 2.2; rp.life -= 0.035
         if (rp.life <= 0) { ripples.splice(i, 1); continue }
         ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(79,123,255,${rp.alpha * rp.life})`; ctx.stroke()
+        ctx.strokeStyle = `rgba(118,108,255,${0.1 * rp.life})`; ctx.stroke()
       }
 
       // Particles
       particles.forEach(p => {
-        const dx = mx - p.x, dy = my - p.y; const d = Math.sqrt(dx*dx + dy*dy)
-        if (d < 100) { p.vx -= dx/d * 0.2; p.vy -= dy/d * 0.2 }
-        p.vx *= 0.97; p.vy *= 0.97; p.x += p.vx; p.y += p.vy
+        p.x += p.vx; p.y += p.vy
         if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0
-        const [r,g,b] = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${r},${g},${b},${p.alpha})`; ctx.fill()
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${p.color[0]},${p.color[1]},${p.color[2]},${p.alpha})`; ctx.fill()
       })
 
       // Connections
@@ -210,50 +164,34 @@ export default function InteractiveHeroSection({
           const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx*dx + dy*dy)
           if (d < 220) {
             ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y)
-            ctx.strokeStyle = `rgba(${n.color[0]},${n.color[1]},${n.color[2]},${(1 - d/220) * 0.15})`; ctx.stroke()
+            ctx.strokeStyle = `rgba(${n.color[0]},${n.color[1]},${n.color[2]},${(1 - d/220) * 0.12})`; ctx.stroke()
           }
         })
-        const dx = mx - n.x, dy = my - n.y, d = Math.sqrt(dx*dx + dy*dy)
-        if (d < 280) {
-          ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mx, my)
-          ctx.strokeStyle = `rgba(${n.color[0]},${n.color[1]},${n.color[2]},${(1 - d/280) * 0.5})`; ctx.setLineDash([4, 8]); ctx.stroke(); ctx.setLineDash([])
-        }
       })
 
       // Nodes
       nodes.forEach((n, i) => {
-        n.glowPulse += 0.025
+        n.glowPulse += 0.02
         const dx = mx - n.x, dy = my - n.y, dist = Math.sqrt(dx*dx + dy*dy)
-        const hovered = dist < n.size + 16 && !grabbedNode
-        n.hover += (hovered ? 1 : -1) * 0.08
-        n.hover = Math.max(0, Math.min(1, n.hover))
+        const hovered = dist < n.size + 15; n.hover += (hovered ? 1 : -1) * 0.08; n.hover = Math.max(0, Math.min(1, n.hover))
 
-        if (n.grabbed) { n.x = mx - grabOffX; n.y = my - grabOffY; n.vx = 0; n.vy = 0 }
-        else {
-          if (dist < 160 && dist > 0) { const force = (160 - dist) / 160; n.vx -= (dx / dist) * force * 1.4; n.vy -= (dy / dist) * force * 1.4 }
-          const targetX = n.baseX + Math.cos(t * 0.001 * 40 + n.phase) * n.orbitR
-          const targetY = n.baseY + Math.sin(t * 0.001 * 40 + n.phase) * n.orbitR
-          n.vx += (targetX - n.x) * 0.018; n.vy += (targetY - n.y) * 0.018
-          n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy
-        }
+        const targetX = n.baseX + Math.cos(t * 0.001 * 40 + n.phase) * n.orbitR
+        const targetY = n.baseY + Math.sin(t * 0.001 * 40 + n.phase) * n.orbitR
+        if (dist < 140 && dist > 0) { const f = (140 - dist) / 140; n.vx -= (dx / dist) * f * 1.2; n.vy -= (dy / dist) * f * 1.2 }
+        n.vx += (targetX - n.x) * 0.018; n.vy += (targetY - n.y) * 0.018
+        n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy
 
         const [r,g,b] = n.color; const glow = 0.5 + Math.sin(n.glowPulse) * 0.3; const sz = n.size + n.hover * 10
         const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, sz * 2.5)
-        grad.addColorStop(0, `rgba(${r},${g},${b},${0.15 * glow + n.hover * 0.2})`); grad.addColorStop(1, `rgba(${r},${g},${b},0)`)
+        grad.addColorStop(0, `rgba(${r},${g},${b},${0.1 * glow + n.hover * 0.2})`); grad.addColorStop(1, `rgba(${r},${g},${b},0)`)
         ctx.beginPath(); ctx.arc(n.x, n.y, sz * 2.5, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill()
-        ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(${r},${g},${b},${0.45 + n.hover * 0.4})`; ctx.lineWidth = 1.5; ctx.stroke()
+        ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, Math.PI * 2); ctx.strokeStyle = `rgba(${r},${g},${b},${0.4 + n.hover * 0.4})`; ctx.lineWidth = 1.5; ctx.stroke()
         ctx.font = `${sz * 0.52}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.icon, n.x, n.y)
         if (n.hover > 0.1) {
           ctx.globalAlpha = n.hover; ctx.font = `700 13px var(--font-display)`; ctx.fillStyle = '#fff'; ctx.fillText(n.label, n.x, n.y + sz + 18)
-          ctx.font = `11px var(--font-mono)`; ctx.fillStyle = `rgba(${r},${g},${b},0.9)`; ctx.fillText(n.sub, n.x, n.y + sz + 34); ctx.globalAlpha = 1
+          ctx.font = `11px var(--font-mono)`; ctx.fillStyle = `var(--text-3)`; ctx.fillText(n.sub, n.x, n.y + sz + 34); ctx.globalAlpha = 1
         }
       })
-
-      // Vignette
-      const vg = ctx.createRadialGradient(W/2, H/2, H*0.3, W/2, H/2, H*0.85)
-      vg.addColorStop(0, 'rgba(8,8,16,0)'); vg.addColorStop(1, 'rgba(8,8,16,0.75)')
-      ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
 
       // Cursor
       if (cdotRef.current) { cdotRef.current.style.left = `${mx}px`; cdotRef.current.style.top = `${my}px` }
@@ -267,7 +205,6 @@ export default function InteractiveHeroSection({
     }
     raf = requestAnimationFrame(loop)
 
-    // Apply cursor: none to body
     document.body.style.cursor = 'none'
 
     return () => {
@@ -275,54 +212,55 @@ export default function InteractiveHeroSection({
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mousemove', onMouseMoveRipple)
-      window.removeEventListener('mousedown', onMouseDown)
-      window.removeEventListener('mouseup', onMouseUp)
       document.body.removeChild(trailContainer)
       document.body.style.cursor = 'auto'
     }
   }, [])
 
+  const headlineParts = headline.split(' & ')
+  const headLine1 = headlineParts[0] + (headlineParts.length > 1 ? ' &' : '')
+  const headLine2 = headlineParts.length > 1 ? headlineParts[1] : ''
+
   return (
-    <section ref={heroRef} className="hero-interactive" style={{ position: 'relative', height: '100vh', width: '100vw', overflow: 'hidden', background: '#080810' }}>
+    <section ref={heroRef} className="hero-interactive" style={{ position: 'relative', height: '100vh', width: '100vw', overflow: 'hidden', background: 'var(--bg)' }}>
       {/* Custom Cursor */}
       <div id="cur" style={{ pointerEvents: 'none' }}>
-        <div ref={cdotRef} style={{ position: 'fixed', zIndex: 9999, width: '10px', height: '10px', background: '#fff', borderRadius: '50%', transform: 'translate(-50%, -50%)', transition: 'width .2s, height .2s, background .2s' }} />
-        <div ref={cringRef} style={{ position: 'fixed', zIndex: 9999, width: '40px', height: '40px', border: '1.5px solid rgba(255,255,255,0.6)', borderRadius: '50%', transform: 'translate(-50%, -50%)' }} />
+        <div ref={cdotRef} style={{ position: 'fixed', zLength: 9999, width: '10px', height: '10px', background: '#fff', borderRadius: '50%', transform: 'translate(-50%, -50%)', transition: 'width .2s, height .2s, background .2s', zIndex: 9999 }} />
+        <div ref={cringRef} style={{ position: 'fixed', zLength: 9999, width: '40px', height: '40px', border: '1.5px solid rgba(255,255,255,0.6)', borderRadius: '50%', transform: 'translate(-50%, -50%)', zIndex: 9999 }} />
       </div>
 
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none' }}>
-        <div style={{ padding: '0 3.5rem', paddingTop: '2rem' }}>
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
-              <div style={{ width: '20px', height: '1.5px', background: 'linear-gradient(90deg, #4f7bff, #a78bfa)' }} />
-              <span style={{ ...M, fontSize: '11px', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.14em' }}>{eyebrow}</span>
+        <div style={{ maxWidth: '820px', padding: '0 20px' }}>
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="eyebrow" style={{ marginBottom: '28px', pointerEvents: 'none' }}>
+              <span style={{ marginLeft: '12px' }}>{eyebrow}</span>
             </div>
 
-            <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 4.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '24px' }}>
-              <span style={{ color: '#fff' }}>{headline.split(' & ')[0]} &</span><br />
-              <span style={{ display: 'block', paddingLeft: '2.5rem', background: 'linear-gradient(110deg, #4f7bff, #a78bfa 45%, #f472b6 90%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>{headline.split(' & ')[1]}</span>
+            <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 4.4vw, 4.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', marginBottom: '24px' }}>
+              <span style={{ color: '#fff' }}>{headLine1}</span><br />
+              <span style={{ display: 'block', paddingLeft: '2.5rem', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>{headLine2}</span>
             </h1>
 
-            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, maxWidth: '420px', marginBottom: '40px', fontWeight: 300 }}>
+            <p style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '520px', marginBottom: '44px' }}>
               {subheadline}
             </p>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px', pointerEvents: 'all' }}>
-              <Link href={ctaPrimaryHref} className="btn-main-custom" style={{ background: '#4f7bff', color: '#fff', padding: '0.82rem 2rem', borderRadius: '100px', border: 'none', fontFamily: "'DM Sans', sans-serif", fontSize: '0.88rem', fontWeight: 500, cursor: 'none', transition: 'all 0.3s', textDecoration: 'none' }}>
+              <Link href={ctaPrimaryHref} className="btn btn-primary btn-xl">
                 {ctaPrimaryLabel} →
               </Link>
-              <Link href={ctaSecondaryHref} className="btn-sec-custom" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', background: 'none', border: 'none', fontFamily: "'DM Sans', sans-serif", cursor: 'none', transition: 'color 0.2s', display: 'flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}>
-                {ctaSecondaryLabel} <span style={{ transition: 'transform 0.25s' }}>→</span>
+              <Link href={ctaSecondaryHref} className="btn btn-outline btn-xl">
+                {ctaSecondaryLabel}
               </Link>
             </div>
 
-            <div style={{ display: 'flex', gap: '48px', marginTop: '56px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '32px' }}>
+            <div style={{ display: 'flex', gap: '48px', marginTop: '64px', borderTop: '1px solid var(--border)', paddingTop: '32px' }}>
               {stats.map((s, i) => (
                 <div key={s.label}>
-                  <div style={{ ...F, fontSize: '28px', fontWeight: 900, background: 'linear-gradient(90deg, #fff, rgba(255,255,255,0.5))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{s.value}</div>
-                  <div style={{ ...M, fontSize: '10px', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '4px' }}>{s.label}</div>
+                  <div style={{ ...F, fontSize: '28px', fontWeight: 900, background: 'linear-gradient(to bottom, #fff, rgba(255,255,255,0.5))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{s.value}</div>
+                  <div style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: '4px' }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -331,14 +269,14 @@ export default function InteractiveHeroSection({
       </div>
 
       {/* Ticker */}
-      <div className="ticker-wrap" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 15, background: 'rgba(8,8,16,0.8)', backdropFilter: 'blur(10px)', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '10px 0', overflow: 'hidden' }}>
+      <div className="ticker-wrap" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 15, background: 'rgba(5,5,8,0.85)', backdropFilter: 'blur(10px)', borderTop: '1px solid var(--border)', padding: '12px 0', overflow: 'hidden' }}>
         <div className="ticker-track" style={{ display: 'flex', whiteSpace: 'nowrap', animation: 'ticker 40s linear infinite' }}>
           {[
             'WordPress Development', 'E-Commerce Stores', 'SEO Optimization', 'Custom Web Apps', 
             'Speed Optimization', '24/7 Support', 'UI/UX Design', 'Conversion Rate Optimization'
           ].map((text, i) => (
-            <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.12em', ...M }}>
-              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#4f7bff' }} />
+            <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.14em', ...M }}>
+              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
               {text}
             </span>
           ))}
@@ -347,8 +285,8 @@ export default function InteractiveHeroSection({
             'WordPress Development', 'E-Commerce Stores', 'SEO Optimization', 'Custom Web Apps', 
             'Speed Optimization', '24/7 Support', 'UI/UX Design', 'Conversion Rate Optimization'
           ].map((text, i) => (
-            <span key={'repeat-'+i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.12em', ...M }}>
-              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#4f7bff' }} />
+            <span key={'repeat-'+i} style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '0 32px', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.14em', ...M }}>
+              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
               {text}
             </span>
           ))}
@@ -364,9 +302,6 @@ export default function InteractiveHeroSection({
           0% { background-position: 0%; }
           100% { background-position: 100%; }
         }
-        .btn-main-custom:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(79,123,255,0.5); }
-        .btn-sec-custom:hover { color: #fff !important; }
-        .btn-sec-custom:hover span { transform: translateX(4px); }
       `}</style>
     </section>
   )
