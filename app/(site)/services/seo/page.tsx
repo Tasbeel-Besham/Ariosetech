@@ -307,7 +307,7 @@ export default async function SEOPage() {
       />
 
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
-      <section className="section">
+      <section className="section" style={{ overflow: 'visible' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
             {/* Left - Sticky */}
@@ -460,7 +460,7 @@ export default async function SEOPage() {
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────────── */}
-      <section className="section section--dark">
+      <section className="section section--dark" style={{ overflow: 'visible' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
             {/* Left - Sticky */}
