@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import ClutchWidget from '@/components/ui/ClutchWidget'
 import HeroSection from '@/components/builder/sections/HeroSection'
+import InteractiveHeroSection from '@/components/builder/sections/InteractiveHeroSection'
 import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
 
 const ArrowSVG = ({ size = 16 }: { size?: number }) => (
@@ -324,7 +325,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
   return (
     <>
       {/* ══ HERO ══════════════════════════════════════════════════════ */}
-      <HeroSection />
+      <InteractiveHeroSection />
 
 
 
