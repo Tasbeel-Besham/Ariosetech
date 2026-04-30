@@ -22,6 +22,11 @@ const CODE_LINES: Tok[][] = [
   [{ t: 'fn', v: 'add_action' }, { t: 'v', v: '(' }, { t: 'str', v: "'woocommerce_loaded'" }, { t: 'v', v: ', ' }, { t: 'fn', v: "'ariose_boost_performance'"}, { t: 'v', v: ');' }],
 ]
 
+/* ── Brand Color Configuration ── */
+const B_PRI = '#766cff' // Ariose Purple
+const B_SEC = '#9b8fff' // Lighter Purple
+const B_GLO = 'rgba(118,108,255,0.25)'
+
 const COLOR_MAP = {
   com: 'rgba(255,255,255,.22)', kw: '#60a5fa', fn: '#fbbf24', attr: '#a78bfa', str: '#4ade80', v: 'rgba(255,255,255,.55)'
 }
@@ -36,8 +41,10 @@ const StarSVG = () => (
 const LockSVG = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
 )
-const CheckSVG = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+const ArrowSVG = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
 )
 
 type Props = {
@@ -152,7 +159,7 @@ export default function InteractiveHeroSection({
     for (let i = 0; i < TCOUNT; i++) {
       const el = document.createElement('div')
       const s = Math.max(0.5, 4 - i * 0.26)
-      el.style.cssText = `position:fixed; pointer-events:none; z-index:9990; border-radius:50%; transform:translate(-50%,-50%); width:${s}px; height:${s}px; background:rgba(91,111,255,${(1 - i / TCOUNT) * 0.32});`
+      el.style.cssText = `position:fixed; pointer-events:none; z-index:9990; border-radius:50%; transform:translate(-50%,-50%); width:${s}px; height:${s}px; background:rgba(118,108,255,${(1 - i / TCOUNT) * 0.32});`
       document.body.appendChild(el); trailEls.push(el)
     }
 
@@ -165,12 +172,12 @@ export default function InteractiveHeroSection({
       x: Math.random() * W, y: Math.random() * H,
       vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28,
       r: Math.random() * 1.2 + 0.3, a: Math.random() * 0.28 + 0.05,
-      c: [[91, 111, 255], [167, 139, 250], [244, 114, 182], [255, 255, 255]][Math.floor(Math.random() * 4)]
+      c: [[118, 108, 255], [155, 143, 255], [244, 114, 182], [255, 255, 255]][Math.floor(Math.random() * 4)]
     }))
 
     const orbs = [
-      { x: 0.35, y: 0.45, r: 340, c: [91, 111, 255], a: 0.045, vx: 0.00015, vy: 0.00012 },
-      { x: 0.72, y: 0.32, r: 220, c: [167, 139, 250], a: 0.035, vx: -0.0002, vy: 0.00015 },
+      { x: 0.35, y: 0.45, r: 340, c: [118, 108, 255], a: 0.045, vx: 0.00015, vy: 0.00012 },
+      { x: 0.72, y: 0.32, r: 220, c: [155, 143, 255], a: 0.035, vx: -0.0002, vy: 0.00015 },
       { x: 0.15, y: 0.65, r: 180, c: [244, 114, 182], a: 0.028, vx: 0.00018, vy: -0.0002 }
     ]
 
@@ -179,7 +186,7 @@ export default function InteractiveHeroSection({
       raf = requestAnimationFrame(loop)
       ctx.fillStyle = '#05050e'; ctx.fillRect(0, 0, W, H)
       const sp = 52, ox = (mx * 0.028) % sp, oy = (my * 0.028) % sp
-      ctx.strokeStyle = 'rgba(91,111,255,0.035)'; ctx.lineWidth = 1
+      ctx.strokeStyle = 'rgba(118,108,255,0.035)'; ctx.lineWidth = 1
       for (let x = -sp + ox; x < W + sp; x += sp) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
       for (let y = -sp + oy; y < H + sp; y += sp) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
       orbs.forEach(o => {
@@ -190,7 +197,7 @@ export default function InteractiveHeroSection({
         ctx.beginPath(); ctx.arc(o.x * W, o.y * H, o.r, 0, Math.PI * 2); ctx.fillStyle = gr; ctx.fill()
       })
       const cg = ctx.createRadialGradient(mx, my, 0, mx, my, 110)
-      cg.addColorStop(0, 'rgba(91,111,255,0.08)'); cg.addColorStop(1, 'rgba(0,0,0,0)')
+      cg.addColorStop(0, 'rgba(118,108,255,0.08)'); cg.addColorStop(1, 'rgba(0,0,0,0)')
       ctx.beginPath(); ctx.arc(mx, my, 110, 0, Math.PI * 2); ctx.fillStyle = cg; ctx.fill()
       pts.forEach(p => {
         const d = Math.hypot(mx - p.x, my - p.y); if (d < 90) { p.vx -= (mx - p.x) / d * 0.14; p.vy -= (my - p.y) / d * 0.14 }
@@ -201,7 +208,7 @@ export default function InteractiveHeroSection({
       for (let i = rips.length - 1; i >= 0; i--) {
         const rp = rips[i]; rp.r += 1.8; rp.life -= 0.038
         if (rp.life <= 0) { rips.splice(i, 1); continue }
-        ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2); ctx.strokeStyle = `rgba(91,111,255,${rp.life * 0.1})`; ctx.stroke()
+        ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2); ctx.strokeStyle = `rgba(118,108,255,${rp.life * 0.1})`; ctx.stroke()
       }
       if (cdotRef.current) { cdotRef.current.style.left = mx + 'px'; cdotRef.current.style.top = my + 'px' }
       rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13
@@ -226,7 +233,7 @@ export default function InteractiveHeroSection({
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); window.removeEventListener('mousemove', onMoveRip); trailEls.forEach(el => document.body.removeChild(el)); document.body.style.cursor = 'auto' }
   }, [])
 
-  /* ── Headline Rendering Logic to prevent mid-word wrapping ── */
+  /* ── Headline Rendering Logic ── */
   const renderChar = (txt: string) => {
     const words = txt.split(' ')
     return words.map((word, wi) => (
@@ -256,8 +263,8 @@ export default function InteractiveHeroSection({
         <div style={{ display: 'flex', flexDirection: 'column', pointerEvents: 'all' }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '22px' }}>
-              <div style={{ width: '22px', height: '1.5px', background: 'linear-gradient(90deg, #5b6fff, #a78bfa)' }} />
-              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#5b6fff', opacity: 0.6 }} />
+              <div style={{ width: '22px', height: '1.5px', background: 'var(--grad)' }} />
+              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: B_PRI, opacity: 0.6 }} />
               <span style={{ ...M, fontSize: '10.5px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>{eyebrow}</span>
             </div>
           </motion.div>
@@ -273,11 +280,13 @@ export default function InteractiveHeroSection({
           </p>
 
           <p style={{ ...B, fontSize: '12.5px', color: 'rgba(255,255,255,0.28)', marginBottom: '32px', fontStyle: 'italic' }}>
-            Trusted by businesses in <span style={{ color: 'rgba(91,111,255,0.75)', fontStyle: 'normal' }}>USA</span>, <span style={{ color: 'rgba(91,111,255,0.75)', fontStyle: 'normal' }}>UAE</span>, and <span style={{ color: 'rgba(91,111,255,0.75)', fontStyle: 'normal' }}>Switzerland</span> for affordable, high-quality development.
+            Trusted by businesses in <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>USA</span>, <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>UAE</span>, and <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>Switzerland</span> for affordable, high-quality development.
           </p>
 
-          <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
-            <Link href={ctaPrimaryHref} className="cta-custom-primary" style={{ textDecoration: 'none' }}>{ctaPrimaryLabel}</Link>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
+            <Link href={ctaPrimaryHref} className="cta-custom-primary" style={{ textDecoration: 'none' }}>
+              {ctaPrimaryLabel.toUpperCase()} <ArrowSVG />
+            </Link>
             <Link href={ctaSecondaryHref} className="cta-custom-secondary" style={{ textDecoration: 'none' }}>{ctaSecondaryLabel} →</Link>
           </div>
         </div>
@@ -285,12 +294,12 @@ export default function InteractiveHeroSection({
         {/* Right Side */}
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px', pointerEvents: 'all' }}>
           
-          <div style={{ position: 'absolute', top: '-24px', right: '16px', background: 'rgba(5,5,14,0.95)', border: '1px solid rgba(91,111,255,0.25)', borderRadius: '12px', padding: '10px 16px', fontSize: '11px', color: '#fff', backdropFilter: 'blur(12px)', zIndex: 20, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 32px rgba(91,111,255,0.15)', animation: 'chipBob 4s ease-in-out infinite alternate' }}>
+          <div style={{ position: 'absolute', top: '-24px', right: '16px', background: 'rgba(5,5,14,0.95)', border: '1px solid rgba(118,108,255,0.25)', borderRadius: '12px', padding: '10px 16px', fontSize: '11px', color: '#fff', backdropFilter: 'blur(12px)', zIndex: 20, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 32px rgba(118,108,255,0.15)', animation: 'chipBob 4s ease-in-out infinite alternate' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
             Live site just launched 🚀
           </div>
 
-          <div style={{ background: 'rgba(10,10,22,0.9)', border: '1px solid rgba(91,111,255,0.22)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 32px 100px rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }}>
+          <div style={{ background: 'rgba(10,10,22,0.9)', border: '1px solid rgba(118,108,255,0.22)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 32px 100px rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }}>
             <div style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '12px 18px', display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{ display: 'flex', gap: '7px' }}>
                 <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ff5f57', boxShadow: '0 0 5px rgba(255,95,87,0.4)' }} />
@@ -313,7 +322,7 @@ export default function InteractiveHeroSection({
                    <span style={{ color: 'rgba(255,255,255,0.15)', minWidth: '18px', textAlign: 'right', fontSize: '10px' }}>{typedLines.length + 1}</span>
                    <span style={{ color: 'rgba(255,255,255,0.55)' }}>
                      {currentLine.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
-                     <span style={{ display: 'inline-block', width: '2px', height: '14px', background: '#5b6fff', animation: 'cblink .9s infinite', verticalAlign: 'middle', marginLeft: '3px' }} />
+                     <span style={{ display: 'inline-block', width: '2px', height: '14px', background: B_PRI, animation: 'cblink .9s infinite', verticalAlign: 'middle', marginLeft: '3px' }} />
                    </span>
                 </div>
               )}
@@ -322,7 +331,7 @@ export default function InteractiveHeroSection({
 
           <div style={{ display: 'flex', gap: '14px' }}>
             {[
-              { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: '#5b6fff', c2: '#a78bfa', bar: 0.92 },
+              { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: B_PRI, c2: B_SEC, bar: 0.92 },
               { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: '#f472b6', c2: '#fb923c', bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: '#22c55e', c2: '#06b6d4', bar: 0.98 },
             ].map(m => (
@@ -344,7 +353,7 @@ export default function InteractiveHeroSection({
             <div key={i} style={{ display: 'flex' }}>
               {['WordPress Development', 'WooCommerce Stores', 'Shopify Development', 'SEO Optimization', 'Speed Optimization', '24/7 Support', '30-Day Guarantee', 'USA · UAE · Switzerland', 'Since 2017'].map(text => (
                 <span key={text} style={{ display: 'inline-flex', alignItems: 'center', gap: '16px', padding: '0 36px', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', ...M, fontWeight: 700 }}>
-                  <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#5b6fff', boxShadow: '0 0 8px rgba(91,111,255,0.6)' }} />
+                  <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: B_PRI, boxShadow: `0 0 8px ${B_GLO}` }} />
                   {text}
                 </span>
               ))}
@@ -358,12 +367,12 @@ export default function InteractiveHeroSection({
         @keyframes chipBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
         @keyframes cblink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .cta-custom-primary {
-          background: #5b6fff; color: #fff; padding: 0.8rem 1.7rem; border-radius: 100px;
+          background: var(--grad); color: #fff; padding: 0.8rem 1.7rem; border-radius: 100px;
           font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500;
-          transition: all 0.28s; white-space: nowrap; box-shadow: 0 0 30px rgba(91,111,255,0.25);
-          border: none; cursor: none;
+          transition: all 0.28s; white-space: nowrap; box-shadow: 0 0 30px ${B_GLO};
+          border: none; cursor: none; display: inline-flex; align-items: center; gap: 8px;
         }
-        .cta-custom-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 38px rgba(91,111,255,0.5); }
+        .cta-custom-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 38px rgba(118,108,255,0.5); }
         .cta-custom-secondary {
           color: rgba(255,255,255,0.45); font-size: 0.82rem; background: none; border: 1px solid rgba(255,255,255,0.15);
           padding: 0.78rem 1.5rem; border-radius: 100px; font-family: 'DM Sans', sans-serif;
