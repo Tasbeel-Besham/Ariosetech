@@ -257,7 +257,7 @@ export default async function SEOPage() {
       {/* ── INTRO ─────────────────────────────────────────────────── */}
       <section className="section section--dark">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+          <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
             <div className="sr">
               <p className="eyebrow">Our Approach</p>
               <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
@@ -309,7 +309,7 @@ export default async function SEOPage() {
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
       <section className="section" style={{ overflow: 'visible' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
+          <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
             {/* Left - Sticky */}
             <div className="sr" style={{ position: 'sticky', top: '100px' }}>
               <p className="eyebrow">Why Choose Us</p>
@@ -343,7 +343,7 @@ export default async function SEOPage() {
       {/* ── PROBLEMS WE SOLVE ──────────────────────────────────────── */}
       <section className="section section--dark">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
+          <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
             <div className="sr">
               <p className="eyebrow">Common Issues</p>
               <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,2.8rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: '20px' }}>
@@ -394,7 +394,7 @@ export default async function SEOPage() {
               <div className="sr" style={{ background: 'linear-gradient(145deg, rgba(118,108,255,0.08) 0%, rgba(10,10,18,0.4) 100%)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '24px', padding: '40px', position:'relative', overflow:'hidden' }}>
                 <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
                 <p style={{ ...hs, fontSize: '15px', fontWeight: 800, color: '#fff', marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>What Better SEO Can Do for Your Business</p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 24px' }}>
+                <div className="g-2" style={{ gap: '16px 24px' }}>
                   {['Stronger search visibility', 'Better keyword reach', 'Improved local presence', 'More qualified traffic', 'Better lead potential', 'Stronger content foundation', 'Healthier website structure'].map(r => (
                     <div key={r} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'var(--text-2)' }}>
                       <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={14} /></span> {r}
@@ -413,7 +413,7 @@ export default async function SEOPage() {
       {/* ── SEO + WEBSITE ALIGNMENT ─────────────────────────────────── */}
       <section className="section">
         <div className="container">
-          <div style={{ background: 'linear-gradient(135deg, rgba(79,110,247,0.1) 0%, rgba(118,108,255,0.05) 100%)', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: 'clamp(40px,6vw,80px)', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '80px', alignItems: 'center', position:'relative', overflow:'hidden' }}>
+          <div style={{ background: 'linear-gradient(135deg, rgba(79,110,247,0.1) 0%, rgba(118,108,255,0.05) 100%)', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: 'clamp(32px,6vw,80px)', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '40px 80px', alignItems: 'center', position:'relative', overflow:'hidden' }}>
             <div style={{ position:'absolute', top:'-20%', right:'-10%', width:'40%', height:'60%', background:'radial-gradient(ellipse, rgba(118,108,255,0.08) 0%, transparent 70%)', pointerEvents:'none' }} />
             
             <div className="sr">
@@ -462,7 +462,7 @@ export default async function SEOPage() {
       {/* ── FAQ ─────────────────────────────────────────────────── */}
       <section className="section section--dark" style={{ overflow: 'visible' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
+          <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
             {/* Left - Sticky */}
             <div className="sr" style={{ position: 'sticky', top: '100px' }}>
               <p className="eyebrow">FAQ</p>

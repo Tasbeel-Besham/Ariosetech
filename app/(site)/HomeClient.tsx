@@ -351,7 +351,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ WHY CHOOSE US ══════════════════════════════════════════ */}
       <section className="section" style={{ overflow: 'visible' }}>
         <div className="container">
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', alignItems:'start' }}>
+          <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
 
             {/* LEFT — sticky */}
             <div style={{ position:'sticky', top:'88px' }}>
@@ -402,7 +402,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             </p>
           </div>
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'24px' }}>
+          <div className="g-3" style={{ gap:'24px' }}>
             {IMPACT_METRICS.map((m, i) => (
               <div
                 key={m.label}
@@ -544,7 +544,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             <Link href="/portfolio" className="btn btn-outline btn-lg">Explore All Projects <ArrowSVG size={15} /></Link>
           </div>
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'20px' }}>
+          <div className="g-3" style={{ gap:'20px' }}>
             {displayPortfolio.map((p,i) => (
               <Link key={p._id} href={`/portfolio/${p.slug}`} className="sr" style={{ display:'flex', flexDirection:'column', textDecoration:'none', background:'var(--bg-3)', border:'1px solid var(--border)', borderRadius:'20px', overflow:'hidden', transition:'all 0.3s var(--ease)', animationDelay:`${i*0.08}s` }}
                 onMouseEnter={e => {
@@ -617,7 +617,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             <div className="sr"><ClutchWidget widgetType={7} height={65} /></div>
           </div>
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'20px', marginBottom:'40px' }}>
+          <div className="g-3" style={{ gap:'20px', marginBottom:'40px' }}>
             {TESTIMONIALS.map((t,i) => (
               <div key={t.name} className="card sr" style={{ padding:'32px', animationDelay:`${i*0.08}s` }}>
                 <div style={{ display:'flex', gap:'3px', marginBottom:'20px' }}>
@@ -712,7 +712,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
               </div>
               <Link href="/blog" className="btn btn-outline btn-lg">All Articles <ArrowSVG size={15} /></Link>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'20px' }}>
+            <div className="g-3" style={{ gap:'20px' }}>
               {blogs.map((post) => (
                 <Link key={post._id} href={`/blog/${post.slug}`} className="sr" style={{ display:'flex', flexDirection:'column', textDecoration:'none', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'20px', overflow:'hidden', transition:'all 0.25s var(--ease)' }}
                   onMouseEnter={e => { const el=e.currentTarget; el.style.borderColor='rgba(118,108,255,0.3)'; el.style.transform='translateY(-5px)' }}
