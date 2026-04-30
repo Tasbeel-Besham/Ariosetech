@@ -152,9 +152,9 @@ export function initRegistry() {
       headline: 'Success Stories That Speak for Themselves',
       intro: "Discover how we've transformed businesses across industries with custom web solutions that drive growth and maximize ROI.",
       items: [
-        { title: 'The Kapra', client: 'E-commerce Fashion Store', platform: 'Custom WooCommerce', result: '300%', resultLabel: 'Increase in online sales', quote: 'ARIOSETECH transformed our vision into reality with custom code solutions.' },
-        { title: 'Dr. Scents', client: 'International Perfume Online Store', platform: 'Multi-site WooCommerce', result: '32', resultLabel: 'Countries launched in 4 months', quote: 'Incredible speed and quality. They delivered beyond our expectations.' },
-        { title: 'WYOX Sports', client: 'USA-Based Sports Equipment', platform: 'Shopify + Custom Solutions', result: '250%', resultLabel: 'Business growth', quote: 'Professional, reliable, and always available when we need them.' },
+        { title: 'The Kapra', client: 'E-commerce Fashion Store', platform: 'Custom WooCommerce', result: '300%', resultLabel: 'Increase in online sales', quote: 'ARIOSETECH transformed our vision into reality with custom code solutions.', cat: 'woocommerce', slug: 'the-kapra', url: 'https://thekapra.com' },
+        { title: 'Dr. Scents', client: 'International Perfume Online Store', platform: 'Multi-site WooCommerce', result: '32', resultLabel: 'Countries launched in 4 months', quote: 'Incredible speed and quality. They delivered beyond our expectations.', cat: 'woocommerce', slug: 'dr-scents', url: 'https://drscents.com' },
+        { title: 'WYOX Sports', client: 'USA-Based Sports Equipment', platform: 'Shopify + Custom Solutions', result: '250%', resultLabel: 'Business growth', quote: 'Professional, reliable, and always available when we need them.', cat: 'shopify', slug: 'wyox-sports', url: 'https://wyoxsports.com' },
       ],
       ctaLabel: 'Explore All Projects',
       ctaHref: '/portfolio',
@@ -172,6 +172,10 @@ export function initRegistry() {
         { type: 'text',     name: 'result',      label: 'Result value' },
         { type: 'text',     name: 'resultLabel', label: 'Result label' },
         { type: 'textarea', name: 'quote',       label: 'Client quote' },
+        { type: 'text',     name: 'image',       label: 'Screenshot Image URL (optional)' },
+        { type: 'text',     name: 'url',         label: 'Live Website URL (fallback preview)' },
+        { type: 'text',     name: 'slug',        label: 'Case Study Link (e.g. the-kapra)' },
+        { type: 'text',     name: 'cat',         label: 'Category (woocommerce, shopify, wordpress)' },
       ]},
     ],
   })
