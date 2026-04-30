@@ -257,7 +257,7 @@ export default function InteractiveHeroSection({
         <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
       </div>
 
-      <div className="container" style={{ position: 'relative', zIndex: 10, flex: 1, display: 'grid', gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 1fr)', alignItems: 'center', gap: '4rem', padding: '120px 32px 140px', maxWidth: '1280px', margin: '0 auto' }}>
+      <div className="container" style={{ position: 'relative', zIndex: 10, flex: 1, display: 'grid', gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 1fr)', alignItems: 'center', gap: '4rem', padding: '80px 32px 60px', maxWidth: '1280px', margin: '0 auto' }}>
         
         {/* Left Side */}
         <div style={{ display: 'flex', flexDirection: 'column', pointerEvents: 'all' }}>
@@ -367,7 +367,7 @@ export default function InteractiveHeroSection({
         @keyframes chipBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
         @keyframes cblink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .cta-custom-primary {
-          background: var(--grad); color: #fff; padding: 0.8rem 1.7rem; border-radius: 100px;
+          background: var(--grad); color: #fff; padding: 0.8rem 1.7rem; border-radius: 12px;
           font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500;
           transition: all 0.28s; white-space: nowrap; box-shadow: 0 0 30px ${B_GLO};
           border: none; cursor: none; display: inline-flex; align-items: center; gap: 8px;
@@ -375,7 +375,7 @@ export default function InteractiveHeroSection({
         .cta-custom-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 38px rgba(118,108,255,0.5); }
         .cta-custom-secondary {
           color: rgba(255,255,255,0.45); font-size: 0.82rem; background: none; border: 1px solid rgba(255,255,255,0.15);
-          padding: 0.78rem 1.5rem; border-radius: 100px; font-family: 'DM Sans', sans-serif;
+          padding: 0.78rem 1.5rem; border-radius: 12px; font-family: 'DM Sans', sans-serif;
           transition: all 0.25s; white-space: nowrap; cursor: none;
         }
         .cta-custom-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.35); }

@@ -89,8 +89,13 @@ export function initRegistry() {
       ctaSecondaryHref: '/portfolio',
     },
     schema: [
-      { type: 'text', name: 'eyebrow', label: 'Eyebrow' },
-      { type: 'text', name: 'headline', label: 'Headline' },
+      { type: 'text',     name: 'eyebrow',          label: 'Eyebrow badge' },
+      { type: 'text',     name: 'headline',          label: 'Main headline' },
+      { type: 'textarea', name: 'subheadline',       label: 'Subheadline' },
+      { type: 'text',     name: 'ctaPrimaryLabel',   label: 'Primary CTA label' },
+      { type: 'text',     name: 'ctaPrimaryHref',    label: 'Primary CTA URL' },
+      { type: 'text',     name: 'ctaSecondaryLabel', label: 'Secondary CTA label' },
+      { type: 'text',     name: 'ctaSecondaryHref',  label: 'Secondary CTA URL' },
     ],
   })
 
