@@ -9,21 +9,7 @@ const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
 const P  = { background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } as const
 
-const ArrowSVG = ({ size = 15 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
-const CheckSVG = ({ size = 13 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
-    <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
-const ChevSVG = ({ open }: { open: boolean }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: open ? 'rotate(180deg)' : '', transition: 'transform 0.25s', flexShrink: 0 }}>
-    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
+import { IconBox, CheckSVG, ArrowSVG, ChevSVG } from '@/components/ui/IconBox'
 
 const ICONS = {
   expertise: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>,
@@ -231,8 +217,10 @@ export default async function WordPressPage() {
           </p>
           <div className="sr" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '32px', animationDelay: '0.25s' }}>
             {heroData.bullets?.map((b: string) => (
-              <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={14} /></span>
+              <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <IconBox size={24} radius={6}>
+                  <CheckSVG size={10} />
+                </IconBox>
                 <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>{b}</span>
               </div>
             ))}
@@ -290,8 +278,10 @@ export default async function WordPressPage() {
                       <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>What&apos;s Included</p>
                       <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', marginBottom: '32px', listStyle: 'none' }}>
                         {svc.features.map((f) => (
-                          <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.5 }}>
-                            <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '4px', background: 'rgba(118,108,255,0.15)', borderRadius: '50%', padding: '2px' }}><CheckSVG size={12} /></span>
+                          <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.5 }}>
+                            <IconBox size={24} radius={6}>
+                              <CheckSVG size={10} />
+                            </IconBox>
                             {f}
                           </li>
                         ))}
@@ -302,9 +292,11 @@ export default async function WordPressPage() {
                         <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                           <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>Expected Results</p>
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                            {svc.results.map((r: Record<string, unknown>) => (
-                               <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px' }}>
-                                 <span style={{ color: 'var(--primary)' }}><CheckSVG size={12} /></span> {r}
+                            {svc.results.map((r: string) => (
+                               <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 14px', borderRadius: '10px' }}>
+                                 <IconBox size={20} radius={5}>
+                                   <CheckSVG size={8} />
+                                 </IconBox> {r}
                                </span>
                              ))}
                           </div>
@@ -347,9 +339,9 @@ export default async function WordPressPage() {
               return (
               <div key={r.title} className="card card-hover sr" style={{ padding: '36px', animationDelay: `${i * 0.08}s`, position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
-                <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', marginBottom: '20px' }}>
+                <IconBox size={48} radius={14} style={{ marginBottom: '20px' }}>
                   {Icon || ICONS.expertise}
-                </div>
+                </IconBox>
                 <p style={{ ...hs, fontSize: '18px', fontWeight: 800, color: '#fff', marginBottom: '10px' }}>{r.title}</p>
                 <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.8 }}>{r.desc}</p>
               </div>

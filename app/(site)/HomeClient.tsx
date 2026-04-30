@@ -6,22 +6,7 @@ import HeroSection from '@/components/builder/sections/HeroSection'
 import InteractiveHeroSection from '@/components/builder/sections/InteractiveHeroSection'
 import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
 import ApproachSection from '@/components/builder/sections/ApproachSection'
-
-const ArrowSVG = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
-const CheckSVG = ({ size = 13 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
-    <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
-const ChevSVG = ({ open }: { open: boolean }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: open ? 'rotate(180deg)' : '', transition: 'transform 0.25s', flexShrink: 0 }}>
-    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
+import { IconBox, CheckSVG, ArrowSVG, ChevSVG } from '@/components/ui/IconBox'
 const StarSVG = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="var(--primary)">
     <path d="M7 1l1.5 4.5H13L9.5 8l1.3 4L7 10l-3.8 2 1.3-4L1 5.5h4.5z"/>
@@ -195,9 +180,9 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                   <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
                   
                   {/* Icon Box */}
-                  <div style={{ flexShrink:0, width:'56px', height:'56px', borderRadius:'14px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', fontSize:'24px' }}>
+                  <IconBox size={56} radius={14}>
                     {b.icon}
-                  </div>
+                  </IconBox>
 
                   {/* Content */}
                   <div>
@@ -526,11 +511,11 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             </div>
             <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
               {AUDIT_ITEMS.map(item => (
-                <div key={item} style={{ display:'flex', alignItems:'center', gap:'12px' }}>
-                  <div style={{ width:'22px', height:'22px', borderRadius:'50%', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.25)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                    <CheckSVG size={12} />
-                  </div>
-                  <span style={{ fontSize:'15px', color:'var(--text-2)' }}>{item}</span>
+                <div key={item} style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+                  <IconBox size={32} radius={10}>
+                    <CheckSVG size={14} />
+                  </IconBox>
+                  <span style={{ fontSize:'15px', color:'var(--text-2)', fontWeight: 500 }}>{item}</span>
                 </div>
               ))}
               <Link href="/contact" className="btn btn-primary btn-lg" style={{ marginTop:'10px', justifyContent:'center' }}>

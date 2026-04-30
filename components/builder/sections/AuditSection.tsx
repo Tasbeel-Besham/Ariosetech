@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { IconBox, CheckSVG, ArrowSVG } from '@/components/ui/IconBox'
 
 type CheckItem = { value: string }
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; subhead?: string; desc?: string; note?: string; guarantee?: string; ctaLabel?: string; ctaHref?: string; items?: CheckItem[] }
@@ -22,18 +23,18 @@ export default function AuditSection({ eyebrow='Free Audit', headline='Get Your 
             <p style={{ fontSize:'15px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'14px' }}>{desc}</p>
             <p style={{ ...M, fontSize:'11px', color:'var(--text-3)', fontStyle:'italic' }}>{noteText}</p>
           </div>
-          <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
+          <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
             {checks.map(item => (
-              <div key={item} style={{ display:'flex', alignItems:'center', gap:'12px' }}>
-                <div style={{ width:'22px', height:'22px', borderRadius:'50%', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.25)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="var(--primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </div>
-                <span style={{ fontSize:'15px', color:'var(--text-2)' }}>{item}</span>
+              <div key={item} style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+                <IconBox size={32} radius={10}>
+                  <CheckSVG size={14} />
+                </IconBox>
+                <span style={{ fontSize:'15px', color:'var(--text-2)', fontWeight: 500 }}>{item}</span>
               </div>
             ))}
             <Link href={ctaHref} className="btn btn-primary btn-lg" style={{ marginTop:'10px', justifyContent:'center' }}>
               {ctaLabel}
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <ArrowSVG />
             </Link>
           </div>
         </div>
