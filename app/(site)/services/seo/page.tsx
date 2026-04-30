@@ -311,7 +311,7 @@ export default async function SEOPage() {
         <div className="container">
           <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
             {/* Left - Sticky */}
-            <div className="sr" style={{ position: 'sticky', top: '100px' }}>
+            <div className="sr sticky-mobile-fix" style={{ position: 'sticky', top: '100px' }}>
               <p className="eyebrow">Why Choose Us</p>
               <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
                 Why Businesses Choose <span style={P}>ARIOSETECH</span> for SEO
@@ -464,7 +464,7 @@ export default async function SEOPage() {
         <div className="container">
           <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
             {/* Left - Sticky */}
-            <div className="sr" style={{ position: 'sticky', top: '100px' }}>
+            <div className="sr sticky-mobile-fix" style={{ position: 'sticky', top: '100px' }}>
               <p className="eyebrow">FAQ</p>
               <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
                 SEO Questions <span style={P}>Answered</span>

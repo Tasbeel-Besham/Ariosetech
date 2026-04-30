@@ -13,7 +13,7 @@ export default function FaqSection({ eyebrow='FAQ', subheadline="Can't find what
     <section className="section" style={{ overflow:'visible' }}>
       <div className="container">
         <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
-          <div style={{ position:'relative', top:0 }} className="lg:sticky lg:top-[88px]">
+          <div style={{ position:'relative', top:0 }} className="lg:sticky lg:top-[88px] sticky-mobile-fix">
             <p className="eyebrow">{eyebrow}</p>
             <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
               Frequently Asked{' '}

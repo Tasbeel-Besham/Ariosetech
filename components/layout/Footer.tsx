@@ -81,19 +81,20 @@ export default function Footer() {
   return (
     <footer style={{ background:'var(--bg-2)', borderTop:'1px solid var(--border)' }}>
       {/* CTA banner */}
-      <div style={{ background:'linear-gradient(135deg, rgba(118,108,255,0.12), rgba(118,108,255,0.05))', borderBottom:'1px solid rgba(118,108,255,0.15)', padding:'48px 0' }}>
-        <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'24px', flexWrap:'wrap' }}>
-          <div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize:'clamp(1.4rem,3vw,2rem)', fontWeight:800, color:'#fff', marginBottom:'6px', letterSpacing:'-0.02em' }}>
+      <div style={{ background:'linear-gradient(135deg, rgba(118,108,255,0.18), rgba(118,108,255,0.06))', borderBottom:'1px solid rgba(118,108,255,0.2)', padding:'64px 0', position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', top:'-50%', right:'-10%', width:'400px', height:'400px', background:'radial-gradient(circle, rgba(118,108,255,0.15) 0%, transparent 70%)', filter:'blur(60px)', pointerEvents:'none' }} />
+        <div className="container" style={{ position:'relative', zIndex:1, display:'flex', alignItems:'center', justifyContent:'space-between', gap:'40px', flexWrap:'wrap' }}>
+          <div style={{ flex:1, minWidth:'280px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize:'clamp(1.8rem,4vw,2.4rem)', fontWeight:800, color:'#fff', marginBottom:'12px', letterSpacing:'-0.03em', lineHeight:1.1 }}>
               {ctaHeadline}
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize:'15px', color:'var(--text-2)', lineHeight:1.6, fontWeight: 500 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize:'16px', color:'var(--text-2)', lineHeight:1.7, fontWeight: 500, maxWidth:'600px' }}>
               {ctaDesc}
             </p>
           </div>
-          <div style={{ display:'flex', gap:'10px', flexWrap:'wrap', flexShrink:0 }}>
-            <Link href={ctaHref} className="btn btn-primary btn-md">{ctaLabel}</Link>
-            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-md">
+          <div style={{ display:'flex', gap:'14px', flexWrap:'wrap', flexShrink:0 }}>
+            <Link href={ctaHref} className="btn btn-primary btn-lg" style={{ padding:'18px 36px' }}>{ctaLabel}</Link>
+            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg" style={{ padding:'18px 36px' }}>
               WhatsApp Us
             </a>
           </div>
@@ -106,12 +107,12 @@ export default function Footer() {
 
           {/* Brand column */}
           <div>
-            <Link href="/" style={{ display:'flex', alignItems:'center', textDecoration:'none', flexShrink:0, marginBottom:'16px' }}>
-              <div style={{ fontFamily:'var(--font-logo), sans-serif', fontSize:'24px', color:'#fff', letterSpacing:'1px', lineHeight:1 }}>
-                {logoUrl ? <img src={logoUrl} alt={siteName} style={{ height:'32px', width:'auto', objectFit:'contain', display:'block' }} /> : siteName}
+            <Link href="/" style={{ display:'flex', alignItems:'center', textDecoration:'none', flexShrink:0, marginBottom:'20px' }}>
+              <div style={{ fontFamily:'var(--font-logo), sans-serif', fontSize:'22px', color:'#fff', letterSpacing:'1px', lineHeight:1 }}>
+                {logoUrl ? <img src={logoUrl} alt={siteName} style={{ height:'28px', maxWidth:'160px', width:'auto', objectFit:'contain', display:'block' }} /> : siteName}
               </div>
             </Link>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'24px', maxWidth:'280px', fontWeight: 500 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'var(--text-3)', lineHeight:1.85, marginBottom:'28px', maxWidth:'300px', fontWeight: 500 }}>
               {tagline}
             </p>
 

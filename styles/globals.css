@@ -73,8 +73,14 @@
   a    { color: inherit; text-decoration: none; }
   img  { max-width: 100%; height: auto; display: block; }
   ::selection { background: #8b80ff; color: #fff; }
-  ::-webkit-scrollbar { width: 2px; }
-  ::-webkit-scrollbar-thumb { background: var(--bg-4); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { 
+    background: var(--primary); 
+    border-radius: 10px; 
+    border: 3px solid var(--bg);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
   :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 }
 
@@ -270,6 +276,7 @@ header { animation: slideDown 0.4s var(--ease) both; }
   .section { padding: 80px 0 !important; }
   .btn-lg, .btn-xl { width: 100%; justify-content: center; }
   .container { padding-left: 20px; padding-right: 20px; }
+  .sticky-mobile-fix { opacity: 1 !important; transform: none !important; transition: none !important; position: relative !important; top: 0 !important; }
 
   /* Layout specific overrides */
   .approach-wrapper { height: auto !important; }
