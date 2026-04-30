@@ -35,8 +35,9 @@ export default function InteractiveHeroSection({
   const cringRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLElement>(null)
   
-  const F = { fontFamily: 'var(--font-display)' } as const
-  const M = { fontFamily: 'var(--font-mono)' } as const
+  const F = { fontFamily: 'var(--font-manrope), var(--font-display), sans-serif' } as const
+  const B = { fontFamily: 'var(--font-body), sans-serif' } as const
+  const M = { fontFamily: 'var(--font-mono), monospace' } as const
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -64,8 +65,8 @@ export default function InteractiveHeroSection({
     }
     window.addEventListener('mousemove', onMouseMove)
 
-    // ── CURSOR TRAIL LOGIC ───────────────────────────────────────
-    const TRAIL_COUNT = 18
+    // ── CURSOR TRAIL ──
+    const TRAIL_COUNT = 15
     const trails: { el: HTMLDivElement; x: number; y: number }[] = []
     const trailContainer = document.createElement('div')
     trailContainer.style.pointerEvents = 'none'
@@ -73,142 +74,83 @@ export default function InteractiveHeroSection({
 
     for (let i = 0; i < TRAIL_COUNT; i++) {
       const t = document.createElement('div')
-      t.style.position = 'fixed'
-      t.style.borderRadius = '50%'
-      t.style.pointerEvents = 'none'
-      t.style.zIndex = '9998'
-      t.style.transform = 'translate(-50%, -50%)'
-      t.style.transition = 'opacity .5s'
-      const s = 6 - i * 0.25
-      const op = (1 - i / TRAIL_COUNT) * 0.35
-      t.style.width = `${s}px`
-      t.style.height = `${s}px`
-      t.style.background = `var(--primary)`
-      t.style.opacity = `${op}`
+      t.style.position = 'fixed'; t.style.borderRadius = '50%'; t.style.pointerEvents = 'none'; t.style.zIndex = '9998'
+      t.style.transform = 'translate(-50%, -50%)'; t.style.transition = 'opacity .5s'
+      const s = 5 - i * 0.3; const op = (1 - i / TRAIL_COUNT) * 0.3
+      t.style.width = `${s}px`; t.style.height = `${s}px`; t.style.background = `var(--primary)`; t.style.opacity = `${op}`
       trailContainer.appendChild(t)
       trails.push({ el: t, x: -200, y: -200 })
     }
 
-    // ── CANVAS NODES ─────────────────────────────────────────────
+    // ── NODES ──
     const services = [
-      { label: 'WordPress Dev', sub: 'Custom themes', color: [118, 108, 255], size: 52, icon: '⚡' },
-      { label: 'E-Commerce', sub: 'Shopify & Woo', color: [167, 139, 250], size: 46, icon: '🛒' },
-      { label: 'SEO & Speed', sub: 'Performance', color: [244, 114, 182], size: 42, icon: '🔍' },
-      { label: 'UI/UX Design', sub: 'Interfaces', color: [34, 211, 238], size: 44, icon: '🎨' },
-      { label: '24/7 Support', sub: 'Always here', color: [74, 222, 128], size: 40, icon: '🛡️' },
-      { label: 'Web Apps', sub: 'Scalable builds', color: [251, 146, 60], size: 38, icon: '⚙️' },
+      { label: 'WordPress Dev', sub: 'Expert builds', color: [118, 108, 255], size: 50, icon: '⚡' },
+      { label: 'E-Commerce', sub: 'Shopify & Woo', color: [167, 139, 250], size: 44, icon: '🛒' },
+      { label: 'SEO & Speed', sub: 'Performance', color: [244, 114, 182], size: 40, icon: '🔍' },
+      { label: 'UI/UX Design', sub: 'Modern UX', color: [34, 211, 238], size: 42, icon: '🎨' },
+      { label: '24/7 Support', sub: 'Reliable help', color: [74, 222, 128], size: 38, icon: '🛡️' },
     ]
 
     let nodes = services.map((s, i) => {
       const angle = (i / services.length) * Math.PI * 2
-      const radiusX = window.innerWidth * 0.20
-      const radiusY = window.innerHeight * 0.28
-      // PUSH NODES TO THE RIGHT to avoid text overlap
-      const cx = window.innerWidth * 0.82
-      const cy = window.innerHeight * 0.5
+      const radiusX = window.innerWidth * 0.18; const radiusY = window.innerHeight * 0.25
+      const cx = window.innerWidth * 0.84; const cy = window.innerHeight * 0.5
       return {
-        ...s,
-        x: cx + Math.cos(angle) * radiusX,
-        y: cy + Math.sin(angle) * radiusY * 0.8,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        baseX: cx + Math.cos(angle) * radiusX,
-        baseY: cy + Math.sin(angle) * radiusY * 0.8,
-        angle: angle,
-        orbitSpeed: 0.003 + Math.random() * 0.002,
-        orbitR: 4 + Math.random() * 6,
-        phase: Math.random() * Math.PI * 2,
-        glowPulse: Math.random() * Math.PI * 2,
-        hover: 0,
-        grabbed: false,
+        ...s, x: cx + Math.cos(angle) * radiusX, y: cy + Math.sin(angle) * radiusY,
+        vx: 0, vy: 0, baseX: cx + Math.cos(angle) * radiusX, baseY: cy + Math.sin(angle) * radiusY,
+        phase: Math.random() * Math.PI * 2, orbitR: 5 + Math.random() * 5, hover: 0
       }
     })
-
-    const particles = Array.from({ length: 120 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.2,
-      vy: (Math.random() - 0.5) * 0.2,
-      r: Math.random() * 1.5 + 0.3,
-      alpha: Math.random() * 0.3 + 0.05,
-      color: [[118, 108, 255], [167, 139, 250], [244, 114, 182], [255, 255, 255]][Math.floor(Math.random() * 4)],
-    }))
 
     const ripples: any[] = []
     let lastRipple = 0
     const onMouseMoveRipple = () => {
       const now = Date.now()
-      if (now - lastRipple > 80) {
-        ripples.push({ x: mx, y: my, r: 0, alpha: 0.15, life: 1 })
-        lastRipple = now
-      }
+      if (now - lastRipple > 100) { ripples.push({ x: mx, y: my, r: 0, alpha: 0.12, life: 1 }); lastRipple = now }
     }
     window.addEventListener('mousemove', onMouseMoveRipple)
 
     let raf: number
     const loop = (t: number) => {
       raf = requestAnimationFrame(loop)
-      ctx.clearRect(0, 0, W, H)
-      ctx.fillStyle = '#050508'
-      ctx.fillRect(0, 0, W, H)
+      ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#050508'; ctx.fillRect(0, 0, W, H)
 
       // Grid
-      const sp = 60; const ox = (mx * 0.04) % sp; const oy = (my * 0.04) % sp
+      const sp = 64; const ox = (mx * 0.03) % sp; const oy = (my * 0.03) % sp
       ctx.strokeStyle = 'rgba(118,108,255,0.03)'; ctx.lineWidth = 1
       for (let x = -sp + ox; x < W + sp; x += sp) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
       for (let y = -sp + oy; y < H + sp; y += sp) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
 
       // Ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
-        const rp = ripples[i]; rp.r += 2.2; rp.life -= 0.035
+        const rp = ripples[i]; rp.r += 2; rp.life -= 0.03
         if (rp.life <= 0) { ripples.splice(i, 1); continue }
-        ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(118,108,255,${rp.alpha * rp.life})`; ctx.stroke()
+        ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2); ctx.strokeStyle = `rgba(118,108,255,${rp.alpha * rp.life})`; ctx.stroke()
       }
 
-      // Particles
-      particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy
-        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0
-        const [r,g,b] = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${r},${g},${b},${p.alpha})`; ctx.fill()
-      })
-
-      // Connections
-      nodes.forEach((n, i) => {
-        nodes.slice(i + 1).forEach(m => {
-          const dx = n.x - m.x, dy = n.y - m.y, d = Math.sqrt(dx*dx + dy*dy)
-          if (d < 220) {
-            ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.strokeStyle = `rgba(118,108,255,${(1 - d/220) * 0.12})`; ctx.stroke()
-          }
-        })
-      })
-
       // Nodes
-      nodes.forEach((n, i) => {
-        n.glowPulse += 0.02
-        const dx = mx - n.x, dy = my - n.y, dist = Math.sqrt(dx*dx + dy*dy)
-        const hovered = dist < n.size + 15; n.hover += (hovered ? 1 : -1) * 0.08; n.hover = Math.max(0, Math.min(1, n.hover))
+      nodes.forEach(n => {
+        const dx = mx - n.x, dy = my - n.y, d = Math.sqrt(dx*dx + dy*dy)
+        n.hover += (d < n.size + 10 ? 1 : -1) * 0.1; n.hover = Math.max(0, Math.min(1, n.hover))
+        if (d < 140 && d > 0) { const f = (140 - d) / 140; n.vx -= (dx / d) * f * 1.2; n.vy -= (dy / d) * f * 1.2 }
+        const tx = n.baseX + Math.cos(t * 0.002 + n.phase) * n.orbitR
+        const ty = n.baseY + Math.sin(t * 0.002 + n.phase) * n.orbitR
+        n.vx += (tx - n.x) * 0.02; n.vy += (ty - n.y) * 0.02; n.vx *= 0.85; n.vy *= 0.85; n.x += n.vx; n.y += n.vy
 
-        if (dist < 160 && dist > 0) { const force = (160 - dist) / 160; n.vx -= (dx / dist) * force * 1.4; n.vy -= (dy / dist) * force * 1.4 }
-        const targetX = n.baseX + Math.cos(t * 0.001 * 40 + n.phase) * n.orbitR
-        const targetY = n.baseY + Math.sin(t * 0.001 * 40 + n.phase) * n.orbitR
-        n.vx += (targetX - n.x) * 0.018; n.vy += (targetY - n.y) * 0.018
-        n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy
-
-        const [r,g,b] = n.color; const sz = n.size + n.hover * 10; const glow = 0.5 + Math.sin(n.glowPulse) * 0.3
-        const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, sz * 2.5)
-        grad.addColorStop(0, `rgba(${r},${g},${b},${0.12 * glow + n.hover * 0.15})`); grad.addColorStop(1, `rgba(${r},${g},${b},0)`)
-        ctx.beginPath(); ctx.arc(n.x, n.y, sz * 2.5, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill()
+        const [r,g,b] = n.color; const sz = n.size + n.hover * 8
+        const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, sz * 2.2)
+        grad.addColorStop(0, `rgba(${r},${g},${b},${0.1 + n.hover * 0.2})`); grad.addColorStop(1, `rgba(${r},${g},${b},0)`)
+        ctx.beginPath(); ctx.arc(n.x, n.y, sz * 2.2, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill()
         ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, Math.PI * 2); ctx.strokeStyle = `rgba(${r},${g},${b},${0.4 + n.hover * 0.4})`; ctx.lineWidth = 1.5; ctx.stroke()
-        ctx.font = `${sz * 0.52}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.icon, n.x, n.y)
+        ctx.font = `${sz * 0.52}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = `rgba(${r},${g},${b},0.9)`; ctx.fillText(n.icon, n.x, n.y)
         if (n.hover > 0.1) {
           ctx.globalAlpha = n.hover; ctx.font = `700 13px var(--font-display)`; ctx.fillStyle = '#fff'; ctx.fillText(n.label, n.x, n.y + sz + 18)
-          ctx.font = `11px var(--font-mono)`; ctx.fillStyle = `rgba(${r},${g},${b},0.9)`; ctx.fillText(n.sub, n.x, n.y + sz + 34); ctx.globalAlpha = 1
+          ctx.font = `11px var(--font-mono)`; ctx.fillStyle = `rgba(${r},${g},${b},0.8)`; ctx.fillText(n.sub, n.x, n.y + sz + 34); ctx.globalAlpha = 1
         }
       })
 
       // Vignette
-      const vg = ctx.createRadialGradient(W/2, H/2, H*0.3, W/2, H/2, H*0.9); vg.addColorStop(0, 'rgba(5,5,8,0)'); vg.addColorStop(1, 'rgba(5,5,8,0.85)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
+      const vg = ctx.createRadialGradient(W/2, H/2, H*0.4, W/2, H/2, H*0.9); vg.addColorStop(0, 'rgba(5,5,8,0)'); vg.addColorStop(1, 'rgba(5,5,8,0.8)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
 
       if (cdotRef.current) { cdotRef.current.style.left = `${mx}px`; cdotRef.current.style.top = `${my}px` }
       rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13
@@ -237,35 +179,34 @@ export default function InteractiveHeroSection({
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none' }}>
-        <div style={{ maxWidth: '980px' }}>
+        <div style={{ maxWidth: '1020px' }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             
-            {/* Eyebrow */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
-              <div style={{ width: '24px', height: '2px', background: 'var(--grad)' }} />
-              <span style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700 }}>{eyebrow}</span>
+            {/* Eyebrow — Matched to site-wide style */}
+            <div className="eyebrow" style={{ marginBottom: '28px', color: 'var(--text-3)' }}>
+              {eyebrow}
             </div>
 
             {/* Headline — High Contrast & Balanced Split */}
-            <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', marginBottom: '28px' }}>
+            <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5.2vw, 3.8rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', marginBottom: '28px' }}>
               Professional WordPress, <br />
-              <span style={{ display: 'block', paddingLeft: '3.5rem', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', backgroundSize: '200%', animation: 'gAnim 5s ease-in-out infinite alternate' }}>
+              <span style={{ display: 'block', paddingLeft: '3.5rem', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', backgroundSize: '200%' }}>
                 Shopify & WooCommerce <br />
                 <span style={{ color: '#fff', paddingLeft: '2rem' }}>Development Since 2017</span>
               </span>
             </h1>
 
-            {/* Subheadline */}
-            <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '540px', marginBottom: '48px', fontWeight: 400 }}>
+            {/* Subheadline — Matched to site-wide body font */}
+            <p style={{ ...B, fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '520px', marginBottom: '44px', fontWeight: 400 }}>
               {subheadline}
             </p>
 
             {/* CTAs */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', pointerEvents: 'all' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', pointerEvents: 'all' }}>
               <Link href={ctaPrimaryHref} className="btn btn-primary btn-xl">
                 {ctaPrimaryLabel} →
               </Link>
-              <Link href={ctaSecondaryHref} style={{ ...M, fontSize: '13px', fontWeight: 700, color: 'var(--text-2)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Link href={ctaSecondaryHref} style={{ ...M, fontSize: '12px', fontWeight: 700, color: 'var(--text-2)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {ctaSecondaryLabel} <span style={{ fontSize: '16px' }}>→</span>
               </Link>
             </div>
@@ -274,7 +215,7 @@ export default function InteractiveHeroSection({
             <div style={{ display: 'flex', gap: '56px', marginTop: '64px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '32px' }}>
               {stats.map((s) => (
                 <div key={s.label}>
-                  <div style={{ ...F, fontSize: '28px', fontWeight: 900, background: 'linear-gradient(to bottom, #fff, rgba(255,255,255,0.5))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{s.value}</div>
+                  <div style={{ ...F, fontSize: '26px', fontWeight: 800, background: 'linear-gradient(to bottom, #fff, rgba(255,255,255,0.5))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{s.value}</div>
                   <div style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: '4px', fontWeight: 700 }}>{s.label}</div>
                 </div>
               ))}
@@ -302,7 +243,6 @@ export default function InteractiveHeroSection({
               {text}
             </span>
           ))}
-          {/* Repeat */}
           {[
             'WordPress Development', 'E-Commerce Stores', 'SEO Optimization', 'Custom Web Apps', 
             'Speed Optimization', '24/7 Support', 'UI/UX Design', 'Conversion Rate Optimization'
@@ -319,10 +259,6 @@ export default function InteractiveHeroSection({
         @keyframes ticker {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
-        }
-        @keyframes gAnim {
-          0% { background-position: 0%; }
-          100% { background-position: 100%; }
         }
       `}</style>
     </section>
