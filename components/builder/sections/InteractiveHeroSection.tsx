@@ -16,12 +16,12 @@ type HeroProps = {
 }
 
 export default function InteractiveHeroSection({
-  eyebrow = 'Web Development Agency · Lahore',
-  headline = 'Consider It Solved.',
-  subheadline = 'Premium WordPress, e-commerce & custom web development. 60% less than US agencies — zero compromise on quality.',
-  ctaPrimaryLabel = 'Start Your Project',
+  eyebrow = 'Trusted by businesses in the USA, UAE, and Switzerland',
+  headline = 'Professional WordPress, Shopify & WooCommerce Development Since 2017',
+  subheadline = "Transform your business with custom e-commerce solutions that drive results. We've helped 100+ businesses across the globe scale their online presence with expert development, lightning-fast performance, and ongoing support.",
+  ctaPrimaryLabel = 'Get Free Quote & Strategy Call',
   ctaPrimaryHref = '/contact',
-  ctaSecondaryLabel = 'View Our Work',
+  ctaSecondaryLabel = 'View Our Portfolio',
   ctaSecondaryHref = '/portfolio',
   stats = [
     { value: '150%', label: 'Avg Conversion Lift' },
@@ -58,8 +58,9 @@ export default function InteractiveHeroSection({
     window.addEventListener('resize', resize)
 
     const onMouseMove = (e: MouseEvent) => {
-      mx = e.clientX
-      my = e.clientY
+      const rect = cv.getBoundingClientRect()
+      mx = e.clientX - rect.left
+      my = e.clientY - rect.top
     }
     window.addEventListener('mousemove', onMouseMove)
 
@@ -82,7 +83,8 @@ export default function InteractiveHeroSection({
       const op = (1 - i / TRAIL_COUNT) * 0.35
       t.style.width = `${s}px`
       t.style.height = `${s}px`
-      t.style.background = `rgba(118, 108, 255, ${op})`
+      t.style.background = `var(--primary)`
+      t.style.opacity = `${op}`
       trailContainer.appendChild(t)
       trails.push({ el: t, x: -200, y: -200 })
     }
@@ -142,34 +144,6 @@ export default function InteractiveHeroSection({
     }
     window.addEventListener('mousemove', onMouseMoveRipple)
 
-    let grabbedNode: any = null
-    let grabOffX = 0, grabOffY = 0
-    const onMouseDown = () => {
-      for (const n of nodes) {
-        const dx = mx - n.x, dy = my - n.y
-        if (Math.sqrt(dx * dx + dy * dy) < n.size + 10) {
-          grabbedNode = n
-          n.grabbed = true
-          grabOffX = dx; grabOffY = dy
-          if (cdotRef.current) { cdotRef.current.style.width = '0px'; cdotRef.current.style.height = '0px' }
-          if (cringRef.current) { cringRef.current.style.width = '70px'; cringRef.current.style.height = '70px' }
-          break
-        }
-      }
-    }
-    const onMouseUp = () => {
-      if (grabbedNode) {
-        grabbedNode.grabbed = false
-        grabbedNode.vx = (mx - grabbedNode.x) * 0.15
-        grabbedNode.vy = (my - grabbedNode.y) * 0.15
-        grabbedNode = null
-        if (cdotRef.current) { cdotRef.current.style.width = '10px'; cdotRef.current.style.height = '10px' }
-        if (cringRef.current) { cringRef.current.style.width = '40px'; cringRef.current.style.height = '40px' }
-      }
-    }
-    window.addEventListener('mousedown', onMouseDown)
-    window.addEventListener('mouseup', onMouseUp)
-
     let raf: number
     const loop = (t: number) => {
       raf = requestAnimationFrame(loop)
@@ -224,18 +198,15 @@ export default function InteractiveHeroSection({
       nodes.forEach((n, i) => {
         n.glowPulse += 0.025
         const dx = mx - n.x, dy = my - n.y, dist = Math.sqrt(dx*dx + dy*dy)
-        const hovered = dist < n.size + 16 && !grabbedNode
+        const hovered = dist < n.size + 16
         n.hover += (hovered ? 1 : -1) * 0.08
         n.hover = Math.max(0, Math.min(1, n.hover))
 
-        if (n.grabbed) { n.x = mx - grabOffX; n.y = my - grabOffY; n.vx = 0; n.vy = 0 }
-        else {
-          if (dist < 160 && dist > 0) { const force = (160 - dist) / 160; n.vx -= (dx / dist) * force * 1.4; n.vy -= (dy / dist) * force * 1.4 }
-          const targetX = n.baseX + Math.cos(t * 0.001 * 40 + n.phase) * n.orbitR
-          const targetY = n.baseY + Math.sin(t * 0.001 * 40 + n.phase) * n.orbitR
-          n.vx += (targetX - n.x) * 0.018; n.vy += (targetY - n.y) * 0.018
-          n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy
-        }
+        if (dist < 160 && dist > 0) { const force = (160 - dist) / 160; n.vx -= (dx / dist) * force * 1.4; n.vy -= (dy / dist) * force * 1.4 }
+        const targetX = n.baseX + Math.cos(t * 0.001 * 40 + n.phase) * n.orbitR
+        const targetY = n.baseY + Math.sin(t * 0.001 * 40 + n.phase) * n.orbitR
+        n.vx += (targetX - n.x) * 0.018; n.vy += (targetY - n.y) * 0.018
+        n.vx *= 0.88; n.vy *= 0.88; n.x += n.vx; n.y += n.vy
 
         const [r,g,b] = n.color; const glow = 0.5 + Math.sin(n.glowPulse) * 0.3; const sz = n.size + n.hover * 10
         const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, sz * 2.5)
@@ -267,7 +238,6 @@ export default function InteractiveHeroSection({
     }
     raf = requestAnimationFrame(loop)
 
-    // Apply cursor: none to body
     document.body.style.cursor = 'none'
 
     return () => {
@@ -275,8 +245,6 @@ export default function InteractiveHeroSection({
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mousemove', onMouseMoveRipple)
-      window.removeEventListener('mousedown', onMouseDown)
-      window.removeEventListener('mouseup', onMouseUp)
       document.body.removeChild(trailContainer)
       document.body.style.cursor = 'auto'
     }
@@ -284,7 +252,8 @@ export default function InteractiveHeroSection({
 
   return (
     <section ref={heroRef} className="hero-interactive" style={{ position: 'relative', height: '100vh', width: '100vw', overflow: 'hidden', background: '#050508' }}>
-      {/* Custom Cursor Scoped to Hero (or Global) */}
+      
+      {/* Custom Cursor */}
       <div id="cur" style={{ pointerEvents: 'none' }}>
         <div ref={cdotRef} style={{ position: 'fixed', zIndex: 9999, width: '10px', height: '10px', background: '#fff', borderRadius: '50%', transform: 'translate(-50%, -50%)', transition: 'width .2s, height .2s, background .2s' }} />
         <div ref={cringRef} style={{ position: 'fixed', zIndex: 9999, width: '40px', height: '40px', border: '1.5px solid rgba(255,255,255,0.6)', borderRadius: '50%', transform: 'translate(-50%, -50%)' }} />
@@ -293,22 +262,30 @@ export default function InteractiveHeroSection({
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none' }}>
-        <div style={{ maxWidth: '800px' }}>
+        <div style={{ maxWidth: '900px' }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            
+            {/* Eyebrow */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
               <div style={{ width: '24px', height: '2px', background: 'var(--grad)' }} />
               <span style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>{eyebrow}</span>
             </div>
 
-            <h1 style={{ ...F, fontSize: 'clamp(3.5rem, 8vw, 6.5rem)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.05em', color: '#fff', marginBottom: '24px' }}>
-              Consider <br />
-              <span style={{ background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>It Solved.</span>
+            {/* Headline */}
+            <h1 style={{ ...F, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', marginBottom: '24px' }}>
+              Professional WordPress, <br />
+              <span style={{ display: 'block', paddingLeft: '3.5rem', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', backgroundSize: '200%', animation: 'gAnim 5s ease-in-out infinite alternate' }}>
+                Shopify & WooCommerce <br />
+                <span style={{ color: '#fff', paddingLeft: '1.5rem' }}>Development Since 2017</span>
+              </span>
             </h1>
 
-            <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '500px', marginBottom: '40px' }}>
+            {/* Subheadline */}
+            <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '520px', marginBottom: '44px' }}>
               {subheadline}
             </p>
 
+            {/* CTAs */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px', pointerEvents: 'all' }}>
               <Link href={ctaPrimaryHref} className="btn btn-primary btn-xl">
                 {ctaPrimaryLabel} →
@@ -318,8 +295,9 @@ export default function InteractiveHeroSection({
               </Link>
             </div>
 
+            {/* Stats */}
             <div style={{ display: 'flex', gap: '48px', marginTop: '64px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '32px' }}>
-              {stats.map((s, i) => (
+              {stats.map((s) => (
                 <div key={s.label}>
                   <div style={{ ...F, fontSize: '28px', fontWeight: 900, background: 'linear-gradient(to bottom, #fff, rgba(255,255,255,0.5))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{s.value}</div>
                   <div style={{ ...M, fontSize: '9px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px' }}>{s.label}</div>
@@ -330,7 +308,7 @@ export default function InteractiveHeroSection({
         </div>
       </div>
 
-      {/* Scroll Hint */}
+      {/* Interaction Hint */}
       <div style={{ position: 'absolute', bottom: '40px', right: '40px', zIndex: 20, display: 'flex', alignItems: 'center', gap: '12px' }}>
          <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '10px' }}>↗</div>
          <span style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Move cursor to play</span>
@@ -365,6 +343,10 @@ export default function InteractiveHeroSection({
         @keyframes ticker {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
+        }
+        @keyframes gAnim {
+          0% { background-position: 0%; }
+          100% { background-position: 100%; }
         }
       `}</style>
     </section>
