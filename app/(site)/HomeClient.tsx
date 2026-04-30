@@ -260,7 +260,7 @@ function ApproachSection() {
                   }}
                 >
                   {/* Gradient top bar */}
-                  <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', opacity: isActive ? 1 : 0, transition:'opacity 0.4s' }} />
+                  <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
 
                   {/* Ghost number */}
                   <p className="approach-ghost-num" style={{ ...F, fontSize:'clamp(8rem,13vw,14rem)', fontWeight:900, color:'rgba(255,255,255,0.04)', position:'absolute', top:'10px', right:'16px', lineHeight:1, userSelect:'none', letterSpacing:'-0.06em', pointerEvents:'none' }}>
@@ -374,7 +374,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'20px' }}>
               {WHY_US.map((b,i) => (
                 <div key={b.title} className="sr card card-hover" style={{ padding:'36px', animationDelay:`${i*0.08}s` }}>
-                  <div style={{ position:'absolute', top:0, left:0, width:'100%', height:'3px', background:'var(--grad)' }} />
+                  <div style={{ position:'absolute', top:0, left:0, width:'100%', height:'2px', background:'var(--grad)' }} />
                   <div style={{ flexShrink:0, width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', marginBottom:'20px' }}>{b.icon}</div>
                   <h3 style={{ ...F, fontSize:'18px', fontWeight:800, color:'#fff', marginBottom:'10px' }}>{b.title}</h3>
                   <p style={{ ...F, fontSize:'12px', fontWeight:600, color:'var(--primary)', marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.05em' }}>{b.subhead}</p>
@@ -514,7 +514,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                         onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateX(6px)' }}
                         onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}
                       >
-                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.5 }} />
+                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
                         <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
                         <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
                         <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
@@ -566,8 +566,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                   el.style.boxShadow = ''
                   const img = el.querySelector('[data-hp-img]') as HTMLElement | null
                   if (img) img.style.transform = 'translateY(0%)'
-                }}>
-                <div style={{ height:'3px', background:'var(--grad)' }} />
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', zIndex:2 }} />
                 {/* Image preview (scroll on hover) */}
                 <div style={{ height:'190px', overflow:'hidden', position:'relative', borderBottom:'1px solid var(--border)' }}>
                   <div

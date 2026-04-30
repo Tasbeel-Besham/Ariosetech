@@ -230,8 +230,10 @@ export default function ServicesAccordionSection({
                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
                     background: 'rgba(5,5,8,0.72)',
                     padding: isMd ? '36px 40px' : '32px 20px',
+                    overflow: 'hidden'
                   }}
                 >
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
                   <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
                     {tab.sub}
                   </p>
