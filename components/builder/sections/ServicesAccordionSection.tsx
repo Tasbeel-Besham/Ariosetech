@@ -142,13 +142,10 @@ export default function ServicesAccordionSection({
           {/* ── Tab strip ── */}
           <div style={{
             display: 'flex',
-            flexDirection: isMd ? 'column' : 'row',
+            flexDirection: 'column',
             flexShrink: 0,
             borderRight: isMd ? '1px solid rgba(255,255,255,0.07)' : 'none',
-            borderBottom: !isMd ? '1px solid rgba(255,255,255,0.07)' : 'none',
             background: 'rgba(5,5,10,0.6)',
-            overflowX: isMd ? 'visible' : 'auto',
-            WebkitOverflowScrolling: 'touch',
           }}>
             {items.map((t, i) => {
               const isActive = i === active
@@ -158,43 +155,54 @@ export default function ServicesAccordionSection({
                   onClick={() => go(i)}
                   style={{
                     display: 'flex',
-                    flexDirection: isMd ? 'column' : 'row',
                     alignItems: 'center',
-                    justifyContent: isMd ? 'center' : 'flex-start',
-                    gap: '10px',
-                    padding: isMd ? '24px 16px' : '14px 18px',
-                    background: isActive ? 'rgba(118,108,255,0.10)' : 'transparent',
+                    gap: '12px',
+                    padding: isMd ? '24px 16px' : '16px 20px',
+                    background: isActive ? (isMd ? 'rgba(118,108,255,0.10)' : 'var(--primary)') : 'transparent',
                     border: 'none',
                     borderLeft: isMd ? `2px solid ${isActive ? 'var(--primary)' : 'transparent'}` : 'none',
-                    borderBottom: !isMd ? `2px solid ${isActive ? 'var(--primary)' : 'transparent'}` : 'none',
+                    borderRadius: !isMd && isActive ? '12px' : '0',
+                    margin: !isMd ? '2px 10px' : '0',
+                    width: !isMd ? 'calc(100% - 20px)' : '100%',
                     cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    flex: isMd ? undefined : 1,
-                    minWidth: isMd ? '84px' : undefined,
+                    transition: 'all 0.3s var(--ease)',
+                    textAlign: 'left',
+                    color: isActive ? '#fff' : 'rgba(255,255,255,0.45)',
                   }}
                 >
                   <div style={{
-                    width: '34px', height: '34px', borderRadius: '10px', flexShrink: 0,
-                    background: isActive ? 'var(--primary)' : 'rgba(118,108,255,0.1)',
-                    border: `1px solid rgba(118,108,255,${isActive ? '0.6' : '0.18'})`,
+                    width: '32px', height: '32px', borderRadius: '10px', flexShrink: 0,
+                    background: isActive ? (isMd ? 'var(--primary)' : 'rgba(255,255,255,0.2)') : 'rgba(118,108,255,0.1)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     color: isActive ? '#fff' : 'var(--primary)',
                     transition: 'all 0.2s',
                   }}>
                     {typeof t.icon === 'string' ? (
-                      <div dangerouslySetInnerHTML={{ __html: t.icon }} style={{ display: 'flex', width: '22px', height: '22px' }} />
+                      <div dangerouslySetInnerHTML={{ __html: t.icon }} style={{ display: 'flex', width: '20px', height: '20px' }} />
                     ) : (
                       t.icon
                     )}
                   </div>
-                  {/* Desktop vertical label */}
-                  <span style={{ ...F, fontSize: '11px', fontWeight: 700, color: isActive ? '#fff' : 'rgba(255,255,255,0.4)', writingMode: isMd ? 'vertical-lr' : undefined, transform: isMd ? 'rotate(180deg)' : undefined, whiteSpace: 'nowrap', display: isMd ? 'block' : 'none', transition: 'color 0.2s' }}>
+                  <span style={{ 
+                    ...F, 
+                    fontSize: isMd ? '11px' : '14px', 
+                    fontWeight: 700, 
+                    color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
+                    writingMode: isMd ? 'vertical-lr' : undefined,
+                    transform: isMd ? 'rotate(180deg)' : undefined,
+                    whiteSpace: 'nowrap',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em'
+                  }}>
                     {t.label}
                   </span>
-                  {/* Mobile horizontal label */}
-                  <span style={{ ...F, fontSize: '11px', fontWeight: 700, color: isActive ? '#fff' : 'rgba(255,255,255,0.4)', display: isMd ? 'none' : 'block', transition: 'color 0.2s' }}>
-                    {t.label}
-                  </span>
+                  {!isMd && (
+                    <div style={{ marginLeft: 'auto', opacity: isActive ? 1 : 0.2 }}>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  )}
                 </button>
               )
             })}

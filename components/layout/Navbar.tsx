@@ -585,7 +585,7 @@ export default function Navbar() {
         position: 'sticky', top: 0, zIndex: 200,
       background: scrolled ? 'rgba(5,5,8,0.97)' : 'rgba(5,5,8,0.90)',
       backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-      borderBottom: '1px solid var(--border)',
+        borderBottom: scrolled ? '1px solid var(--border)' : 'none',
       transition: 'background 0.3s',
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', height: '64px', gap: '20px' }}>
