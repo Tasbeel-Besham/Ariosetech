@@ -16,9 +16,12 @@ type ProcessItem = {
 export default function ApproachSection({ processItems, title = 'Development Process' }: { processItems: ProcessItem[], title?: string }) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const stripRef   = useRef<HTMLDivElement>(null)
-  const [tx, setTx]             = useState(0)
-  const [activeIdx, setActiveIdx] = useState(0)
+  const [tx, setTx]               = useState(0)
+  const [scrollIdx, setScrollIdx] = useState(0)
+  const [hoverIdx, setHoverIdx]   = useState<number | null>(null)
   const [showHint, setShowHint]   = useState(true)
+
+  const activeIdx = hoverIdx !== null ? hoverIdx : scrollIdx
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -29,11 +32,11 @@ export default function ApproachSection({ processItems, title = 'Development Pro
       const rect      = wrapper.getBoundingClientRect()
       const maxScroll = wrapper.offsetHeight - window.innerHeight
       const scrolled  = Math.max(0, -rect.top)
-      const progress  = Math.min(1, scrolled / maxScroll)
+      const progress  = Math.min(1, Math.max(0, scrolled / maxScroll))
 
       const maxTx = strip.scrollWidth - window.innerWidth
       setTx(-(progress * maxTx))
-      setActiveIdx(Math.min(processItems.length - 1, Math.floor(progress * processItems.length)))
+      setScrollIdx(Math.min(processItems.length - 1, Math.floor(progress * processItems.length)))
       setShowHint(progress < 0.05)
     }
 
@@ -67,7 +70,13 @@ export default function ApproachSection({ processItems, title = 'Development Pro
             {processItems.map((item, i) => {
               const isActive = i === activeIdx
               return (
-                <div key={item.n} className={`approach-card ${isActive ? 'active' : ''}`} style={{ width:'min(460px, 82vw)', flexShrink:0, background: isActive ? 'linear-gradient(145deg, rgba(118,108,255,0.13) 0%, rgba(10,10,18,0.95) 80%)' : 'var(--bg-2)', border:`1px solid ${isActive ? 'rgba(118,108,255,0.45)' : 'var(--border)'}`, borderRadius:'24px', padding:'44px 40px', position:'relative', overflow:'hidden', transform: isActive ? 'scale(1.02)' : 'scale(0.95)', opacity: isActive ? 1 : 0.45, transition:'all 0.45s var(--ease)', boxShadow: isActive ? '0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(118,108,255,0.1)' : 'none' }}>
+                <div 
+                  key={item.n} 
+                  className={`approach-card ${isActive ? 'active' : ''}`} 
+                  onMouseEnter={() => setHoverIdx(i)}
+                  onMouseLeave={() => setHoverIdx(null)}
+                  style={{ width:'min(460px, 82vw)', flexShrink:0, background: isActive ? 'linear-gradient(145deg, rgba(118,108,255,0.13) 0%, rgba(10,10,18,0.95) 80%)' : 'var(--bg-2)', border:`1px solid ${isActive ? 'rgba(118,108,255,0.45)' : 'var(--border)'}`, borderRadius:'24px', padding:'44px 40px', position:'relative', overflow:'hidden', transform: isActive ? 'scale(1.02)' : 'scale(0.95)', opacity: isActive ? 1 : 0.45, transition:'all 0.45s var(--ease)', boxShadow: isActive ? '0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(118,108,255,0.1)' : 'none' }}
+                >
                   <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', opacity: isActive ? 1 : 0, transition:'opacity 0.4s' }} />
                   <p className="approach-ghost-num" style={{ ...hs, fontSize:'clamp(8rem,13vw,14rem)', fontWeight:900, color:'rgba(255,255,255,0.04)', position:'absolute', top:'10px', right:'16px', lineHeight:1, userSelect:'none', letterSpacing:'-0.06em', pointerEvents:'none' }}>{item.n}</p>
                   <div className="approach-pill" style={{ display:'inline-flex', alignItems:'center', gap:'6px', padding:'4px 12px', borderRadius:'9999px', background:'rgba(118,108,255,0.12)', border:'1px solid rgba(118,108,255,0.25)', marginBottom:'clamp(32px,5vw,64px)' }}>
