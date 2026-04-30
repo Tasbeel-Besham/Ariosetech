@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import ClutchWidget from '@/components/ui/ClutchWidget'
 import HeroSection from '@/components/builder/sections/HeroSection'
+import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
 
 const ArrowSVG = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
@@ -343,66 +344,12 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
         </div>
       </div>
 
-      {/* ══ SERVICES ════════════════════════════════════════════════ */}
-      <section className="section" style={{ padding: '120px 0', background: 'var(--bg)' }}>
-        <div className="container">
-          <p className="eyebrow sr" style={{ justifyContent: 'center' }}>All Services</p>
-          <h2 className="sr" style={{ ...F, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '80px', textAlign: 'center' }}>
-            Complete Digital Solutions
-          </h2>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
-            {SERVICES.map((svc, i) => {
-              const isEven = i % 2 === 0;
-              return (
-                <div key={svc.title} className="sr grid grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center" style={{ animationDelay: `${i * 0.1}s` }}>
-                  
-                  {/* Text Content */}
-                  <div style={{ order: isEven ? 1 : 2 }} className={isEven ? "lg:order-1" : "lg:order-2"}>
-                    <p style={{ ...M, fontSize: '12px', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>{svc.headline}</p>
-                    <h3 style={{ ...F, fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 800, color: '#fff', marginBottom: '24px', lineHeight: 1.1, letterSpacing: '-0.02em' }}>{svc.title}</h3>
-                    <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>{svc.desc}</p>
-                    
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px' }}>
-                      <div>
-                        <p style={{ fontSize: '12px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Starting at</p>
-                        <p style={{ ...F, fontSize: '1.8rem', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{svc.price}</p>
-                      </div>
-                      <div style={{ width: '1px', height: '40px', background: 'var(--border)' }} />
-                      <div>
-                        <p style={{ fontSize: '12px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Timeline</p>
-                        <p style={{ ...F, fontSize: '1.2rem', fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>Standard Delivery</p>
-                      </div>
-                    </div>
-
-                    <Link href={svc.href} className="btn btn-primary btn-lg">
-                      Explore {svc.title.split(' ')[0]} <ArrowSVG size={15} />
-                    </Link>
-                  </div>
-
-                  {/* Feature Card */}
-                  <div style={{ order: isEven ? 2 : 1 }} className={isEven ? "lg:order-2" : "lg:order-1"}>
-                    <div className='card' style={{ padding: '40px', position: 'relative', overflow: 'hidden' }}>
-                      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '3px', background: 'var(--grad)' }} />
-                      
-                      <p style={{ ...F, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>What&apos;s Included</p>
-                      <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', listStyle: 'none' }}>
-                        {svc.features.map((f) => (
-                          <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.5 }}>
-                            <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '4px', background: 'rgba(118,108,255,0.15)', borderRadius: '50%', padding: '2px' }}><CheckSVG size={12} /></span>
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* ══ SERVICES TABS ══════════════════════════════════════════════ */}
+      <ServicesAccordionSection 
+        eyebrow="All Services"
+        headline="Complete Digital Solutions"
+        intro="We specialize in custom WordPress, Shopify, and WooCommerce development—delivering high-performance websites that scale with your business."
+      />
 
       {/* ══ WHY CHOOSE US ══════════════════════════════════════════ */}
       <section className="section" style={{ overflow: 'visible' }}>
