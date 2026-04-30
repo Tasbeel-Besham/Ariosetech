@@ -79,9 +79,9 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer style={{ background:'var(--bg-2)', borderTop:'1px solid var(--border)' }}>
+    <footer style={{ background:'var(--bg-2)' }}>
       {/* CTA banner */}
-      <div style={{ background:'linear-gradient(135deg, rgba(118,108,255,0.18), rgba(118,108,255,0.06))', borderBottom:'1px solid rgba(118,108,255,0.2)', padding:'64px 0', position:'relative', overflow:'hidden' }}>
+      <div style={{ background:'linear-gradient(135deg, rgba(118,108,255,0.15), rgba(118,108,255,0.04))', padding:'48px 0', position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', top:'-50%', right:'-10%', width:'400px', height:'400px', background:'radial-gradient(circle, rgba(118,108,255,0.15) 0%, transparent 70%)', filter:'blur(60px)', pointerEvents:'none' }} />
         <div className="container" style={{ position:'relative', zIndex:1, display:'flex', alignItems:'center', justifyContent:'space-between', gap:'40px', flexWrap:'wrap' }}>
           <div style={{ flex:1, minWidth:'280px' }}>
@@ -93,8 +93,8 @@ export default function Footer() {
             </p>
           </div>
           <div style={{ display:'flex', gap:'14px', flexWrap:'wrap', flexShrink:0 }}>
-            <Link href={ctaHref} className="btn btn-primary btn-lg" style={{ padding:'18px 36px' }}>{ctaLabel}</Link>
-            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg" style={{ padding:'18px 36px' }}>
+            <Link href={ctaHref} className="btn btn-primary btn-lg" style={{ padding:'16px 32px' }}>{ctaLabel}</Link>
+            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg" style={{ padding:'16px 32px' }}>
               WhatsApp Us
             </a>
           </div>
@@ -102,8 +102,8 @@ export default function Footer() {
       </div>
 
       {/* Main footer */}
-      <div className="container" style={{ padding:'64px 0 40px' }}>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'40px', marginBottom:'52px' }}>
+      <div className="container" style={{ padding:'48px 0 40px' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'40px', marginBottom:'48px' }}>
 
           {/* Brand column */}
           <div>
