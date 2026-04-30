@@ -255,7 +255,7 @@ function ServicesPanel({
                         transition: 'all 0.15s',
                       }}
                         onMouseEnter={e => {
-                          e.currentTarget.style.color = 'var(--primary)'
+                          e.currentTarget.style.color = '#fff'
                           e.currentTarget.style.background = 'transparent'
                           e.currentTarget.style.transform = 'translateX(3px)'
                         }}
@@ -321,7 +321,7 @@ function ToolsPanel({ onEnter, onLeave, links }: { onEnter: () => void; onLeave:
           textDecoration: 'none', color: 'rgba(255,255,255,0.72)',
           transition: 'all 0.15s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.transform = 'translateX(2px)' }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'translateX(2px)' }}
           onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.72)'; e.currentTarget.style.transform = '' }}
         >
           <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)', flexShrink: 0, display: 'block', marginTop: '7px' }} />
@@ -640,7 +640,7 @@ export default function Navbar() {
                 transition: 'all 0.2s cubic-bezier(0.22,1,0.36,1)',
                 textDecoration: 'none',
               }}
-                onMouseEnter={e => { if (!isActive(item.href)) { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.background = 'transparent' } }}
+                onMouseEnter={e => { if (!isActive(item.href)) { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'transparent' } }}
                 onMouseLeave={e => { if (!isActive(item.href) && !(hasMega && megaOpen)) { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.background = 'transparent' } }}
               >
                 {item.label}
