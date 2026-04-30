@@ -282,7 +282,7 @@ header { animation: slideDown 0.4s var(--ease) both; }
   .approach-wrapper { height: auto !important; }
   .approach-sticky { position: relative !important; height: auto !important; overflow: visible !important; }
   .approach-strip-container { display: block !important; overflow: visible !important; }
-  .approach-strip { flex-direction: column !important; transform: none !important; padding: 0 0 40px !important; }
+  .approach-strip { flex-direction: column !important; transform: none !important; padding: 0 0 40px !important; gap: 20px !important; }
   .approach-fade, .approach-hint { display: none !important; }
   .approach-card { width: 100% !important; transform: none !important; opacity: 1 !important; margin-bottom: 16px; box-shadow: none !important; border: 1px solid var(--border-2) !important; padding: 32px 24px !important; }
   .approach-ghost-num { font-size: 5rem !important; opacity: 0.08 !important; }
