@@ -566,6 +566,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                   el.style.boxShadow = ''
                   const img = el.querySelector('[data-hp-img]') as HTMLElement | null
                   if (img) img.style.transform = 'translateY(0%)'
+                }}>
                 <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', zIndex:2 }} />
                 {/* Image preview (scroll on hover) */}
                 <div style={{ height:'190px', overflow:'hidden', position:'relative', borderBottom:'1px solid var(--border)' }}>
