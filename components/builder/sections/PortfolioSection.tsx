@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ArrowRight } from '@/components/ui/Icons'
 
 type Item = { 
@@ -22,8 +23,13 @@ export default function PortfolioSection({
   
   const safeItems: Item[] = Array.isArray(items) ? items : []
   
+  const pathname = usePathname()
   const [dbItems, setDbItems] = useState<Item[]>([])
-  const [filter, setFilter] = useState('all')
+  
+  // Set default filter if pathname is /portfolio/[category]
+  const defaultFilter = pathname?.match(/^\/portfolio\/([^/]+)\/?$/) ? pathname.split('/')[2].toLowerCase() : 'all'
+  const [filter, setFilter] = useState(defaultFilter)
+  
   const [hovered, setHovered] = useState<Item | null>(null)
   
   // Popup refs
@@ -248,8 +254,8 @@ export default function PortfolioSection({
 
           <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '40px' }}>
             {filtered.map((item, i) => {
-              const itemUrl = item.slug ? `/portfolio/${item.slug}` : (item.url || '#')
               const catClass = (item.cat || 'other').toLowerCase()
+              const itemUrl = item.slug ? `/portfolio/${catClass}/${item.slug}` : (item.url || '#')
               
               return (
                 <Link key={i} href={itemUrl} className="pi" style={{ animationDelay: `${i * 0.05}s` }}
