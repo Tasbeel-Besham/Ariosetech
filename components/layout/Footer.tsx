@@ -102,7 +102,7 @@ export default function Footer() {
 
       {/* Main footer */}
       <div className="container" style={{ padding:'64px 0 40px' }}>
-        <div style={{ display:'grid', gridTemplateColumns:'1.2fr 1fr 1fr 1fr 0.8fr 0.8fr', gap:'32px', marginBottom:'52px' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'40px', marginBottom:'52px' }}>
 
           {/* Brand column */}
           <div>
@@ -114,23 +114,7 @@ export default function Footer() {
             <p style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'24px', maxWidth:'280px', fontWeight: 500 }}>
               {tagline}
             </p>
-            {/* Contact quick links */}
-            <div style={{ display:'flex', flexDirection:'column', gap:'10px', marginBottom:'22px' }}>
-              <a href="mailto:info@ariosetech.com" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', color:'var(--text-3)', textDecoration:'none', fontWeight: 500 }}
-                onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
-                <Mail size={14} style={{ flexShrink:0 }} /> info@ariosetech.com
-              </a>
-              <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'8px', fontSize:'13px', color:'var(--text-3)', textDecoration:'none', fontWeight: 500 }}
-                onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
-                <Phone size={14} style={{ flexShrink:0 }} /> +92 300 9484 739
-              </a>
-              <p style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'flex-start', gap:'8px', fontSize:'13px', color:'var(--text-3)', margin:0, maxWidth:'240px', lineHeight: 1.6, fontWeight: 500 }}>
-                <MapPin size={14} style={{ flexShrink:0, marginTop:'3px' }} />
-                95 College Road, Block E, PCSIR Staff Colony, Lahore, 54770
-              </p>
-            </div>
+
             {/* Socials */}
             <div style={{ display:'flex', gap:'8px' }}>
               {SOCIALS.map(s => (
@@ -147,7 +131,7 @@ export default function Footer() {
           {/* Link columns */}
           {columns.map((col, idx) => (
             <div key={idx}>
-              <p style={{ ...M, fontSize:'10px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'20px' }}>{col.title}</p>
+              <p style={{ ...M, fontSize:'13px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'20px' }}>{col.title}</p>
               {col.links && col.links.length > 0 && (
                 <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'12px' }}>
                   {col.links.map((item: any) => (
@@ -163,6 +147,27 @@ export default function Footer() {
               )}
             </div>
           ))}
+
+          {/* Contact Information Column */}
+          <div>
+            <p style={{ ...M, fontSize:'13px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'20px' }}>Contact</p>
+            <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
+              <a href="mailto:info@ariosetech.com" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', fontWeight: 500 }}
+                onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
+                onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.65)')}>
+                <Mail size={16} style={{ flexShrink:0 }} /> info@ariosetech.com
+              </a>
+              <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', fontWeight: 500 }}
+                onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
+                onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.65)')}>
+                <Phone size={16} style={{ flexShrink:0 }} /> +92 300 9484 739
+              </a>
+              <div style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'flex-start', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', margin:0, maxWidth:'240px', lineHeight: 1.6, fontWeight: 500 }}>
+                <MapPin size={16} style={{ flexShrink:0, marginTop:'3px' }} />
+                <span>95 College Road, Block E, PCSIR<br/>Staff Colony, Lahore, 54770</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Bottom bar */}

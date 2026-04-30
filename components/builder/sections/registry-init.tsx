@@ -462,11 +462,17 @@ export function initRegistry() {
       eyebrow: 'Get In Touch',
       headline: 'Ready to Transform Your Online Presence?',
       guarantee: 'We respond to all inquiries within 2 hours during business days.',
+      email: 'info@ariosetech.com',
+      phone: '+92 300 9484 739',
+      address: '95 College Road, Lahore',
     },
     schema: [
       { type: 'text', name: 'eyebrow',   label: 'Eyebrow' },
       { type: 'text', name: 'headline',  label: 'Headline' },
       { type: 'text', name: 'guarantee', label: 'Response guarantee' },
+      { type: 'text', name: 'email',     label: 'Email Address' },
+      { type: 'text', name: 'phone',     label: 'Phone/WhatsApp Number' },
+      { type: 'text', name: 'address',   label: 'Physical Address' },
     ],
   })
 
