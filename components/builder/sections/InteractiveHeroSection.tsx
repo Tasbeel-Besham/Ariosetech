@@ -16,12 +16,12 @@ type HeroProps = {
 }
 
 export default function InteractiveHeroSection({
-  eyebrow = 'Web Development Agency · Lahore',
-  headline = 'Consider It Solved.',
-  subheadline = 'Premium WordPress, e-commerce & custom web development. 60% less than US agencies — zero compromise on quality.',
-  ctaPrimaryLabel = 'Start Your Project',
+  eyebrow = 'Trusted by businesses in the USA, UAE, and Switzerland',
+  headline = 'Professional WordPress, Shopify & WooCommerce Development Since 2017',
+  subheadline = "Transform your business with custom e-commerce solutions that drive results. We've helped 100+ businesses across the globe scale their online presence with expert development, lightning-fast performance, and ongoing support.",
+  ctaPrimaryLabel = 'Get Free Quote & Strategy Call',
   ctaPrimaryHref = '/contact',
-  ctaSecondaryLabel = 'View Our Work',
+  ctaSecondaryLabel = 'View Our Portfolio',
   ctaSecondaryHref = '/portfolio',
   stats = [
     { value: '150%', label: 'Avg Conversion Lift' },
@@ -300,9 +300,9 @@ export default function InteractiveHeroSection({
               <span style={{ ...M, fontSize: '11px', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.14em' }}>{eyebrow}</span>
             </div>
 
-            <h1 style={{ ...F, fontSize: 'clamp(3rem, 5.8vw, 5.5rem)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.045em', color: '#fff', marginBottom: '24px' }}>
-              <span style={{ color: '#fff' }}>Consider</span><br />
-              <span style={{ display: 'block', paddingLeft: '2.5rem', background: 'linear-gradient(110deg, #4f7bff, #a78bfa 45%, #f472b6 90%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>It Solved.</span>
+            <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 4.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '24px' }}>
+              <span style={{ color: '#fff' }}>{headline.split(' & ')[0]} &</span><br />
+              <span style={{ display: 'block', paddingLeft: '2.5rem', background: 'linear-gradient(110deg, #4f7bff, #a78bfa 45%, #f472b6 90%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>{headline.split(' & ')[1]}</span>
             </h1>
 
             <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, maxWidth: '420px', marginBottom: '40px', fontWeight: 300 }}>
