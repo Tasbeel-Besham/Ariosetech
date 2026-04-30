@@ -276,17 +276,9 @@ export default function InteractiveHeroSection({
             Trusted by businesses in <span style={{ color: 'rgba(91,111,255,0.75)', fontStyle: 'normal' }}>USA</span>, <span style={{ color: 'rgba(91,111,255,0.75)', fontStyle: 'normal' }}>UAE</span>, and <span style={{ color: 'rgba(91,111,255,0.75)', fontStyle: 'normal' }}>Switzerland</span> for affordable, high-quality development.
           </p>
 
-          <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
             <Link href={ctaPrimaryHref} className="cta-custom-primary" style={{ textDecoration: 'none' }}>{ctaPrimaryLabel}</Link>
             <Link href={ctaSecondaryHref} className="cta-custom-secondary" style={{ textDecoration: 'none' }}>{ctaSecondaryLabel} →</Link>
-          </div>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-            {['7+ Years of Excellence', '100+ Successful Projects', '24/7 Expert Support', '30-Day Money-Back Guarantee'].map(t => (
-              <div key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '100px', padding: '6px 14px', fontSize: '10px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.03em' }}>
-                <span style={{ color: '#22c55e', display: 'flex' }}><CheckSVG /></span> {t}
-              </div>
-            ))}
           </div>
         </div>
 
@@ -366,18 +358,18 @@ export default function InteractiveHeroSection({
         @keyframes chipBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
         @keyframes cblink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .cta-custom-primary {
-          background: linear-gradient(135deg, #5b6fff, #4859ff); color: #fff; padding: 0.9rem 1.8rem; border-radius: 100px;
-          font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
-          transition: all 0.3s cubic-bezier(0.2, 0, 0, 1); white-space: nowrap; box-shadow: 0 10px 30px rgba(91,111,255,0.3), inset 0 1px 1px rgba(255,255,255,0.2);
-          border: none;
+          background: #5b6fff; color: #fff; padding: 0.8rem 1.7rem; border-radius: 100px;
+          font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500;
+          transition: all 0.28s; white-space: nowrap; box-shadow: 0 0 30px rgba(91,111,255,0.25);
+          border: none; cursor: none;
         }
-        .cta-custom-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 45px rgba(91,111,255,0.5); }
+        .cta-custom-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 38px rgba(91,111,255,0.5); }
         .cta-custom-secondary {
-          color: rgba(255,255,255,0.5); font-size: 0.85rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.12);
-          padding: 0.88rem 1.8rem; border-radius: 100px; font-family: 'DM Sans', sans-serif;
-          transition: all 0.25s; white-space: nowrap; backdrop-filter: blur(10px);
+          color: rgba(255,255,255,0.45); font-size: 0.82rem; background: none; border: 1px solid rgba(255,255,255,0.15);
+          padding: 0.78rem 1.5rem; border-radius: 100px; font-family: 'DM Sans', sans-serif;
+          transition: all 0.25s; white-space: nowrap; cursor: none;
         }
-        .cta-custom-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+        .cta-custom-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.35); }
         @media (max-width: 1024px) {
           .container { grid-template-columns: 1fr !important; padding-top: 100px !important; gap: 2rem !important; }
           .container > div:last-child { display: none; }
