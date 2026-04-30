@@ -96,8 +96,8 @@ export default function InteractiveHeroSection({
 
     let nodes = services.map((s, i) => {
       const angle = (i / services.length) * Math.PI * 2
-      const radiusX = window.innerWidth * 0.22, radiusY = window.innerHeight * 0.28
-      const cx = window.innerWidth * 0.72, cy = window.innerHeight * 0.48
+      const radiusX = window.innerWidth * 0.2, radiusY = window.innerHeight * 0.28
+      const cx = window.innerWidth * 0.78, cy = window.innerHeight * 0.48
       return {
         ...s,
         x: cx + Math.cos(angle) * radiusX,
@@ -115,7 +115,7 @@ export default function InteractiveHeroSection({
     const particles = Array.from({ length: 100 }, () => ({
       x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
-      r: Math.random() * 1.5 + 0.3, alpha: Math.random() * 0.3 + 0.05,
+      r: Math.random() * 1.5 + 0.3, alpha: Math.random() * 0.25 + 0.05,
       color: [118, 108, 255]
     }))
 
@@ -186,10 +186,10 @@ export default function InteractiveHeroSection({
         grad.addColorStop(0, `rgba(${r},${g},${b},${0.1 * glow + n.hover * 0.2})`); grad.addColorStop(1, `rgba(${r},${g},${b},0)`)
         ctx.beginPath(); ctx.arc(n.x, n.y, sz * 2.5, 0, Math.PI * 2); ctx.fillStyle = grad; ctx.fill()
         ctx.beginPath(); ctx.arc(n.x, n.y, sz, 0, Math.PI * 2); ctx.strokeStyle = `rgba(${r},${g},${b},${0.4 + n.hover * 0.4})`; ctx.lineWidth = 1.5; ctx.stroke()
-        ctx.font = `${sz * 0.52}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.icon, n.x, n.y)
+        ctx.font = `${sz * 0.52}px var(--font-display)`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.icon, n.x, n.y)
         if (n.hover > 0.1) {
           ctx.globalAlpha = n.hover; ctx.font = `700 13px var(--font-display)`; ctx.fillStyle = '#fff'; ctx.fillText(n.label, n.x, n.y + sz + 18)
-          ctx.font = `11px var(--font-mono)`; ctx.fillStyle = `var(--text-3)`; ctx.fillText(n.sub, n.x, n.y + sz + 34); ctx.globalAlpha = 1
+          ctx.font = `700 11px var(--font-mono)`; ctx.fillStyle = `var(--text-3)`; ctx.fillText(n.sub, n.x, n.y + sz + 34); ctx.globalAlpha = 1
         }
       })
 
@@ -232,15 +232,15 @@ export default function InteractiveHeroSection({
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none' }}>
-        <div style={{ maxWidth: '820px', padding: '0 20px' }}>
+        <div style={{ maxWidth: '940px', padding: '0 20px' }}>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
             <div className="eyebrow" style={{ marginBottom: '28px', pointerEvents: 'none' }}>
               <span style={{ marginLeft: '12px' }}>{eyebrow}</span>
             </div>
 
-            <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 4.4vw, 4.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', marginBottom: '24px' }}>
+            <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5.2vw, 5.2rem)', fontWeight: 900, lineHeight: 1.02, letterSpacing: '-0.05em', color: '#fff', marginBottom: '24px', textTransform: 'uppercase' }}>
               <span style={{ color: '#fff' }}>{headLine1}</span><br />
-              <span style={{ display: 'block', paddingLeft: '2.5rem', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>{headLine2}</span>
+              <span style={{ display: 'block', paddingLeft: '3rem', background: 'linear-gradient(110deg, #766cff, #9b8fff 45%, #60a5fa 90%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>{headLine2}</span>
             </h1>
 
             <p style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '520px', marginBottom: '44px' }}>
