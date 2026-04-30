@@ -232,15 +232,15 @@ export default function InteractiveHeroSection({
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none' }}>
-        <div style={{ maxWidth: '940px', padding: '0 20px' }}>
+        <div style={{ maxWidth: '1100px', padding: '0 20px' }}>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
             <div className="eyebrow" style={{ marginBottom: '28px', pointerEvents: 'none' }}>
               <span style={{ marginLeft: '12px' }}>{eyebrow}</span>
             </div>
 
-            <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5.2vw, 5.2rem)', fontWeight: 900, lineHeight: 1.02, letterSpacing: '-0.05em', color: '#fff', marginBottom: '24px', textTransform: 'uppercase' }}>
-              <span style={{ color: '#fff' }}>{headLine1}</span><br />
-              <span style={{ display: 'block', paddingLeft: '3rem', background: 'linear-gradient(110deg, #766cff, #9b8fff 45%, #60a5fa 90%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>{headLine2}</span>
+            <h1 style={{ ...F, fontSize: 'clamp(2rem, 4.2vw, 4rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '24px', textTransform: 'uppercase' }}>
+              <span style={{ color: '#fff' }}>{headline.split(' & ')[0]} &</span><br />
+              <span style={{ display: 'inline-block', paddingLeft: '3.5rem', background: 'linear-gradient(110deg, #766cff, #9b8fff 45%, #60a5fa 90%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'gAnim 5s ease-in-out infinite alternate', backgroundSize: '200%' }}>{headline.split(' & ')[1]}</span>
             </h1>
 
             <p style={{ fontSize: 'clamp(15px, 1.8vw, 17px)', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '520px', marginBottom: '44px' }}>
