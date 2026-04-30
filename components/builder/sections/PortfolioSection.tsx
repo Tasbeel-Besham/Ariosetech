@@ -255,6 +255,11 @@ export default function PortfolioSection({
                 <Link key={i} href={itemUrl} className="pi" style={{ animationDelay: `${i * 0.05}s` }}
                   onMouseEnter={() => setHovered(item)}
                   onMouseLeave={() => setHovered(null)}
+                  onClick={(e) => {
+                    if (typeof window !== 'undefined' && window.location.pathname.includes('/admin')) {
+                      e.preventDefault()
+                    }
+                  }}
                 >
                   <div className="pnum">{String(i + 1).padStart(2, '0')}</div>
                   <div>
