@@ -101,7 +101,7 @@ export default async function WordPressPage() {
     <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
       
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="section" style={{ padding: '180px 0 120px', position: 'relative', overflow: 'hidden' }}>
+      <section className="section" style={{ padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
         {/* Background Grid & Glows */}
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.2 }} />
         <div style={{ position: 'absolute', top: '20%', left: '10%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(118,108,255,0.1) 0%, transparent 70%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
