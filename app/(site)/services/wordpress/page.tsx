@@ -198,130 +198,145 @@ export default async function WordPressPage() {
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="section" style={{ borderBottom: '1px solid var(--border)', paddingTop: '72px', paddingBottom: '64px' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 80% 80% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.4 }} />
-        <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '50%', height: '70%', background: 'radial-gradient(ellipse, rgba(79,110,247,0.14) 0%, transparent 65%)', borderRadius: '50%', pointerEvents: 'none' }} />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <p className="eyebrow sr">{heroData.eyebrow}</p>
-          <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '8px', maxWidth: '800px' }}>
+      <section className="section" style={{ position: 'relative', overflow: 'hidden', paddingTop: '100px', paddingBottom: '100px', borderBottom: '1px solid var(--border)' }}>
+        {/* Background Effects */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '64px 64px', maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.3 }} />
+        <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: '80%', height: '60%', background: 'radial-gradient(ellipse, rgba(118,108,255,0.12) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none', filter: 'blur(80px)' }} />
+        <div style={{ position: 'absolute', bottom: '-10%', left: '10%', width: '30%', height: '40%', background: 'radial-gradient(circle, rgba(79,110,247,0.08) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
+             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }} />
+             <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>{heroData.eyebrow}</span>
+          </div>
+
+          <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.8rem, 6vw, 5rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '12px', maxWidth: '1000px', margin: '0 auto 12px' }}>
             {heroData.headline}
           </h1>
-          <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '20px', maxWidth: '800px', ...P, animationDelay: '0.1s' }}>
+          <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.8rem, 6vw, 5rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '32px', maxWidth: '1000px', margin: '0 auto 32px', ...P, animationDelay: '0.1s' }}>
             {heroData.subheadline}
           </h1>
-          <p className="sr" style={{ ...hs, fontSize: '17px', fontWeight: 600, color: 'var(--text-2)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '8px', animationDelay: '0.15s' }}>
-            Display Your Business Online with a WordPress Website
-          </p>
-          <p className="sr" style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8, maxWidth: '580px', marginBottom: '24px', animationDelay: '0.2s' }}>
+
+          <p className="sr" style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '700px', margin: '0 auto 40px', animationDelay: '0.2s' }}>
             {heroData.desc}
           </p>
-          <div className="sr" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '32px', animationDelay: '0.25s' }}>
+
+          <div className="sr" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '48px', animationDelay: '0.25s' }}>
             {heroData.bullets?.map((b: string) => (
-              <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <IconBox size={24} radius={6}>
-                  <CheckSVG size={10} />
+              <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '8px 18px', borderRadius: '12px', backdropFilter: 'blur(4px)' }}>
+                <IconBox size={22} radius={6} style={{ border: 'none', background: 'transparent' }}>
+                  <CheckSVG size={12} />
                 </IconBox>
-                <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>{b}</span>
+                <span style={{ fontSize: '14px', color: 'var(--text-2)', fontWeight: 500 }}>{b}</span>
               </div>
             ))}
           </div>
-          <div className="sr" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px', animationDelay: '0.3s' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">{heroData.ctaPrimary} <ArrowSVG size={16} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">{heroData.ctaSecondary}</Link>
+
+          <div className="sr" style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '32px', animationDelay: '0.3s' }}>
+            <Link href="/contact" className="btn btn-primary btn-xl">{heroData.ctaPrimary} <ArrowSVG size={18} /></Link>
+            <Link href="/portfolio" className="btn btn-outline btn-xl">{heroData.ctaSecondary}</Link>
           </div>
-          <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s' }}>{heroData.startingPrice}</p>
+          
+          <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s', letterSpacing: '0.02em' }}>{heroData.startingPrice}</p>
         </div>
       </section>
 
       {/* ── SERVICES ─────────────────────────────────────────────────── */}
-      <section className="section" style={{ padding: '120px 0', background: 'var(--bg)' }}>
+      <section className="section" style={{ padding: '120px 0', background: 'var(--bg)', position: 'relative' }}>
         <div className="container">
-          <p className="eyebrow sr" style={{ justifyContent: 'center' }}>All Services</p>
-          <h2 className="sr" style={{ ...hs, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '80px', textAlign: 'center', animationDelay: '0.1s' }}>
-            Complete WordPress Solutions
-          </h2>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <p className="eyebrow sr" style={{ justifyContent: 'center' }}>All Solutions</p>
+            <h2 className="sr" style={{ ...hs, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1 }}>
+              Complete WordPress <span style={P}>Expertise</span>
+            </h2>
+          </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
-            {activeServices.map((svc: unknown, i: number) => {
-              const isEven = i % 2 === 0;
-              return (
-                <div key={svc.id} id={svc.id} className="sr grid grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center" style={{ animationDelay: '0.1s' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '64px' }}>
+            {activeServices.map((svc: any, i: number) => (
+              <div key={svc.id} id={svc.id} className="sr" style={{ animationDelay: `${i * 0.1}s` }}>
+                <div style={{ 
+                  background: 'rgba(255,255,255,0.02)', 
+                  border: '1px solid rgba(255,255,255,0.05)', 
+                  borderRadius: '32px', 
+                  padding: 'clamp(32px, 5vw, 64px)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                  gap: '48px',
+                  alignItems: 'start'
+                }}>
+                  {/* Top Accent Bar */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--grad)' }} />
                   
-                  {/* Text Content */}
-                  <div style={{ order: isEven ? 1 : 2 }} className={isEven ? "lg:order-1" : "lg:order-2"}>
-                    <p style={{ ...hm, fontSize: '12px', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>{svc.tagline}</p>
-                    <h3 style={{ ...hs, fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 800, color: '#fff', marginBottom: '24px', lineHeight: 1.1, letterSpacing: '-0.02em' }}>{svc.title}</h3>
-                    <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>{svc.desc}</p>
+                  {/* Left: Content */}
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+                      <span style={{ ...hm, fontSize: '12px', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>{svc.tagline}</span>
+                    </div>
+                    <h3 style={{ ...hs, fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 800, color: '#fff', marginBottom: '24px', lineHeight: 1.1 }}>{svc.title}</h3>
+                    <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px' }}>{svc.desc}</p>
                     
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '40px' }}>
-                      <div>
-                        <p style={{ fontSize: '12px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Starting at</p>
-                        <p style={{ ...hs, fontSize: '1.8rem', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{svc.price}</p>
-                      </div>
-                      <div style={{ width: '1px', height: '40px', background: 'var(--border)' }} />
-                      <div>
-                        <p style={{ fontSize: '12px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>Timeline</p>
-                        <p style={{ ...hs, fontSize: '1.2rem', fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{svc.time}</p>
-                      </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', padding: '24px', background: 'rgba(255,255,255,0.03)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '40px' }}>
+                       <div>
+                         <p style={{ fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>Investment</p>
+                         <p style={{ ...hs, fontSize: '1.8rem', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{svc.price}</p>
+                       </div>
+                       <div>
+                         <p style={{ fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>Timeline</p>
+                         <p style={{ ...hs, fontSize: '1.3rem', fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{svc.time}</p>
+                       </div>
                     </div>
 
-                    <Link href="/contact" className="btn btn-primary btn-lg">
-                      {svc.cta} <ArrowSVG size={15} />
+                    <Link href="/contact" className="btn btn-primary btn-lg" style={{ width: 'fit-content' }}>
+                      {svc.cta} <ArrowSVG size={16} />
                     </Link>
                   </div>
 
-                  {/* Feature Card */}
-                  <div style={{ order: isEven ? 2 : 1 }} className={isEven ? "lg:order-2" : "lg:order-1"}>
-                    <div className='card' style={{ padding: '40px' }}>
-                      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '2px', background: 'var(--grad)' }} />
-                      
-                      <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>What&apos;s Included</p>
-                      <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', marginBottom: '32px', listStyle: 'none' }}>
-                        {svc.features.map((f) => (
-                          <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.5 }}>
-                            <IconBox size={24} radius={6}>
-                              <CheckSVG size={10} />
-                            </IconBox>
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
+                  {/* Right: Feature List */}
+                  <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '24px', padding: '32px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                    <p style={{ ...hs, fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                       <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--primary)' }} />
+                       Included Features
+                    </p>
+                    <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', listStyle: 'none' }}>
+                      {svc.features.map((f: string) => (
+                        <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'var(--text-2)', lineHeight: 1.5 }}>
+                          <IconBox size={22} radius={6}>
+                            <CheckSVG size={10} />
+                          </IconBox>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
 
-                      {/* Results if any */}
-                      {'results' in svc && svc.results && (
-                        <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                          <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: '16px' }}>Expected Results</p>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-                            {svc.results.map((r: string) => (
-                               <span key={r} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 14px', borderRadius: '10px' }}>
-                                 <IconBox size={20} radius={5}>
-                                   <CheckSVG size={8} />
-                                 </IconBox> {r}
-                               </span>
-                             ))}
-                          </div>
-                        </div>
-                      )}
+                    {svc.results && (
+                      <div style={{ marginTop: '32px', paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                         <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 800, marginBottom: '20px' }}>Proven Results</p>
+                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                           {svc.results.map((r: string) => (
+                             <span key={r} style={{ fontSize: '12px', color: '#fff', background: 'rgba(118,108,255,0.1)', border: '1px solid rgba(118,108,255,0.2)', padding: '6px 14px', borderRadius: '100px', fontWeight: 500 }}>{r}</span>
+                           ))}
+                         </div>
+                      </div>
+                    )}
 
-                      {/* Plans if any */}
-                      {'plans' in svc && svc.plans && (
-                        <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
-                            {svc.plans.map((plan) => (
-                              <div key={plan.tier} style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px' }}>
-                                <p style={{ ...hs, fontSize: '13px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>{plan.tier}</p>
-                                <p style={{ ...hs, fontSize: '20px', fontWeight: 800, color: '#fff' }}>{plan.price}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    {svc.plans && (
+                      <div style={{ marginTop: '32px', paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px' }}>
+                           {svc.plans.map((plan: any) => (
+                             <div key={plan.tier} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                               <span style={{ ...hs, fontSize: '14px', fontWeight: 700, color: 'var(--text-2)' }}>{plan.tier}</span>
+                               <span style={{ ...hs, fontSize: '15px', fontWeight: 800, color: '#fff' }}>{plan.price}</span>
+                             </div>
+                           ))}
+                         </div>
+                      </div>
+                    )}
                   </div>
-
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
