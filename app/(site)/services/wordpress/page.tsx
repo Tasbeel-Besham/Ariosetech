@@ -111,11 +111,11 @@ const WP_FLAGSHIP: Service[] = [
 
 const SECURITY_SERVICE: Service = {
   id: "security",
-  tagline: "Enterprise Security Hardening",
-  title: "WordPress Security Services",
-  desc: "Protect your site from hackers and malware. Ideal for e-commerce and sensitive data sites. We implement multi-layer security protocols to protect your reputation.",
-  features: ["24/7 threat monitoring", "Automatic malware removal", "Firewall & login protection", "SSL certificate setup", "Weekly security reports"],
-  price: "$299",
+  tagline: "Cyber Defense",
+  title: "SECURITY & VIRUS REMOVAL",
+  desc: "Protect your site from evolving threats with 24/7 monitoring and emergency virus removal services.",
+  features: ["Malware Scanning", "Firewall Setup", "2FA Implementation", "Vulnerability Assessment"],
+  price: "$199",
   timeline: "3-5 days",
   href: "/contact",
   icon: <SecuritySVG />
@@ -124,9 +124,9 @@ const SECURITY_SERVICE: Service = {
 const SPEED_SERVICE: Service = {
   id: "optimization",
   tagline: "Performance Optimization",
-  title: "WordPress Speed Optimization",
-  desc: "Boost your site speed by 40-70%. We optimize images, implement caching, and perform server-level tuning for peak performance that improves rankings.",
-  features: ["Core Web Vitals improvement", "Image optimization & WebP", "Database cleanup", "CDN implementation", "Performance report"],
+  title: "CORE WEB VITALS OPTIMIZATION",
+  desc: "Boost your site speed by 40-70%. We optimize images, implement advanced caching, and perform server-level tuning for peak performance.",
+  features: ["Image optimization", "Advanced Caching", "Server-Level Tuning"],
   price: "$399",
   timeline: "24-48 hours",
   href: "/contact",
