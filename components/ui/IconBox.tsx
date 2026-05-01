@@ -52,6 +52,18 @@ export const CheckSVG = ({ size = 14 }: { size?: number }) => (
   </svg>
 )
 
+export const StandardCheck = ({ size = 18 }: { size?: number }) => (
+  <span style={{ 
+    width: `${size}px`, height: `${size}px`, borderRadius: '50%', 
+    background: 'rgba(118,108,255,0.12)', 
+    border: '1px solid rgba(118,108,255,0.28)', 
+    display: 'flex', alignItems: 'center', justifyContent: 'center', 
+    color: 'var(--primary)', flexShrink: 0 
+  }}>
+    <CheckSVG size={size * 0.6} />
+  </span>
+)
+
 export const ArrowSVG = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
     <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
