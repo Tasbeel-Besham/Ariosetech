@@ -330,19 +330,21 @@ export default async function WordPressPage() {
                <p className="eyebrow sr" style={{ justifyContent: 'center' }}>Tailored Services</p>
                <h2 className="sr" style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.04em' }}>Additional <span style={P}>Solutions</span></h2>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px' }}>
                {ADDITIONAL_GRID.map((s) => {
                  const mappedId = s.id === 'security-svc' ? 'security' : (s.id === 'bugfixing' ? 'bugs' : s.id)
                  return (
-                 <div key={s.id} id={mappedId} className="sr card card-hover" style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'flex-start', position: 'relative', overflow: 'hidden' }}>
-                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.3 }} />
-                    <IconBox size={56} radius={14}>{s.icon}</IconBox>
+                 <div key={s.id} id={mappedId} className="sr" style={{ padding: '32px', background: 'rgba(255,255,255,0.01)', borderLeft: '2px solid rgba(118,108,255,0.1)', borderRadius: '0 16px 16px 0', display: 'flex', gap: '24px', alignItems: 'flex-start', transition: 'all 0.3s ease' }}
+                    onMouseEnter={e => { e.currentTarget.style.borderLeftColor = 'var(--primary)'; e.currentTarget.style.background = 'rgba(118,108,255,0.03)' }}
+                    onMouseLeave={e => { e.currentTarget.style.borderLeftColor = 'rgba(118,108,255,0.1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.01)' }}
+                 >
+                    <IconBox size={48} radius={12}>{s.icon}</IconBox>
                     <div style={{ flex: 1 }}>
-                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                          <h3 style={{ ...F, fontSize: '19px', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}>{s.title}</h3>
-                          <span style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, background: 'var(--primary-soft)', padding: '4px 10px', borderRadius: '99px', border: '1px solid rgba(118,108,255,0.2)' }}>{s.price}</span>
+                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                          <h3 style={{ ...F, fontSize: '18px', fontWeight: 800, color: '#fff' }}>{s.title}</h3>
+                          <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800 }}>{s.price}</span>
                        </div>
-                       <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.7 }}>{s.desc}</p>
+                       <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.6 }}>{s.desc}</p>
                     </div>
                  </div>
                )})}
@@ -365,21 +367,21 @@ export default async function WordPressPage() {
             <p className="eyebrow" style={{ justifyContent: 'center' }}>Expertise & Trust</p>
             <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Why Choose <span style={P}>ARIOSETECH?</span></h2>
           </div>
-          <div className="g-3">
-            <div className="sr" style={{ padding: '40px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px' }}>
-              <div style={{ ...F, fontSize: '40px', fontWeight: 900, color: 'var(--primary)', marginBottom: '16px' }}>7+</div>
-              <h3 style={{ ...F, fontSize: '20px', marginBottom: '12px' }}>Years Expertise</h3>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.6 }}>Delivering successful WordPress projects since 2017 with deep technical knowledge.</p>
+          <div className="g-3" style={{ gap: '40px' }}>
+            <div className="sr">
+              <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', marginBottom: '16px', ...P, width: 'fit-content' }}>7+</p>
+              <h3 style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>Years Expertise</h3>
+              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8 }}>Delivering successful WordPress projects since 2017 with deep technical knowledge.</p>
             </div>
-            <div className="sr" style={{ padding: '40px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px' }}>
-              <div style={{ ...F, fontSize: '40px', fontWeight: 900, color: 'var(--primary)', marginBottom: '16px' }}>100%</div>
-              <h3 style={{ ...F, fontSize: '20px', marginBottom: '12px' }}>Performance-First</h3>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.6 }}>Sites built for maximum speed and SEO from day one, ensuring your business stays ahead.</p>
+            <div className="sr" style={{ borderLeft: '1px solid var(--border)', paddingLeft: '40px' }}>
+              <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', marginBottom: '16px', ...P, width: 'fit-content' }}>100%</p>
+              <h3 style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>Performance-First</h3>
+              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8 }}>Sites built for maximum speed and SEO from day one, ensuring your business stays ahead.</p>
             </div>
-            <div className="sr" style={{ padding: '40px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px' }}>
-              <div style={{ ...F, fontSize: '40px', fontWeight: 900, color: 'var(--primary)', marginBottom: '16px' }}>60%</div>
-              <h3 style={{ ...F, fontSize: '20px', marginBottom: '12px' }}>Cost-Effective</h3>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.6 }}>Save up to 60% compared to US agencies while maintaining world-class quality standards.</p>
+            <div className="sr" style={{ borderLeft: '1px solid var(--border)', paddingLeft: '40px' }}>
+              <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', marginBottom: '16px', ...P, width: 'fit-content' }}>60%</p>
+              <h3 style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>Cost-Effective</h3>
+              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8 }}>Save up to 60% compared to US agencies while maintaining world-class quality standards.</p>
             </div>
           </div>
         </div>
