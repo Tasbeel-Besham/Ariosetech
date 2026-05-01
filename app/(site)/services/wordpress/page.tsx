@@ -11,74 +11,75 @@ export const dynamic = 'force-dynamic'
 // ── DATA ───────────────────────────────────────────────────────────
 
 const HERO_DATA = {
-  eyebrow: "Standard-Setting WordPress Expertise",
+  eyebrow: "ELEVATE YOUR ONLINE PRESENCE",
   headline: "Professional WordPress Development Services",
-  subheadline: "Display Your Business Online with a WordPress Website",
-  desc: "Ariosetech helps businesses build, scale, and secure their digital presence with custom WordPress solutions. From technical foundations to high-performance e-commerce, we build websites that deliver results.",
-  cta: "Book a Free Consultation"
+  subheadline: "Empower Your Business Online with a WordPress Website. Elevate Your Online Presence.",
+  desc: "From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.",
+  ctaPrimary: "Get Free WordPress Consultation",
+  ctaSecondary: "View WordPress Portfolio",
+  trust: "4.9/5 Rating | 50+ Projects | 30-Day Money-Back Guarantee | Free Post-Launch Support"
 }
 
 // Pixel Perfect Vertical 1: Security (Based on Shopify Screenshot)
 const SECURITY_SERVICE = {
   id: "security",
   tagline: "Cyber Defense",
-  title: "WORDPRESS SECURITY HARDENING",
-  desc: "Protect your store from evolving threats with advanced security configurations and plugin audits.",
-  features: ["Security Plugin Audit", "Checkout Hardening", "2FA Implementation", "Fraud Protection Setup"],
-  price: "$149",
-  timeline: "3-5 days"
+  title: "WordPress Security & Malware Removal",
+  desc: "Protect your site from hackers and malware with enterprise-grade security. We provide complete scanning and removal services to ensure your business remains safe.",
+  features: ["Malware scanning/removal", "Firewall installation", "Security hardening", "Blacklist removal", "24/7 threat monitoring"],
+  price: "$299",
+  timeline: "Emergency available"
 }
 
 // Pixel Perfect Vertical 2: Optimization (Based on Shopify Screenshot)
 const SPEED_SERVICE = {
   id: "optimization",
   tagline: "Performance Optimization",
-  title: "WORDPRESS PERFORMANCE OPTIMIZATION",
-  desc: "Improve your store speed by 40-60%. We optimize theme code, audit plugin performance, and tune assets for maximum conversion.",
-  features: ["Image optimization", "Advanced Caching", "Server-Level Tuning", "CDN Configuration", "Database Cleaning"],
+  title: "WordPress Speed Optimization",
+  desc: "Improve Core Web Vitals and loading times by 40-70%. We optimize theme code, audit plugin performance, and tune assets for maximum conversion.",
+  features: ["Image compression", "Caching implementation", "Database cleanup", "CSS/JS minification", "CDN setup", "Server optimizations"],
   price: "$399",
-  timeline: "24-48 hours"
+  timeline: "5-7 days"
 }
 
 // Flagship Service 01: Website Development
 const DEV_SERVICE = {
   id: "development",
   tagline: "Scalable Solutions",
-  title: "Website Development",
-  desc: "Build your dream website from scratch. Our custom development approach ensures your site stands out while delivering exceptional user experience.",
-  features: ["Custom theme development", "Responsive design", "SEO-optimized structure", "30-day money-back guarantee", "30 days free support"],
+  title: "WordPress Website Development",
+  desc: "Build Your Dream Website from Scratch. Transform your vision into a stunning, high-performing WordPress website tailored to your exact needs.",
+  features: ["Custom theme development", "Responsive design", "SEO-optimized structure", "Lead generation tools", "Social media integration", "Google Analytics setup", "30 days of free support"],
   price: "$799",
-  timeline: "2-4 weeks"
+  timeline: "2-3 weeks"
 }
 
 const MAINTENANCE_PLANS = [
-  { tier: "Basic", price: "$29/mo", desc: "Essential maintenance for small personal websites and blogs.", features: ["Plugin & theme updates", "Monthly backups", "Core security checks", "Email support"], isPopular: false },
-  { tier: "Advanced", price: "$59/mo", desc: "Comprehensive support for growing business websites.", features: ["Weekly updates", "Daily backups", "Uptime monitoring", "Priority support", "Performance reports"], isPopular: true },
-  { tier: "Enterprise", price: "$99/mo", desc: "Total peace of mind for high-traffic and e-commerce sites.", features: ["Daily updates", "Hourly backups", "Proactive monitoring", "Staging site access", "Developer hours"], isPopular: false }
+  { tier: "Basic", price: "$79/mo", desc: "Essential maintenance for small personal websites and blogs.", features: ["1 site", "Monthly updates/backups", "Basic security", "Email support"], isPopular: false },
+  { tier: "Professional", price: "$149/mo", desc: "Comprehensive support for growing business websites.", features: ["Up to 3 sites", "Weekly updates", "Performance optimization", "Priority support"], isPopular: true },
+  { tier: "Enterprise", price: "$299/mo", desc: "Total peace of mind for high-traffic and e-commerce sites.", features: ["Up to 10 sites", "Real-time monitoring", "Advanced security", "Malware removal", "24/7 support"], isPopular: false }
 ]
 
 const ADDITIONAL_GRID = [
-  { id: "security-svc", title: "Security Services", price: "$299", desc: "Enterprise-grade security hardening for business sites.", icon: <SecuritySVG /> },
-  { id: "redesign", title: "Website Redesign", price: "$599", desc: "Give your site a modern makeover without losing SEO.", icon: <RedesignSVG /> },
-  { id: "multilingual", title: "Multilingual Sites", price: "$399", desc: "Expand your reach with global WPML solutions.", icon: <GlobeSVG /> },
-  { id: "migration", title: "Migration Services", price: "$199", desc: "Zero-downtime transfers to any hosting provider.", icon: <MigrationSVG /> },
-  { id: "bugfixing", title: "Bugs & Errors Fixing", price: "$99", desc: "Quick resolution for WSOD and critical errors.", icon: <CodeSVG /> }
+  { id: "security-svc", title: "Security Services", price: "$299", desc: "Enterprise-grade security hardening and malware removal.", icon: <SecuritySVG /> },
+  { id: "redesign", title: "Website Redesign", price: "$599", desc: "Modern aesthetics, improved UX, and mobile-first approach.", icon: <RedesignSVG /> },
+  { id: "multilingual", title: "Multilingual Sites", price: "$399", desc: "Integration with WPML, Polylang, or TranslatePress.", icon: <GlobeSVG /> },
+  { id: "migration", title: "Migration Services", price: "$299", desc: "Zero-downtime transfers from any hosting provider.", icon: <MigrationSVG /> },
+  { id: "bugfixing", title: "Bugs & Errors Fixing", price: "$149", desc: "Quick resolution for WSOD and critical errors within 24-48h.", icon: <CodeSVG /> }
 ]
 
 // 5-Step Process from Homepage (Replacing 'Our Development Process')
 const APPROACH_ITEMS = [
-  { n: "01", title: "Discovery & Strategy", sub: "UNDERSTAND YOUR VISION", desc: "We kick off with a deep-dive consultation to understand your business goals, target audience, tech stack, and growth plans — so every decision is rooted in strategy." },
-  { n: "02", title: "Planning & Design", sub: "BLUEPRINT FOR SUCCESS", desc: "Detailed project roadmaps, wireframes, and pixel-perfect design mockups that align with your brand identity and maximize conversion at every touchpoint." },
-  { n: "03", title: "Development", sub: "BRINGING IDEAS TO LIFE", desc: "Expert WordPress, Shopify, or WooCommerce development using clean code, reusable components, and scalable architecture built to grow with your business." },
-  { n: "04", title: "Testing & Optimization", sub: "ENSURING PERFECTION", desc: "Rigorous cross-device QA, speed optimization via Core Web Vitals, security hardening, and SEO validation — nothing ships until it's flawless." },
-  { n: "05", title: "Launch & Scale", sub: "YOUR SUCCESS, OUR PRIORITY", desc: "A smooth go-live, comprehensive handover training, and 30 days of free post-launch support. After that, flexible monthly plans keep your site at peak performance." }
+  { n: "01", title: "Discovery & Planning", sub: "2-3 DAYS", desc: "Requirement analysis and technical specs. We define the project roadmap and success criteria." },
+  { n: "02", title: "Design & Development", sub: "1-2 WEEKS", desc: "Custom theme creation and responsive implementation. Bringing your vision to life with clean code." },
+  { n: "03", title: "Testing & Optimization", sub: "3-5 DAYS", desc: "Cross-browser testing, speed checks, and security hardening to ensure a flawless launch." },
+  { n: "04", title: "Launch & Support", sub: "ONGOING", desc: "Going live and providing ongoing monitoring and maintenance to keep your site at peak performance." }
 ]
 
 const FAQS = [
-  { q: "How long does a WordPress build take?", a: "Typically 2-4 weeks depending on complexity. We provide a detailed timeline after our initial consultation." },
-  { q: "Do you use page builders like Elementor?", a: "We specialize in custom, lightweight development using Gutenberg or custom code for better performance." },
-  { q: "Can you migrate my site from another host?", a: "Yes, we handle complete migrations with zero downtime and full SEO preservation." },
-  { q: "Is security included in the development?", a: "Every build includes core security hardening, SSL setup, and login protection as standard." }
+  { q: "How long does a WordPress build take?", a: "Most projects take 2-3 weeks depending on complexity. We provide a detailed timeline after our initial consultation." },
+  { q: "Do you use page builders like Elementor?", a: "We prefer custom development for performance but can use Elementor or Gutenberg if requested by the client." },
+  { q: "Can you migrate my site from another host?", a: "Yes, we handle complete migrations with zero downtime and full SEO preservation from any platform." },
+  { q: "Is security included in the development?", a: "All projects include at least 30 days of post-launch support and initial security hardening as standard." }
 ]
 
 // ── STYLES ─────────────────────────────────────────────────────────
@@ -117,7 +118,16 @@ export default async function WordPressPage() {
             {HERO_DATA.desc}
           </p>
 
-          <Link href="/contact" className="btn btn-primary btn-xl">{HERO_DATA.cta} <ArrowSVG size={18} /></Link>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
+            <Link href="/contact" className="btn btn-primary btn-xl">{HERO_DATA.ctaPrimary} <ArrowSVG size={18} /></Link>
+            <Link href="/portfolio" className="btn btn-outline btn-xl">{HERO_DATA.ctaSecondary}</Link>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid var(--border)', paddingTop: '24px', maxWidth: '640px' }}>
+            <div style={{ ...M, fontSize: '12px', color: 'var(--text-3)', letterSpacing: '0.05em' }}>
+              {HERO_DATA.trust}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -343,6 +353,68 @@ export default async function WordPressPage() {
         scrambleWord="Works"
         items={APPROACH_ITEMS}
       />
+
+      {/* ── WHY CHOOSE ARIOSETECH? ────────────────────────────────────── */}
+      <section className="section" style={{ padding: '120px 0', background: 'rgba(118,108,255,0.02)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <p className="eyebrow" style={{ justifyContent: 'center' }}>Expertise & Trust</p>
+            <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Why Choose <span style={P}>ARIOSETECH?</span></h2>
+          </div>
+          <div className="g-3">
+            <div className="sr" style={{ padding: '40px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px' }}>
+              <div style={{ ...F, fontSize: '40px', fontWeight: 900, color: 'var(--primary)', marginBottom: '16px' }}>7+</div>
+              <h3 style={{ ...F, fontSize: '20px', marginBottom: '12px' }}>Years Expertise</h3>
+              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.6 }}>Delivering successful WordPress projects since 2017 with deep technical knowledge.</p>
+            </div>
+            <div className="sr" style={{ padding: '40px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px' }}>
+              <div style={{ ...F, fontSize: '40px', fontWeight: 900, color: 'var(--primary)', marginBottom: '16px' }}>100%</div>
+              <h3 style={{ ...F, fontSize: '20px', marginBottom: '12px' }}>Performance-First</h3>
+              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.6 }}>Sites built for maximum speed and SEO from day one, ensuring your business stays ahead.</p>
+            </div>
+            <div className="sr" style={{ padding: '40px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px' }}>
+              <div style={{ ...F, fontSize: '40px', fontWeight: 900, color: 'var(--primary)', marginBottom: '16px' }}>60%</div>
+              <h3 style={{ ...F, fontSize: '20px', marginBottom: '12px' }}>Cost-Effective</h3>
+              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.6 }}>Save up to 60% compared to US agencies while maintaining world-class quality standards.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PORTFOLIO & CASE STUDIES ─────────────────────────────────── */}
+      <section className="section" style={{ padding: '120px 0' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '64px', gap: '32px', flexWrap: 'wrap' }}>
+            <div style={{ maxWidth: '600px' }}>
+              <p className="eyebrow">Proven Results</p>
+              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Portfolio & <span style={P}>Case Studies</span></h2>
+            </div>
+            <Link href="/portfolio" className="btn btn-outline btn-lg">View All Projects</Link>
+          </div>
+          <div className="g-3">
+            {[
+              { title: "The Kapra", desc: "E-commerce fashion store with 150% increase in leads.", site: "thekapra.com" },
+              { title: "Dr. Scents", desc: "International perfume store with 200% increase in sales.", site: "drscents.com" },
+              { title: "WYOX Sports", desc: "USA-based sports equipment site with custom features.", site: "wyoxsports.com" }
+            ].map((item, i) => (
+              <div key={i} className="sr" style={{ group: 'true', cursor: 'pointer' }}>
+                <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px', overflow: 'hidden', marginBottom: '24px', aspectRatio: '16/10', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: 'var(--grad)', opacity: 0.1 }} />
+                  <span style={{ ...F, fontSize: '24px', fontWeight: 900, color: 'var(--primary)', opacity: 0.5 }}>{item.title}</span>
+                </div>
+                <h3 style={{ ...F, fontSize: '20px', marginBottom: '8px' }}>{item.title}</h3>
+                <p style={{ fontSize: '14px', color: 'var(--text-3)', marginBottom: '16px', lineHeight: 1.6 }}>{item.desc}</p>
+                <p style={{ ...M, fontSize: '12px', color: 'var(--primary)', fontWeight: 700 }}>{item.site}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: '80px', padding: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap', textAlign: 'center' }}>
+            {['snapglammedspa.com', 'ctvpromo.com', 'usbiddingestimatings.com'].map(url => (
+              <span key={url} style={{ ...M, fontSize: '14px', color: 'var(--text-3)' }}>{url}</span>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── FAQ ──────────────────────────────────────────────────────── */}
       <section className="section section--dark">
