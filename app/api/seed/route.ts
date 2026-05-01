@@ -16,12 +16,12 @@ const TRUST = '7+ Years of Excellence,100+ Successful Projects,24/7 Expert Suppo
 const CTA_TRUST = 'No Long-Term Contracts,30-Day Money-Back Guarantee,Free Post-Launch Support,Transparent Pricing'
 
 const WP_SERVICES = [
-  { icon: '🔷', title: 'WordPress Website Development', headline: 'Build Your Dream Website from Scratch', desc: 'Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out while delivering exceptional user experience.', features: 'Custom theme development,Responsive design across all devices,SEO-optimized structure,Contact forms & lead generation,Google Analytics setup,30 days of free support', price: '$799', href: '/contact' },
-  { icon: '🚀', title: 'WordPress Migration Services', headline: 'Seamless Migration Without Downtime', desc: 'Moving to WordPress or changing hosts? We handle the entire migration process ensuring zero data loss and minimal downtime. Your SEO rankings and user experience remain intact.', features: 'Complete site backup and migration,Domain and hosting setup,SSL certificate installation,SEO preservation techniques,Testing across all devices,14 days post-migration support', price: '$299', href: '/contact' },
-  { icon: '⚡', title: 'WordPress Speed Optimization', headline: 'Boost Your Site Speed by 40-70%', desc: 'We optimize images, implement caching, clean your database, and set up a CDN for lightning-fast performance that improves rankings and conversions.', features: 'Image optimization and WebP conversion,Browser and server-side caching,Database optimization and cleanup,CDN implementation,Core Web Vitals improvement,Performance report before & after', price: '$399', href: '/contact' },
-  { icon: '🛡️', title: 'WordPress Security Services', headline: 'Enterprise-Grade Protection for Your Site', desc: 'Protect your WordPress site against hackers, malware, and brute force attacks with our comprehensive security hardening service.', features: 'Security audit and vulnerability scan,Malware removal (if infected),Firewall and login protection,SSL certificate setup,Regular security monitoring,Two-factor authentication', price: '$199', href: '/contact' },
-  { icon: '🔧', title: 'WordPress Maintenance & Support', headline: 'Keep Your Site Running Smoothly', desc: 'Focus on your business while we handle the technical side. Our maintenance plans keep your WordPress site secure, fast, and up-to-date.', features: 'Regular WordPress & plugin updates,Security monitoring and protection,Performance optimization,Backup management,Uptime monitoring,Priority support', price: '$79/mo', href: '/contact' },
-  { icon: '🎨', title: 'WordPress Website Redesign', headline: 'Modern Makeover Without Losing SEO', desc: 'Give your existing WordPress site a modern makeover. Fresh design, improved UX, and better performance — without losing your existing content or rankings.', features: 'Complete visual redesign,Improved UX and navigation,Mobile-first responsive design,Content migration,SEO preservation,Speed optimization included', price: '$599', href: '/contact' },
+  { icon: '🔷', title: 'WordPress Website Development', headline: 'Build Your Dream Website from Scratch', desc: 'Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out.', features: 'Custom theme development,Responsive design across all devices,SEO-optimized structure,30-day money-back guarantee,30 days free support', price: '$799', href: '/contact', timeline: '2-4 weeks' },
+  { icon: '🚀', title: 'WordPress Migration Services', headline: 'Seamless Migration Without Downtime', desc: 'Moving to WordPress or changing hosts? We handle the entire migration process ensuring zero data loss and minimal downtime.', features: 'Complete data migration,SEO preservation (301 redirects),Image & media transfer,Plugin replication,Database optimization', price: '$249', href: '/contact', timeline: '2-4 days' },
+  { icon: '🛡️', title: 'WordPress Security Services', headline: 'Enterprise-Grade Protection for Your Site', desc: 'Protect your site from hackers and malware. Ideal for e-commerce and sensitive data sites. We ensure absolute security hardening.', features: '24/7 threat monitoring,Automatic malware removal,Weekly security reports,Blacklist monitoring,Vulnerability assessments', price: '$299', href: '/contact', timeline: '3-5 days' },
+  { icon: '⚡', title: 'WordPress Speed Optimization', headline: 'Boost Your Site Speed by 40-70%', desc: 'We optimize images, implement caching, and perform server-level tuning for peak performance that improves rankings.', features: 'Image optimization & WebP,Core Web Vitals improvement,Database cleanup,CDN implementation,Performance report', price: '$399', href: '/contact', timeline: '24-48 hours' },
+  { icon: '🔧', title: 'WordPress Bug Fixing', headline: 'Fast Resolution for Critical Issues', desc: 'Quick resolution for WordPress issues like White Screen of Death, internal server errors, and plugin conflicts.', features: 'Critical error fixes,Plugin/Theme conflict resolution,Server error troubleshooting,Database repair,Security cleanup', price: '$149', href: '/contact', timeline: '24-48 hours' },
+  { icon: '🎨', title: 'WordPress Website Redesign', headline: 'Modern Makeover Without Losing SEO', desc: 'Give your existing WordPress site a modern makeover. Fresh design, improved UX, and better performance — without losing rankings.', features: 'Complete visual redesign,UX & navigation overhaul,Mobile-first design,SEO preservation,Speed optimization', price: '$1,299', href: '/contact', timeline: '3-4 weeks' },
 ]
 
 const WC_SERVICES = [
@@ -248,21 +248,21 @@ const SERVICES_DB = [
     },
     services: [
       { id: 'development', title: 'WordPress Website Development', price: '$799', desc: 'Build your dream website from scratch with custom theme development and SEO-optimized structure.', features: ['Custom theme development', 'Responsive design', 'SEO-optimized structure'] },
-      { id: 'migration', title: 'WordPress Migration Services', price: '$299', desc: 'Seamless migration without downtime. We handle the entire process ensuring zero data loss.', features: ['Zero data loss', 'Domain setup', 'SSL installation'] },
+      { id: 'migration', title: 'WordPress Migration Services', price: '$249', desc: 'Seamless migration without downtime. We handle the entire process ensuring zero data loss.', features: ['Zero data loss', 'Domain setup', 'SSL installation'] },
+      { id: 'security', title: 'WordPress Security Services', price: '$299', desc: 'Enterprise-grade protection. Protect your site against hackers, malware, and brute force attacks.', features: ['Malware removal', 'Firewall setup', '2FA implementation'] },
       { id: 'speed', title: 'WordPress Speed Optimization', price: '$399', desc: 'Boost your site speed by 40-70%. We optimize images, implement caching, and clean your database.', features: ['Image optimization', 'Browser caching', 'Database cleanup'] },
-      { id: 'security', title: 'WordPress Security Services', price: '$199', desc: 'Enterprise-grade protection. Protect your site against hackers, malware, and brute force attacks.', features: ['Malware removal', 'Firewall setup', '2FA implementation'] },
-      { id: 'maintenance', title: 'WordPress Maintenance', price: '$79/mo', desc: 'Focus on your business while we handle the technical side. Security, updates, and backups.', features: ['Plugin updates', 'Uptime monitoring', 'Priority support'] },
-      { id: 'redesign', title: 'WordPress Website Redesign', price: '$599', desc: 'Give your existing site a modern makeover without losing SEO or content.', features: ['Modern UI/UX', 'Mobile-first design', 'SEO preservation'] }
+      { id: 'bugfixing', title: 'WordPress Bug Fixing', price: '$149', desc: 'Fast resolution for critical issues like WSOD, server errors, and plugin conflicts.', features: ['Critical error fixes', 'Plugin/Theme conflicts', 'Database repair'] },
+      { id: 'redesign', title: 'WordPress Website Redesign', price: '$1,299', desc: 'Give your existing site a modern makeover without losing SEO or content.', features: ['Modern UI/UX', 'Mobile-first design', 'SEO preservation'] }
     ],
     maintenancePlans: [
-      { tier: 'Starter', price: '$79/mo', features: ['Monthly Updates', 'Uptime Monitoring', 'Basic Security'] },
+      { tier: 'Basic', price: '$79/mo', features: ['Monthly Updates', 'Uptime Monitoring', 'Basic Security'] },
       { tier: 'Professional', price: '$149/mo', features: ['Weekly Updates', 'Speed Optimization', 'Advanced Security'] },
-      { tier: 'Business', price: '$299/mo', features: ['Daily Updates', 'Priority Support', 'Full Backups'] }
+      { tier: 'Enterprise', price: '$299/mo', features: ['Daily Updates', 'Priority Support', 'Full Backups'] }
     ],
     backupPlans: [
-      { tier: 'Cloud Lite', price: '$29/mo', features: ['Weekly Backups', '10GB Storage', 'Easy Restore'] },
-      { tier: 'Cloud Pro', price: '$59/mo', features: ['Daily Backups', '50GB Storage', 'One-click Recovery'] },
-      { tier: 'Cloud Max', price: '$99/mo', features: ['Hourly Backups', 'Unlimited Storage', 'Priority Restore'] }
+      { tier: 'Basic', price: '$29/mo', features: ['Weekly Backups', '10GB Storage', 'Easy Restore'] },
+      { tier: 'Advanced', price: '$59/mo', features: ['Daily Backups', '50GB Storage', 'One-click Recovery'] },
+      { tier: 'Enterprise', price: '$99/mo', features: ['Hourly Backups', 'Unlimited Storage', 'Priority Restore'] }
     ],
     whyUs: WHY_ITEMS,
     process: PROCESS_STEPS,
