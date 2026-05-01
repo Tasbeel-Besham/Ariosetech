@@ -205,6 +205,86 @@ const PORTFOLIO_DB = [
   { slug: 'ctvpromo-wordpress', title: 'CTV Promo', client: 'CTV Promo', clientUrl: 'https://ctvpromo.com', category: 'wordpress', summary: 'Promotional products company with custom quote system, PDF generation, and HubSpot CRM integration.', challenge: 'Complex product customization with quantity-based pricing and automated quotes.', solution: 'WordPress with custom quote builder plugin, PDF generation, and HubSpot sync.', quote: 'The quote system saves our team 5 hours per day. Lead quality improved dramatically.', results: [{label:'Time Saved',value:'-80%'},{label:'Lead Quality',value:'+120%'},{label:'Close Rate',value:'+35%'}], stack: ['WordPress','Custom Plugin','HubSpot'], featured: false, published: true, updatedAt: new Date().toISOString() },
 ]
 
+const SERVICES_DB = [
+  {
+    slug: 'wordpress',
+    title: 'WordPress Services',
+    status: 'published',
+    hero: {
+      eyebrow: 'WordPress Solutions',
+      headline: 'Professional WordPress Development Services',
+      subheadline: 'Display Your Business Online with a WordPress Website',
+      desc: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.',
+      startingPrice: '$799',
+      ctaPrimary: 'Get Free WordPress Consultation',
+      ctaSecondary: 'View WordPress Portfolio'
+    },
+    services: [
+      { id: 'development', title: 'WordPress Website Development', price: '$799', desc: 'Build your dream website from scratch with custom theme development and SEO-optimized structure.', features: ['Custom theme development', 'Responsive design', 'SEO-optimized structure'] },
+      { id: 'migration', title: 'WordPress Migration Services', price: '$299', desc: 'Seamless migration without downtime. We handle the entire process ensuring zero data loss.', features: ['Zero data loss', 'Domain setup', 'SSL installation'] },
+      { id: 'speed', title: 'WordPress Speed Optimization', price: '$399', desc: 'Boost your site speed by 40-70%. We optimize images, implement caching, and clean your database.', features: ['Image optimization', 'Browser caching', 'Database cleanup'] },
+      { id: 'security', title: 'WordPress Security Services', price: '$199', desc: 'Enterprise-grade protection. Protect your site against hackers, malware, and brute force attacks.', features: ['Malware removal', 'Firewall setup', '2FA implementation'] },
+      { id: 'maintenance', title: 'WordPress Maintenance', price: '$79/mo', desc: 'Focus on your business while we handle the technical side. Security, updates, and backups.', features: ['Plugin updates', 'Uptime monitoring', 'Priority support'] },
+      { id: 'redesign', title: 'WordPress Website Redesign', price: '$599', desc: 'Give your existing site a modern makeover without losing SEO or content.', features: ['Modern UI/UX', 'Mobile-first design', 'SEO preservation'] }
+    ],
+    maintenancePlans: [
+      { tier: 'Starter', price: '$79/mo', features: ['Monthly Updates', 'Uptime Monitoring', 'Basic Security'] },
+      { tier: 'Professional', price: '$149/mo', features: ['Weekly Updates', 'Speed Optimization', 'Advanced Security'] },
+      { tier: 'Business', price: '$299/mo', features: ['Daily Updates', 'Priority Support', 'Full Backups'] }
+    ],
+    backupPlans: [
+      { tier: 'Cloud Lite', price: '$29/mo', features: ['Weekly Backups', '10GB Storage', 'Easy Restore'] },
+      { tier: 'Cloud Pro', price: '$59/mo', features: ['Daily Backups', '50GB Storage', 'One-click Recovery'] },
+      { tier: 'Cloud Max', price: '$99/mo', features: ['Hourly Backups', 'Unlimited Storage', 'Priority Restore'] }
+    ],
+    whyUs: WHY_ITEMS,
+    process: PROCESS_STEPS,
+    portfolio: PORTFOLIO_ITEMS,
+    faqs: FAQ_ITEMS,
+    updatedAt: new Date()
+  },
+  {
+    slug: 'shopify',
+    title: 'Shopify Services',
+    status: 'published',
+    hero: {
+      eyebrow: 'Shopify Services',
+      headline: 'Professional Shopify Development Services',
+      subheadline: 'Scale your business with Shopify. From startup stores to Shopify Plus enterprises.',
+      desc: 'Professional Shopify stores built for growth. From startup stores to Shopify Plus enterprises, we deliver results that matter. Starting at $999.',
+      startingPrice: '$999',
+      ctaPrimary: 'Get Free Shopify Consultation',
+      ctaSecondary: 'View Shopify Portfolio'
+    },
+    services: SHOPIFY_SERVICES.map((s, i) => ({ id: `shopify-${i}`, ...s })),
+    whyUs: WHY_ITEMS,
+    process: PROCESS_STEPS,
+    portfolio: PORTFOLIO_ITEMS,
+    faqs: FAQ_ITEMS,
+    updatedAt: new Date()
+  },
+  {
+    slug: 'woocommerce',
+    title: 'WooCommerce Services',
+    status: 'published',
+    hero: {
+      eyebrow: 'WooCommerce Services',
+      headline: 'Custom WooCommerce Development Services',
+      subheadline: 'Turn your vision into a profitable online store.',
+      desc: 'Custom WooCommerce solutions with seamless payment integration and conversion optimization. Starting at $1,299.',
+      startingPrice: '$1,299',
+      ctaPrimary: 'Get Free WooCommerce Quote',
+      ctaSecondary: 'View WooCommerce Portfolio'
+    },
+    services: WC_SERVICES.map((s, i) => ({ id: `woo-${i}`, ...s })),
+    whyUs: WHY_ITEMS,
+    process: PROCESS_STEPS,
+    portfolio: PORTFOLIO_ITEMS,
+    faqs: FAQ_ITEMS,
+    updatedAt: new Date()
+  }
+]
+
 export async function GET(req: NextRequest) { return POST(req) }
 
 export async function POST(req: NextRequest) {
@@ -226,6 +306,10 @@ export async function POST(req: NextRequest) {
     await portfolioCol.deleteMany({})
     await portfolioCol.insertMany(PORTFOLIO_DB as never[])
 
+    const servicesCol = await getCollection('services')
+    await servicesCol.deleteMany({})
+    await servicesCol.insertMany(SERVICES_DB as never[])
+
     const usersCol = await getCollection('users')
     if (!await usersCol.findOne({ username: process.env.ADMIN_USERNAME || 'admin' })) {
       await usersCol.insertOne({ username: process.env.ADMIN_USERNAME || 'admin', password: hashPassword(process.env.ADMIN_PASSWORD || 'changeme123'), role: 'admin', createdAt: new Date() } as never)
@@ -237,7 +321,7 @@ export async function POST(req: NextRequest) {
       { upsert: true }
     )
 
-    return NextResponse.json({ success: true, seeded: { pages: PAGES.length, blogs: BLOGS.length, portfolio: PORTFOLIO_DB.length }, message: 'All pages seeded with full content. Go to /admin/pages to see them.' })
+    return NextResponse.json({ success: true, seeded: { pages: PAGES.length, blogs: BLOGS.length, portfolio: PORTFOLIO_DB.length, services: SERVICES_DB.length }, message: 'All pages and services seeded with full content. Go to /admin/services to see them.' })
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 })
   }

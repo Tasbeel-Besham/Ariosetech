@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AdminShell from '@/components/layout/AdminShell'
-import { Plus, Edit3, Trash2 } from 'lucide-react'
+import { Plus, Edit3, Trash2, Database } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 type ServiceSummary = {
@@ -17,8 +17,10 @@ type ServiceSummary = {
 export default function ServicesAdminPage() {
   const [services, setServices] = useState<ServiceSummary[]>([])
   const [loading, setLoading] = useState(true)
+  const [seeding, setSeeding] = useState(false)
 
-  useEffect(() => {
+  const loadData = () => {
+    setLoading(true)
     fetch('/api/services')
       .then(res => res.json())
       .then(data => {
@@ -30,7 +32,32 @@ export default function ServicesAdminPage() {
         toast.error(err.message || 'Failed to load services')
         setLoading(false)
       })
+  }
+
+  useEffect(() => {
+    loadData()
   }, [])
+
+  const runSeed = async () => {
+    setSeeding(true)
+    const secret = prompt('Enter ADMIN_JWT_SECRET to seed database:')
+    if (!secret) { setSeeding(false); return }
+
+    try {
+      const res = await fetch(`/api/seed?secret=${secret}`, { method: 'POST' })
+      const data = await res.json()
+      if (data.success) {
+        toast.success('Database seeded successfully!')
+        loadData()
+      } else {
+        throw new Error(data.error || 'Seed failed')
+      }
+    } catch (err: any) {
+      toast.error(err.message)
+    } finally {
+      setSeeding(false)
+    }
+  }
 
   const handleDelete = async (slug: string) => {
     if (!confirm(`Are you sure you want to delete the ${slug} service page?`)) return
@@ -56,9 +83,14 @@ export default function ServicesAdminPage() {
             </h1>
             <p style={{ fontSize: '14px', color: 'var(--text-3)' }}>Manage your service offerings, pricing, and FAQs.</p>
           </div>
-          <Link href="/admin/services/new" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: 'var(--blue)', color: '#fff', borderRadius: '10px', textDecoration: 'none', fontWeight: 600, fontSize: '14px', transition: 'opacity 0.2s' }} className="hover:opacity-90">
-            <Plus size={16} /> New Service Page
-          </Link>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button onClick={runSeed} disabled={seeding} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: 'var(--bg-3)', color: 'var(--text-2)', border: '1px solid var(--border)', borderRadius: '10px', fontWeight: 600, fontSize: '14px', cursor: seeding ? 'wait' : 'pointer' }} className="hover:border-[var(--blue)]">
+              <Database size={16} /> {seeding ? 'Seeding...' : 'Seed Database'}
+            </button>
+            <Link href="/admin/services/new" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: 'var(--blue)', color: '#fff', borderRadius: '10px', textDecoration: 'none', fontWeight: 600, fontSize: '14px', transition: 'opacity 0.2s' }} className="hover:opacity-90">
+              <Plus size={16} /> New Service Page
+            </Link>
+          </div>
         </div>
 
         <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
