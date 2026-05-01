@@ -252,6 +252,54 @@
 @keyframes blink     { 0%,100%{opacity:1} 50%{opacity:0.2} }
 @keyframes marquee   { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 @keyframes pulse-ring{ 0%{transform:scale(1);opacity:0.7} 100%{transform:scale(2.2);opacity:0} }
+@keyframes shimmer   { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@keyframes float     { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes tech-border { 0% { border-image-source: linear-gradient(0deg, var(--primary), transparent); } 50% { border-image-source: linear-gradient(180deg, var(--primary), transparent); } 100% { border-image-source: linear-gradient(360deg, var(--primary), transparent); } }
+@keyframes scan      { 0% { top: -100%; } 100% { top: 200%; } }
+
+.mesh-bg {
+  background: radial-gradient(at 0% 0%, rgba(118,108,255,0.15) 0, transparent 50%),
+              radial-gradient(at 50% 0%, rgba(118,108,255,0.1) 0, transparent 50%),
+              radial-gradient(at 100% 0%, rgba(79,110,247,0.15) 0, transparent 50%);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(118,108,255,0.3), 0 0 20px rgba(118,108,255,0.2);
+}
+
+.shimmer-border {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-border::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+.tech-card {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-3) 0%, var(--bg-2) 100%);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.tech-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(var(--grad-dir, 135deg), var(--primary), transparent 40%, transparent 60%, var(--primary));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  padding: 1px;
+  border-radius: inherit;
+  opacity: 0.15;
+  transition: opacity 0.3s var(--ease);
+}
+.tech-card:hover::after { opacity: 0.6; }
 
 main   { animation: fadeIn 0.3s ease both; }
 header { animation: slideDown 0.4s var(--ease) both; }
