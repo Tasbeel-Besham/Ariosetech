@@ -316,7 +316,7 @@ export default async function WordPressPage() {
             </div>
 
             {/* 02. EMERGENCY: MALWARE REMOVAL (Cyber Terminal Style) */}
-            <div id="malware-removal" className="sr">
+            <div id="virus-removal" className="sr">
                <div style={{ background: '#08080c', border: '1px solid #1a1a25', borderRadius: '32px', padding: '40px', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '40px', background: '#12121a', borderBottom: '1px solid #1a1a25', display: 'flex', alignItems: 'center', padding: '0 20px', gap: '8px' }}>
                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff4d6d' }} />
@@ -366,7 +366,7 @@ export default async function WordPressPage() {
             </div>
 
             {/* 03. PERFORMANCE: OPTIMIZATION (Sleek Data Style) */}
-            <div id="optimization" className="sr">
+            <div id="speed" className="sr">
                <div className="tech-card" style={{ borderRadius: '32px', padding: '64px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }}>
                   <div style={{ position: 'relative' }}>
                      <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
@@ -456,7 +456,7 @@ export default async function WordPressPage() {
                       bugs: ICONS.security
                     }
                     return (
-                    <div key={s.id} className="tech-card" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'start' }}>
+                    <div key={s.id} id={s.id} className="tech-card" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'start' }}>
                        <IconBox size={40} radius={12} style={{ border: 'none', background: 'rgba(255,255,255,0.03)', flexShrink: 0 }}>
                           {iconMap[s.id] || ICONS.expertise}
                        </IconBox>
@@ -478,7 +478,7 @@ export default async function WordPressPage() {
             </div>
 
             {/* 06. BACKUP SOLUTIONS */}
-            <div id="backups" className="sr" style={{ marginTop: '40px' }}>
+            <div id="backup" className="sr" style={{ marginTop: '40px' }}>
                <div style={{ textAlign: 'center', marginBottom: '64px' }}>
                   <h3 style={{ ...hs, fontSize: '32px', color: '#fff', marginBottom: '16px' }}>Backup Solutions</h3>
                   <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Never lose your data again with automated cloud recovery.</p>
