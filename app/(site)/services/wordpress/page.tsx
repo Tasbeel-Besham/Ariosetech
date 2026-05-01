@@ -392,18 +392,6 @@ export default async function WordPressPage() {
           </div>
         </div>
       </section>
-          <div style={{ width: item.value, height: '100%', background: 'var(--grad)', borderRadius: '2px' }} />
-                              </div>
-                           </div>
-                        ))}
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
       <section className="section section--dark">
         <div className="container">
