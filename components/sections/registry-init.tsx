@@ -14,6 +14,9 @@ import HeadingSection from './HeadingSection'
 import TextSection from './TextSection'
 import ContactSection from './ContactSection'
 import FaqSection from './FaqSection'
+import CyberTerminalSection from './CyberTerminalSection'
+import MaintenancePlansSection from './MaintenancePlansSection'
+import SpeedScoreSection from './SpeedScoreSection'
 
 export function initRegistry() {
   if (getSection('hero')) return  // already registered
@@ -290,6 +293,77 @@ export function initRegistry() {
       { type: 'text', name: 'eyebrow',   label: 'Eyebrow' },
       { type: 'text', name: 'headline',  label: 'Headline' },
       { type: 'text', name: 'guarantee', label: 'Response guarantee' },
+    ],
+  })
+
+  // ── CYBER TERMINAL ──────────────────────────────────────────
+  registerSection({
+    type: 'cyber-terminal', label: 'Cyber Terminal', category: 'Services', icon: '💻',
+    component: CyberTerminalSection as React.FC<Record<string, unknown>>,
+    defaultProps: {
+      tagline: 'EMERGENCY RESPONSE',
+      title: 'Virus Removal',
+      desc: 'Emergency 24-48 hour service for infected sites. Complete malware scan, file cleaning, and Google Blacklist removal.',
+      price: '$199',
+      features: ['Malware Identification', 'Infected File Cleaning', 'Blacklist Removal', 'Security Hardening', '30-Day Monitoring'],
+      statusText: 'root@ariosetech:~/malware_scanner'
+    },
+    schema: [
+      { type: 'text',     name: 'tagline',    label: 'Upper tagline' },
+      { type: 'text',     name: 'title',      label: 'Main title' },
+      { type: 'textarea', name: 'desc',       label: 'Description' },
+      { type: 'text',     name: 'price',      label: 'Starting price' },
+      { type: 'text',     name: 'statusText', label: 'Terminal header text' },
+      { type: 'textarea', name: 'features',   label: 'Features (comma separated)' },
+    ],
+  })
+
+  // ── MAINTENANCE PLANS ────────────────────────────────────────
+  registerSection({
+    type: 'maintenance-plans', label: 'Pricing Plans', category: 'Services', icon: '💳',
+    component: MaintenancePlansSection as React.FC<Record<string, unknown>>,
+    defaultProps: {
+      title: 'Maintenance & Support Plans',
+      subtitle: 'Proactive care for your WordPress infrastructure.',
+      plans: [
+        { tier: 'Starter', price: '$79/mo', desc: 'Basic protection', features: ['Monthly Updates', 'Uptime Monitoring', 'Basic Security'] },
+        { tier: 'Professional', price: '$149/mo', desc: 'High performance', features: ['Weekly Updates', 'Speed Optimization', 'Advanced Security'] },
+        { tier: 'Business', price: '$299/mo', desc: 'Full management', features: ['Daily Updates', 'Priority Support', 'Full Backups'] }
+      ]
+    },
+    schema: [
+      { type: 'text', name: 'title',    label: 'Section Title' },
+      { type: 'text', name: 'subtitle', label: 'Subtitle' },
+      { type: 'repeater', name: 'plans', label: 'Pricing Tiers', fields: [
+        { type: 'text',     name: 'tier',     label: 'Tier name' },
+        { type: 'text',     name: 'price',    label: 'Price' },
+        { type: 'text',     name: 'desc',     label: 'Short desc' },
+        { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
+      ]},
+    ],
+  })
+
+  // ── SPEED SCORE ──────────────────────────────────────────────
+  registerSection({
+    type: 'speed-score', label: 'Speed Score Viz', category: 'Services', icon: '⚡',
+    component: SpeedScoreSection as React.FC<Record<string, unknown>>,
+    defaultProps: {
+      title: 'Speed Optimization',
+      desc: 'Improve site speed by 40-70%. We optimize images, configure CDNs, and perform server-level tuning for peak performance.',
+      score: 99,
+      metrics: [
+        { label: 'Investment', value: '$399' },
+        { label: 'Execution', value: '5-7 Days' }
+      ]
+    },
+    schema: [
+      { type: 'text',     name: 'title', label: 'Section Title' },
+      { type: 'textarea', name: 'desc',  label: 'Description' },
+      { type: 'number',   name: 'score', label: 'PageSpeed Score (0-100)' },
+      { type: 'repeater', name: 'metrics', label: 'Stats/Metrics', fields: [
+        { type: 'text', name: 'label', label: 'Label' },
+        { type: 'text', name: 'value', label: 'Value' },
+      ]},
     ],
   })
 

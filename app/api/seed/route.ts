@@ -99,8 +99,16 @@ const homeLayout = { sections: [
 const wordpressLayout = { sections: [
   sec('hero', { eyebrow: 'WordPress Services', headline: 'Professional WordPress Development Services', subheadline: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.', supportingText: 'Starting at $799 · 30-Day Money-Back Guarantee · Free Post-Launch Support', ctaPrimaryLabel: 'Get Free WordPress Consultation', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View WordPress Portfolio', ctaSecondaryHref: '/portfolio', trust: 'Custom Development — Tailored to your exact needs,Lightning Fast — Optimized for Core Web Vitals,100% Secure — Enterprise-grade security,SEO-Ready — Built for search engine success,24/7 Support — Always here when you need us' }),
   sec('services', { eyebrow: 'All Services', headline: 'Complete WordPress Solutions for Every Business Need', items: WP_SERVICES }),
+  sec('speed-score', { title: 'Core Web Vitals Optimization', desc: 'Boost your site speed by 40-70%. We optimize images, implement advanced caching, and perform server-level tuning for peak performance.', score: 99, metrics: [{label:'Time to Interactive',value:'0.8s'},{label:'Speed Index',value:'0.9s'}] }),
+  sec('maintenance-plans', { title: 'Maintenance & Support Plans', subtitle: 'Proactive care for your WordPress infrastructure.', plans: [
+    { tier: 'Starter', price: '$79/mo', desc: 'Basic protection', features: ['Monthly Updates', 'Uptime Monitoring', 'Basic Security', 'Daily Backups'] },
+    { tier: 'Professional', price: '$149/mo', desc: 'High performance', features: ['Weekly Updates', 'Speed Optimization', 'Advanced Security', 'Real-time Backups'] },
+    { tier: 'Business', price: '$299/mo', desc: 'Full management', features: ['Daily Updates', 'Priority Support', 'Full Backups', 'Emergency Response'] }
+  ]}),
+  sec('cyber-terminal', { tagline: 'Cyber Defense', title: 'Security & Virus Removal', desc: 'Protect your site from evolving threats with 24/7 monitoring and emergency virus removal services.', price: '$199', features: ['Malware Scanning', 'Firewall Setup', '2FA Implementation', 'Vulnerability Assessment'], statusText: 'root@ariosetech:~/security_audit' }),
   sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS }),
-  sec('testimonials', { eyebrow: 'Client Reviews', headline: 'What Our Clients Say About Working With Us', items: TESTIMONIALS }),
+  sec('process', { eyebrow: 'How We Work', headline: 'Our WordPress Development Process', steps: PROCESS_STEPS }),
+  sec('portfolio', { eyebrow: 'Our Work', headline: 'WordPress Success Stories', items: PORTFOLIO_ITEMS.filter(p => p.platform?.includes('WordPress')) }),
   sec('faq', { eyebrow: 'WordPress FAQ', headline: 'Frequently Asked Questions', items: FAQ_ITEMS }),
   sec('cta', { eyebrow: 'Get Started', headline: 'Ready to Build Your WordPress Site?', desc: 'Get a free consultation and project quote within 24 hours. No commitment required.', trust: CTA_TRUST, ctaLabel: 'Get Free Consultation', ctaHref: '/contact', secondaryLabel: 'View Our Work', secondaryHref: '/portfolio' }),
 ]}
