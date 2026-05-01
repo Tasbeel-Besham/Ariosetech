@@ -184,8 +184,8 @@ export default async function WordPressPage() {
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '48px' }}>
                 {DEV_SERVICE.features.slice(0, 4).map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'var(--text-3)' }}>
-                    <div style={{ color: 'var(--primary)' }}><StandardCheck size={16} /></div>
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
+                    <StandardCheck size={32} />
                     {f}
                   </div>
                 ))}
@@ -269,7 +269,7 @@ export default async function WordPressPage() {
               <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '520px' }}>
                 {SPEED_SERVICE.desc}
               </p>
-              <div style={{ display: 'flex', gap: '40px' }}>
+              <div style={{ display: 'flex', gap: '40px', marginBottom: '40px' }}>
                  <div>
                     <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', marginBottom: '4px' }}>Mobile</p>
                     <p style={{ ...F, fontSize: '24px', fontWeight: 900, color: '#fff' }}>90+</p>
@@ -279,6 +279,15 @@ export default async function WordPressPage() {
                     <p style={{ ...F, fontSize: '24px', fontWeight: 900, color: '#fff' }}>99+</p>
                  </div>
               </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '48px' }}>
+                {SPEED_SERVICE.features.slice(0, 4).map(f => (
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
+                    <StandardCheck size={32} />
+                    {f}
+                  </div>
+                ))}
+              </div>
+              <Link href="/contact" className="btn btn-primary btn-lg">Optimize My Site <ArrowSVG size={18} /></Link>
             </div>
           </div>
 
@@ -310,7 +319,7 @@ export default async function WordPressPage() {
                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '48px' }}>
                       {plan.features.map(f => (
                          <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'var(--text-2)' }}>
-                            <div style={{ color: 'var(--primary)' }}><StandardCheck size={14} /></div>
+                            <StandardCheck size={24} />
                             {f}
                          </div>
                       ))}
