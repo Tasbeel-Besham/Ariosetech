@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getCollection } from '@/lib/db/mongodb'
 import { PageDoc } from '@/types'
 import { notFound } from 'next/navigation'
+import ApproachSection from '@/components/sections/ApproachSection'
 import { IconBox, StandardCheck, ArrowSVG, ChevSVG, SecuritySVG, MigrationSVG, SpeedSVG, RedesignSVG, CodeSVG, GlobeSVG } from '@/components/ui/IconBox'
 
 export const dynamic = 'force-dynamic'
@@ -17,38 +18,38 @@ const HERO_DATA = {
   cta: "Book a Free Consultation"
 }
 
-const ZIGZAG_SERVICES = [
-  {
-    id: "development",
-    tagline: "Scalable Solutions",
-    title: "Website Development",
-    desc: "Build your dream website from scratch. Our custom development approach ensures your site stands out while delivering exceptional user experience.",
-    features: ["Custom theme development", "Responsive design", "SEO-optimized structure", "30-day money-back guarantee", "30 days free support"],
-    price: "$799",
-    timeline: "2-4 weeks",
-    visual: "score"
-  },
-  {
-    id: "security",
-    tagline: "EMERGENCY RESPONSE",
-    title: "SECURITY & VIRUS REMOVAL",
-    desc: "Protect your site from evolving threats with 24/7 monitoring and emergency virus removal services.",
-    features: ["Malware Scanning", "Firewall Setup", "2FA Implementation", "Vulnerability Assessment"],
-    price: "$199",
-    timeline: "3-5 days",
-    visual: "terminal"
-  },
-  {
-    id: "optimization",
-    tagline: "Performance First",
-    title: "CORE WEB VITALS OPTIMIZATION",
-    desc: "Boost your site speed by 40-70%. We optimize images, implement advanced caching, and perform server-level tuning for peak performance.",
-    features: ["Image optimization", "Advanced Caching", "Server-Level Tuning", "CDN Configuration", "Database Cleaning"],
-    price: "$399",
-    timeline: "24-48 hours",
-    visual: "vitals"
-  }
-]
+// Pixel Perfect Vertical 1: Security (Based on Shopify Screenshot)
+const SECURITY_SERVICE = {
+  id: "security",
+  tagline: "Cyber Defense",
+  title: "WORDPRESS SECURITY HARDENING",
+  desc: "Protect your store from evolving threats with advanced security configurations and plugin audits.",
+  features: ["Security Plugin Audit", "Checkout Hardening", "2FA Implementation", "Fraud Protection Setup"],
+  price: "$149",
+  timeline: "3-5 days"
+}
+
+// Pixel Perfect Vertical 2: Optimization (Based on Shopify Screenshot)
+const SPEED_SERVICE = {
+  id: "optimization",
+  tagline: "Performance Optimization",
+  title: "WORDPRESS PERFORMANCE OPTIMIZATION",
+  desc: "Improve your store speed by 40-60%. We optimize theme code, audit plugin performance, and tune assets for maximum conversion.",
+  features: ["Image optimization", "Advanced Caching", "Server-Level Tuning", "CDN Configuration", "Database Cleaning"],
+  price: "$399",
+  timeline: "24-48 hours"
+}
+
+// Flagship Service 01: Website Development
+const DEV_SERVICE = {
+  id: "development",
+  tagline: "Scalable Solutions",
+  title: "Website Development",
+  desc: "Build your dream website from scratch. Our custom development approach ensures your site stands out while delivering exceptional user experience.",
+  features: ["Custom theme development", "Responsive design", "SEO-optimized structure", "30-day money-back guarantee", "30 days free support"],
+  price: "$799",
+  timeline: "2-4 weeks"
+}
 
 const MAINTENANCE_PLANS = [
   { tier: "Basic", price: "$29/mo", desc: "Essential maintenance for small personal websites and blogs.", features: ["Plugin & theme updates", "Monthly backups", "Core security checks", "Email support"], isPopular: false },
@@ -64,11 +65,13 @@ const ADDITIONAL_GRID = [
   { id: "bugfixing", title: "Bugs & Errors Fixing", price: "$99", desc: "Quick resolution for WSOD and critical errors.", icon: <CodeSVG /> }
 ]
 
-const PROCESS_STEPS = [
-  { n: "01", title: "Discovery & Planning", time: "2-3 Days", desc: "We analyze your business goals and technical requirements to create a detailed roadmap." },
-  { n: "02", title: "Design & Prototype", time: "1-2 Weeks", desc: "Custom UI/UX design phase focused on conversion and your brand identity." },
-  { n: "03", title: "Development & Testing", time: "2-4 Weeks", desc: "Clean coding with rigorous cross-browser and performance testing." },
-  { n: "04", title: "Launch & Support", time: "Live", desc: "Seamless deployment followed by 30 days of complimentary support." }
+// 5-Step Process from Homepage (Replacing 'Our Development Process')
+const APPROACH_ITEMS = [
+  { n: "01", title: "Discovery & Strategy", sub: "UNDERSTAND YOUR VISION", desc: "We kick off with a deep-dive consultation to understand your business goals, target audience, tech stack, and growth plans — so every decision is rooted in strategy." },
+  { n: "02", title: "Planning & Design", sub: "BLUEPRINT FOR SUCCESS", desc: "Detailed project roadmaps, wireframes, and pixel-perfect design mockups that align with your brand identity and maximize conversion at every touchpoint." },
+  { n: "03", title: "Development", sub: "BRINGING IDEAS TO LIFE", desc: "Expert WordPress, Shopify, or WooCommerce development using clean code, reusable components, and scalable architecture built to grow with your business." },
+  { n: "04", title: "Testing & Optimization", sub: "ENSURING PERFECTION", desc: "Rigorous cross-device QA, speed optimization via Core Web Vitals, security hardening, and SEO validation — nothing ships until it's flawless." },
+  { n: "05", title: "Launch & Scale", sub: "YOUR SUCCESS, OUR PRIORITY", desc: "A smooth go-live, comprehensive handover training, and 30 days of free post-launch support. After that, flexible monthly plans keep your site at peak performance." }
 ]
 
 const FAQS = [
@@ -118,121 +121,161 @@ export default async function WordPressPage() {
         </div>
       </section>
 
-      {/* ── ZIGZAG VERTICALS ─────────────────────────────────────────── */}
-      {ZIGZAG_SERVICES.map((svc, i) => (
-        <section key={svc.id} className="section" style={{ padding: '80px 0', background: i % 2 !== 0 ? 'rgba(5,5,10,0.4)' : 'transparent' }}>
-          <div className="container">
-            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
-              <div className="g-2" style={{ gap: '80px', alignItems: 'center', flexDirection: i % 2 !== 0 ? 'row-reverse' : 'row' }}>
+      {/* ── VERTICAL 01: WEBSITE DEVELOPMENT ─────────────────────────── */}
+      <section className="section" style={{ padding: '80px 0' }}>
+        <div className="container">
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
+            <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
+              <div className="sr">
+                <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '8px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
+                  <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800 }}>{DEV_SERVICE.tagline}</span>
+                </div>
+                <h2 style={{ ...F, fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>{DEV_SERVICE.title}</h2>
+                <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>{DEV_SERVICE.desc}</p>
                 
-                {/* Content */}
-                <div className="sr">
-                  {svc.visual === 'vitals' && (
-                    <div style={{ display: 'flex', gap: '8px', marginBottom: '40px' }}>
-                      {[1,2,3].map(j => <div key={j} style={{ width: '40px', height: '2px', background: j===3?'var(--primary)':'rgba(255,255,255,0.1)' }} />)}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 40px', marginBottom: '48px' }}>
+                  {DEV_SERVICE.features.slice(0, 4).map(f => (
+                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: '#fff', fontWeight: 500 }}>
+                      <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
+                      {f}
                     </div>
-                  )}
-                  <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '8px', background: svc.id === 'security' ? 'rgba(255,50,100,0.08)' : 'rgba(118,108,255,0.08)', border: svc.id === 'security' ? '1px solid rgba(255,50,100,0.2)' : '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
-                    <span style={{ ...M, fontSize: '10px', color: svc.id === 'security' ? '#ff3e60' : 'var(--primary)', textTransform: 'uppercase', fontWeight: 800 }}>{svc.tagline}</span>
-                  </div>
-                  <h2 style={{ ...F, fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>{svc.title}</h2>
-                  <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>{svc.desc}</p>
-                  
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 40px', marginBottom: '48px' }}>
-                    {svc.features.slice(0, 4).map(f => (
-                      <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: '#fff', fontWeight: 500 }}>
-                        <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
-                        {f}
-                      </div>
-                    ))}
-                  </div>
+                  ))}
+                </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                    <div>
-                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Starting at</p>
-                      <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>{svc.price}</p>
-                    </div>
-                    <div style={{ height: '40px', width: '1px', background: 'rgba(255,255,255,0.1)' }} />
-                    <div>
-                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Execution</p>
-                      <p style={{ ...F, fontSize: '18px', fontWeight: 700, color: 'var(--primary)' }}>{svc.timeline}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+                  <div>
+                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Starting at</p>
+                    <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>{DEV_SERVICE.price}</p>
+                  </div>
+                  <div style={{ height: '40px', width: '1px', background: 'rgba(255,255,255,0.1)' }} />
+                  <div>
+                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Execution</p>
+                    <p style={{ ...F, fontSize: '18px', fontWeight: 700, color: 'var(--primary)' }}>{DEV_SERVICE.timeline}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Gauge visual */}
+              <div className="sr">
+                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '64px 80px', textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.4)' }}>
+                  <div style={{ width: '180px', height: '180px', margin: '0 auto', position: 'relative' }}>
+                    <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
+                      <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.1)" strokeWidth="8" />
+                      <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
+                    </svg>
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                      <p style={{ ...F, fontSize: '56px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
+                      <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginTop: '4px' }}>Avg. Speed Score</p>
                     </div>
                   </div>
                 </div>
-
-                {/* Visuals */}
-                <div className="sr">
-                  {svc.visual === 'score' && (
-                    <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '64px 80px', textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.4)' }}>
-                      <div style={{ width: '180px', height: '180px', margin: '0 auto', position: 'relative' }}>
-                        <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
-                          <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.1)" strokeWidth="8" />
-                          <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
-                        </svg>
-                        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                          <p style={{ ...F, fontSize: '56px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
-                          <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginTop: '4px' }}>Avg. Speed Score</p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {svc.visual === 'terminal' && (
-                    <div style={{ position: 'relative' }}>
-                      <div style={{ background: '#080810', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '40px', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 120px rgba(0,0,0,0.5)' }}>
-                        <div style={{ position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none', background: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)', backgroundSize: '100% 3px' }} />
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', opacity: 0.4 }}>
-                          <div style={{ display: 'flex', gap: '6px' }}>
-                            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f56' }} />
-                            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e' }} />
-                            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27c93f' }} />
-                          </div>
-                          <p style={{ ...M, fontSize: '10px' }}>root@ariosetech:~/malware_scanner</p>
-                        </div>
-                        <div style={{ ...M, fontSize: '14px', lineHeight: 2 }}>
-                          <p style={{ color: '#00ffa3' }}>{'>'} INIT SCAN...</p>
-                          <p style={{ color: '#00ffa3' }}>{'>'} CHECKING /wp-content/plugins...</p>
-                          <p style={{ color: '#ff3e60' }}>! ALERT: Trojan.Generic FOUND</p>
-                          <p style={{ color: '#00ffa3' }}>{'>'} ISOLATING THREAT...</p>
-                          <p style={{ color: '#00ffa3' }}>{'>'} SYSTEM CLEAN. REBOOTING...</p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {svc.visual === 'vitals' && (
-                    <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '48px', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.4)', width: '100%', maxWidth: '440px' }}>
-                       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                          {[
-                            { label: 'Image Optimization', val: '95%' },
-                            { label: 'Advanced Caching', val: '96%' },
-                            { label: 'CDN Configuration', val: '97%' },
-                            { label: 'Database Cleaning', val: '98%' },
-                            { label: 'Core Web Vitals Pass', val: '99%' }
-                          ].map(v => (
-                            <div key={v.label}>
-                               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                  <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>{v.label}</span>
-                                  <span style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800 }}>{v.val}</span>
-                               </div>
-                               <div style={{ height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '100px', overflow: 'hidden' }}>
-                                  <div style={{ height: '100%', width: v.val, background: 'var(--grad)' }} />
-                               </div>
-                            </div>
-                          ))}
-                       </div>
-                    </div>
-                  )}
-                </div>
-
               </div>
             </div>
           </div>
-        </section>
-      ))}
+        </div>
+      </section>
+
+      {/* ── VERTICAL 02: SECURITY HARDENING (Pixel Perfect Rebuilt) ────── */}
+      <section className="section" style={{ padding: '80px 0' }}>
+        <div className="container">
+          <div style={{ background: '#05050a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
+            <div className="g-2" style={{ gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
+              <div className="sr">
+                <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '8px', background: 'rgba(255,50,100,0.08)', border: '1px solid rgba(255,50,100,0.2)', marginBottom: '32px' }}>
+                  <span style={{ ...M, fontSize: '10px', color: '#ff3e60', textTransform: 'uppercase', fontWeight: 800 }}>{SECURITY_SERVICE.tagline}</span>
+                </div>
+                <h2 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>{SECURITY_SERVICE.title}</h2>
+                <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>{SECURITY_SERVICE.desc}</p>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 40px' }}>
+                  {SECURITY_SERVICE.features.map(f => (
+                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: '#fff', fontWeight: 500 }}>
+                      <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ff3e60' }} />
+                      {f}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="sr" style={{ position: 'relative' }}>
+                <div style={{ background: '#080810', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '40px', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 120px rgba(0,0,0,0.5)' }}>
+                  <div style={{ position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none', background: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)', backgroundSize: '100% 3px' }} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', opacity: 0.4 }}>
+                    <div style={{ display: 'flex', gap: '6px' }}>
+                      <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f56' }} />
+                      <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e' }} />
+                      <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27c93f' }} />
+                    </div>
+                    <p style={{ ...M, fontSize: '10px' }}>root@ariosetech:~/wordpress_audit</p>
+                  </div>
+                  <div style={{ ...M, fontSize: '14px', lineHeight: 2 }}>
+                    <p style={{ color: '#00ffa3' }}>{'>'} INIT SCAN...</p>
+                    <p style={{ color: '#00ffa3' }}>{'>'} CHECKING /wp-content/plugins...</p>
+                    <p style={{ color: '#ff3e60' }}>! ALERT: Trojan.Generic FOUND</p>
+                    <p style={{ color: '#00ffa3' }}>{'>'} ISOLATING THREAT...</p>
+                    <p style={{ color: '#00ffa3' }}>{'>'} SYSTEM CLEAN. REBOOTING...</p>
+                  </div>
+                </div>
+                <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: '#0a0a14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '24px 32px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.4)', zIndex: 2 }}>
+                  <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Starting at</p>
+                  <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>{SECURITY_SERVICE.price}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── VERTICAL 03: PERFORMANCE OPTIMIZATION (Pixel Perfect Rebuilt) ─ */}
+      <section className="section" style={{ padding: '80px 0 120px' }}>
+        <div className="container">
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
+            <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
+              <div className="sr">
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '40px' }}>
+                  {[1,2,3].map(i => <div key={i} style={{ width: '40px', height: '2px', background: i===3?'var(--primary)':'rgba(255,255,255,0.1)' }} />)}
+                </div>
+                <h2 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>{SPEED_SERVICE.title}</h2>
+                <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '500px' }}>{SPEED_SERVICE.desc}</p>
+                
+                <div style={{ display: 'flex', gap: '64px' }}>
+                  <div>
+                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>Mobile Performance</p>
+                    <p style={{ ...F, fontSize: '32px', fontWeight: 800, color: 'var(--primary)' }}>90+</p>
+                  </div>
+                  <div>
+                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>Desktop Performance</p>
+                    <p style={{ ...F, fontSize: '32px', fontWeight: 800, color: 'var(--primary)' }}>99+</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sr" style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '64px 80px', textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.4)', width: '100%', maxWidth: '440px' }}>
+                  <div style={{ width: '180px', height: '180px', margin: '0 auto', position: 'relative' }}>
+                    <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
+                      <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.1)" strokeWidth="8" />
+                      <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
+                    </svg>
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                      <p style={{ ...F, fontSize: '56px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
+                      <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginTop: '4px' }}>SCORE</p>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: '14px', color: 'var(--text-2)', marginTop: '40px', fontWeight: 500 }}>Performance Rating</p>
+                  <div style={{ marginTop: '24px', padding: '10px 20px', borderRadius: '12px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)' }} />
+                    <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase' }}>Gutenberg Optimized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── MAINTENANCE PLANS ────────────────────────────────────────── */}
-      <section className="section" style={{ padding: '120px 0' }}>
+      <section className="section" style={{ padding: '0 0 120px' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <p className="eyebrow" style={{ justifyContent: 'center' }}>Managed Hosting & Support</p>
@@ -293,29 +336,13 @@ export default async function WordPressPage() {
         </div>
       </section>
 
-      {/* ── DEVELOPMENT PROCESS ──────────────────────────────────────── */}
-      <section className="section" style={{ padding: '120px 0' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <p className="eyebrow" style={{ justifyContent: 'center' }}>Workflow</p>
-            <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Our Development <span style={P}>Process</span></h2>
-          </div>
-          <div className="g-4" style={{ gap: '32px' }}>
-            {PROCESS_STEPS.map((s) => (
-              <div key={s.n} className="sr" style={{ position: 'relative' }}>
-                <p style={{ ...F, fontSize: '64px', fontWeight: 900, color: 'rgba(118,108,255,0.08)', lineHeight: 1, marginBottom: '-20px' }}>{s.n}</p>
-                <div style={{ padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '24px', position: 'relative', zIndex: 1 }}>
-                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                      <h3 style={{ ...F, fontSize: '18px', color: '#fff' }}>{s.title}</h3>
-                      <span style={{ ...M, fontSize: '9px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase' }}>{s.time}</span>
-                   </div>
-                   <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.6 }}>{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── OUR APPROACH (Replacing Development Process) ────────────── */}
+      <ApproachSection 
+        eyebrow="Our Process"
+        headline="How It "
+        scrambleWord="Works"
+        items={APPROACH_ITEMS}
+      />
 
       {/* ── FAQ ──────────────────────────────────────────────────────── */}
       <section className="section section--dark">
@@ -359,3 +386,5 @@ export default async function WordPressPage() {
     </main>
   )
 }
+"
+,Description:
