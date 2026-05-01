@@ -99,34 +99,41 @@ export default async function WordPressPage() {
     <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
       
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="section" style={{ padding: '160px 0 100px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 80% 80% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.4 }} />
+      <section className="section" style={{ padding: '180px 0 120px', position: 'relative', overflow: 'hidden' }}>
+        {/* Background Grid & Glows */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.2 }} />
+        <div style={{ position: 'absolute', top: '20%', left: '10%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(118,108,255,0.1) 0%, transparent 70%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
         
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 14px 5px 10px', borderRadius: '20px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', display: 'block' }} />
-            <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>{HERO_DATA.eyebrow}</span>
+          <div className="sr" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '6px 16px', borderRadius: 'var(--r-f)', background: 'rgba(118,108,255,0.06)', border: '1px solid rgba(118,108,255,0.15)', marginBottom: '32px' }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }} />
+            <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 800 }}>{HERO_DATA.eyebrow}</span>
           </div>
 
-          <h1 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 4.2rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', marginBottom: '12px', maxWidth: '1000px', color: '#fff' }}>
+          <h1 style={{ ...F, fontSize: 'clamp(2.8rem, 6vw, 4.8rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '24px', maxWidth: '1100px', color: '#fff' }}>
             {HERO_DATA.headline}
           </h1>
-          <h2 style={{ ...F, fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '32px', maxWidth: '1000px', ...P }}>
+          <h2 style={{ ...F, fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '32px', maxWidth: '900px', ...P }}>
             {HERO_DATA.subheadline}
           </h2>
-          <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '640px', marginBottom: '48px' }}>
+          <p style={{ fontSize: '19px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '680px', marginBottom: '56px' }}>
             {HERO_DATA.desc}
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
+          <div className="sr" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '64px' }}>
             <Link href="/contact" className="btn btn-primary btn-xl">{HERO_DATA.ctaPrimary} <ArrowSVG size={18} /></Link>
             <Link href="/portfolio" className="btn btn-outline btn-xl">{HERO_DATA.ctaSecondary}</Link>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderTop: '1px solid var(--border)', paddingTop: '24px', maxWidth: '640px' }}>
-            <div style={{ ...M, fontSize: '12px', color: 'var(--text-3)', letterSpacing: '0.05em' }}>
-              {HERO_DATA.trust}
-            </div>
+          <div className="sr" style={{ display: 'flex', alignItems: 'center', gap: '16px', borderTop: '1px solid var(--border)', paddingTop: '32px', maxWidth: '720px' }}>
+             <div style={{ display:'flex', gap:'3px' }}>
+                {[1,2,3,4,5].map(i => (
+                  <svg key={i} width="16" height="16" viewBox="0 0 14 14" fill="var(--primary)"><path d="M7 1l1.5 4.5H13L9.5 8l1.3 4L7 10l-3.8 2 1.3-4L1 5.5h4.5z"/></svg>
+                ))}
+             </div>
+             <p style={{ ...M, fontSize: '12px', color: 'var(--text-3)', letterSpacing: '0.04em', fontWeight: 600 }}>
+               {HERO_DATA.trust}
+             </p>
           </div>
         </div>
       </section>
@@ -134,7 +141,8 @@ export default async function WordPressPage() {
       {/* ── VERTICAL 01: WEBSITE DEVELOPMENT ─────────────────────────── */}
       <section className="section" style={{ padding: '100px 0' }}>
         <div className="container">
-          <div style={{ background: 'linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 10vw, 100px)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 10vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
             <div style={{ position: 'absolute', top: 0, right: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at 70% 30%, rgba(118,108,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
             
             <div className="g-2" style={{ gap: '100px', alignItems: 'center' }}>
@@ -233,9 +241,10 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── VERTICAL 02: SECURITY HARDENING ─────────────────────────── */}
-      <section className="section" style={{ padding: '80px 0' }}>
+      <section className="section" style={{ padding: '100px 0' }}>
         <div className="container">
-          <div style={{ background: '#05050a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(to right, #ff3e60, #ff7b91)' }} />
             <div style={{ position: 'absolute', top: 0, left: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at 30% 30%, rgba(255,62,96,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
             
             <div className="g-2" style={{ gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
@@ -263,7 +272,7 @@ export default async function WordPressPage() {
 
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '24px', padding: '20px 32px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '20px' }}>
                    <div>
-                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '4px' }}>Emergency Price</p>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '4px' }}>Starting at</p>
                       <p style={{ ...F, fontSize: '24px', fontWeight: 900 }}>{SECURITY_SERVICE.price}</p>
                    </div>
                    <div style={{ width: '1px', height: '32px', background: 'var(--border)' }} />
@@ -307,7 +316,10 @@ export default async function WordPressPage() {
       {/* ── VERTICAL 03: PERFORMANCE OPTIMIZATION ──────────────────── */}
       <section className="section" style={{ padding: '100px 0 160px' }}>
         <div className="container">
-          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
+            <div style={{ position: 'absolute', top: 0, right: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at 70% 30%, rgba(118,108,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+            
             <div className="g-2" style={{ gap: '100px', alignItems: 'center' }}>
               <div className="sr">
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '40px' }}>
@@ -336,7 +348,7 @@ export default async function WordPressPage() {
 
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '24px', padding: '20px 32px', background: 'rgba(118,108,255,0.05)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px' }}>
                    <div>
-                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '4px' }}>Service Price</p>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '4px' }}>Starting at</p>
                       <p style={{ ...F, fontSize: '24px', fontWeight: 900 }}>{SPEED_SERVICE.price}</p>
                    </div>
                    <div style={{ width: '1px', height: '32px', background: 'var(--border)' }} />
@@ -380,35 +392,43 @@ export default async function WordPressPage() {
       {/* ── MAINTENANCE PLANS ────────────────────────────────────────── */}
       <section className="section" style={{ padding: '0 0 120px' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <p className="eyebrow" style={{ justifyContent: 'center' }}>Managed Hosting & Support</p>
-            <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Maintenance <span style={P}>Plans</span></h2>
+          <div style={{ textAlign: 'center', marginBottom: '72px' }}>
+            <p className="eyebrow sr" style={{ justifyContent: 'center' }}>Managed Support</p>
+            <h2 className="sr" style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.04em' }}>Maintenance <span style={P}>Plans</span></h2>
+            <p className="sr" style={{ fontSize: '16px', color: 'var(--text-2)', maxWidth: '520px', margin: '16px auto 0' }}>Professional WordPress care to keep your site fast, secure, and always online.</p>
           </div>
-          <div className="g-3">
+          <div className="g-3" style={{ gap: '24px' }}>
             {MAINTENANCE_PLANS.map((plan) => (
-              <div key={plan.tier} className="sr" style={{ 
-                padding: '48px 32px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '32px', 
+              <div key={plan.tier} className="sr card" style={{ 
+                padding: '56px 40px', background: 'rgba(10,10,18,0.7)', border: '1px solid var(--border)', borderRadius: '32px', 
                 position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column',
-                boxShadow: plan.isPopular ? '0 30px 60px rgba(118,108,255,0.15)' : 'none'
+                backdropFilter: 'blur(20px)',
+                transition: 'all 0.3s var(--ease)',
+                boxShadow: plan.isPopular ? '0 32px 80px rgba(118,108,255,0.15)' : 'none'
               }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: plan.isPopular ? 'var(--grad)' : 'transparent' }} />
+                
                 {plan.isPopular && (
-                  <div style={{ position: 'absolute', top: '16px', right: '16px', padding: '4px 12px', borderRadius: '100px', background: 'var(--grad)', fontSize: '10px', fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <div style={{ position: 'absolute', top: '24px', right: '24px', padding: '5px 14px', borderRadius: '100px', background: 'var(--grad)', fontSize: '10px', fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                     Most Popular
                   </div>
                 )}
-                <h3 style={{ ...F, fontSize: '24px', marginBottom: '8px' }}>{plan.tier}</h3>
-                <p style={{ fontSize: '14px', color: 'var(--text-3)', marginBottom: '32px' }}>{plan.desc}</p>
-                <p style={{ ...F, fontSize: '40px', fontWeight: 900, marginBottom: '32px' }}>{plan.price}</p>
+                <h3 style={{ ...F, fontSize: '24px', fontWeight: 800, marginBottom: '12px', color: '#fff' }}>{plan.tier}</h3>
+                <p style={{ fontSize: '14px', color: 'var(--text-3)', marginBottom: '40px', lineHeight: 1.6 }}>{plan.desc}</p>
+                <div style={{ marginBottom: '48px' }}>
+                  <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{plan.price}</p>
+                  <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', marginTop: '8px', letterSpacing: '0.05em' }}>Per Month</p>
+                </div>
                 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px', flex: 1 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginBottom: '56px', flex: 1 }}>
                   {plan.features.map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>
-                      <StandardCheck size={16} />
+                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '14px', color: 'rgba(255,255,255,0.8)', fontWeight: 500 }}>
+                      <div style={{ color: 'var(--primary)', flexShrink: 0 }}><StandardCheck size={16} /></div>
                       {f}
                     </div>
                   ))}
                 </div>
-                <Link href="/contact" className={`btn ${plan.isPopular ? 'btn-primary' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center' }}>Get Started</Link>
+                <Link href="/contact" className={`btn ${plan.isPopular ? 'btn-primary' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center' }}>Get Started Now</Link>
               </div>
             ))}
           </div>
@@ -416,27 +436,29 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── ADDITIONAL SOLUTIONS GRID ────────────────────────────────── */}
-      <section className="section section--dark" style={{ padding: '120px 0' }}>
-        <div className="container">
-           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-              <p className="eyebrow" style={{ justifyContent: 'center' }}>Tailored Services</p>
-              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Additional <span style={P}>Solutions</span></h2>
-           </div>
-           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-              {ADDITIONAL_GRID.map((s) => (
-                <div key={s.id} className="sr" style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'flex-start', transition: 'all 0.3s var(--ease)' }}>
-                   <IconBox size={52} radius={12}>{s.icon}</IconBox>
-                   <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                         <h3 style={{ ...F, fontSize: '18px', color: '#fff' }}>{s.title}</h3>
-                         <span style={{ ...M, fontSize: '12px', color: 'var(--primary)', fontWeight: 700 }}>{s.price}</span>
-                      </div>
-                      <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.6 }}>{s.desc}</p>
-                   </div>
-                </div>
-              ))}
-           </div>
-        </div>
+      <section className="section section--dark" style={{ padding: '120px 0', position: 'relative' }}>
+         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 50%, rgba(118,108,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+               <p className="eyebrow sr" style={{ justifyContent: 'center' }}>Tailored Services</p>
+               <h2 className="sr" style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.04em' }}>Additional <span style={P}>Solutions</span></h2>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
+               {ADDITIONAL_GRID.map((s) => (
+                 <div key={s.id} className="sr card card-hover" style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'flex-start', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.3 }} />
+                    <IconBox size={56} radius={14}>{s.icon}</IconBox>
+                    <div style={{ flex: 1 }}>
+                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                          <h3 style={{ ...F, fontSize: '19px', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}>{s.title}</h3>
+                          <span style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, background: 'var(--primary-soft)', padding: '4px 10px', borderRadius: '99px', border: '1px solid rgba(118,108,255,0.2)' }}>{s.price}</span>
+                       </div>
+                       <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.7 }}>{s.desc}</p>
+                    </div>
+                 </div>
+               ))}
+            </div>
+         </div>
       </section>
 
       {/* ── OUR APPROACH (Replacing Development Process) ────────────── */}
