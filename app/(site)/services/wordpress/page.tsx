@@ -247,115 +247,162 @@ export default async function WordPressPage() {
         </div>
       </section>
 
-      {/* ── SERVICES ─────────────────────────────────────────────────── */}
+      {/* ── SERVICES SHOWCASE ─────────────────────────────────────────── */}
       <section className="section" style={{ padding: '160px 0', background: 'var(--bg)', position: 'relative' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '100px' }}>
-            <p className="eyebrow sr" style={{ justifyContent: 'center' }}>Precision Engineering</p>
+            <p className="eyebrow sr" style={{ justifyContent: 'center' }}>Tailored Expertise</p>
             <h2 className="sr glow-text" style={{ ...hs, fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 900, letterSpacing: '-0.05em', lineHeight: 1.0, marginBottom: '24px' }}>
-              Advanced WordPress <span style={P}>Solutions</span>
+              Specialized <span style={P}>Verticals</span>
             </h2>
-            <p style={{ color: 'var(--text-3)', fontSize: '16px', maxWidth: '600px', margin: '0 auto' }}>Deploying enterprise-grade architecture for businesses that demand the absolute best in speed and security.</p>
+            <p style={{ color: 'var(--text-3)', fontSize: '16px', maxWidth: '600px', margin: '0 auto' }}>Beyond generic templates. We build bespoke digital infrastructures engineered for your specific objectives.</p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
-            {activeServices.map((svc: any, i: number) => (
-              <div key={svc.id} id={svc.id} className="sr" style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className="tech-card shimmer-border" style={{ 
-                  borderRadius: '40px', 
-                  padding: 'clamp(40px, 6vw, 80px)',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                  gap: '64px',
-                  alignItems: 'start',
-                  transition: 'transform 0.5s var(--spring)'
-                }}>
-                  {/* Scanning Light Effect */}
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100px', background: 'linear-gradient(180deg, rgba(118,108,255,0.05) 0%, transparent 100%)', pointerEvents: 'none', animation: 'scan 4s infinite linear' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
+            
+            {/* 01. FLAGSHIP: CUSTOM DEVELOPMENT (Bento Grid Style) */}
+            <div id="development" className="sr">
+               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '24px', alignItems: 'stretch' }}>
+                  {/* Left: Main Content (8 cols) */}
+                  <div className="tech-card shimmer-border" style={{ gridColumn: 'span 8', borderRadius: '32px', padding: '64px', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--grad)' }} />
+                    <div style={{ marginBottom: '40px' }}>
+                      <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.2em' }}>01 / FLAGSHIP SERVICE</span>
+                      <h3 style={{ ...hs, fontSize: '42px', fontWeight: 900, color: '#fff', marginTop: '16px', lineHeight: 1 }}>WordPress Website <br/>Development</h3>
+                    </div>
+                    <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '500px' }}>
+                      High-end, custom-coded WordPress solutions for businesses that have outgrown templates and need enterprise-level performance.
+                    </p>
+                    <div style={{ display: 'flex', gap: '16px' }}>
+                       <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '12px' }}>Start Building <ArrowSVG size={18}/></Link>
+                       <div style={{ padding: '0 24px', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                         <span style={{ fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Starting at</span>
+                         <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>$1,200</span>
+                       </div>
+                    </div>
+                  </div>
+
+                  {/* Right: Tech Stack & Score (4 cols) */}
+                  <div className="tech-card" style={{ gridColumn: 'span 4', borderRadius: '32px', padding: '40px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                    <div>
+                       <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '20px' }}>Engineered Stack</p>
+                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                         {['React', 'Next.js', 'WP-API', 'PHP 8.3', 'MySQL'].map(t => (
+                           <span key={t} style={{ fontSize: '12px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>{t}</span>
+                         ))}
+                       </div>
+                    </div>
+                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '32px', background: 'rgba(0,0,0,0.3)', borderRadius: '24px', border: '1px solid rgba(118,108,255,0.1)' }}>
+                       <div style={{ position: 'relative', display: 'inline-block' }}>
+                          <svg width="100" height="100" viewBox="0 0 100 100">
+                             <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
+                             <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="283" strokeDashoffset="28" />
+                          </svg>
+                          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '24px', fontWeight: 900, color: '#fff' }}>99</div>
+                       </div>
+                       <p style={{ fontSize: '12px', color: 'var(--text-2)', marginTop: '16px', fontWeight: 700 }}>Avg. Speed Score</p>
+                    </div>
+                  </div>
+               </div>
+            </div>
+
+            {/* 02. EMERGENCY: MALWARE REMOVAL (Cyber Terminal Style) */}
+            <div id="malware-removal" className="sr">
+               <div style={{ background: '#08080c', border: '1px solid #1a1a25', borderRadius: '32px', padding: '40px', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '40px', background: '#12121a', borderBottom: '1px solid #1a1a25', display: 'flex', alignItems: 'center', padding: '0 20px', gap: '8px' }}>
+                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff4d6d' }} />
+                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#fbbf24' }} />
+                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00e5a0' }} />
+                     <span style={{ fontSize: '10px', color: '#55557a', fontFamily: 'var(--font-mono)', marginLeft: '12px' }}>root@ariosetech:~/malware_scanner</span>
+                  </div>
                   
-                  {/* Left: Content */}
-                  <div style={{ position: 'relative', zIndex: 2 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
-                      <div style={{ padding: '8px 16px', borderRadius: '8px', background: 'rgba(118,108,255,0.1)', border: '1px solid rgba(118,108,255,0.2)' }}>
-                        <span style={{ ...hm, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Module {i + 1}</span>
-                      </div>
-                      <span style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{svc.tagline}</span>
-                    </div>
-                    
-                    <h3 style={{ ...hs, fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', fontWeight: 900, color: '#fff', marginBottom: '32px', lineHeight: 1.0, letterSpacing: '-0.04em' }}>{svc.title}</h3>
-                    <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', fontWeight: 300 }}>{svc.desc}</p>
-                    
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', marginBottom: '48px' }}>
-                       <div style={{ padding: '24px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                         <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '12px', fontWeight: 800 }}>Project Investment</p>
-                         <p style={{ ...hs, fontSize: '2.4rem', fontWeight: 900, color: '#fff', lineHeight: 1, letterSpacing: '-0.02em' }}>{svc.price}</p>
-                       </div>
-                       <div style={{ padding: '24px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                         <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '12px', fontWeight: 800 }}>Execution Time</p>
-                         <p style={{ ...hs, fontSize: '1.6rem', fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{svc.time}</p>
-                       </div>
-                    </div>
-
-                    <Link href="/contact" className="btn btn-primary btn-xl" style={{ width: '100%', justifyContent: 'center', borderRadius: '16px', fontSize: '18px' }}>
-                      {svc.cta} <ArrowSVG size={18} />
-                    </Link>
-                  </div>
-
-                  {/* Right: Technical Matrix */}
-                  <div style={{ position: 'relative', zIndex: 2 }}>
-                    <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: '32px', padding: '40px', border: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(20px)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-                        <p style={{ ...hs, fontSize: '20px', fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                           <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 20px var(--primary)' }} />
-                           Feature Set
+                  <div style={{ marginTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+                     <div style={{ padding: '20px' }}>
+                        <div style={{ display: 'inline-flex', padding: '4px 12px', background: 'rgba(255,77,109,0.1)', border: '1px solid rgba(255,77,109,0.2)', borderRadius: '4px', marginBottom: '24px' }}>
+                           <span style={{ fontSize: '10px', color: '#ff4d6d', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>EMERGENCY RESPONSE</span>
+                        </div>
+                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>WordPress Virus <br/>Removal</h3>
+                        <p style={{ color: '#7a7a9a', fontSize: '16px', lineHeight: 1.8, marginBottom: '40px' }}>
+                           Instant recovery from hacks, blacklists, and malware. We don&apos;t just clean files; we immunize your entire infrastructure.
                         </p>
-                        <div style={{ ...hm, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, padding: '4px 10px', background: 'var(--primary-soft)', borderRadius: '6px' }}>VERIFIED</div>
-                      </div>
+                        <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                           {['Deep Core Scan', 'Blacklist Removal', 'Database Cleanup', 'Vulnerability Patching'].map(f => (
+                              <li key={f} style={{ fontSize: '13px', color: '#b0b0cc', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                 <div style={{ width: '4px', height: '4px', background: '#ff4d6d', borderRadius: '50%' }} /> {f}
+                              </li>
+                           ))}
+                        </ul>
+                     </div>
 
-                      <ul style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px', listStyle: 'none' }}>
-                        {svc.features.map((f: string) => (
-                          <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.4, transition: 'all 0.2s ease' }} className="hover:text-white">
-                            <IconBox size={22} radius={6} style={{ border: 'none', background: 'rgba(255,255,255,0.05)' }}>
-                              <CheckSVG size={10} />
-                            </IconBox>
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
-
-                      {svc.results && (
-                        <div style={{ marginTop: '40px', paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                           <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 900, marginBottom: '24px' }}>Performance Matrix</p>
-                           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                             {svc.results.map((r: string) => (
-                               <div key={r} style={{ fontSize: '12px', color: '#fff', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '10px 16px', borderRadius: '12px', fontWeight: 600, textAlign: 'center' }}>{r}</div>
-                             ))}
+                     <div style={{ position: 'relative' }}>
+                        <div style={{ background: '#0a0a0f', border: '1px solid #1a1a25', borderRadius: '20px', padding: '32px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: '#00e5a0', height: '280px', overflow: 'hidden' }}>
+                           <div style={{ animation: 'scan 8s infinite linear' }}>
+                              <p>&gt; INIT SCAN...</p>
+                              <p>&gt; CHECKING /wp-content/plugins...</p>
+                              <p style={{ color: '#ff4d6d' }}>! ALERT: Trojan.Generic FOUND in elementor-pro.zip</p>
+                              <p>&gt; ISOLATING THREAT...</p>
+                              <p>&gt; DECRYPTING PAYLOAD...</p>
+                              <p>&gt; REMOVING INJECTED SQL...</p>
+                              <p style={{ color: '#00e5a0' }}>&gt; SYSTEM CLEAN. REBOOTING...</p>
                            </div>
+                           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 50%, rgba(0,229,160,0.02) 50%)', backgroundSize: '100% 4px', pointerEvents: 'none' }} />
                         </div>
-                      )}
-
-                      {svc.plans && (
-                        <div style={{ marginTop: '40px', paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px' }}>
-                             {svc.plans.map((plan: any) => (
-                               <div key={plan.tier} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', background: 'linear-gradient(90deg, rgba(255,255,255,0.03) 0%, transparent 100%)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', transition: 'all 0.3s ease' }} className="hover:border-primary">
-                                 <div>
-                                   <span style={{ ...hs, fontSize: '13px', fontWeight: 800, color: 'var(--primary)', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{plan.tier}</span>
-                                   <span style={{ fontSize: '11px', color: 'var(--text-3)' }}>Full Stack Support</span>
-                                 </div>
-                                 <span style={{ ...hs, fontSize: '18px', fontWeight: 900, color: '#fff' }}>{plan.price}</span>
-                               </div>
-                             ))}
-                           </div>
+                        <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
+                           <p style={{ fontSize: '10px', color: '#7a7a9a', textTransform: 'uppercase' }}>Restoration Time</p>
+                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>24h</p>
                         </div>
-                      )}
-                    </div>
+                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+               </div>
+            </div>
+
+            {/* 03. PERFORMANCE: OPTIMIZATION (Sleek Data Style) */}
+            <div id="optimization" className="sr">
+               <div className="tech-card" style={{ borderRadius: '32px', padding: '64px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }}>
+                  <div style={{ position: 'relative' }}>
+                     <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
+                        {[1,2,3].map(i => <div key={i} style={{ width: '40px', height: '4px', background: i === 3 ? 'var(--primary)' : 'rgba(255,255,255,0.1)', borderRadius: '2px' }} />)}
+                     </div>
+                     <h3 style={{ ...hs, fontSize: '38px', color: '#fff', marginBottom: '24px' }}>WordPress Speed <br/>Optimization</h3>
+                     <p style={{ color: 'var(--text-2)', fontSize: '17px', lineHeight: 1.8, marginBottom: '40px' }}>
+                        Millisecond-perfect performance. We optimize your Core Web Vitals to achieve the highest possible SEO ranking and conversion rates.
+                     </p>
+                     <div style={{ display: 'flex', gap: '32px' }}>
+                        <div>
+                           <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Target LCP</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>&lt; 1.2s</p>
+                        </div>
+                        <div style={{ width: '1px', background: 'var(--border)' }} />
+                        <div>
+                           <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Target CLS</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>0.0</p>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div style={{ position: 'relative' }}>
+                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        {[
+                           { label: 'Asset Minification', value: '98%' },
+                           { label: 'Database Tuning', value: '94%' },
+                           { label: 'CDN Integration', value: '100%' },
+                           { label: 'Image Compression', value: '99%' }
+                        ].map(item => (
+                           <div key={item.label} style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                 <span style={{ fontSize: '12px', color: '#fff', fontWeight: 600 }}>{item.label}</span>
+                                 <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 800 }}>{item.value}</span>
+                              </div>
+                              <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px' }}>
+                                 <div style={{ width: item.value, height: '100%', background: 'var(--grad)', borderRadius: '2px' }} />
+                              </div>
+                           </div>
+                        ))}
+                     </div>
+                  </div>
+               </div>
+            </div>
+
           </div>
         </div>
       </section>
