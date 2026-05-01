@@ -98,15 +98,16 @@ const homeLayout = { sections: [
 
 const wordpressLayout = { sections: [
   sec('hero', { eyebrow: 'WordPress Services', headline: 'Professional WordPress Development Services', subheadline: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.', supportingText: 'Starting at $799 · 30-Day Money-Back Guarantee · Free Post-Launch Support', ctaPrimaryLabel: 'Get Free WordPress Consultation', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View WordPress Portfolio', ctaSecondaryHref: '/portfolio', trust: 'Custom Development — Tailored to your exact needs,Lightning Fast — Optimized for Core Web Vitals,100% Secure — Enterprise-grade security,SEO-Ready — Built for search engine success,24/7 Support — Always here when you need us' }),
-  sec('services', { eyebrow: 'All Services', headline: 'Complete WordPress Solutions for Every Business Need', items: WP_SERVICES }),
-  sec('speed-score', { title: 'Core Web Vitals Optimization', desc: 'Boost your site speed by 40-70%. We optimize images, implement advanced caching, and perform server-level tuning for peak performance.', score: 99, metrics: [{label:'Time to Interactive',value:'0.8s'},{label:'Speed Index',value:'0.9s'}] }),
+  sec('stats', { items: [{ value: '99', label: 'Avg PageSpeed Score' }, { value: '150%', label: 'Conversion Increase' }, { value: '24h', label: 'Response Time' }, { value: '100+', label: 'Sites Managed' }] }),
+  sec('services', { eyebrow: 'All Services', headline: 'Complete WordPress Solutions for Every Business Need', items: WP_SERVICES.map(s => ({ ...s, icon: '' })) }),
+  sec('speed-score', { title: 'Core Web Vitals Optimization', desc: 'Boost your site speed by 40-70%. We optimize images, implement advanced caching, and perform server-level tuning for peak performance.', score: 99, statusLabel: 'CORE WEB VITALS PASS', metrics: [{label:'Time to Interactive',value:'0.8s'},{label:'Speed Index',value:'0.9s'}] }),
   sec('maintenance-plans', { title: 'Maintenance & Support Plans', subtitle: 'Proactive care for your WordPress infrastructure.', plans: [
-    { tier: 'Starter', price: '$79/mo', desc: 'Basic protection', features: ['Monthly Updates', 'Uptime Monitoring', 'Basic Security', 'Daily Backups'] },
-    { tier: 'Professional', price: '$149/mo', desc: 'High performance', features: ['Weekly Updates', 'Speed Optimization', 'Advanced Security', 'Real-time Backups'] },
-    { tier: 'Business', price: '$299/mo', desc: 'Full management', features: ['Daily Updates', 'Priority Support', 'Full Backups', 'Emergency Response'] }
+    { tier: 'Starter', price: '$79/mo', desc: 'Basic protection', features: ['Monthly Updates', 'Uptime Monitoring', 'Basic Security', 'Daily Backups'], ctaLabel: 'Choose Starter', ctaHref: '/contact' },
+    { tier: 'Professional', price: '$149/mo', desc: 'High performance', features: ['Weekly Updates', 'Speed Optimization', 'Advanced Security', 'Real-time Backups'], isPopular: true, ctaLabel: 'Go Professional', ctaHref: '/contact' },
+    { tier: 'Business', price: '$299/mo', desc: 'Full management', features: ['Daily Updates', 'Priority Support', 'Full Backups', 'Emergency Response'], ctaLabel: 'Contact Sales', ctaHref: '/contact' }
   ]}),
   sec('cyber-terminal', { tagline: 'Cyber Defense', title: 'Security & Virus Removal', desc: 'Protect your site from evolving threats with 24/7 monitoring and emergency virus removal services.', price: '$199', features: ['Malware Scanning', 'Firewall Setup', '2FA Implementation', 'Vulnerability Assessment'], statusText: 'root@ariosetech:~/security_audit' }),
-  sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS }),
+  sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS.map(s => ({ ...s, icon: '' })) }),
   sec('process', { eyebrow: 'How We Work', headline: 'Our WordPress Development Process', steps: PROCESS_STEPS }),
   sec('portfolio', { eyebrow: 'Our Work', headline: 'WordPress Success Stories', items: PORTFOLIO_ITEMS.filter(p => p.platform?.includes('WordPress')) }),
   sec('faq', { eyebrow: 'WordPress FAQ', headline: 'Frequently Asked Questions', items: FAQ_ITEMS }),
@@ -115,15 +116,16 @@ const wordpressLayout = { sections: [
 
 const woocommerceLayout = { sections: [
   sec('hero', { eyebrow: 'WooCommerce Services', headline: 'Custom WooCommerce Development Services', subheadline: "Turn your vision into a profitable online store. Custom WooCommerce solutions with seamless payment integration and conversion optimization. Starting at $1,299.", supportingText: '30-Day Money-Back Guarantee · Free Post-Launch Support', ctaPrimaryLabel: 'Get Free WooCommerce Quote', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View WooCommerce Portfolio', ctaSecondaryHref: '/portfolio', trust: 'Store Setup & Customization,Payment Gateway Integration,Multi-vendor Solutions,Performance Optimization' }),
-  sec('services', { eyebrow: 'All Services', headline: 'Complete WooCommerce Solutions for Every Business Need', items: WC_SERVICES }),
-  sec('speed-score', { title: 'WooCommerce Speed Optimization', desc: 'Improve your store speed by 50-70%. We optimize database queries, implement advanced caching, and configure CDNs for global performance.', score: 98, metrics: [{label:'Mobile Score',value:'95+'},{label:'Desktop Score',value:'99+'}] }),
+  sec('stats', { items: [{ value: '98%', label: 'Mobile Optimization' }, { value: '3x', label: 'Revenue Growth' }, { value: '32+', label: 'Countries Supported' }, { value: '24/7', label: 'Store Monitoring' }] }),
+  sec('services', { eyebrow: 'All Services', headline: 'Complete WooCommerce Solutions for Every Business Need', items: WC_SERVICES.map(s => ({ ...s, icon: '' })) }),
+  sec('speed-score', { title: 'WooCommerce Speed Optimization', desc: 'Improve your store speed by 50-70%. We optimize database queries, implement advanced caching, and configure CDNs for global performance.', score: 98, statusLabel: 'PERFORMANCE OPTIMIZED', metrics: [{label:'Mobile Score',value:'95+'},{label:'Desktop Score',value:'99+'}] }),
   sec('maintenance-plans', { title: 'Maintenance & Support Plans', subtitle: 'Proactive care for your WooCommerce store.', plans: [
-    { tier: 'Essential', price: '$129/mo', desc: 'Basic protection', features: ['Monthly Updates', 'Security Monitoring', 'Basic Support', 'Daily Backups'] },
-    { tier: 'Professional', price: '$249/mo', desc: 'High performance', features: ['Weekly Updates', 'Speed Optimization', 'Priority Support', 'Real-time Backups'] },
-    { tier: 'Enterprise', price: '$499/mo', desc: 'Full management', features: ['Daily Updates', 'Advanced Security', 'Dedicated Support', 'Full Management'] }
+    { tier: 'Essential', price: '$129/mo', desc: 'Basic protection', features: ['Monthly Updates', 'Security Monitoring', 'Basic Support', 'Daily Backups'], ctaLabel: 'Get Started', ctaHref: '/contact' },
+    { tier: 'Professional', price: '$249/mo', desc: 'High performance', features: ['Weekly Updates', 'Speed Optimization', 'Priority Support', 'Real-time Backups'], isPopular: true, ctaLabel: 'Go Pro', ctaHref: '/contact' },
+    { tier: 'Enterprise', price: '$499/mo', desc: 'Full management', features: ['Daily Updates', 'Advanced Security', 'Dedicated Support', 'Full Management'], ctaLabel: 'Talk to Expert', ctaHref: '/contact' }
   ]}),
   sec('cyber-terminal', { tagline: 'Cyber Defense', title: 'Security & Malware Removal', desc: 'Protect your store from evolving threats with 24/7 monitoring and emergency security services.', price: '$249', features: ['Malware Scanning', 'Firewall Hardening', 'Vulnerability Assessment', 'PCI Compliance'], statusText: 'root@ariosetech:~/wc_security_audit' }),
-  sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS }),
+  sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS.map(s => ({ ...s, icon: '' })) }),
   sec('process', { eyebrow: 'How We Work', headline: 'Our WooCommerce Development Process', steps: PROCESS_STEPS }),
   sec('portfolio', { eyebrow: 'Our Work', headline: 'WooCommerce Success Stories', items: PORTFOLIO_ITEMS.filter(p => p.platform?.includes('WooCommerce')) }),
   sec('faq', { eyebrow: 'WooCommerce FAQ', headline: 'Frequently Asked Questions', items: FAQ_ITEMS }),
@@ -132,15 +134,16 @@ const woocommerceLayout = { sections: [
 
 const shopifyLayout = { sections: [
   sec('hero', { eyebrow: 'Shopify Services', headline: 'Professional Shopify Development Services', subheadline: 'Scale your business with Shopify. From startup stores to Shopify Plus enterprises, we deliver results that matter. Starting at $999.', supportingText: '30-Day Money-Back Guarantee · Free Post-Launch Support', ctaPrimaryLabel: 'Get Free Shopify Consultation', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View Shopify Portfolio', ctaSecondaryHref: '/portfolio', trust: 'Custom Store Development,Shopify Plus Solutions,App Integration,Conversion Optimization' }),
-  sec('services', { eyebrow: 'All Services', headline: 'Complete Shopify Solutions for Every Business Need', items: SHOPIFY_SERVICES }),
-  sec('speed-score', { title: 'Shopify Performance Optimization', desc: 'Improve your store speed by 40-60%. We optimize theme code, audit app performance, and tune assets for maximum conversion.', score: 99, metrics: [{label:'Mobile Performance',value:'90+'},{label:'Desktop Performance',value:'99+'}] }),
+  sec('stats', { items: [{ value: 'Shopify Plus', label: 'Certified Partner' }, { value: '250%', label: 'Avg Sales Increase' }, { value: '40+', label: 'Apps Integrated' }, { value: '99.9%', label: 'Store Uptime' }] }),
+  sec('services', { eyebrow: 'All Services', headline: 'Complete Shopify Solutions for Every Business Need', items: SHOPIFY_SERVICES.map(s => ({ ...s, icon: '' })) }),
+  sec('speed-score', { title: 'Shopify Performance Optimization', desc: 'Improve your store speed by 40-60%. We optimize theme code, audit app performance, and tune assets for maximum conversion.', score: 99, statusLabel: 'LIQUID OPTIMIZED', metrics: [{label:'Mobile Performance',value:'90+'},{label:'Desktop Performance',value:'99+'}] }),
   sec('maintenance-plans', { title: 'Shopify Maintenance & Support', subtitle: 'Proactive care for your Shopify ecosystem.', plans: [
-    { tier: 'Starter', price: '$99/mo', desc: 'Basic protection', features: ['Monthly Updates', 'App Monitoring', 'Email Support', '2h Modifications'] },
-    { tier: 'Growth', price: '$199/mo', desc: 'High performance', features: ['Bi-weekly Updates', 'Speed Optimization', 'Priority Support', '5h Modifications'] },
-    { tier: 'Enterprise', price: '$399/mo', desc: 'Full management', features: ['Weekly Updates', 'Custom Development', '24/7 Support', '10h Modifications'] }
+    { tier: 'Starter', price: '$99/mo', desc: 'Basic protection', features: ['Monthly Updates', 'App Monitoring', 'Email Support', '2h Modifications'], ctaLabel: 'Choose Starter', ctaHref: '/contact' },
+    { tier: 'Growth', price: '$199/mo', desc: 'High performance', features: ['Bi-weekly Updates', 'Speed Optimization', 'Priority Support', '5h Modifications'], isPopular: true, ctaLabel: 'Go Growth', ctaHref: '/contact' },
+    { tier: 'Enterprise', price: '$399/mo', desc: 'Full management', features: ['Weekly Updates', 'Custom Development', '24/7 Support', '10h Modifications'], ctaLabel: 'Contact Sales', ctaHref: '/contact' }
   ]}),
   sec('cyber-terminal', { tagline: 'Cyber Defense', title: 'Shopify Security Hardening', desc: 'Protect your store from evolving threats with advanced security configurations and app audits.', price: '$149', features: ['Security App Audit', '2FA Implementation', 'Checkout Hardening', 'Fraud Protection Setup'], statusText: 'root@ariosetech:~/shopify_audit' }),
-  sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS }),
+  sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS.map(s => ({ ...s, icon: '' })) }),
   sec('process', { eyebrow: 'How We Work', headline: 'Our Shopify Development Process', steps: PROCESS_STEPS }),
   sec('portfolio', { eyebrow: 'Our Work', headline: 'Shopify Success Stories', items: PORTFOLIO_ITEMS.filter(p => p.platform?.includes('Shopify')) }),
   sec('faq', { eyebrow: 'Shopify FAQ', headline: 'Frequently Asked Questions', items: FAQ_ITEMS }),
