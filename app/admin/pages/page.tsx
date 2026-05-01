@@ -80,12 +80,10 @@ export default function PagesAdmin() {
             <p className="admin-page__subtitle">{pages.length} pages in database · Build layouts with the page builder</p>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
-            {pages.length === 0 && (
-              <button onClick={runSeed} disabled={seeding} className="btn btn-outline btn-md">
-                <RefreshCw size={14} style={{ animation: seeding ? 'spin 1s linear infinite' : 'none' }} />
-                {seeding ? 'Seeding…' : 'Seed DB'}
-              </button>
-            )}
+            <button onClick={runSeed} disabled={seeding} className="btn btn-outline btn-md">
+              <RefreshCw size={14} style={{ animation: seeding ? 'spin 1s linear infinite' : 'none' }} />
+              {seeding ? 'Seeding…' : 'Seed DB'}
+            </button>
             <button onClick={() => setCreating(true)} className="btn btn-primary btn-md">
               <Plus size={14} /> New Page
             </button>

@@ -116,8 +116,16 @@ const wordpressLayout = { sections: [
 const woocommerceLayout = { sections: [
   sec('hero', { eyebrow: 'WooCommerce Services', headline: 'Custom WooCommerce Development Services', subheadline: "Turn your vision into a profitable online store. Custom WooCommerce solutions with seamless payment integration and conversion optimization. Starting at $1,299.", supportingText: '30-Day Money-Back Guarantee · Free Post-Launch Support', ctaPrimaryLabel: 'Get Free WooCommerce Quote', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View WooCommerce Portfolio', ctaSecondaryHref: '/portfolio', trust: 'Store Setup & Customization,Payment Gateway Integration,Multi-vendor Solutions,Performance Optimization' }),
   sec('services', { eyebrow: 'All Services', headline: 'Complete WooCommerce Solutions for Every Business Need', items: WC_SERVICES }),
+  sec('speed-score', { title: 'WooCommerce Speed Optimization', desc: 'Improve your store speed by 50-70%. We optimize database queries, implement advanced caching, and configure CDNs for global performance.', score: 98, metrics: [{label:'Mobile Score',value:'95+'},{label:'Desktop Score',value:'99+'}] }),
+  sec('maintenance-plans', { title: 'Maintenance & Support Plans', subtitle: 'Proactive care for your WooCommerce store.', plans: [
+    { tier: 'Essential', price: '$129/mo', desc: 'Basic protection', features: ['Monthly Updates', 'Security Monitoring', 'Basic Support', 'Daily Backups'] },
+    { tier: 'Professional', price: '$249/mo', desc: 'High performance', features: ['Weekly Updates', 'Speed Optimization', 'Priority Support', 'Real-time Backups'] },
+    { tier: 'Enterprise', price: '$499/mo', desc: 'Full management', features: ['Daily Updates', 'Advanced Security', 'Dedicated Support', 'Full Management'] }
+  ]}),
+  sec('cyber-terminal', { tagline: 'Cyber Defense', title: 'Security & Malware Removal', desc: 'Protect your store from evolving threats with 24/7 monitoring and emergency security services.', price: '$249', features: ['Malware Scanning', 'Firewall Hardening', 'Vulnerability Assessment', 'PCI Compliance'], statusText: 'root@ariosetech:~/wc_security_audit' }),
   sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS }),
-  sec('testimonials', { eyebrow: 'Client Reviews', headline: 'What Our Clients Say About Working With Us', items: TESTIMONIALS }),
+  sec('process', { eyebrow: 'How We Work', headline: 'Our WooCommerce Development Process', steps: PROCESS_STEPS }),
+  sec('portfolio', { eyebrow: 'Our Work', headline: 'WooCommerce Success Stories', items: PORTFOLIO_ITEMS.filter(p => p.platform?.includes('WooCommerce')) }),
   sec('faq', { eyebrow: 'WooCommerce FAQ', headline: 'Frequently Asked Questions', items: FAQ_ITEMS }),
   sec('cta', { eyebrow: 'Get Started', headline: 'Ready to Launch Your WooCommerce Store?', desc: 'Get a free quote within 24 hours. No commitment required.', trust: CTA_TRUST, ctaLabel: 'Start Your Store', ctaHref: '/contact', secondaryLabel: 'View Our Work', secondaryHref: '/portfolio' }),
 ]}
@@ -125,8 +133,16 @@ const woocommerceLayout = { sections: [
 const shopifyLayout = { sections: [
   sec('hero', { eyebrow: 'Shopify Services', headline: 'Professional Shopify Development Services', subheadline: 'Scale your business with Shopify. From startup stores to Shopify Plus enterprises, we deliver results that matter. Starting at $999.', supportingText: '30-Day Money-Back Guarantee · Free Post-Launch Support', ctaPrimaryLabel: 'Get Free Shopify Consultation', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View Shopify Portfolio', ctaSecondaryHref: '/portfolio', trust: 'Custom Store Development,Shopify Plus Solutions,App Integration,Conversion Optimization' }),
   sec('services', { eyebrow: 'All Services', headline: 'Complete Shopify Solutions for Every Business Need', items: SHOPIFY_SERVICES }),
+  sec('speed-score', { title: 'Shopify Performance Optimization', desc: 'Improve your store speed by 40-60%. We optimize theme code, audit app performance, and tune assets for maximum conversion.', score: 99, metrics: [{label:'Mobile Performance',value:'90+'},{label:'Desktop Performance',value:'99+'}] }),
+  sec('maintenance-plans', { title: 'Shopify Maintenance & Support', subtitle: 'Proactive care for your Shopify ecosystem.', plans: [
+    { tier: 'Starter', price: '$99/mo', desc: 'Basic protection', features: ['Monthly Updates', 'App Monitoring', 'Email Support', '2h Modifications'] },
+    { tier: 'Growth', price: '$199/mo', desc: 'High performance', features: ['Bi-weekly Updates', 'Speed Optimization', 'Priority Support', '5h Modifications'] },
+    { tier: 'Enterprise', price: '$399/mo', desc: 'Full management', features: ['Weekly Updates', 'Custom Development', '24/7 Support', '10h Modifications'] }
+  ]}),
+  sec('cyber-terminal', { tagline: 'Cyber Defense', title: 'Shopify Security Hardening', desc: 'Protect your store from evolving threats with advanced security configurations and app audits.', price: '$149', features: ['Security App Audit', '2FA Implementation', 'Checkout Hardening', 'Fraud Protection Setup'], statusText: 'root@ariosetech:~/shopify_audit' }),
   sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success', items: WHY_ITEMS }),
-  sec('testimonials', { eyebrow: 'Client Reviews', headline: 'What Our Clients Say About Working With Us', items: TESTIMONIALS }),
+  sec('process', { eyebrow: 'How We Work', headline: 'Our Shopify Development Process', steps: PROCESS_STEPS }),
+  sec('portfolio', { eyebrow: 'Our Work', headline: 'Shopify Success Stories', items: PORTFOLIO_ITEMS.filter(p => p.platform?.includes('Shopify')) }),
   sec('faq', { eyebrow: 'Shopify FAQ', headline: 'Frequently Asked Questions', items: FAQ_ITEMS }),
   sec('cta', { eyebrow: 'Get Started', headline: 'Ready to Launch Your Shopify Store?', desc: 'Get a free quote within 24 hours. No commitment required.', trust: CTA_TRUST, ctaLabel: 'Start Your Store', ctaHref: '/contact', secondaryLabel: 'View Our Work', secondaryHref: '/portfolio' }),
 ]}
