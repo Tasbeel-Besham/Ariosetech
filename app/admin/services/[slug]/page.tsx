@@ -40,8 +40,8 @@ export default function ServiceEditorPage() {
         setData(doc)
         setLoading(false)
       })
-      .catch(() => {
-        toast.error('Failed to load service data')
+      .catch((err: any) => {
+        toast.error(err.message || 'Failed to load service data')
         router.push('/admin/services')
       })
   }, [isNew, params?.slug, router])

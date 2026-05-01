@@ -22,6 +22,7 @@ const NAV = [
   {
     label: 'Content', icon: FileText, children: [
       { label: 'Blog Posts', href: '/admin/blogs', icon: FileText },
+      { label: 'Service Pages', href: '/admin/services', icon: Layers },
       { label: 'Portfolio', href: '/admin/portfolio', icon: Briefcase },
       { label: 'Media', href: '/admin/media', icon: ImageIcon },
     ],

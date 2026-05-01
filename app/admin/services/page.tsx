@@ -22,11 +22,12 @@ export default function ServicesAdminPage() {
     fetch('/api/services')
       .then(res => res.json())
       .then(data => {
+        if (data.error) throw new Error(data.error)
         setServices(Array.isArray(data) ? data : [])
         setLoading(false)
       })
-      .catch(() => {
-        toast.error('Failed to load services')
+      .catch((err) => {
+        toast.error(err.message || 'Failed to load services')
         setLoading(false)
       })
   }, [])
@@ -36,11 +37,12 @@ export default function ServicesAdminPage() {
     
     try {
       const res = await fetch(`/api/services/${slug}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Failed to delete')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to delete')
       setServices(s => s.filter(x => x.slug !== slug))
       toast.success('Service page deleted')
-    } catch {
-      toast.error('Error deleting service page')
+    } catch (err: any) {
+      toast.error(err.message || 'Error deleting service page')
     }
   }
 
