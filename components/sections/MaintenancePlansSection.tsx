@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import { IconBox, CheckSVG } from '@/components/ui/IconBox'
+import { StandardCheck } from '@/components/ui/IconBox'
 import Link from 'next/link'
 
 interface Plan {
   tier: string
   price: string
   desc?: string
-  features: string[]
+  features: string | string[]
   ctaLabel?: string
   ctaHref?: string
   isPopular?: boolean
@@ -19,44 +19,57 @@ interface MaintenancePlansSectionProps {
   plans: Plan[]
 }
 
-const MaintenancePlansSection = ({ title, subtitle, plans }: MaintenancePlansSectionProps) => {
+const F = { fontFamily: 'var(--font-display)' } as const
+const M = { fontFamily: 'var(--font-mono)' } as const
+const P = { background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } as const
+
+const MaintenancePlansSection = ({ title = "Maintenance Plans", subtitle = "Managed Hosting & Support", plans = [] }: MaintenancePlansSectionProps) => {
   const safePlans = Array.isArray(plans) ? plans : []
 
   return (
-    <section className="section" style={{ background: 'var(--bg)', padding: '100px 0' }}>
+    <section className="section" style={{ padding: '120px 0', background: 'var(--bg)' }}>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 2.5rem)', color: '#fff', marginBottom: '16px', fontWeight: 900 }}>{title}</h3>
-          <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>{subtitle}</p>
+          <p className="eyebrow" style={{ justifyContent: 'center' }}>{subtitle}</p>
+          <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>
+            {title.includes('Maintenance') ? (
+              <>Maintenance <span style={P}>Plans</span></>
+            ) : title}
+          </h2>
         </div>
         
-        <div className="g-3">
+        <div className="g-3" style={{ gap: '24px' }}>
           {safePlans.map((plan, i) => {
-            const isPopular = plan.isPopular || (i === 1 && !safePlans.some(p => p.isPopular))
+            const isPopular = plan.isPopular
+            const featuresArr = Array.isArray(plan.features) ? plan.features : (typeof plan.features === 'string' ? plan.features.split(',').map(f => f.trim()).filter(Boolean) : [])
+            
             return (
-              <div key={plan.tier} className="tech-card shimmer-border" style={{ padding: '40px', borderRadius: '24px', position: 'relative', display: 'flex', flexDirection: 'column', zIndex: isPopular ? 2 : 1 }}>
+              <div key={plan.tier + i} className="sr" style={{ 
+                padding: '48px 32px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '32px', 
+                position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column',
+                boxShadow: isPopular ? '0 30px 60px rgba(118,108,255,0.15)' : 'none',
+                transform: isPopular ? 'scale(1.02)' : 'scale(1)',
+                zIndex: isPopular ? 2 : 1
+              }}>
                 {isPopular && (
-                  <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'var(--grad)', color: '#fff', padding: '4px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: 800, whiteSpace: 'nowrap', boxShadow: '0 4px 12px rgba(118,108,255,0.4)' }}>
-                    MOST POPULAR
+                  <div style={{ position: 'absolute', top: '16px', right: '16px', padding: '4px 12px', borderRadius: '100px', background: 'var(--grad)', fontSize: '10px', fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Most Popular
                   </div>
                 )}
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '14px', color: 'var(--primary)', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase' }}>{plan.tier}</p>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '32px', color: '#fff', fontWeight: 900, marginBottom: '16px' }}>{plan.price}</p>
-                <p style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '32px' }}>{plan.desc || 'Optimized performance and security'}</p>
+                <h3 style={{ ...F, fontSize: '24px', marginBottom: '8px', color: '#fff' }}>{plan.tier}</h3>
+                <p style={{ fontSize: '14px', color: 'var(--text-3)', marginBottom: '32px' }}>{plan.desc}</p>
+                <p style={{ ...F, fontSize: '40px', fontWeight: 900, marginBottom: '32px', color: '#fff' }}>{plan.price}</p>
                 
-                <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '40px', flex: 1 }}>
-                  {(Array.isArray(plan.features) ? plan.features : (typeof plan.features === 'string' ? (plan.features as string).split(',').map(f => f.trim()).filter(Boolean) : [])).map(f => (
-                    <li key={f} style={{ fontSize: '14px', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <IconBox size={18} radius={4} style={{ border: 'none', background: 'rgba(118,108,255,0.1)' }}>
-                        <CheckSVG size={8} />
-                      </IconBox>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px', flex: 1 }}>
+                  {featuresArr.map(f => (
+                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>
+                      <StandardCheck size={16} />
                       {f}
-                    </li>
+                    </div>
                   ))}
-                </ul>
-                
-                <Link href={plan.ctaHref || '/contact'} className={`btn ${isPopular ? 'btn-primary' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', borderRadius: '12px' }}>
-                  {plan.ctaLabel || 'Subscribe Now'}
+                </div>
+                <Link href={plan.ctaHref || '/contact'} className={`btn ${isPopular ? 'btn-primary' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center' }}>
+                  {plan.ctaLabel || 'Get Started'}
                 </Link>
               </div>
             )

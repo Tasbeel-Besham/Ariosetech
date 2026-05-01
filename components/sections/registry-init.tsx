@@ -24,6 +24,8 @@ import ApproachSection from './ApproachSection'
 import CyberTerminalSection from './CyberTerminalSection'
 import MaintenancePlansSection from './MaintenancePlansSection'
 import SpeedScoreSection from './SpeedScoreSection'
+import ServiceVerticalSection from './ServiceVerticalSection'
+import ServiceGridSection from './ServiceGridSection'
 
 export function initRegistry() {
   if (getSection('hero')) return  // already registered
@@ -604,6 +606,66 @@ export function initRegistry() {
       { type: 'repeater', name: 'metrics', label: 'Stats/Metrics', fields: [
         { type: 'text', name: 'label', label: 'Label' },
         { type: 'text', name: 'value', label: 'Value' },
+      ]},
+    ],
+  })
+
+  // ── SERVICE VERTICAL (ZIGZAG) ─────────────────────────────────
+  registerSection({
+    type: 'service-vertical', label: 'Service Vertical (Zigzag)', category: 'Services', icon: '📐',
+    component: ServiceVerticalSection as React.FC<Record<string, unknown>>,
+    defaultProps: {
+      tagline: 'Scalable Solutions',
+      title: 'Website Development',
+      desc: 'Build your dream website from scratch. Our custom development approach ensures your site stands out while delivering exceptional user experience.',
+      features: 'Custom theme development,Responsive design,SEO-optimized structure,30-day money-back guarantee',
+      price: '$799',
+      timeline: '2-4 weeks',
+      visualType: 'score',
+      align: 'left',
+      score: 99,
+      statusLabel: 'Avg. Speed Score'
+    },
+    schema: [
+      { type: 'text',     name: 'tagline',    label: 'Upper tagline' },
+      { type: 'text',     name: 'title',      label: 'Main title' },
+      { type: 'textarea', name: 'desc',       label: 'Description' },
+      { type: 'textarea', name: 'features',   label: 'Features (comma separated)' },
+      { type: 'text',     name: 'price',      label: 'Starting price' },
+      { type: 'text',     name: 'timeline',   label: 'Execution timeline' },
+      { type: 'select',   name: 'visualType', label: 'Visual Type', options: ['score', 'terminal', 'vitals', 'none'] },
+      { type: 'select',   name: 'align',      label: 'Visual Position', options: ['left', 'right'] },
+      { type: 'number',   name: 'score',      label: 'Score (0-100)' },
+      { type: 'text',     name: 'statusText', label: 'Terminal Header / Alt Label' },
+      { type: 'text',     name: 'statusLabel', label: 'Badge Label' },
+      { type: 'repeater', name: 'metrics',    label: 'Specific Metrics (Overrides Price/Time)', fields: [
+        { type: 'text', name: 'label', label: 'Label' },
+        { type: 'text', name: 'value', label: 'Value' }
+      ]},
+    ],
+  })
+
+  // ── SERVICE GRID (ADDITIONAL) ──────────────────────────────────
+  registerSection({
+    type: 'service-grid', label: 'Service Grid (Solutions)', category: 'Services', icon: '▦',
+    component: ServiceGridSection as React.FC<Record<string, unknown>>,
+    defaultProps: {
+      eyebrow: 'Tailored Services',
+      headline: 'Additional Solutions',
+      items: [
+        { title: 'Security Services', price: '$299', desc: 'Enterprise-grade security hardening for business sites.', icon: '🛡️' },
+        { title: 'Website Redesign', price: '$599', desc: 'Give your site a modern makeover without losing SEO.', icon: '🎨' },
+        { title: 'Migration Services', price: '$199', desc: 'Zero-downtime transfers to any hosting provider.', icon: '📦' },
+      ]
+    },
+    schema: [
+      { type: 'text', name: 'eyebrow', label: 'Eyebrow' },
+      { type: 'text', name: 'headline', label: 'Headline' },
+      { type: 'repeater', name: 'items', label: 'Solution Cards', fields: [
+        { type: 'text',     name: 'title', label: 'Title' },
+        { type: 'text',     name: 'price', label: 'Price' },
+        { type: 'textarea', name: 'desc',  label: 'Description' },
+        { type: 'text',     name: 'icon',  label: 'Icon (Emoji or SVG String)' },
       ]},
     ],
   })
