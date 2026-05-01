@@ -148,7 +148,7 @@ export default async function WordPressPage() {
           <div className="g-2 sr" id="development" style={{ gap: '160px', alignItems: 'center', marginBottom: '200px' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '100px 60px', textAlign: 'center', 
+                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '140px 60px', textAlign: 'center', 
                 position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden' 
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
@@ -192,13 +192,13 @@ export default async function WordPressPage() {
               <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{DEV_SERVICE.tagline}</span>
               </div>
-              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
+              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px', color: '#fff', letterSpacing: '-0.04em' }}>
                 Bespoke <span style={P}>WordPress</span> Dev
               </h2>
-              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '480px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px', maxWidth: '480px' }}>
                 {DEV_SERVICE.desc}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginBottom: '56px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '40px' }}>
                 {DEV_SERVICE.features.slice(0, 4).map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
                     <StandardCheck size={32} />
@@ -216,13 +216,13 @@ export default async function WordPressPage() {
               <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SECURITY_SERVICE.tagline}</span>
               </div>
-              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
+              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px', color: '#fff', letterSpacing: '-0.04em' }}>
                 Security & <span style={P}>Hardening</span>
               </h2>
-              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '480px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px', maxWidth: '480px' }}>
                 {SECURITY_SERVICE.desc}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '56px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '40px' }}>
                 {SECURITY_SERVICE.features.map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
                     <StandardCheck size={32} />
@@ -235,7 +235,7 @@ export default async function WordPressPage() {
 
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: '#080812', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: '48px', 
+                background: '#080812', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: '100px 48px', 
                 position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.6)' 
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
@@ -268,7 +268,7 @@ export default async function WordPressPage() {
           <div className="g-2 sr" id="speed" style={{ gap: '160px', alignItems: 'center', marginBottom: '100px' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '100px 60px', 
+                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '140px 60px', 
                 textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden'
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
@@ -318,13 +318,13 @@ export default async function WordPressPage() {
               <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SPEED_SERVICE.tagline}</span>
               </div>
-              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
+              <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px', color: '#fff', letterSpacing: '-0.04em' }}>
                 Extreme <span style={P}>Performance</span>
               </h2>
-              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '480px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px', maxWidth: '480px' }}>
                 {SPEED_SERVICE.desc}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '56px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '40px' }}>
                 {SPEED_SERVICE.features.slice(0, 4).map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
                     <StandardCheck size={32} />
