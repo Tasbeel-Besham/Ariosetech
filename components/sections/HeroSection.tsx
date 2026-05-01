@@ -1,15 +1,6 @@
 import Link from 'next/link'
 
-const ArrowSVG = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
-const CheckSVG = ({ size = 12 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
-    <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
+import { IconBox, CheckSVG, ArrowSVG } from '@/components/ui/IconBox'
 
 type Props = {
   eyebrow?: string; headline?: string; subheadline?: string; supportingText?: string
@@ -100,9 +91,9 @@ export default function HeroSection({
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gap: '8px 28px', width: 'fit-content' }}>
             {trustItems.map(t => (
               <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(118,108,255,0.12)', border: '1px solid rgba(118,108,255,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <IconBox size={22} radius={6}>
                   <CheckSVG size={10} />
-                </div>
+                </IconBox>
                 <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>{t}</span>
               </div>
             ))}

@@ -9,16 +9,7 @@ const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
 const P  = { background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } as const
 
-const ArrowSVG = ({ size = 15 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
-const CheckSVG = ({ size = 13 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
-    <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
+import { IconBox, CheckSVG, ArrowSVG, ChevSVG } from '@/components/ui/IconBox'
 
 /* ── ICONS ─────────────────────────────────────────────────── */
 const TargetSVG = () => (
@@ -66,11 +57,7 @@ const Woo_SVG = () => (
     <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
   </svg>
 )
-const ChevSVG = ({ open }: { open: boolean }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: open ? 'rotate(180deg)' : '', transition: 'transform 0.25s', flexShrink: 0 }}>
-    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
+
 
 
 /* ── SERVICES (from Doc) ──────────────────────────────────────── */
@@ -243,7 +230,12 @@ export default async function SEOPage() {
           {/* Trust strip */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '36px' }}>
             {heroData.bullets?.map((b: string) => (
-              <span key={b} style={{ ...hm, fontSize: '11px', color: 'var(--primary)', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px', padding: '5px 14px', fontWeight: 700, letterSpacing: '0.06em' }}>{b}</span>
+              <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px', padding: '5px 14px' }}>
+                <IconBox size={18} radius={5} style={{ border: 'none', background: 'transparent' }}>
+                  <CheckSVG size={10} />
+                </IconBox>
+                <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.06em' }}>{b}</span>
+              </div>
             ))}
           </div>
 
@@ -275,15 +267,11 @@ export default async function SEOPage() {
               </p>
               <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '16px' }}>A strong SEO setup helps your business:</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {[
-                  'Show up when customers are actively searching',
-                  'Build trust through better visibility',
-                  'Attract more qualified traffic',
-                  'Improve lead generation over time',
-                  'Support long-term growth with compounding results',
-                ].map(b => (
-                  <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '14px', color: 'var(--text-2)' }}>
-                    <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '3px', display:'flex' }}><CheckSVG size={14} /></span> {b}
+                {['Show up when customers are actively searching', 'Build trust through better visibility', 'Attract more qualified traffic', 'Improve lead generation over time', 'Support long-term growth with compounding results'].map(b => (
+                  <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'var(--text-2)' }}>
+                    <IconBox size={22} radius={6}>
+                      <CheckSVG size={10} />
+                    </IconBox> {b}
                   </div>
                 ))}
               </div>
@@ -321,9 +309,9 @@ export default async function SEOPage() {
               {activeWhyUs.map((r: any, i: number) => (
                 <div key={r.title} className="sr" style={{ display: 'flex', gap: '20px', padding: '28px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.08}s`, position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.6 }} />
-                  <div style={{ flexShrink: 0, width: '52px', height: '52px', borderRadius: '14px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+                  <IconBox size={52} radius={14} style={{ marginBottom: '20px' }}>
                     {r.icon}
-                  </div>
+                  </IconBox>
                   <div>
                     <p style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
                     <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
@@ -348,18 +336,11 @@ export default async function SEOPage() {
                 Many businesses come to us with the same core issues. Their website is live, but growth is slow and search visibility is weak.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  'Your website is not ranking for important keywords',
-                  'You are getting traffic, but not qualified leads',
-                  'Your service pages are weak or under-optimized',
-                  'Your website has technical SEO issues',
-                  'Your local business is not showing in local search results',
-                  'Your content lacks structure or depth',
-                  'Your pages are not connected properly through internal links',
-                  'Your competitors are outranking you consistently',
-                ].map(p => (
-                  <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '16px 20px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '14px', fontSize: '14px', color: 'var(--text-2)', transition:'all 0.2s var(--ease)' }}>
-                    <span style={{ color: 'var(--primary)', display:'flex' }}><CheckSVG size={14} /></span> {p}
+                {['Your website is not ranking for important keywords', 'You are getting traffic, but not qualified leads', 'Your service pages are weak or under-optimized', 'Your website has technical SEO issues', 'Your local business is not showing in local search results', 'Your content lacks structure or depth', 'Your pages are not connected properly through internal links', 'Your competitors are outranking you consistently'].map(p => (
+                  <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 20px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '14px', fontSize: '14px', color: 'var(--text-2)', transition:'all 0.2s var(--ease)' }}>
+                    <IconBox size={24} radius={6}>
+                      <CheckSVG size={10} />
+                    </IconBox> {p}
                   </div>
                 ))}
               </div>
@@ -377,9 +358,9 @@ export default async function SEOPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '40px' }}>
                 {['Local service businesses', 'Agencies and consultants', 'eCommerce brands', 'Startups and growing companies', 'Businesses with underperforming websites', 'Brands needing technical SEO and content support'].map(who => (
                   <div key={who} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
-                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <IconBox size={22} radius={6}>
                       <CheckSVG size={10} />
-                    </div>
+                    </IconBox>
                     {who}
                   </div>
                 ))}
@@ -392,7 +373,9 @@ export default async function SEOPage() {
                 <div className="g-2" style={{ gap: '16px 24px' }}>
                   {['Stronger search visibility', 'Better keyword reach', 'Improved local presence', 'More qualified traffic', 'Better lead potential', 'Stronger content foundation', 'Healthier website structure'].map(r => (
                     <div key={r} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'var(--text-2)' }}>
-                      <span style={{ color: 'var(--primary)', flexShrink: 0, display:'flex' }}><CheckSVG size={14} /></span> {r}
+                      <IconBox size={22} radius={6}>
+                        <CheckSVG size={10} />
+                      </IconBox> {r}
                     </div>
                   ))}
                 </div>
@@ -440,9 +423,9 @@ export default async function SEOPage() {
                   className="card-hover"
                   style={{ display: 'flex', gap: '20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textDecoration: 'none', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.1}s`, position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.5 }} />
-                  <div style={{ flexShrink: 0, width: '48px', height: '48px', borderRadius: '12px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+                  <IconBox size={48} radius={12}>
                     {link.icon}
-                  </div>
+                  </IconBox>
                   <div style={{ flex: 1 }}>
                     <p style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{link.label}</p>
                     <p style={{ fontSize: '13px', color: 'var(--text-3)', lineHeight: 1.5 }}>{link.desc}</p>
