@@ -112,6 +112,46 @@ const APPROACH_DATA = [
 type BlogItem      = { _id:string; slug:string; title:string; excerpt:string; category:string; date:string; readTime:number }
 type PortfolioItem = { _id:string; slug:string; title:string; client:string; category:string; summary:string; results:{label:string;value:string}[]; stack:string[]; featured:boolean }
 
+interface WhyUsItem {
+  icon: React.ReactNode;
+  title: string;
+  subhead: string;
+  desc: string;
+}
+
+interface ImpactMetric {
+  value: string;
+  label: string;
+  desc: string;
+}
+
+interface Step {
+  n: string;
+  title: string;
+  sub: string;
+  desc: string;
+}
+
+interface ProcessStep {
+  n: string;
+  title: string;
+  sub: string;
+  desc: string;
+  time: string;
+}
+
+interface FAQItem {
+  q: string;
+  a: string;
+}
+
+interface Testimonial {
+  name: string;
+  role: string;
+  initials: string;
+  quote: string;
+}
+
 export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; portfolio:PortfolioItem[] }) {
 
   const displayPortfolio = portfolio.length > 0
@@ -175,7 +215,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
             {/* RIGHT — scrollable vertical cards */}
             <div style={{ display:'grid', gridTemplateColumns:'1fr', gap:'16px' }}>
-              {WHY_US.map((b,i) => (
+              {WHY_US.map((b: WhyUsItem, i: number) => (
                 <div key={b.title} className="sr card card-hover" style={{ display:'flex', gap:'24px', padding:'32px', animationDelay:`${i*0.08}s`, position:'relative', overflow:'hidden', alignItems:'flex-start' }}>
                   <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
                   
@@ -214,7 +254,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           </div>
 
           <div className="g-3" style={{ gap:'24px' }}>
-            {IMPACT_METRICS.map((m, i) => (
+            {IMPACT_METRICS.map((m: ImpactMetric, i: number) => (
               <div
                 key={m.label}
                 className="sr"
@@ -265,7 +305,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           </div>
 
           <div className="how-it-works-grid" style={{ display:'flex', flexDirection:'column', gap:'32px', maxWidth:'900px', margin:'0 auto' }}>
-            {HOW_IT_WORKS.map((step, i) => {
+            {HOW_IT_WORKS.map((step: Step, i: number) => {
               const isRight = i % 2 !== 0
               return (
                 <div
@@ -433,7 +473,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           </div>
 
           <div className="g-3" style={{ gap:'20px', marginBottom:'40px' }}>
-            {TESTIMONIALS.map((t,i) => (
+            {TESTIMONIALS.map((t: Testimonial, i: number) => (
               <div key={t.name} className="card sr" style={{ padding:'32px', animationDelay:`${i*0.08}s` }}>
                 <div style={{ display:'flex', gap:'3px', marginBottom:'20px' }}>
                   {[0,1,2,3,4].map(s => <StarSVG key={s} />)}
@@ -469,7 +509,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
           {/* Horizontal steps with large numbers */}
           <div className="process-grid" style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', borderTop:'1px solid var(--border)', paddingTop:'40px' }}>
-            {PROCESS.map(({ n, title, sub, desc, time },i) => (
+            {PROCESS.map(({ n, title, sub, desc, time }: ProcessStep, i: number) => (
               <div key={n} className="sr process-item" style={{ padding:'0 28px 0 0', borderRight:i<4?'1px solid var(--border)':'none', paddingRight:i<4?'28px':'0', animationDelay:`${i*0.07}s` }}>
                 <p style={{ ...F, fontSize:'clamp(3.5rem,5vw,5rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{n}</p>
                 <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'5px' }}>{title}</p>
@@ -581,7 +621,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
             {/* RIGHT — scrollable */}
             <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
-              {FAQS.map(({ q, a }: any, i: number) => (
+              {FAQS.map(({ q, a }: FAQItem, i: number) => (
                 <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
                   <details style={{ width:'100%' }}>
                     <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>

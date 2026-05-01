@@ -11,7 +11,7 @@ const P  = { background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitText
 
 import { IconBox, CheckSVG, ArrowSVG, ChevSVG } from '@/components/ui/IconBox'
 
-const ICONS = {
+const ICONS: Record<string, React.ReactNode> = {
   expertise: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>,
   performance: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
   security: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
@@ -20,11 +20,35 @@ const ICONS = {
   pricing: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
 }
 
+interface Service {
+  id: string;
+  tagline: string;
+  title: string;
+  desc: string;
+  price: string;
+  time: string;
+  cta: string;
+  features: string[];
+}
+
+interface BackupPlan {
+  tier: string;
+  price: string;
+  desc: string;
+  features: string[];
+}
+
+interface WhyUsItem {
+  title: string;
+  desc: string;
+  icon: string | React.ReactNode;
+}
+
 /* ── HERO DATA ────────────────────────────────────────────────────── */
 const heroData = {
   eyebrow: "WordPress Solutions",
-  headline: "Professional WordPress",
-  subheadline: "Development Services",
+  headline: "Professional WordPress Development Services",
+  subheadline: "Display Your Business Online with a WordPress Website",
   desc: "From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.",
   bullets: ["Custom Development", "Lightning Fast (Core Web Vitals)", "100% Secure", "SEO-Ready", "24/7 Support"],
   ctaPrimary: "Get Free WordPress Consultation",
@@ -33,14 +57,14 @@ const heroData = {
 }
 
 /* ── SERVICES DATA ─────────────────────────────────────────────────── */
-const SERVICES = [
+const SERVICES: Service[] = [
   {
     id: "development",
     tagline: "Custom Architecture",
     title: "Website Development",
-    desc: "Custom theme development, responsive design, SEO-optimized structure, and lead generation tools designed to convert visitors into customers.",
-    price: "$799+",
-    time: "2-4 Weeks",
+    desc: "Build your dream website from scratch with custom theme development, responsive design, and SEO-optimized structure designed to convert.",
+    price: "$799",
+    time: "2-3 Weeks",
     cta: "Start Your Project",
     features: ["Custom Theme Development", "Fully Responsive Design", "SEO-Optimized Structure", "Lead Generation Tools", "Post-Launch Support"]
   },
@@ -48,11 +72,11 @@ const SERVICES = [
     id: "migration",
     tagline: "Safe Transition",
     title: "Migration Services",
-    desc: "Seamless migration with zero data loss. We handle the technical heavy lifting, including SSL installation and configuration.",
-    price: "$299",
-    time: "48 Hours",
+    desc: "Seamless migration with zero data loss or downtime. We handle the technical heavy lifting, including SSL installation and SEO preservation.",
+    price: "$249",
+    time: "2-3 Days",
     cta: "Migrate Now",
-    features: ["Zero Data Loss Guarantee", "SSL Installation", "Database Optimization", "14 Days Support", "DNS Configuration"]
+    features: ["Zero Data Loss Guarantee", "SSL Installation", "Database Optimization", "SEO Preservation", "DNS Configuration"]
   },
   {
     id: "bugs",
@@ -60,7 +84,7 @@ const SERVICES = [
     title: "Bugs & Errors Fixing",
     desc: "Rapid resolution for 'White Screen of Death', 500 errors, database issues, and plugin conflicts that threaten your business continuity.",
     price: "$149",
-    time: "4-12 Hours",
+    time: "24-48 Hours",
     cta: "Fix My Site",
     features: ["Critical Error Resolution", "Plugin Conflicts", "Database Repair", "Theme Bug Fixing", "Security Hardening"]
   },
@@ -73,6 +97,16 @@ const SERVICES = [
     time: "5-7 Days",
     cta: "Boost My Speed",
     features: ["Image Optimization", "Advanced Caching", "CDN Configuration", "Database Cleaning", "Core Web Vitals Pass"]
+  },
+  {
+    id: "security",
+    tagline: "Cyber Defense",
+    title: "Security Services",
+    desc: "Protect your site from evolving threats with 24/7 threat monitoring, malware scanning, and proactive vulnerability assessments.",
+    price: "$299",
+    time: "3-5 Days",
+    cta: "Secure My Site",
+    features: ["24/7 Threat Monitoring", "Malware Scanning", "Vulnerability Assessment", "Firewall Configuration", "Security Auditing"]
   },
   {
     id: "redesign",
@@ -88,15 +122,15 @@ const SERVICES = [
     id: "multilingual",
     tagline: "Global Reach",
     title: "Multilingual Sites",
-    desc: "Reach international markets with WPML-powered multilingual WordPress solutions. Supporting 5+ languages with SEO parity.",
+    desc: "Reach international markets with WPML-powered multilingual WordPress solutions. Setup includes international SEO and language management.",
     price: "$899",
     time: "2-3 Weeks",
     cta: "Go Global",
-    features: ["WPML Configuration", "International SEO", "Hreflang Implementation", "Multi-Currency Setup", "Translation Management"]
+    features: ["WPML/Polylang Setup", "International SEO", "Hreflang Implementation", "Multi-Currency Setup", "Translation Management"]
   },
   {
     id: "virus-removal",
-    tagline: "Cyber Defense",
+    tagline: "Emergency Response",
     title: "Virus Removal",
     desc: "Emergency 24-48 hour service for infected sites. Complete malware scan, file cleaning, and Google Blacklist removal.",
     price: "$199",
@@ -106,49 +140,28 @@ const SERVICES = [
   }
 ]
 
-const maintenancePlans = [
-  {
-    tier: "Basic",
-    price: "$79/mo",
-    desc: "Essential protection for small sites",
-    features: ["1 Site", "Monthly Updates", "Monthly Backups", "Security Monitoring", "Email Support"]
-  },
-  {
-    tier: "Professional",
-    price: "$149/mo",
-    desc: "Advanced growth for scaling businesses",
-    features: ["Up to 3 Sites", "Weekly Updates", "Weekly Backups", "Performance Optimization", "Priority Support"]
-  },
-  {
-    tier: "Enterprise",
-    price: "$299/mo",
-    desc: "Full infrastructure management",
-    features: ["Up to 10 Sites", "Real-time Monitoring", "Emergency Malware Removal", "24/7 Support", "Performance Tuning"]
-  }
-]
-
-const backupPlans = [
+const backupPlans: BackupPlan[] = [
   {
     tier: "Basic Backup",
     price: "$29/mo",
     desc: "Daily automated protection",
-    features: ["Daily Backups", "30-Day Retention", "5GB Storage", "One-Click Restore", "Email Alerts"]
+    features: ["Daily Automated Backups", "30-Day Retention", "5GB Cloud Storage", "One-Click Restore", "Email Alerts"]
   },
   {
-    tier: "Pro Backup",
+    tier: "Advanced Backup",
     price: "$59/mo",
     desc: "Real-time enterprise safety",
-    features: ["Real-time Backups", "90-Day Retention", "50GB Storage", "Priority Restore", "Multiple Locations"]
+    features: ["Real-time Backups", "90-Day Retention", "50GB Cloud Storage", "Priority Restore", "Multiple Locations"]
   },
   {
     tier: "Enterprise Backup",
     price: "$99/mo",
     desc: "Custom infrastructure backup",
-    features: ["Custom Retention", "Unlimited Storage", "Continuous Sync", "Dedicated Support", "Bare-Metal Restore"]
+    features: ["Continuous Backups", "1-Year Retention", "Unlimited Storage", "Instant Recovery", "Dedicated Support"]
   }
 ]
 
-const activeWhyUs = [
+const activeWhyUs: WhyUsItem[] = [
   {
     title: "7+ Years Expertise",
     desc: "Perfecting WordPress since 2017 with 50+ successful enterprise projects delivered globally.",
@@ -189,12 +202,16 @@ const activeFaq = [
   { q: "Can I update the site myself?", a: "Yes, we provide full training and a user-friendly CMS interface for your team." },
   { q: "Is WordPress secure?", a: "Absolutely. With our hardening protocols and maintenance plans, your site remains enterprise-grade secure." },
   { q: "Will it be mobile-friendly?", a: "Yes, we use a mobile-first responsive approach for all WordPress developments." },
-  { q: "Do you offer SEO services?", a: "Yes, all sites follow SEO best practices, with dedicated SEO growth services available." }
+  { q: "Do you offer SEO services?", a: "Yes, all sites follow SEO best practices, with dedicated SEO growth services available." },
+  { q: "Can you redesign my existing WordPress site?", a: "Yes, we specialize in high-performance redesigns that modernize your brand while preserving your SEO and content data." },
+  { q: "What's included in post-launch support?", a: "Every project includes 30 days of free emergency support. Long-term maintenance plans are also available for ongoing growth." },
+  { q: "Which page builders do you use?", a: "We prefer Gutenberg or Elementor for their flexibility and performance, depending on your project requirements." },
+  { q: "How much do your maintenance plans cost?", a: "Our plans start at $79/mo for basic protection and go up to $299/mo for full enterprise infrastructure management." }
 ]
 
 export default async function WordPressPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const pageData = await getCollection<ServicePageDoc>('services').then(col => col?.findOne({ slug: 'wordpress' }))
+  // Use MongoDB data if needed in future, currently using doc-synced constants
+  // const pageData = await getCollection<ServicePageDoc>('services').then(col => col?.findOne({ slug: 'wordpress' }))
   
   return (
     <>
@@ -313,12 +330,12 @@ export default async function WordPressPage() {
                         <div style={{ display: 'inline-flex', padding: '4px 12px', background: 'rgba(255,77,109,0.1)', border: '1px solid rgba(255,77,109,0.2)', borderRadius: '4px', marginBottom: '24px' }}>
                            <span style={{ fontSize: '10px', color: '#ff4d6d', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>EMERGENCY RESPONSE</span>
                         </div>
-                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>{SERVICES[6].title}</h3>
+                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>{SERVICES[7].title}</h3>
                         <p style={{ color: '#7a7a9a', fontSize: '16px', lineHeight: 1.8, marginBottom: '40px' }}>
-                           {SERVICES[6].desc}
+                           {SERVICES[7].desc}
                         </p>
                         <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                           {SERVICES[6].features.map(f => (
+                           {SERVICES[7].features.map(f => (
                               <li key={f} style={{ fontSize: '13px', color: '#b0b0cc', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                  <div style={{ width: '4px', height: '4px', background: '#ff4d6d', borderRadius: '50%' }} /> {f}
                               </li>
@@ -341,7 +358,7 @@ export default async function WordPressPage() {
                         </div>
                         <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
                            <p style={{ fontSize: '10px', color: '#7a7a9a', textTransform: 'uppercase' }}>Starting At</p>
-                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>{SERVICES[6].price}</p>
+                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>{SERVICES[7].price}</p>
                         </div>
                      </div>
                   </div>
@@ -397,7 +414,11 @@ export default async function WordPressPage() {
                   <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Proactive care for your WordPress infrastructure.</p>
                </div>
                <div className="g-3">
-                  {maintenancePlans.map((plan, i) => (
+                  {[
+                    { tier: "Basic", price: "$79/mo", desc: "Essential protection for small sites", features: ["1 Site", "Monthly Updates", "Monthly Backups", "Security Monitoring", "Email Support"] },
+                    { tier: "Professional", price: "$149/mo", desc: "Advanced growth for scaling businesses", features: ["Up to 3 Sites", "Weekly Updates", "Weekly Backups", "Performance Optimization", "Priority Support"] },
+                    { tier: "Enterprise", price: "$299/mo", desc: "Full infrastructure management", features: ["Up to 10 Sites", "Real-time Monitoring", "Emergency Malware Removal", "24/7 Support", "Performance Tuning"] }
+                  ].map((plan, i) => (
                      <div key={plan.tier} className="tech-card shimmer-border" style={{ padding: '40px', borderRadius: '24px', position: 'relative' }}>
                         {i === 1 && <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'var(--grad)', color: '#fff', padding: '4px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: 800 }}>MOST POPULAR</div>}
                         <p style={{ ...hs, fontSize: '14px', color: 'var(--primary)', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase' }}>{plan.tier}</p>
@@ -419,7 +440,44 @@ export default async function WordPressPage() {
                </div>
             </div>
 
-            {/* 05. BACKUP SOLUTIONS */}
+            {/* 05. ADDITIONAL SOLUTIONS GRID */}
+            <div id="additional-services" className="sr" style={{ marginTop: '40px' }}>
+               <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+                  <h3 style={{ ...hs, fontSize: '32px', color: '#fff', marginBottom: '16px' }}>Additional WordPress Solutions</h3>
+                  <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Specific technical solutions for every stage of your site&apos;s lifecycle.</p>
+               </div>
+               <div className="g-2" style={{ gap: '24px' }}>
+                  {[SERVICES[4], SERVICES[5], SERVICES[6], SERVICES[1], SERVICES[2]].map((s: Service) => {
+                    const iconMap: Record<string, React.ReactNode> = {
+                      security: ICONS.security,
+                      redesign: ICONS.expertise,
+                      multilingual: ICONS.mobile,
+                      migration: ICONS.support,
+                      bugs: ICONS.security
+                    }
+                    return (
+                    <div key={s.id} className="tech-card" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'start' }}>
+                       <IconBox size={40} radius={12} style={{ border: 'none', background: 'rgba(255,255,255,0.03)', flexShrink: 0 }}>
+                          {iconMap[s.id] || ICONS.expertise}
+                       </IconBox>
+                       <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                             <h4 style={{ ...hs, fontSize: '18px', color: '#fff', fontWeight: 700 }}>{s.title}</h4>
+                             <span style={{ fontSize: '14px', color: 'var(--primary)', fontWeight: 800 }}>{s.price}</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.6, marginBottom: '16px' }}>{s.desc}</p>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                             {s.features.slice(0, 3).map(f => (
+                               <span key={f} style={{ fontSize: '10px', color: 'var(--text-3)', background: 'rgba(255,255,255,0.03)', padding: '4px 10px', borderRadius: '6px', textTransform: 'uppercase' }}>{f}</span>
+                             ))}
+                          </div>
+                       </div>
+                    </div>
+                  )})}
+               </div>
+            </div>
+
+            {/* 06. BACKUP SOLUTIONS */}
             <div id="backups" className="sr" style={{ marginTop: '40px' }}>
                <div style={{ textAlign: 'center', marginBottom: '64px' }}>
                   <h3 style={{ ...hs, fontSize: '32px', color: '#fff', marginBottom: '16px' }}>Backup Solutions</h3>
@@ -455,8 +513,8 @@ export default async function WordPressPage() {
             Why Choose ARIOSETECH for WordPress Development?
           </h2>
           <div className="g-3" style={{ gap: '20px' }}>
-            {activeWhyUs.map((r: any, i: number) => {
-              const Icon = typeof r.icon === 'string' ? ICONS[r.icon as keyof typeof ICONS] : r.icon
+            {activeWhyUs.map((r: WhyUsItem, i: number) => {
+              const Icon = typeof r.icon === 'string' ? ICONS[r.icon] : r.icon
               return (
               <div key={r.title} className="card card-hover sr" style={{ padding: '36px', animationDelay: `${i * 0.08}s`, position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
