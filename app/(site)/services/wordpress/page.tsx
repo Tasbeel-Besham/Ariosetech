@@ -203,7 +203,13 @@ export default async function WordPressPage() {
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
             <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
-            <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)',       {/* ── SERVICES SHOWCASE ─────────────────────────────────────────── */}
+            <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{heroData.startingPrice.split(' · ')[0]}</p>
+            <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── SERVICES SHOWCASE ─────────────────────────────────────────── */}
       <section className="section" style={{ padding: '160px 0', background: 'var(--bg)', position: 'relative' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '100px' }}>
