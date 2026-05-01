@@ -90,7 +90,7 @@ const F = { fontFamily: 'var(--font-display)' } as const
 const M = { fontFamily: 'var(--font-mono)' } as const
 const P = { background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } as const
 
-// ── COMPONENT ──────────────────────────────────────────────────────
+import TypingTerminal from '@/components/ui/TypingTerminal'
 
 export default async function WordPressPage() {
   const pagesCol = await getCollection<PageDoc>('pages')
@@ -207,11 +207,8 @@ export default async function WordPressPage() {
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
                 </div>
-                <div style={{ ...M, fontSize: '14px', lineHeight: 2.0 }}>
-                  <p style={{ color: '#00ffa3', opacity: 0.8 }}>[SCAN] /wp-content/themes/...</p>
-                  <p style={{ color: 'var(--primary)', fontWeight: 700 }}>[ALERT] Vulnerability Found: CVE-2024</p>
-                  <p style={{ color: '#00ffa3', opacity: 0.8 }}>[PATCH] Applying emergency hardening...</p>
-                  <p style={{ color: '#fff', fontWeight: 700 }}>[DONE] Site Fully Secured.</p>
+                <div style={{ height: '140px' }}>
+                  <TypingTerminal />
                 </div>
               </div>
             </div>
