@@ -229,44 +229,59 @@ export default async function WordPressPage() {
       />
 
       {/* ── ZIGZAG 1: SECURITY (Terminal Visual) ─────────────────────── */}
-      <section className="section" style={{ padding: '120px 0' }}>
+      <section className="section" style={{ padding: '100px 0' }}>
         <div className="container">
-           <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
-              <div className="sr">
-                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                    <IconBox size={44} radius={12}>
-                       {SECURITY_SERVICE.icon}
-                    </IconBox>
-                    <span className="status-badge status-badge--new" style={{ fontSize: '10px' }}>{SECURITY_SERVICE.tagline}</span>
+           <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
+              <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
+                 <div className="sr">
+                    <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '8px', background: 'rgba(255,50,100,0.08)', border: '1px solid rgba(255,50,100,0.2)', marginBottom: '32px' }}>
+                       <span style={{ ...M, fontSize: '10px', color: '#ff3e60', textTransform: 'uppercase', fontWeight: 800 }}>Cyber Defense</span>
+                    </div>
+                    <h2 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>SECURITY & VIRUS<br />REMOVAL</h2>
+                    <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>Protect your site from evolving threats with 24/7 monitoring and emergency virus removal services.</p>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 40px' }}>
+                       {['Malware Scanning', 'Firewall Setup', '2FA Implementation', 'Vulnerability Assessment'].map(f => (
+                          <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: '#fff', fontWeight: 500 }}>
+                             <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
+                             {f}
+                          </div>
+                       ))}
+                    </div>
                  </div>
-                 <h2 style={{ ...F, fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, marginBottom: '24px' }}>Bulletproof <span style={P}>Security</span></h2>
-                 <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>{SECURITY_SERVICE.desc}</p>
-                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '40px' }}>
-                    {SECURITY_SERVICE.features.map(f => (
-                       <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'var(--text-3)' }}>
-                          <StandardCheck size={18} />
-                          {f}
+
+                 <div className="sr" style={{ position: 'relative' }}>
+                    {/* Terminal Box */}
+                    <div style={{ background: '#080810', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '40px', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 120px rgba(0,0,0,0.5)' }}>
+                       <div style={{ position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none', background: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)', backgroundSize: '100% 3px' }} />
+                       
+                       {/* Terminal Header */}
+                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', opacity: 0.4 }}>
+                          <div style={{ display: 'flex', gap: '6px' }}>
+                             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f56' }} />
+                             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e' }} />
+                             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27c93f' }} />
+                          </div>
+                          <p style={{ ...M, fontSize: '10px' }}>root@ariosetech:~/security_audit</p>
                        </div>
-                    ))}
-                 </div>
-                 <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                    <p style={{ ...F, fontSize: '24px', color: '#fff' }}>{SECURITY_SERVICE.price}</p>
-                    <span className="tag">{SECURITY_SERVICE.timeline}</span>
-                    <Link href="/contact" className="btn btn-primary btn-md" style={{ marginLeft: 'auto' }}>Secure My Site</Link>
-                 </div>
-              </div>
-              <div className="sr" style={{ background: '#000', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '24px', padding: '32px', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.6)' }}>
-                 <div style={{ position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none', background: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)', backgroundSize: '100% 3px' }} />
-                 <div style={{ display: 'flex', gap: '6px', marginBottom: '20px' }}>
-                    {[1,2,3].map(i => <div key={i} style={{ width: '8px', height: '8px', borderRadius: '50%', background: i===1?'#ff5f56':i===2?'#ffbd2e':'#27c93f' }} />)}
-                 </div>
-                 <div style={{ ...M, fontSize: '13px', color: '#0f0', lineHeight: 1.6 }}>
-                    <p>{'>'} arisotech@defender:~$ run security-audit</p>
-                    <p style={{ color: '#fff', opacity: 0.7, marginTop: '8px' }}>[SCANNING DATABASE...]</p>
-                    <p style={{ color: '#fff', opacity: 0.7 }}>[VULNERABILITY CHECK: 0 ISSUES]</p>
-                    <p style={{ color: '#fff', opacity: 0.7 }}>[FIREWALL: ACTIVE]</p>
-                    <p style={{ color: '#fff', opacity: 0.7 }}>[SSL HANDSHAKE: SUCCESSFUL]</p>
-                    <p style={{ marginTop: '8px', fontWeight: 800 }}>STATUS: PROTECTED ✓</p>
+
+                       {/* Terminal Content */}
+                       <div style={{ ...M, fontSize: '14px', lineHeight: 2 }}>
+                          <p style={{ color: '#00ffa3' }}>{'>'} INIT SCAN...</p>
+                          <p style={{ color: '#00ffa3' }}>{'>'} CHECKING /wp-content/plugins...</p>
+                          <p style={{ color: '#ff3e60' }}>! ALERT: Trojan.Generic FOUND</p>
+                          <p style={{ color: '#00ffa3' }}>{'>'} ISOLATING THREAT...</p>
+                          <p style={{ color: '#00ffa3' }}>{'>'} DECRYPTING PAYLOAD...</p>
+                          <p style={{ color: '#00ffa3' }}>{'>'} REMOVING INJECTED SQL...</p>
+                          <p style={{ color: '#00ffa3' }}>{'>'} SYSTEM CLEAN. REBOOTING...</p>
+                       </div>
+                    </div>
+
+                    {/* Price Tag */}
+                    <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: '#0a0a14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '24px 32px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.4)', zIndex: 2 }}>
+                       <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Starting at</p>
+                       <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>$199</p>
+                    </div>
                  </div>
               </div>
            </div>
@@ -274,43 +289,49 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── ZIGZAG 2: OPTIMIZATION (Gauge Visual) ─────────────────────── */}
-      <section className="section section--dark" style={{ padding: '120px 0' }}>
+      <section className="section" style={{ padding: '0 0 100px' }}>
         <div className="container">
-           <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
-              <div className="sr" style={{ position: 'relative' }}>
-                 <div style={{ position: 'absolute', inset: '-10%', background: 'radial-gradient(circle, rgba(118,108,255,0.12) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-                 <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '64px', position: 'relative', textAlign: 'center', boxShadow: '0 40px 100px rgba(0,0,0,0.4)' }}>
-                    <div style={{ width: '160px', height: '160px', borderRadius: '50%', border: '10px solid rgba(118,108,255,0.1)', borderTopColor: 'var(--primary)', position: 'relative', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                       <p style={{ ...F, fontSize: '48px', fontWeight: 900 }}>99</p>
-                       <div style={{ position: 'absolute', bottom: '-24px', ...M, fontSize: '12px', color: 'var(--primary)', fontWeight: 800 }}>SPEED SCORE</div>
+           <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
+              <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
+                 {/* Left Content */}
+                 <div className="sr">
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '40px' }}>
+                       {[1,2,3].map(i => <div key={i} style={{ width: '40px', height: '2px', background: i===3?'var(--primary)':'rgba(255,255,255,0.1)' }} />)}
                     </div>
-                    <div style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                       <div><p style={{ ...F, fontSize: '20px' }}>0.2s</p><p style={{ ...M, fontSize: '10px', color: 'var(--text-3)' }}>RESPONSE</p></div>
-                       <div><p style={{ ...F, fontSize: '20px' }}>Pass</p><p style={{ ...M, fontSize: '10px', color: 'var(--text-3)' }}>VITALS</p></div>
-                    </div>
-                 </div>
-              </div>
-              <div className="sr">
-                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                    <IconBox size={44} radius={12}>
-                       {SPEED_SERVICE.icon}
-                    </IconBox>
-                    <span className="status-badge status-badge--new" style={{ fontSize: '10px' }}>{SPEED_SERVICE.tagline}</span>
-                 </div>
-                 <h2 style={{ ...F, fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, marginBottom: '24px' }}>Lightning <span style={P}>Fast</span> Speeds</h2>
-                 <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>{SPEED_SERVICE.desc}</p>
-                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', marginBottom: '40px' }}>
-                    {SPEED_SERVICE.features.map(f => (
-                       <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'var(--text-3)' }}>
-                          <StandardCheck size={20} />
-                          {f}
+                    <h2 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>CORE WEB VITALS<br />OPTIMIZATION</h2>
+                    <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '500px' }}>Boost your site speed by 40-70%. We optimize images, implement advanced caching, and perform server-level tuning for peak performance.</p>
+                    
+                    <div style={{ display: 'flex', gap: '64px' }}>
+                       <div>
+                          <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>Time to Interactive</p>
+                          <p style={{ ...F, fontSize: '32px', fontWeight: 800, color: 'var(--primary)' }}>0.8s</p>
                        </div>
-                    ))}
+                       <div>
+                          <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>Speed Index</p>
+                          <p style={{ ...F, fontSize: '32px', fontWeight: 800, color: 'var(--primary)' }}>0.9s</p>
+                       </div>
+                    </div>
                  </div>
-                 <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                    <p style={{ ...F, fontSize: '24px', color: '#fff' }}>{SPEED_SERVICE.price}</p>
-                    <span className="tag">{SPEED_SERVICE.timeline}</span>
-                    <Link href="/contact" className="btn btn-outline btn-md" style={{ marginLeft: 'auto' }}>Optimize My Site</Link>
+
+                 {/* Right Visual */}
+                 <div className="sr" style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '64px 80px', textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.4)', width: '100%', maxWidth: '440px' }}>
+                       <div style={{ width: '180px', height: '180px', margin: '0 auto', position: 'relative' }}>
+                          <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
+                             <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.1)" strokeWidth="8" />
+                             <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
+                          </svg>
+                          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                             <p style={{ ...F, fontSize: '56px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
+                             <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginTop: '4px' }}>SCORE</p>
+                          </div>
+                       </div>
+                       <p style={{ fontSize: '14px', color: 'var(--text-2)', marginTop: '40px', fontWeight: 500 }}>Performance Rating</p>
+                       <div style={{ marginTop: '24px', padding: '10px 20px', borderRadius: '12px', background: 'rgba(39,201,63,0.08)', border: '1px solid rgba(39,201,63,0.2)', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#27c93f' }} />
+                          <span style={{ ...M, fontSize: '10px', color: '#27c93f', fontWeight: 800, textTransform: 'uppercase' }}>Core Web Vitals Pass</span>
+                       </div>
+                    </div>
                  </div>
               </div>
            </div>
