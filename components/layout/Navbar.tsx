@@ -207,7 +207,7 @@ function ServicesPanel({
       <div style={{ position: 'absolute', top: '-24px', left: 0, right: 0, height: '24px' }} />
       <Nub selected={selected} />
 
-      <div className="container" style={{ padding: '28px 0 32px' }}>
+      <div style={{ width: '100%', padding: '28px clamp(20px, 4vw, 48px) 32px' }}>
         {/* Tab row */}
         <div style={{ display: 'flex', gap: '6px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '20px' }}>
           {tabs.map(t => (
@@ -588,7 +588,7 @@ export default function Navbar() {
         borderBottom: scrolled ? '1px solid var(--border)' : 'none',
       transition: 'background 0.3s',
     }}>
-      <div className="container" style={{ display: 'flex', alignItems: 'center', height: '64px', gap: '20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', height: '64px', gap: '24px', width: '100%', padding: '0 clamp(20px, 4vw, 48px)' }}>
 
         {/* Logo */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
