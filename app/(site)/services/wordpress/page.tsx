@@ -460,7 +460,7 @@ export default async function WordPressPage() {
                        <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.7 }}>{s.desc}</p>
                     </div>
                  </div>
-               ))}
+               )})}
             </div>
          </div>
       </section>
