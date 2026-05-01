@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from 'react'
 
 const LOG_LINES = [
-  { text: '[  OK  ] Started Ariosetech Cyber Defense Engine.', color: '#00ffa3', delay: 400 },
-  { text: '[  OK  ] Mounted /wp-content/themes as read-only.', color: '#00ffa3', delay: 1000 },
-  { text: '[  OK  ] Initialized Cloudflare WAF handshake.', color: '#00ffa3', delay: 1600 },
-  { text: '[ INFO ] Scanning system for vulnerable entry points...', color: 'rgba(255,255,255,0.6)', delay: 2400 },
-  { text: '[ WARN ] Found legacy plugin: /plugins/old-plugin (v1.2.4)', color: '#ffbd2e', delay: 3200 },
-  { text: '[  OK  ] Patched vulnerability CVE-2024-8842.', color: '#00ffa3', delay: 4000 },
-  { text: '[  OK  ] Hardening complete. System status: SECURE.', color: '#00ffa3', bold: true, delay: 4800 },
+  { text: '[    0.000000] Linux version 6.5.0-ariosetech-core', color: 'rgba(255,255,255,0.4)', delay: 400 },
+  { text: '[    0.000000] Command line: BOOT_IMAGE=/vmlinuz-linux root=UUID=... ro', color: 'rgba(255,255,255,0.4)', delay: 800 },
+  { text: '[  OK  ] Started Security Hardening Service.', color: '#00ffa3', delay: 1400 },
+  { text: '[  OK  ] Initialized Advanced WAF Filter.', color: '#00ffa3', delay: 2000 },
+  { text: '[ INFO ] Audit: /wp-content integrity check PASSED', color: 'rgba(255,255,255,0.6)', delay: 2800 },
+  { text: '[  OK  ] Threat Isolation Layer: ACTIVE', color: '#00ffa3', bold: true, delay: 3500 },
+  { text: 'systemd[1]: Reached target Security Hardening.', color: '#fff', delay: 4200 },
 ]
 
 export default function TypingTerminal() {

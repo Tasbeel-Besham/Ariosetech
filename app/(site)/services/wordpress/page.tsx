@@ -245,7 +245,6 @@ export default async function WordPressPage() {
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
                   </div>
-                  <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', opacity: 0.6 }}>SSH ACTIVE</span>
                 </div>
                 <div style={{ height: '160px' }}>
                   <TypingTerminal />
