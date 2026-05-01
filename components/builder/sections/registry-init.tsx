@@ -570,10 +570,13 @@ export function initRegistry() {
       { type: 'text', name: 'title',    label: 'Section Title' },
       { type: 'text', name: 'subtitle', label: 'Subtitle' },
       { type: 'repeater', name: 'plans', label: 'Pricing Tiers', fields: [
-        { type: 'text',     name: 'tier',     label: 'Tier name' },
-        { type: 'text',     name: 'price',    label: 'Price' },
-        { type: 'text',     name: 'desc',     label: 'Short desc' },
-        { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
+        { type: 'text',     name: 'tier',      label: 'Tier name' },
+        { type: 'text',     name: 'price',     label: 'Price' },
+        { type: 'text',     name: 'desc',      label: 'Short desc' },
+        { type: 'textarea', name: 'features',  label: 'Features (comma separated)' },
+        { type: 'text',     name: 'ctaLabel',  label: 'Button Label' },
+        { type: 'text',     name: 'ctaHref',   label: 'Button Link' },
+        { type: 'checkbox', name: 'isPopular', label: 'Most Popular Badge?' },
       ]},
     ],
   })
