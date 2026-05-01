@@ -1,3 +1,24 @@
+import React from 'react'
+import Link from 'next/link'
+import { Check, ArrowRight } from 'lucide-react'
+
+interface Item {
+  icon: string
+  title: string
+  headline: string
+  desc: string
+  features: string
+  price: string
+  href: string
+  ctaLabel?: string
+}
+
+interface Props {
+  eyebrow?: string
+  headline?: string
+  items?: Item[]
+}
+
 const SERVICE_ICONS: Record<string, React.ReactNode> = {
   wordpress: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>,
   woocommerce: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>,
@@ -55,7 +76,7 @@ export default function ServicesSection({ eyebrow='What We Offer', headline='Com
                       <p style={{ ...F, fontSize: '1.4rem', fontWeight: 800, color: '#fff' }}>{svc.price}</p>
                     </div>
                     <Link href={svc.href || '#'} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', fontSize: '13px', fontWeight: 700, fontFamily: 'var(--font-display)', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.3)', color: 'var(--primary)', textDecoration: 'none', transition: 'all 0.2s' }}>
-                      Learn More <ArrowRight size={12} />
+                      {svc.ctaLabel || 'Learn More'} <ArrowRight size={12} />
                     </Link>
                   </div>
                 </div>

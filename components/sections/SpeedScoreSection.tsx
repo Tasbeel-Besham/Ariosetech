@@ -15,7 +15,7 @@ const SpeedScoreSection = ({ title, desc, score = 99, metrics = [], statusLabel 
   return (
     <section className="section" style={{ background: 'var(--bg)', padding: '100px 0' }}>
       <div className="container">
-        <div className="tech-card" style={{ borderRadius: '32px', padding: '64px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }} className="grid-md-1">
+        <div className="tech-card grid-md-1" style={{ borderRadius: '32px', padding: '64px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }}>
           <div>
             <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
               {[1, 2, 3].map(i => (
@@ -65,7 +65,7 @@ const SpeedScoreSection = ({ title, desc, score = 99, metrics = [], statusLabel 
       </div>
       <style jsx>{`
         @media (max-width: 768px) {
-          .grid-md-1 { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .grid-md-1 { grid-template-columns: 1fr !important; gap: 40px !important; padding: 40px 24px !important; }
         }
       `}</style>
     </section>

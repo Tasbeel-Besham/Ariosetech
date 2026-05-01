@@ -161,6 +161,7 @@ export function initRegistry() {
         { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
         { type: 'text',     name: 'price',    label: 'Starting price' },
         { type: 'text',     name: 'href',     label: 'Link URL' },
+        { type: 'text',     name: 'ctaLabel', label: 'Button Text' },
       ]},
     ],
   })
@@ -310,7 +311,7 @@ export function initRegistry() {
       metrics: [
         { value: '150%', label: 'Avg Conversion Lift', desc: 'Our tailored e-commerce strategies and optimized UX consistently drive 150%+ conversion improvements for clients.' },
         { value: '98%', label: 'Client Satisfaction', desc: 'Every project is delivered with near-perfect precision — on time, on spec, and fully aligned with your business goals.' },
-        { value: '40%', label: 'Site Speed Gain', desc: 'Performance-first builds mean faster stores, better SEO rankings, and higher revenue from the same traffic.' },
+        { value: '99.9%', label: 'Uptime Guarantee', desc: 'We provide enterprise-grade reliability and 24/7 monitoring to ensure your business never misses a second of opportunity.' },
       ],
     },
     schema: [
@@ -591,17 +592,18 @@ export function initRegistry() {
       title: 'Speed Optimization',
       desc: 'Improve site speed by 40-70%. We optimize images, configure CDNs, and perform server-level tuning for peak performance.',
       score: 99,
+      statusLabel: 'CORE WEB VITALS PASS',
       metrics: [
         { label: 'Investment', value: '$399' },
         { label: 'Execution', value: '5-7 Days' }
       ]
     },
     schema: [
-      { type: 'text',     name: 'title', label: 'Section Title' },
-      { type: 'textarea', name: 'desc',  label: 'Description' },
-      { type: 'text',     name: 'statusLabel', label: 'Status Label (e.g. CORE WEB VITALS PASS)' },
-      { type: 'number',   name: 'score',     label: 'PageSpeed Score (0-100)' },
-      { type: 'repeater', name: 'metrics', label: 'Stats/Metrics', fields: [
+      { type: 'text',     name: 'title',       label: 'Section Title' },
+      { type: 'textarea', name: 'desc',        label: 'Description' },
+      { type: 'number',   name: 'score',       label: 'Score (0-100)' },
+      { type: 'text',     name: 'statusLabel', label: 'Status Badge Text' },
+      { type: 'repeater', name: 'metrics',     label: 'Metrics/Stats', fields: [
         { type: 'text', name: 'label', label: 'Label' },
         { type: 'text', name: 'value', label: 'Value' },
       ]},
