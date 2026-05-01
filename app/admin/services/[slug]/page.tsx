@@ -160,7 +160,7 @@ export default function ServiceEditorPage() {
                   newServices.splice(i, 1)
                   setData({ ...data, services: newServices })
                 }} style={{ position: 'absolute', top: '24px', right: '24px', color: '#ff6b6b' }}><Trash2 size={18} /></button>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-3)', marginBottom: '6px' }}>Service Title</label>
                     <input value={svc.title} onChange={e => {
@@ -168,6 +168,14 @@ export default function ServiceEditorPage() {
                       newServices[i].title = e.target.value
                       setData({ ...data, services: newServices })
                     }} style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', color: '#fff' }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-3)', marginBottom: '6px' }}>Section ID (Anchor Tag)</label>
+                    <input value={svc.id} placeholder="e.g. migration" onChange={e => {
+                      const newServices = [...(data.services || [])]
+                      newServices[i].id = e.target.value.toLowerCase().replace(/\s+/g, '-')
+                      setData({ ...data, services: newServices })
+                    }} style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', color: 'var(--blue)', fontWeight: 600 }} />
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-3)', marginBottom: '6px' }}>Price</label>
