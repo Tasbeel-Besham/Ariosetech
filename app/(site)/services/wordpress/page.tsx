@@ -198,10 +198,10 @@ export default async function WordPressPage() {
           <div className="g-2 sr" id="virus-removal" style={{ gap: '100px', alignItems: 'center', marginBottom: '160px', flexDirection: 'row-reverse' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: '#080812', border: '1px solid rgba(255,62,96,0.15)', borderRadius: '32px', padding: '48px', 
+                background: '#080812', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: '48px', 
                 position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.6)' 
               }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(to right, #ff3e60, #ff7b91)' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
@@ -209,7 +209,7 @@ export default async function WordPressPage() {
                 </div>
                 <div style={{ ...M, fontSize: '14px', lineHeight: 2.0 }}>
                   <p style={{ color: '#00ffa3', opacity: 0.8 }}>[SCAN] /wp-content/themes/...</p>
-                  <p style={{ color: '#ff3e60', fontWeight: 700 }}>[ALERT] Vulnerability Found: CVE-2024</p>
+                  <p style={{ color: 'var(--primary)', fontWeight: 700 }}>[ALERT] Vulnerability Found: CVE-2024</p>
                   <p style={{ color: '#00ffa3', opacity: 0.8 }}>[PATCH] Applying emergency hardening...</p>
                   <p style={{ color: '#fff', fontWeight: 700 }}>[DONE] Site Fully Secured.</p>
                 </div>
@@ -217,24 +217,29 @@ export default async function WordPressPage() {
             </div>
 
             <div id="security">
-              <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(255,62,96,0.08)', border: '1px solid rgba(255,62,96,0.2)', marginBottom: '32px' }}>
-                <span style={{ ...M, fontSize: '10px', color: '#ff3e60', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SECURITY_SERVICE.tagline}</span>
+              <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
+                <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SECURITY_SERVICE.tagline}</span>
               </div>
               <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
-                Security & <span style={{ background: 'linear-gradient(135deg, #ff3e60 0%, #ff7b91 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Hardening</span>
+                Security & <span style={P}>Hardening</span>
               </h2>
               <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>
                 {SECURITY_SERVICE.desc}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '40px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '40px' }}>
                 {SECURITY_SERVICE.features.map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: 'var(--text-3)' }}>
-                    <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ff3e60' }} />
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
+                    <div style={{ 
+                      width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(118,108,255,0.1)', 
+                      border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
+                    }}>
+                      <div style={{ color: 'var(--primary)' }}><StandardCheck size={14} /></div>
+                    </div>
                     {f}
                   </div>
                 ))}
               </div>
-              <Link href="/contact" className="btn btn-outline btn-lg" style={{ borderColor: 'rgba(255,62,96,0.3)', color: '#ff7b91' }}>Request Security Audit</Link>
+              <Link href="/contact" className="btn btn-primary btn-lg">Request Security Audit <ArrowSVG size={18} /></Link>
             </div>
           </div>
 
