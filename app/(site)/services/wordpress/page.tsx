@@ -25,9 +25,9 @@ const HERO_DATA = {
 const SECURITY_SERVICE = {
   id: "security",
   tagline: "Cyber Defense",
-  title: "WordPress Security & Malware Removal",
-  desc: "Protect your site from hackers and malware with enterprise-grade security. We provide complete scanning and removal services to ensure your business remains safe.",
-  features: ["Malware scanning/removal", "Firewall installation", "Security hardening", "Blacklist removal", "24/7 threat monitoring"],
+  title: "Security & Hardening",
+  desc: "Protect your digital assets with kernel-level hardening. We provide real-time malware monitoring, WAF rule injection, and proactive vulnerability patching to ensure total peace of mind.",
+  features: ["Real-time Malware Shield", "Advanced WAF Configuration", "Vulnerability Patching", "SSL/TLS Handshake Audit", "24/7 Threat Monitoring"],
   price: "$299",
   timeline: "Emergency available"
 }
@@ -35,10 +35,10 @@ const SECURITY_SERVICE = {
 // Pixel Perfect Vertical 2: Optimization (Based on Shopify Screenshot)
 const SPEED_SERVICE = {
   id: "optimization",
-  tagline: "Performance Optimization",
-  title: "WordPress Speed Optimization",
-  desc: "Improve Core Web Vitals and loading times by 40-70%. We optimize theme code, audit plugin performance, and tune assets for maximum conversion.",
-  features: ["Image compression", "Caching implementation", "Database cleanup", "CSS/JS minification", "CDN setup", "Server optimizations"],
+  tagline: "Extreme Performance",
+  title: "Performance Optimization",
+  desc: "Dominate Core Web Vitals with 99+ scores. We implement edge caching, database query optimization, and advanced asset delivery to ensure your site loads in under 1 second.",
+  features: ["Edge Caching (Cloudflare)", "Redis Object Caching", "Gzip/Brotli Compression", "Critical CSS Generation", "Database Indexing & Cleanup", "Server-Level Optimization"],
   price: "$399",
   timeline: "5-7 days"
 }
@@ -46,10 +46,10 @@ const SPEED_SERVICE = {
 // Flagship Service 01: Website Development
 const DEV_SERVICE = {
   id: "development",
-  tagline: "Scalable Solutions",
-  title: "WordPress Website Development",
-  desc: "Build Your Dream Website from Scratch. Transform your vision into a stunning, high-performing WordPress website tailored to your exact needs.",
-  features: ["Custom theme development", "Responsive design", "SEO-optimized structure", "Lead generation tools", "Social media integration", "Google Analytics setup", "30 days of free support"],
+  tagline: "Advanced Architecture",
+  title: "Bespoke WordPress Development",
+  desc: "Engineered for speed and built for scale. We specialize in high-performance Headless WordPress, custom API integrations, and enterprise-grade themes tailored to your specific business logic.",
+  features: ["Headless WordPress (React/Next)", "Custom API & CRM Integration", "ACF & Gutenberg Custom Blocks", "Scalable Multi-site Networks", "High-Performance Theme Design", "Advanced Security Protocols", "30 Days Post-Launch Support"],
   price: "$799",
   timeline: "2-3 weeks"
 }
@@ -145,10 +145,10 @@ export default async function WordPressPage() {
         <div className="container">
           
           {/* Vertical 01: Development (Text Right, Visual Left) */}
-          <div className="g-2 sr" id="development" style={{ gap: '100px', alignItems: 'center', marginBottom: '160px' }}>
+          <div className="g-2 sr" id="development" style={{ gap: '120px', alignItems: 'center', marginBottom: '200px' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '32px', padding: '60px', textAlign: 'center', 
+                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '80px 60px', textAlign: 'center', 
                 position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden' 
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
@@ -211,7 +211,7 @@ export default async function WordPressPage() {
           </div>
 
           {/* Vertical 02: Security (Zig-Zag: Text Left, Visual Right) */}
-          <div className="g-2 sr" id="virus-removal" style={{ gap: '100px', alignItems: 'center', marginBottom: '160px' }}>
+          <div className="g-2 sr" id="virus-removal" style={{ gap: '120px', alignItems: 'center', marginBottom: '200px' }}>
             <div id="security">
               <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SECURITY_SERVICE.tagline}</span>
@@ -265,10 +265,10 @@ export default async function WordPressPage() {
           </div>
 
           {/* Vertical 03: Speed (Zig-Zag: Visual Left, Text Right) */}
-          <div className="g-2 sr" id="speed" style={{ gap: '100px', alignItems: 'center' }}>
+          <div className="g-2 sr" id="speed" style={{ gap: '120px', alignItems: 'center', marginBottom: '100px' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '32px', padding: '60px', 
+                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '80px 60px', 
                 textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden'
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />

@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react'
 
 const LOG_LINES = [
-  { text: 'ariosetech@server-01:~$ wp-security scan --deep', color: '#fff', delay: 500 },
-  { text: '[INFO] Initializing core file integrity check...', color: 'rgba(255,255,255,0.6)', delay: 1500 },
-  { text: '[SCAN] Searching /wp-content/uploads for backdoors...', color: 'rgba(255,255,255,0.6)', delay: 2500 },
-  { text: '[ALERT] Found suspicious script: ./uploads/2023/12/wp-cache.php', color: 'var(--primary)', bold: true, delay: 3500 },
-  { text: '[ACTION] Isolating threat and patching vulnerability...', color: '#00ffa3', delay: 4500 },
-  { text: '[SUCCESS] Malware removed. Site hardening complete.', color: '#00ffa3', bold: true, delay: 5500 },
+  { text: 'root@ariosetech-cloud:~# sudo wp-security --harden --all', color: '#fff', delay: 500 },
+  { text: '[SYSTEM] Applying kernel-level WAF rules...', color: 'rgba(255,255,255,0.6)', delay: 1200 },
+  { text: '[SQL] Sanitizing database queries (SQLi Protection)', color: 'rgba(255,255,255,0.6)', delay: 2000 },
+  { text: '[AUTH] 2FA forced on all administrative endpoints', color: 'rgba(255,255,255,0.6)', delay: 2800 },
+  { text: '[SUCCESS] Firewall optimized. 0 vulnerabilities found.', color: '#00ffa3', bold: true, delay: 3500 },
+  { text: 'root@ariosetech-cloud:~# journalctl -u wp-firewall -f', color: '#fff', delay: 4200 },
 ]
 
 export default function TypingTerminal() {
