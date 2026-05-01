@@ -334,10 +334,7 @@ export default async function WordPressPage() {
                {ADDITIONAL_GRID.map((s) => {
                  const mappedId = s.id === 'security-svc' ? 'security' : (s.id === 'bugfixing' ? 'bugs' : s.id)
                  return (
-                 <div key={s.id} id={mappedId} className="sr" style={{ padding: '32px', background: 'rgba(255,255,255,0.01)', borderLeft: '2px solid rgba(118,108,255,0.1)', borderRadius: '0 16px 16px 0', display: 'flex', gap: '24px', alignItems: 'flex-start', transition: 'all 0.3s ease' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderLeftColor = 'var(--primary)'; e.currentTarget.style.background = 'rgba(118,108,255,0.03)' }}
-                    onMouseLeave={e => { e.currentTarget.style.borderLeftColor = 'rgba(118,108,255,0.1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.01)' }}
-                 >
+                 <div key={s.id} id={mappedId} className="sr card card-hover" style={{ padding: '32px', background: 'rgba(255,255,255,0.01)', borderLeft: '2px solid rgba(118,108,255,0.1)', borderRadius: '0 16px 16px 0', display: 'flex', gap: '24px', alignItems: 'flex-start', transition: 'all 0.3s ease' }}>
                     <IconBox size={48} radius={12}>{s.icon}</IconBox>
                     <div style={{ flex: 1 }}>
                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
