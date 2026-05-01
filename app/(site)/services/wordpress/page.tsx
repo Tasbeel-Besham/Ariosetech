@@ -20,129 +20,91 @@ const ICONS = {
   pricing: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
 }
 
+/* ── HERO DATA ────────────────────────────────────────────────────── */
+const heroData = {
+  eyebrow: "WordPress Solutions",
+  headline: "Professional WordPress",
+  subheadline: "Development Services",
+  desc: "From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.",
+  bullets: ["Custom Development", "Lightning Fast (Core Web Vitals)", "100% Secure", "SEO-Ready", "24/7 Support"],
+  ctaPrimary: "Get Free WordPress Consultation",
+  ctaSecondary: "View WordPress Portfolio",
+  startingPrice: "Starting at $799 · 30-Day Money-Back Guarantee · Free Post-Launch Support"
+}
+
 /* ── SERVICES DATA ─────────────────────────────────────────────────── */
 const SERVICES = [
   {
-    id: 'development',
-    title: 'WordPress Website Development',
-    tagline: 'Build Your Dream Website from Scratch',
-    price: '$799',
-    time: '2–3 weeks',
-    desc: 'Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out from the competition while delivering exceptional user experience.',
-    features: ['Custom theme development from your designs', 'Responsive design across all devices', 'SEO-optimized structure and content', 'Contact forms and lead generation tools', 'Social media integration', 'Google Analytics setup', 'Basic on-page SEO optimization', '30 days of free support'],
-    perfectFor: ['New businesses launching online', 'Companies needing complete website overhaul', 'Brands requiring unique, custom designs', 'Businesses with specific functionality requirements'],
-    cta: 'Get Started',
+    id: "development",
+    tagline: "Custom Architecture",
+    title: "Website Development",
+    desc: "Custom theme development, responsive design, SEO-optimized structure, and lead generation tools designed to convert visitors into customers.",
+    price: "$799+",
+    time: "2-4 Weeks",
+    cta: "Start Your Project",
+    features: ["Custom Theme Development", "Fully Responsive Design", "SEO-Optimized Structure", "Lead Generation Tools", "Post-Launch Support"]
   },
   {
-    id: 'migration',
-    title: 'WordPress Migration Services',
-    tagline: 'Seamless Migration Without Downtime',
-    price: '$299',
-    time: '3–5 days',
-    desc: 'Moving to WordPress or changing hosts? We handle the entire migration process while ensuring zero data loss and minimal downtime. Your SEO rankings and user experience remain intact.',
-    features: ['Complete site backup and migration', 'Domain and hosting setup assistance', 'SSL certificate installation', 'Email migration (if required)', 'Speed and performance optimization', 'SEO preservation techniques', 'Testing across all devices', '14 days of post-migration support'],
-    perfectFor: ['Sites moving from Wix, Squarespace, etc.', 'WordPress to WordPress migrations', 'Hosting provider changes', 'Development to live site transfers'],
-    cta: 'Migrate My Site',
+    id: "migration",
+    tagline: "Safe Transition",
+    title: "Migration Services",
+    desc: "Seamless migration with zero data loss. We handle the technical heavy lifting, including SSL installation and configuration.",
+    price: "$299",
+    time: "48 Hours",
+    cta: "Migrate Now",
+    features: ["Zero Data Loss Guarantee", "SSL Installation", "Database Optimization", "14 Days Support", "DNS Configuration"]
   },
   {
-    id: 'bugs',
-    title: 'WordPress Bug & Error Fixing',
-    tagline: 'Quick Resolution for WordPress Issues',
-    price: '$149',
-    time: '24–48 hours',
-    desc: 'Is your WordPress site showing errors, broken pages, or strange behavior? Our experts diagnose and fix issues quickly, getting your site back to peak performance.',
-    features: ['White screen of death & 500 error fixes', 'Database connection error resolution', 'Plugin conflicts and compatibility fixes', 'Theme-related problem solving', 'Broken layouts and design fixes', 'Login and admin access restoration', 'Email functionality fixes', '7 days of post-fix monitoring'],
-    perfectFor: ['Sites experiencing sudden errors', 'Businesses losing revenue due to downtime', 'WordPress sites with plugin conflicts', 'Emergency fixes needed urgently'],
-    cta: 'Fix My Site Now',
+    id: "bugs",
+    tagline: "Priority Repair",
+    title: "Bugs & Errors Fixing",
+    desc: "Rapid resolution for 'White Screen of Death', 500 errors, database issues, and plugin conflicts that threaten your business continuity.",
+    price: "$149",
+    time: "4-12 Hours",
+    cta: "Fix My Site",
+    features: ["Critical Error Resolution", "Plugin Conflicts", "Database Repair", "Theme Bug Fixing", "Security Hardening"]
   },
   {
-    id: 'maintenance',
-    title: 'WordPress Maintenance & Support',
-    tagline: 'Keep Your WordPress Site Running Smoothly',
-    price: '$79/mo',
-    time: 'Ongoing',
-    desc: 'Regular maintenance is crucial for WordPress security, performance, and reliability. Our comprehensive maintenance plans ensure your site stays updated, secure, and optimized.',
-    features: ['WordPress core, theme & plugin updates', 'Security monitoring and malware scans', 'Database optimization and cleanup', 'Broken link checks and fixes', 'Performance monitoring and reporting', 'Regular backups (stored securely)', 'Uptime monitoring', 'Priority support for issues'],
-    perfectFor: [],
-    cta: 'Choose Your Plan',
-    plans: [
-      { tier: 'Basic Plan', price: '$79/month', features: ['1 WordPress site', 'Monthly updates and backups', 'Basic security monitoring', 'Email support'] },
-      { tier: 'Professional Plan', price: '$149/month', features: ['Up to 3 WordPress sites', 'Weekly updates and backups', 'Advanced security features', 'Performance optimization', 'Priority email & chat support'] },
-      { tier: 'Enterprise Plan', price: '$299/month', features: ['Up to 10 WordPress sites', 'Real-time monitoring', 'Advanced security & malware removal', 'Speed optimization', '24/7 priority support', 'Monthly performance reports'] },
-    ],
+    id: "speed",
+    tagline: "Core Web Vitals",
+    title: "Speed Optimization",
+    desc: "Improve site speed by 40-70%. We optimize images, configure CDNs, and perform server-level tuning for peak performance.",
+    price: "$399",
+    time: "3-5 Days",
+    cta: "Boost My Speed",
+    features: ["Image Optimization", "Advanced Caching", "CDN Configuration", "Database Cleaning", "Core Web Vitals Pass"]
   },
   {
-    id: 'speed',
-    title: 'WordPress Speed Optimization',
-    tagline: 'Make Your WordPress Site Lightning Fast',
-    price: '$399',
-    time: '5–7 days',
-    desc: 'Slow websites lose customers and hurt search rankings. Our speed optimization service can improve your site speed by 40–70%, leading to better user experience and higher conversions.',
-    features: ['Comprehensive speed audit and analysis', 'Image optimization and compression', 'Caching implementation and configuration', 'Database optimization and cleanup', 'CSS and JavaScript minification', 'CDN setup and configuration', 'Core Web Vitals optimization', 'Mobile speed improvements'],
-    results: ['40–70% faster loading times', 'Improved Google PageSpeed scores', 'Better Core Web Vitals', 'Enhanced user experience', 'Higher search engine rankings'],
-    perfectFor: [],
-    cta: 'Speed Up My Site',
+    id: "virus-removal",
+    tagline: "Cyber Defense",
+    title: "Virus Removal",
+    desc: "Emergency 24-48 hour service for infected sites. Complete malware scan, file cleaning, and Google Blacklist removal.",
+    price: "$199",
+    time: "24-48 Hours",
+    cta: "Clean My Site",
+    features: ["Malware Identification", "Infected File Cleaning", "Blacklist Removal", "Security Hardening", "30-Day Monitoring"]
+  }
+]
+
+const maintenancePlans = [
+  {
+    tier: "Basic",
+    price: "$79/mo",
+    desc: "Essential protection for small sites",
+    features: ["1 Site", "Monthly Updates", "Monthly Backups", "Security Monitoring", "Email Support"]
   },
   {
-    id: 'security',
-    title: 'WordPress Security Services',
-    tagline: 'Protect Your WordPress Site from Threats',
-    price: '$299',
-    time: '3–5 days',
-    desc: 'WordPress security is not optional. Our comprehensive security service protects your site from hackers, malware, and other threats while ensuring compliance with security best practices.',
-    features: ['Malware scanning and removal', 'Firewall installation and configuration', 'Security plugin setup and optimization', 'Login security enhancements', 'File permission optimization', 'Database security improvements', 'SSL certificate installation', 'Security headers implementation'],
-    perfectFor: ['E-commerce websites', 'Sites handling sensitive data', 'Businesses requiring compliance', 'Sites previously hacked', 'High-traffic WordPress sites'],
-    cta: 'Secure My Site',
+    tier: "Professional",
+    price: "$149/mo",
+    desc: "Advanced growth for scaling businesses",
+    features: ["Up to 3 Sites", "Weekly Updates", "Weekly Backups", "Performance Optimization", "Priority Support"]
   },
   {
-    id: 'virus-removal',
-    title: 'WordPress Virus Removal',
-    tagline: 'Fast and Complete Malware Removal',
-    price: '$199',
-    time: '24–48 hours',
-    desc: 'Is your WordPress site infected with malware or viruses? We provide emergency malware removal services to get your site clean and secure quickly.',
-    features: ['Complete malware scan and removal', 'Infected file cleaning or replacement', 'Database cleanup and optimization', 'Security plugin installation', 'Firewall configuration', 'Google Safe Browsing removal', 'Security recommendations', '30-day monitoring period'],
-    perfectFor: ['Sites flagged by Google as dangerous', 'Hacked WordPress websites', 'Sites with unknown malware', 'Emergency malware removal'],
-    cta: 'Remove Malware Now',
-  },
-  {
-    id: 'backup',
-    title: 'WordPress Backup Solutions',
-    tagline: 'Never Lose Your WordPress Data Again',
-    price: '$29/mo',
-    time: 'Ongoing',
-    desc: 'Protect your valuable content and data with automated, reliable backup solutions. Our backup service ensures you can restore your site quickly in case of any emergency.',
-    features: ['Automated daily backups', 'Multiple backup storage locations', 'One-click restore functionality', 'Database and file backups', 'Incremental backup options', 'Encrypted secure storage', 'Easy backup management', 'Email notifications'],
-    perfectFor: [],
-    cta: 'Setup Backups',
-    plans: [
-      { tier: 'Basic Backup', price: '$29/month', features: ['Daily automated backups', '30-day backup retention', 'One-click restore', 'Email notifications'] },
-      { tier: 'Advanced Backup', price: '$59/month', features: ['Real-time backups', '90-day backup retention', 'Multiple restore points', 'Priority restoration support', 'Multiple storage locations'] },
-      { tier: 'Enterprise Backup', price: '$99/month', features: ['Continuous backups', '1-year backup retention', 'Instant recovery options', 'Dedicated backup support', 'Custom backup schedules'] },
-    ],
-  },
-  {
-    id: 'redesign',
-    title: 'WordPress Website Redesign',
-    tagline: 'Give Your WordPress Site a Fresh New Look',
-    price: '$1,299',
-    time: '3–4 weeks',
-    desc: 'Is your WordPress site looking outdated? Our redesign service transforms your existing site with modern design, improved functionality, and a better user experience.',
-    features: ['Modern, responsive design', 'Improved user experience', 'SEO optimization & speed improvement', 'Mobile-first approach', 'Content migration', 'Competitor analysis included', 'User experience audit', '30 days of support'],
-    perfectFor: ['Businesses with outdated websites', 'Companies wanting better conversions', 'Brands needing a modern refresh', 'Sites with poor mobile experience'],
-    cta: 'Redesign My Site',
-  },
-  {
-    id: 'multilingual',
-    title: 'WordPress Multilingual Websites',
-    tagline: 'Reach Global Audiences with Multilingual WordPress',
-    price: '$899',
-    time: '2–3 weeks',
-    desc: 'Expand your business globally with professionally developed multilingual WordPress websites. We create seamless multi-language experiences that engage international audiences.',
-    features: ['Multiple language setup and configuration', 'Professional translation management', 'SEO optimization for each language', 'Currency switcher integration', 'Language-specific content management', 'Automatic language detection', 'Multilingual menu and navigation', 'International SEO setup'],
-    perfectFor: ['International businesses', 'E-commerce stores selling globally', 'Service providers with global clientele', 'Organizations serving diverse communities'],
-    cta: 'Go Multilingual',
-  },
+    tier: "Enterprise",
+    price: "$299/mo",
+    desc: "Full infrastructure management",
+    features: ["Up to 10 Sites", "Real-time Monitoring", "Emergency Malware Removal", "24/7 Support", "Performance Tuning"]
+  }
 ]
 
 const PROCESS = [
@@ -241,13 +203,7 @@ export default async function WordPressPage() {
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
             <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
-            <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{heroData.startingPrice.split(' · ')[0]}</p>
-            <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
-          </div>
-        </div>
-      </section>
-
-      {/* ── SERVICES SHOWCASE ─────────────────────────────────────────── */}
+            <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)',       {/* ── SERVICES SHOWCASE ─────────────────────────────────────────── */}
       <section className="section" style={{ padding: '160px 0', background: 'var(--bg)', position: 'relative' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '100px' }}>
@@ -268,16 +224,16 @@ export default async function WordPressPage() {
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--grad)' }} />
                     <div style={{ marginBottom: '40px' }}>
                       <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.2em' }}>01 / FLAGSHIP SERVICE</span>
-                      <h3 style={{ ...hs, fontSize: '42px', fontWeight: 900, color: '#fff', marginTop: '16px', lineHeight: 1 }}>WordPress Website <br/>Development</h3>
+                      <h3 style={{ ...hs, fontSize: '42px', fontWeight: 900, color: '#fff', marginTop: '16px', lineHeight: 1 }}>{activeServices[0].title}</h3>
                     </div>
                     <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '500px' }}>
-                      High-end, custom-coded WordPress solutions for businesses that have outgrown templates and need enterprise-level performance.
+                      {activeServices[0].desc}
                     </p>
                     <div style={{ display: 'flex', gap: '16px' }}>
-                       <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '12px' }}>Start Building <ArrowSVG size={18}/></Link>
+                       <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '12px' }}>{activeServices[0].cta} <ArrowSVG size={18}/></Link>
                        <div style={{ padding: '0 24px', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                          <span style={{ fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Starting at</span>
-                         <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>$1,200</span>
+                         <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{activeServices[0].price}</span>
                        </div>
                     </div>
                   </div>
@@ -287,8 +243,8 @@ export default async function WordPressPage() {
                     <div>
                        <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '20px' }}>Engineered Stack</p>
                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                         {['React', 'Next.js', 'WP-API', 'PHP 8.3', 'MySQL'].map(t => (
-                           <span key={t} style={{ fontSize: '12px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>{t}</span>
+                         {activeServices[0].features.map(f => (
+                           <span key={f} style={{ fontSize: '10px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', textTransform: 'uppercase' }}>{f}</span>
                          ))}
                        </div>
                     </div>
@@ -321,12 +277,12 @@ export default async function WordPressPage() {
                         <div style={{ display: 'inline-flex', padding: '4px 12px', background: 'rgba(255,77,109,0.1)', border: '1px solid rgba(255,77,109,0.2)', borderRadius: '4px', marginBottom: '24px' }}>
                            <span style={{ fontSize: '10px', color: '#ff4d6d', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>EMERGENCY RESPONSE</span>
                         </div>
-                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>WordPress Virus <br/>Removal</h3>
+                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>{activeServices[4].title}</h3>
                         <p style={{ color: '#7a7a9a', fontSize: '16px', lineHeight: 1.8, marginBottom: '40px' }}>
-                           Instant recovery from hacks, blacklists, and malware. We don&apos;t just clean files; we immunize your entire infrastructure.
+                           {activeServices[4].desc}
                         </p>
                         <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                           {['Deep Core Scan', 'Blacklist Removal', 'Database Cleanup', 'Vulnerability Patching'].map(f => (
+                           {activeServices[4].features.map(f => (
                               <li key={f} style={{ fontSize: '13px', color: '#b0b0cc', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                  <div style={{ width: '4px', height: '4px', background: '#ff4d6d', borderRadius: '50%' }} /> {f}
                               </li>
@@ -339,7 +295,7 @@ export default async function WordPressPage() {
                            <div style={{ animation: 'scan 8s infinite linear' }}>
                               <p>&gt; INIT SCAN...</p>
                               <p>&gt; CHECKING /wp-content/plugins...</p>
-                              <p style={{ color: '#ff4d6d' }}>! ALERT: Trojan.Generic FOUND in elementor-pro.zip</p>
+                              <p style={{ color: '#ff4d6d' }}>! ALERT: Trojan.Generic FOUND</p>
                               <p>&gt; ISOLATING THREAT...</p>
                               <p>&gt; DECRYPTING PAYLOAD...</p>
                               <p>&gt; REMOVING INJECTED SQL...</p>
@@ -348,8 +304,8 @@ export default async function WordPressPage() {
                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 50%, rgba(0,229,160,0.02) 50%)', backgroundSize: '100% 4px', pointerEvents: 'none' }} />
                         </div>
                         <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
-                           <p style={{ fontSize: '10px', color: '#7a7a9a', textTransform: 'uppercase' }}>Restoration Time</p>
-                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>24h</p>
+                           <p style={{ fontSize: '10px', color: '#7a7a9a', textTransform: 'uppercase' }}>Starting At</p>
+                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>{activeServices[4].price}</p>
                         </div>
                      </div>
                   </div>
@@ -363,38 +319,74 @@ export default async function WordPressPage() {
                      <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
                         {[1,2,3].map(i => <div key={i} style={{ width: '40px', height: '4px', background: i === 3 ? 'var(--primary)' : 'rgba(255,255,255,0.1)', borderRadius: '2px' }} />)}
                      </div>
-                     <h3 style={{ ...hs, fontSize: '38px', color: '#fff', marginBottom: '24px' }}>WordPress Speed <br/>Optimization</h3>
+                     <h3 style={{ ...hs, fontSize: '38px', color: '#fff', marginBottom: '24px' }}>{activeServices[3].title}</h3>
                      <p style={{ color: 'var(--text-2)', fontSize: '17px', lineHeight: 1.8, marginBottom: '40px' }}>
-                        Millisecond-perfect performance. We optimize your Core Web Vitals to achieve the highest possible SEO ranking and conversion rates.
+                        {activeServices[3].desc}
                      </p>
                      <div style={{ display: 'flex', gap: '32px' }}>
                         <div>
-                           <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Target LCP</p>
-                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>&lt; 1.2s</p>
+                           <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Investment</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{activeServices[3].price}</p>
                         </div>
                         <div style={{ width: '1px', background: 'var(--border)' }} />
                         <div>
-                           <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Target CLS</p>
-                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>0.0</p>
+                           <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Execution</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{activeServices[3].time}</p>
                         </div>
                      </div>
                   </div>
 
                   <div style={{ position: 'relative' }}>
                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        {[
-                           { label: 'Asset Minification', value: '98%' },
-                           { label: 'Database Tuning', value: '94%' },
-                           { label: 'CDN Integration', value: '100%' },
-                           { label: 'Image Compression', value: '99%' }
-                        ].map(item => (
-                           <div key={item.label} style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
+                        {activeServices[3].features.map((f, idx) => (
+                           <div key={f} style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                 <span style={{ fontSize: '12px', color: '#fff', fontWeight: 600 }}>{item.label}</span>
-                                 <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 800 }}>{item.value}</span>
+                                 <span style={{ fontSize: '12px', color: '#fff', fontWeight: 600 }}>{f}</span>
+                                 <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 800 }}>{95 + idx}%</span>
                               </div>
                               <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px' }}>
-                                 <div style={{ width: item.value, height: '100%', background: 'var(--grad)', borderRadius: '2px' }} />
+                                 <div style={{ width: `${95 + idx}%`, height: '100%', background: 'var(--grad)', borderRadius: '2px' }} />
+                              </div>
+                           </div>
+                        ))}
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            {/* 04. MAINTENANCE PLANS (Pricing Grid) */}
+            <div id="maintenance" className="sr">
+               <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+                  <h3 style={{ ...hs, fontSize: '32px', color: '#fff', marginBottom: '16px' }}>Maintenance & Support Plans</h3>
+                  <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Proactive care for your WordPress infrastructure.</p>
+               </div>
+               <div className="g-3">
+                  {maintenancePlans.map((plan, i) => (
+                     <div key={plan.tier} className="tech-card shimmer-border" style={{ padding: '40px', borderRadius: '24px', position: 'relative' }}>
+                        {i === 1 && <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'var(--grad)', color: '#fff', padding: '4px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: 800 }}>MOST POPULAR</div>}
+                        <p style={{ ...hs, fontSize: '14px', color: 'var(--primary)', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase' }}>{plan.tier}</p>
+                        <p style={{ ...hs, fontSize: '32px', color: '#fff', fontWeight: 900, marginBottom: '16px' }}>{plan.price}</p>
+                        <p style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '32px' }}>{plan.desc}</p>
+                        <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '40px' }}>
+                           {plan.features.map(f => (
+                              <li key={f} style={{ fontSize: '14px', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                 <IconBox size={18} radius={4} style={{ border: 'none', background: 'rgba(118,108,255,0.1)' }}>
+                                    <CheckSVG size={8} />
+                                 </IconBox>
+                                 {f}
+                              </li>
+                           ))}
+                        </ul>
+                        <Link href="/contact" className={`btn ${i === 1 ? 'btn-primary' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', borderRadius: '12px' }}>Subscribe Now</Link>
+                     </div>
+                  ))}
+               </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+          <div style={{ width: item.value, height: '100%', background: 'var(--grad)', borderRadius: '2px' }} />
                               </div>
                            </div>
                         ))}
