@@ -145,16 +145,16 @@ export default async function WordPressPage() {
         <div className="container">
           
           {/* Vertical 01: Development (Text Right, Visual Left) */}
-          <div className="g-2 sr" id="development" style={{ gap: '120px', alignItems: 'center', marginBottom: '200px' }}>
+          <div className="g-2 sr" id="development" style={{ gap: '160px', alignItems: 'center', marginBottom: '200px' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '80px 60px', textAlign: 'center', 
+                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '100px 60px', textAlign: 'center', 
                 position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden' 
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
                 
                 {/* Floating Code Card */}
-                <div style={{ position: 'absolute', top: '20px', left: '-20px', background: '#0a0a0f', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px', textAlign: 'left', transform: 'rotate(-5deg)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', opacity: 0.8 }} className="hidden-mobile">
+                <div style={{ position: 'absolute', top: '40px', left: '-40px', background: '#0a0a0f', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px', textAlign: 'left', transform: 'rotate(-5deg)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', opacity: 0.8, zIndex: 3 }} className="hidden-mobile">
                   <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
                     <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ff5f56' }} />
                     <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ffbd2e' }} />
@@ -162,7 +162,7 @@ export default async function WordPressPage() {
                   <code style={{ fontSize: '10px', color: 'var(--primary)', opacity: 0.7 }}>&lt;wp:custom-theme /&gt;</code>
                 </div>
 
-                <div style={{ width: '200px', height: '200px', margin: '0 auto', position: 'relative' }}>
+                <div style={{ width: '220px', height: '220px', margin: '0 auto', position: 'relative' }}>
                   <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
                     <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.05)" strokeWidth="6" />
                     <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="6" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
@@ -175,11 +175,11 @@ export default async function WordPressPage() {
                   </div>
                 </div>
                 
-                <div style={{ marginTop: '40px', display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <div style={{ marginTop: '48px', display: 'flex', gap: '12px', justifyContent: 'center' }}>
                    {[1,2,3,4].map(i => <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: i===1?'var(--primary)':'var(--border)' }} />)}
                 </div>
               </div>
-              <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: 'rgba(10,10,20,0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px', padding: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', zIndex: 2 }} className="hidden-mobile">
+              <div style={{ position: 'absolute', bottom: '20px', right: '-40px', background: 'rgba(10,10,20,0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px', padding: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', zIndex: 4 }} className="hidden-mobile">
                  <p style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, marginBottom: '6px' }}>VITAL CHECK</p>
                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00ffa3' }} />
@@ -193,12 +193,12 @@ export default async function WordPressPage() {
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{DEV_SERVICE.tagline}</span>
               </div>
               <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
-                WordPress <span style={P}>Development</span>
+                Bespoke <span style={P}>WordPress</span> Dev
               </h2>
-              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '520px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '480px' }}>
                 {DEV_SERVICE.desc}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '48px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginBottom: '56px' }}>
                 {DEV_SERVICE.features.slice(0, 4).map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
                     <StandardCheck size={32} />
@@ -211,7 +211,7 @@ export default async function WordPressPage() {
           </div>
 
           {/* Vertical 02: Security (Zig-Zag: Text Left, Visual Right) */}
-          <div className="g-2 sr" id="virus-removal" style={{ gap: '120px', alignItems: 'center', marginBottom: '200px' }}>
+          <div className="g-2 sr" id="virus-removal" style={{ gap: '160px', alignItems: 'center', marginBottom: '200px' }}>
             <div id="security">
               <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SECURITY_SERVICE.tagline}</span>
@@ -219,10 +219,10 @@ export default async function WordPressPage() {
               <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
                 Security & <span style={P}>Hardening</span>
               </h2>
-              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '480px' }}>
                 {SECURITY_SERVICE.desc}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '40px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '56px' }}>
                 {SECURITY_SERVICE.features.map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
                     <StandardCheck size={32} />
@@ -265,45 +265,49 @@ export default async function WordPressPage() {
           </div>
 
           {/* Vertical 03: Speed (Zig-Zag: Visual Left, Text Right) */}
-          <div className="g-2 sr" id="speed" style={{ gap: '120px', alignItems: 'center', marginBottom: '100px' }}>
+          <div className="g-2 sr" id="speed" style={{ gap: '160px', alignItems: 'center', marginBottom: '100px' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
-                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '80px 60px', 
+                background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: '100px 60px', 
                 textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden'
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
                 
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '32px', marginBottom: '40px' }}>
-                  <div style={{ position: 'relative', width: '140px', height: '140px' }}>
-                    <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
-                      <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="12" />
-                      <circle cx="50" cy="50" r="44" fill="none" stroke="var(--primary)" strokeWidth="12" strokeDasharray="276" strokeDashoffset="2.7" strokeLinecap="round" />
-                    </svg>
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                      <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>99</p>
-                      <p style={{ ...M, fontSize: '8px', color: 'var(--primary)', fontWeight: 800 }}>PERF</p>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px' }}>
+                  <div style={{ width: '100%', maxWidth: '320px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                       <span style={{ ...M, fontSize: '10px', color: 'var(--text-3)', fontWeight: 800 }}>PERFORMANCE INDEX</span>
+                       <span style={{ ...M, fontSize: '10px', color: '#00ffa3', fontWeight: 800 }}>99/100</span>
+                    </div>
+                    <div style={{ width: '100%', height: '14px', background: 'rgba(255,255,255,0.05)', borderRadius: '7px', overflow: 'hidden', padding: '3px' }}>
+                       <div style={{ width: '99%', height: '100%', background: 'var(--grad)', borderRadius: '4px', boxShadow: '0 0 20px rgba(118,108,255,0.4)' }} />
                     </div>
                   </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ marginBottom: '16px' }}>
-                      <p style={{ ...M, fontSize: '9px', color: 'var(--text-3)', marginBottom: '2px' }}>FCP</p>
-                      <p style={{ ...F, fontSize: '18px', fontWeight: 800, color: '#00ffa3' }}>0.4s</p>
+
+                  <div style={{ display: 'flex', gap: '48px' }}>
+                    <div style={{ textAlign: 'center' }}>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', marginBottom: '6px' }}>FCP</p>
+                      <p style={{ ...F, fontSize: '28px', fontWeight: 900, color: '#00ffa3' }}>0.4s</p>
                     </div>
-                    <div>
-                      <p style={{ ...M, fontSize: '9px', color: 'var(--text-3)', marginBottom: '2px' }}>LCP</p>
-                      <p style={{ ...F, fontSize: '18px', fontWeight: 800, color: '#00ffa3' }}>0.8s</p>
+                    <div style={{ textAlign: 'center' }}>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', marginBottom: '6px' }}>LCP</p>
+                      <p style={{ ...F, fontSize: '28px', fontWeight: 900, color: '#00ffa3' }}>0.8s</p>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', marginBottom: '6px' }}>CLS</p>
+                      <p style={{ ...F, fontSize: '28px', fontWeight: 900, color: '#00ffa3' }}>0.01</p>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ padding: '24px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                    <span style={{ ...M, fontSize: '10px', color: 'var(--text-2)' }}>CORE WEB VITALS</span>
-                    <span style={{ ...M, fontSize: '10px', color: '#00ffa3' }}>OPTIMIZED</span>
+                <div style={{ marginTop: '56px', padding: '32px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <span style={{ ...M, fontSize: '11px', color: 'var(--text-2)', fontWeight: 700 }}>CORE WEB VITALS</span>
+                    <span style={{ ...M, fontSize: '11px', color: '#00ffa3', fontWeight: 800 }}>OPTIMIZED</span>
                   </div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
+                  <div style={{ display: 'flex', gap: '10px' }}>
                     {[1,2,3,4,5,6].map(i => (
-                      <div key={i} style={{ flex: 1, height: '6px', background: i < 6 ? 'var(--primary)' : 'rgba(255,255,255,0.1)', borderRadius: '3px' }} />
+                      <div key={i} style={{ flex: 1, height: '8px', background: i < 6 ? 'var(--primary)' : 'rgba(255,255,255,0.1)', borderRadius: '4px' }} />
                     ))}
                   </div>
                 </div>
@@ -315,22 +319,12 @@ export default async function WordPressPage() {
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SPEED_SERVICE.tagline}</span>
               </div>
               <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
-                Speed & <span style={P}>Optimization</span>
+                Extreme <span style={P}>Performance</span>
               </h2>
-              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '520px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '480px' }}>
                 {SPEED_SERVICE.desc}
               </p>
-              <div style={{ display: 'flex', gap: '40px', marginBottom: '40px' }}>
-                 <div>
-                    <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', marginBottom: '4px' }}>Mobile</p>
-                    <p style={{ ...F, fontSize: '24px', fontWeight: 900, color: '#fff' }}>90+</p>
-                 </div>
-                 <div>
-                    <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', marginBottom: '4px' }}>Desktop</p>
-                    <p style={{ ...F, fontSize: '24px', fontWeight: 900, color: '#fff' }}>99+</p>
-                 </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '48px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '56px' }}>
                 {SPEED_SERVICE.features.slice(0, 4).map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
                     <StandardCheck size={32} />

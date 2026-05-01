@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react'
 
 const LOG_LINES = [
-  { text: 'root@ariosetech-cloud:~# sudo wp-security --harden --all', color: '#fff', delay: 500 },
-  { text: '[SYSTEM] Applying kernel-level WAF rules...', color: 'rgba(255,255,255,0.6)', delay: 1200 },
-  { text: '[SQL] Sanitizing database queries (SQLi Protection)', color: 'rgba(255,255,255,0.6)', delay: 2000 },
-  { text: '[AUTH] 2FA forced on all administrative endpoints', color: 'rgba(255,255,255,0.6)', delay: 2800 },
-  { text: '[SUCCESS] Firewall optimized. 0 vulnerabilities found.', color: '#00ffa3', bold: true, delay: 3500 },
-  { text: 'root@ariosetech-cloud:~# journalctl -u wp-firewall -f', color: '#fff', delay: 4200 },
+  { text: '[  OK  ] Started Ariosetech Cyber Defense Engine.', color: '#00ffa3', delay: 400 },
+  { text: '[  OK  ] Mounted /wp-content/themes as read-only.', color: '#00ffa3', delay: 1000 },
+  { text: '[  OK  ] Initialized Cloudflare WAF handshake.', color: '#00ffa3', delay: 1600 },
+  { text: '[ INFO ] Scanning system for vulnerable entry points...', color: 'rgba(255,255,255,0.6)', delay: 2400 },
+  { text: '[ WARN ] Found legacy plugin: /plugins/old-plugin (v1.2.4)', color: '#ffbd2e', delay: 3200 },
+  { text: '[  OK  ] Patched vulnerability CVE-2024-8842.', color: '#00ffa3', delay: 4000 },
+  { text: '[  OK  ] Hardening complete. System status: SECURE.', color: '#00ffa3', bold: true, delay: 4800 },
 ]
 
 export default function TypingTerminal() {
