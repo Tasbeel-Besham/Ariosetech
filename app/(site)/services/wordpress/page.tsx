@@ -152,23 +152,39 @@ export default async function WordPressPage() {
                 position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden' 
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
-                <div style={{ width: '180px', height: '180px', margin: '0 auto', position: 'relative' }}>
+                
+                {/* Floating Code Card */}
+                <div style={{ position: 'absolute', top: '20px', left: '-20px', background: '#0a0a0f', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px', textAlign: 'left', transform: 'rotate(-5deg)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', opacity: 0.8 }} className="hidden-mobile">
+                  <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
+                    <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ff5f56' }} />
+                    <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ffbd2e' }} />
+                  </div>
+                  <code style={{ fontSize: '10px', color: 'var(--primary)', opacity: 0.7 }}>&lt;wp:custom-theme /&gt;</code>
+                </div>
+
+                <div style={{ width: '200px', height: '200px', margin: '0 auto', position: 'relative' }}>
                   <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
-                    <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(118,108,255,0.05)" strokeWidth="8" />
-                    <circle cx="50" cy="50" r="44" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="276.5" strokeDashoffset="27.65" strokeLinecap="round" />
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.05)" strokeWidth="6" />
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="6" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
+                    {/* Inner dash */}
+                    <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(118,108,255,0.1)" strokeWidth="1" strokeDasharray="4 4" />
                   </svg>
                   <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <p style={{ ...F, fontSize: '56px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
-                    <p style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800 }}>SPEED</p>
+                    <p style={{ ...F, fontSize: '64px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
+                    <p style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, letterSpacing: '0.1em' }}>SCORE</p>
                   </div>
                 </div>
+                
                 <div style={{ marginTop: '40px', display: 'flex', gap: '12px', justifyContent: 'center' }}>
-                   {[1,2,3,4].map(i => <div key={i} style={{ width: '8px', height: '8px', borderRadius: '50%', background: i===1?'var(--primary)':'var(--border)' }} />)}
+                   {[1,2,3,4].map(i => <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: i===1?'var(--primary)':'var(--border)' }} />)}
                 </div>
               </div>
-              <div style={{ position: 'absolute', bottom: '-40px', right: '-40px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px', padding: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', zIndex: 2 }} className="hidden-mobile">
-                 <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginBottom: '4px' }}>CORE WEB VITALS</p>
-                 <p style={{ ...F, fontSize: '16px', fontWeight: 700, color: '#fff' }}>Passed 100%</p>
+              <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: 'rgba(10,10,20,0.8)', backdropFilter: 'blur(12px)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px', padding: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', zIndex: 2 }} className="hidden-mobile">
+                 <p style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, marginBottom: '6px' }}>VITAL CHECK</p>
+                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00ffa3' }} />
+                    <p style={{ ...F, fontSize: '15px', fontWeight: 800, color: '#fff' }}>PASSED 100%</p>
+                 </div>
               </div>
             </div>
 
@@ -194,25 +210,8 @@ export default async function WordPressPage() {
             </div>
           </div>
 
-          {/* Vertical 02: Security (Text Left, Visual Right) */}
-          <div className="g-2 sr" id="virus-removal" style={{ gap: '100px', alignItems: 'center', marginBottom: '160px', flexDirection: 'row-reverse' }}>
-            <div style={{ position: 'relative' }}>
-              <div style={{ 
-                background: '#080812', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: '48px', 
-                position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.6)' 
-              }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
-                </div>
-                <div style={{ height: '140px' }}>
-                  <TypingTerminal />
-                </div>
-              </div>
-            </div>
-
+          {/* Vertical 02: Security (Zig-Zag: Text Left, Visual Right) */}
+          <div className="g-2 sr" id="virus-removal" style={{ gap: '100px', alignItems: 'center', marginBottom: '160px' }}>
             <div id="security">
               <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
                 <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SECURITY_SERVICE.tagline}</span>
@@ -233,26 +232,81 @@ export default async function WordPressPage() {
               </div>
               <Link href="/contact" className="btn btn-primary btn-lg">Request Security Audit <ArrowSVG size={18} /></Link>
             </div>
+
+            <div style={{ position: 'relative' }}>
+              <div style={{ 
+                background: '#080812', border: '1px solid rgba(118,108,255,0.15)', borderRadius: '32px', padding: '48px', 
+                position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.6)' 
+              }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
+                  </div>
+                  <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', opacity: 0.6 }}>SSH ACTIVE</span>
+                </div>
+                <div style={{ height: '160px' }}>
+                  <TypingTerminal />
+                </div>
+                {/* Progress Indicator */}
+                <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <span style={{ ...M, fontSize: '9px', color: 'var(--text-3)' }}>SECURE_PROTOCOL_SCAN</span>
+                    <span style={{ ...M, fontSize: '9px', color: 'var(--primary)' }}>92%</span>
+                  </div>
+                  <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px' }}>
+                    <div style={{ width: '92%', height: '100%', background: 'var(--primary)', borderRadius: '2px', boxShadow: '0 0 10px var(--primary)' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Vertical 03: Speed (Text Right, Visual Left) */}
+          {/* Vertical 03: Speed (Zig-Zag: Visual Left, Text Right) */}
           <div className="g-2 sr" id="speed" style={{ gap: '100px', alignItems: 'center' }}>
             <div style={{ position: 'relative' }}>
               <div style={{ 
                 background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '32px', padding: '60px', 
-                textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' 
+                textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.3)', overflow: 'hidden'
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '40px', alignItems: 'flex-end' }}>
-                   {[60, 40, 99].map((val, i) => (
-                      <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                         <div style={{ width: '40px', height: `${val}px`, background: i===2?'var(--primary)':'rgba(255,255,255,0.05)', borderRadius: '8px', transition: 'height 1s ease' }} />
-                         <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)' }}>{i===0?'LCP':i===1?'FID':'WP'}</p>
-                      </div>
-                   ))}
+                
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '32px', marginBottom: '40px' }}>
+                  <div style={{ position: 'relative', width: '140px', height: '140px' }}>
+                    <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
+                      <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="12" />
+                      <circle cx="50" cy="50" r="44" fill="none" stroke="var(--primary)" strokeWidth="12" strokeDasharray="276" strokeDashoffset="2.7" strokeLinecap="round" />
+                    </svg>
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                      <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>99</p>
+                      <p style={{ ...M, fontSize: '8px', color: 'var(--primary)', fontWeight: 800 }}>PERF</p>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ marginBottom: '16px' }}>
+                      <p style={{ ...M, fontSize: '9px', color: 'var(--text-3)', marginBottom: '2px' }}>FCP</p>
+                      <p style={{ ...F, fontSize: '18px', fontWeight: 800, color: '#00ffa3' }}>0.4s</p>
+                    </div>
+                    <div>
+                      <p style={{ ...M, fontSize: '9px', color: 'var(--text-3)', marginBottom: '2px' }}>LCP</p>
+                      <p style={{ ...F, fontSize: '18px', fontWeight: 800, color: '#00ffa3' }}>0.8s</p>
+                    </div>
+                  </div>
                 </div>
-                <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', marginTop: '32px' }}>0.8s</p>
-                <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800 }}>LOAD TIME</p>
+
+                <div style={{ padding: '24px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                    <span style={{ ...M, fontSize: '10px', color: 'var(--text-2)' }}>CORE WEB VITALS</span>
+                    <span style={{ ...M, fontSize: '10px', color: '#00ffa3' }}>OPTIMIZED</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    {[1,2,3,4,5,6].map(i => (
+                      <div key={i} style={{ flex: 1, height: '6px', background: i < 6 ? 'var(--primary)' : 'rgba(255,255,255,0.1)', borderRadius: '3px' }} />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
