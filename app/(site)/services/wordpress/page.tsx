@@ -70,9 +70,29 @@ const SERVICES = [
     title: "Speed Optimization",
     desc: "Improve site speed by 40-70%. We optimize images, configure CDNs, and perform server-level tuning for peak performance.",
     price: "$399",
-    time: "3-5 Days",
+    time: "5-7 Days",
     cta: "Boost My Speed",
     features: ["Image Optimization", "Advanced Caching", "CDN Configuration", "Database Cleaning", "Core Web Vitals Pass"]
+  },
+  {
+    id: "redesign",
+    tagline: "Conversion Focused",
+    title: "Website Redesign",
+    desc: "Modern, high-performance redesigns that transform outdated sites into lead-generation machines with improved UX/UI.",
+    price: "$1,299",
+    time: "3-4 Weeks",
+    cta: "Redesign My Site",
+    features: ["Modern UI/UX Design", "Performance Overhaul", "Mobile Optimization", "Content Migration", "Conversion Tracking"]
+  },
+  {
+    id: "multilingual",
+    tagline: "Global Reach",
+    title: "Multilingual Sites",
+    desc: "Reach international markets with WPML-powered multilingual WordPress solutions. Supporting 5+ languages with SEO parity.",
+    price: "$899",
+    time: "2-3 Weeks",
+    cta: "Go Global",
+    features: ["WPML Configuration", "International SEO", "Hreflang Implementation", "Multi-Currency Setup", "Translation Management"]
   },
   {
     id: "virus-removal",
@@ -107,104 +127,114 @@ const maintenancePlans = [
   }
 ]
 
-const PROCESS = [
-  { n: '01', title: 'Discovery & Planning', sub: 'Understand Your Vision', desc: 'Detailed requirement analysis, technical specifications, design wireframes, and project timeline.', time: '2–3 days' },
-  { n: '02', title: 'Design & Development', sub: 'Blueprint for Success', desc: 'Custom theme creation, functionality development, responsive design, and content integration.', time: '1–2 weeks' },
-  { n: '03', title: 'Testing & Optimization', sub: 'Ensuring Perfection', desc: 'Cross-browser testing, mobile responsiveness check, speed optimization, and security testing.', time: '3–5 days' },
-  { n: '04', title: 'Launch & Support', sub: 'Your Success, Our Priority', desc: 'Live deployment, training session, 30-day support period, and maintenance planning.', time: 'Ongoing' },
+const backupPlans = [
+  {
+    tier: "Basic Backup",
+    price: "$29/mo",
+    desc: "Daily automated protection",
+    features: ["Daily Backups", "30-Day Retention", "5GB Storage", "One-Click Restore", "Email Alerts"]
+  },
+  {
+    tier: "Pro Backup",
+    price: "$59/mo",
+    desc: "Real-time enterprise safety",
+    features: ["Real-time Backups", "90-Day Retention", "50GB Storage", "Priority Restore", "Multiple Locations"]
+  },
+  {
+    tier: "Enterprise Backup",
+    price: "$99/mo",
+    desc: "Custom infrastructure backup",
+    features: ["Custom Retention", "Unlimited Storage", "Continuous Sync", "Dedicated Support", "Bare-Metal Restore"]
+  }
 ]
 
-const FAQS = [
-  { q: 'How long does WordPress development take?', a: 'Most WordPress projects are completed within 2–4 weeks, depending on complexity and requirements.' },
-  { q: 'Do you provide WordPress hosting?', a: 'We can recommend reliable hosting providers and assist with setup, but we focus on development rather than hosting services.' },
-  { q: 'Can you work with existing WordPress sites?', a: 'Absolutely! We provide maintenance, optimization, and enhancement services for existing WordPress websites.' },
-  { q: "What's included in post-launch support?", a: 'All WordPress projects include 30 days of free support covering bug fixes, minor adjustments, and training.' },
-  { q: 'Do you use WordPress page builders?', a: 'We prefer custom development for better performance, but can work with page builders like Elementor or Gutenberg when requested.' },
-  { q: 'How much does WordPress maintenance cost?', a: 'Our maintenance plans start at $79/month and include updates, backups, security monitoring, and support.' },
+const activeWhyUs = [
+  {
+    title: "7+ Years Expertise",
+    desc: "Perfecting WordPress since 2017 with 50+ successful enterprise projects delivered globally.",
+    icon: "expertise"
+  },
+  {
+    title: "Custom Performance",
+    desc: "Clean code and high-impact optimization without heavy page builders or bloated plugins.",
+    icon: "performance"
+  },
+  {
+    title: "Enterprise Security",
+    desc: "Strict protocols from server-level hardening to application-layer protection and monitoring.",
+    icon: "security"
+  },
+  {
+    title: "SEO-First Architecture",
+    desc: "Clean URL structures, metadata optimization, and schema markup built into the core.",
+    icon: "mobile"
+  },
+  {
+    title: "Dedicated Support",
+    desc: "A long-term partnership with ongoing maintenance, scaling advice, and priority assistance.",
+    icon: "support"
+  }
+]
+
+const activeProcess = [
+  { n: "01", title: "Discovery & Planning", sub: "2-3 Days", desc: "Detailed requirement analysis, technical specifications, and user-experience wireframes." },
+  { n: "02", title: "Design & Development", sub: "1-2 Weeks", desc: "Custom theme creation, functionality coding, and seamless content integration." },
+  { n: "03", title: "Testing & Optimization", sub: "3-5 Days", desc: "Exhaustive cross-browser testing, security auditing, and speed performance tuning." },
+  { n: "04", title: "Launch & Support", sub: "Ongoing", desc: "Deployment, client training, and 30-day post-launch emergency support." }
+]
+
+const activeFaq = [
+  { q: "How long does WordPress development take?", a: "Most projects are completed within 2-4 weeks, depending on complexity." },
+  { q: "Do you provide WordPress hosting?", a: "We assist with setup and recommend the best providers optimized for WordPress performance." },
+  { q: "Can I update the site myself?", a: "Yes, we provide full training and a user-friendly CMS interface for your team." },
+  { q: "Is WordPress secure?", a: "Absolutely. With our hardening protocols and maintenance plans, your site remains enterprise-grade secure." },
+  { q: "Will it be mobile-friendly?", a: "Yes, we use a mobile-first responsive approach for all WordPress developments." },
+  { q: "Do you offer SEO services?", a: "Yes, all sites follow SEO best practices, with dedicated SEO growth services available." }
 ]
 
 export default async function WordPressPage() {
-  let dbData: Partial<ServicePageDoc> | null = null
-  try {
-    const col = await getCollection<ServicePageDoc>('services')
-    dbData = await col.findOne({ slug: 'wordpress' })
-  } catch {}
-
-  const activeServices = dbData?.services?.length ? dbData.services : SERVICES
-  const activeProcess = dbData?.process?.length ? dbData.process : PROCESS
-  const activeFaqs = dbData?.faqs?.length ? dbData.faqs : FAQS
-  const activeWhyUs = dbData?.whyUs?.length ? dbData.whyUs : [
-    { icon: 'expertise', title: '7+ Years WordPress Expertise', desc: "We've been perfecting WordPress development since 2017, delivering 50+ successful WordPress projects across various industries." },
-    { icon: 'performance', title: 'Performance-First Approach', desc: 'Every WordPress site we build is optimized for speed, security, and search engines from day one.' },
-    { icon: 'security', title: 'Security-Focused Development', desc: 'We implement enterprise-grade security measures to protect your WordPress site from threats.' },
-    { icon: 'mobile', title: 'Mobile-First Design', desc: 'All our WordPress sites are built with mobile users in mind, ensuring perfect performance across all devices.' },
-    { icon: 'support', title: 'Ongoing Support', desc: "We don't just build and leave. Our team provides continuous support to ensure your WordPress site thrives." },
-    { icon: 'pricing', title: 'Transparent Pricing', desc: 'No hidden costs or surprise fees. Our WordPress development pricing is upfront and honest.' },
-  ]
-  const heroData = dbData?.hero || {
-    eyebrow: 'WordPress Services',
-    headline: 'Professional WordPress',
-    subheadline: 'Development Services',
-    desc: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.',
-    bullets: [
-      'Custom Development — Tailored to your exact needs',
-      'Lightning Fast — Optimized for Core Web Vitals',
-      '100% Secure — Enterprise-grade security',
-      'SEO-Ready — Built for search engine success',
-      '24/7 Support — Always here when you need us'
-    ],
-    ctaPrimary: 'Get Free WordPress Consultation',
-    ctaSecondary: 'View WordPress Portfolio',
-    startingPrice: 'Starting at $799 · 30-Day Money-Back Guarantee · Free Post-Launch Support'
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const pageData = await getCollection<ServicePageDoc>('services').then(col => col?.findOne({ slug: 'wordpress' }))
+  
   return (
     <>
-      {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="section mesh-bg" style={{ position: 'relative', overflow: 'hidden', paddingTop: '140px', paddingBottom: '120px', borderBottom: '1px solid var(--border)' }}>
-        {/* Animated Background Elements */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 30%, transparent 100%)', pointerEvents: 'none', opacity: 0.2 }} />
+      <section className="hero section--dark" style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: '120px 0 80px' }}>
+        {/* Background Accents */}
+        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(118,108,255,0.08) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-5%', left: '-5%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(79,110,247,0.05) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(50px)', pointerEvents: 'none' }} />
         
-        {/* Floating Tech Spheres */}
-        <div style={{ position: 'absolute', top: '15%', left: '5%', width: '120px', height: '120px', background: 'radial-gradient(circle, rgba(118,108,255,0.15) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(20px)', animation: 'float 6s infinite ease-in-out' }} />
-        <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: '180px', height: '180px', background: 'radial-gradient(circle, rgba(79,110,247,0.12) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(40px)', animation: 'float 8s infinite ease-in-out reverse' }} />
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <p className="eyebrow sr" style={{ justifyContent: 'center', marginBottom: '24px' }}>{heroData.eyebrow}</p>
+            <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.8rem, 8vw, 5.5rem)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.05em', marginBottom: '32px', color: '#fff' }}>
+              {heroData.headline} <br />
+              <span style={P}>{heroData.subheadline}</span>
+            </h1>
+            <p className="sr" style={{ fontSize: '20px', color: 'var(--text-2)', maxWidth: '800px', margin: '0 auto 48px', lineHeight: 1.7, animationDelay: '0.15s' }}>
+              {heroData.desc}
+            </p>
+            
+            <div className="sr" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '32px', marginBottom: '64px', animationDelay: '0.25s' }}>
+              {heroData.bullets.map(b => (
+                <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <IconBox size={20} radius={6} style={{ border: 'none', background: 'rgba(118,108,255,0.15)' }}>
+                    <CheckSVG size={10} />
+                  </IconBox>
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{b}</span>
+                </div>
+              ))}
+            </div>
 
-        <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 20px', borderRadius: '100px', background: 'rgba(118,108,255,0.06)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '40px', backdropFilter: 'blur(10px)' }}>
-             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 15px var(--primary)', animation: 'blink 2s infinite' }} />
-             <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 800 }}>{heroData.eyebrow}</span>
-          </div>
-
-          <h1 className="sr glow-text" style={{ ...hs, fontSize: 'clamp(3rem, 7vw, 6rem)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.06em', marginBottom: '16px', maxWidth: '1100px', margin: '0 auto 16px' }}>
-            {heroData.headline}
-          </h1>
-          <h1 className="sr" style={{ ...hs, fontSize: 'clamp(3rem, 7vw, 6rem)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.06em', marginBottom: '40px', maxWidth: '1100px', margin: '0 auto 40px', ...P, animationDelay: '0.1s' }}>
-            {heroData.subheadline}
-          </h1>
-
-          <p className="sr" style={{ fontSize: '20px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '800px', margin: '0 auto 56px', animationDelay: '0.2s', fontWeight: 400 }}>
-            {heroData.desc}
-          </p>
-
-          <div className="sr" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '20px', marginBottom: '64px', animationDelay: '0.25s' }}>
-            {heroData.bullets?.map((b: string, i: number) => (
-              <div key={b} className="shimmer-border" style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '12px 24px', borderRadius: '16px', backdropFilter: 'blur(12px)', transition: 'all 0.3s var(--ease)', animation: `float ${5 + i}s infinite ease-in-out` }}>
-                <IconBox size={24} radius={8} style={{ border: 'none', background: 'var(--primary-soft)' }}>
-                  <CheckSVG size={12} />
-                </IconBox>
-                <span style={{ fontSize: '15px', color: '#fff', fontWeight: 600, letterSpacing: '0.02em' }}>{b.split(' — ')[0]}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="sr" style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '40px', animationDelay: '0.3s' }}>
-            <Link href="/contact" className="btn btn-primary btn-xl" style={{ boxShadow: '0 0 40px rgba(118,108,255,0.4)', borderRadius: '14px' }}>{heroData.ctaPrimary} <ArrowSVG size={20} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-xl" style={{ borderRadius: '14px', backdropFilter: 'blur(10px)' }}>{heroData.ctaSecondary}</Link>
-          </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-            <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
-            <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{heroData.startingPrice.split(' · ')[0]}</p>
-            <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
+            <div className="sr" style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '40px', animationDelay: '0.3s' }}>
+              <Link href="/contact" className="btn btn-primary btn-xl" style={{ boxShadow: '0 0 40px rgba(118,108,255,0.4)', borderRadius: '14px' }}>{heroData.ctaPrimary} <ArrowSVG size={20} /></Link>
+              <Link href="/portfolio" className="btn btn-outline btn-xl" style={{ borderRadius: '14px', backdropFilter: 'blur(10px)' }}>{heroData.ctaSecondary}</Link>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+              <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
+              <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{heroData.startingPrice.split(' · ')[0]}</p>
+              <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
+            </div>
           </div>
         </div>
       </section>
@@ -230,16 +260,16 @@ export default async function WordPressPage() {
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--grad)' }} />
                     <div style={{ marginBottom: '40px' }}>
                       <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.2em' }}>01 / FLAGSHIP SERVICE</span>
-                      <h3 style={{ ...hs, fontSize: '42px', fontWeight: 900, color: '#fff', marginTop: '16px', lineHeight: 1 }}>{activeServices[0].title}</h3>
+                      <h3 style={{ ...hs, fontSize: '42px', fontWeight: 900, color: '#fff', marginTop: '16px', lineHeight: 1 }}>{SERVICES[0].title}</h3>
                     </div>
                     <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '500px' }}>
-                      {activeServices[0].desc}
+                      {SERVICES[0].desc}
                     </p>
                     <div style={{ display: 'flex', gap: '16px' }}>
-                       <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '12px' }}>{activeServices[0].cta} <ArrowSVG size={18}/></Link>
+                       <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '12px' }}>{SERVICES[0].cta} <ArrowSVG size={18}/></Link>
                        <div style={{ padding: '0 24px', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                          <span style={{ fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Starting at</span>
-                         <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{activeServices[0].price}</span>
+                         <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{SERVICES[0].price}</span>
                        </div>
                     </div>
                   </div>
@@ -249,7 +279,7 @@ export default async function WordPressPage() {
                     <div>
                        <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '20px' }}>Engineered Stack</p>
                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                         {activeServices[0].features.map(f => (
+                         {SERVICES[0].features.map(f => (
                            <span key={f} style={{ fontSize: '10px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', textTransform: 'uppercase' }}>{f}</span>
                          ))}
                        </div>
@@ -283,12 +313,12 @@ export default async function WordPressPage() {
                         <div style={{ display: 'inline-flex', padding: '4px 12px', background: 'rgba(255,77,109,0.1)', border: '1px solid rgba(255,77,109,0.2)', borderRadius: '4px', marginBottom: '24px' }}>
                            <span style={{ fontSize: '10px', color: '#ff4d6d', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>EMERGENCY RESPONSE</span>
                         </div>
-                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>{activeServices[4].title}</h3>
+                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>{SERVICES[6].title}</h3>
                         <p style={{ color: '#7a7a9a', fontSize: '16px', lineHeight: 1.8, marginBottom: '40px' }}>
-                           {activeServices[4].desc}
+                           {SERVICES[6].desc}
                         </p>
                         <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                           {activeServices[4].features.map(f => (
+                           {SERVICES[6].features.map(f => (
                               <li key={f} style={{ fontSize: '13px', color: '#b0b0cc', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                  <div style={{ width: '4px', height: '4px', background: '#ff4d6d', borderRadius: '50%' }} /> {f}
                               </li>
@@ -311,7 +341,7 @@ export default async function WordPressPage() {
                         </div>
                         <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
                            <p style={{ fontSize: '10px', color: '#7a7a9a', textTransform: 'uppercase' }}>Starting At</p>
-                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>{activeServices[4].price}</p>
+                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>{SERVICES[6].price}</p>
                         </div>
                      </div>
                   </div>
@@ -325,26 +355,26 @@ export default async function WordPressPage() {
                      <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
                         {[1,2,3].map(i => <div key={i} style={{ width: '40px', height: '4px', background: i === 3 ? 'var(--primary)' : 'rgba(255,255,255,0.1)', borderRadius: '2px' }} />)}
                      </div>
-                     <h3 style={{ ...hs, fontSize: '38px', color: '#fff', marginBottom: '24px' }}>{activeServices[3].title}</h3>
+                     <h3 style={{ ...hs, fontSize: '38px', color: '#fff', marginBottom: '24px' }}>{SERVICES[3].title}</h3>
                      <p style={{ color: 'var(--text-2)', fontSize: '17px', lineHeight: 1.8, marginBottom: '40px' }}>
-                        {activeServices[3].desc}
+                        {SERVICES[3].desc}
                      </p>
                      <div style={{ display: 'flex', gap: '32px' }}>
                         <div>
                            <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Investment</p>
-                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{activeServices[3].price}</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{SERVICES[3].price}</p>
                         </div>
                         <div style={{ width: '1px', background: 'var(--border)' }} />
                         <div>
                            <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Execution</p>
-                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{activeServices[3].time}</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{SERVICES[3].time}</p>
                         </div>
                      </div>
                   </div>
 
                   <div style={{ position: 'relative' }}>
                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        {activeServices[3].features.map((f, idx) => (
+                        {SERVICES[3].features.map((f, idx) => (
                            <div key={f} style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                                  <span style={{ fontSize: '12px', color: '#fff', fontWeight: 600 }}>{f}</span>
@@ -389,9 +419,34 @@ export default async function WordPressPage() {
                </div>
             </div>
 
+            {/* 05. BACKUP SOLUTIONS */}
+            <div id="backups" className="sr" style={{ marginTop: '40px' }}>
+               <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+                  <h3 style={{ ...hs, fontSize: '32px', color: '#fff', marginBottom: '16px' }}>Backup Solutions</h3>
+                  <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Never lose your data again with automated cloud recovery.</p>
+               </div>
+               <div className="g-3">
+                  {backupPlans.map((plan, i) => (
+                     <div key={plan.tier} className="tech-card" style={{ padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                        <p style={{ ...hs, fontSize: '13px', color: 'var(--text-3)', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase' }}>{plan.tier}</p>
+                        <p style={{ ...hs, fontSize: '28px', color: '#fff', fontWeight: 900, marginBottom: '16px' }}>{plan.price}</p>
+                        <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                           {plan.features.map(f => (
+                              <li key={f} style={{ fontSize: '13px', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                 <div style={{ width: '4px', height: '4px', background: 'var(--primary)', borderRadius: '50%' }} />
+                                 {f}
+                              </li>
+                           ))}
+                        </ul>
+                     </div>
+                  ))}
+               </div>
+            </div>
+
           </div>
         </div>
       </section>
+
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
       <section className="section section--dark">
         <div className="container">
@@ -451,7 +506,7 @@ export default async function WordPressPage() {
                     <p style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Solution</p>
                     <p style={{ ...hs, fontSize: '15px', color: '#fff', fontWeight: 600, lineHeight: 1.5 }}>{cs.solution}</p>
                   </div>
-
+ 
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
                     <p style={{ ...hs, fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{cs.result}</p>
                     <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>{cs.resultLabel}</p>
@@ -462,7 +517,7 @@ export default async function WordPressPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ── FAQ ─────────────────────────────────────────────────── */}
       <section className="section section--dark" style={{ overflow: 'visible' }}>
         <div className="container">
@@ -480,16 +535,17 @@ export default async function WordPressPage() {
                 30-day money-back guarantee | Free training
               </p>
             </div>
+ 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {activeFaqs.map(({ q, a }: any, i: number) => (
-                <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
+              {activeFaq.map((faq, i) => (
+                <div key={i} className="sr" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
                   <details style={{ width:'100%' }}>
                     <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-                      <span style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{q}</span>
-                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG open={false} /></div>
+                      <span style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{faq.q}</span>
+                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG size={14} /></div>
                     </summary>
                     <div style={{ padding: '0 28px 24px' }}>
-                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
+                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{faq.a}</p>
                     </div>
                   </details>
                 </div>
@@ -498,7 +554,7 @@ export default async function WordPressPage() {
           </div>
         </div>
       </section>
-
+ 
       {/* ── CTA ─────────────────────────────────────────────────── */}
       <section className="section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(79,110,247,0.1) 0%, transparent 80%)', pointerEvents: 'none' }} />
