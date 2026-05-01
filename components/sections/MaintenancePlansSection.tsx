@@ -16,8 +16,8 @@ interface MaintenancePlansSectionProps {
   plans: Plan[]
 }
 
-const MaintenancePlansSection: React.FC<{ props: MaintenancePlansSectionProps }> = ({ props }) => {
-  const { title, subtitle, plans } = props
+const MaintenancePlansSection = ({ title, subtitle, plans }: MaintenancePlansSectionProps) => {
+  const safePlans = Array.isArray(plans) ? plans : []
 
   return (
     <section className="section" style={{ background: 'var(--bg)', padding: '100px 0' }}>
@@ -28,7 +28,7 @@ const MaintenancePlansSection: React.FC<{ props: MaintenancePlansSectionProps }>
         </div>
         
         <div className="g-3">
-          {(plans || []).map((plan, i) => (
+          {safePlans.map((plan, i) => (
             <div key={plan.tier} className="tech-card shimmer-border" style={{ padding: '40px', borderRadius: '24px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
               {i === 1 && (
                 <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'var(--grad)', color: '#fff', padding: '4px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: 800 }}>
@@ -40,7 +40,7 @@ const MaintenancePlansSection: React.FC<{ props: MaintenancePlansSectionProps }>
               <p style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '32px' }}>{plan.desc || 'Optimized performance and security'}</p>
               
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '40px', flex: 1 }}>
-                {(plan.features || []).map(f => (
+                {(Array.isArray(plan.features) ? plan.features : (typeof plan.features === 'string' ? (plan.features as string).split(',').map(f => f.trim()).filter(Boolean) : [])).map(f => (
                   <li key={f} style={{ fontSize: '14px', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <IconBox size={18} radius={4} style={{ border: 'none', background: 'rgba(118,108,255,0.1)' }}>
                       <CheckSVG size={8} />

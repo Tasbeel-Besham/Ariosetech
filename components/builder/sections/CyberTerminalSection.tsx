@@ -12,8 +12,10 @@ interface CyberTerminalSectionProps {
   statusText?: string
 }
 
-const CyberTerminalSection: React.FC<{ props: CyberTerminalSectionProps }> = ({ props }) => {
-  const { title, desc, features, price, tagline, statusText = 'root@ariosetech:~/malware_scanner' } = props
+const CyberTerminalSection = ({
+  title, desc, features, price, tagline, statusText = 'root@ariosetech:~/malware_scanner'
+}: CyberTerminalSectionProps) => {
+  const safeFeatures = Array.isArray(features) ? features : (typeof features === 'string' ? features.split(',').map(f => f.trim()).filter(Boolean) : [])
 
   return (
     <section className="section" style={{ background: 'var(--bg)', padding: '100px 0' }}>
@@ -35,7 +37,7 @@ const CyberTerminalSection: React.FC<{ props: CyberTerminalSectionProps }> = ({ 
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 2.5rem)', color: '#fff', marginBottom: '24px', fontWeight: 900 }}>{title}</h3>
               <p style={{ color: '#7a7a9a', fontSize: '16px', lineHeight: 1.8, marginBottom: '40px' }}>{desc}</p>
               <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                {(features || []).map(f => (
+                {safeFeatures.map(f => (
                   <li key={f} style={{ fontSize: '13px', color: '#b0b0cc', display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <div style={{ width: '4px', height: '4px', background: '#ff4d6d', borderRadius: '50%' }} /> {f}
                   </li>

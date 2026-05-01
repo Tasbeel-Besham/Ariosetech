@@ -8,8 +8,8 @@ interface SpeedScoreSectionProps {
   metrics: { label: string; value: string }[]
 }
 
-const SpeedScoreSection: React.FC<{ props: SpeedScoreSectionProps }> = ({ props }) => {
-  const { title, desc, score = 99, metrics = [] } = props
+const SpeedScoreSection = ({ title, desc, score = 99, metrics = [] }: SpeedScoreSectionProps) => {
+  const safeMetrics = Array.isArray(metrics) ? metrics : []
 
   return (
     <section className="section" style={{ background: 'var(--bg)', padding: '100px 0' }}>
@@ -25,7 +25,7 @@ const SpeedScoreSection: React.FC<{ props: SpeedScoreSectionProps }> = ({ props 
             <p style={{ color: 'var(--text-2)', fontSize: '17px', lineHeight: 1.8, marginBottom: '40px' }}>{desc}</p>
             
             <div style={{ display: 'flex', gap: '32px' }}>
-              {metrics.map(m => (
+              {safeMetrics.map(m => (
                 <div key={m.label}>
                   <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>{m.label}</p>
                   <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{m.value}</p>
