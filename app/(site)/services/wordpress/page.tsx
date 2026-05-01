@@ -210,8 +210,21 @@ const activeFaq = [
 ]
 
 export default async function WordPressPage() {
-  // Use MongoDB data if needed in future, currently using doc-synced constants
-  // const pageData = await getCollection<ServicePageDoc>('services').then(col => col?.findOne({ slug: 'wordpress' }))
+  const dbData = await getCollection<ServicePageDoc>('services').then(col => col?.findOne({ slug: 'wordpress' }))
+  
+  const activeServices    = dbData?.services?.length ? dbData.services : SERVICES
+  const activeFaqs        = dbData?.faqs?.length ? dbData.faqs : activeFaq
+  const activeWhyUsData   = dbData?.whyUs?.length ? dbData.whyUs : activeWhyUs
+  const activeProcessData = dbData?.process?.length ? dbData.process : activeProcess
+  const activeMaintenance = dbData?.maintenancePlans?.length ? dbData.maintenancePlans : backupPlans // Fallback to backupPlans since I used that name in hardcoded
+  const activeBackups     = dbData?.backupPlans?.length ? dbData.backupPlans : backupPlans
+  const activePortfolio   = dbData?.portfolio?.length ? dbData.portfolio : [
+    { industry: 'Professional Services', challenge: 'Modern design with complex functionality', solution: 'Custom WordPress theme with advanced features', result: '200%', resultLabel: 'increase in lead generation' },
+    { industry: 'Retail', challenge: 'WordPress with e-commerce functionality', solution: 'WooCommerce integration with custom features', result: '150%', resultLabel: 'increase in online sales' },
+    { industry: 'International Business', challenge: '5-language website with complex navigation', solution: 'WPML-powered multilingual WordPress site', result: '300%', resultLabel: 'increase in international inquiries' },
+  ]
+  
+  const currentHeroData = dbData?.hero || heroData
   
   return (
     <>
@@ -222,17 +235,17 @@ export default async function WordPressPage() {
         
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <p className="eyebrow sr" style={{ justifyContent: 'center', marginBottom: '24px' }}>{heroData.eyebrow}</p>
+            <p className="eyebrow sr" style={{ justifyContent: 'center', marginBottom: '24px' }}>{currentHeroData.eyebrow}</p>
             <h1 className="sr" style={{ ...hs, fontSize: 'clamp(2.8rem, 8vw, 5.5rem)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.05em', marginBottom: '32px', color: '#fff' }}>
-              {heroData.headline} <br />
-              <span style={P}>{heroData.subheadline}</span>
+              {currentHeroData.headline} <br />
+              <span style={P}>{currentHeroData.subheadline}</span>
             </h1>
             <p className="sr" style={{ fontSize: '20px', color: 'var(--text-2)', maxWidth: '800px', margin: '0 auto 48px', lineHeight: 1.7, animationDelay: '0.15s' }}>
-              {heroData.desc}
+              {currentHeroData.desc}
             </p>
             
             <div className="sr" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '32px', marginBottom: '64px', animationDelay: '0.25s' }}>
-              {heroData.bullets.map(b => (
+              {(currentHeroData.bullets || []).map(b => (
                 <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <IconBox size={20} radius={6} style={{ border: 'none', background: 'rgba(118,108,255,0.15)' }}>
                     <CheckSVG size={10} />
@@ -243,13 +256,13 @@ export default async function WordPressPage() {
             </div>
 
             <div className="sr" style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '40px', animationDelay: '0.3s' }}>
-              <Link href="/contact" className="btn btn-primary btn-xl" style={{ boxShadow: '0 0 40px rgba(118,108,255,0.4)', borderRadius: '14px' }}>{heroData.ctaPrimary} <ArrowSVG size={20} /></Link>
-              <Link href="/portfolio" className="btn btn-outline btn-xl" style={{ borderRadius: '14px', backdropFilter: 'blur(10px)' }}>{heroData.ctaSecondary}</Link>
+              <Link href="/contact" className="btn btn-primary btn-xl" style={{ boxShadow: '0 0 40px rgba(118,108,255,0.4)', borderRadius: '14px' }}>{currentHeroData.ctaPrimary} <ArrowSVG size={20} /></Link>
+              <Link href="/portfolio" className="btn btn-outline btn-xl" style={{ borderRadius: '14px', backdropFilter: 'blur(10px)' }}>{currentHeroData.ctaSecondary}</Link>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
               <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
-              <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{heroData.startingPrice.split(' · ')[0]}</p>
+              <p className="sr" style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', animationDelay: '0.35s', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{currentHeroData.startingPrice?.split(' · ')[0]}</p>
               <div style={{ width: '40px', height: '1px', background: 'var(--border)' }} />
             </div>
           </div>
@@ -270,23 +283,23 @@ export default async function WordPressPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
             
             {/* 01. FLAGSHIP: CUSTOM DEVELOPMENT (Bento Grid Style) */}
-            <div id="development" className="sr">
+            <div id={activeServices[0]?.id || "development"} className="sr">
                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '24px', alignItems: 'stretch' }}>
                   {/* Left: Main Content (8 cols) */}
                   <div className="tech-card shimmer-border" style={{ gridColumn: 'span 8', borderRadius: '32px', padding: '64px', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--grad)' }} />
                     <div style={{ marginBottom: '40px' }}>
                       <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.2em' }}>01 / FLAGSHIP SERVICE</span>
-                      <h3 style={{ ...hs, fontSize: '42px', fontWeight: 900, color: '#fff', marginTop: '16px', lineHeight: 1 }}>{SERVICES[0].title}</h3>
+                      <h3 style={{ ...hs, fontSize: '42px', fontWeight: 900, color: '#fff', marginTop: '16px', lineHeight: 1 }}>{activeServices[0]?.title}</h3>
                     </div>
                     <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '500px' }}>
-                      {SERVICES[0].desc}
+                      {activeServices[0]?.desc}
                     </p>
                     <div style={{ display: 'flex', gap: '16px' }}>
-                       <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '12px' }}>{SERVICES[0].cta} <ArrowSVG size={18}/></Link>
+                       <Link href="/contact" className="btn btn-primary btn-lg" style={{ borderRadius: '12px' }}>{activeServices[0]?.cta || 'Get Started'} <ArrowSVG size={18}/></Link>
                        <div style={{ padding: '0 24px', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                          <span style={{ fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Starting at</span>
-                         <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{SERVICES[0].price}</span>
+                         <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{activeServices[0]?.price}</span>
                        </div>
                     </div>
                   </div>
@@ -296,7 +309,7 @@ export default async function WordPressPage() {
                     <div>
                        <p style={{ ...hm, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '20px' }}>Engineered Stack</p>
                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                         {SERVICES[0].features.map(f => (
+                         {(activeServices[0]?.features || []).map(f => (
                            <span key={f} style={{ fontSize: '10px', color: '#fff', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', textTransform: 'uppercase' }}>{f}</span>
                          ))}
                        </div>
@@ -308,15 +321,15 @@ export default async function WordPressPage() {
                              <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="283" strokeDashoffset="28" />
                           </svg>
                           <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '24px', fontWeight: 900, color: '#fff' }}>99</div>
-                       </div>
-                       <p style={{ fontSize: '12px', color: 'var(--text-2)', marginTop: '16px', fontWeight: 700 }}>Avg. Speed Score</p>
-                    </div>
+                        </div>
+                        <p style={{ fontSize: '12px', color: 'var(--text-2)', marginTop: '16px', fontWeight: 700 }}>Avg. Speed Score</p>
+                     </div>
                   </div>
                </div>
             </div>
 
             {/* 02. EMERGENCY: MALWARE REMOVAL (Cyber Terminal Style) */}
-            <div id="virus-removal" className="sr">
+            <div id={activeServices[7]?.id || "virus-removal"} className="sr">
                <div style={{ background: '#08080c', border: '1px solid #1a1a25', borderRadius: '32px', padding: '40px', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '40px', background: '#12121a', borderBottom: '1px solid #1a1a25', display: 'flex', alignItems: 'center', padding: '0 20px', gap: '8px' }}>
                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff4d6d' }} />
@@ -330,12 +343,12 @@ export default async function WordPressPage() {
                         <div style={{ display: 'inline-flex', padding: '4px 12px', background: 'rgba(255,77,109,0.1)', border: '1px solid rgba(255,77,109,0.2)', borderRadius: '4px', marginBottom: '24px' }}>
                            <span style={{ fontSize: '10px', color: '#ff4d6d', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>EMERGENCY RESPONSE</span>
                         </div>
-                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>{SERVICES[7].title}</h3>
+                        <h3 style={{ ...hs, fontSize: '36px', color: '#fff', marginBottom: '24px' }}>{activeServices[7]?.title || 'Virus Removal'}</h3>
                         <p style={{ color: '#7a7a9a', fontSize: '16px', lineHeight: 1.8, marginBottom: '40px' }}>
-                           {SERVICES[7].desc}
+                           {activeServices[7]?.desc}
                         </p>
                         <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                           {SERVICES[7].features.map(f => (
+                           {(activeServices[7]?.features || []).map(f => (
                               <li key={f} style={{ fontSize: '13px', color: '#b0b0cc', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                  <div style={{ width: '4px', height: '4px', background: '#ff4d6d', borderRadius: '50%' }} /> {f}
                               </li>
@@ -358,7 +371,7 @@ export default async function WordPressPage() {
                         </div>
                         <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', padding: '24px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
                            <p style={{ fontSize: '10px', color: '#7a7a9a', textTransform: 'uppercase' }}>Starting At</p>
-                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>{SERVICES[7].price}</p>
+                           <p style={{ fontSize: '24px', fontWeight: 900, color: '#fff' }}>{activeServices[7]?.price}</p>
                         </div>
                      </div>
                   </div>
@@ -366,32 +379,32 @@ export default async function WordPressPage() {
             </div>
 
             {/* 03. PERFORMANCE: OPTIMIZATION (Sleek Data Style) */}
-            <div id="speed" className="sr">
+            <div id={activeServices[3]?.id || "speed"} className="sr">
                <div className="tech-card" style={{ borderRadius: '32px', padding: '64px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }}>
                   <div style={{ position: 'relative' }}>
                      <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
                         {[1,2,3].map(i => <div key={i} style={{ width: '40px', height: '4px', background: i === 3 ? 'var(--primary)' : 'rgba(255,255,255,0.1)', borderRadius: '2px' }} />)}
                      </div>
-                     <h3 style={{ ...hs, fontSize: '38px', color: '#fff', marginBottom: '24px' }}>{SERVICES[3].title}</h3>
+                     <h3 style={{ ...hs, fontSize: '38px', color: '#fff', marginBottom: '24px' }}>{activeServices[3]?.title || 'Speed Optimization'}</h3>
                      <p style={{ color: 'var(--text-2)', fontSize: '17px', lineHeight: 1.8, marginBottom: '40px' }}>
-                        {SERVICES[3].desc}
+                        {activeServices[3]?.desc}
                      </p>
                      <div style={{ display: 'flex', gap: '32px' }}>
                         <div>
                            <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Investment</p>
-                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{SERVICES[3].price}</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{activeServices[3]?.price}</p>
                         </div>
                         <div style={{ width: '1px', background: 'var(--border)' }} />
                         <div>
                            <p style={{ fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Execution</p>
-                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{SERVICES[3].time}</p>
+                           <p style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)' }}>{activeServices[3]?.time}</p>
                         </div>
                      </div>
                   </div>
 
                   <div style={{ position: 'relative' }}>
                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        {SERVICES[3].features.map((f, idx) => (
+                        {(activeServices[3]?.features || []).map((f, idx) => (
                            <div key={f} style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                                  <span style={{ fontSize: '12px', color: '#fff', fontWeight: 600 }}>{f}</span>
@@ -414,18 +427,14 @@ export default async function WordPressPage() {
                   <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Proactive care for your WordPress infrastructure.</p>
                </div>
                <div className="g-3">
-                  {[
-                    { tier: "Basic", price: "$79/mo", desc: "Essential protection for small sites", features: ["1 Site", "Monthly Updates", "Monthly Backups", "Security Monitoring", "Email Support"] },
-                    { tier: "Professional", price: "$149/mo", desc: "Advanced growth for scaling businesses", features: ["Up to 3 Sites", "Weekly Updates", "Weekly Backups", "Performance Optimization", "Priority Support"] },
-                    { tier: "Enterprise", price: "$299/mo", desc: "Full infrastructure management", features: ["Up to 10 Sites", "Real-time Monitoring", "Emergency Malware Removal", "24/7 Support", "Performance Tuning"] }
-                  ].map((plan, i) => (
+                  {activeMaintenance.map((plan, i) => (
                      <div key={plan.tier} className="tech-card shimmer-border" style={{ padding: '40px', borderRadius: '24px', position: 'relative' }}>
                         {i === 1 && <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'var(--grad)', color: '#fff', padding: '4px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: 800 }}>MOST POPULAR</div>}
                         <p style={{ ...hs, fontSize: '14px', color: 'var(--primary)', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase' }}>{plan.tier}</p>
                         <p style={{ ...hs, fontSize: '32px', color: '#fff', fontWeight: 900, marginBottom: '16px' }}>{plan.price}</p>
-                        <p style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '32px' }}>{plan.desc}</p>
+                        <p style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '32px' }}>{/* @ts-ignore */ plan.desc || 'Optimized performance and security'}</p>
                         <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '40px' }}>
-                           {plan.features.map(f => (
+                           {(plan.features || []).map(f => (
                               <li key={f} style={{ fontSize: '14px', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                  <IconBox size={18} radius={4} style={{ border: 'none', background: 'rgba(118,108,255,0.1)' }}>
                                     <CheckSVG size={8} />
@@ -447,7 +456,7 @@ export default async function WordPressPage() {
                   <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Specific technical solutions for every stage of your site&apos;s lifecycle.</p>
                </div>
                <div className="g-2" style={{ gap: '24px' }}>
-                  {[SERVICES[4], SERVICES[5], SERVICES[6], SERVICES[1], SERVICES[2]].map((s: Service) => {
+                  {[activeServices[4], activeServices[5], activeServices[6], activeServices[1], activeServices[2]].map((s: Service) => {
                     const iconMap: Record<string, React.ReactNode> = {
                       security: ICONS.security,
                       redesign: ICONS.expertise,
@@ -455,6 +464,7 @@ export default async function WordPressPage() {
                       migration: ICONS.support,
                       bugs: ICONS.security
                     }
+                    if (!s) return null;
                     return (
                     <div key={s.id} id={s.id} className="tech-card" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'start' }}>
                        <IconBox size={40} radius={12} style={{ border: 'none', background: 'rgba(255,255,255,0.03)', flexShrink: 0 }}>
@@ -467,7 +477,7 @@ export default async function WordPressPage() {
                           </div>
                           <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.6, marginBottom: '16px' }}>{s.desc}</p>
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                             {s.features.slice(0, 3).map(f => (
+                             {(s.features || []).slice(0, 3).map(f => (
                                <span key={f} style={{ fontSize: '10px', color: 'var(--text-3)', background: 'rgba(255,255,255,0.03)', padding: '4px 10px', borderRadius: '6px', textTransform: 'uppercase' }}>{f}</span>
                              ))}
                           </div>
@@ -484,12 +494,12 @@ export default async function WordPressPage() {
                   <p style={{ color: 'var(--text-3)', fontSize: '15px' }}>Never lose your data again with automated cloud recovery.</p>
                </div>
                <div className="g-3">
-                  {backupPlans.map((plan, i) => (
+                  {activeBackups.map((plan, i) => (
                      <div key={plan.tier} className="tech-card" style={{ padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.03)' }}>
                         <p style={{ ...hs, fontSize: '13px', color: 'var(--text-3)', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase' }}>{plan.tier}</p>
                         <p style={{ ...hs, fontSize: '28px', color: '#fff', fontWeight: 900, marginBottom: '16px' }}>{plan.price}</p>
                         <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                           {plan.features.map(f => (
+                           {(plan.features || []).map(f => (
                               <li key={f} style={{ fontSize: '13px', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                  <div style={{ width: '4px', height: '4px', background: 'var(--primary)', borderRadius: '50%' }} />
                                  {f}
@@ -513,7 +523,7 @@ export default async function WordPressPage() {
             Why Choose ARIOSETECH for WordPress Development?
           </h2>
           <div className="g-3" style={{ gap: '20px' }}>
-            {activeWhyUs.map((r: WhyUsItem, i: number) => {
+            {activeWhyUsData.map((r: WhyUsItem, i: number) => {
               const Icon = typeof r.icon === 'string' ? ICONS[r.icon] : r.icon
               return (
               <div key={r.title} className="card card-hover sr" style={{ padding: '36px', animationDelay: `${i * 0.08}s`, position: 'relative', overflow: 'hidden' }}>
@@ -530,7 +540,7 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── PROCESS ────────────────────────────────────────────────── */}
-      <ApproachSection processItems={activeProcess} title="WordPress Development Process" />
+      <ApproachSection processItems={activeProcessData} title="WordPress Development Process" />
 
       {/* ── PORTFOLIO HIGHLIGHTS ──────────────────────────────────── */}
       <section className="section section--dark">
@@ -545,15 +555,11 @@ export default async function WordPressPage() {
             <Link href="/portfolio" className="btn btn-outline btn-lg sr" style={{ animationDelay: '0.15s' }}>View Full WordPress Portfolio <ArrowSVG size={15} /></Link>
           </div>
           <div className="g-3" style={{ gap: '20px', marginBottom: '36px' }}>
-            {[
-              { industry: 'Professional Services', challenge: 'Modern design with complex functionality', solution: 'Custom WordPress theme with advanced features', result: '200%', resultLabel: 'increase in lead generation' },
-              { industry: 'Retail', challenge: 'WordPress with e-commerce functionality', solution: 'WooCommerce integration with custom features', result: '150%', resultLabel: 'increase in online sales' },
-              { industry: 'International Business', challenge: '5-language website with complex navigation', solution: 'WPML-powered multilingual WordPress site', result: '300%', resultLabel: 'increase in international inquiries' },
-            ].map((cs, i) => (
+            {activePortfolio.map((cs, i) => (
               <div key={i} className='card card-hover sr' style={{ background: 'var(--bg-3)', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.1}s`, position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
                 <div style={{ padding: '36px' }}>
-                  <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: '16px' }}>{cs.industry}</p>
+                  <p style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: '16px' }}>{cs.industry || cs.name}</p>
                   
                   <div style={{ marginBottom: '24px' }}>
                     <p style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Challenge</p>
@@ -595,7 +601,7 @@ export default async function WordPressPage() {
             </div>
  
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {activeFaq.map((faq, i) => (
+              {activeFaqs.map((faq, i) => (
                 <div key={i} className="sr" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
                   <details style={{ width:'100%' }}>
                     <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>

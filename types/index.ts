@@ -166,6 +166,16 @@ export type ServicePageDoc = {
     q: string
     a: string
   }[]
+  maintenancePlans?: {
+    tier: string
+    price: string
+    features: string[]
+  }[]
+  backupPlans?: {
+    tier: string
+    price: string
+    features: string[]
+  }[]
   seo: SeoFields
   updatedAt: Date
 }

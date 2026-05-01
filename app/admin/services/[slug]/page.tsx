@@ -75,6 +75,9 @@ export default function ServiceEditorPage() {
   const tabs = [
     { id: 'general', label: 'General & Hero' },
     { id: 'services', label: 'Services List' },
+    { id: 'plans', label: 'Plans (Maint/Backup)' },
+    { id: 'why-process', label: 'Why & Process' },
+    { id: 'portfolio', label: 'Portfolio Highlights' },
     { id: 'faqs', label: 'FAQs' },
   ]
 
@@ -98,7 +101,7 @@ export default function ServiceEditorPage() {
         </div>
 
         {/* Tabs */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', borderBottom: '1px solid var(--border)', paddingBottom: '16px' }}>
+        <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '24px', borderBottom: '1px solid var(--border)', paddingBottom: '16px' }}>
           {tabs.map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)} style={{ padding: '8px 16px', borderRadius: '8px', fontWeight: 600, fontSize: '14px', background: activeTab === t.id ? 'rgba(79,110,247,0.1)' : 'transparent', color: activeTab === t.id ? 'var(--blue)' : 'var(--text-3)' }}>
               {t.label}
@@ -233,6 +236,141 @@ export default function ServiceEditorPage() {
             <button onClick={() => setData({ ...data, faqs: [...(data.faqs || []), { q: 'New Question?', a: 'Answer...' }] })} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '16px', background: 'var(--bg-2)', border: '1px dashed var(--border)', borderRadius: '16px', color: 'var(--blue)', fontWeight: 600 }}>
               <Plus size={18} /> Add FAQ
             </button>
+          </div>
+        )}
+
+        {/* Plans Tab */}
+        {activeTab === 'plans' && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+            {/* Maintenance Plans */}
+            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Maintenance Plans</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {(data.maintenancePlans || []).map((p, i) => (
+                  <div key={i} style={{ padding: '16px', background: 'var(--bg-3)', borderRadius: '12px', position: 'relative' }}>
+                    <button onClick={() => {
+                      const plans = [...(data.maintenancePlans || [])]
+                      plans.splice(i, 1)
+                      setData({ ...data, maintenancePlans: plans })
+                    }} style={{ position: 'absolute', top: '12px', right: '12px', color: '#ff6b6b' }}><Trash2 size={16} /></button>
+                    <input value={p.tier} onChange={e => {
+                      const plans = [...(data.maintenancePlans || [])]
+                      plans[i].tier = e.target.value
+                      setData({ ...data, maintenancePlans: plans })
+                    }} placeholder="Tier Name" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: '#fff', fontWeight: 700, marginBottom: '8px' }} />
+                    <input value={p.price} onChange={e => {
+                      const plans = [...(data.maintenancePlans || [])]
+                      plans[i].price = e.target.value
+                      setData({ ...data, maintenancePlans: plans })
+                    }} placeholder="Price (e.g. $79/mo)" style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--text-3)', fontSize: '13px' }} />
+                  </div>
+                ))}
+                <button onClick={() => setData({ ...data, maintenancePlans: [...(data.maintenancePlans || []), { tier: 'New Tier', price: '', features: [] }] })} style={{ padding: '12px', border: '1px dashed var(--border)', borderRadius: '12px', color: 'var(--blue)', fontSize: '13px' }}>+ Add Maintenance Plan</button>
+              </div>
+            </div>
+
+            {/* Backup Plans */}
+            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Backup Plans</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {(data.backupPlans || []).map((p, i) => (
+                  <div key={i} style={{ padding: '16px', background: 'var(--bg-3)', borderRadius: '12px', position: 'relative' }}>
+                    <button onClick={() => {
+                      const plans = [...(data.backupPlans || [])]
+                      plans.splice(i, 1)
+                      setData({ ...data, backupPlans: plans })
+                    }} style={{ position: 'absolute', top: '12px', right: '12px', color: '#ff6b6b' }}><Trash2 size={16} /></button>
+                    <input value={p.tier} onChange={e => {
+                      const plans = [...(data.backupPlans || [])]
+                      plans[i].tier = e.target.value
+                      setData({ ...data, backupPlans: plans })
+                    }} placeholder="Tier Name" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: '#fff', fontWeight: 700, marginBottom: '8px' }} />
+                    <input value={p.price} onChange={e => {
+                      const plans = [...(data.backupPlans || [])]
+                      plans[i].price = e.target.value
+                      setData({ ...data, backupPlans: plans })
+                    }} placeholder="Price (e.g. $29/mo)" style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--text-3)', fontSize: '13px' }} />
+                  </div>
+                ))}
+                <button onClick={() => setData({ ...data, backupPlans: [...(data.backupPlans || []), { tier: 'New Tier', price: '', features: [] }] })} style={{ padding: '12px', border: '1px dashed var(--border)', borderRadius: '12px', color: 'var(--blue)', fontSize: '13px' }}>+ Add Backup Plan</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Why & Process Tab */}
+        {activeTab === 'why-process' && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Why Choose Us</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {(data.whyUs || []).map((w, i) => (
+                  <div key={i} style={{ padding: '16px', background: 'var(--bg-3)', borderRadius: '12px' }}>
+                    <input value={w.title} onChange={e => {
+                      const items = [...(data.whyUs || [])]
+                      items[i].title = e.target.value
+                      setData({ ...data, whyUs: items })
+                    }} placeholder="Title" style={{ width: '100%', background: 'transparent', border: 'none', color: '#fff', fontWeight: 600, marginBottom: '4px' }} />
+                    <textarea value={w.desc} onChange={e => {
+                      const items = [...(data.whyUs || [])]
+                      items[i].desc = e.target.value
+                      setData({ ...data, whyUs: items })
+                    }} placeholder="Description" style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--text-3)', fontSize: '12px', minHeight: '60px' }} />
+                  </div>
+                ))}
+                <button onClick={() => setData({ ...data, whyUs: [...(data.whyUs || []), { icon: '🏆', title: 'New Item', desc: '' }] })} style={{ padding: '12px', border: '1px dashed var(--border)', borderRadius: '12px', color: 'var(--blue)', fontSize: '13px' }}>+ Add Why Us Item</button>
+              </div>
+            </div>
+
+            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Our Process</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {(data.process || []).map((p, i) => (
+                  <div key={i} style={{ padding: '16px', background: 'var(--bg-3)', borderRadius: '12px' }}>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <input value={p.n} onChange={e => {
+                        const items = [...(data.process || [])]
+                        items[i].n = e.target.value
+                        setData({ ...data, process: items })
+                      }} placeholder="01" style={{ width: '40px', background: 'transparent', border: 'none', color: 'var(--blue)', fontWeight: 800 }} />
+                      <input value={p.title} onChange={e => {
+                        const items = [...(data.process || [])]
+                        items[i].title = e.target.value
+                        setData({ ...data, process: items })
+                      }} placeholder="Title" style={{ width: '100%', background: 'transparent', border: 'none', color: '#fff', fontWeight: 600 }} />
+                    </div>
+                  </div>
+                ))}
+                <button onClick={() => setData({ ...data, process: [...(data.process || []), { n: '01', title: 'New Step', sub: '', desc: '', time: '' }] })} style={{ padding: '12px', border: '1px dashed var(--border)', borderRadius: '12px', color: 'var(--blue)', fontSize: '13px' }}>+ Add Process Step</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Portfolio Tab */}
+        {activeTab === 'portfolio' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {(data.portfolio || []).map((p, i) => (
+              <div key={i} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '20px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-3)', marginBottom: '6px' }}>Industry / Name</label>
+                  <input value={p.name} onChange={e => {
+                    const items = [...(data.portfolio || [])]
+                    items[i].name = e.target.value
+                    setData({ ...data, portfolio: items })
+                  }} style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', color: '#fff' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', color: 'var(--text-3)', marginBottom: '6px' }}>Result Description</label>
+                  <input value={p.result} onChange={e => {
+                    const items = [...(data.portfolio || [])]
+                    items[i].result = e.target.value
+                    setData({ ...data, portfolio: items })
+                  }} style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', color: '#fff' }} />
+                </div>
+              </div>
+            ))}
+            <button onClick={() => setData({ ...data, portfolio: [...(data.portfolio || []), { name: 'Retail', industry: '', challenge: '', solution: '', result: '200% increase', resultLabel: '' }] })} style={{ padding: '16px', background: 'var(--bg-2)', border: '1px dashed var(--border)', borderRadius: '16px', color: 'var(--blue)', fontWeight: 600 }}>+ Add Portfolio Highlight</button>
           </div>
         )}
       </div>
