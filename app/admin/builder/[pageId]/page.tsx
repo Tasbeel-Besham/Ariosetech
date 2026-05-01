@@ -13,7 +13,8 @@ import { BuilderToolbar } from '@/components/builder/toolbar/BuilderToolbar'
 import { SectionPicker } from '@/components/builder/panels/SectionPicker'
 import { PropertiesPanel } from '@/components/builder/panels/PropertiesPanel'
 import { SectionListPanel } from '@/components/builder/panels/SectionListPanel'
-import { Plus } from 'lucide-react'
+import Link from 'next/link'
+import { Plus, Settings, ArrowRight } from 'lucide-react'
 
 initRegistry()
 
@@ -22,6 +23,8 @@ export default function BuilderPage() {
   const { layout, setLayout, setPageMeta, reorder } = useBuilderStore()
   const [loading, setLoading] = useState(true)
   const [pickerOpen, setPickerOpen] = useState(false)
+  const [isServicePage, setIsServicePage] = useState(false)
+  const [serviceSlug, setServiceSlug] = useState('')
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -34,6 +37,10 @@ export default function BuilderPage() {
       .then(({ page, layout: saved }) => {
         setLayout(saved || { sections: [] })
         setPageMeta(pageId, page.title, page.slug)
+        if (page.slug?.startsWith('services/')) {
+          setIsServicePage(true)
+          setServiceSlug(page.slug.replace('services/', ''))
+        }
       })
       .finally(() => setLoading(false))
   }, [pageId, setLayout, setPageMeta])
@@ -105,6 +112,30 @@ export default function BuilderPage() {
       </div>
 
       {pickerOpen && <SectionPicker onClose={() => setPickerOpen(false)} />}
+
+      {/* Modernized Service Page Overlay */}
+      {isServicePage && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(13,13,26,0.95)', backdropFilter: 'blur(10px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+          <div style={{ background: 'var(--bg-2)', border: '1px solid rgba(118,108,255,0.3)', borderRadius: '32px', padding: '60px', maxWidth: '600px', textAlign: 'center', boxShadow: '0 40px 100px rgba(0,0,0,0.8)' }}>
+             <div style={{ width: '80px', height: '80px', borderRadius: '24px', background: 'rgba(118,108,255,0.1)', border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 32px' }}>
+                <Settings size={40} style={{ color: 'var(--primary)' }} />
+             </div>
+             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 800, color: '#fff', marginBottom: '16px' }}>Modernized Service Page</h2>
+             <p style={{ fontSize: '16px', color: 'var(--text-3)', lineHeight: 1.8, marginBottom: '40px' }}>
+                This page has been upgraded to the new <strong>Dynamic Service Architecture</strong>. 
+                Individual sections like Maintenance Plans, Backups, and Portfolios are now managed via the specialized Service Dashboard.
+             </p>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <Link href={`/admin/services/${serviceSlug}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '16px 32px', background: 'var(--grad)', color: '#fff', borderRadius: '16px', textDecoration: 'none', fontWeight: 700, fontSize: '16px' }}>
+                   Go to Service Dashboard <ArrowRight size={18} />
+                </Link>
+                <button onClick={() => setIsServicePage(false)} style={{ background: 'none', border: 'none', color: 'var(--text-3)', fontSize: '13px', cursor: 'pointer', marginTop: '10px' }}>
+                   Continue to Builder (Advanced Users Only)
+                </button>
+             </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

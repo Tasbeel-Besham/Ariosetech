@@ -139,7 +139,11 @@ export default function PagesAdmin() {
                     <td style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)' }}>{new Date(page.updatedAt).toLocaleDateString()}</td>
                     <td>
                       <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
-                        <Link href={`/admin/builder/${page._id}`} className="btn btn-outline btn-sm"><Pencil size={11} /> Builder</Link>
+                        {page.slug.startsWith('services/') ? (
+                          <Link href={`/admin/services/${page.slug.replace('services/', '')}`} className="btn btn-outline btn-sm"><Pencil size={11} /> Edit Service</Link>
+                        ) : (
+                          <Link href={`/admin/builder/${page._id}`} className="btn btn-outline btn-sm"><Pencil size={11} /> Builder</Link>
+                        )}
                         <button onClick={() => openSeo(page)} className="btn btn-ghost btn-sm" title="SEO"><Settings size={13} /></button>
                         <button onClick={() => duplicatePage(page)} className="btn btn-ghost btn-sm" title="Duplicate"><Copy size={13} /></button>
                         <Link href={page.fullPath || '/'} target="_blank" className="btn btn-ghost btn-sm" title="View"><Eye size={13} /></Link>
