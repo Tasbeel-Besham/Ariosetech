@@ -64,7 +64,8 @@ const ADDITIONAL_GRID = [
   { id: "redesign", title: "Website Redesign", price: "$599", desc: "Modern aesthetics, improved UX, and mobile-first approach.", icon: <RedesignSVG /> },
   { id: "multilingual", title: "Multilingual Sites", price: "$399", desc: "Integration with WPML, Polylang, or TranslatePress.", icon: <GlobeSVG /> },
   { id: "migration", title: "Migration Services", price: "$299", desc: "Zero-downtime transfers from any hosting provider.", icon: <MigrationSVG /> },
-  { id: "bugfixing", title: "Bugs & Errors Fixing", price: "$149", desc: "Quick resolution for WSOD and critical errors within 24-48h.", icon: <CodeSVG /> }
+  { id: "bugfixing", title: "Bugs & Errors Fixing", price: "$149", desc: "Quick resolution for WSOD and critical errors within 24-48h.", icon: <CodeSVG /> },
+  { id: "backup", title: "Backup Solutions", price: "$199", desc: "Automated daily backups and 1-click restoration.", icon: <SecuritySVG /> }
 ]
 
 // 5-Step Process from Homepage (Replacing 'Our Development Process')
@@ -139,7 +140,7 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── VERTICAL 01: WEBSITE DEVELOPMENT ─────────────────────────── */}
-      <section className="section" style={{ padding: '100px 0' }}>
+      <section id="development" className="section" style={{ padding: '100px 0' }}>
         <div className="container">
           <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 10vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
@@ -241,9 +242,9 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── VERTICAL 02: SECURITY HARDENING ─────────────────────────── */}
-      <section className="section" style={{ padding: '100px 0' }}>
+      <section id="virus-removal" className="section" style={{ padding: '100px 0' }}>
         <div className="container">
-          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
+          <div id="security" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(to right, #ff3e60, #ff7b91)' }} />
             <div style={{ position: 'absolute', top: 0, left: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at 30% 30%, rgba(255,62,96,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
             
@@ -314,9 +315,9 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── VERTICAL 03: PERFORMANCE OPTIMIZATION ──────────────────── */}
-      <section className="section" style={{ padding: '100px 0 160px' }}>
+      <section id="speed" className="section" style={{ padding: '100px 0 160px' }}>
         <div className="container">
-          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
+          <div id="optimization" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.3)' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'var(--grad)' }} />
             <div style={{ position: 'absolute', top: 0, right: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at 70% 30%, rgba(118,108,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
             
@@ -390,7 +391,7 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── MAINTENANCE PLANS ────────────────────────────────────────── */}
-      <section className="section" style={{ padding: '0 0 120px' }}>
+      <section id="maintenance" className="section" style={{ padding: '0 0 120px' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '72px' }}>
             <p className="eyebrow sr" style={{ justifyContent: 'center' }}>Managed Support</p>
@@ -444,8 +445,10 @@ export default async function WordPressPage() {
                <h2 className="sr" style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.04em' }}>Additional <span style={P}>Solutions</span></h2>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
-               {ADDITIONAL_GRID.map((s) => (
-                 <div key={s.id} className="sr card card-hover" style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'flex-start', position: 'relative', overflow: 'hidden' }}>
+               {ADDITIONAL_GRID.map((s) => {
+                 const mappedId = s.id === 'security-svc' ? 'security' : (s.id === 'bugfixing' ? 'bugs' : s.id)
+                 return (
+                 <div key={s.id} id={mappedId} className="sr card card-hover" style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '24px', display: 'flex', gap: '24px', alignItems: 'flex-start', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.3 }} />
                     <IconBox size={56} radius={14}>{s.icon}</IconBox>
                     <div style={{ flex: 1 }}>
