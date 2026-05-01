@@ -229,12 +229,7 @@ export default async function WordPressPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '40px' }}>
                 {SECURITY_SERVICE.features.map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '15px', color: 'var(--text-2)', fontWeight: 500 }}>
-                    <div style={{ 
-                      width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(118,108,255,0.1)', 
-                      border: '1px solid rgba(118,108,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
-                    }}>
-                      <div style={{ color: 'var(--primary)' }}><StandardCheck size={14} /></div>
-                    </div>
+                    <StandardCheck size={32} />
                     {f}
                   </div>
                 ))}

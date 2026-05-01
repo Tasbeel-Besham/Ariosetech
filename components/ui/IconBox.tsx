@@ -47,20 +47,20 @@ export function IconBox({
 /* ── Common SVGs ── */
 
 export const CheckSVG = ({ size = 14 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
-    <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+    <path d="M3.5 8.5L6.5 11.5L13.5 4.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
 
 export const StandardCheck = ({ size = 18 }: { size?: number }) => (
   <span style={{ 
-    width: `${size}px`, height: `${size}px`, borderRadius: '50%', 
-    background: 'rgba(118,108,255,0.12)', 
-    border: '1px solid rgba(118,108,255,0.28)', 
+    width: `${size}px`, height: `${size}px`, borderRadius: '10px', 
+    background: 'rgba(118,108,255,0.1)', 
+    border: '1px solid rgba(118,108,255,0.2)', 
     display: 'flex', alignItems: 'center', justifyContent: 'center', 
     color: 'var(--primary)', flexShrink: 0 
   }}>
-    <CheckSVG size={size * 0.6} />
+    <CheckSVG size={size * 0.65} />
   </span>
 )
 
