@@ -78,10 +78,10 @@ export function initRegistry() {
     ],
   })
 
-  // Alias 'hero' to 'hero-interactive' for backward compatibility
+  // Alias 'hero' to 'HeroSection' (Current Standard)
   registerSection({
-    type: 'hero', label: 'Hero (Legacy Alias)', category: 'Sections', icon: '🚀',
-    component: InteractiveHeroSection as React.FC<Record<string, unknown>>,
+    type: 'hero', label: 'Hero (Standard)', category: 'Sections', icon: '🚀',
+    component: HeroSection as React.FC<Record<string, unknown>>,
     defaultProps: {
       eyebrow: 'Professional Web Development Since 2017',
       headline: 'Professional WordPress, Shopify & WooCommerce Development',
@@ -95,10 +95,12 @@ export function initRegistry() {
       { type: 'text',     name: 'eyebrow',          label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline',          label: 'Main headline' },
       { type: 'textarea', name: 'subheadline',       label: 'Subheadline' },
+      { type: 'textarea', name: 'supportingText',    label: 'Supporting Text (under subheadline)' },
       { type: 'text',     name: 'ctaPrimaryLabel',   label: 'Primary CTA label' },
       { type: 'text',     name: 'ctaPrimaryHref',    label: 'Primary CTA URL' },
       { type: 'text',     name: 'ctaSecondaryLabel', label: 'Secondary CTA label' },
       { type: 'text',     name: 'ctaSecondaryHref',  label: 'Secondary CTA URL' },
+      { type: 'textarea', name: 'trust',             label: 'Trust indicators (comma separated)' },
     ],
   })
 
@@ -597,7 +599,8 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'title', label: 'Section Title' },
       { type: 'textarea', name: 'desc',  label: 'Description' },
-      { type: 'number',   name: 'score', label: 'PageSpeed Score (0-100)' },
+      { type: 'text',     name: 'statusLabel', label: 'Status Label (e.g. CORE WEB VITALS PASS)' },
+      { type: 'number',   name: 'score',     label: 'PageSpeed Score (0-100)' },
       { type: 'repeater', name: 'metrics', label: 'Stats/Metrics', fields: [
         { type: 'text', name: 'label', label: 'Label' },
         { type: 'text', name: 'value', label: 'Value' },

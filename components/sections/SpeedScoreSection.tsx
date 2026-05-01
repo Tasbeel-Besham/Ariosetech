@@ -6,9 +6,10 @@ interface SpeedScoreSectionProps {
   desc: string
   score: number
   metrics: { label: string; value: string }[]
+  statusLabel?: string
 }
 
-const SpeedScoreSection = ({ title, desc, score = 99, metrics = [] }: SpeedScoreSectionProps) => {
+const SpeedScoreSection = ({ title, desc, score = 99, metrics = [], statusLabel = 'CORE WEB VITALS PASS' }: SpeedScoreSectionProps) => {
   const safeMetrics = Array.isArray(metrics) ? metrics : []
 
   return (
@@ -57,7 +58,7 @@ const SpeedScoreSection = ({ title, desc, score = 99, metrics = [] }: SpeedScore
             </div>
             <p style={{ fontSize: '14px', color: 'var(--text-2)', marginTop: '24px', fontWeight: 700 }}>Performance Rating</p>
             <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '12px' }}>
-               <div style={{ padding: '6px 12px', background: 'rgba(0,229,160,0.1)', border: '1px solid rgba(0,229,160,0.2)', borderRadius: '8px', fontSize: '11px', color: '#00e5a0', fontWeight: 700 }}>CORE WEB VITALS PASS</div>
+               <div style={{ padding: '6px 12px', background: 'rgba(0,229,160,0.1)', border: '1px solid rgba(0,229,160,0.2)', borderRadius: '8px', fontSize: '11px', color: '#00e5a0', fontWeight: 700 }}>{statusLabel}</div>
             </div>
           </div>
         </div>
