@@ -132,51 +132,98 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── VERTICAL 01: WEBSITE DEVELOPMENT ─────────────────────────── */}
-      <section className="section" style={{ padding: '80px 0' }}>
+      <section className="section" style={{ padding: '100px 0' }}>
         <div className="container">
-          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
-            <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
+          <div style={{ background: 'linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 10vw, 100px)', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, right: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at 70% 30%, rgba(118,108,255,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+            
+            <div className="g-2" style={{ gap: '100px', alignItems: 'center' }}>
               <div className="sr">
-                <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '8px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
-                  <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800 }}>{DEV_SERVICE.tagline}</span>
+                <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', marginBottom: '32px' }}>
+                  <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{DEV_SERVICE.tagline}</span>
                 </div>
-                <h2 style={{ ...F, fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>{DEV_SERVICE.title}</h2>
-                <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>{DEV_SERVICE.desc}</p>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 40px', marginBottom: '48px' }}>
-                  {DEV_SERVICE.features.slice(0, 4).map(f => (
-                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: '#fff', fontWeight: 500 }}>
-                      <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)' }} />
+                <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
+                  WordPress <span style={P}>Development</span>
+                </h2>
+                
+                <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '520px' }}>
+                  {DEV_SERVICE.desc}
+                </p>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px', marginBottom: '64px' }}>
+                  {DEV_SERVICE.features.slice(0, 6).map(f => (
+                    <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: 'var(--text)', fontWeight: 500 }}>
+                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'rgba(118,108,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(118,108,255,0.2)' }}>
+                        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)' }} />
+                      </div>
                       {f}
                     </div>
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px', padding: '32px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '24px' }}>
                   <div>
-                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Starting at</p>
-                    <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>{DEV_SERVICE.price}</p>
+                    <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Project Investment</p>
+                    <p style={{ ...F, fontSize: '36px', fontWeight: 900, color: '#fff' }}>{DEV_SERVICE.price}</p>
                   </div>
-                  <div style={{ height: '40px', width: '1px', background: 'rgba(255,255,255,0.1)' }} />
+                  <div style={{ width: '1px', height: '48px', background: 'var(--border)' }} />
                   <div>
-                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Execution</p>
-                    <p style={{ ...F, fontSize: '18px', fontWeight: 700, color: 'var(--primary)' }}>{DEV_SERVICE.timeline}</p>
+                    <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Average Execution</p>
+                    <p style={{ ...F, fontSize: '20px', fontWeight: 700, color: 'var(--primary)' }}>{DEV_SERVICE.timeline}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Gauge visual */}
+              {/* Enhanced Performance Dashboard Visual */}
               <div className="sr">
-                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '64px 80px', textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.4)' }}>
-                  <div style={{ width: '180px', height: '180px', margin: '0 auto', position: 'relative' }}>
+                <div style={{ 
+                  background: 'var(--bg-3)', 
+                  border: '1px solid var(--border)', 
+                  borderRadius: '40px', 
+                  padding: '60px', 
+                  textAlign: 'center', 
+                  position: 'relative', 
+                  boxShadow: '0 40px 120px rgba(0,0,0,0.5)',
+                  backdropFilter: 'blur(20px)'
+                }}>
+                  <div style={{ position: 'absolute', inset: 0, borderRadius: '40px', padding: '1px', background: 'linear-gradient(135deg, rgba(118,108,255,0.2), transparent, rgba(118,108,255,0.2))', mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude', pointerEvents: 'none' }} />
+                  
+                  <div style={{ width: '220px', height: '220px', margin: '0 auto', position: 'relative' }}>
                     <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
-                      <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.1)" strokeWidth="8" />
-                      <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
+                      <defs>
+                        <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#766cff" />
+                          <stop offset="100%" stopColor="#9b8fff" />
+                        </linearGradient>
+                      </defs>
+                      <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="8" />
+                      <circle cx="50" cy="50" r="44" fill="none" stroke="url(#scoreGrad)" strokeWidth="8" strokeDasharray="276.5" strokeDashoffset="27.65" strokeLinecap="round" style={{ filter: 'drop-shadow(0 0 12px rgba(118,108,255,0.5))' }} />
                     </svg>
                     <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                      <p style={{ ...F, fontSize: '56px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
-                      <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginTop: '4px' }}>Avg. Speed Score</p>
+                      <p style={{ ...F, fontSize: '64px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
+                      <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginTop: '4px', letterSpacing: '0.1em' }}>SPEED SCORE</p>
                     </div>
+                  </div>
+                  
+                  <div style={{ marginTop: '48px', paddingTop: '32px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'center', gap: '32px' }}>
+                    <div>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', marginBottom: '8px' }}>SEO</p>
+                      <p style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff' }}>100</p>
+                    </div>
+                    <div>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', marginBottom: '8px' }}>ACCESSIBILITY</p>
+                      <p style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff' }}>100</p>
+                    </div>
+                    <div>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', marginBottom: '8px' }}>BEST PRACTICES</p>
+                      <p style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff' }}>100</p>
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: '40px', padding: '12px 24px', borderRadius: '100px', background: 'rgba(118,108,255,0.05)', border: '1px solid rgba(118,108,255,0.2)', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }} />
+                    <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase' }}>Gutenberg & Core Web Vitals Ready</span>
                   </div>
                 </div>
               </div>
@@ -185,19 +232,27 @@ export default async function WordPressPage() {
         </div>
       </section>
 
-      {/* ── VERTICAL 02: SECURITY HARDENING (Pixel Perfect Rebuilt) ────── */}
+      {/* ── VERTICAL 02: SECURITY HARDENING ─────────────────────────── */}
       <section className="section" style={{ padding: '80px 0' }}>
         <div className="container">
-          <div style={{ background: '#05050a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: '#05050a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at 30% 30%, rgba(255,62,96,0.05) 0%, transparent 70%)', pointerEvents: 'none' }} />
+            
             <div className="g-2" style={{ gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
               <div className="sr">
-                <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '8px', background: 'rgba(255,50,100,0.08)', border: '1px solid rgba(255,50,100,0.2)', marginBottom: '32px' }}>
-                  <span style={{ ...M, fontSize: '10px', color: '#ff3e60', textTransform: 'uppercase', fontWeight: 800 }}>{SECURITY_SERVICE.tagline}</span>
+                <div style={{ display: 'inline-flex', padding: '6px 14px', borderRadius: '100px', background: 'rgba(255,62,96,0.08)', border: '1px solid rgba(255,62,96,0.2)', marginBottom: '32px' }}>
+                  <span style={{ ...M, fontSize: '10px', color: '#ff3e60', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.1em' }}>{SECURITY_SERVICE.tagline}</span>
                 </div>
-                <h2 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>{SECURITY_SERVICE.title}</h2>
-                <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>{SECURITY_SERVICE.desc}</p>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 40px' }}>
+                <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
+                  Security & <span style={{ background: 'linear-gradient(135deg, #ff3e60 0%, #ff7b91 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Hardening</span>
+                </h2>
+                
+                <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '480px' }}>
+                  {SECURITY_SERVICE.desc}
+                </p>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px 40px', marginBottom: '48px' }}>
                   {SECURITY_SERVICE.features.map(f => (
                     <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px', color: '#fff', fontWeight: 500 }}>
                       <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ff3e60' }} />
@@ -205,30 +260,43 @@ export default async function WordPressPage() {
                     </div>
                   ))}
                 </div>
+
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '24px', padding: '20px 32px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '20px' }}>
+                   <div>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '4px' }}>Emergency Price</p>
+                      <p style={{ ...F, fontSize: '24px', fontWeight: 900 }}>{SECURITY_SERVICE.price}</p>
+                   </div>
+                   <div style={{ width: '1px', height: '32px', background: 'var(--border)' }} />
+                   <p style={{ ...M, fontSize: '11px', color: '#ff3e60', fontWeight: 700 }}>{SECURITY_SERVICE.timeline}</p>
+                </div>
               </div>
 
               <div className="sr" style={{ position: 'relative' }}>
-                <div style={{ background: '#080810', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '40px', position: 'relative', overflow: 'hidden', boxShadow: '0 40px 120px rgba(0,0,0,0.5)' }}>
-                  <div style={{ position: 'absolute', inset: 0, opacity: 0.05, pointerEvents: 'none', background: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)', backgroundSize: '100% 3px' }} />
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', opacity: 0.4 }}>
-                    <div style={{ display: 'flex', gap: '6px' }}>
+                <div style={{ 
+                  background: '#080812', 
+                  border: '1px solid rgba(255,62,96,0.15)', 
+                  borderRadius: '32px', 
+                  padding: '48px', 
+                  position: 'relative', 
+                  overflow: 'hidden', 
+                  boxShadow: '0 40px 120px rgba(0,0,0,0.6)',
+                  backdropFilter: 'blur(10px)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '16px' }}>
+                    <div style={{ display: 'flex', gap: '8px' }}>
                       <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f56' }} />
                       <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e' }} />
                       <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27c93f' }} />
                     </div>
-                    <p style={{ ...M, fontSize: '10px' }}>root@ariosetech:~/wordpress_audit</p>
+                    <p style={{ ...M, fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>ariosetech_security_v3.0</p>
                   </div>
-                  <div style={{ ...M, fontSize: '14px', lineHeight: 2 }}>
-                    <p style={{ color: '#00ffa3' }}>{'>'} INIT SCAN...</p>
-                    <p style={{ color: '#00ffa3' }}>{'>'} CHECKING /wp-content/plugins...</p>
-                    <p style={{ color: '#ff3e60' }}>! ALERT: Trojan.Generic FOUND</p>
-                    <p style={{ color: '#00ffa3' }}>{'>'} ISOLATING THREAT...</p>
-                    <p style={{ color: '#00ffa3' }}>{'>'} SYSTEM CLEAN. REBOOTING...</p>
+                  <div style={{ ...M, fontSize: '14px', lineHeight: 2.2 }}>
+                    <p style={{ color: '#00ffa3', opacity: 0.8 }}>[SYSTEM] Initializing WP_Hardening_Protocol...</p>
+                    <p style={{ color: '#00ffa3', opacity: 0.8 }}>[SCAN] Scanning /wp-content/uploads/...</p>
+                    <p style={{ color: '#ff3e60', fontWeight: 700 }}>[ALERT] MALWARE DETECTED: PHP.Shell.Backdoor.Gen</p>
+                    <p style={{ color: '#00ffa3', opacity: 0.8 }}>[ACTION] Isolating infected files...</p>
+                    <p style={{ color: '#766cff', fontWeight: 700 }}>[DONE] 4.9/5 Security Rating Restored.</p>
                   </div>
-                </div>
-                <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: '#0a0a14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '24px 32px', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.4)', zIndex: 2 }}>
-                  <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Starting at</p>
-                  <p style={{ ...F, fontSize: '32px', fontWeight: 900, color: '#fff' }}>{SECURITY_SERVICE.price}</p>
                 </div>
               </div>
             </div>
@@ -236,46 +304,71 @@ export default async function WordPressPage() {
         </div>
       </section>
 
-      {/* ── VERTICAL 03: PERFORMANCE OPTIMIZATION (Pixel Perfect Rebuilt) ─ */}
-      <section className="section" style={{ padding: '80px 0 120px' }}>
+      {/* ── VERTICAL 03: PERFORMANCE OPTIMIZATION ──────────────────── */}
+      <section className="section" style={{ padding: '100px 0 160px' }}>
         <div className="container">
-          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '40px', padding: 'clamp(32px, 8vw, 80px)', position: 'relative', overflow: 'hidden' }}>
-            <div className="g-2" style={{ gap: '80px', alignItems: 'center' }}>
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '48px', padding: 'clamp(40px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
+            <div className="g-2" style={{ gap: '100px', alignItems: 'center' }}>
               <div className="sr">
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '40px' }}>
                   {[1,2,3].map(i => <div key={i} style={{ width: '40px', height: '2px', background: i===3?'var(--primary)':'rgba(255,255,255,0.1)' }} />)}
                 </div>
-                <h2 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '28px', color: '#fff' }}>{SPEED_SERVICE.title}</h2>
-                <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '500px' }}>{SPEED_SERVICE.desc}</p>
                 
-                <div style={{ display: 'flex', gap: '64px' }}>
+                <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.8rem)', fontWeight: 900, lineHeight: 1, marginBottom: '32px', color: '#fff', letterSpacing: '-0.04em' }}>
+                  Speed & <span style={P}>Optimization</span>
+                </h2>
+                
+                <p style={{ fontSize: '18px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '48px', maxWidth: '520px' }}>
+                  {SPEED_SERVICE.desc}
+                </p>
+                
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '48px', marginBottom: '64px' }}>
                   <div>
-                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>Mobile Performance</p>
-                    <p style={{ ...F, fontSize: '32px', fontWeight: 800, color: 'var(--primary)' }}>90+</p>
+                    <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '12px' }}>Mobile Perf.</p>
+                    <p style={{ ...F, fontSize: '36px', fontWeight: 900, color: 'var(--primary)' }}>90+</p>
                   </div>
+                  <div style={{ width: '1px', height: '60px', background: 'var(--border)' }} />
                   <div>
-                    <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>Desktop Performance</p>
-                    <p style={{ ...F, fontSize: '32px', fontWeight: 800, color: 'var(--primary)' }}>99+</p>
+                    <p style={{ ...M, fontSize: '11px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '12px' }}>Desktop Perf.</p>
+                    <p style={{ ...F, fontSize: '36px', fontWeight: 900, color: 'var(--primary)' }}>99+</p>
                   </div>
+                </div>
+
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '24px', padding: '20px 32px', background: 'rgba(118,108,255,0.05)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px' }}>
+                   <div>
+                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', marginBottom: '4px' }}>Service Price</p>
+                      <p style={{ ...F, fontSize: '24px', fontWeight: 900 }}>{SPEED_SERVICE.price}</p>
+                   </div>
+                   <div style={{ width: '1px', height: '32px', background: 'var(--border)' }} />
+                   <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 700 }}>{SPEED_SERVICE.timeline}</p>
                 </div>
               </div>
 
               <div className="sr" style={{ display: 'flex', justifyContent: 'center' }}>
-                <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '32px', padding: '64px 80px', textAlign: 'center', position: 'relative', boxShadow: '0 40px 100px rgba(0,0,0,0.4)', width: '100%', maxWidth: '440px' }}>
-                  <div style={{ width: '180px', height: '180px', margin: '0 auto', position: 'relative' }}>
+                <div style={{ 
+                  background: 'var(--bg-3)', 
+                  border: '1px solid var(--border)', 
+                  borderRadius: '40px', 
+                  padding: '80px', 
+                  textAlign: 'center', 
+                  position: 'relative', 
+                  boxShadow: '0 60px 120px rgba(0,0,0,0.5)',
+                  width: '100%', 
+                  maxWidth: '480px' 
+                }}>
+                  <div style={{ width: '200px', height: '200px', margin: '0 auto', position: 'relative' }}>
                     <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
-                      <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(118,108,255,0.1)" strokeWidth="8" />
-                      <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="282.7" strokeDashoffset="28.27" strokeLinecap="round" />
+                      <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(118,108,255,0.05)" strokeWidth="8" />
+                      <circle cx="50" cy="50" r="44" fill="none" stroke="var(--primary)" strokeWidth="8" strokeDasharray="276.5" strokeDashoffset="27.65" strokeLinecap="round" style={{ filter: 'drop-shadow(0 0 10px rgba(118,108,255,0.4))' }} />
                     </svg>
                     <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                      <p style={{ ...F, fontSize: '56px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
+                      <p style={{ ...F, fontSize: '64px', fontWeight: 900, color: '#fff', lineHeight: 1 }}>99</p>
                       <p style={{ ...M, fontSize: '11px', color: 'var(--primary)', fontWeight: 800, marginTop: '4px' }}>SCORE</p>
                     </div>
                   </div>
-                  <p style={{ fontSize: '14px', color: 'var(--text-2)', marginTop: '40px', fontWeight: 500 }}>Performance Rating</p>
-                  <div style={{ marginTop: '24px', padding: '10px 20px', borderRadius: '12px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ marginTop: '48px', padding: '12px 24px', borderRadius: '12px', background: 'rgba(118,108,255,0.08)', border: '1px solid rgba(118,108,255,0.2)', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
                     <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)' }} />
-                    <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase' }}>Gutenberg Optimized</span>
+                    <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase' }}>Optimized for Conversions</span>
                   </div>
                 </div>
               </div>
