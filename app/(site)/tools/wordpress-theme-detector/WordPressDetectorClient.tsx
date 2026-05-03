@@ -58,7 +58,7 @@ export default function WordPressDetectorClient() {
       {/* Hero */}
       <section style={{ paddingTop:'100px', paddingBottom:'60px', borderBottom:'1px solid var(--border)', position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 60% 50% at 30% 60%, rgba(118,108,255,0.10) 0%, transparent 60%)', pointerEvents:'none' }} />
-        <div className="container" style={{ position:'relative', zIndex:1 }}>
+        <div className="container flex flex-col items-center md:items-start text-center md:text-left" style={{ position:'relative', zIndex:1 }}>
           <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', padding:'4px 14px', borderRadius:'var(--r-f)', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.25)', marginBottom:'20px' }}>
             <span style={{ ...M, fontSize:'10px', color:'var(--primary)', textTransform:'uppercase', letterSpacing:'0.14em', fontWeight:700 }}>Free Tool</span>
           </div>
@@ -70,7 +70,7 @@ export default function WordPressDetectorClient() {
           </p>
 
           {/* Search bar */}
-          <div style={{ display:'flex', gap:'10px', maxWidth:'640px', marginBottom:'16px' }}>
+          <div className="flex flex-col md:flex-row w-full" style={{ gap:'10px', maxWidth:'640px', marginBottom:'16px' }}>
             <div style={{ display:'flex', flex:1, position:'relative' }}>
               <Search size={16} style={{ position:'absolute', left:'16px', top:'50%', transform:'translateY(-50%)', color:'var(--text-3)', pointerEvents:'none' }} />
               <input
@@ -88,7 +88,7 @@ export default function WordPressDetectorClient() {
               {loading ? 'Detecting…' : 'Detect Theme'}
             </button>
           </div>
-          <p style={{ ...M, fontSize:'11px', color:'var(--text-3)' }}>
+          <p className="text-center md:text-left" style={{ ...M, fontSize:'11px', color:'var(--text-3)' }}>
             Works on any publicly accessible WordPress website
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function WordPressDetectorClient() {
                 {result.wpVersion && <span style={{ ...M, fontSize:'10px', color:'var(--text-3)' }}>v{result.wpVersion}</span>}
               </div>
 
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px' }}>
+              <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap:'20px' }}>
                 {/* Theme card */}
                 {result.theme && (
                   <div style={{ background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'20px', overflow:'hidden' }}>
