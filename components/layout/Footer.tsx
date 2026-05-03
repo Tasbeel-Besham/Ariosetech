@@ -83,16 +83,16 @@ export default function Footer() {
       {/* CTA banner */}
       <div style={{ background:'linear-gradient(135deg, rgba(118,108,255,0.15), rgba(118,108,255,0.04))', padding:'48px 0', position:'relative', overflow:'hidden' }}>
         <div style={{ position:'absolute', top:'-50%', right:'-10%', width:'400px', height:'400px', background:'radial-gradient(circle, rgba(118,108,255,0.15) 0%, transparent 70%)', filter:'blur(60px)', pointerEvents:'none' }} />
-        <div className="container" style={{ position:'relative', zIndex:1, display:'flex', alignItems:'center', justifyContent:'space-between', gap:'40px', flexWrap:'wrap' }}>
-          <div style={{ flex:1, minWidth:'280px' }}>
+        <div className="container flex flex-col md:flex-row items-center text-center md:text-left justify-between" style={{ position:'relative', zIndex:1, gap:'40px' }}>
+          <div style={{ flex:1, width:'100%' }}>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize:'clamp(1.8rem,4vw,2.4rem)', fontWeight:800, color:'#fff', marginBottom:'12px', letterSpacing:'-0.03em', lineHeight:1.1 }}>
               {ctaHeadline}
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize:'16px', color:'var(--text-2)', lineHeight:1.7, fontWeight: 500, maxWidth:'600px' }}>
+            <p className="mx-auto md:mx-0" style={{ fontFamily: 'var(--font-body)', fontSize:'16px', color:'var(--text-2)', lineHeight:1.7, fontWeight: 500, maxWidth:'600px' }}>
               {ctaDesc}
             </p>
           </div>
-          <div style={{ display:'flex', gap:'14px', flexWrap:'wrap', flexShrink:0 }}>
+          <div className="flex flex-col sm:flex-row w-full md:w-auto" style={{ gap:'14px', flexShrink:0 }}>
             <Link href={ctaHref} className="btn btn-primary btn-lg" style={{ padding:'16px 32px' }}>{ctaLabel}</Link>
             <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg" style={{ padding:'16px 32px' }}>
               WhatsApp Us
@@ -102,22 +102,22 @@ export default function Footer() {
       </div>
 
       {/* Main footer */}
-      <div className="container" style={{ padding:'48px 0 40px' }}>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'40px', marginBottom:'48px' }}>
+      <div className="container" style={{ padding:'60px 0 40px' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5" style={{ gap:'40px', marginBottom:'48px' }}>
 
           {/* Brand column */}
-          <div>
-            <Link href="/" style={{ display:'flex', alignItems:'center', textDecoration:'none', flexShrink:0, marginBottom:'20px' }}>
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <Link href="/" className="justify-center md:justify-start" style={{ display:'flex', alignItems:'center', textDecoration:'none', flexShrink:0, marginBottom:'20px' }}>
               <div style={{ fontFamily:'var(--font-logo), sans-serif', fontSize:'22px', color:'#fff', letterSpacing:'1px', lineHeight:1 }}>
                 {logoUrl ? <img src={logoUrl} alt={siteName} style={{ height:'28px', maxWidth:'160px', width:'auto', objectFit:'contain', display:'block' }} /> : siteName}
               </div>
             </Link>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'var(--text-3)', lineHeight:1.85, marginBottom:'28px', maxWidth:'300px', fontWeight: 500 }}>
+            <p className="mx-auto md:mx-0" style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'var(--text-3)', lineHeight:1.85, marginBottom:'28px', maxWidth:'300px', fontWeight: 500 }}>
               {tagline}
             </p>
 
             {/* Socials */}
-            <div style={{ display:'flex', gap:'8px' }}>
+            <div className="flex justify-center md:justify-start" style={{ gap:'8px' }}>
               {SOCIALS.map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
                   style={{ width:'36px', height:'36px', borderRadius:'8px', background:'var(--bg-3)', border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--text-3)', textDecoration:'none', transition:'all 0.2s' }}
@@ -131,10 +131,10 @@ export default function Footer() {
 
           {/* Link columns */}
           {columns.map((col, idx) => (
-            <div key={idx}>
+            <div key={idx} className="flex flex-col items-center md:items-start text-center md:text-left">
               <p style={{ ...M, fontSize:'13px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'20px' }}>{col.title}</p>
               {col.links && col.links.length > 0 && (
-                <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'12px' }}>
+                <ul className="items-center md:items-start" style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'12px' }}>
                   {col.links.map((item: any) => (
                     <li key={item.href}>
                       <Link href={item.href} target={item.target || '_self'} style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', transition:'color 0.2s', fontWeight: 500 }}
@@ -150,7 +150,7 @@ export default function Footer() {
           ))}
 
           {/* Contact Information Column */}
-          <div>
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <p style={{ ...M, fontSize:'13px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'20px' }}>Contact</p>
             <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
               <a href="mailto:info@ariosetech.com" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', fontWeight: 500 }}
@@ -163,16 +163,18 @@ export default function Footer() {
                 onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.65)')}>
                 <Phone size={16} style={{ flexShrink:0 }} /> +92 300 9484 739
               </a>
-              <div style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'flex-start', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', margin:0, maxWidth:'240px', lineHeight: 1.6, fontWeight: 500 }}>
-                <MapPin size={16} style={{ flexShrink:0, marginTop:'3px' }} />
-                <span>95 College Road, Block E, PCSIR<br/>Staff Colony, Lahore, 54770</span>
+              <div style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center md:items-start', flexDirection:'column md:flex-row', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', margin:0, maxWidth:'240px', lineHeight: 1.6, fontWeight: 500 }}>
+                <div className="flex items-center gap-[10px]">
+                  <MapPin size={16} style={{ flexShrink:0 }} />
+                  <span>95 College Road, Block E, PCSIR Staff Colony, Lahore, 54770</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:'24px', borderTop:'1px solid var(--border)', flexWrap:'wrap', gap:'12px' }}>
+        <div className="flex flex-col md:flex-row items-center justify-between" style={{ paddingTop:'24px', borderTop:'1px solid var(--border)', gap:'20px' }}>
           <p style={{ ...M, fontSize:'11px', color:'var(--text-3)' }}>
             {bottomText}
           </p>
