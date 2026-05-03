@@ -102,7 +102,7 @@ export default function Footer() {
       </div>
 
       {/* Main footer */}
-      <div className="container" style={{ padding:'60px 0 40px' }}>
+      <div className="container" style={{ paddingTop:'60px', paddingBottom:'40px' }}>
         <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5" style={{ gap:'40px', marginBottom:'48px' }}>
 
           {/* Brand column */}
