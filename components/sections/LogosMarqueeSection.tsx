@@ -1,3 +1,4 @@
+"use client";
 type Props = {
   label?: string
   items?: { value?: string }[] | string[] | string

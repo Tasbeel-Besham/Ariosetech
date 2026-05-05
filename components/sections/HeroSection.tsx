@@ -1,3 +1,4 @@
+"use client";
 import Link from 'next/link'
 
 import { IconBox, CheckSVG, ArrowSVG } from '@/components/ui/IconBox'

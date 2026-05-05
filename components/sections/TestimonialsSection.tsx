@@ -1,3 +1,4 @@
+"use client";
 import ClutchWidget from '@/components/ui/ClutchWidget'
 
 type Item = { name: string; role: string; initials: string; quote: string }

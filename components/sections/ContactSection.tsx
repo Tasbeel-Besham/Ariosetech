@@ -1,3 +1,4 @@
+"use client";
 type Props = { eyebrow?: string; headline?: string; guarantee?: string; email?: string; phone?: string; address?: string }
 export default function ContactSection({ 
   eyebrow='Get In Touch', 

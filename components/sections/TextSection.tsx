@@ -1,3 +1,4 @@
+"use client";
 type Props = { content?: string }
 export default function TextSection({ content = 'Edit this text block.' }: Props) {
   return (

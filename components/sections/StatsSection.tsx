@@ -1,3 +1,4 @@
+"use client";
 type Item = { value: string; label: string }
 type Props = { items?: Item[] }
 export default function StatsSection({ items = [] }: Props) {

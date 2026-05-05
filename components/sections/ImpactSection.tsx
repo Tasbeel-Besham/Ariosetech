@@ -1,3 +1,4 @@
+"use client";
 type Metric = { value: string; label: string; desc: string }
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; intro?: string; items?: Metric[]; metrics?: Metric[] }
 

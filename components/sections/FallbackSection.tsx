@@ -1,3 +1,4 @@
+"use client";
 type Props = { type?: string }
 export default function FallbackSection({ type = 'unknown' }: Props) {
   return (

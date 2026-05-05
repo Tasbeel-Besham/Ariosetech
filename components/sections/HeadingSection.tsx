@@ -1,3 +1,4 @@
+"use client";
 type Props = { eyebrow?: string; headline?: string; body?: string; align?: string }
 export default function HeadingSection({ eyebrow='', headline='Section Heading', body='', align='left' }: Props) {
   const F = { fontFamily: 'var(--font-display)' } as const

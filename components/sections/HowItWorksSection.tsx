@@ -1,3 +1,4 @@
+"use client";
 type Step = { n: string; title: string; sub: string; desc: string }
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; intro?: string; items?: Step[]; steps?: Step[] }
 

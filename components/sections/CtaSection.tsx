@@ -1,3 +1,4 @@
+"use client";
 import Link from 'next/link'
 
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; desc?: string; tags?: string; trust?: string; ctaPrimaryLabel?: string; ctaPrimaryHref?: string; ctaLabel?: string; ctaHref?: string; ctaSecondaryLabel?: string; ctaSecondaryHref?: string; secondaryLabel?: string; secondaryHref?: string }
