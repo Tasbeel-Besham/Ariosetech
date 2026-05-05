@@ -33,7 +33,6 @@ export default function Dashboard() {
     { label: 'Blog Posts',      value: stats.blogs,     href: '/admin/blogs',     icon: FileText,       color: '#4f6ef7' },
     { label: 'Portfolio Items', value: stats.portfolio, href: '/admin/portfolio', icon: Briefcase,      color: '#9b6dff' },
     { label: 'Pages',           value: stats.pages,     href: '/admin/pages',     icon: Layers,         color: '#00e5a0' },
-    { label: 'Services',        value: stats.services,  href: '/admin/services',  icon: Layers,         color: '#ff6b6b' },
     { label: 'Leads',           value: stats.leads,     href: '/admin/leads',     icon: MessageSquare,  color: '#fbbf24',
       badge: stats.newLeads > 0 ? `${stats.newLeads} new` : undefined },
   ]
@@ -42,7 +41,6 @@ export default function Dashboard() {
     { label: 'New Blog Post',      href: '/admin/blogs/new',    color: '#4f6ef7' },
     { label: 'New Portfolio Item', href: '/admin/portfolio',    color: '#9b6dff' },
     { label: 'New Page',           href: '/admin/pages',        color: '#00e5a0' },
-    { label: 'Manage Services',    href: '/admin/services',     color: '#ff6b6b' },
     { label: 'Header Builder',     href: '/admin/header',       color: '#fbbf24' },
     { label: 'Footer Builder',     href: '/admin/footer',       color: '#00e5a0' },
     { label: 'Menus',              href: '/admin/menus',        color: '#4f6ef7' },
