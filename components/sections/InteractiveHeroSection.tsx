@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 /* ── Types & Data ── */
 type Tok = { t: 'com' | 'kw' | 'fn' | 'attr' | 'str' | 'v'; v: string }
 
-const CODE_LINES: Tok[][] = [
+const DEFAULT_CODE_LINES: Tok[][] = [
   [{ t: 'com', v: '// Ariosetech WooCommerce Store — 2025' }],
   [],
   [{ t: 'kw', v: 'function ' }, { t: 'fn', v: 'ariose_boost_performance' }, { t: 'v', v: '() {' }],
@@ -51,20 +51,34 @@ type Props = {
   eyebrow?: string
   headline?: string
   subheadline?: string
+  desc?: string
+  trust?: string
   ctaPrimaryLabel?: string
   ctaPrimaryHref?: string
   ctaSecondaryLabel?: string
   ctaSecondaryHref?: string
+  liveSiteText?: string
+  codeFilename?: string
+  codeLines?: Tok[][]
+  metrics?: { ico: React.ReactNode, val: string, lbl: string, c1: string, c2: string, bar: number }[]
+  marqueeItems?: string[]
 }
 
 export default function InteractiveHeroSection({
   eyebrow = 'Professional Web Development Since 2017',
   headline = 'Professional WordPress, Shopify & WooCommerce Development',
   subheadline = "Transform your business with custom e-commerce solutions that drive results. We've helped 100+ businesses across the globe scale their online presence with expert development, lightning-fast performance, and ongoing support.",
+  desc,
+  trust,
   ctaPrimaryLabel = 'Get Free Quote & Strategy Call',
   ctaPrimaryHref = '/contact',
   ctaSecondaryLabel = 'View Our Portfolio',
   ctaSecondaryHref = '/portfolio',
+  liveSiteText = 'Live site just launched 🚀',
+  codeFilename = 'ariosetech-store / functions.php',
+  codeLines = DEFAULT_CODE_LINES,
+  metrics,
+  marqueeItems = ['WordPress Development', 'WooCommerce Stores', 'Shopify Development', 'SEO Optimization', 'Speed Optimization', '24/7 Support', '30-Day Guarantee', 'USA · UAE · Switzerland', 'Since 2017'],
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const cdotRef = useRef<HTMLDivElement>(null)
@@ -86,7 +100,7 @@ export default function InteractiveHeroSection({
     let timer: NodeJS.Timeout
     const tick = () => {
       const lineIdx = lineIdxRef.current
-      if (lineIdx >= CODE_LINES.length) {
+      if (lineIdx >= codeLines.length) {
         timer = setTimeout(() => { 
           setTypedLines([]); 
           setCurrentLine([]);
@@ -97,7 +111,7 @@ export default function InteractiveHeroSection({
         return
       }
 
-      const tokens = CODE_LINES[lineIdx]
+      const tokens = codeLines[lineIdx]
       if (tokens.length === 0) {
         setTypedLines(prev => [...prev, []])
         lineIdxRef.current++
@@ -278,14 +292,23 @@ export default function InteractiveHeroSection({
             <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', cursor: 'none' }}>
               {renderChar(headline)}
             </h1>
+            {subheadline && desc && (
+              <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', cursor: 'none' }}>
+                {renderChar(subheadline)}
+              </h1>
+            )}
           </div>
 
           <p style={{ ...B, fontSize: '15px', lineHeight: 1.78, color: 'rgba(255,255,255,0.38)', maxWidth: '450px', marginBottom: '18px', fontWeight: 300 }}>
-            {subheadline}
+            {desc || subheadline}
           </p>
 
           <p style={{ ...B, fontSize: '12.5px', color: 'rgba(255,255,255,0.28)', marginBottom: '32px', fontStyle: 'italic' }}>
-            Trusted by businesses in <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>USA</span>, <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>UAE</span>, and <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>Switzerland</span> for affordable, high-quality development.
+            {trust ? trust : (
+              <>
+                Trusted by businesses in <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>USA</span>, <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>UAE</span>, and <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>Switzerland</span> for affordable, high-quality development.
+              </>
+            )}
           </p>
 
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
@@ -301,7 +324,7 @@ export default function InteractiveHeroSection({
           
           <div style={{ position: 'absolute', top: '-24px', right: '16px', background: 'rgba(5,5,14,0.95)', border: '1px solid rgba(118,108,255,0.25)', borderRadius: '12px', padding: '10px 16px', fontSize: '11px', color: '#fff', backdropFilter: 'blur(12px)', zIndex: 20, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 32px rgba(118,108,255,0.15)', animation: 'chipBob 4s ease-in-out infinite alternate' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
-            Live site just launched 🚀
+            {liveSiteText}
           </div>
 
           <div style={{ background: 'rgba(10,10,22,0.9)', border: '1px solid rgba(118,108,255,0.22)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 32px 100px rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }}>
@@ -311,7 +334,7 @@ export default function InteractiveHeroSection({
                 <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#febc2e', boxShadow: '0 0 5px rgba(254,188,46,0.4)' }} />
                 <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#28c840', boxShadow: '0 0 5px rgba(40,200,64,0.4)' }} />
               </div>
-              <div style={{ marginLeft: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.3)', ...M }}>ariosetech-store / functions.php</div>
+              <div style={{ marginLeft: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.3)', ...M }}>{codeFilename}</div>
             </div>
             <div style={{ padding: '22px', ...M, fontSize: '12px', lineHeight: 1.9, minHeight: '240px', maxHeight: '240px', overflow: 'hidden' }}>
               {typedLines.map((toks, i) => (
@@ -322,7 +345,7 @@ export default function InteractiveHeroSection({
                   </span>
                 </div>
               ))}
-              {lineIdxRef.current < CODE_LINES.length && (
+              {lineIdxRef.current < codeLines.length && (
                 <div style={{ display: 'flex', gap: '14px' }}>
                    <span style={{ color: 'rgba(255,255,255,0.15)', minWidth: '18px', textAlign: 'right', fontSize: '10px' }}>{typedLines.length + 1}</span>
                    <span style={{ color: 'rgba(255,255,255,0.55)' }}>
@@ -335,12 +358,12 @@ export default function InteractiveHeroSection({
           </div>
 
           <div style={{ display: 'flex', gap: '14px' }}>
-            {[
+            {(metrics || [
               { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: B_PRI, c2: B_SEC, bar: 0.92 },
               { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: B_PRI, c2: B_SEC, bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
-            ].map(m => (
-              <div key={m.lbl} style={{ flex: 1, background: 'rgba(15,15,30,0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px', position: 'relative', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.3)' }}>
+            ]).map((m, i) => (
+              <div key={m.lbl + i} style={{ flex: 1, background: 'rgba(15,15,30,0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px', position: 'relative', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.3)' }}>
                 <div style={{ color: m.c1, marginBottom: '8px', display: 'flex' }}>{m.ico}</div>
                 <div style={{ ...F, fontWeight: 800, fontSize: '22px', color: '#fff', marginBottom: '2px' }}>{m.val}</div>
                 <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{m.lbl}</div>
@@ -356,7 +379,7 @@ export default function InteractiveHeroSection({
         <div style={{ display: 'flex', whiteSpace: 'nowrap', animation: 'ticker 35s linear infinite' }}>
           {[...Array(2)].map((_, i) => (
             <div key={i} style={{ display: 'flex' }}>
-              {['WordPress Development', 'WooCommerce Stores', 'Shopify Development', 'SEO Optimization', 'Speed Optimization', '24/7 Support', '30-Day Guarantee', 'USA · UAE · Switzerland', 'Since 2017'].map(text => (
+              {marqueeItems.map(text => (
                 <span key={text} style={{ display: 'inline-flex', alignItems: 'center', gap: '16px', padding: '0 36px', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', ...M, fontWeight: 700 }}>
                   <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: B_PRI, boxShadow: `0 0 8px ${B_GLO}` }} />
                   {text}

@@ -1,4 +1,4 @@
-import ServiceHeroSection from '@/components/sections/ServiceHeroSection'
+import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 
 type Props = {
   eyebrow?: string; headline?: string; subheadline?: string; supportingText?: string
@@ -9,7 +9,7 @@ type Props = {
 
 export default function BuilderHeroSection(props: Props) {
   return (
-    <ServiceHeroSection
+    <InteractiveHeroSection
       eyebrow={props.eyebrow}
       headline={props.headline}
       subheadline={props.supportingText ? props.subheadline : undefined}

@@ -8,7 +8,7 @@ import WhyUsSection from '@/components/sections/WhyUsSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
 import SchemaMarkup from '@/components/ui/SchemaMarkup'
-import ServiceHeroSection from '@/components/sections/ServiceHeroSection'
+import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -218,16 +218,30 @@ export default async function SEOPage() {
         faqs={activeFaqs}
       />
       
-      <ServiceHeroSection
+      <InteractiveHeroSection
         eyebrow={heroData.eyebrow}
         headline={heroData.headline}
         subheadline={heroData.subheadline}
         desc={heroData.desc}
-        bullets={heroData.bullets}
         ctaPrimaryLabel={heroData.ctaPrimary}
         ctaPrimaryHref="/contact"
         ctaSecondaryLabel={heroData.ctaSecondary}
         ctaSecondaryHref="/portfolio"
+        liveSiteText="SEO strategy optimized 📈"
+        codeFilename="seo/strategy.js"
+        codeLines={[
+          [{ t: 'com', v: '// SEO Growth Strategy' }],
+          [],
+          [{ t: 'kw', v: 'const ' }, { t: 'v', v: 'strategy = {' }],
+          [{ t: 'v', v: '  ' }, { t: 'attr', v: 'technical' }, { t: 'v', v: ': ' }, { t: 'str', v: "'optimized'" }, { t: 'v', v: ',' }],
+          [{ t: 'v', v: '  ' }, { t: 'attr', v: 'content' }, { t: 'v', v: ': ' }, { t: 'str', v: "'authority_driven'" }, { t: 'v', v: ',' }],
+          [{ t: 'v', v: '  ' }, { t: 'attr', v: 'local_seo' }, { t: 'v', v: ': ' }, { t: 'kw', v: 'true' }],
+          [{ t: 'v', v: '};' }],
+          [],
+          [{ t: 'kw', v: 'function ' }, { t: 'fn', v: 'grow_traffic' }, { t: 'v', v: '() {' }],
+          [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'Rankings Improved'" }, { t: 'v', v: ';' }],
+          [{ t: 'v', v: '}' }]
+        ]}
       />
 
       {/* ── INTRO ─────────────────────────────────────────────────── */}

@@ -9,7 +9,7 @@ import WhyUsSection from '@/components/sections/WhyUsSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
 import SchemaMarkup from '@/components/ui/SchemaMarkup'
-import ServiceHeroSection from '@/components/sections/ServiceHeroSection'
+import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 import { IconBox, StandardCheck, ArrowSVG, ChevSVG, SecuritySVG, MigrationSVG, SpeedSVG, RedesignSVG, CodeSVG, GlobeSVG } from '@/components/ui/IconBox'
 
 export const dynamic = 'force-dynamic'
@@ -111,7 +111,7 @@ export default async function WordPressPage() {
         pageDescription={HERO_DATA.desc}
         faqs={FAQS}
       />
-      <ServiceHeroSection
+      <InteractiveHeroSection
         eyebrow={HERO_DATA.eyebrow}
         headline={HERO_DATA.headline}
         subheadline={HERO_DATA.subheadline}
@@ -121,6 +121,8 @@ export default async function WordPressPage() {
         ctaPrimaryHref="/contact"
         ctaSecondaryLabel={HERO_DATA.ctaSecondary}
         ctaSecondaryHref="/portfolio"
+        liveSiteText="Custom WP theme deployed 🚀"
+        codeFilename="wp-content/themes/custom/functions.php"
       />
 
       {/* ── FLAGSHIP VERTICALS (Zig-Zag Layout) ─────────────────────── */}
