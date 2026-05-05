@@ -21,7 +21,7 @@ function getWhyIcon(title: string): React.ReactNode {
   return WHY_ICONS.default
 }
 
-export default function WhyUsSection({ eyebrow='Why Choose Us', headline='Why 100+ Businesses Trust ARIOSETECH for Their Success', items=[] }: Props) {
+export default function WhyUsSection({ eyebrow='Why Choose Us', headline='Why 100+ Businesses Trust\nARIOSETECH\nfor Their Success', items=[] }: Props) {
   const F = { fontFamily:'var(--font-display)' } as const
   const safe = Array.isArray(items) ? items : []
   return (
@@ -31,9 +31,17 @@ export default function WhyUsSection({ eyebrow='Why Choose Us', headline='Why 10
           <div style={{ position:'relative', top:0 }} className="lg:sticky lg:top-[88px] sticky-mobile-fix">
             <p className="eyebrow sr">{eyebrow}</p>
             <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
-              Why 100+ Businesses Trust{' '}
-              <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>ARIOSETECH</span>
-              {' '}for Their Success
+              {headline.split('\n').map((line, i, arr) => (
+                <React.Fragment key={i}>
+                  {i === 1 ? (
+                    <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
+                      {line}
+                    </span>
+                  ) : (
+                    <>{line} </>
+                  )}
+                </React.Fragment>
+              ))}
             </h2>
             <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.85, marginBottom:'32px' }}>We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code — business growth.</p>
             <Link href="/contact" className="btn btn-primary btn-lg sr">Start a Project

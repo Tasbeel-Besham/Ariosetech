@@ -5,6 +5,9 @@ import { getCollection } from '@/lib/db/mongodb'
 import { PageDoc } from '@/types'
 import { notFound } from 'next/navigation'
 import ApproachSection from '@/components/sections/ApproachSection'
+import WhyUsSection from '@/components/sections/WhyUsSection'
+import FaqSection from '@/components/sections/FaqSection'
+import CtaSection from '@/components/sections/CtaSection'
 import { IconBox, StandardCheck, ArrowSVG, ChevSVG, SecuritySVG, MigrationSVG, SpeedSVG, RedesignSVG, CodeSVG, GlobeSVG } from '@/components/ui/IconBox'
 
 export const dynamic = 'force-dynamic'
@@ -411,31 +414,15 @@ export default async function WordPressPage() {
       />
 
       {/* ── WHY CHOOSE ARIOSETECH? ────────────────────────────────────── */}
-      <section className="section" style={{ padding: '120px 0', background: 'rgba(118,108,255,0.02)' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <p className="eyebrow" style={{ justifyContent: 'center' }}>Expertise & Trust</p>
-            <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Why Choose <span style={P}>ARIOSETECH?</span></h2>
-          </div>
-          <div className="g-3" style={{ gap: '40px' }}>
-            <div className="sr">
-              <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', marginBottom: '16px', ...P, width: 'fit-content' }}>7+</p>
-              <h3 style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>Years Expertise</h3>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8 }}>Delivering successful WordPress projects since 2017 with deep technical knowledge.</p>
-            </div>
-            <div className="sr" style={{ borderLeft: '1px solid var(--border)', paddingLeft: '40px' }}>
-              <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', marginBottom: '16px', ...P, width: 'fit-content' }}>100%</p>
-              <h3 style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>Performance-First</h3>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8 }}>Sites built for maximum speed and SEO from day one, ensuring your business stays ahead.</p>
-            </div>
-            <div className="sr" style={{ borderLeft: '1px solid var(--border)', paddingLeft: '40px' }}>
-              <p style={{ ...F, fontSize: '48px', fontWeight: 900, color: '#fff', marginBottom: '16px', ...P, width: 'fit-content' }}>60%</p>
-              <h3 style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>Cost-Effective</h3>
-              <p style={{ fontSize: '15px', color: 'var(--text-3)', lineHeight: 1.8 }}>Save up to 60% compared to US agencies while maintaining world-class quality standards.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhyUsSection 
+        eyebrow="Expertise & Trust"
+        headline="Why Choose\nARIOSETECH?"
+        items={[
+          { icon: 'results', title: '7+ Years Expertise', subhead: '', desc: 'Delivering successful WordPress projects since 2017 with deep technical knowledge.' },
+          { icon: 'speed', title: '100% Performance-First', subhead: '', desc: 'Sites built for maximum speed and SEO from day one, ensuring your business stays ahead.' },
+          { icon: 'cost', title: '60% Cost-Effective', subhead: '', desc: 'Save up to 60% compared to US agencies while maintaining world-class quality standards.' }
+        ]}
+      />
 
       {/* ── PORTFOLIO & CASE STUDIES ─────────────────────────────────── */}
       <section className="section" style={{ padding: '120px 0' }}>
@@ -473,43 +460,25 @@ export default async function WordPressPage() {
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────────────── */}
-      <section className="section section--dark">
-        <div className="container">
-           <div className="g-2" style={{ gap: '80px' }}>
-              <div className="sr">
-                 <p className="eyebrow">Questions</p>
-                 <h2 style={{ ...F, fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 800 }}>Common <span style={P}>Inquiries</span></h2>
-                 <p style={{ fontSize: '16px', color: 'var(--text-2)', marginTop: '20px' }}>Everything you need to know about our WordPress development services.</p>
-                 <Link href="/contact" className="btn btn-primary btn-lg" style={{ marginTop: '40px' }}>Contact Support</Link>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 {FAQS.map((faq, i) => (
-                   <div key={i} className="sr" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
-                      <details style={{ width: '100%' }}>
-                         <summary style={{ padding: '24px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <span style={{ ...F, fontSize: '16px', fontWeight: 800, color: '#fff' }}>{faq.q}</span>
-                            <div style={{ color: 'var(--primary)' }}><ChevSVG open={false} /></div>
-                         </summary>
-                         <div style={{ padding: '0 24px 24px', fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.7 }}>
-                            {faq.a}
-                         </div>
-                      </details>
-                   </div>
-                 ))}
-              </div>
-           </div>
-        </div>
-      </section>
+      <FaqSection 
+        eyebrow="Questions"
+        headline="Common\nInquiries"
+        subheadline="Everything you need to know about our WordPress development services."
+        ctaLabel="Contact Support"
+        ctaHref="/contact"
+        items={FAQS}
+      />
 
       {/* ── FINAL CTA ────────────────────────────────────────────────── */}
-      <section className="section" style={{ textAlign: 'center', position: 'relative', padding: '160px 0' }}>
-         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(118,108,255,0.08) 0%, transparent 80%)', pointerEvents: 'none' }} />
-         <div className="container">
-            <h2 className="sr" style={{ ...F, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900 }}>Ready to Start Your <span style={P}>Project?</span></h2>
-            <p className="sr" style={{ fontSize: '18px', color: 'var(--text-2)', maxWidth: '600px', margin: '24px auto 48px' }}>Join dozens of successful businesses that rely on Ariosetech for their high-performance digital presence.</p>
-            <Link href="/contact" className="btn btn-primary btn-xl">Get Started Now <ArrowSVG size={18} /></Link>
-         </div>
-      </section>
+      <CtaSection 
+        eyebrow="Get Started Today"
+        headline="Ready to Start Your\nProject?"
+        desc="Join dozens of successful businesses that rely on Ariosetech for their high-performance digital presence."
+        ctaPrimaryLabel="Get Started Now"
+        ctaPrimaryHref="/contact"
+        ctaSecondaryLabel=""
+        ctaSecondaryHref=""
+      />
 
     </main>
   )

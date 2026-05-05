@@ -4,6 +4,9 @@ import { getCollection } from '@/lib/db/mongodb'
 import { ServicePageDoc } from '@/types'
 import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
 import ApproachSection from '@/components/sections/ApproachSection'
+import WhyUsSection from '@/components/sections/WhyUsSection'
+import FaqSection from '@/components/sections/FaqSection'
+import CtaSection from '@/components/sections/CtaSection'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -289,39 +292,16 @@ export default async function SEOPage() {
       />
 
       {/* ── WHY ARIOSETECH ──────────────────────────────────────────── */}
-      <section className="section" style={{ overflow: 'visible' }}>
-        <div className="container">
-          <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
-            {/* Left - Sticky */}
-            <div className="sr sticky-mobile-fix" style={{ position: 'sticky', top: '100px' }}>
-              <p className="eyebrow">Why Choose Us</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
-                Why Businesses Choose <span style={P}>ARIOSETECH</span> for SEO
-              </h2>
-              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.85, marginBottom: '32px' }}>
-                SEO works best when strategy, structure, and execution move in the same direction. That is why our work connects technical improvements, content decisions, website structure, and growth goals instead of treating SEO like a checklist.
-              </p>
-              <Link href="/contact" className="btn btn-primary btn-lg">Start a Project <ArrowSVG size={16} /></Link>
-            </div>
-
-            {/* Right - Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
-              {activeWhyUs.map((r: any, i: number) => (
-                <div key={r.title} className="sr" style={{ display: 'flex', gap: '20px', padding: '28px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', transition: 'all 0.3s var(--ease)', animationDelay: `${i * 0.08}s`, position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.6 }} />
-                  <IconBox size={52} radius={14} style={{ marginBottom: '20px' }}>
-                    {r.icon}
-                  </IconBox>
-                  <div>
-                    <p style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>{r.title}</p>
-                    <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.75 }}>{r.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhyUsSection 
+        eyebrow="Why Choose Us"
+        headline="Why Businesses Choose\nARIOSETECH\nfor SEO"
+        items={activeWhyUs.map((r: any) => ({
+          icon: 'default',
+          title: r.title,
+          subhead: '',
+          desc: r.desc
+        }))}
+      />
 
       {/* ── PROBLEMS WE SOLVE ──────────────────────────────────────── */}
       <section className="section section--dark">
@@ -439,66 +419,25 @@ export default async function SEOPage() {
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────────── */}
-      <section className="section section--dark" style={{ overflow: 'visible' }}>
-        <div className="container">
-          <div className="g-2" style={{ gap: '80px', alignItems: 'start' }}>
-            {/* Left - Sticky */}
-            <div className="sr sticky-mobile-fix" style={{ position: 'sticky', top: '100px' }}>
-              <p className="eyebrow">FAQ</p>
-              <h2 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: '24px' }}>
-                SEO Questions <span style={P}>Answered</span>
-              </h2>
-              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.8, marginBottom: '32px' }}>
-                Everything you need to know about our SEO approach and how we help businesses grow organic visibility.
-              </p>
-              <Link href="/contact" className="btn btn-primary btn-lg">Book a Free Consultation <ArrowSVG size={16} /></Link>
-            </div>
-
-            {/* Right - Accordions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {activeFaqs.map(({ q, a }: any, i: number) => (
-                <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
-                  <details style={{ width:'100%' }}>
-                    <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-                      <span style={{ ...hs, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{q}</span>
-                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG open={false} /></div>
-                    </summary>
-                    <div style={{ padding: '0 28px 24px' }}>
-                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
-                    </div>
-                  </details>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <FaqSection 
+        eyebrow="FAQ"
+        headline="SEO Questions\nAnswered"
+        subheadline="Everything you need to know about our SEO approach and how we help businesses grow organic visibility."
+        ctaLabel="Book a Free Consultation"
+        ctaHref="/contact"
+        items={activeFaqs}
+      />
 
       {/* ── CTA ─────────────────────────────────────────────────── */}
-      <section className="section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(118,108,255,0.1) 0%, transparent 80%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.3 }} />
-        
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="sr">
-            <p className="eyebrow" style={{ justifyContent:'center' }}>Get Started Today</p>
-            <h2 style={{ ...hs, fontSize: 'clamp(2.4rem,6vw,4.5rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '24px', color:'#fff' }}>
-              Ready to Improve Your<br />
-              <span style={P}>Search Visibility?</span>
-            </h2>
-            <p style={{ fontSize: '18px', color: 'var(--text-2)', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.8 }}>
-              Whether you need technical fixes, stronger local SEO, better website optimization, or a content strategy that supports rankings, Ariosetech is ready to help.
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-              <Link href="/contact" className="btn btn-primary btn-lg">Book a Free SEO Consultation <ArrowSVG size={16} /></Link>
-              <Link href="/contact?audit=1" className="btn btn-outline btn-lg">Get a Website Audit</Link>
-            </div>
-            <p style={{ ...hm, fontSize: '12px', color: 'var(--text-3)', marginTop: '32px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
-              Tell us where your website stands, and we&apos;ll help you map the next move.
-            </p>
-          </div>
-        </div>
-      </section>
+      <CtaSection 
+        eyebrow="Get Started Today"
+        headline="Ready to Improve Your\nSearch Visibility?"
+        desc="Whether you need technical fixes, stronger local SEO, better website optimization, or a content strategy that supports rankings, Ariosetech is ready to help."
+        ctaPrimaryLabel="Book a Free SEO Consultation"
+        ctaSecondaryLabel="Get a Website Audit"
+        ctaSecondaryHref="/contact?audit=1"
+        trust="Tell us where your website stands, and we'll help you map the next move."
+      />
     </>
   )
 }

@@ -1,11 +1,11 @@
 'use client'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
 type Item = { q: string; a: string }
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; ctaLabel?: string; ctaHref?: string; items?: Item[] }
 
-export default function FaqSection({ eyebrow='FAQ', subheadline="Can't find what you're looking for? We're here to help.", ctaLabel='Ask Us Anything', ctaHref='/contact', items=[] }: Props) {
+export default function FaqSection({ eyebrow='FAQ', headline='Frequently Asked\nQuestions', subheadline="Can't find what you're looking for? We're here to help.", ctaLabel='Ask Us Anything', ctaHref='/contact', items=[] }: Props) {
   const [open, setOpen] = useState<number|null>(null)
   const F = { fontFamily:'var(--font-display)' } as const
   const safe = Array.isArray(items) ? items : []
@@ -15,9 +15,18 @@ export default function FaqSection({ eyebrow='FAQ', subheadline="Can't find what
         <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
           <div style={{ position:'relative', top:0 }} className="lg:sticky lg:top-[88px] sticky-mobile-fix">
             <p className="eyebrow">{eyebrow}</p>
-            <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
-              Frequently Asked{' '}
-              <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Questions</span>
+            <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
+              {headline.split('\n').map((line, i, arr) => (
+                <React.Fragment key={i}>
+                  {i === arr.length - 1 ? (
+                    <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
+                      {line}
+                    </span>
+                  ) : (
+                    <>{line} </>
+                  )}
+                </React.Fragment>
+              ))}
             </h2>
             <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.8, marginBottom:'32px' }}>{subheadline}</p>
             <Link href={ctaHref} className="btn btn-primary btn-lg">
