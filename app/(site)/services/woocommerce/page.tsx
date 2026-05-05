@@ -25,5 +25,5 @@ export default async function WooCommerceServicePage() {
   
   if (!page) notFound()
   
-  return <BuilderRenderer sections={page.layout?.sections || []} />
+  return <BuilderRenderer sections={page.layout?.sections || []} pageUrl="/services/woocommerce" pageName="WooCommerce Development Services" />
 }

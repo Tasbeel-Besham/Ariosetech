@@ -4,14 +4,37 @@ import { sectionRegistry } from '@/lib/builder/registry'
 import FallbackSection from '../sections/FallbackSection'
 import type { SectionInstance } from '@/types'
 import { motion } from 'framer-motion'
+import SchemaMarkup from '@/components/ui/SchemaMarkup'
 
 initRegistry()
 
-export function BuilderRenderer({ sections }: { sections: SectionInstance[] }) {
+export function BuilderRenderer({ sections, pageName, pageUrl }: { sections: SectionInstance[], pageName?: string, pageUrl?: string }) {
   const visible = sections.filter(s => !s.meta?.hidden)
+
+  // Auto-generate schemas from builder sections
+  const faqs: any[] = []
+  let description = ''
+  
+  visible.forEach(s => {
+    if (s.type === 'faq' && Array.isArray(s.props?.items)) {
+      faqs.push(...s.props.items)
+    }
+    if ((s.type === 'hero' || s.type === 'interactive_hero') && s.props?.desc && !description) {
+      description = s.props.desc as string
+    }
+  })
 
   return (
     <div>
+      {pageUrl && (
+        <SchemaMarkup 
+          type="Service" 
+          pageUrl={pageUrl} 
+          pageName={pageName || 'Service Page'} 
+          pageDescription={description} 
+          faqs={faqs} 
+        />
+      )}
       {visible.map((section, index) => {
         const def = sectionRegistry[section.type]
         if (!def) return <FallbackSection key={section.id} type={section.type} />

@@ -6,6 +6,7 @@ import HeroSection from '@/components/builder/sections/HeroSection'
 import InteractiveHeroSection from '@/components/builder/sections/InteractiveHeroSection'
 import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
 import ApproachSection from '@/components/builder/sections/ApproachSection'
+import SchemaMarkup from '@/components/ui/SchemaMarkup'
 import { IconBox, CheckSVG, ArrowSVG, ChevSVG } from '@/components/ui/IconBox'
 const StarSVG = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="var(--primary)">
@@ -166,6 +167,13 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
   return (
     <>
+      <SchemaMarkup
+        type="Organization"
+        pageUrl="/"
+        pageName="Ariosetech"
+        pageDescription="Ariosetech is a premium web development agency specializing in WordPress, Shopify, and WooCommerce development for businesses."
+        faqs={FAQS}
+      />
       {/* ══ HERO ══════════════════════════════════════════════════════ */}
       <InteractiveHeroSection />
 

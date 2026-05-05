@@ -25,5 +25,5 @@ export default async function ShopifyServicePage() {
   
   if (!page) notFound()
   
-  return <BuilderRenderer sections={page.layout?.sections || []} />
+  return <BuilderRenderer sections={page.layout?.sections || []} pageUrl="/services/shopify" pageName="Shopify Development Services" />
 }

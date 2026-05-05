@@ -8,6 +8,7 @@ import ApproachSection from '@/components/sections/ApproachSection'
 import WhyUsSection from '@/components/sections/WhyUsSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
+import SchemaMarkup from '@/components/ui/SchemaMarkup'
 import { IconBox, StandardCheck, ArrowSVG, ChevSVG, SecuritySVG, MigrationSVG, SpeedSVG, RedesignSVG, CodeSVG, GlobeSVG } from '@/components/ui/IconBox'
 
 export const dynamic = 'force-dynamic'
@@ -102,7 +103,13 @@ export default async function WordPressPage() {
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg)' }}>
-      
+      <SchemaMarkup
+        type="Service"
+        pageUrl="/services/wordpress"
+        pageName="WordPress Development Services"
+        pageDescription={HERO_DATA.desc}
+        faqs={FAQS}
+      />
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section className="section" style={{ padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
         {/* Background Grid & Glows */}

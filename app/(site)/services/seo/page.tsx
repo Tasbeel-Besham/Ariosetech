@@ -7,6 +7,7 @@ import ApproachSection from '@/components/sections/ApproachSection'
 import WhyUsSection from '@/components/sections/WhyUsSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
+import SchemaMarkup from '@/components/ui/SchemaMarkup'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -208,6 +209,13 @@ export default async function SEOPage() {
 
   return (
     <>
+      <SchemaMarkup
+        type="Service"
+        pageUrl="/services/seo"
+        pageName="SEO Services"
+        pageDescription={heroData.desc}
+        faqs={activeFaqs}
+      />
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section style={{ position: 'relative', overflow: 'hidden' }} className="section">
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 80% 80% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.4 }} />
