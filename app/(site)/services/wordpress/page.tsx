@@ -9,6 +9,7 @@ import WhyUsSection from '@/components/sections/WhyUsSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
 import SchemaMarkup from '@/components/ui/SchemaMarkup'
+import ServiceHeroSection from '@/components/sections/ServiceHeroSection'
 import { IconBox, StandardCheck, ArrowSVG, ChevSVG, SecuritySVG, MigrationSVG, SpeedSVG, RedesignSVG, CodeSVG, GlobeSVG } from '@/components/ui/IconBox'
 
 export const dynamic = 'force-dynamic'
@@ -110,45 +111,17 @@ export default async function WordPressPage() {
         pageDescription={HERO_DATA.desc}
         faqs={FAQS}
       />
-      {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="section" style={{ padding: '140px 0 80px', position: 'relative', overflow: 'hidden' }}>
-        {/* Background Grid & Glows */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.2 }} />
-        <div style={{ position: 'absolute', top: '20%', left: '10%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(118,108,255,0.1) 0%, transparent 70%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-        
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="sr" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '6px 16px', borderRadius: 'var(--r-f)', background: 'rgba(118,108,255,0.06)', border: '1px solid rgba(118,108,255,0.15)', marginBottom: '32px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }} />
-            <span style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 800 }}>{HERO_DATA.eyebrow}</span>
-          </div>
-
-          <h1 style={{ ...F, fontSize: 'clamp(2.8rem, 6vw, 4.8rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.05em', marginBottom: '24px', maxWidth: '1100px', color: '#fff' }}>
-            {HERO_DATA.headline}
-          </h1>
-          <h2 style={{ ...F, fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '32px', maxWidth: '900px', ...P }}>
-            {HERO_DATA.subheadline}
-          </h2>
-          <p style={{ fontSize: '19px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '680px', marginBottom: '56px' }}>
-            {HERO_DATA.desc}
-          </p>
-
-          <div className="sr" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '64px' }}>
-            <Link href="/contact" className="btn btn-primary btn-xl">{HERO_DATA.ctaPrimary} <ArrowSVG size={18} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-xl">{HERO_DATA.ctaSecondary}</Link>
-          </div>
-
-          <div className="sr" style={{ display: 'flex', alignItems: 'center', gap: '16px', borderTop: '1px solid var(--border)', paddingTop: '32px', maxWidth: '720px' }}>
-             <div style={{ display:'flex', gap:'3px' }}>
-                {[1,2,3,4,5].map(i => (
-                  <svg key={i} width="16" height="16" viewBox="0 0 14 14" fill="var(--primary)"><path d="M7 1l1.5 4.5H13L9.5 8l1.3 4L7 10l-3.8 2 1.3-4L1 5.5h4.5z"/></svg>
-                ))}
-             </div>
-             <p style={{ ...M, fontSize: '12px', color: 'var(--text-3)', letterSpacing: '0.04em', fontWeight: 600 }}>
-               {HERO_DATA.trust}
-             </p>
-          </div>
-        </div>
-      </section>
+      <ServiceHeroSection
+        eyebrow={HERO_DATA.eyebrow}
+        headline={HERO_DATA.headline}
+        subheadline={HERO_DATA.subheadline}
+        desc={HERO_DATA.desc}
+        trust={HERO_DATA.trust}
+        ctaPrimaryLabel={HERO_DATA.ctaPrimary}
+        ctaPrimaryHref="/contact"
+        ctaSecondaryLabel={HERO_DATA.ctaSecondary}
+        ctaSecondaryHref="/portfolio"
+      />
 
       {/* ── FLAGSHIP VERTICALS (Zig-Zag Layout) ─────────────────────── */}
       <section className="section" style={{ padding: '60px 0 100px' }}>

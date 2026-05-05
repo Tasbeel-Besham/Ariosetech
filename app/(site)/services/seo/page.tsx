@@ -8,6 +8,7 @@ import WhyUsSection from '@/components/sections/WhyUsSection'
 import FaqSection from '@/components/sections/FaqSection'
 import CtaSection from '@/components/sections/CtaSection'
 import SchemaMarkup from '@/components/ui/SchemaMarkup'
+import ServiceHeroSection from '@/components/sections/ServiceHeroSection'
 
 const hs = { fontFamily: 'var(--font-display)' } as const
 const hm = { fontFamily: 'var(--font-mono)' } as const
@@ -216,46 +217,18 @@ export default async function SEOPage() {
         pageDescription={heroData.desc}
         faqs={activeFaqs}
       />
-      {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section style={{ position: 'relative', overflow: 'hidden' }} className="section">
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '72px 72px', maskImage: 'radial-gradient(ellipse 80% 80% at 30% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.4 }} />
-        <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '50%', height: '70%', background: 'radial-gradient(ellipse, rgba(79,110,247,0.12) 0%, transparent 65%)', borderRadius: '50%', pointerEvents: 'none' }} />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          {/* Badge */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 14px 5px 10px', borderRadius: '20px', background: 'rgba(79,110,247,0.08)', border: '1px solid rgba(79,110,247,0.2)', marginBottom: '24px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', display: 'block' }} />
-            <span style={{ ...hm, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>{heroData.eyebrow}</span>
-          </div>
-
-          <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '8px', maxWidth: '800px' }}>
-            {heroData.headline}
-          </h1>
-          <h1 style={{ ...hs, fontSize: 'clamp(2.4rem,5vw,4.2rem)', fontWeight: 800, lineHeight: 1.02, letterSpacing: '-0.04em', marginBottom: '24px', maxWidth: '800px', ...P }}>
-            {heroData.subheadline}
-          </h1>
-
-          <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '600px', marginBottom: '32px' }}>
-            {heroData.desc}
-          </p>
-
-          {/* Trust strip */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '36px' }}>
-            {heroData.bullets?.map((b: string) => (
-              <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--primary-soft)', border: '1px solid rgba(118,108,255,0.2)', borderRadius: '20px', padding: '5px 14px' }}>
-                <IconBox size={18} radius={5} style={{ border: 'none', background: 'transparent' }}>
-                  <CheckSVG size={10} />
-                </IconBox>
-                <span style={{ ...hm, fontSize: '11px', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.06em' }}>{b}</span>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="btn btn-primary btn-lg">{heroData.ctaPrimary} <ArrowSVG size={16} /></Link>
-            <Link href="/contact?audit=1" className="btn btn-outline btn-lg">{heroData.ctaSecondary}</Link>
-          </div>
-        </div>
-      </section>
+      
+      <ServiceHeroSection
+        eyebrow={heroData.eyebrow}
+        headline={heroData.headline}
+        subheadline={heroData.subheadline}
+        desc={heroData.desc}
+        bullets={heroData.bullets}
+        ctaPrimaryLabel={heroData.ctaPrimary}
+        ctaPrimaryHref="/contact"
+        ctaSecondaryLabel={heroData.ctaSecondary}
+        ctaSecondaryHref="/portfolio"
+      />
 
       {/* ── INTRO ─────────────────────────────────────────────────── */}
       <section className="section section--dark">
