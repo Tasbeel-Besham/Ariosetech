@@ -280,28 +280,40 @@ export default function InteractiveHeroSection({
         
         {/* Left Side */}
         <div style={{ display: 'flex', flexDirection: 'column', pointerEvents: 'all' }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '22px' }}>
-              <div style={{ width: '22px', height: '1.5px', background: 'var(--grad)' }} />
-              <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: B_PRI, opacity: 0.6 }} />
-              <span style={{ ...M, fontSize: '10.5px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>{eyebrow}</span>
-            </div>
-          </motion.div>
+          {eyebrow && eyebrow.trim().length > 0 && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '22px' }}>
+                <div style={{ width: '22px', height: '1.5px', background: 'var(--grad)' }} />
+                <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: B_PRI, opacity: 0.6 }} />
+                <span style={{ ...M, fontSize: '10.5px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>{eyebrow}</span>
+              </div>
+            </motion.div>
+          )}
 
           <div ref={headlineRef} style={{ marginBottom: '24px', maxWidth: '620px' }}>
-            <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', cursor: 'none' }}>
-              {renderChar(headline)}
-            </h1>
-            {subheadline && desc && (
+            {headline && headline.trim().length > 0 && (
+              <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', cursor: 'none' }}>
+                {renderChar(headline)}
+              </h1>
+            )}
+            {subheadline && desc && subheadline.length < 120 && (
               <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', cursor: 'none' }}>
                 {renderChar(subheadline)}
               </h1>
             )}
           </div>
 
-          <p style={{ ...B, fontSize: '15px', lineHeight: 1.78, color: 'rgba(255,255,255,0.38)', maxWidth: '450px', marginBottom: '18px', fontWeight: 300 }}>
-            {desc || subheadline}
-          </p>
+          {subheadline && (!desc || subheadline.length >= 120) && (
+            <p style={{ ...B, fontSize: '15px', lineHeight: 1.78, color: 'rgba(255,255,255,0.38)', maxWidth: '500px', marginBottom: desc ? '12px' : '18px', fontWeight: 300 }}>
+              {subheadline}
+            </p>
+          )}
+
+          {desc && (
+            <p style={{ ...B, fontSize: '15px', lineHeight: 1.78, color: 'rgba(255,255,255,0.38)', maxWidth: '500px', marginBottom: '18px', fontWeight: 300 }}>
+              {desc}
+            </p>
+          )}
 
           <p style={{ ...B, fontSize: '12.5px', color: 'rgba(255,255,255,0.28)', marginBottom: '32px', fontStyle: 'italic' }}>
             {trust ? trust : (
@@ -312,10 +324,14 @@ export default function InteractiveHeroSection({
           </p>
 
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
-            <Link href={ctaPrimaryHref} className="cta-custom-primary" style={{ textDecoration: 'none' }}>
-              {ctaPrimaryLabel.toUpperCase()} <ArrowSVG />
-            </Link>
-            <Link href={ctaSecondaryHref} className="cta-custom-secondary" style={{ textDecoration: 'none' }}>{ctaSecondaryLabel} →</Link>
+            {ctaPrimaryLabel && ctaPrimaryLabel.trim().length > 0 && (
+              <Link href={ctaPrimaryHref || '/contact'} className="cta-custom-primary" style={{ textDecoration: 'none' }}>
+                {ctaPrimaryLabel.toUpperCase()} <ArrowSVG />
+              </Link>
+            )}
+            {ctaSecondaryLabel && ctaSecondaryLabel.trim().length > 0 && (
+              <Link href={ctaSecondaryHref || '/portfolio'} className="cta-custom-secondary" style={{ textDecoration: 'none' }}>{ctaSecondaryLabel} →</Link>
+            )}
           </div>
         </div>
 
