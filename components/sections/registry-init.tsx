@@ -1,7 +1,7 @@
 import { registerSection, getSection } from '@/lib/builder/registry'
 
 // ── All section components ────────────────────────────────────────
-import HeroSection from './HeroSection'
+import BuilderHeroSection from '@/components/builder/sections/HeroSection'
 import InteractiveHeroSection from './InteractiveHeroSection'
 import ServicesSection from './ServicesSection'
 import ServicesAccordionSection from './ServicesAccordionSection'
@@ -30,60 +30,13 @@ import ServiceGridSection from './ServiceGridSection'
 export function initRegistry() {
   if (getSection('hero')) return  // already registered
 
-  // ── HERO SECTIONS ──────────────────────────────────────────
-  registerSection({
-    type: 'hero-interactive', label: 'Hero (Interactive)', category: 'Sections', icon: '✨',
-    component: InteractiveHeroSection as React.FC<Record<string, unknown>>,
-    defaultProps: {
-      eyebrow: 'Professional Web Development Since 2017',
-      headline: 'Professional WordPress, Shopify & WooCommerce Development',
-      subheadline: "Transform your business with custom e-commerce solutions that drive results. We've helped 100+ businesses across the globe scale their online presence with expert development, lightning-fast performance, and ongoing support.",
-      ctaPrimaryLabel: 'Get Free Quote & Strategy Call',
-      ctaPrimaryHref: '/contact',
-      ctaSecondaryLabel: 'View Our Portfolio',
-      ctaSecondaryHref: '/portfolio',
-    },
-    schema: [
-      { type: 'text',     name: 'eyebrow',          label: 'Eyebrow badge' },
-      { type: 'text',     name: 'headline',          label: 'Main headline' },
-      { type: 'textarea', name: 'subheadline',       label: 'Subheadline' },
-      { type: 'text',     name: 'ctaPrimaryLabel',   label: 'Primary CTA label' },
-      { type: 'text',     name: 'ctaPrimaryHref',    label: 'Primary CTA URL' },
-      { type: 'text',     name: 'ctaSecondaryLabel', label: 'Secondary CTA label' },
-      { type: 'text',     name: 'ctaSecondaryHref',  label: 'Secondary CTA URL' },
-    ],
-  })
-
-  registerSection({
-    type: 'hero-classic', label: 'Hero (Classic)', category: 'Sections', icon: '🏛️',
-    component: HeroSection as React.FC<Record<string, unknown>>,
-    defaultProps: {
-      eyebrow: 'Trusted by 100+ businesses worldwide',
-      headline: 'We Build Websites That Drive Real Business Growth',
-      subheadline: 'Expert WordPress, Shopify & WooCommerce development — optimized for speed, conversions, and long-term scale.',
-      ctaPrimaryLabel: 'Get Free Strategy Call',
-      ctaPrimaryHref: '/contact',
-      ctaSecondaryLabel: 'View Case Studies',
-      ctaSecondaryHref: '/portfolio',
-      trust: '7+ Years of Excellence,100+ Projects Delivered,24/7 Expert Support,30-Day Guarantee',
-    },
-    schema: [
-      { type: 'text',     name: 'eyebrow',          label: 'Eyebrow badge' },
-      { type: 'text',     name: 'headline',          label: 'Main headline' },
-      { type: 'textarea', name: 'subheadline',       label: 'Subheadline' },
-      { type: 'text',     name: 'ctaPrimaryLabel',   label: 'Primary CTA label' },
-      { type: 'text',     name: 'ctaPrimaryHref',    label: 'Primary CTA URL' },
-      { type: 'text',     name: 'ctaSecondaryLabel', label: 'Secondary CTA label' },
-      { type: 'text',     name: 'ctaSecondaryHref',  label: 'Secondary CTA URL' },
-      { type: 'textarea', name: 'trust',             label: 'Trust indicators (comma separated)' },
-      { type: 'repeater', name: 'stats', label: 'Stats', fields: [{ type: 'text', name: 'value', label: 'Value' }, { type: 'text', name: 'label', label: 'Label' }] },
-    ],
-  })
+  registerSection({ type: 'hero-interactive', label: 'Hero (Interactive)', category: 'Sections', icon: '✨', component: BuilderHeroSection as React.FC<Record<string, unknown>> })
+  registerSection({ type: 'hero-classic', label: 'Hero (Classic)', category: 'Sections', icon: '🏛️', component: BuilderHeroSection as React.FC<Record<string, unknown>> })
 
   // Alias 'hero' to 'HeroSection' (Current Standard)
   registerSection({
     type: 'hero', label: 'Hero (Standard)', category: 'Sections', icon: '🚀',
-    component: HeroSection as React.FC<Record<string, unknown>>,
+    component: BuilderHeroSection as React.FC<Record<string, unknown>>,
     defaultProps: {
       eyebrow: 'Professional Web Development Since 2017',
       headline: 'Professional WordPress, Shopify & WooCommerce Development',
