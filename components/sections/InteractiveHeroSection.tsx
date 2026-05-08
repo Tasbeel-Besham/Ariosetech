@@ -290,14 +290,14 @@ export default function InteractiveHeroSection({
             </motion.div>
           )}
 
-          <div ref={headlineRef} style={{ marginBottom: '24px', maxWidth: '620px' }}>
+          <div ref={headlineRef} style={{ marginBottom: '24px', maxWidth: '680px' }}>
             {headline && headline.trim().length > 0 && (
-              <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', color: '#fff', cursor: 'none' }}>
+              <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.03em', color: '#fff', cursor: 'none' }}>
                 {renderChar(headline)}
               </h1>
             )}
             {subheadline && desc && subheadline.length < 120 && (
-              <h1 style={{ ...F, fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', cursor: 'none' }}>
+              <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.03em', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', cursor: 'none', marginTop: '8px' }}>
                 {renderChar(subheadline)}
               </h1>
             )}
@@ -336,7 +336,7 @@ export default function InteractiveHeroSection({
         </div>
 
         {/* Right Side */}
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px', pointerEvents: 'all' }}>
+        <div className="hero-right-col" style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px', pointerEvents: 'all' }}>
           
           <div style={{ position: 'absolute', top: '-24px', right: '16px', background: 'rgba(5,5,14,0.95)', border: '1px solid rgba(118,108,255,0.25)', borderRadius: '12px', padding: '10px 16px', fontSize: '11px', color: '#fff', backdropFilter: 'blur(12px)', zIndex: 20, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 32px rgba(118,108,255,0.15)', animation: 'chipBob 4s ease-in-out infinite alternate' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
@@ -426,8 +426,8 @@ export default function InteractiveHeroSection({
         }
         .cta-custom-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.35); }
         @media (max-width: 1024px) {
-          .container { grid-template-columns: 1fr !important; padding-top: 100px !important; gap: 2rem !important; }
-          .container > div:last-child { display: none; }
+          .container { grid-template-columns: 1fr !important; padding-top: 120px !important; gap: 2rem !important; }
+          .hero-right-col { display: none !important; }
         }
       `}</style>
     </section>
