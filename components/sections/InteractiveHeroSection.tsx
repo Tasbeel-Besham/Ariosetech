@@ -293,12 +293,7 @@ export default function InteractiveHeroSection({
           <div ref={headlineRef} style={{ marginBottom: '24px', maxWidth: '680px' }}>
             {headline && headline.trim().length > 0 && (
               <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.03em', color: '#fff', cursor: 'none' }}>
-                {renderChar(headline)}
-              </h1>
-            )}
-            {subheadline && desc && subheadline.length < 120 && (
-              <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.03em', background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', cursor: 'none', marginTop: '8px' }}>
-                {subheadline}
+                {renderChar(headline + (subheadline && desc && subheadline.length < 120 ? ' ' + subheadline : ''))}
               </h1>
             )}
           </div>
