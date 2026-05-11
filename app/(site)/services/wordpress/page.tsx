@@ -18,9 +18,9 @@ export const dynamic = 'force-dynamic'
 
 const HERO_DATA = {
   eyebrow: "ELEVATE YOUR ONLINE PRESENCE",
-  headline: "Professional WordPress Development Services",
-  subheadline: "Empower Your Business Online with a WordPress Website. Elevate Your Online Presence.",
-  desc: "From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.",
+  headline: "Professional WordPress",
+  subheadline: "Development Services",
+  desc: "Empower your business online with a custom WordPress website. From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.",
   ctaPrimary: "Get Free WordPress Consultation",
   ctaSecondary: "View WordPress Portfolio",
   trust: "4.9/5 Rating | 50+ Projects | 30-Day Money-Back Guarantee | Free Post-Launch Support"
