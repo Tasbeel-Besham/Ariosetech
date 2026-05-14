@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 
-// ── Builder types ─────────────────────────────────────────────────
+// ── Builder types ──────────────────────────────────────────────────
 export type FieldSchema =
   | { type: 'text';     name: string; label: string }
   | { type: 'textarea'; name: string; label: string }
@@ -8,7 +8,7 @@ export type FieldSchema =
   | { type: 'select';   name: string; label: string; options: string[] }
   | { type: 'repeater'; name: string; label: string; fields: FieldSchema[] }
   | { type: 'color';    name: string; label: string }
-  | { type: 'boolean';  name: string; label: string }
+  | { type: 'boolean';  name: string; label: string }   // ← 'checkbox' was not in this union; use 'boolean'
   | { type: 'number';   name: string; label: string }
 
 export type SectionInstance = {
@@ -31,7 +31,7 @@ export type SectionDefinition = {
   schema: FieldSchema[]
 }
 
-// ── SEO type (shared) ─────────────────────────────────────────────
+// ── SEO types (shared) ────────────────────────────────────────────
 export type SeoFields = {
   title?: string
   description?: string
@@ -116,7 +116,7 @@ export type PortfolioDoc = {
 
 export type ServicePageDoc = {
   _id?: ObjectId
-  slug: string // e.g. 'shopify', 'wordpress', 'woocommerce', 'seo'
+  slug: string
   title: string
   status: 'draft' | 'published'
   hero: {
@@ -224,8 +224,8 @@ export type NavItem = {
 
 export type MenuDoc = {
   _id?: ObjectId
-  name: string          // e.g. "main-nav", "footer-links"
-  location: string      // "header" | "footer" | "mobile"
+  name: string
+  location: string
   items: NavItem[]
   updatedAt: Date
 }
