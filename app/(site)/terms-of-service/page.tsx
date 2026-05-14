@@ -1,0 +1,175 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Terms of Service | ARIOSETECH',
+  description: 'Read the terms and conditions governing use of ARIOSETECH services and website.',
+}
+
+const hs = { fontFamily: 'var(--font-display)' } as const
+const hm = { fontFamily: 'var(--font-mono)' } as const
+const hb = { fontFamily: 'var(--font-body)' } as const
+
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <section style={{ marginBottom: '40px' }}>
+    <h2 style={{ ...hs, fontSize: 'clamp(1.1rem,2vw,1.4rem)', fontWeight: 700, color: 'var(--text)', marginBottom: '12px' }}>
+      {title}
+    </h2>
+    <div style={{ ...hb, fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+      {children}
+    </div>
+  </section>
+)
+
+export default function TermsOfServicePage() {
+  return (
+    <main style={{ paddingTop: '120px', paddingBottom: '80px' }}>
+      <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: '48px' }}>
+          <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
+            Legal
+          </p>
+          <h1 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: 'var(--text)', marginBottom: '16px', letterSpacing: '-0.03em' }}>
+            Terms of Service
+          </h1>
+          <p style={{ ...hb, fontSize: '15px', color: 'var(--text-3)' }}>
+            Last updated: January 2025
+          </p>
+        </div>
+
+        <Section title="1. Acceptance of Terms">
+          <p>
+            By accessing or using the services provided by ARIOSETECH (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services or website. These terms apply to all clients, visitors, and users of our services.
+          </p>
+        </Section>
+
+        <Section title="2. Services">
+          <p style={{ marginBottom: '12px' }}>
+            ARIOSETECH provides professional web development services including but not limited to:
+          </p>
+          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+            {[
+              'WordPress website development, maintenance, and support',
+              'WooCommerce store development and optimisation',
+              'Shopify store development and management',
+              'SEO services (website SEO, local SEO, technical SEO, content SEO)',
+              'Speed optimisation, security hardening, and migration services',
+            ].map((item, i) => (
+              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+            ))}
+          </ul>
+          <p style={{ marginTop: '12px' }}>
+            All services are subject to separate project agreements, proposals, or statements of work that outline specific deliverables, timelines, and pricing.
+          </p>
+        </Section>
+
+        <Section title="3. Project Agreements & Payment">
+          <p style={{ marginBottom: '12px' }}>
+            All projects require a signed proposal or agreement before work commences. Unless otherwise specified:
+          </p>
+          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+            {[
+              'A 50% deposit is required to begin any project',
+              'The remaining balance is due upon project completion before final delivery',
+              'Monthly maintenance and SEO services are billed in advance',
+              'All prices are in USD unless otherwise agreed',
+              'Invoices are due within 7 days of issue',
+            ].map((item, i) => (
+              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+            ))}
+          </ul>
+        </Section>
+
+        <Section title="4. 30-Day Money-Back Guarantee">
+          <p>
+            We offer a 30-day money-back guarantee on all web development projects. If you are not satisfied with our work within 30 days of project delivery, we will refund your payment in full — no questions asked. This guarantee applies to development projects only and not to ongoing maintenance, SEO retainers, or domain/hosting costs.
+          </p>
+        </Section>
+
+        <Section title="5. Client Responsibilities">
+          <p style={{ marginBottom: '12px' }}>To ensure timely project delivery, clients are responsible for:</p>
+          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+            {[
+              'Providing all necessary content, assets, and login credentials promptly',
+              'Responding to questions and approvals within a reasonable timeframe',
+              'Ensuring all provided content does not infringe third-party intellectual property rights',
+              'Maintaining secure access credentials for any shared accounts',
+            ].map((item, i) => (
+              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+            ))}
+          </ul>
+          <p style={{ marginTop: '12px' }}>
+            Delays caused by late client responses may result in revised project timelines.
+          </p>
+        </Section>
+
+        <Section title="6. Intellectual Property">
+          <p>
+            Upon receipt of final payment, all custom code and design elements created specifically for your project are transferred to you. We retain the right to display the completed work in our portfolio unless otherwise agreed in writing. Third-party plugins, themes, or tools used in your project remain subject to their respective licences.
+          </p>
+        </Section>
+
+        <Section title="7. Confidentiality">
+          <p>
+            Both parties agree to keep confidential any proprietary information shared during the course of the project. We will not share your business information, login credentials, or project details with any third party without your explicit consent, except where required by law.
+          </p>
+        </Section>
+
+        <Section title="8. Limitation of Liability">
+          <p>
+            ARIOSETECH shall not be liable for any indirect, incidental, special, or consequential damages arising from the use of our services. Our total liability to you for any claim shall not exceed the total amount paid by you to us in the three months preceding the claim. We are not liable for third-party service failures (hosting, payment gateways, plugins) beyond our control.
+          </p>
+        </Section>
+
+        <Section title="9. Warranties & Disclaimers">
+          <p>
+            We warrant that our services will be performed with reasonable skill and care. We do not guarantee specific business results (e.g. traffic, revenue, or search rankings) from our services, as these depend on many external factors. All third-party software (WordPress, Shopify, plugins) is provided &quot;as is&quot; under their respective licences.
+          </p>
+        </Section>
+
+        <Section title="10. Post-Launch Support">
+          <p>
+            All development projects include 30 days of free post-launch support covering bug fixes and minor adjustments directly related to our work. This does not include new feature requests, content updates, or issues caused by third-party changes after delivery.
+          </p>
+        </Section>
+
+        <Section title="11. Termination">
+          <p>
+            Either party may terminate a project with written notice. If you terminate a project mid-way, you are responsible for payment of all work completed to the date of termination. The 30-day money-back guarantee does not apply to client-initiated terminations after substantial work has commenced.
+          </p>
+        </Section>
+
+        <Section title="12. Governing Law">
+          <p>
+            These Terms of Service are governed by the laws of Pakistan. Any disputes shall first be attempted to be resolved amicably. If unresolved, disputes shall be subject to the jurisdiction of the courts of Lahore, Pakistan.
+          </p>
+        </Section>
+
+        <Section title="13. Changes to Terms">
+          <p>
+            We reserve the right to update these Terms of Service at any time. Changes will be posted on this page with an updated date. Continued use of our services after changes constitutes your acceptance of the new terms.
+          </p>
+        </Section>
+
+        <Section title="14. Contact Us">
+          <p>For any questions about these Terms of Service, please contact us:</p>
+          <div style={{ marginTop: '16px', padding: '20px 24px', background: 'var(--bg-2)', borderRadius: '12px', border: '1px solid var(--border)' }}>
+            <p style={{ marginBottom: '6px' }}><strong>ARIOSETECH</strong></p>
+            <p style={{ marginBottom: '6px' }}>95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770</p>
+            <p style={{ marginBottom: '6px' }}>Email: <a href="mailto:info@ariosetech.com" style={{ color: 'var(--primary)' }}>info@ariosetech.com</a></p>
+            <p>WhatsApp: <a href="https://wa.me/923009484739" style={{ color: 'var(--primary)' }}>+92 300 9484 739</a></p>
+          </div>
+        </Section>
+
+        <div style={{ paddingTop: '32px', borderTop: '1px solid var(--border)' }}>
+          <Link href="/" style={{ ...hm, fontSize: '13px', color: 'var(--primary)', textDecoration: 'none' }}>
+            ← Back to Home
+          </Link>
+        </div>
+
+      </div>
+    </main>
+  )
+}

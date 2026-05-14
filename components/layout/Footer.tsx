@@ -176,8 +176,8 @@ export default function Footer() {
           <p style={{ ...M, fontSize:'11px', color:'var(--text-3)' }}>
             {bottomText}
           </p>
-          <div style={{ display:'flex', gap:'20px' }}>
-            {['Privacy Policy','Terms of Service'].map(t => (
+          <div style={{ display:'flex', gap:'20px', flexWrap:'wrap' }}>
+            {['Privacy Policy','Terms of Service','FAQ'].map(t => (
               <Link key={t} href={`/${t.toLowerCase().replace(/ /g,'-')}`}
                 style={{ ...M, fontSize:'11px', color:'var(--text-3)', textDecoration:'none' }}
                 onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
@@ -185,6 +185,12 @@ export default function Footer() {
                 {t}
               </Link>
             ))}
+            <a href="https://g.co/kgs/oiGmWD7" target="_blank" rel="noopener noreferrer"
+              style={{ ...M, fontSize:'11px', color:'var(--text-3)', textDecoration:'none', display:'flex', alignItems:'center', gap:'4px' }}
+              onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
+              onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
+              ⭐ Google Reviews
+            </a>
           </div>
           <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
             <div style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#22c55e', boxShadow:'0 0 6px #22c55e' }} />

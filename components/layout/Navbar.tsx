@@ -106,6 +106,7 @@ const NAV_LINKS = [
   { label: 'Tools',     href: '/tools/wordpress-theme-detector', hasTools: true },
   { label: 'About',     href: '/about' },
   { label: 'Blog',      href: '/blog' },
+  { label: 'Contact',   href: '/contact' },
 ]
 
 // ICONS mapping for dynamic services
