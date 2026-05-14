@@ -1,2 +1,0 @@
-import ServicesAccordionSection from '@/components/sections/ServicesAccordionSection'
-export default ServicesAccordionSection

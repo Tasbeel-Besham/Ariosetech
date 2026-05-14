@@ -1,2 +1,0 @@
-import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
-export default InteractiveHeroSection

@@ -1,2 +1,0 @@
-import MaintenancePlansSection from '@/components/sections/MaintenancePlansSection'
-export default MaintenancePlansSection

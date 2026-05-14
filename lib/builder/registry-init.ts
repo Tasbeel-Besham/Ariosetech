@@ -6,7 +6,6 @@
 import { registerSection, getSection } from '@/lib/builder/registry'
 import type { SectionDefinition } from '@/types'
 
-import HeroSection              from '@/components/builder/sections/HeroSection'
 import InteractiveHeroSection   from '@/components/sections/InteractiveHeroSection'
 import ServicesAccordionSection from '@/components/sections/ServicesAccordionSection'
 import ServicesSection          from '@/components/sections/ServicesSection'
@@ -62,9 +61,7 @@ export function initRegistry() {
   if (getSection('hero')) return // already initialised
 
   // ── HERO ─────────────────────────────────────────────────────
-  registerSection({ type: 'hero',             label: 'Hero (Standard)',     category: 'Sections', icon: '🚀', component: HeroSection            as C, defaultProps: HERO_DEFAULT_PROPS, schema: HERO_SCHEMA })
   registerSection({ type: 'hero-interactive', label: 'Hero (Interactive)', category: 'Sections', icon: '✨', component: InteractiveHeroSection  as C, defaultProps: HERO_DEFAULT_PROPS, schema: HERO_SCHEMA })
-  registerSection({ type: 'hero-classic',     label: 'Hero (Classic)',     category: 'Sections', icon: '🏛️', component: HeroSection            as C, defaultProps: HERO_DEFAULT_PROPS, schema: HERO_SCHEMA })
 
   // ── SERVICES ACCORDION ───────────────────────────────────────
   registerSection({

@@ -1,7 +1,7 @@
 'use client'
 import { initRegistry } from '@/lib/builder/registry-init'
 import { sectionRegistry } from '@/lib/builder/registry'
-import FallbackSection from '../sections/FallbackSection'
+import FallbackSection from '@/components/sections/FallbackSection'
 import type { SectionInstance } from '@/types'
 import { motion } from 'framer-motion'
 import SchemaMarkup from '@/components/ui/SchemaMarkup'
@@ -28,7 +28,7 @@ export function BuilderRenderer({
     }
     // FIX: was 'interactive_hero' (underscore) — correct keys use dashes
     if (
-      (s.type === 'hero' || s.type === 'hero-interactive' || s.type === 'hero-classic') &&
+      (s.type === 'hero-interactive') &&
       s.props?.desc &&
       !description
     ) {

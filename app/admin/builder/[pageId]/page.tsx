@@ -7,7 +7,7 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { useBuilderStore } from '@/lib/builder/store'
-import { initRegistry } from '@/components/builder/sections/registry-init'
+import { initRegistry } from '@/lib/builder/registry-init'
 import { SortableSection } from '@/components/builder/canvas/SortableSection'
 import { BuilderToolbar } from '@/components/builder/toolbar/BuilderToolbar'
 import { SectionPicker } from '@/components/builder/panels/SectionPicker'

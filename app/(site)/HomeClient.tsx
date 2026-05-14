@@ -2,9 +2,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import ClutchWidget from '@/components/ui/ClutchWidget'
-import InteractiveHeroSection from '@/components/builder/sections/InteractiveHeroSection'
-import ServicesAccordionSection from '@/components/builder/sections/ServicesAccordionSection'
-import ApproachSection from '@/components/builder/sections/ApproachSection'
+import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
+import ServicesAccordionSection from '@/components/sections/ServicesAccordionSection'
+import ApproachSection from '@/components/sections/ApproachSection'
 import SchemaMarkup from '@/components/ui/SchemaMarkup'
 import { IconBox, CheckSVG, ArrowSVG, ChevSVG } from '@/components/ui/IconBox'
 const StarSVG = () => (
