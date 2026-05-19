@@ -19,15 +19,15 @@ async function getPortfolioPage() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPortfolioPage()
-  if (!page) return {}
+  if (!page) return { title: 'Portfolio | Ariosetech', description: 'Explore our web development portfolio.' }
 
   const seo = page.seo || {}
   const isIndexed = seo.robots?.index !== false
   const isFollowed = seo.robots?.follow !== false
 
   return {
-    title: seo.title || page.title,
-    description: seo.description || '',
+    title: seo.title || page.title || 'Portfolio | Ariosetech',
+    description: seo.description || 'Explore our web development portfolio.',
     keywords: seo.keywords?.join(', ') || '',
     openGraph: {
       title: seo.ogTitle || seo.title || page.title,
@@ -46,13 +46,14 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function CategoryPage() {
+export default async function PortfolioPage() {
   const page = await getPortfolioPage()
   
   if (page && page.layout?.sections && page.layout.sections.length > 0) {
-    return <BuilderRenderer sections={page.layout.sections} />
+    return <BuilderRenderer sections={page.layout.sections} pageName="Portfolio" pageUrl="https://ariosetech.com/portfolio" />
   }
 
+  // Fallback if no page in DB
   return (
     <>
       <PortfolioSection />
