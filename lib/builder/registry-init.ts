@@ -25,11 +25,6 @@ import ImpactSection            from '@/components/sections/ImpactSection'
 import HowItWorksSection        from '@/components/sections/HowItWorksSection'
 import BlogSection              from '@/components/sections/BlogSection'
 import ApproachSection          from '@/components/sections/ApproachSection'
-import CyberTerminalSection     from '@/components/sections/CyberTerminalSection'
-import MaintenancePlansSection  from '@/components/sections/MaintenancePlansSection'
-import SpeedScoreSection        from '@/components/sections/SpeedScoreSection'
-import ServiceVerticalSection   from '@/components/sections/ServiceVerticalSection'
-import ServiceGridSection       from '@/components/sections/ServiceGridSection'
 
 type C = React.FC<Record<string, unknown>>
 
@@ -453,107 +448,5 @@ export function initRegistry() {
     ],
   })
 
-  // ── CYBER TERMINAL ───────────────────────────────────────────
-  registerSection({
-    type: 'cyber-terminal', label: 'Cyber Terminal', category: 'Services', icon: '💻',
-    component: CyberTerminalSection as C,
-    defaultProps: { tagline: 'EMERGENCY RESPONSE', title: 'Virus Removal', desc: 'Emergency 24-48 hour service for infected sites. Complete malware scan, file cleaning, and Google Blacklist removal.', price: '$199', features: 'Malware Identification,Infected File Cleaning,Blacklist Removal,Security Hardening,30-Day Monitoring', statusText: 'root@ariosetech:~/malware_scanner' },
-    schema: [
-      { type: 'text',     name: 'tagline',    label: 'Upper tagline' },
-      { type: 'text',     name: 'title',      label: 'Main title' },
-      { type: 'textarea', name: 'desc',       label: 'Description' },
-      { type: 'text',     name: 'price',      label: 'Starting price' },
-      { type: 'text',     name: 'statusText', label: 'Terminal header text' },
-      { type: 'textarea', name: 'features',   label: 'Features (comma separated)' },
-    ],
-  })
-
-  // ── MAINTENANCE PLANS ────────────────────────────────────────
-  registerSection({
-    type: 'maintenance-plans', label: 'Pricing Plans', category: 'Services', icon: '💳',
-    component: MaintenancePlansSection as C,
-    defaultProps: {
-      title: 'Maintenance & Support Plans', subtitle: 'Proactive care for your WordPress infrastructure.',
-      plans: [
-        { tier: 'Starter',      price: '$79/mo',  desc: 'Basic protection', features: 'Monthly Updates,Uptime Monitoring,Basic Security',   isPopular: false },
-        { tier: 'Professional', price: '$149/mo', desc: 'High performance', features: 'Weekly Updates,Speed Optimization,Advanced Security', isPopular: true  },
-        { tier: 'Business',     price: '$299/mo', desc: 'Full management',  features: 'Daily Updates,Priority Support,Full Backups',         isPopular: false },
-      ],
-    },
-    schema: [
-      { type: 'text', name: 'title',    label: 'Section title' },
-      { type: 'text', name: 'subtitle', label: 'Subtitle' },
-      { type: 'repeater', name: 'plans', label: 'Pricing tiers', fields: [
-        { type: 'text',     name: 'tier',      label: 'Tier name' },
-        { type: 'text',     name: 'price',     label: 'Price' },
-        { type: 'text',     name: 'desc',      label: 'Short description' },
-        { type: 'textarea', name: 'features',  label: 'Features (comma separated)' },
-        { type: 'text',     name: 'ctaLabel',  label: 'Button label' },
-        { type: 'text',     name: 'ctaHref',   label: 'Button URL' },
-        { type: 'boolean',  name: 'isPopular', label: 'Most Popular badge?' },
-      ]},
-    ],
-  })
-
-  // ── SPEED SCORE ──────────────────────────────────────────────
-  registerSection({
-    type: 'speed-score', label: 'Speed Score Viz', category: 'Services', icon: '⚡',
-    component: SpeedScoreSection as C,
-    defaultProps: { title: 'Speed Optimization', desc: 'Improve site speed by 40-70%.', score: 99, statusLabel: 'CORE WEB VITALS PASS', metrics: [{ label: 'Investment', value: '$399' }, { label: 'Execution', value: '5-7 Days' }] },
-    schema: [
-      { type: 'text',     name: 'title',       label: 'Section title' },
-      { type: 'textarea', name: 'desc',        label: 'Description' },
-      { type: 'number',   name: 'score',       label: 'PageSpeed score (0-100)' },
-      { type: 'text',     name: 'statusLabel', label: 'Status badge text' },
-      { type: 'repeater', name: 'metrics',     label: 'Metrics / stats', fields: [
-        { type: 'text', name: 'label', label: 'Label' },
-        { type: 'text', name: 'value', label: 'Value' },
-      ]},
-    ],
-  })
-
-  // ── SERVICE VERTICAL (ZIGZAG) ────────────────────────────────
-  registerSection({
-    type: 'service-vertical', label: 'Service Vertical (Zigzag)', category: 'Services', icon: '📐',
-    component: ServiceVerticalSection as C,
-    defaultProps: { tagline: 'Scalable Solutions', title: 'Website Development', desc: 'Build your dream website from scratch with custom development that stands out.', features: 'Custom theme development,Responsive design,SEO-optimized structure,30-day money-back guarantee', price: '$799', timeline: '2-4 weeks', visualType: 'score', align: 'left', score: 99, statusLabel: 'Avg. Speed Score' },
-    schema: [
-      { type: 'text',     name: 'tagline',     label: 'Upper tagline' },
-      { type: 'text',     name: 'title',       label: 'Main title' },
-      { type: 'textarea', name: 'desc',        label: 'Description' },
-      { type: 'textarea', name: 'features',    label: 'Features (comma separated)' },
-      { type: 'text',     name: 'price',       label: 'Starting price' },
-      { type: 'text',     name: 'timeline',    label: 'Execution timeline' },
-      { type: 'select',   name: 'visualType',  label: 'Visual type', options: ['score', 'terminal', 'vitals', 'none'] },
-      { type: 'select',   name: 'align',       label: 'Visual position', options: ['left', 'right'] },
-      { type: 'number',   name: 'score',       label: 'Score (0-100)' },
-      { type: 'text',     name: 'statusText',  label: 'Terminal header / alt label' },
-      { type: 'text',     name: 'statusLabel', label: 'Badge label' },
-      { type: 'repeater', name: 'metrics',     label: 'Specific metrics', fields: [{ type: 'text', name: 'label', label: 'Label' }, { type: 'text', name: 'value', label: 'Value' }] },
-    ],
-  })
-
-  // ── SERVICE GRID (ADDITIONAL SOLUTIONS) ─────────────────────
-  registerSection({
-    type: 'service-grid', label: 'Service Grid (Solutions)', category: 'Services', icon: '▦',
-    component: ServiceGridSection as C,
-    defaultProps: {
-      eyebrow: 'Tailored Services', headline: 'Additional Solutions',
-      items: [
-        { title: 'Security Services',  price: '$299', desc: 'Enterprise-grade security hardening.',           icon: '🛡️' },
-        { title: 'Website Redesign',   price: '$599', desc: 'Modern makeover without losing SEO rankings.', icon: '🎨' },
-        { title: 'Migration Services', price: '$199', desc: 'Zero-downtime transfers to any host.',          icon: '📦' },
-      ],
-    },
-    schema: [
-      { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
-      { type: 'text', name: 'headline', label: 'Headline' },
-      { type: 'repeater', name: 'items', label: 'Solution cards', fields: [
-        { type: 'text',     name: 'title', label: 'Title' },
-        { type: 'text',     name: 'price', label: 'Price' },
-        { type: 'textarea', name: 'desc',  label: 'Description' },
-        { type: 'text',     name: 'icon',  label: 'Icon (emoji or SVG string)' },
-      ]},
-    ],
   })
 }
