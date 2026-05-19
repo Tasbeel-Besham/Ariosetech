@@ -1,10 +1,29 @@
 import { getCollection } from '@/lib/db/mongodb'
-import type { BlogDoc, PortfolioDoc } from '@/types'
+import type { PageDoc, BlogDoc, PortfolioDoc } from '@/types'
+import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
 import HomeClient from './HomeClient'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
+  let layout = null
+
+  try {
+    const pagesCol = await getCollection<PageDoc>('pages')
+    const page = await pagesCol.findOne({ fullPath: '/' })
+    if (page?.layout?.sections && page.layout.sections.length > 0) {
+      layout = page.layout
+    }
+  } catch (err) {
+    console.error('Error fetching homepage layout:', err)
+  }
+
+  // If the dynamic builder layout is found, use it
+  if (layout) {
+    return <BuilderRenderer sections={layout.sections} pageName="Home" pageUrl="https://ariosetech.com/" />
+  }
+
+  // Fallback to static HomeClient if DB fails or isn't seeded
   let blogs: Parameters<typeof HomeClient>[0]['blogs'] = []
   let portfolio: Parameters<typeof HomeClient>[0]['portfolio'] = []
 
