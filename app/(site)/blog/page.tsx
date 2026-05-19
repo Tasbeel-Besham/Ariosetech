@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc } from '@/types'
+import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 
 export const metadata: Metadata = { title: 'Blog — ARIOSETECH', description: 'Expert articles on WordPress, Shopify, WooCommerce and e-commerce.' }
 export const dynamic = 'force-dynamic'
@@ -22,19 +23,13 @@ export default async function BlogPage() {
   return (
     <>
       {/* Hero */}
-      <section className="section" style={{ paddingTop:'120px', paddingBottom:'80px', position:'relative', overflow:'hidden' }}>
-        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(118,108,255,0.08) 0%, transparent 70%)', pointerEvents:'none' }} />
-        <div className="container" style={{ position:'relative', zIndex:1 }}>
-          <p className="eyebrow sr">Knowledge Base</p>
-          <h1 className="sr" style={{ ...hs, fontSize:'clamp(2.4rem,5vw,4.5rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'16px' }}>
-            Insights & expertise<br />
-            <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>from the field.</span>
-          </h1>
-          <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.75, maxWidth:'500px' }}>
-            Expert articles on WordPress, Shopify, WooCommerce, and e-commerce best practices from our team.
-          </p>
-        </div>
-      </section>
+      <InteractiveHeroSection 
+        eyebrow="Knowledge Base"
+        headline="Insights & Expertise\nFrom the Field."
+        subheadline="Expert articles on WordPress, Shopify, WooCommerce, and e-commerce best practices from our engineering team."
+        ctaPrimaryLabel="Get Free Strategy Call"
+        ctaPrimaryHref="/contact"
+      />
 
       {/* Featured */}
       {featured && (
