@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from '@/components/ui/Icons'
 import ClutchWidget from '@/components/ui/ClutchWidget'
-import AboutHeroSection from './AboutHeroSection'
+import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 import Reveal from '@/components/motion/Reveal'
 
 export const metadata: Metadata = {
@@ -43,7 +43,15 @@ const ValIcon4 = () => (
 export default function AboutPage() {
   return (
     <>
-      <AboutHeroSection />
+      <InteractiveHeroSection 
+        eyebrow="About Us"
+        headline="Specialists, Not Generalists.\nConsider It Solved."
+        subheadline="ARIOSETECH was founded with one mission: give growing businesses access to the same quality of web development that enterprise brands enjoy — at honest, transparent prices."
+        ctaPrimaryLabel="Work With Us"
+        ctaPrimaryHref="/contact"
+        ctaSecondaryLabel="View Our Services"
+        ctaSecondaryHref="/services"
+      />
 
       {/* Story */}
       <section className="section" style={{ overflow: 'visible' }}>
