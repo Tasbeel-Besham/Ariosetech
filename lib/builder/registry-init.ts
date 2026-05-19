@@ -408,6 +408,4 @@ export function initRegistry() {
       ]},
     ],
   })
-
-  })
 }

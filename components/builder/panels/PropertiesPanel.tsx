@@ -92,7 +92,7 @@ export function PropertiesPanel() {
             <label style={lbl}>{field.label}</label>
             <div style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
               <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} placeholder="https://… or /image.jpg" style={{ ...inp, flex: 1, marginBottom: 0 }} />
-              <button onClick={() => updateMeta(section.id, { _mediaField: field.name })} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px' }}>
+              <button onClick={() => updateMeta(section.id, { _mediaField: field.name } as any)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px' }}>
                 Library
               </button>
             </div>
@@ -100,10 +100,10 @@ export function PropertiesPanel() {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={String(value)} alt="" style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--border)' }} />
             )}
-            {section.meta?._mediaField === field.name && (
+            {(section.meta as any)?._mediaField === field.name && (
               <MediaPickerModal 
-                onClose={() => updateMeta(section.id, { _mediaField: undefined })} 
-                onSelect={(url) => { update(field.name, url); updateMeta(section.id, { _mediaField: undefined }) }} 
+                onClose={() => updateMeta(section.id, { _mediaField: undefined } as any)} 
+                onSelect={(url) => { update(field.name, url); updateMeta(section.id, { _mediaField: undefined } as any) }} 
               />
             )}
           </div>

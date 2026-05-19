@@ -120,7 +120,7 @@ export default function ApproachSection({
               className="approach-strip"
               style={{
                 display:'flex',
-                flexDirection:'var(--approach-flex-dir, row)',
+                flexDirection:'var(--approach-flex-dir, row)' as any,
                 gap:'20px',
                 paddingLeft:'var(--approach-pad-l, 8vw)',
                 paddingRight:'var(--approach-pad-r, 8vw)',

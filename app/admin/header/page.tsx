@@ -137,7 +137,7 @@ export default function HeaderAdmin() {
         </div>
 
         {/* Media Modal */}
-        {config.showMediaModal && (
+        {Boolean(config.showMediaModal) && (
           <MediaPickerModal 
             onClose={() => set('showMediaModal', false)} 
             onSelect={(url) => { set('logo', url); set('showMediaModal', false) }} 
