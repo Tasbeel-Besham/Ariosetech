@@ -8,12 +8,10 @@ import type { SectionDefinition } from '@/types'
 
 import InteractiveHeroSection   from '@/components/sections/InteractiveHeroSection'
 import ServicesAccordionSection from '@/components/sections/ServicesAccordionSection'
-import ServicesSection          from '@/components/sections/ServicesSection'
 import WhyUsSection             from '@/components/sections/WhyUsSection'
 import PortfolioSection         from '@/components/sections/PortfolioSection'
 import TestimonialsSection      from '@/components/sections/TestimonialsSection'
 import ProcessSection           from '@/components/sections/ProcessSection'
-import StatsSection             from '@/components/sections/StatsSection'
 import CtaSection               from '@/components/sections/CtaSection'
 import AuditSection             from '@/components/sections/AuditSection'
 import HeadingSection           from '@/components/sections/HeadingSection'
@@ -87,35 +85,6 @@ export function initRegistry() {
         { type: 'text',     name: 'href',     label: 'Button URL' },
         { type: 'text',     name: 'icon',     label: 'SVG icon code' },
         { type: 'textarea', name: 'bg',       label: 'Background CSS (gradient)' },
-      ]},
-    ],
-  })
-
-  // ── SERVICES GRID ────────────────────────────────────────────
-  registerSection({
-    type: 'services', label: 'Services Grid', category: 'Sections', icon: '⚙️',
-    component: ServicesSection as C,
-    defaultProps: {
-      eyebrow: 'What We Offer',
-      headline: 'Comprehensive Web Development Solutions for Your Business Growth',
-      items: [
-        { icon: '🖥️', title: 'WordPress Development',   headline: 'Build Powerful, Scalable Websites',    desc: 'Custom themes to complex functionality.', features: 'Custom Development,Speed Optimization,Maintenance & Support,Migration Services', price: '$799',   href: '/services/wordpress' },
-        { icon: '🛒', title: 'WooCommerce Development', headline: 'Launch Your Dream E-commerce Store',   desc: 'Turn your vision into a profitable store.', features: 'Store Setup,Payment Gateways,Multi-vendor,Performance', price: '$1,299', href: '/services/woocommerce' },
-        { icon: '🛍️', title: 'Shopify Development',    headline: 'Scale Your Business with Shopify',     desc: 'From startup stores to Shopify Plus.', features: 'Custom Development,Shopify Plus,App Integration,Conversion Optimization', price: '$999',   href: '/services/shopify' },
-      ],
-    },
-    schema: [
-      { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
-      { type: 'text', name: 'headline', label: 'Headline' },
-      { type: 'repeater', name: 'items', label: 'Service cards', fields: [
-        { type: 'text',     name: 'icon',     label: 'Icon (emoji or SVG)' },
-        { type: 'text',     name: 'title',    label: 'Title' },
-        { type: 'text',     name: 'headline', label: 'Sub-headline' },
-        { type: 'textarea', name: 'desc',     label: 'Description' },
-        { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
-        { type: 'text',     name: 'price',    label: 'Starting price' },
-        { type: 'text',     name: 'href',     label: 'Link URL' },
-        { type: 'text',     name: 'ctaLabel', label: 'Button text' },
       ]},
     ],
   })
@@ -209,14 +178,6 @@ export function initRegistry() {
         { type: 'text',     name: 'time',  label: 'Timeline' },
       ]},
     ],
-  })
-
-  // ── STATS ────────────────────────────────────────────────────
-  registerSection({
-    type: 'stats', label: 'Stats Bar', category: 'Elements', icon: '📊',
-    component: StatsSection as C,
-    defaultProps: { items: [{ value: '100+', label: 'Projects Delivered' }, { value: '7+', label: 'Years Experience' }, { value: '5.0★', label: 'Clutch Rating' }, { value: '40+', label: 'Industries Served' }] },
-    schema: [{ type: 'repeater', name: 'items', label: 'Stats', fields: [{ type: 'text', name: 'value', label: 'Value' }, { type: 'text', name: 'label', label: 'Label' }] }],
   })
 
   // ── LOGOS MARQUEE ────────────────────────────────────────────
