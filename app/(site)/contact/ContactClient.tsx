@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Mail, Phone, MapPin, Clock, MessageCircle } from '@/components/ui/Icons'
 import ClutchWidget from '@/components/ui/ClutchWidget'
+import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 
 const F = { fontFamily: 'var(--font-display)' } as const
 const M = { fontFamily: 'var(--font-mono)' } as const
@@ -249,34 +250,28 @@ export default function ContactClient() {
   return (
     <>
       {/* ══ HERO ══════════════════════════════════════════════════════ */}
-      <section style={{ paddingTop:'110px', paddingBottom:'80px', borderBottom:'1px solid var(--border)', position:'relative', overflow:'hidden' }}>
-        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 70% 60% at 15% 60%, rgba(118,108,255,0.10) 0%, transparent 65%)', pointerEvents:'none' }} />
-        <div className="container" style={{ position:'relative', zIndex:1 }}>
-          <p className="eyebrow">Contact</p>
-          <h1 style={{ ...F, fontSize:'clamp(2.8rem,5.5vw,4.6rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'20px', maxWidth:'760px' }}>
-            Start your project<br />
-            <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>with a free quote</span>
-          </h1>
-          <p style={{ fontSize:'17px', color:'var(--text-2)', lineHeight:1.85, maxWidth:'560px', marginBottom:'28px' }}>
-            Fill in the form below and we&apos;ll get back to you within 24 hours with a detailed quote and honest recommendations.
-          </p>
-          <div style={{ display:'flex', flexWrap:'wrap', gap:'10px', marginBottom:'28px' }}>
-            {['30-Day Guarantee','No Contracts','24h Reply','Free Quote'].map(t => (
-              <span key={t} className="tag" style={{ color:'var(--text-2)', border:'1px solid var(--border-2)' }}>✓ {t}</span>
-            ))}
-          </div>
-          <div style={{ display:'flex', gap:'12px', flexWrap:'wrap' }}>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">View Our Work</Link>
-            <a href="#quote" className="btn btn-primary btn-lg">Get Free Quote <ArrowRight size={16} /></a>
-          </div>
-          <div style={{ marginTop:'32px', maxWidth:'800px' }}>
-            <p style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.14em', fontWeight:700, marginBottom:'10px' }}>Verified on Clutch</p>
-            <div style={{ borderRadius:'14px', overflow:'hidden', border:'1px solid var(--border)', background:'rgba(10,10,18,0.6)' }}>
-              <ClutchWidget widgetType={7} height={70} />
-            </div>
-          </div>
-        </div>
-      </section>
+      <InteractiveHeroSection
+        eyebrow="Contact"
+        headline="Start your project with a free quote"
+        subheadline=""
+        desc="Fill in the form below and we'll get back to you within 24 hours with a detailed quote and honest recommendations."
+        ctaPrimaryLabel="Get Free Quote"
+        ctaPrimaryHref="#quote"
+        ctaSecondaryLabel="View Our Work"
+        ctaSecondaryHref="/portfolio"
+        liveSiteText="Available for new projects 🟢"
+        codeFilename="ariosetech-inquiry / route.ts"
+        codeLines={[
+          [{ t: 'com', v: '// Process new project inquiry' }],
+          [],
+          [{ t: 'kw', v: 'export async function ' }, { t: 'fn', v: 'POST' }, { t: 'v', v: '(' }, { t: 'attr', v: 'req' }, { t: 'v', v: ') {' }],
+          [{ t: 'v', v: '  ' }, { t: 'kw', v: 'const' }, { t: 'v', v: ' ' }, { t: 'attr', v: 'inquiry' }, { t: 'v', v: ' = ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'attr', v: 'req' }, { t: 'v', v: '.' }, { t: 'fn', v: 'json' }, { t: 'v', v: '();' }],
+          [{ t: 'v', v: '  ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'analyze_requirements' }, { t: 'v', v: '(' }, { t: 'attr', v: 'inquiry' }, { t: 'v', v: ');' }],
+          [{ t: 'v', v: '  ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'prepare_strategy' }, { t: 'v', v: '();' }],
+          [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'Response' }, { t: 'v', v: '.' }, { t: 'fn', v: 'json' }, { t: 'v', v: '({ ' }, { t: 'attr', v: 'status' }, { t: 'v', v: ': ' }, { t: 'str', v: "'24h_reply_guaranteed'" }, { t: 'v', v: ' });' }],
+          [{ t: 'v', v: '}' }]
+        ]}
+      />
 
       {/* ══ FORM + INFO ══════════════════════════════════════════════ */}
       <section className="section" id="quote">
