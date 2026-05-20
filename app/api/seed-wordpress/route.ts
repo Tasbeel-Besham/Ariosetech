@@ -1,0 +1,214 @@
+import { NextResponse } from 'next/server'
+import { getCollection } from '@/lib/db/mongodb'
+import { ObjectId } from 'mongodb'
+import type { PageDoc } from '@/types'
+
+export const dynamic = 'force-dynamic'
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const secret = searchParams.get('secret')
+  if (secret !== process.env.ADMIN_JWT_SECRET) {
+    return NextResponse.json({ error: 'Missing or wrong secret. Add ?secret=YOUR_ADMIN_JWT_SECRET to the URL.' }, { status: 401 })
+  }
+
+  try {
+    const sections = [
+      {
+        id: new ObjectId().toHexString(),
+        type: 'hero-interactive',
+        props: {
+          eyebrow: 'WordPress Services',
+          headline: 'Professional WordPress\nDevelopment Services',
+          subheadline: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results.',
+          desc: 'Trusted by 50+ businesses worldwide for speed, security, and scalability.',
+          ctaPrimaryLabel: 'Get Free WordPress Consultation',
+          ctaPrimaryHref: '/contact',
+          ctaSecondaryLabel: 'View WordPress Portfolio',
+          ctaSecondaryHref: '/portfolio',
+          trust: 'Starting at $799,30-Day Money-Back Guarantee,Free Post-Launch Support',
+          codeFilename: 'wp-core / security.ts',
+          codeLines: [
+            [{ t: 'com', v: '// Executing WordPress security hardening' }],
+            [],
+            [{ t: 'kw', v: 'async function ' }, { t: 'fn', v: 'secure_site' }, { t: 'v', v: '() {' }],
+            [{ t: 'v', v: '  ' }, { t: 'kw', v: 'const' }, { t: 'v', v: ' ' }, { t: 'attr', v: 'scan' }, { t: 'v', v: ' = ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'run_malware_scan' }, { t: 'v', v: '();' }],
+            [{ t: 'v', v: '  ' }, { t: 'kw', v: 'if' }, { t: 'v', v: ' (' }, { t: 'attr', v: 'scan' }, { t: 'v', v: '.' }, { t: 'attr', v: 'vulnerabilities' }, { t: 'v', v: ' > ' }, { t: 'num', v: '0' }, { t: 'v', v: ') {' }],
+            [{ t: 'v', v: '    ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'patch_core_and_plugins' }, { t: 'v', v: '();' }],
+            [{ t: 'v', v: '  }' }],
+            [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'✓ Site Secured'" }, { t: 'v', v: ';' }],
+            [{ t: 'v', v: '}' }]
+          ]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'services-accordion',
+        props: {
+          eyebrow: 'Our Services',
+          headline: 'Comprehensive WordPress Solutions',
+          intro: "Robust development capabilities built natively on WordPress.",
+          items: [
+            {
+              label: 'Development',
+              title: 'WordPress Website Development',
+              sub: 'Build Your Dream Website from Scratch',
+              desc: 'Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out from the competition.',
+              features: 'Custom theme development,Responsive design,SEO-optimized structure,Lead generation tools,Google Analytics setup',
+              price: '$799',
+              href: '/contact',
+              bg: 'radial-gradient(ellipse 90% 80% at 10% 90%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0c0a1c,#05050a)',
+              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
+            },
+            {
+              label: 'Migration',
+              title: 'WordPress Migration Services',
+              sub: 'Seamless Migration Without Downtime',
+              desc: 'Moving to WordPress or changing hosts? We handle the entire migration process ensuring zero data loss and minimal downtime.',
+              features: 'Complete site backup,Domain setup assistance,SSL installation,Speed optimization,SEO preservation',
+              price: '$299',
+              href: '/contact',
+              bg: 'radial-gradient(ellipse 90% 80% at 90% 80%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#08081a,#05050a)',
+              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+            },
+            {
+              label: 'Maintenance',
+              title: 'WordPress Maintenance & Support',
+              sub: 'Keep Your Site Running Smoothly',
+              desc: 'Regular maintenance is crucial for WordPress security and reliability. Our comprehensive plans ensure your site stays updated and optimized.',
+              features: 'Core/theme/plugin updates,Security monitoring,Database cleanup,Performance tracking,Regular backups',
+              price: '$79/mo',
+              href: '/contact',
+              bg: 'radial-gradient(ellipse 90% 80% at 50% 110%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0a0818,#05050a)',
+              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
+            },
+            {
+              label: 'Speed Optimization',
+              title: 'WordPress Speed Optimization',
+              sub: 'Lightning Fast Load Times',
+              desc: 'Slow websites lose customers and hurt search rankings. Our speed optimization service can improve your site speed by 40–70%.',
+              features: 'Speed audit,Image compression,Caching setup,CSS/JS minification,Core Web Vitals improvement',
+              price: '$399',
+              href: '/contact',
+              bg: 'radial-gradient(ellipse 70% 70% at 20% 20%, rgba(118,108,255,0.30) 0%, transparent 55%), linear-gradient(160deg,#08081a,#05050a)',
+              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+            }
+          ]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'whyus',
+        props: {
+          eyebrow: 'Why Us',
+          headline: '7+ Years WordPress Expertise',
+          items: [
+            { icon: '🏆', title: 'WordPress Experts', subhead: 'Deep Expertise', desc: 'We have been perfecting WordPress development since 2017, delivering 50+ successful projects.' },
+            { icon: '⚡', title: 'Performance-First', subhead: 'Built for Speed', desc: 'Every WordPress site we build is optimized for speed, security, and search engines from day one.' },
+            { icon: '🔒', title: 'Security-Focused', subhead: 'Enterprise Grade', desc: 'We implement enterprise-grade security measures to protect your WordPress site from threats.' },
+            { icon: '📱', title: 'Mobile-First Design', subhead: 'Perfect on Any Device', desc: 'All our WordPress sites are built with mobile users in mind, ensuring perfect performance across all devices.' }
+          ]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'portfolio',
+        props: {
+          eyebrow: 'Our Work',
+          headline: 'Success Stories That Speak for Themselves',
+          intro: "Discover how we've transformed businesses with custom WordPress solutions that drive growth and maximize ROI.",
+          ctaLabel: 'Explore All Projects',
+          ctaHref: '/portfolio',
+          items: [
+            { title: 'Corporate Client', client: 'Professional Services', platform: 'WordPress', result: '200%', resultLabel: 'Increase in lead generation', quote: 'Custom WordPress theme with advanced features.', slug: 'portfolio' },
+            { title: 'Global Business', client: 'International Business', platform: 'WordPress Multilingual', result: '300%', resultLabel: 'Increase in international inquiries', quote: 'WPML-powered multilingual WordPress site.', slug: 'portfolio' }
+          ]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'audit',
+        props: {
+          eyebrow: 'Get Started',
+          headline: 'Ready to Transform Your Website?',
+          subhead: 'Get a free WordPress consultation',
+          desc: 'Find out exactly how to improve your site speed, security, and conversions with our expert analysis.',
+          ctaLabel: 'Get Free WordPress Audit',
+          ctaHref: '/contact',
+          guarantee: 'No spam, ever. Actionable report delivered within 24 hours.'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'faq',
+        props: {
+          eyebrow: 'WordPress FAQ',
+          headline: 'Frequently Asked Questions About WordPress',
+          items: [
+            { q: 'How long does WordPress development take?', a: 'Most WordPress projects are completed within 2–4 weeks, depending on complexity and requirements.' },
+            { q: 'Do you provide WordPress hosting?', a: 'We can recommend reliable hosting providers and assist with setup, but we focus on development rather than hosting services.' },
+            { q: 'Can you work with existing WordPress sites?', a: 'Absolutely! We provide maintenance, optimization, and enhancement services for existing WordPress websites.' },
+            { q: 'What\'s included in post-launch support?', a: 'All WordPress projects include 30 days of free support covering bug fixes, minor adjustments, and training.' },
+            { q: 'How much does WordPress maintenance cost?', a: 'Our maintenance plans start at $79/month and include updates, backups, security monitoring, and support.' }
+          ]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'cta',
+        props: {
+          eyebrow: 'Ready to grow your business online?',
+          headline: 'Start Your WordPress Journey Today',
+          desc: 'Join successful businesses maximizing their online presence. Professional results, transparent reporting, and long-term support.',
+          ctaLabel: 'Schedule Free Consultation',
+          ctaHref: '/contact',
+          secondaryLabel: 'View Case Studies',
+          secondaryHref: '/portfolio',
+          trust: 'No Long-Term Contracts,WordPress Experts,Ongoing Support'
+        }
+      }
+    ]
+
+    const pagesCol = await getCollection<PageDoc>('pages')
+    const existing = await pagesCol.findOne({ fullPath: '/services/wordpress' })
+
+    if (existing) {
+      await pagesCol.updateOne(
+        { fullPath: '/services/wordpress' }, 
+        { 
+          $set: { 
+            title: 'WordPress Services',
+            status: 'published',
+            'layout.sections': sections, 
+            updatedAt: new Date(),
+            seo: {
+              title: 'Professional WordPress Development Services | Ariosetech',
+              description: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results.'
+            }
+          } 
+        }
+      )
+      return NextResponse.json({ message: `WordPress page updated with ${sections.length} sections!` })
+    } else {
+      await pagesCol.insertOne({
+        title: 'WordPress Services',
+        slug: 'wordpress',
+        parentId: null,
+        fullPath: '/services/wordpress',
+        layout: { sections },
+        status: 'published',
+        seo: {
+          title: 'Professional WordPress Development Services | Ariosetech',
+          description: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results.',
+          robots: { index: true, follow: true }
+        },
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+      return NextResponse.json({ message: `WordPress page created with ${sections.length} sections!` })
+    }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
+}
