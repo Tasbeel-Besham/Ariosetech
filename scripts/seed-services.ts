@@ -1,7 +1,21 @@
 import { MongoClient } from 'mongodb'
+import * as fs from 'fs'
+import * as path from 'path'
+
+// Load .env.local manually
+const envPath = path.resolve(process.cwd(), '.env.local')
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, 'utf8')
+  envContent.split('\n').forEach(line => {
+    const match = line.match(/^([^#\s][^=]+)=(.*)$/)
+    if (match) {
+      process.env[match[1].trim()] = match[2].trim().replace(/^['"]|['"]$/g, '')
+    }
+  })
+}
 
 const MONGODB_URI = process.env.MONGODB_URI as string
-const MONGODB_DB = process.env.MONGODB_DB as string
+const MONGODB_DB = process.env.MONGODB_DB as string || 'ariosetech'
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local')

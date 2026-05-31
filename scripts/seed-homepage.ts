@@ -195,6 +195,32 @@ async function seedHomepage() {
           ctaHref: '/contact',
           guarantee: 'No spam, ever. Detailed report delivered within 24 hours.'
         }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'contact',
+        props: {
+          eyebrow: 'Contact Us',
+          headline: 'Ready to Transform Your Online Presence?',
+          guarantee: 'We respond to all inquiries within 2 hours during business days.',
+          email: 'info@ariosetech.com',
+          phone: '+92 300 9484 739',
+          address: '95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'cta',
+        props: {
+          eyebrow: 'Get Started Today',
+          headline: 'Start Your Success Story Today',
+          desc: 'Join 100+ successful businesses that chose ARIOSETECH for their web development needs. Professional results, affordable pricing, and ongoing support.',
+          ctaLabel: 'Schedule Free Consultation',
+          ctaHref: '/contact',
+          secondaryLabel: 'Download Our Service Guide',
+          secondaryHref: '/contact',
+          trust: 'No Long-Term Contracts,30-Day Money-Back Guarantee,Free Post-Launch Support,Transparent Pricing'
+        }
       }
     ]
 
