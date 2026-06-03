@@ -196,8 +196,8 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
       {/* ══ SERVICES TABS ══════════════════════════════════════════════ */}
       <ServicesAccordionSection 
-        eyebrow="All Services"
-        headline="Complete Digital Solutions"
+        eyebrow="What We Offer"
+        headline="Comprehensive Web Development Solutions for Your Business Growth"
         intro="We specialize in custom WordPress, Shopify, and WooCommerce development—delivering high-performance websites that scale with your business."
       />
 

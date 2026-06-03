@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   if (secret !== process.env.ADMIN_JWT_SECRET) {
-    return NextResponse.json({ error: 'Missing or wrong secret. Add ?secret=YOUR_ADMIN_JWT_SECRET to the URL.' }, { status: 401 })
+    return NextResponse.json({ error: 'Missing or wrong secret.' }, { status: 401 })
   }
 
   try {
@@ -20,8 +20,8 @@ export async function GET(request: Request) {
         props: {
           eyebrow: 'WordPress Services',
           headline: 'Professional WordPress\nDevelopment Services',
-          subheadline: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results.',
-          desc: 'Trusted by 50+ businesses worldwide for speed, security, and scalability.',
+          subheadline: 'Display Your Business Online with a WordPress Website',
+          desc: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.',
           ctaPrimaryLabel: 'Get Free WordPress Consultation',
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'View WordPress Portfolio',
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
             [{ t: 'v', v: '  ' }, { t: 'kw', v: 'if' }, { t: 'v', v: ' (' }, { t: 'attr', v: 'scan' }, { t: 'v', v: '.' }, { t: 'attr', v: 'vulnerabilities' }, { t: 'v', v: ' > ' }, { t: 'num', v: '0' }, { t: 'v', v: ') {' }],
             [{ t: 'v', v: '    ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'patch_core_and_plugins' }, { t: 'v', v: '();' }],
             [{ t: 'v', v: '  }' }],
-            [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'✓ Site Secured'" }, { t: 'v', v: ';' }],
+            [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'\u2713 Site Secured'" }, { t: 'v', v: ';' }],
             [{ t: 'v', v: '}' }]
           ]
         }
@@ -46,67 +46,115 @@ export async function GET(request: Request) {
         type: 'services-accordion',
         props: {
           eyebrow: 'Our Services',
-          headline: 'Comprehensive WordPress Solutions',
-          intro: "Robust development capabilities built natively on WordPress.",
+          headline: 'Complete WordPress Solutions for Every Business Need',
+          intro: 'From custom themes to complex functionality, we create WordPress sites that grow with your business. Speed-optimized, secure, and SEO-ready.',
           items: [
-            {
-              label: 'Development',
-              title: 'WordPress Website Development',
-              sub: 'Build Your Dream Website from Scratch',
-              desc: 'Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out from the competition.',
-              features: 'Custom theme development,Responsive design,SEO-optimized structure,Lead generation tools,Google Analytics setup',
-              price: '$799',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 90% 80% at 10% 90%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0c0a1c,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
-            },
-            {
-              label: 'Migration',
-              title: 'WordPress Migration Services',
-              sub: 'Seamless Migration Without Downtime',
-              desc: 'Moving to WordPress or changing hosts? We handle the entire migration process ensuring zero data loss and minimal downtime.',
-              features: 'Complete site backup,Domain setup assistance,SSL installation,Speed optimization,SEO preservation',
-              price: '$299',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 90% 80% at 90% 80%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#08081a,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'
-            },
-            {
-              label: 'Maintenance',
-              title: 'WordPress Maintenance & Support',
-              sub: 'Keep Your Site Running Smoothly',
-              desc: 'Regular maintenance is crucial for WordPress security and reliability. Our comprehensive plans ensure your site stays updated and optimized.',
-              features: 'Core/theme/plugin updates,Security monitoring,Database cleanup,Performance tracking,Regular backups',
-              price: '$79/mo',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 90% 80% at 50% 110%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0a0818,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
-            },
-            {
-              label: 'Speed Optimization',
-              title: 'WordPress Speed Optimization',
-              sub: 'Lightning Fast Load Times',
-              desc: 'Slow websites lose customers and hurt search rankings. Our speed optimization service can improve your site speed by 40–70%.',
-              features: 'Speed audit,Image compression,Caching setup,CSS/JS minification,Core Web Vitals improvement',
-              price: '$399',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 70% 70% at 20% 20%, rgba(118,108,255,0.30) 0%, transparent 55%), linear-gradient(160deg,#08081a,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
-            }
-          ]
+  {
+    "label": "Development",
+    "title": "WordPress Website Development",
+    "sub": "Build Your Dream Website from Scratch",
+    "desc": "Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out from the competition while delivering exceptional user experience.",
+    "features": "Custom theme development from your designs,Responsive design across all devices,SEO-optimized structure and content,Contact forms and lead generation tools,Social media integration,Google Analytics setup,Basic on-page SEO optimization,30 days of free support",
+    "price": "$799",
+    "href": "/contact"
+  },
+  {
+    "label": "Migration",
+    "title": "WordPress Migration Services",
+    "sub": "Seamless Migration Without Downtime",
+    "desc": "Moving to WordPress or changing hosts? We handle the entire migration process while ensuring zero data loss and minimal downtime. Your SEO rankings and user experience remain intact.",
+    "features": "Complete site backup and migration,Domain and hosting setup assistance,SSL certificate installation,Email migration (if required),Speed and performance optimization,SEO preservation techniques,Testing across all devices,14 days of post-migration support",
+    "price": "$299",
+    "href": "/contact"
+  },
+  {
+    "label": "Bugs/Errors",
+    "title": "WordPress Bugs/Errors Fixing Services",
+    "sub": "Quick Resolution for WordPress Issues",
+    "desc": "Is your WordPress site showing errors, broken pages, or strange behavior? Our experts diagnose and fix issues quickly, getting your site back to peak performance.",
+    "features": "White screen of death,Internal server errors (500 errors),Database connection errors,Plugin conflicts and compatibility issues,Theme-related problems,Broken layouts and design issues,Login and admin access problems,Email functionality issues",
+    "price": "$149",
+    "href": "/contact"
+  },
+  {
+    "label": "Maintenance",
+    "title": "WordPress Maintenance & Support",
+    "sub": "Keep Your WordPress Site Running Smoothly",
+    "desc": "Regular maintenance is crucial for WordPress security, performance, and reliability. Our comprehensive maintenance plans ensure your site stays updated, secure, and optimized.",
+    "features": "WordPress core core theme and plugin updates,Security monitoring and malware scans,Database optimization and cleanup,Broken link checks and fixes,Performance monitoring and reporting,Regular backups (stored securely),Uptime monitoring,Priority support for issues",
+    "price": "$79/mo",
+    "href": "/contact"
+  },
+  {
+    "label": "Speed",
+    "title": "WordPress Speed Optimization Services",
+    "sub": "Make Your WordPress Site Lightning Fast",
+    "desc": "Slow websites lose customers and hurt search rankings. Our speed optimization service can improve your site speed by 40-70%, leading to better user experience and higher conversions.",
+    "features": "Comprehensive speed audit and analysis,Image optimization and compression,Caching implementation and configuration,Database optimization and cleanup,CSS and JavaScript minification,CDN setup and configuration,Server-level optimizations,Core Web Vitals optimization,Mobile speed improvements",
+    "price": "$399",
+    "href": "/contact"
+  },
+  {
+    "label": "Security",
+    "title": "WordPress Security Services",
+    "sub": "Protect Your WordPress Site from Threats",
+    "desc": "WordPress security is not optional. Our comprehensive security service protects your site from hackers, malware, and other threats while ensuring compliance with security best practices.",
+    "features": "Malware scanning and removal,Firewall installation and configuration,Security plugin setup and optimization,Login security enhancements,File permission optimization,Database security improvements,SSL certificate installation,Security headers implementation,Regular security audits",
+    "price": "$299",
+    "href": "/contact"
+  },
+  {
+    "label": "Virus Removal",
+    "title": "WordPress Virus Removal Services",
+    "sub": "Fast and Complete Malware Removal",
+    "desc": "Is your WordPress site infected with malware or viruses? We provide emergency malware removal services to get your site clean and secure quickly.",
+    "features": "Complete malware scan and removal,Infected file cleaning or replacement,Database cleanup and optimization,Security plugin installation,Firewall configuration,Google Safe Browsing removal,Security recommendations,30-day monitoring period",
+    "price": "$199",
+    "href": "/contact"
+  },
+  {
+    "label": "Backups",
+    "title": "WordPress Backup Solutions",
+    "sub": "Never Lose Your WordPress Data Again",
+    "desc": "Protect your valuable content and data with automated, reliable backup solutions. Our backup service ensures you can restore your site quickly in case of any emergency.",
+    "features": "Automated daily backups,Multiple backup storage locations,One-click restore functionality,Database and file backups,Incremental backup options,Backup scheduling flexibility,Encrypted secure storage,Easy backup management",
+    "price": "$29/mo",
+    "href": "/contact"
+  },
+  {
+    "label": "Redesign",
+    "title": "WordPress Website Redesign",
+    "sub": "Give Your WordPress Site a Fresh New Look",
+    "desc": "Is your WordPress site looking outdated? Our redesign service transforms your existing site with modern design, improved functionality, and a better user experience.",
+    "features": "Modern responsive design,Improved user experience,SEO optimization,Speed optimization,Mobile-first approach,Content migration,Basic SEO setup,30 days of support",
+    "price": "$1,299",
+    "href": "/contact"
+  },
+  {
+    "label": "Multilingual",
+    "title": "WordPress Multilingual Websites",
+    "sub": "Reach Global Audiences with Multilingual WordPress",
+    "desc": "Expand your business globally with professionally developed multilingual WordPress websites. We create seamless multi-language experiences that engage international audiences.",
+    "features": "Multiple language setup and configuration,Professional translation management,SEO optimization for each language,Currency switcher integration,Language-specific content management,Automatic language detection,Multilingual menu and navigation,International SEO setup",
+    "price": "$899",
+    "href": "/contact"
+  }
+]
         }
       },
       {
         id: new ObjectId().toHexString(),
         type: 'whyus',
         props: {
-          eyebrow: 'Why Us',
-          headline: '7+ Years WordPress Expertise',
+          eyebrow: 'Why Choose Us',
+          headline: 'Why Choose ARIOSETECH for WordPress Development?',
           items: [
-            { icon: '🏆', title: 'WordPress Experts', subhead: 'Deep Expertise', desc: 'We have been perfecting WordPress development since 2017, delivering 50+ successful projects.' },
-            { icon: '⚡', title: 'Performance-First', subhead: 'Built for Speed', desc: 'Every WordPress site we build is optimized for speed, security, and search engines from day one.' },
-            { icon: '🔒', title: 'Security-Focused', subhead: 'Enterprise Grade', desc: 'We implement enterprise-grade security measures to protect your WordPress site from threats.' },
-            { icon: '📱', title: 'Mobile-First Design', subhead: 'Perfect on Any Device', desc: 'All our WordPress sites are built with mobile users in mind, ensuring perfect performance across all devices.' }
+            { icon: '🏆', title: '7+ Years WordPress Expertise', subhead: 'Proven Track Record', desc: 'We\'ve been perfecting WordPress development since 2017, delivering 50+ successful WordPress projects across various industries.' },
+            { icon: '⚡', title: 'Performance-First Approach', subhead: 'Speed & SEO Optimized', desc: 'Every WordPress site we build is optimized for speed, security, and search engines from day one.' },
+            { icon: '🔒', title: 'Security-Focused Development', subhead: 'Enterprise Hardening', desc: 'We implement enterprise-grade security measures to protect your WordPress site from threats.' },
+            { icon: '📱', title: 'Mobile-First Design', subhead: 'Responsive Layouts', desc: 'All our WordPress sites are built with mobile users in mind, ensuring perfect performance across all devices.' },
+            { icon: '🔧', title: 'Ongoing Support', subhead: 'Continuous Care', desc: 'We don\'t just build and leave. Our team provides continuous support to ensure your WordPress site thrives.' },
+            { icon: '💰', title: 'Transparent Pricing', subhead: 'No Hidden Costs', desc: 'No hidden costs or surprise fees. Our WordPress development pricing is upfront and honest.' }
           ]
         }
       },
@@ -115,13 +163,14 @@ export async function GET(request: Request) {
         type: 'portfolio',
         props: {
           eyebrow: 'Our Work',
-          headline: 'Success Stories That Speak for Themselves',
-          intro: "Discover how we've transformed businesses with custom WordPress solutions that drive growth and maximize ROI.",
-          ctaLabel: 'Explore All Projects',
+          headline: 'WordPress Portfolio Highlights',
+          intro: 'Discover how we\'ve helped businesses grow with custom WordPress solutions.',
+          ctaLabel: 'View Full WordPress Portfolio',
           ctaHref: '/portfolio',
           items: [
-            { title: 'Corporate Client', client: 'Professional Services', platform: 'WordPress', result: '200%', resultLabel: 'Increase in lead generation', quote: 'Custom WordPress theme with advanced features.', slug: 'portfolio' },
-            { title: 'Global Business', client: 'International Business', platform: 'WordPress Multilingual', result: '300%', resultLabel: 'Increase in international inquiries', quote: 'WPML-powered multilingual WordPress site.', slug: 'portfolio' }
+            { title: 'Corporate Website', client: 'Professional Services', platform: 'Custom WordPress Theme', result: '200%', resultLabel: 'Increase in lead generation', quote: 'Custom WordPress theme with advanced features.', slug: 'portfolio' },
+            { title: 'E-commerce Integration', client: 'Retail', platform: 'WooCommerce Integration', result: '150%', resultLabel: 'Increase in online sales', quote: 'WooCommerce integration with custom features.', slug: 'portfolio' },
+            { title: 'Multilingual Site', client: 'International Business', platform: 'WPML Multilingual WordPress', result: '300%', resultLabel: 'Increase in international inquiries', quote: 'WPML-powered multilingual WordPress site.', slug: 'portfolio' }
           ]
         }
       },
@@ -130,12 +179,12 @@ export async function GET(request: Request) {
         type: 'audit',
         props: {
           eyebrow: 'Get Started',
-          headline: 'Ready to Transform Your Website?',
-          subhead: 'Get a free WordPress consultation',
-          desc: 'Find out exactly how to improve your site speed, security, and conversions with our expert analysis.',
-          ctaLabel: 'Get Free WordPress Audit',
+          headline: 'Ready to Start Your WordPress Project?',
+          subhead: 'Get Your Free WordPress Consultation',
+          desc: 'Discover what\'s holding your site back. Get a 30-minute strategy session, WordPress recommendations, project timeline and pricing, and a no-obligation proposal.',
+          ctaLabel: 'Book Free Consultation',
           ctaHref: '/contact',
-          guarantee: 'No spam, ever. Actionable report delivered within 24 hours.'
+          guarantee: '30-day money-back guarantee on all WordPress development services'
         }
       },
       {
@@ -145,12 +194,31 @@ export async function GET(request: Request) {
           eyebrow: 'WordPress FAQ',
           headline: 'Frequently Asked Questions About WordPress',
           items: [
-            { q: 'How long does WordPress development take?', a: 'Most WordPress projects are completed within 2–4 weeks, depending on complexity and requirements.' },
-            { q: 'Do you provide WordPress hosting?', a: 'We can recommend reliable hosting providers and assist with setup, but we focus on development rather than hosting services.' },
-            { q: 'Can you work with existing WordPress sites?', a: 'Absolutely! We provide maintenance, optimization, and enhancement services for existing WordPress websites.' },
-            { q: 'What\'s included in post-launch support?', a: 'All WordPress projects include 30 days of free support covering bug fixes, minor adjustments, and training.' },
-            { q: 'How much does WordPress maintenance cost?', a: 'Our maintenance plans start at $79/month and include updates, backups, security monitoring, and support.' }
-          ]
+  {
+    "q": "How long does WordPress development take?",
+    "a": "Most WordPress projects are completed within 2-4 weeks, depending on complexity and requirements."
+  },
+  {
+    "q": "Do you provide WordPress hosting?",
+    "a": "We can recommend reliable hosting providers and assist with setup, but we focus on development rather than hosting services."
+  },
+  {
+    "q": "Can you work with existing WordPress sites?",
+    "a": "Absolutely! We provide maintenance, optimization, and enhancement services for existing WordPress websites."
+  },
+  {
+    "q": "What's included in post-launch support?",
+    "a": "All WordPress projects include 30 days of free support covering bug fixes, minor adjustments, and training."
+  },
+  {
+    "q": "Do you use WordPress page builders?",
+    "a": "We prefer custom development for better performance, but can work with page builders like Elementor or Gutenberg when requested."
+  },
+  {
+    "q": "How much does WordPress maintenance cost?",
+    "a": "Our maintenance plans start at $79/month and include updates, backups, security monitoring, and support."
+  }
+]
         }
       },
       {
@@ -164,7 +232,7 @@ export async function GET(request: Request) {
           ctaHref: '/contact',
           secondaryLabel: 'View Case Studies',
           secondaryHref: '/portfolio',
-          trust: 'No Long-Term Contracts,WordPress Experts,Ongoing Support'
+          trust: 'Starting at $799,30-Day Money-Back Guarantee,Free Post-Launch Support'
         }
       }
     ]
@@ -188,7 +256,7 @@ export async function GET(request: Request) {
           } 
         }
       )
-      return NextResponse.json({ message: `WordPress page updated with ${sections.length} sections!` })
+      return NextResponse.json({ message: 'WordPress page updated!' })
     } else {
       await pagesCol.insertOne({
         title: 'WordPress Services',
@@ -205,10 +273,9 @@ export async function GET(request: Request) {
         createdAt: new Date(),
         updatedAt: new Date()
       })
-      return NextResponse.json({ message: `WordPress page created with ${sections.length} sections!` })
+      return NextResponse.json({ message: 'WordPress page created!' })
     }
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error)
-    return NextResponse.json({ error: message }, { status: 500 })
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 })
   }
 }

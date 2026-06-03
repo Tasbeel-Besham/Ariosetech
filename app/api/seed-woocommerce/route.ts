@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
   if (secret !== process.env.ADMIN_JWT_SECRET) {
-    return NextResponse.json({ error: 'Missing or wrong secret. Add ?secret=YOUR_ADMIN_JWT_SECRET to the URL.' }, { status: 401 })
+    return NextResponse.json({ error: 'Missing or wrong secret.' }, { status: 401 })
   }
 
   try {
@@ -19,9 +19,9 @@ export async function GET(request: Request) {
         type: 'hero-interactive',
         props: {
           eyebrow: 'WooCommerce Services',
-          headline: 'Custom WooCommerce\nDevelopment Services',
-          subheadline: 'Transform your WordPress site into a powerful online store that drives sales. We create custom WooCommerce solutions that combine flexibility with robust e-commerce functionality.',
-          desc: 'Trusted by 40+ businesses worldwide for scalable e-commerce solutions.',
+          headline: 'Professional WooCommerce\nDevelopment Services',
+          subheadline: 'Build Powerful E-commerce Stores with WordPress & WooCommerce',
+          desc: 'Transform your WordPress site into a powerful online store that drives sales. We create custom WooCommerce solutions that combine the flexibility of WordPress with robust e-commerce functionality. Trusted by 40+ businesses worldwide for exceptional performance and growth.',
           ctaPrimaryLabel: 'Get Free WooCommerce Consultation',
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'View WooCommerce Portfolio',
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
             [{ t: 'v', v: '  ' }, { t: 'kw', v: 'if' }, { t: 'v', v: ' (' }, { t: 'attr', v: 'store' }, { t: 'v', v: '.' }, { t: 'attr', v: 'load_time' }, { t: 'v', v: ' > ' }, { t: 'str', v: "'2s'" }, { t: 'v', v: ') {' }],
             [{ t: 'v', v: '    ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'implement_caching' }, { t: 'v', v: '();' }],
             [{ t: 'v', v: '  }' }],
-            [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'✓ Performance Optimized'" }, { t: 'v', v: ';' }],
+            [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'\u2713 Performance Optimized'" }, { t: 'v', v: ';' }],
             [{ t: 'v', v: '}' }]
           ]
         }
@@ -46,67 +46,97 @@ export async function GET(request: Request) {
         type: 'services-accordion',
         props: {
           eyebrow: 'Our Services',
-          headline: 'Comprehensive WooCommerce Solutions',
-          intro: "Robust e-commerce capabilities built natively on WordPress.",
+          headline: 'Complete WooCommerce Solutions for E-commerce Success',
+          intro: 'Custom WooCommerce solutions with seamless payment integration and conversion optimization.',
           items: [
-            {
-              label: 'Development',
-              title: 'WooCommerce Website Development',
-              sub: 'Launch Your Ultimate E-commerce Store',
-              desc: 'Build a powerful online store that leverages the best of WordPress and WooCommerce. Our custom development creates unique, high-converting stores.',
-              features: 'Custom theme development,Responsive design,Product catalog setup,Payment gateway integration,Inventory management',
-              price: '$1,299',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 90% 80% at 10% 90%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0c0a1c,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
-            },
-            {
-              label: 'Customization',
-              title: 'WooCommerce Theme Customization',
-              sub: 'Transform Your Store Design',
-              desc: 'Make your WooCommerce store stand out with completely custom theme development or extensive customization of existing themes.',
-              features: 'Theme redesign,Brand-specific UI/UX,Advanced product displays,Custom checkout design,Speed optimization',
-              price: '$899',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 90% 80% at 90% 80%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#08081a,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'
-            },
-            {
-              label: 'Performance',
-              title: 'WooCommerce Performance Optimization',
-              sub: 'Maximize Speed and Sales',
-              desc: 'Slow e-commerce sites lose customers. Our comprehensive optimization service can improve your WooCommerce store speed by 50–70%.',
-              features: 'Query optimization,Image compression,Caching implementation,CDN setup,Checkout speedup',
-              price: '$699',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 90% 80% at 50% 110%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0a0818,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
-            },
-            {
-              label: 'Multi-vendor',
-              title: 'WooCommerce Multi-vendor Solutions',
-              sub: 'Create Your Own Marketplace',
-              desc: 'Transform your WooCommerce store into a thriving multi-vendor marketplace where multiple sellers can list and sell their products.',
-              features: 'Vendor dashboards,Commission management,Payment splitting,Vendor ratings,Advanced filtering',
-              price: '$1,999',
-              href: '/contact',
-              bg: 'radial-gradient(ellipse 70% 70% at 20% 20%, rgba(118,108,255,0.30) 0%, transparent 55%), linear-gradient(160deg,#08081a,#05050a)',
-              icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
-            }
-          ]
+  {
+    "label": "Development",
+    "title": "WooCommerce Website Development Services",
+    "sub": "Launch Your Ultimate E-commerce Store",
+    "desc": "Build a powerful online store that leverages the best of WordPress and WooCommerce. Our custom development creates unique, high-converting stores that perfectly match your brand and business requirements.",
+    "features": "Custom WooCommerce theme development,Responsive design across all devices,Complete product catalog setup,Payment gateway integration,Shipping zones and tax configuration,30 days of free support",
+    "price": "$1,299",
+    "href": "/contact"
+  },
+  {
+    "label": "Customization",
+    "title": "WooCommerce Theme Customization",
+    "sub": "Transform Your Store with Custom Design",
+    "desc": "Make your WooCommerce store stand out with completely custom theme development or extensive customization of existing themes. We create unique shopping experiences that reflect your brand and drive conversions.",
+    "features": "Complete theme redesign and development,Custom homepage and product page layouts,Brand-specific color schemes and typography,Custom icons and graphics integration,Advanced product display options,30 days of design support",
+    "price": "$899",
+    "href": "/contact"
+  },
+  {
+    "label": "Payments",
+    "title": "WooCommerce Payment Gateway Integration",
+    "sub": "Secure, Seamless Payment Processing",
+    "desc": "Offer your customers the payment methods they prefer with secure, reliable payment gateway integrations. We implement and optimize payment systems that reduce cart abandonment and increase conversions.",
+    "features": "Stripe and PayPal integration,Square online payments,Authorize.net integration,Local gateways (JazzCash EasyPaisa),SSL certificate implementation,30 days of payment support",
+    "price": "$299",
+    "href": "/contact"
+  },
+  {
+    "label": "Performance",
+    "title": "WooCommerce Performance Optimization",
+    "sub": "Maximize Speed, Sales, and Search Rankings",
+    "desc": "Slow e-commerce sites lose customers and sales. Our comprehensive optimization service can improve your WooCommerce store speed by 50-70%, leading to higher conversions, better user experience, and improved search rankings.",
+    "features": "Database query optimization,Image compression and optimization,Caching implementation (page object browser),CDN setup and configuration,Server-level optimizations,Core Web Vitals check",
+    "price": "$699",
+    "href": "/contact"
+  },
+  {
+    "label": "Maintenance",
+    "title": "WooCommerce Maintenance & Support",
+    "sub": "Keep Your Store Running Smoothly",
+    "desc": "Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your WooCommerce store stays updated, secure, and optimized for peak performance.",
+    "features": "WordPress and WooCommerce core updates,Plugin and theme updates,Security monitoring and hardening,Performance monitoring and optimization,Database optimization and cleanup,Uptime monitoring & backups",
+    "price": "$129/mo",
+    "href": "/contact"
+  },
+  {
+    "label": "Multi-vendor",
+    "title": "WooCommerce Multi-vendor Solutions",
+    "sub": "Create Your Own E-commerce Marketplace",
+    "desc": "Transform your WooCommerce store into a thriving multi-vendor marketplace where multiple sellers can list and sell their products. Perfect for creating Amazon-like platforms or expanding your business model.",
+    "features": "Vendor registration and approval system,Individual vendor dashboards,Vendor commission management,Automated commission calculations,Multiple payout methods,30 days of marketplace support",
+    "price": "$1,999",
+    "href": "/contact"
+  },
+  {
+    "label": "Multilingual",
+    "title": "WooCommerce Multilingual Websites",
+    "sub": "Expand Globally with Multilingual E-commerce",
+    "desc": "Reach international customers with professionally developed multilingual WooCommerce stores. We create seamless multi-language shopping experiences that engage global audiences and drive international sales.",
+    "features": "Multiple language setup (unlimited),Multi-currency and localization setup,Location-based pricing,Country-specific payment methods,RTL language support,30 days of multilingual support",
+    "price": "$1,499",
+    "href": "/contact"
+  },
+  {
+    "label": "Migration",
+    "title": "WooCommerce Migration Services",
+    "sub": "Seamless Migration to WooCommerce",
+    "desc": "Moving your e-commerce store to WooCommerce? We handle the complete migration process while preserving your SEO rankings, customer data, order history, and ensuring zero downtime.",
+    "features": "Product catalog migration with variations,Customer accounts and order history,Reviews and testimonials,Blog posts and content pages,SEO settings and URL redirects,30 days of dedicated support",
+    "price": "$999",
+    "href": "/contact"
+  }
+]
         }
       },
       {
         id: new ObjectId().toHexString(),
         type: 'whyus',
         props: {
-          eyebrow: 'Why Us',
-          headline: 'WooCommerce Expertise',
+          eyebrow: 'Why Choose Us',
+          headline: 'Why Choose ARIOSETECH for WooCommerce Development?',
           items: [
-            { icon: '🏆', title: 'WordPress + WooCommerce', subhead: 'Deep Expertise', desc: 'Deep understanding of both WordPress and WooCommerce ensures seamless integration and optimal performance.' },
-            { icon: '🛒', title: 'E-commerce Focus', subhead: 'Built for Sales', desc: 'Specialized in e-commerce development with proven strategies for increasing conversions and retention.' },
-            { icon: '⚡', title: 'Performance Obsessed', subhead: 'Lightning Fast', desc: 'We optimize every aspect of your store for speed, ensuring fast loading times that keep customers engaged.' },
-            { icon: '🔒', title: 'Security First', subhead: 'Enterprise Grade', desc: 'Enterprise-grade security measures protect your store and customer data from threats.' }
+            { icon: '🏆', title: 'WordPress + WooCommerce Expertise', desc: 'Deep understanding of both WordPress and WooCommerce ensures seamless integration and optimal performance for your online store.' },
+            { icon: '🛒', title: 'E-commerce Focus', desc: 'Specialized in e-commerce development with proven strategies for increasing conversions, average order value, and customer retention.' },
+            { icon: '🎨', title: 'Custom Solutions', desc: 'Every WooCommerce store we build is uniquely tailored to your business needs, brand identity, and growth objectives.' },
+            { icon: '⚡', title: 'Performance Obsessed', desc: 'We optimize every aspect of your store for speed, ensuring fast loading times that keep customers engaged and improve search rankings.' },
+            { icon: '🔒', title: 'Security First', desc: 'Enterprise-grade security measures protect your store and customer data from threats, ensuring trust and compliance.' },
+            { icon: '📈', title: 'Growth Partnership', desc: 'We don\'t just build stores; we create growth-focused solutions that scale with your business and support long-term success.' }
           ]
         }
       },
@@ -115,14 +145,14 @@ export async function GET(request: Request) {
         type: 'portfolio',
         props: {
           eyebrow: 'Our Work',
-          headline: 'Success Stories That Speak for Themselves',
-          intro: "Discover how we've transformed businesses with custom WooCommerce solutions that drive growth and maximize ROI.",
-          ctaLabel: 'Explore All Projects',
+          headline: 'WooCommerce Portfolio Highlights',
+          intro: 'Discover how we\'ve helped e-commerce brands scale with custom WooCommerce solutions.',
+          ctaLabel: 'View Full WooCommerce Portfolio',
           ctaHref: '/portfolio',
           items: [
-            { title: 'The Kapra', client: 'Fashion E-commerce', platform: 'WooCommerce', result: '300%', resultLabel: 'Increase in online sales', quote: 'Custom WooCommerce with advanced product variations.', slug: 'thekapra' },
-            { title: 'Dr. Scents', client: 'Perfume & Cosmetics', platform: 'WooCommerce Multi-site', result: '32', resultLabel: 'Countries launched in 4 months', quote: 'Multi-site WooCommerce with full localization.', slug: 'drscents' },
-            { title: 'GeoMag World', client: 'Educational Toys', platform: 'WooCommerce', result: '200%', resultLabel: 'Increase in average order value', quote: 'WooCommerce with custom product configurator.', slug: 'geomag' }
+            { title: 'The Kapra', client: 'Fashion Brand', platform: 'Custom WooCommerce', result: '300%', resultLabel: 'Revenue growth', quote: 'ARIOSETECH transformed our vision into reality with custom code solutions.', slug: 'portfolio' },
+            { title: 'Dr. Scents', client: 'Fragrance Brand', platform: 'Multi-site WooCommerce', result: '32', resultLabel: 'Countries launched', quote: 'Incredible speed and quality. They launched our international operation in 4 months.', slug: 'portfolio' },
+            { title: 'GeoMag World', client: 'Educational Toys', platform: 'Custom Catalog WooCommerce', result: '200%', resultLabel: 'AOV increase', quote: 'Managing our global catalog is now effortless.', slug: 'portfolio' }
           ]
         }
       },
@@ -131,12 +161,12 @@ export async function GET(request: Request) {
         type: 'audit',
         props: {
           eyebrow: 'Get Started',
-          headline: 'Ready to Transform Your Store?',
-          subhead: 'Get a free WooCommerce consultation',
-          desc: 'Find out exactly how to improve your store speed, security, and conversion rates with our expert analysis.',
-          ctaLabel: 'Get Free WooCommerce Audit',
+          headline: 'Ready to Start Your WooCommerce Project?',
+          subhead: 'Get Your Free WooCommerce Store Consultation',
+          desc: 'Discover what\'s holding your store back. Get a complete e-commerce strategy session, platform analysis, project timeline, and a detailed proposal.',
+          ctaLabel: 'Book Free Consultation',
           ctaHref: '/contact',
-          guarantee: 'No spam, ever. Actionable report delivered within 24 hours.'
+          guarantee: '30-day money-back guarantee | Free post-launch training | Ongoing support available'
         }
       },
       {
@@ -146,27 +176,53 @@ export async function GET(request: Request) {
           eyebrow: 'WooCommerce FAQ',
           headline: 'Frequently Asked Questions About WooCommerce',
           items: [
-            { q: 'How much does a WooCommerce store cost?', a: 'Custom WooCommerce development starts at $1,299 for basic stores. Complex stores with advanced features range from $2,000–$5,000+.' },
-            { q: 'How long does WooCommerce development take?', a: 'Most custom WooCommerce stores are completed within 3–5 weeks. Complex stores with extensive customization may take 6–8 weeks.' },
-            { q: 'Can you migrate my existing store to WooCommerce?', a: 'Yes! We provide complete migration services from Shopify, Magento, and other platforms. Migration typically takes 1–3 weeks.' },
-            { q: 'Is WooCommerce better than Shopify?', a: 'WooCommerce offers more customization freedom and lower long-term costs, while Shopify provides easier management. We help you choose based on your specific needs.' },
-            { q: 'Can WooCommerce handle large product catalogs?', a: 'Absolutely! WooCommerce can handle thousands of products when properly optimized. We implement performance optimizations for large-scale e-commerce operations.' },
-            { q: 'Do you develop custom WooCommerce plugins?', a: 'Yes! We develop custom plugins and extensions to add unique functionality to your WooCommerce store that isn\'t available in existing plugins.' }
-          ]
+  {
+    "q": "How much does a WooCommerce store cost?",
+    "a": "Custom WooCommerce development starts at $1,299 for basic stores. Complex stores with advanced features range from $2,000-$5,000+. We provide detailed quotes based on your specific requirements."
+  },
+  {
+    "q": "How long does WooCommerce development take?",
+    "a": "Most custom WooCommerce stores are completed within 3-5 weeks. Complex stores with extensive customization may take 6-8 weeks. We provide realistic timelines during consultation."
+  },
+  {
+    "q": "Can you migrate my existing store to WooCommerce?",
+    "a": "Yes! We provide complete migration services from Shopify, Magento, and other platforms. Migration typically takes 1-3 weeks depending on store complexity."
+  },
+  {
+    "q": "Is WooCommerce better than Shopify?",
+    "a": "WooCommerce offers more customization freedom and lower long-term costs, while Shopify provides easier management. We help you choose based on your specific needs."
+  },
+  {
+    "q": "Do you provide WooCommerce hosting?",
+    "a": "We recommend reliable WordPress hosting providers and assist with setup and optimization. We focus on development while partnering with trusted hosting companies."
+  },
+  {
+    "q": "What's included in post-launch support?",
+    "a": "All WooCommerce projects include 30 days of free support covering bug fixes, minor adjustments, training, and guidance on store management."
+  },
+  {
+    "q": "Can WooCommerce handle large product catalogs?",
+    "a": "Absolutely! WooCommerce can handle thousands of products when properly optimized. We implement performance optimizations for large-scale e-commerce operations."
+  },
+  {
+    "q": "Do you develop custom WooCommerce plugins?",
+    "a": "Yes! We develop custom plugins and extensions to add unique functionality to your WooCommerce store that isn't available in existing plugins."
+  }
+]
         }
       },
       {
         id: new ObjectId().toHexString(),
         type: 'cta',
         props: {
-          eyebrow: 'Ready to grow your business online?',
+          eyebrow: 'Ready to Launch?',
           headline: 'Start Your WooCommerce Journey Today',
-          desc: 'Join successful businesses maximizing their revenue. Professional results, transparent reporting, and long-term support.',
+          desc: 'Join successful brands scaling their online stores. Professional results, transparent reporting, and long-term partnership.',
           ctaLabel: 'Schedule Free Consultation',
           ctaHref: '/contact',
           secondaryLabel: 'View Case Studies',
           secondaryHref: '/portfolio',
-          trust: 'No Long-Term Contracts,WooCommerce Experts,Ongoing E-commerce Support'
+          trust: 'Starting at $1,299 | 30-Day Money-Back Guarantee | Ongoing Support'
         }
       }
     ]
@@ -184,13 +240,13 @@ export async function GET(request: Request) {
             'layout.sections': sections, 
             updatedAt: new Date(),
             seo: {
-              title: 'Custom WooCommerce Development Services | Ariosetech',
-              description: 'Transform your WordPress site into a powerful online store that drives sales with our expert WooCommerce solutions.'
+              title: 'Professional WooCommerce Development Services | Ariosetech',
+              description: 'Build Powerful E-commerce Stores with WordPress & WooCommerce.'
             }
           } 
         }
       )
-      return NextResponse.json({ message: `WooCommerce page updated with ${sections.length} sections!` })
+      return NextResponse.json({ message: 'WooCommerce page updated!' })
     } else {
       await pagesCol.insertOne({
         title: 'WooCommerce Services',
@@ -200,17 +256,16 @@ export async function GET(request: Request) {
         layout: { sections },
         status: 'published',
         seo: {
-          title: 'Custom WooCommerce Development Services | Ariosetech',
-          description: 'Transform your WordPress site into a powerful online store that drives sales with our expert WooCommerce solutions.',
+          title: 'Professional WooCommerce Development Services | Ariosetech',
+          description: 'Build Powerful E-commerce Stores with WordPress & WooCommerce.',
           robots: { index: true, follow: true }
         },
         createdAt: new Date(),
         updatedAt: new Date()
       })
-      return NextResponse.json({ message: `WooCommerce page created with ${sections.length} sections!` })
+      return NextResponse.json({ message: 'WooCommerce page created!' })
     }
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error)
-    return NextResponse.json({ error: message }, { status: 500 })
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 })
   }
 }
