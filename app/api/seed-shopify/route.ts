@@ -84,44 +84,48 @@ export async function GET(request: Request) {
     "features": "Google Analytics 4 setup,Klaviyo setup and automation,ShipStation integration,QuickBooks integration,Xero accounting connection,Custom API development for custom tools",
     "price": "$399",
     "href": "/contact"
-  },
-  {
-    "label": "Maintenance",
-    "title": "Shopify Maintenance & Support",
-    "sub": "Keep Your Shopify Store Running Smoothly",
-    "desc": "Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your Shopify store stays updated, secure, and optimized for peak performance.\n\n**Maintenance Plans:**\n• 🥉 Starter Plan - $99/month:\n  - 1 Shopify store\n  - Monthly updates and checks, basic performance monitoring, email support\n  - 2 hours of modifications\n• 🥈 Growth Plan - $199/month:\n  - Up to 2 Shopify stores\n  - Bi-weekly updates and monitoring, advanced performance optimization\n  - Priority email & chat support, 5 hours of modifications, monthly performance reports\n• 🥇 Enterprise Plan - $399/month:\n  - Up to 5 Shopify stores\n  - Weekly updates and monitoring, real-time performance tracking\n  - 24/7 priority support, 10 hours of modifications, custom feature development, dedicated account manager",
-    "features": "Regular theme and app updates,Security monitoring and protection,Performance monitoring and optimization,Broken link checks and fixes,Product data backup and security,Priority technical support",
-    "price": "$99/mo",
-    "href": "/contact"
-  },
-  {
-    "label": "Shopify Plus",
-    "title": "Shopify Plus Development",
-    "sub": "Enterprise E-commerce Solutions with Shopify Plus",
-    "desc": "Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and advanced integrations that support rapid growth and global expansion.\n\n**Shopify Plus Exclusive Features:**\n• Higher transaction limits and reduced fees\n• Advanced automation workflows (Shopify Flow, Launchpad)\n• Advanced reporting, B2B wholesale capabilities, multi-store, and multi-currency\n• Enhanced customization and checkout experiences\n\n**Perfect For:**\n• High-volume merchants (> $1M annual sales)\n• Brands with complex requirements or CRM integrations\n• International businesses, Multi-brand companies\n\n**Timeline:** 4-6 weeks",
-    "features": "Custom Theme Development for enterprise brands,ERP and CRM advanced integrations,B2B wholesale portals and pricing,Multi-store and multi-currency support,Custom app development,API-first architecture",
-    "price": "$2,999",
-    "href": "/contact"
-  },
-  {
-    "label": "Redesign",
-    "title": "Shopify Store Redesign",
-    "sub": "Transform Your Store for Maximum Conversions",
-    "desc": "Is your Shopify store underperforming? Our redesign service combines modern design with conversion optimization to create stores that not only look amazing but also drive more sales.\n\n**Design Focus Areas:**\n• Homepage conversion optimization\n• Product page enhancements\n• Simplified navigation structure\n• Trust signal implementation\n• Mobile shopping experience\n• Cart and checkout optimization\n• Brand consistency throughout\n\n**Expected Results:**\n• 20-40% increase in conversions\n• Improved mobile experience\n• Better brand representation & higher average order value\n\n**Timeline:** 3-4 weeks",
-    "features": "Modern mobile-first design,Conversion rate optimization,User experience improvements,Page speed optimization,SEO structure enhancement,30 days of support",
-    "price": "$1,499",
-    "href": "/contact"
-  },
-  {
-    "label": "App Dev",
-    "title": "Shopify App Development",
-    "sub": "Custom Apps for Unique Business Needs",
-    "desc": "Need functionality that doesn't exist? We develop custom Shopify apps tailored to your specific requirements, giving you competitive advantages and streamlined operations.\n\n**Types of Apps We Build:**\n• Custom product configurators, advanced inventory management\n• Subscription and recurring billing, loyalty and rewards programs\n• Advanced search and filtering, custom reporting dashboards, B2B pricing\n\n**Technologies Used:**\n• Shopify Partner APIs (GraphQL & REST), React & Node.js, Shopify CLI, Polaris\n\n**Timeline:** 4-8 weeks",
-    "features": "Public & private apps development,Custom product configurators,Subscription and recurring billing,Loyalty and rewards programs,Advanced search and filtering,Polaris design standard compliance",
-    "price": "$1,999",
-    "href": "/contact"
   }
 ]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Enterprise Scaling',
+          headline: 'Shopify Plus Development & Scaling',
+          body: 'Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and advanced integrations that support rapid growth and global expansion.\n\nShopify Plus Exclusive Features:\n* Higher transaction limits and reduced fees\n* Advanced automation workflows (Shopify Flow, Launchpad)\n* Advanced reporting, B2B wholesale capabilities, multi-store, and multi-currency\n* Enhanced customization and checkout experiences\n\nIdeal Fit List:\n* High-volume merchants (> $1M annual sales)\n* Brands with complex CRM or ERP requirements\n* International e-commerce brands & multi-brand companies\n\nScale your e-commerce operations with a platform built for enterprise performance.',
+          align: 'left'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Re-platforming & Optimization',
+          headline: 'Conversion-Optimized Shopify Redesign',
+          body: 'Is your Shopify store underperforming? Our redesign service combines modern design with conversion optimization to create stores that not only look amazing but also drive more sales.\n\nDesign Focus Areas:\n* Homepage layout and CTA optimization\n* Product page enhancements and media integration\n* Simplified checkout and cart drawer flow\n* Trust signal and social proof placement\n* Mobile shopping experience and performance\n\nExpected Results:\n* 20-40% average increase in conversions\n* Improved mobile user experience and faster loading speeds\n* Higher average order value (AOV) and customer retention',
+          align: 'left'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Custom Extensions',
+          headline: 'Custom Shopify App Development',
+          body: "Need custom functionality that doesn't exist in the app store? We develop custom Shopify apps tailored to your specific requirements, giving you competitive advantages and streamlined operations.\n\nTypes of Apps We Build:\n* Custom product configurators & personalization tools\n* Advanced inventory management & warehouse sync\n* Subscription systems & recurring billing integrations\n* Advanced search, filtering, and custom B2B pricing portals\n\nBuilt using Shopify Partner APIs (GraphQL & REST), Polaris design standards, and modern secure frameworks.",
+          align: 'left'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Ongoing Support',
+          headline: 'Shopify Maintenance & Support Plans',
+          body: 'Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your Shopify store stays updated, secure, and optimized for peak performance.\n\nOur Support Plans:\n* Starter Plan ($99/mo): 1 Shopify store, monthly updates and checks, basic performance monitoring, email support (48h response), 2 hours of modifications.\n* Growth Plan ($199/mo): Up to 2 Shopify stores, bi-weekly updates, advanced optimization, priority email & chat support (24h response), 5 hours of modifications, performance reporting.\n* Enterprise Plan ($399/mo): Up to 5 Shopify stores, weekly updates, 24/7 priority support, 10 hours of modifications, custom feature development, dedicated account manager.\n\nKeep your store running at peak speed and security without the overhead of an in-house team.',
+          align: 'left'
         }
       },
       {

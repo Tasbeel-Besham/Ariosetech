@@ -346,6 +346,7 @@ const SHOPIFY_SERVICES_ITEMS = [
     href: "/contact" 
   }
 ];
+const SHOPIFY_ACCORDION_ITEMS = SHOPIFY_SERVICES_ITEMS.slice(0, 4);
 
 const SEO_SERVICES_ITEMS = [
   { 
@@ -719,7 +720,47 @@ export async function GET(request: Request) {
           eyebrow: 'Our Services',
           headline: 'Complete Shopify Solutions for E-commerce Success',
           intro: 'Professional Shopify stores built for growth. From startup stores to Shopify Plus enterprises, we deliver results that matter.',
-          items: ${JSON.stringify(SHOPIFY_SERVICES_ITEMS, null, 2)}
+          items: ${JSON.stringify(SHOPIFY_ACCORDION_ITEMS, null, 2)}
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Enterprise Scaling',
+          headline: 'Shopify Plus Development & Scaling',
+          body: 'Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and advanced integrations that support rapid growth and global expansion.\\n\\nShopify Plus Exclusive Features:\\n* Higher transaction limits and reduced fees\\n* Advanced automation workflows (Shopify Flow, Launchpad)\\n* Advanced reporting, B2B wholesale capabilities, multi-store, and multi-currency\\n* Enhanced customization and checkout experiences\\n\\nIdeal Fit List:\\n* High-volume merchants (> $1M annual sales)\\n* Brands with complex CRM or ERP requirements\\n* International e-commerce brands & multi-brand companies\\n\\nScale your e-commerce operations with a platform built for enterprise performance.',
+          align: 'left'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Re-platforming & Optimization',
+          headline: 'Conversion-Optimized Shopify Redesign',
+          body: 'Is your Shopify store underperforming? Our redesign service combines modern design with conversion optimization to create stores that not only look amazing but also drive more sales.\\n\\nDesign Focus Areas:\\n* Homepage layout and CTA optimization\\n* Product page enhancements and media integration\\n* Simplified checkout and cart drawer flow\\n* Trust signal and social proof placement\\n* Mobile shopping experience and performance\\n\\nExpected Results:\\n* 20-40% average increase in conversions\\n* Improved mobile user experience and faster loading speeds\\n* Higher average order value (AOV) and customer retention',
+          align: 'left'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Custom Extensions',
+          headline: 'Custom Shopify App Development',
+          body: "Need custom functionality that doesn't exist in the app store? We develop custom Shopify apps tailored to your specific requirements, giving you competitive advantages and streamlined operations.\\n\\nTypes of Apps We Build:\\n* Custom product configurators & personalization tools\\n* Advanced inventory management & warehouse sync\\n* Subscription systems & recurring billing integrations\\n* Advanced search, filtering, and custom B2B pricing portals\\n\\nBuilt using Shopify Partner APIs (GraphQL & REST), Polaris design standards, and modern secure frameworks.",
+          align: 'left'
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'heading',
+        props: {
+          eyebrow: 'Ongoing Support',
+          headline: 'Shopify Maintenance & Support Plans',
+          body: 'Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your Shopify store stays updated, secure, and optimized for peak performance.\\n\\nOur Support Plans:\\n* Starter Plan ($99/mo): 1 Shopify store, monthly updates and checks, basic performance monitoring, email support (48h response), 2 hours of modifications.\\n* Growth Plan ($199/mo): Up to 2 Shopify stores, bi-weekly updates, advanced optimization, priority email & chat support (24h response), 5 hours of modifications, performance reporting.\\n* Enterprise Plan ($399/mo): Up to 5 Shopify stores, weekly updates, 24/7 priority support, 10 hours of modifications, custom feature development, dedicated account manager.\\n\\nKeep your store running at peak speed and security without the overhead of an in-house team.',
+          align: 'left'
         }
       },
       {
@@ -2598,7 +2639,31 @@ const wordpressLayout = { sections: [
 
 const shopifyLayout = { sections: [
   sec('hero-interactive', { eyebrow: 'Shopify Services', headline: 'Professional Shopify\\nDevelopment Services', subheadline: 'Scale Your E-commerce Business with Expert Shopify Solutions', desc: 'From startup stores to enterprise Shopify Plus platforms, we create high-converting e-commerce experiences that drive sales. Trusted by 30+ Shopify businesses worldwide for exceptional design, functionality, and growth.', ctaPrimaryLabel: 'Get Free Shopify Store Audit', ctaPrimaryHref: '/contact', ctaSecondaryLabel: 'View Shopify Portfolio', ctaSecondaryHref: '/portfolio', trust: 'Starting at $999,30-Day Money-Back Guarantee,Free Post-Launch Training', codeFilename: 'shopify-conversion / optimize.ts', codeLines: [[{ t: 'com', v: '// Executing Shopify conversion optimization' }], [], [{ t: 'kw', v: 'async function ' }, { t: 'fn', v: 'optimize_store' }, { t: 'v', v: '() {' }], [{ t: 'v', v: '  ' }, { t: 'kw', v: 'const' }, { t: 'v', v: ' ' }, { t: 'attr', v: 'store' }, { t: 'v', v: ' = ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'analyze_checkout' }, { t: 'v', v: '();' }], [{ t: 'v', v: '  ' }, { t: 'kw', v: 'if' }, { t: 'v', v: ' (' }, { t: 'attr', v: 'store' }, { t: 'v', v: '.' }, { t: 'attr', v: 'bounce_rate' }, { t: 'v', v: ' > ' }, { t: 'str', v: "'40%'" }, { t: 'v', v: ') {' }], [{ t: 'v', v: '    ' }, { t: 'kw', v: 'await' }, { t: 'v', v: ' ' }, { t: 'fn', v: 'implement_fast_checkout' }, { t: 'v', v: '();' }], [{ t: 'v', v: '  }' }], [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'\\u2713 Sales Increased'" }, { t: 'v', v: ';' }], [{ t: 'v', v: '}' }]] }),
-  sec('services-accordion', { eyebrow: 'Our Services', headline: 'Complete Shopify Solutions for E-commerce Success', intro: 'Professional Shopify stores built for growth. From startup stores to Shopify Plus enterprises, we deliver results that matter.', items: ${JSON.stringify(SHOPIFY_SERVICES_ITEMS, null, 2)} }),
+  sec('services-accordion', { eyebrow: 'Our Services', headline: 'Complete Shopify Solutions for E-commerce Success', intro: 'Professional Shopify stores built for growth. From startup stores to Shopify Plus enterprises, we deliver results that matter.', items: ${JSON.stringify(SHOPIFY_ACCORDION_ITEMS, null, 2)} }),
+  sec('heading', {
+    eyebrow: 'Enterprise Scaling',
+    headline: 'Shopify Plus Development & Scaling',
+    body: 'Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and advanced integrations that support rapid growth and global expansion.\\n\\nShopify Plus Exclusive Features:\\n* Higher transaction limits and reduced fees\\n* Advanced automation workflows (Shopify Flow, Launchpad)\\n* Advanced reporting, B2B wholesale capabilities, multi-store, and multi-currency\\n* Enhanced customization and checkout experiences\\n\\nIdeal Fit List:\\n* High-volume merchants (> $1M annual sales)\\n* Brands with complex CRM or ERP requirements\\n* International e-commerce brands & multi-brand companies\\n\\nScale your e-commerce operations with a platform built for enterprise performance.',
+    align: 'left'
+  }),
+  sec('heading', {
+    eyebrow: 'Re-platforming & Optimization',
+    headline: 'Conversion-Optimized Shopify Redesign',
+    body: 'Is your Shopify store underperforming? Our redesign service combines modern design with conversion optimization to create stores that not only look amazing but also drive more sales.\\n\\nDesign Focus Areas:\\n* Homepage layout and CTA optimization\\n* Product page enhancements and media integration\\n* Simplified checkout and cart drawer flow\\n* Trust signal and social proof placement\\n* Mobile shopping experience and performance\\n\\nExpected Results:\\n* 20-40% average increase in conversions\\n* Improved mobile user experience and faster loading speeds\\n* Higher average order value (AOV) and customer retention',
+    align: 'left'
+  }),
+  sec('heading', {
+    eyebrow: 'Custom Extensions',
+    headline: 'Custom Shopify App Development',
+    body: "Need custom functionality that doesn't exist in the app store? We develop custom Shopify apps tailored to your specific requirements, giving you competitive advantages and streamlined operations.\\n\\nTypes of Apps We Build:\\n* Custom product configurators & personalization tools\\n* Advanced inventory management & warehouse sync\\n* Subscription systems & recurring billing integrations\\n* Advanced search, filtering, and custom B2B pricing portals\\n\\nBuilt using Shopify Partner APIs (GraphQL & REST), Polaris design standards, and modern secure frameworks.",
+    align: 'left'
+  }),
+  sec('heading', {
+    eyebrow: 'Ongoing Support',
+    headline: 'Shopify Maintenance & Support Plans',
+    body: 'Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your Shopify store stays updated, secure, and optimized for peak performance.\\n\\nOur Support Plans:\\n* Starter Plan ($99/mo): 1 Shopify store, monthly updates and checks, basic performance monitoring, email support (48h response), 2 hours of modifications.\\n* Growth Plan ($199/mo): Up to 2 Shopify stores, bi-weekly updates, advanced optimization, priority email & chat support (24h response), 5 hours of modifications, performance reporting.\\n* Enterprise Plan ($399/mo): Up to 5 Shopify stores, weekly updates, 24/7 priority support, 10 hours of modifications, custom feature development, dedicated account manager.\\n\\nKeep your store running at peak speed and security without the overhead of an in-house team.',
+    align: 'left'
+  }),
   sec('whyus', { eyebrow: 'Why Choose Us', headline: 'Why Choose ARIOSETECH for Shopify Development?', items: [
     { icon: '🏆', title: 'Shopify Partner Excellence', subhead: 'Official Shopify Partners', desc: 'Official Shopify Partners with proven expertise in building successful e-commerce stores across various industries.' },
     { icon: '💰', title: 'Conversion-Focused Approach', subhead: 'Optimized for Sales', desc: 'Every store we build is optimized for sales with proven conversion tactics and user experience best practices.' },
