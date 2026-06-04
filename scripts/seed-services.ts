@@ -45,7 +45,7 @@ const shopifyData = {
     "label": "Development",
     "title": "Shopify Store Development",
     "sub": "Launch Your Dream E-commerce Store",
-    "desc": "Transform your business idea into a profitable Shopify store. Our custom development approach creates unique, high-converting stores that capture your brand essence and drive sales from day one.",
+    "desc": "Transform your business idea into a profitable Shopify store. Our custom development approach creates unique, high-converting stores that capture your brand essence and drive sales from day one.\n\n**Design Features:**\n• Custom brand integration\n• User-friendly navigation\n• High-converting product pages\n• Optimized checkout process\n• Mobile-first design approach\n• Fast loading times\n• Professional photography integration\n\n**Perfect For:**\n• New businesses launching online\n• Brands moving from other platforms\n• Companies needing unique, custom designs\n• Businesses requiring specific functionality\n• Entrepreneurs starting their e-commerce journey\n\n**Timeline:** 2-3 weeks",
     "features": "Custom Shopify theme development,Responsive design across all devices,Product catalog setup and optimization,Payment gateway integration,Shipping configuration and tax setup,30 days of free support",
     "price": "$999",
     "href": "/contact"
@@ -54,7 +54,7 @@ const shopifyData = {
     "label": "Migration",
     "title": "Shopify Migration Services",
     "sub": "Seamless Migration to Shopify",
-    "desc": "Moving your e-commerce store to Shopify? We handle the complete migration process while preserving your SEO rankings, customer data, and sales history. Zero downtime, zero data loss guaranteed.",
+    "desc": "Moving your e-commerce store to Shopify? We handle the complete migration process while preserving your SEO rankings, customer data, and sales history. Zero downtime, zero data loss guaranteed.\n\n**Migration Process:**\n1. Pre-Migration Audit - Analyze current store and requirements\n2. Data Mapping - Plan transfer of products, customers, orders\n3. Theme Recreation - Rebuild or adapt your current design\n4. Content Migration - Transfer all products, pages, blog posts\n5. Testing Phase - Verify all functionality works perfectly\n6. Go-Live - Launch with minimal downtime\n7. Post-Migration Support - 30 days of assistance\n\n**Supported Platforms:**\n• WooCommerce to Shopify\n• Magento to Shopify\n• BigCommerce to Shopify\n• Custom platforms & other platforms\n\n**Timeline:** 1-2 weeks",
     "features": "All product data and images,Customer accounts and order history,Blog posts and pages,SEO settings and redirects,Reviews and testimonials,30 days of post-migration support",
     "price": "$799",
     "href": "/contact"
@@ -63,7 +63,7 @@ const shopifyData = {
     "label": "Optimization",
     "title": "Shopify Performance Optimization",
     "sub": "Maximize Your Store's Speed and Conversions",
-    "desc": "Slow Shopify stores lose customers and sales. Our performance optimization service can improve your store speed by 40-60%, leading to higher conversions and better customer experience.",
+    "desc": "Slow Shopify stores lose customers and sales. Our performance optimization service can improve your store speed by 40-60%, leading to higher conversions and better customer experience.\n\n**Performance & Conversion Improvements:**\n• Speed: Audit, image compression, code optimization, app performance review, theme speed enhancements, Shopify script optimization, CDN, mobile speed, Core Web Vitals\n• Conversion: Checkout optimization, product page enhancements, cart abandonment reduction, trust signals, A/B testing, UX improvements, mobile conversion\n\n**Expected Results:**\n• 40-60% faster loading times\n• Improved Google PageSpeed scores & search engine rankings\n• 15-25% increase in conversions & reduced bounce rates\n\n**Timeline:** 5-7 days",
     "features": "Comprehensive speed audit and analysis,Image optimization and compression,Code optimization and cleanup,App performance review and optimization,Theme speed enhancements,Core Web Vitals improvement",
     "price": "$599",
     "href": "/contact"
@@ -72,7 +72,7 @@ const shopifyData = {
     "label": "Integration",
     "title": "Shopify Integration Services",
     "sub": "Connect Your Store with Essential Business Tools",
-    "desc": "Streamline your operations by integrating your Shopify store with essential business tools and third-party services. Automate workflows and improve efficiency across your entire business.",
+    "desc": "Streamline your operations by integrating your Shopify store with essential business tools and third-party services. Automate workflows and improve efficiency across your entire business.\n\n**Popular Integrations:**\n• 📊 Analytics & Reporting: Google Analytics 4, Facebook Pixel, Google Tag Manager\n• 📧 Email Marketing: Klaviyo, Mailchimp, Constant Contact, Abandoned cart email sequences\n• 📦 Inventory & Fulfillment: ShipStation, dropshipping apps, multi-channel inventory sync\n• 💰 Accounting & Finance: QuickBooks, Xero, tax calculation, financial reporting\n• 🎯 Marketing & Advertising: Facebook Shop, Google Shopping, affiliate & loyalty programs\n\n**Timeline:** 3-5 days per integration",
     "features": "Google Analytics 4 setup,Klaviyo setup and automation,ShipStation integration,QuickBooks integration,Xero accounting connection,Custom API development for custom tools",
     "price": "$399",
     "href": "/contact"
@@ -81,7 +81,7 @@ const shopifyData = {
     "label": "Maintenance",
     "title": "Shopify Maintenance & Support",
     "sub": "Keep Your Shopify Store Running Smoothly",
-    "desc": "Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your Shopify store stays updated, secure, and optimized for peak performance.",
+    "desc": "Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your Shopify store stays updated, secure, and optimized for peak performance.\n\n**Maintenance Plans:**\n• 🥉 Starter Plan - $99/month:\n  - 1 Shopify store\n  - Monthly updates and checks, basic performance monitoring, email support\n  - 2 hours of modifications\n• 🥈 Growth Plan - $199/month:\n  - Up to 2 Shopify stores\n  - Bi-weekly updates and monitoring, advanced performance optimization\n  - Priority email & chat support, 5 hours of modifications, monthly performance reports\n• 🥇 Enterprise Plan - $399/month:\n  - Up to 5 Shopify stores\n  - Weekly updates and monitoring, real-time performance tracking\n  - 24/7 priority support, 10 hours of modifications, custom feature development, dedicated account manager",
     "features": "Regular theme and app updates,Security monitoring and protection,Performance monitoring and optimization,Broken link checks and fixes,Product data backup and security,Priority technical support",
     "price": "$99/mo",
     "href": "/contact"
@@ -90,7 +90,7 @@ const shopifyData = {
     "label": "Shopify Plus",
     "title": "Shopify Plus Development",
     "sub": "Enterprise E-commerce Solutions with Shopify Plus",
-    "desc": "Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and advanced integrations that support rapid growth and global expansion.",
+    "desc": "Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and advanced integrations that support rapid growth and global expansion.\n\n**Shopify Plus Exclusive Features:**\n• Higher transaction limits and reduced fees\n• Advanced automation workflows (Shopify Flow, Launchpad)\n• Advanced reporting, B2B wholesale capabilities, multi-store, and multi-currency\n• Enhanced customization and checkout experiences\n\n**Perfect For:**\n• High-volume merchants (> $1M annual sales)\n• Brands with complex requirements or CRM integrations\n• International businesses, Multi-brand companies\n\n**Timeline:** 4-6 weeks",
     "features": "Custom Theme Development for enterprise brands,ERP and CRM advanced integrations,B2B wholesale portals and pricing,Multi-store and multi-currency support,Custom app development,API-first architecture",
     "price": "$2,999",
     "href": "/contact"
@@ -99,7 +99,7 @@ const shopifyData = {
     "label": "Redesign",
     "title": "Shopify Store Redesign",
     "sub": "Transform Your Store for Maximum Conversions",
-    "desc": "Is your Shopify store underperforming? Our redesign service combines modern design with conversion optimization to create stores that not only look amazing but also drive more sales.",
+    "desc": "Is your Shopify store underperforming? Our redesign service combines modern design with conversion optimization to create stores that not only look amazing but also drive more sales.\n\n**Design Focus Areas:**\n• Homepage conversion optimization\n• Product page enhancements\n• Simplified navigation structure\n• Trust signal implementation\n• Mobile shopping experience\n• Cart and checkout optimization\n• Brand consistency throughout\n\n**Expected Results:**\n• 20-40% increase in conversions\n• Improved mobile experience\n• Better brand representation & higher average order value\n\n**Timeline:** 3-4 weeks",
     "features": "Modern mobile-first design,Conversion rate optimization,User experience improvements,Page speed optimization,SEO structure enhancement,30 days of support",
     "price": "$1,499",
     "href": "/contact"
@@ -108,7 +108,7 @@ const shopifyData = {
     "label": "App Dev",
     "title": "Shopify App Development",
     "sub": "Custom Apps for Unique Business Needs",
-    "desc": "Need functionality that doesn't exist? We develop custom Shopify apps tailored to your specific requirements, giving you competitive advantages and streamlined operations.",
+    "desc": "Need functionality that doesn't exist? We develop custom Shopify apps tailored to your specific requirements, giving you competitive advantages and streamlined operations.\n\n**Types of Apps We Build:**\n• Custom product configurators, advanced inventory management\n• Subscription and recurring billing, loyalty and rewards programs\n• Advanced search and filtering, custom reporting dashboards, B2B pricing\n\n**Technologies Used:**\n• Shopify Partner APIs (GraphQL & REST), React & Node.js, Shopify CLI, Polaris\n\n**Timeline:** 4-8 weeks",
     "features": "Public & private apps development,Custom product configurators,Subscription and recurring billing,Loyalty and rewards programs,Advanced search and filtering,Polaris design standard compliance",
     "price": "$1,999",
     "href": "/contact"
@@ -127,35 +127,35 @@ const shopifyData = {
     "n": "01",
     "title": "Discovery & Strategy",
     "sub": "Understand Your Vision",
-    "desc": "We start with a comprehensive consultation to understand your business goals, target audience, and technical requirements.",
-    "time": "1-2 days"
-  },
-  {
-    "n": "02",
-    "title": "Planning & Design",
-    "sub": "Blueprint for Success",
-    "desc": "Detailed project planning, wireframing, and design mockups that align with your brand and conversion goals.",
+    "desc": "Business goals analysis, Target audience research, Competitive landscape review, Technical requirements planning, Design and functionality wireframes",
     "time": "3-5 days"
   },
   {
+    "n": "02",
+    "title": "Design & User Experience",
+    "sub": "Blueprint for Success",
+    "desc": "Custom design creation, User experience optimization, Mobile-first approach, Brand integration, Conversion optimization planning",
+    "time": "1 week"
+  },
+  {
     "n": "03",
-    "title": "Development",
+    "title": "Development & Integration",
     "sub": "Bringing Ideas to Life",
-    "desc": "Expert development using best practices, clean code, and scalable architecture that grows with your business.",
-    "time": "15-20 days"
+    "desc": "Custom theme development, App integrations, Payment and shipping setup, SEO optimization, Performance optimization",
+    "time": "1-2 weeks"
   },
   {
     "n": "04",
-    "title": "Testing & Optimization",
+    "title": "Testing & Launch",
     "sub": "Ensuring Perfection",
-    "desc": "Rigorous testing across devices, speed optimization, and security checks before launch.",
+    "desc": "Cross-device testing, Functionality verification, Performance testing, Security checks, Go-live and monitoring",
     "time": "3-5 days"
   },
   {
     "n": "05",
-    "title": "Launch & Support",
+    "title": "Training & Support",
     "sub": "Your Success, Our Priority",
-    "desc": "Smooth launch with comprehensive training and ongoing support to ensure continuous success.",
+    "desc": "Store management training, 30-day support period, Performance monitoring, Growth recommendations",
     "time": "Ongoing"
   }
 ],
@@ -229,7 +229,7 @@ const wordpressData = {
     "label": "Development",
     "title": "WordPress Website Development",
     "sub": "Build Your Dream Website from Scratch",
-    "desc": "Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out from the competition while delivering exceptional user experience.",
+    "desc": "Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out from the competition while delivering exceptional user experience.\n\n**Perfect For:**\n• New businesses launching online\n• Companies needing complete website overhaul\n• Brands requiring unique, custom designs\n• Businesses with specific functionality requirements\n\n**Timeline:** 2-3 weeks",
     "features": "Custom theme development from your designs,Responsive design across all devices,SEO-optimized structure and content,Contact forms and lead generation tools,Social media integration,Google Analytics setup,Basic on-page SEO optimization,30 days of free support",
     "price": "$799",
     "href": "/contact"
@@ -238,7 +238,7 @@ const wordpressData = {
     "label": "Migration",
     "title": "WordPress Migration Services",
     "sub": "Seamless Migration Without Downtime",
-    "desc": "Moving to WordPress or changing hosts? We handle the entire migration process while ensuring zero data loss and minimal downtime. Your SEO rankings and user experience remain intact.",
+    "desc": "Moving to WordPress or changing hosts? We handle the entire migration process while ensuring zero data loss and minimal downtime. Your SEO rankings and user experience remain intact.\n\n**Perfect For:**\n• Sites moving from other platforms (Wix, Squarespace, etc.)\n• WordPress to WordPress migrations\n• Hosting provider changes\n• Development to live site transfers\n\n**Timeline:** 3-5 days",
     "features": "Complete site backup and migration,Domain and hosting setup assistance,SSL certificate installation,Email migration (if required),Speed and performance optimization,SEO preservation techniques,Testing across all devices,14 days of post-migration support",
     "price": "$299",
     "href": "/contact"
@@ -247,8 +247,8 @@ const wordpressData = {
     "label": "Bugs/Errors",
     "title": "WordPress Bugs/Errors Fixing Services",
     "sub": "Quick Resolution for WordPress Issues",
-    "desc": "Is your WordPress site showing errors, broken pages, or strange behavior? Our experts diagnose and fix issues quickly, getting your site back to peak performance.",
-    "features": "White screen of death,Internal server errors (500 errors),Database connection errors,Plugin conflicts and compatibility issues,Theme-related problems,Broken layouts and design issues,Login and admin access problems,Email functionality issues",
+    "desc": "Is your WordPress site showing errors, broken pages, or strange behavior? Our experts diagnose and fix issues quickly, getting your site back to peak performance.\n\n**Common Issues We Fix:**\n• White screen of death\n• Internal server errors (500 errors)\n• Database connection errors\n• Plugin conflicts and compatibility issues\n• Theme-related problems\n• Broken layouts and design issues\n• Login and admin access problems\n• Email functionality issues\n\n**Perfect For:**\n• Sites experiencing sudden errors\n• Businesses losing revenue due to downtime\n• WordPress sites with plugin conflicts\n• Emergency fixes needed urgently\n\n**Timeline:** 24-48 hours",
+    "features": "Comprehensive site diagnosis,Root cause identification,Complete issue resolution,Prevention recommendations,Site backup before fixes,Testing and verification,7 days of monitoring",
     "price": "$149",
     "href": "/contact"
   },
@@ -256,7 +256,7 @@ const wordpressData = {
     "label": "Maintenance",
     "title": "WordPress Maintenance & Support",
     "sub": "Keep Your WordPress Site Running Smoothly",
-    "desc": "Regular maintenance is crucial for WordPress security, performance, and reliability. Our comprehensive maintenance plans ensure your site stays updated, secure, and optimized.",
+    "desc": "Regular maintenance is crucial for WordPress security, performance, and reliability. Our comprehensive maintenance plans ensure your site stays updated, secure, and optimized.\n\n**Maintenance Plans:**\n• 🥉 Basic Plan - $79/month:\n  - 1 WordPress site\n  - Monthly updates and backups\n  - Basic security monitoring\n  - Email support\n• 🥈 Professional Plan - $149/month:\n  - Up to 3 WordPress sites\n  - Weekly updates and backups\n  - Advanced security features\n  - Performance optimization\n  - Priority email & chat support\n• 🥇 Enterprise Plan - $299/month:\n  - Up to 10 WordPress sites\n  - Real-time monitoring\n  - Advanced security and malware removal\n  - Speed optimization\n  - 24/7 priority support\n  - Monthly performance reports",
     "features": "WordPress core core theme and plugin updates,Security monitoring and malware scans,Database optimization and cleanup,Broken link checks and fixes,Performance monitoring and reporting,Regular backups (stored securely),Uptime monitoring,Priority support for issues",
     "price": "$79/mo",
     "href": "/contact"
@@ -265,7 +265,7 @@ const wordpressData = {
     "label": "Speed",
     "title": "WordPress Speed Optimization Services",
     "sub": "Make Your WordPress Site Lightning Fast",
-    "desc": "Slow websites lose customers and hurt search rankings. Our speed optimization service can improve your site speed by 40-70%, leading to better user experience and higher conversions.",
+    "desc": "Slow websites lose customers and hurt search rankings. Our speed optimization service can improve your site speed by 40-70%, leading to better user experience and higher conversions.\n\n**Expected Results:**\n• 40-70% faster loading times\n• Improved Google PageSpeed scores\n• Better Core Web Vitals\n• Enhanced user experience\n• Higher search engine rankings\n\n**Timeline:** 5-7 days",
     "features": "Comprehensive speed audit and analysis,Image optimization and compression,Caching implementation and configuration,Database optimization and cleanup,CSS and JavaScript minification,CDN setup and configuration,Server-level optimizations,Core Web Vitals optimization,Mobile speed improvements",
     "price": "$399",
     "href": "/contact"
@@ -274,7 +274,7 @@ const wordpressData = {
     "label": "Security",
     "title": "WordPress Security Services",
     "sub": "Protect Your WordPress Site from Threats",
-    "desc": "WordPress security is not optional. Our comprehensive security service protects your site from hackers, malware, and other threats while ensuring compliance with security best practices.",
+    "desc": "WordPress security is not optional. Our comprehensive security service protects your site from hackers, malware, and other threats while ensuring compliance with security best practices.\n\n**Security Monitoring:**\n• 24/7 threat monitoring\n• Real-time alerts for suspicious activity\n• Automatic malware removal\n• Weekly security reports\n• Blacklist monitoring\n• Vulnerability assessments\n\n**Perfect For:**\n• E-commerce websites\n• Sites handling sensitive data\n• Businesses requiring compliance\n• Sites previously hacked\n• High-traffic WordPress sites\n\n**Timeline:** 3-5 days",
     "features": "Malware scanning and removal,Firewall installation and configuration,Security plugin setup and optimization,Login security enhancements,File permission optimization,Database security improvements,SSL certificate installation,Security headers implementation,Regular security audits",
     "price": "$299",
     "href": "/contact"
@@ -283,7 +283,7 @@ const wordpressData = {
     "label": "Virus Removal",
     "title": "WordPress Virus Removal Services",
     "sub": "Fast and Complete Malware Removal",
-    "desc": "Is your WordPress site infected with malware or viruses? We provide emergency malware removal services to get your site clean and secure quickly.",
+    "desc": "Is your WordPress site infected with malware or viruses? We provide emergency malware removal services to get your site clean and secure quickly.\n\n**Virus Removal Process:**\n1. Immediate Site Analysis - Identify infection type and scope\n2. Complete Malware Removal - Clean all infected files and database\n3. Security Hardening - Prevent future infections\n4. Blacklist Removal - Get your site off Google/search engine blacklists\n5. Prevention Setup - Install security measures\n6. Monitoring - 30 days of security monitoring\n\n**Emergency Service Available:**\n• Same-day removal for critical cases\n• 24/7 emergency response\n• Money-back guarantee if malware returns\n\n**Timeline:** 24-48 hours",
     "features": "Complete malware scan and removal,Infected file cleaning or replacement,Database cleanup and optimization,Security plugin installation,Firewall configuration,Google Safe Browsing removal,Security recommendations,30-day monitoring period",
     "price": "$199",
     "href": "/contact"
@@ -292,7 +292,7 @@ const wordpressData = {
     "label": "Backups",
     "title": "WordPress Backup Solutions",
     "sub": "Never Lose Your WordPress Data Again",
-    "desc": "Protect your valuable content and data with automated, reliable backup solutions. Our backup service ensures you can restore your site quickly in case of any emergency.",
+    "desc": "Protect your valuable content and data with automated, reliable backup solutions. Our backup service ensures you can restore your site quickly in case of any emergency.\n\n**Backup Plans:**\n• 📁 Basic Backup - $29/month:\n  - Daily automated backups\n  - 30-day backup retention\n  - One-click restore\n  - Email notifications\n• 📁 Advanced Backup - $59/month:\n  - Real-time backups\n  - 90-day backup retention\n  - Multiple restore points\n  - Priority restoration support\n  - Multiple storage locations\n• 📁 Enterprise Backup - $99/month:\n  - Continuous backups\n  - 1-year backup retention\n  - Instant recovery options\n  - Dedicated backup support\n  - Custom backup schedules",
     "features": "Automated daily backups,Multiple backup storage locations,One-click restore functionality,Database and file backups,Incremental backup options,Backup scheduling flexibility,Encrypted secure storage,Easy backup management",
     "price": "$29/mo",
     "href": "/contact"
@@ -301,7 +301,7 @@ const wordpressData = {
     "label": "Redesign",
     "title": "WordPress Website Redesign",
     "sub": "Give Your WordPress Site a Fresh New Look",
-    "desc": "Is your WordPress site looking outdated? Our redesign service transforms your existing site with modern design, improved functionality, and a better user experience.",
+    "desc": "Is your WordPress site looking outdated? Our redesign service transforms your existing site with modern design, improved functionality, and a better user experience.\n\n**Redesign Process:**\n1. Current Site Analysis - Audit existing design and functionality\n2. Strategy Development - Plan improvements based on your goals\n3. Design Creation - Create modern, conversion-focused designs\n4. Development - Build the new design on WordPress\n5. Content Migration - Transfer and optimize existing content\n6. Testing & Launch - Ensure everything works perfectly\n7. Training - Show you how to manage your new site\n\n**Before Starting:**\n• Detailed consultation about your goals\n• Competitor analysis\n• User experience audit\n• Technical requirements assessment\n\n**Timeline:** 3-4 weeks",
     "features": "Modern responsive design,Improved user experience,SEO optimization,Speed optimization,Mobile-first approach,Content migration,Basic SEO setup,30 days of support",
     "price": "$1,299",
     "href": "/contact"
@@ -310,7 +310,7 @@ const wordpressData = {
     "label": "Multilingual",
     "title": "WordPress Multilingual Websites",
     "sub": "Reach Global Audiences with Multilingual WordPress",
-    "desc": "Expand your business globally with professionally developed multilingual WordPress websites. We create seamless multi-language experiences that engage international audiences.",
+    "desc": "Expand your business globally with professionally developed multilingual WordPress websites. We create seamless multi-language experiences that engage international audiences.\n\n**Supported Solutions:**\n• WPML - Professional multilingual plugin\n• Polylang - Free multilingual solution\n• TranslatePress - Visual translation interface\n• Custom Solutions - Tailored multilingual systems\n\n**Perfect For:**\n• International businesses\n• E-commerce stores selling globally\n• Service providers with global clientele\n• Organizations serving diverse communities\n\n**Timeline:** 2-3 weeks",
     "features": "Multiple language setup and configuration,Professional translation management,SEO optimization for each language,Currency switcher integration,Language-specific content management,Automatic language detection,Multilingual menu and navigation,International SEO setup",
     "price": "$899",
     "href": "/contact"
@@ -327,37 +327,30 @@ const wordpressData = {
   process: [
   {
     "n": "01",
-    "title": "Discovery & Strategy",
+    "title": "Discovery & Planning",
     "sub": "Understand Your Vision",
-    "desc": "We start with a comprehensive consultation to understand your business goals, target audience, and technical requirements.",
-    "time": "1-2 days"
+    "desc": "Detailed requirement analysis, Technical specifications, Design wireframes, Project timeline",
+    "time": "2-3 days"
   },
   {
     "n": "02",
-    "title": "Planning & Design",
-    "sub": "Blueprint for Success",
-    "desc": "Detailed project planning, wireframing, and design mockups that align with your brand and conversion goals.",
-    "time": "3-5 days"
+    "title": "Design & Development",
+    "sub": "Bringing Ideas to Life",
+    "desc": "Custom theme creation, Functionality development, Responsive design implementation, Content integration",
+    "time": "1-2 weeks"
   },
   {
     "n": "03",
-    "title": "Development",
-    "sub": "Bringing Ideas to Life",
-    "desc": "Expert development using best practices, clean code, and scalable architecture that grows with your business.",
-    "time": "15-20 days"
-  },
-  {
-    "n": "04",
     "title": "Testing & Optimization",
     "sub": "Ensuring Perfection",
-    "desc": "Rigorous testing across devices, speed optimization, and security checks before launch.",
+    "desc": "Cross-browser testing, Mobile responsiveness check, Speed optimization, Security testing",
     "time": "3-5 days"
   },
   {
-    "n": "05",
+    "n": "04",
     "title": "Launch & Support",
     "sub": "Your Success, Our Priority",
-    "desc": "Smooth launch with comprehensive training and ongoing support to ensure continuous success.",
+    "desc": "Live deployment, Training session, 30-day support period, Maintenance planning",
     "time": "Ongoing"
   }
 ],
@@ -423,7 +416,7 @@ const woocommerceData = {
     "label": "Development",
     "title": "WooCommerce Website Development Services",
     "sub": "Launch Your Ultimate E-commerce Store",
-    "desc": "Build a powerful online store that leverages the best of WordPress and WooCommerce. Our custom development creates unique, high-converting stores that perfectly match your brand and business requirements.",
+    "desc": "Build a powerful online store that leverages the best of WordPress and WooCommerce. Our custom development creates unique, high-converting stores that perfectly match your brand and business requirements.\n\n**E-commerce Features:**\n• Advanced product variations (size, color, style)\n• Product bundles and grouped products\n• Wishlist and comparison functionality\n• Customer reviews and ratings\n• Coupon and discount management\n• Multi-currency support\n• Advanced search and filtering\n• Related and upsell products\n\n**Perfect For:**\n• Businesses wanting WordPress + e-commerce\n• Companies needing content marketing integration\n• Brands requiring extensive customization\n• Stores with complex product catalogs\n• Businesses planning to scale significantly\n\n**Timeline:** 3-4 weeks",
     "features": "Custom WooCommerce theme development,Responsive design across all devices,Complete product catalog setup,Payment gateway integration,Shipping zones and tax configuration,30 days of free support",
     "price": "$1,299",
     "href": "/contact"
@@ -432,7 +425,7 @@ const woocommerceData = {
     "label": "Customization",
     "title": "WooCommerce Theme Customization",
     "sub": "Transform Your Store with Custom Design",
-    "desc": "Make your WooCommerce store stand out with completely custom theme development or extensive customization of existing themes. We create unique shopping experiences that reflect your brand and drive conversions.",
+    "desc": "Make your WooCommerce store stand out with completely custom theme development or extensive customization of existing themes. We create unique shopping experiences that reflect your brand and drive conversions.\n\n**Design Features:**\n• Modern, conversion-focused layouts\n• Intuitive navigation and user flow\n• High-quality product showcases\n• Trust signals and social proof integration\n• Professional brand representation\n• Accessibility compliance\n• Cross-browser compatibility\n\n**Perfect For:**\n• Stores wanting unique brand representation\n• Businesses with existing WooCommerce sites\n• Companies needing design improvements\n• Brands requiring specific functionality\n• Stores wanting to improve conversions\n\n**Timeline:** 2-3 weeks",
     "features": "Complete theme redesign and development,Custom homepage and product page layouts,Brand-specific color schemes and typography,Custom icons and graphics integration,Advanced product display options,30 days of design support",
     "price": "$899",
     "href": "/contact"
@@ -441,7 +434,7 @@ const woocommerceData = {
     "label": "Payments",
     "title": "WooCommerce Payment Gateway Integration",
     "sub": "Secure, Seamless Payment Processing",
-    "desc": "Offer your customers the payment methods they prefer with secure, reliable payment gateway integrations. We implement and optimize payment systems that reduce cart abandonment and increase conversions.",
+    "desc": "Offer your customers the payment methods they prefer with secure, reliable payment gateway integrations. We implement and optimize payment systems that reduce cart abandonment and increase conversions.\n\n**Supported Payment Gateways:**\n• 🏦 Traditional Gateways: Stripe (credit cards, digital wallets), PayPal (Standard, Pro, Express), Square (online/in-person), Authorize.net (merchant accounts), Bank transfer & check\n• 💳 Digital Wallets: Apple Pay and Google Pay, Amazon Pay, Shop Pay\n• 🌍 International Gateways: Razorpay & Paytm (India), Alipay (China), Regional bank gateways, Multi-currency support\n• 🔐 Security Features: PCI DSS compliance assistance, SSL certificate, Fraud protection setup, Secure tokenization, 3D Secure authentication\n\n**Perfect For:**\n• Stores expanding payment options\n• International e-commerce businesses\n• Companies wanting to reduce cart abandonment\n• Businesses needing secure payment processing\n• Stores targeting mobile customers\n\n**Timeline:** 3-5 days",
     "features": "Stripe and PayPal integration,Square online payments,Authorize.net integration,Local gateways (JazzCash EasyPaisa),SSL certificate implementation,30 days of payment support",
     "price": "$299",
     "href": "/contact"
@@ -450,7 +443,7 @@ const woocommerceData = {
     "label": "Performance",
     "title": "WooCommerce Performance Optimization",
     "sub": "Maximize Speed, Sales, and Search Rankings",
-    "desc": "Slow e-commerce sites lose customers and sales. Our comprehensive optimization service can improve your WooCommerce store speed by 50-70%, leading to higher conversions, better user experience, and improved search rankings.",
+    "desc": "Slow e-commerce sites lose customers and sales. Our comprehensive optimization service can improve your WooCommerce store speed by 50-70%, leading to higher conversions, better user experience, and improved search rankings.\n\n**Performance Improvements:**\n• ⚡ Speed Optimization: Database query, image compression, caching implementation (page, object, browser), CDN setup, server-level optimizations, plugin review, code cleanup\n• 🛒 E-commerce Optimization: Product catalog, checkout speed, cart/wishlist optimization, category page, search improvement\n• 📱 Mobile Optimization: Mobile-first performance, touch-friendly UI, mobile payment speed, PWA features\n\n**Expected Results:**\n• 50-70% faster loading times\n• Improved Google PageSpeed scores (90+)\n• Better Core Web Vitals\n• 20-35% increase in conversions\n• Reduced bounce rates\n• Higher search engine rankings & improved mobile performance\n\n**Timeline:** 5-7 days",
     "features": "Database query optimization,Image compression and optimization,Caching implementation (page object browser),CDN setup and configuration,Server-level optimizations,Core Web Vitals check",
     "price": "$699",
     "href": "/contact"
@@ -459,7 +452,7 @@ const woocommerceData = {
     "label": "Maintenance",
     "title": "WooCommerce Maintenance & Support",
     "sub": "Keep Your Store Running Smoothly",
-    "desc": "Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your WooCommerce store stays updated, secure, and optimized for peak performance.",
+    "desc": "Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your WooCommerce store stays updated, secure, and optimized for peak performance.\n\n**Maintenance Plans:**\n• 🥉 Essential Plan - $129/month:\n  - 1 WooCommerce store\n  - Monthly updates and security checks\n  - Basic performance monitoring\n  - Email support (48-hour response)\n  - 2 hours of modifications & backup verification\n• 🥈 Professional Plan - $249/month:\n  - Up to 2 WooCommerce stores\n  - Bi-weekly updates and monitoring\n  - Advanced security & performance optimization\n  - Priority support (24-hour response)\n  - 5 hours of modifications & weekly backup management\n• 🥇 Enterprise Plan - $499/month:\n  - Up to 5 WooCommerce stores\n  - Weekly updates and monitoring\n  - Real-time security monitoring & 24/7 priority support\n  - Advanced performance & 10 hours modifications\n  - Daily backup management, custom features, dedicated account manager",
     "features": "WordPress and WooCommerce core updates,Plugin and theme updates,Security monitoring and hardening,Performance monitoring and optimization,Database optimization and cleanup,Uptime monitoring & backups",
     "price": "$129/mo",
     "href": "/contact"
@@ -468,7 +461,7 @@ const woocommerceData = {
     "label": "Multi-vendor",
     "title": "WooCommerce Multi-vendor Solutions",
     "sub": "Create Your Own E-commerce Marketplace",
-    "desc": "Transform your WooCommerce store into a thriving multi-vendor marketplace where multiple sellers can list and sell their products. Perfect for creating Amazon-like platforms or expanding your business model.",
+    "desc": "Transform your WooCommerce store into a thriving multi-vendor marketplace where multiple sellers can list and sell their products. Perfect for creating Amazon-like platforms or expanding your business model.\n\n**Marketplace Features:**\n• 👥 Vendor Management: Registration/approval system, Individual dashboards, Product/order management, Commission management, Performance analytics\n• 💰 Financial Management: Automated commission calculations, Multiple payout methods, Financial reporting, Tax handling, Subscription plans, Revenue sharing models\n• 🛍️ Customer Experience: Unified shopping experience, Vendor ratings/reviews, Advanced search/filtering, Vendor comparison, Single checkout, Order tracking\n\n**Perfect For:**\n• Entrepreneurs creating marketplaces\n• Businesses wanting to expand product range\n• Companies with multiple suppliers\n• Platforms connecting buyers and sellers\n• Businesses looking for passive income\n\n**Timeline:** 4-6 weeks",
     "features": "Vendor registration and approval system,Individual vendor dashboards,Vendor commission management,Automated commission calculations,Multiple payout methods,30 days of marketplace support",
     "price": "$1,999",
     "href": "/contact"
@@ -477,7 +470,7 @@ const woocommerceData = {
     "label": "Multilingual",
     "title": "WooCommerce Multilingual Websites",
     "sub": "Expand Globally with Multilingual E-commerce",
-    "desc": "Reach international customers with professionally developed multilingual WooCommerce stores. We create seamless multi-language shopping experiences that engage global audiences and drive international sales.",
+    "desc": "Reach international customers with professionally developed multilingual WooCommerce stores. We create seamless multi-language shopping experiences that engage global audiences and drive international sales.\n\n**Multilingual Features:**\n• 🌐 Language Management: Setup (unlimited), Translation workflow, Language switcher, Auto-detection, Language-specific URLs, RTL support\n• 💱 Currency & Localization: Multi-currency, Auto-conversion, Location pricing, Country payment methods, Local shipping, Tax by region\n• 🛒 E-commerce Localization: Translated catalog, Localized checkout, Multi-language support, Promotion by region, Local gateway integration\n\n**Perfect For:**\n• Stores expanding internationally\n• Businesses targeting specific regions\n• Companies with multilingual customers\n• Global brands launching online\n• Businesses in tourist areas\n\n**Timeline:** 3-4 weeks",
     "features": "Multiple language setup (unlimited),Multi-currency and localization setup,Location-based pricing,Country-specific payment methods,RTL language support,30 days of multilingual support",
     "price": "$1,499",
     "href": "/contact"
@@ -486,7 +479,7 @@ const woocommerceData = {
     "label": "Migration",
     "title": "WooCommerce Migration Services",
     "sub": "Seamless Migration to WooCommerce",
-    "desc": "Moving your e-commerce store to WooCommerce? We handle the complete migration process while preserving your SEO rankings, customer data, order history, and ensuring zero downtime.",
+    "desc": "Moving your e-commerce store to WooCommerce? We handle the complete migration process while preserving your SEO rankings, customer data, order history, and ensuring zero downtime.\n\n**Migration Benefits:**\n• Lower ongoing costs compared to SaaS platforms\n• Complete customization freedom\n• Better SEO control and flexibility\n• No transaction fees\n• Unlimited scalability & full data ownership\n\n**Supported Platforms:**\n• Shopify to WooCommerce - Complete store transfer\n• Magento to WooCommerce - Complex catalog migration\n• OpenCart & PrestaShop to WooCommerce\n• BigCommerce & custom platforms\n\n**Timeline:** 1-3 weeks (depending on store size)",
     "features": "Product catalog migration with variations,Customer accounts and order history,Reviews and testimonials,Blog posts and content pages,SEO settings and URL redirects,30 days of dedicated support",
     "price": "$999",
     "href": "/contact"
@@ -505,35 +498,35 @@ const woocommerceData = {
     "n": "01",
     "title": "Discovery & Strategy",
     "sub": "Understand Your Vision",
-    "desc": "We start with a comprehensive consultation to understand your business goals, target audience, and technical requirements.",
-    "time": "1-2 days"
-  },
-  {
-    "n": "02",
-    "title": "Planning & Design",
-    "sub": "Blueprint for Success",
-    "desc": "Detailed project planning, wireframing, and design mockups that align with your brand and conversion goals.",
+    "desc": "Business goals and requirements analysis, Target audience and market research, Competitor analysis and benchmarking, Technical requirements planning, E-commerce strategy development",
     "time": "3-5 days"
   },
   {
+    "n": "02",
+    "title": "Planning & Architecture",
+    "sub": "Blueprint for Success",
+    "desc": "Site structure and navigation planning, Product catalog organization, User experience wireframes, Design mockups and prototypes, Technical architecture planning",
+    "time": "1 week"
+  },
+  {
     "n": "03",
-    "title": "Development",
+    "title": "Development & Integration",
     "sub": "Bringing Ideas to Life",
-    "desc": "Expert development using best practices, clean code, and scalable architecture that grows with your business.",
-    "time": "15-20 days"
+    "desc": "Custom theme development, WooCommerce configuration, Payment and shipping setup, Plugin development and integration, Performance optimization",
+    "time": "2-3 weeks"
   },
   {
     "n": "04",
     "title": "Testing & Optimization",
     "sub": "Ensuring Perfection",
-    "desc": "Rigorous testing across devices, speed optimization, and security checks before launch.",
+    "desc": "Functionality testing across devices, Payment processing verification, Performance and speed testing, Security auditing, User acceptance testing",
     "time": "3-5 days"
   },
   {
     "n": "05",
     "title": "Launch & Support",
     "sub": "Your Success, Our Priority",
-    "desc": "Smooth launch with comprehensive training and ongoing support to ensure continuous success.",
+    "desc": "Live deployment and monitoring, Staff training and documentation, 30-day support period, Performance monitoring, Growth recommendations",
     "time": "Ongoing"
   }
 ],
@@ -606,7 +599,7 @@ const seoData = {
     "label": "Website SEO",
     "title": "Website SEO",
     "sub": "Website SEO That Strengthens Your Foundation",
-    "desc": "We improve the on-page SEO and structural setup of your website so search engines can better understand your content and users can move through your site more clearly.",
+    "desc": "We improve the on-page SEO and structural setup of your website so search engines can better understand your content and users can move through your site more clearly. This includes heading structure, metadata, content optimization, internal linking, page targeting, keyword mapping, and overall SEO alignment.",
     "features": "On-page SEO improvements,Page-level optimization,Heading and content structure,Metadata optimization,Internal linking strategy,Keyword targeting and mapping",
     "price": "$299",
     "href": "/contact"

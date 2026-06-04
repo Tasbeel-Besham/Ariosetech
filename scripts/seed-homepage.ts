@@ -373,6 +373,21 @@ async function seedHomepage() {
       },
       {
         id: new ObjectId().toHexString(),
+        type: 'contact',
+        props: {
+          eyebrow: 'Get In Touch',
+          headline: 'Ready to Transform Your Online Presence?',
+          guarantee: 'We respond to all inquiries within 2 hours during business days.',
+          email: 'info@ariosetech.com',
+          emailDesc: 'Get detailed proposals and project discussions',
+          phone: '+92 300 9484 739',
+          phoneDesc: 'Instant consultation and quick questions',
+          address: '95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770',
+          addressDesc: ''
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
         type: 'cta',
         props: {
           eyebrow: 'Get Started Today',

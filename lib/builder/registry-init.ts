@@ -374,14 +374,17 @@ export function initRegistry() {
   registerSection({
     type: 'contact', label: 'Contact Section', category: 'Elements', icon: '📬',
     component: ContactSection as C,
-    defaultProps: { eyebrow: 'Get In Touch', headline: 'Ready to Transform Your Online Presence?', guarantee: 'We respond within 2 hours during business days.', email: 'info@ariosetech.com', phone: '+92 300 9484 739', address: '95 College Road, Lahore' },
+    defaultProps: { eyebrow: 'Get In Touch', headline: 'Ready to Transform Your Online Presence?', guarantee: 'We respond to all inquiries within 2 hours during business days.', email: 'info@ariosetech.com', emailDesc: 'Get detailed proposals and project discussions', phone: '+92 300 9484 739', phoneDesc: 'Instant consultation and quick questions', address: '95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770', addressDesc: '' },
     schema: [
       { type: 'text', name: 'eyebrow',   label: 'Eyebrow' },
       { type: 'text', name: 'headline',  label: 'Headline' },
       { type: 'text', name: 'guarantee', label: 'Response guarantee text' },
       { type: 'text', name: 'email',     label: 'Email address' },
+      { type: 'text', name: 'emailDesc', label: 'Email description' },
       { type: 'text', name: 'phone',     label: 'Phone / WhatsApp' },
+      { type: 'text', name: 'phoneDesc', label: 'Phone description' },
       { type: 'text', name: 'address',   label: 'Physical address' },
+      { type: 'text', name: 'addressDesc', label: 'Address description' },
     ],
   })
 

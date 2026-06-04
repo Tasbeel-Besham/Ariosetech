@@ -78,7 +78,7 @@ export async function GET(request: Request) {
         status: 'published',
         createdAt: new Date(),
         updatedAt: new Date(),
-      })
+      } as any)
     }
 
     return NextResponse.json({ success: true, message: 'Successfully seeded portfolio page layout.' })

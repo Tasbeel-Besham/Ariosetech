@@ -240,7 +240,7 @@ export default function ServicesAccordionSection({
                   <h3 style={{ ...F, fontSize: isMd ? 'clamp(1.5rem,2.5vw,2.1rem)' : '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '12px' }}>
                     {tab.title}
                   </h3>
-                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, marginBottom: '18px', maxWidth: '520px' }}>
+                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, marginBottom: '18px', maxWidth: '520px', whiteSpace: 'pre-wrap' }}>
                     {tab.desc}
                   </p>
                   <div style={{ display: 'grid', gridTemplateColumns: isMd ? 'repeat(3,1fr)' : 'repeat(2,1fr)', gap: '7px 16px', marginBottom: '22px' }}>
