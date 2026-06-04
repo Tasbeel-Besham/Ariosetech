@@ -90,42 +90,16 @@ export async function GET(request: Request) {
       },
       {
         id: new ObjectId().toHexString(),
-        type: 'heading',
+        type: 'whyus',
         props: {
-          eyebrow: 'Enterprise Scaling',
-          headline: 'Shopify Plus Development & Scaling',
-          body: 'Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and advanced integrations that support rapid growth and global expansion.\n\nShopify Plus Exclusive Features:\n* Higher transaction limits and reduced fees\n* Advanced automation workflows (Shopify Flow, Launchpad)\n* Advanced reporting, B2B wholesale capabilities, multi-store, and multi-currency\n* Enhanced customization and checkout experiences\n\nIdeal Fit List:\n* High-volume merchants (> $1M annual sales)\n* Brands with complex CRM or ERP requirements\n* International e-commerce brands & multi-brand companies\n\nScale your e-commerce operations with a platform built for enterprise performance.',
-          align: 'left'
-        }
-      },
-      {
-        id: new ObjectId().toHexString(),
-        type: 'heading',
-        props: {
-          eyebrow: 'Re-platforming & Optimization',
-          headline: 'Conversion-Optimized Shopify Redesign',
-          body: 'Is your Shopify store underperforming? Our redesign service combines modern design with conversion optimization to create stores that not only look amazing but also drive more sales.\n\nDesign Focus Areas:\n* Homepage layout and CTA optimization\n* Product page enhancements and media integration\n* Simplified checkout and cart drawer flow\n* Trust signal and social proof placement\n* Mobile shopping experience and performance\n\nExpected Results:\n* 20-40% average increase in conversions\n* Improved mobile user experience and faster loading speeds\n* Higher average order value (AOV) and customer retention',
-          align: 'left'
-        }
-      },
-      {
-        id: new ObjectId().toHexString(),
-        type: 'heading',
-        props: {
-          eyebrow: 'Custom Extensions',
-          headline: 'Custom Shopify App Development',
-          body: "Need custom functionality that doesn't exist in the app store? We develop custom Shopify apps tailored to your specific requirements, giving you competitive advantages and streamlined operations.\n\nTypes of Apps We Build:\n* Custom product configurators & personalization tools\n* Advanced inventory management & warehouse sync\n* Subscription systems & recurring billing integrations\n* Advanced search, filtering, and custom B2B pricing portals\n\nBuilt using Shopify Partner APIs (GraphQL & REST), Polaris design standards, and modern secure frameworks.",
-          align: 'left'
-        }
-      },
-      {
-        id: new ObjectId().toHexString(),
-        type: 'heading',
-        props: {
-          eyebrow: 'Ongoing Support',
-          headline: 'Shopify Maintenance & Support Plans',
-          body: 'Focus on growing your business while we handle the technical aspects. Our comprehensive maintenance service ensures your Shopify store stays updated, secure, and optimized for peak performance.\n\nOur Support Plans:\n* Starter Plan ($99/mo): 1 Shopify store, monthly updates and checks, basic performance monitoring, email support (48h response), 2 hours of modifications.\n* Growth Plan ($199/mo): Up to 2 Shopify stores, bi-weekly updates, advanced optimization, priority email & chat support (24h response), 5 hours of modifications, performance reporting.\n* Enterprise Plan ($399/mo): Up to 5 Shopify stores, weekly updates, 24/7 priority support, 10 hours of modifications, custom feature development, dedicated account manager.\n\nKeep your store running at peak speed and security without the overhead of an in-house team.',
-          align: 'left'
+          eyebrow: 'Advanced Capabilities',
+          headline: 'Enterprise & Custom\nShopify Solutions',
+          items: [
+            { icon: '🚀', title: 'Shopify Plus Development', subhead: 'Enterprise E-commerce Solutions', desc: 'Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and CRM/ERP integrations that support rapid global growth.' },
+            { icon: '🎨', title: 'Shopify Store Redesign', subhead: 'Transform for Maximum Conversions', desc: 'Is your store underperforming? Our redesign service combines modern brand aesthetics with conversion rate optimization (CRO) to create stores that look amazing and drive 20-40% more sales.' },
+            { icon: '⚙️', title: 'Shopify App Development', subhead: 'Custom Apps & Extensions', desc: "Need functionality that doesn't exist? We develop custom Shopify apps (GraphQL/REST APIs, Polaris) tailored to your specific requirements, giving you competitive advantages and streamlined workflows." },
+            { icon: '🛡️', title: 'Shopify Maintenance & Support', subhead: 'Ongoing Optimization & Performance', desc: 'Focus on growth while we handle updates, monitoring, optimization, and bug fixes. Flexible support plans ($99 - $399/mo) tailored to keep your store running securely at peak performance.' }
+          ]
         }
       },
       {
