@@ -52,90 +52,122 @@ export async function GET(request: Request) {
   {
     "label": "Development",
     "title": "WordPress Website Development",
-    "sub": "Build Your Dream Website from Scratch",
-    "desc": "Transform your vision into a stunning, high-performing WordPress website. Our custom development approach ensures your site stands out from the competition while delivering exceptional user experience.\n\n**Perfect For:**\n• New businesses launching online\n• Companies needing complete website overhaul\n• Brands requiring unique, custom designs\n• Businesses with specific functionality requirements\n\n**Timeline:** 2-3 weeks",
-    "features": "Custom theme development from your designs,Responsive design across all devices,SEO-optimized structure and content,Contact forms and lead generation tools,Social media integration,Google Analytics setup,Basic on-page SEO optimization,30 days of free support",
+    "sub": "Custom Websites Built from Scratch",
+    "desc": "Transform your vision into a stunning, high-performing WordPress website. Our custom development ensures your site is speed-optimized, secure, and built to scale with your business growth.",
+    "features": "Custom Theme Design,Responsive Layouts,SEO-Ready Structure,Performance Tuning",
     "price": "$799",
-    "href": "/contact"
+    "href": "/contact",
+    "bg": "radial-gradient(ellipse 90% 80% at 10% 90%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0c0a1c,#05050a)",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><polyline points=\"16 18 22 12 16 6\"></polyline><polyline points=\"8 6 2 12 8 18\"></polyline></svg>"
   },
   {
     "label": "Migration",
     "title": "WordPress Migration Services",
     "sub": "Seamless Migration Without Downtime",
-    "desc": "Moving to WordPress or changing hosts? We handle the entire migration process while ensuring zero data loss and minimal downtime. Your SEO rankings and user experience remain intact.\n\n**Perfect For:**\n• Sites moving from other platforms (Wix, Squarespace, etc.)\n• WordPress to WordPress migrations\n• Hosting provider changes\n• Development to live site transfers\n\n**Timeline:** 3-5 days",
-    "features": "Complete site backup and migration,Domain and hosting setup assistance,SSL certificate installation,Email migration (if required),Speed and performance optimization,SEO preservation techniques,Testing across all devices,14 days of post-migration support",
+    "desc": "Moving to WordPress or changing hosts? We handle the entire migration process with zero data loss, preserved SEO rankings, and absolute minimal downtime.",
+    "features": "Full Database Backup,SSL Setup & Configuration,Domain Transfer Support,SEO Rankings Preservation",
     "price": "$299",
-    "href": "/contact"
+    "href": "/contact",
+    "bg": "radial-gradient(ellipse 90% 80% at 90% 80%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#08081a,#05050a)",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\"></path><path d=\"M21 3v5h-5\"></path><path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\"></path><path d=\"M3 21v-5h5\"></path></svg>"
   },
   {
     "label": "Bugs/Errors",
-    "title": "WordPress Bugs/Errors Fixing Services",
-    "sub": "Quick Resolution for WordPress Issues",
-    "desc": "Is your WordPress site showing errors, broken pages, or strange behavior? Our experts diagnose and fix issues quickly, getting your site back to peak performance.\n\n**Common Issues We Fix:**\n• White screen of death\n• Internal server errors (500 errors)\n• Database connection errors\n• Plugin conflicts and compatibility issues\n• Theme-related problems\n• Broken layouts and design issues\n• Login and admin access problems\n• Email functionality issues\n\n**Perfect For:**\n• Sites experiencing sudden errors\n• Businesses losing revenue due to downtime\n• WordPress sites with plugin conflicts\n• Emergency fixes needed urgently\n\n**Timeline:** 24-48 hours",
-    "features": "Comprehensive site diagnosis,Root cause identification,Complete issue resolution,Prevention recommendations,Site backup before fixes,Testing and verification,7 days of monitoring",
+    "title": "WordPress Bug & Error Fixing",
+    "sub": "Quick Resolution for Website Issues",
+    "desc": "Is your site showing errors, broken pages, or plugin conflicts? Our experts quickly diagnose and resolve database connection issues, layout bugs, and theme crashes.",
+    "features": "White Screen Resolution,Plugin Conflict Fixes,Database Connection Repair,Broken Layout Fixes",
     "price": "$149",
-    "href": "/contact"
+    "href": "/contact",
+    "bg": "radial-gradient(ellipse 90% 80% at 50% 110%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0a0818,#05050a)",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M8 2a4 4 0 0 1 8 0v2H8V2z\"></path><path d=\"M8 10a4 4 0 0 0 8 0V4H8v6z\"></path><path d=\"M6 8h2\"></path><path d=\"M16 8h2\"></path><path d=\"M4 12h4\"></path><path d=\"M16 12h4\"></path><path d=\"M5 16.5l3-1.5\"></path><path d=\"M16 15l3 1.5\"></path><path d=\"M20 20L16 16\"></path><path d=\"M4 20L8 16\"></path></svg>"
   },
   {
     "label": "Maintenance",
     "title": "WordPress Maintenance & Support",
-    "sub": "Keep Your WordPress Site Running Smoothly",
-    "desc": "Regular maintenance is crucial for WordPress security, performance, and reliability. Our comprehensive maintenance plans ensure your site stays updated, secure, and optimized.\n\n**Maintenance Plans:**\n• 🥉 Basic Plan - $79/month:\n  - 1 WordPress site\n  - Monthly updates and backups\n  - Basic security monitoring\n  - Email support\n• 🥈 Professional Plan - $149/month:\n  - Up to 3 WordPress sites\n  - Weekly updates and backups\n  - Advanced security features\n  - Performance optimization\n  - Priority email & chat support\n• 🥇 Enterprise Plan - $299/month:\n  - Up to 10 WordPress sites\n  - Real-time monitoring\n  - Advanced security and malware removal\n  - Speed optimization\n  - 24/7 priority support\n  - Monthly performance reports",
-    "features": "WordPress core core theme and plugin updates,Security monitoring and malware scans,Database optimization and cleanup,Broken link checks and fixes,Performance monitoring and reporting,Regular backups (stored securely),Uptime monitoring,Priority support for issues",
+    "sub": "Keep Your Site Safe and Updated",
+    "desc": "Proactive care for your WordPress site. We manage regular updates, database cleanups, security scans, and offsite backups so your site runs flawlessly.",
+    "features": "Plugin & Theme Updates,Daily Database Backups,24/7 Security Scans,Uptime Monitoring",
     "price": "$79/mo",
-    "href": "/contact"
-  },
+    "href": "/contact",
+    "bg": "radial-gradient(ellipse 90% 80% at 50% 110%, rgba(118,108,255,0.32) 0%, transparent 55%), linear-gradient(160deg,#0a0818,#05050a)",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"></path></svg>"
+  }
+]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'whyus',
+        props: {
+          eyebrow: 'Performance & Defense',
+          headline: 'WordPress Security & Speed Optimization',
+          desc: 'Keep your website loading instantly and fully protected from threats with our performance and security hardening solutions.',
+          layout: 'grid',
+          items: [
   {
-    "label": "Speed",
-    "title": "WordPress Speed Optimization Services",
-    "sub": "Make Your WordPress Site Lightning Fast",
-    "desc": "Slow websites lose customers and hurt search rankings. Our speed optimization service can improve your site speed by 40-70%, leading to better user experience and higher conversions.\n\n**Expected Results:**\n• 40-70% faster loading times\n• Improved Google PageSpeed scores\n• Better Core Web Vitals\n• Enhanced user experience\n• Higher search engine rankings\n\n**Timeline:** 5-7 days",
-    "features": "Comprehensive speed audit and analysis,Image optimization and compression,Caching implementation and configuration,Database optimization and cleanup,CSS and JavaScript minification,CDN setup and configuration,Server-level optimizations,Core Web Vitals optimization,Mobile speed improvements",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"></polygon></svg>",
+    "title": "WordPress Speed Optimization",
+    "subhead": "Make Your Website Lightning Fast",
+    "desc": "Slow pages lose sales. We optimize your Core Web Vitals, implement premium caching, compress images, and fine-tune databases to improve speed by 40-70%.",
+    "features": "Core Web Vitals Audit,Image Compression,Caching & Minification,Database Optimization",
     "price": "$399",
     "href": "/contact"
   },
   {
-    "label": "Security",
-    "title": "WordPress Security Services",
-    "sub": "Protect Your WordPress Site from Threats",
-    "desc": "WordPress security is not optional. Our comprehensive security service protects your site from hackers, malware, and other threats while ensuring compliance with security best practices.\n\n**Security Monitoring:**\n• 24/7 threat monitoring\n• Real-time alerts for suspicious activity\n• Automatic malware removal\n• Weekly security reports\n• Blacklist monitoring\n• Vulnerability assessments\n\n**Perfect For:**\n• E-commerce websites\n• Sites handling sensitive data\n• Businesses requiring compliance\n• Sites previously hacked\n• High-traffic WordPress sites\n\n**Timeline:** 3-5 days",
-    "features": "Malware scanning and removal,Firewall installation and configuration,Security plugin setup and optimization,Login security enhancements,File permission optimization,Database security improvements,SSL certificate installation,Security headers implementation,Regular security audits",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"></path></svg>",
+    "title": "WordPress Security Hardening",
+    "subhead": "Complete Protection from Online Threats",
+    "desc": "Protect your site from hackers, brute force attacks, and injections. We install firewalls, restrict access, and implement enterprise-grade security protocols.",
+    "features": "Firewall Configuration,Login Access Hardening,File Integrity Scanning,Vulnerability Assessment",
     "price": "$299",
     "href": "/contact"
   },
   {
-    "label": "Virus Removal",
-    "title": "WordPress Virus Removal Services",
-    "sub": "Fast and Complete Malware Removal",
-    "desc": "Is your WordPress site infected with malware or viruses? We provide emergency malware removal services to get your site clean and secure quickly.\n\n**Virus Removal Process:**\n1. Immediate Site Analysis - Identify infection type and scope\n2. Complete Malware Removal - Clean all infected files and database\n3. Security Hardening - Prevent future infections\n4. Blacklist Removal - Get your site off Google/search engine blacklists\n5. Prevention Setup - Install security measures\n6. Monitoring - 30 days of security monitoring\n\n**Emergency Service Available:**\n• Same-day removal for critical cases\n• 24/7 emergency response\n• Money-back guarantee if malware returns\n\n**Timeline:** 24-48 hours",
-    "features": "Complete malware scan and removal,Infected file cleaning or replacement,Database cleanup and optimization,Security plugin installation,Firewall configuration,Google Safe Browsing removal,Security recommendations,30-day monitoring period",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"></path><path d=\"M9.5 9.5l5 5\"></path><path d=\"M14.5 9.5l-5 5\"></path></svg>",
+    "title": "WordPress Virus & Malware Removal",
+    "subhead": "Emergency Cleanup and Recovery",
+    "desc": "If your site gets hacked, we act fast. We scan and clean database tables, replace infected files, remove Google blacklist warnings, and secure vulnerabilities.",
+    "features": "Emergency Malware Cleanup,Infected Database Repairs,Blacklist Warning Removal,Post-Cleanup Monitoring",
     "price": "$199",
     "href": "/contact"
-  },
+  }
+]
+        }
+      },
+      {
+        id: new ObjectId().toHexString(),
+        type: 'whyus',
+        props: {
+          eyebrow: 'Scale & Modernize',
+          headline: 'WordPress Custom Solutions & Scaling',
+          desc: 'Scale your business global, protect your data, and deliver a modern interface with backup, localization, and theme redesign services.',
+          layout: 'rows',
+          items: [
   {
-    "label": "Backups",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"></ellipse><path d=\"M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5\"></path><path d=\"M3 12c0 1.66 4 3 9 3s9-1.34 9-3\"></path></svg>",
     "title": "WordPress Backup Solutions",
-    "sub": "Never Lose Your WordPress Data Again",
-    "desc": "Protect your valuable content and data with automated, reliable backup solutions. Our backup service ensures you can restore your site quickly in case of any emergency.\n\n**Backup Plans:**\n• 📁 Basic Backup - $29/month:\n  - Daily automated backups\n  - 30-day backup retention\n  - One-click restore\n  - Email notifications\n• 📁 Advanced Backup - $59/month:\n  - Real-time backups\n  - 90-day backup retention\n  - Multiple restore points\n  - Priority restoration support\n  - Multiple storage locations\n• 📁 Enterprise Backup - $99/month:\n  - Continuous backups\n  - 1-year backup retention\n  - Instant recovery options\n  - Dedicated backup support\n  - Custom backup schedules",
-    "features": "Automated daily backups,Multiple backup storage locations,One-click restore functionality,Database and file backups,Incremental backup options,Backup scheduling flexibility,Encrypted secure storage,Easy backup management",
+    "subhead": "Secure, Offsite Automated Backups",
+    "desc": "Never lose your files or database. We configure automated, redundant, and secure offsite backups with easy, one-click recovery options.",
+    "features": "Automated Offsite Backups,Encrypted Secure Storage,Redundant Copy Locations,One-Click Site Restoration",
     "price": "$29/mo",
     "href": "/contact"
   },
   {
-    "label": "Redesign",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.937A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063A2 2 0 0 0 14.063 15.5L12.481 21.635a.5.5 0 0 1-.962 0z\"></path><path d=\"M20 3h4\"></path><path d=\"M22 1v4\"></path><path d=\"M4 17h2\"></path><path d=\"M5 16v2\"></path></svg>",
     "title": "WordPress Website Redesign",
-    "sub": "Give Your WordPress Site a Fresh New Look",
-    "desc": "Is your WordPress site looking outdated? Our redesign service transforms your existing site with modern design, improved functionality, and a better user experience.\n\n**Redesign Process:**\n1. Current Site Analysis - Audit existing design and functionality\n2. Strategy Development - Plan improvements based on your goals\n3. Design Creation - Create modern, conversion-focused designs\n4. Development - Build the new design on WordPress\n5. Content Migration - Transfer and optimize existing content\n6. Testing & Launch - Ensure everything works perfectly\n7. Training - Show you how to manage your new site\n\n**Before Starting:**\n• Detailed consultation about your goals\n• Competitor analysis\n• User experience audit\n• Technical requirements assessment\n\n**Timeline:** 3-4 weeks",
-    "features": "Modern responsive design,Improved user experience,SEO optimization,Speed optimization,Mobile-first approach,Content migration,Basic SEO setup,30 days of support",
+    "subhead": "Fresh, Modern Look for Better Conversion",
+    "desc": "Outgrown your current theme? We deliver conversion-focused, modern redesigns with a clean structure, mobile-first responsiveness, and streamlined navigation.",
+    "features": "Conversion-Focused UI,Mobile-First Layouts,Seamless Content Transfer,Modern Theme Integration",
     "price": "$1,299",
     "href": "/contact"
   },
   {
-    "label": "Multilingual",
-    "title": "WordPress Multilingual Websites",
-    "sub": "Reach Global Audiences with Multilingual WordPress",
-    "desc": "Expand your business globally with professionally developed multilingual WordPress websites. We create seamless multi-language experiences that engage international audiences.\n\n**Supported Solutions:**\n• WPML - Professional multilingual plugin\n• Polylang - Free multilingual solution\n• TranslatePress - Visual translation interface\n• Custom Solutions - Tailored multilingual systems\n\n**Perfect For:**\n• International businesses\n• E-commerce stores selling globally\n• Service providers with global clientele\n• Organizations serving diverse communities\n\n**Timeline:** 2-3 weeks",
-    "features": "Multiple language setup and configuration,Professional translation management,SEO optimization for each language,Currency switcher integration,Language-specific content management,Automatic language detection,Multilingual menu and navigation,International SEO setup",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"></line><path d=\"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"></path></svg>",
+    "title": "WordPress Multilingual Setup",
+    "subhead": "Reach Global Markets with Multiple Languages",
+    "desc": "Connect with international audiences. We integrate robust translation systems (WPML, Polylang) optimized for SEO and localized customer experience.",
+    "features": "WPML/Polylang Integration,Localized URL Structuring,Language-Specific SEO,Multi-Currency Support",
     "price": "$899",
     "href": "/contact"
   }

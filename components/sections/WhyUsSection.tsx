@@ -2,7 +2,15 @@
 import React from 'react'
 import Link from 'next/link'
 
-type Item = { icon: string; title: string; subhead: string; desc: string }
+type Item = { 
+  icon: string; 
+  title: string; 
+  subhead: string; 
+  desc: string; 
+  features?: string; 
+  price?: string; 
+  href?: string; 
+}
 
 type Props = { 
   eyebrow?: string; 
@@ -11,7 +19,7 @@ type Props = {
   ctaLabel?: string;
   ctaHref?: string;
   items?: Item[];
-  layout?: 'split' | 'grid';
+  layout?: 'split' | 'grid' | 'rows';
 }
 
 const WHY_ICONS: Record<string, React.ReactNode> = {
@@ -152,7 +160,182 @@ export default function WhyUsSection({
   layout='split'
 }: Props) {
   const F = { fontFamily:'var(--font-display)' } as const
+  const M = { fontFamily: 'var(--font-mono)' } as const
   const safe = Array.isArray(items) ? items : []
+
+  if (layout === 'rows') {
+    return (
+      <section className="section" style={{ overflow: 'visible', background: 'linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)', borderBottom: '1px solid var(--border)' }}>
+        <div className="container">
+          <div style={{ marginBottom: '56px', maxWidth: '720px' }}>
+            {eyebrow && <p className="eyebrow" style={{ marginBottom: '12px' }}>{eyebrow}</p>}
+            <h2 style={{ ...F, fontSize: 'clamp(2rem,4.5vw,3rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '18px' }}>
+              {headline.split('\n').map((line, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </React.Fragment>
+              ))}
+            </h2>
+            {desc && (
+              <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+                {desc}
+              </p>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            {safe.map((b, i) => (
+              <div 
+                key={i} 
+                className="premium-row sr" 
+                style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: '1.2fr 1fr 220px',
+                  gap: '40px', 
+                  padding: '40px 0', 
+                  alignItems: 'center',
+                  position: 'relative'
+                }}
+              >
+                {/* Column 1: Icon & Title & Desc */}
+                <div style={{ display: 'flex', gap: '20px', alignItems: 'start' }}>
+                  <div className="row-icon-container" style={{ 
+                    flexShrink: 0, 
+                    width: '48px', 
+                    height: '48px', 
+                    borderRadius: '12px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    color: 'var(--primary)', 
+                    padding: '12px' 
+                  }}>
+                    {getIconForWhyUs(b.icon, b.title)}
+                  </div>
+                  <div>
+                    <h3 className="row-title" style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '4px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{b.title}</h3>
+                    <p style={{ ...F, fontSize: '11px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{b.subhead}</p>
+                    <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.75 }}>{b.desc}</p>
+                  </div>
+                </div>
+
+                {/* Column 2: Features checklist */}
+                <div className="premium-row__features-col">
+                  {b.features && (
+                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: 0, margin: 0, listStyle: 'none' }}>
+                      {b.features.split(',').map((feat, idx) => (
+                        <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-2)' }}>
+                          <div style={{ 
+                            width: '16px', 
+                            height: '16px', 
+                            borderRadius: '4px', 
+                            background: 'rgba(118, 108, 255, 0.1)', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            flexShrink: 0
+                          }}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          </div>
+                          <span style={{ fontSize: '13.5px', color: 'var(--text-2)' }}>{feat.trim()}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                {/* Column 3: Price & CTA button */}
+                <div className="premium-row__cta-col" style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'flex-end', 
+                  justifyContent: 'center', 
+                  gap: '16px',
+                  borderLeft: '1px solid rgba(255,255,255,0.06)',
+                  paddingLeft: '32px',
+                  height: '100%'
+                }}>
+                  {b.price && (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                      <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-3)', letterSpacing: '0.08em', marginBottom: '2px' }}>Starting at</span>
+                      <span style={{ fontSize: '26px', fontWeight: 800, color: '#fff', lineHeight: 1.1 }}>{b.price}</span>
+                    </div>
+                  )}
+                  {b.href && (
+                    <Link href={b.href} className="btn btn-primary btn-md" style={{ width: '100%', textAlign: 'center', justifyContent: 'center' }}>
+                      Get Started
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <style>{`
+            .premium-row {
+              border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+              transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+              background: transparent !important;
+            }
+            .premium-row:hover {
+              border-bottom-color: rgba(118, 108, 255, 0.35) !important;
+              background: radial-gradient(circle at 5% 50%, rgba(118, 108, 255, 0.04) 0%, transparent 60%) !important;
+              padding-left: 24px !important;
+              padding-right: 24px !important;
+            }
+            .premium-row .row-title {
+              color: #fff !important;
+              transition: color 0.4s var(--ease) !important;
+            }
+            .premium-row:hover .row-title {
+              color: var(--primary) !important;
+              text-shadow: 0 0 15px rgba(118, 108, 255, 0.2);
+            }
+            .premium-row .row-icon-container {
+              border-color: rgba(255,255,255,0.06) !important;
+              background: rgba(255,255,255,0.02) !important;
+              border: 1px solid rgba(255,255,255,0.06) !important;
+              transition: all 0.4s var(--ease) !important;
+            }
+            .premium-row:hover .row-icon-container {
+              border-color: rgba(118,108,255,0.3) !important;
+              background: var(--primary-soft) !important;
+              transform: rotate(5deg) scale(1.05);
+            }
+            
+            @media (max-width: 991px) {
+              .premium-row {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                padding: 32px 16px !important;
+              }
+              .premium-row:hover {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+                background: transparent !important;
+              }
+              .premium-row__cta-col {
+                border-left: none !important;
+                padding-left: 0 !important;
+                align-items: flex-start !important;
+                width: 100% !important;
+              }
+              .premium-row__cta-col > div {
+                align-items: flex-start !important;
+              }
+              .premium-row__cta-col a {
+                width: 100% !important;
+                max-width: 280px !important;
+              }
+            }
+          `}</style>
+        </div>
+      </section>
+    )
+  }
 
   if (layout === 'grid') {
     return (
@@ -229,10 +412,39 @@ export default function WhyUsSection({
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
                 
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                   <p style={{ ...F, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{b.title}</p>
                   <p style={{ ...F, fontSize: '12px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{b.subhead}</p>
-                  <p style={{ fontSize: '13.5px', color: 'var(--text-3)', lineHeight: 1.75 }}>{b.desc}</p>
+                  <p style={{ fontSize: '13.5px', color: 'var(--text-3)', lineHeight: 1.75, marginBottom: b.features ? '16px' : '0' }}>{b.desc}</p>
+                  
+                  {b.features && (
+                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: 0, margin: '16px 0 24px 0', listStyle: 'none', fontSize: '13px' }}>
+                      {b.features.split(',').map((feat, idx) => (
+                        <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-2)' }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                          <span>{feat.trim()}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {(b.price || b.href) && (
+                    <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                      {b.price && (
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-4)', letterSpacing: '0.05em' }}>Starting at</span>
+                          <span style={{ fontSize: '18px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{b.price}</span>
+                        </div>
+                      )}
+                      {b.href && (
+                        <Link href={b.href} className="btn btn-primary btn-sm" style={{ padding: '6px 14px', fontSize: '11.5px', fontWeight: 600, borderRadius: '8px' }}>
+                          Get Started
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -304,10 +516,39 @@ export default function WhyUsSection({
                 <div style={{ flexShrink:0, width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', padding:'12px' }}>
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                   <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'3px' }}>{b.title}</p>
                   <p style={{ ...F, fontSize:'12px', fontWeight:600, color:'var(--primary)', marginBottom:'8px' }}>{b.subhead}</p>
-                  <p style={{ fontSize:'13px', color:'var(--text-3)', lineHeight:1.75 }}>{b.desc}</p>
+                  <p style={{ fontSize:'13px', color:'var(--text-3)', lineHeight:1.75, marginBottom: b.features ? '16px' : '0' }}>{b.desc}</p>
+
+                  {b.features && (
+                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: 0, margin: '16px 0 24px 0', listStyle: 'none', fontSize: '13px' }}>
+                      {b.features.split(',').map((feat, idx) => (
+                        <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-2)' }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                          <span>{feat.trim()}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {(b.price || b.href) && (
+                    <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                      {b.price && (
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-4)', letterSpacing: '0.05em' }}>Starting at</span>
+                          <span style={{ fontSize: '18px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{b.price}</span>
+                        </div>
+                      )}
+                      {b.href && (
+                        <Link href={b.href} className="btn btn-primary btn-sm" style={{ padding: '6px 14px', fontSize: '11.5px', fontWeight: 600, borderRadius: '8px' }}>
+                          Get Started
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
