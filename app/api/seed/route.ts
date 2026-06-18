@@ -569,6 +569,10 @@ const shopifyLayout = { sections: [
   sec('whyus', {
     eyebrow: 'Advanced Capabilities',
     headline: 'Enterprise & Custom\nShopify Solutions',
+    desc: 'Specialized enterprise scaling, custom application development, and technical support tailored for high-growth merchants.',
+    ctaLabel: 'Consult Shopify Expert',
+    ctaHref: '/contact',
+    layout: 'grid',
     items: [
       { icon: '🚀', title: 'Shopify Plus Development', subhead: 'Enterprise E-commerce Solutions', desc: 'Scale your high-volume business with Shopify Plus. We specialize in complex enterprise implementations, custom functionality, and CRM/ERP integrations that support rapid global growth.' },
       { icon: '🎨', title: 'Shopify Store Redesign', subhead: 'Transform for Maximum Conversions', desc: 'Is your store underperforming? Our redesign service combines modern brand aesthetics with conversion rate optimization (CRO) to create stores that look amazing and drive 20-40% more sales.' },

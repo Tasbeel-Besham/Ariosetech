@@ -132,7 +132,8 @@ export default function PortfolioSection({
 
     const startScroll = () => {
       if (scrollIntRef.current) clearInterval(scrollIntRef.current)
-      let pos = 0, dir = 1, speed = 0.6
+      let pos = 0, dir = 1
+      const speed = 0.6
       const imgEl = imgRef.current
       if (!imgEl) return
       

@@ -96,6 +96,10 @@ export function initRegistry() {
     defaultProps: {
       eyebrow: 'Why Choose Us',
       headline: 'Why 100+ Businesses Trust ARIOSETECH for Their Success',
+      desc: '',
+      ctaLabel: '',
+      ctaHref: '',
+      layout: 'split',
       items: [
         { icon: '💰', title: 'Cost-Effective Excellence',  subhead: 'Save 60% Without Compromising Quality',    desc: 'Premium web development at a fraction of US agency costs.' },
         { icon: '⚡', title: 'Lightning-Fast Delivery',    subhead: 'From Concept to Launch in 30 Days',        desc: 'Most projects completed ahead of schedule.' },
@@ -104,9 +108,13 @@ export function initRegistry() {
       ],
     },
     schema: [
-      { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
-      { type: 'text', name: 'headline', label: 'Headline' },
-      { type: 'repeater', name: 'items', label: 'Benefit cards', fields: [
+      { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
+      { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'textarea', name: 'desc',     label: 'Left column description (Optional)' },
+      { type: 'text',     name: 'ctaLabel', label: 'CTA Button Label (Optional)' },
+      { type: 'text',     name: 'ctaHref',  label: 'CTA Button URL (Optional)' },
+      { type: 'select',   name: 'layout',   label: 'Layout Variant', options: ['split', 'grid'] },
+      { type: 'repeater', name: 'items',    label: 'Benefit cards', fields: [
         { type: 'text',     name: 'icon',    label: 'Icon (emoji or SVG)' },
         { type: 'text',     name: 'title',   label: 'Title' },
         { type: 'text',     name: 'subhead', label: 'Sub-headline' },

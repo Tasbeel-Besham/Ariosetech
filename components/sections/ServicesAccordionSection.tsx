@@ -29,8 +29,21 @@ const Arrow = () => (
 const F = { fontFamily: 'var(--font-display)' } as const
 const M = { fontFamily: 'var(--font-mono)' } as const
 
+interface TabItem {
+  id?: string | number
+  label: string
+  title: string
+  sub: string
+  desc: string
+  features: string | string[]
+  price: string
+  href: string
+  bg: string
+  icon: string | React.ReactNode
+}
+
 /* ── Static tab data ───────────────────────────────────────── */
-const TABS = [
+const TABS: TabItem[] = [
   {
     id: 1, label: 'WordPress', title: 'WordPress Development', sub: 'Build Powerful, Scalable Websites',
     desc: 'From custom themes to complex functionality, we create WordPress sites that grow with your business. Speed-optimized, secure, and SEO-ready.',
@@ -71,18 +84,112 @@ const slideVariants = {
   exit:  (d: number) => ({ opacity: 0, x: d > 0 ? -40 : 40 }),
 }
 
-/* ── Builder-compatible component (accepts editable header props) */
-interface TabItem {
-  id?: string | number
-  label: string
-  title: string
-  sub: string
-  desc: string
-  features: string | string[]
-  price: string
-  href: string
-  bg: string
-  icon: string | React.ReactNode
+function renderFormattedContent(text: string) {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  
+  let currentList: { type: 'ol' | 'ul'; items: string[] } | null = null;
+
+  const flushList = (key: string | number) => {
+    if (!currentList) return;
+    const ListTag = currentList.type;
+    elements.push(
+      <ListTag 
+        key={`list-${key}`} 
+        style={{ 
+          margin: '0 0 18px 20px', 
+          padding: 0,
+          listStyleType: currentList.type === 'ol' ? 'decimal' : 'disc',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px'
+        }}
+      >
+        {currentList.items.map((item, idx) => (
+          <li key={idx} style={{ fontSize: '13px', lineHeight: '1.65', color: 'rgba(255,255,255,0.7)' }}>
+            {parseInlineMarkdown(item)}
+          </li>
+        ))}
+      </ListTag>
+    );
+    currentList = null;
+  };
+
+  const parseInlineMarkdown = (str: string) => {
+    const parts = str.split(/\*\*(.*?)\*\*/g);
+    return parts.map((part, i) => {
+      if (i % 2 === 1) {
+        return <strong key={i} style={{ color: '#fff', fontWeight: 650 }}>{part}</strong>;
+      }
+      return part;
+    });
+  };
+
+  lines.forEach((line, i) => {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      if (currentList) flushList(i);
+      return;
+    }
+
+    const numMatch = trimmed.match(/^(\d+)\.\s+(.*)$/);
+    const bulletMatch = trimmed.match(/^([•\*\-])\s+(.*)$/);
+
+    if (numMatch) {
+      if (currentList && currentList.type !== 'ol') {
+        flushList(i);
+      }
+      if (!currentList) {
+        currentList = { type: 'ol', items: [] };
+      }
+      currentList.items.push(numMatch[2]);
+    } else if (bulletMatch) {
+      if (currentList && currentList.type !== 'ul') {
+        flushList(i);
+      }
+      if (!currentList) {
+        currentList = { type: 'ul', items: [] };
+      }
+      currentList.items.push(bulletMatch[2]);
+    } else {
+      if (currentList) flushList(i);
+
+      if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
+        const headerText = trimmed.replace(/\*\*/g, '');
+        elements.push(
+          <h4 key={i} style={{ 
+            fontSize: '13.5px', 
+            fontWeight: 700, 
+            color: 'var(--primary)', 
+            marginTop: '16px', 
+            marginBottom: '8px', 
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em'
+          }}>
+            {headerText.endsWith(':') ? headerText.slice(0, -1) : headerText}
+          </h4>
+        );
+      } else {
+        elements.push(
+          <p key={i} style={{ 
+            fontSize: '13px', 
+            color: 'rgba(255,255,255,0.65)', 
+            lineHeight: 1.75, 
+            marginBottom: '12px',
+            maxWidth: '520px'
+          }}>
+            {parseInlineMarkdown(trimmed)}
+          </p>
+        );
+      }
+    }
+  });
+
+  if (currentList) flushList(lines.length);
+
+  return <div style={{ display: 'flex', flexDirection: 'column' }}>{elements}</div>;
 }
 
 interface Props {
@@ -90,7 +197,7 @@ interface Props {
   headline?: string
   intro?: string
   items?: TabItem[]
-  [key: string]: unknown
+  [key: string]: any
 }
 
 export default function ServicesAccordionSection({
@@ -109,9 +216,9 @@ export default function ServicesAccordionSection({
   const go  = (i: number) => { setPrev(active); setActive(i) }
 
   // Parse features safely whether string or array
-  const featuresList = Array.isArray(tab?.features) 
-    ? tab.features 
-    : (typeof tab?.features === 'string' ? tab.features.split(',').map(f => f.trim()) : [])
+  const featuresList: string[] = Array.isArray(tab?.features) 
+    ? (tab.features as string[])
+    : (typeof tab?.features === 'string' ? tab.features.split(',').map((f: string) => f.trim()) : [])
 
   return (
     <section className="section section--dark">
@@ -240,9 +347,9 @@ export default function ServicesAccordionSection({
                   <h3 style={{ ...F, fontSize: isMd ? 'clamp(1.5rem,2.5vw,2.1rem)' : '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '12px' }}>
                     {tab.title}
                   </h3>
-                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, marginBottom: '18px', maxWidth: '520px', whiteSpace: 'pre-wrap' }}>
-                    {tab.desc}
-                  </p>
+                  <div style={{ marginBottom: '18px' }}>
+                    {renderFormattedContent(tab.desc)}
+                  </div>
                   <div style={{ display: 'grid', gridTemplateColumns: isMd ? 'repeat(3,1fr)' : 'repeat(2,1fr)', gap: '7px 16px', marginBottom: '22px' }}>
                     {featuresList.map(f => (
                       <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
