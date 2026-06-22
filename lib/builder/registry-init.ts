@@ -113,7 +113,7 @@ export function initRegistry() {
       { type: 'textarea', name: 'desc',     label: 'Left column description (Optional)' },
       { type: 'text',     name: 'ctaLabel', label: 'CTA Button Label (Optional)' },
       { type: 'text',     name: 'ctaHref',  label: 'CTA Button URL (Optional)' },
-      { type: 'select',   name: 'layout',   label: 'Layout Variant', options: ['split', 'grid', 'rows'] },
+      { type: 'select',   name: 'layout',   label: 'Layout Variant', options: ['split', 'grid', 'rows', 'bento-table'] },
       { type: 'repeater', name: 'items',    label: 'Benefit cards', fields: [
         { type: 'text',     name: 'icon',    label: 'Icon (emoji or SVG)' },
         { type: 'text',     name: 'title',   label: 'Title' },
