@@ -383,8 +383,6 @@ export default function ServicesAccordionSection({
                       fontSize: isMd ? '11px' : '14px', 
                       fontWeight: 700, 
                       color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
-                      writingMode: isMd ? 'vertical-lr' : undefined,
-                      transform: isMd ? 'rotate(180deg)' : undefined,
                       whiteSpace: 'nowrap',
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em'
