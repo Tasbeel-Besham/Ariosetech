@@ -304,8 +304,7 @@ export default function ServicesAccordionSection({
           display: 'flex', flexDirection: isMd ? 'row' : 'column',
           borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)',
           overflow: 'hidden', background: 'rgba(8,8,18,0.85)',
-          boxShadow: '0 40px 120px rgba(0,0,0,0.55)',
-          minHeight: isMd ? '380px' : undefined,
+          boxShadow: '0 40px 120px rgba(0,0,0,0.55)'
         }}>
 
           {/* ── Tab strip ── */}
@@ -406,7 +405,7 @@ export default function ServicesAccordionSection({
           </div>
 
           {/* ── Content panel ── */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: isMd ? '380px' : 'auto' }}>
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', inset: 0, background: tab?.bg || '#05050a', transition: 'background 0.4s' }} />
             <div style={{ position: 'absolute', inset: 0, opacity: 0.045, backgroundImage: 'linear-gradient(rgba(118,108,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,108,255,1) 1px,transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', top: '-20%', right: '5%', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(118,108,255,0.18) 0%,transparent 70%)', filter: 'blur(24px)', pointerEvents: 'none' }} />
@@ -426,10 +425,12 @@ export default function ServicesAccordionSection({
                     inset: 'auto',
                     display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
                     background: 'rgba(5,5,8,0.72)',
-                    padding: isMd ? '28px 40px 36px 40px' : '24px 20px 32px 20px',
-                    overflowY: 'hidden'
+                    padding: isMd ? '36px 40px' : '32px 20px',
+                    overflowY: 'hidden',
+                    minHeight: '100%'
                   }}
                 >
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
                   <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
                     {tab.sub}
                   </p>
