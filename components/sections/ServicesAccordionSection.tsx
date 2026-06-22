@@ -352,7 +352,7 @@ export default function ServicesAccordionSection({
                       display: 'flex',
                       alignItems: 'center',
                       gap: '12px',
-                      padding: isMd ? '24px 16px' : '16px 16px',
+                      padding: isMd ? '16px 16px' : '12px 16px',
                       background: isActive ? 'rgba(118,108,255,0.10)' : 'transparent',
                       border: 'none',
                       borderLeft: isMd ? `2px solid ${isActive ? 'var(--primary)' : 'transparent'}` : 'none',
@@ -405,7 +405,7 @@ export default function ServicesAccordionSection({
           </div>
 
           {/* ── Content panel ── */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ position: 'absolute', inset: 0, background: tab?.bg || '#05050a', transition: 'background 0.4s' }} />
             <div style={{ position: 'absolute', inset: 0, opacity: 0.045, backgroundImage: 'linear-gradient(rgba(118,108,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,108,255,1) 1px,transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', top: '-20%', right: '5%', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(118,108,255,0.18) 0%,transparent 70%)', filter: 'blur(24px)', pointerEvents: 'none' }} />
@@ -425,9 +425,9 @@ export default function ServicesAccordionSection({
                     inset: 'auto',
                     display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
                     background: 'rgba(5,5,8,0.72)',
-                    padding: isMd ? '36px 40px' : '32px 20px',
+                    padding: isMd ? '24px 40px' : '20px 20px',
                     overflowY: 'hidden',
-                    minHeight: '100%'
+                    flex: 1
                   }}
                 >
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
