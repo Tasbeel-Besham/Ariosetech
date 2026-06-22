@@ -423,7 +423,7 @@ export default function ServicesAccordionSection({
                   style={{
                     position: 'relative', 
                     inset: 'auto',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
+                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
                     background: 'rgba(5,5,8,0.72)',
                     padding: isMd ? '24px 40px' : '20px 20px',
                     overflowY: 'hidden',
