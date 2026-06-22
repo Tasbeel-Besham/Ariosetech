@@ -197,7 +197,15 @@ interface Props {
   headline?: string
   intro?: string
   items?: TabItem[]
-  [key: string]: any
+}
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export default function ServicesAccordionSection({
@@ -210,6 +218,34 @@ export default function ServicesAccordionSection({
   const [prev, setPrev]     = useState(0)
   const w   = useW()
   const isMd = w >= 768
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase().replace('#', '');
+      if (!hash) return;
+      
+      const foundIndex = items.findIndex(t => {
+        const labelPart = slugify(t.label || '');
+        const titlePart = slugify(t.title || '');
+        const hashWord = hash.toLowerCase();
+        
+        return (
+          labelPart.includes(hashWord) || 
+          hashWord.includes(labelPart) ||
+          titlePart.includes(hashWord) ||
+          hashWord.includes(titlePart)
+        );
+      });
+      
+      if (foundIndex !== -1) {
+        setActive(foundIndex);
+      }
+    };
+
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, [items]);
 
   const tab = items[active] || items[0]
   const dir = active - prev
@@ -256,61 +292,75 @@ export default function ServicesAccordionSection({
           }}>
             {items.map((t, i) => {
               const isActive = i === active
+              const labelSlug = slugify(t.label || '');
+              const titleSlug = slugify(t.title || '');
               return (
-                <button
-                  key={t.id || i}
-                  onClick={() => go(i)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: isMd ? '24px 16px' : '16px 16px',
-                    background: isActive ? 'rgba(118,108,255,0.10)' : 'transparent',
-                    border: 'none',
-                    borderLeft: isMd ? `2px solid ${isActive ? 'var(--primary)' : 'transparent'}` : 'none',
-                    borderRadius: !isMd && isActive ? '12px' : '0',
-                    margin: !isMd ? '2px 0' : '0',
-                    width: '100%',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s var(--ease)',
-                    textAlign: 'left',
-                    color: isActive ? (isMd ? '#fff' : 'var(--primary)') : 'rgba(255,255,255,0.45)',
-                  }}
-                >
-                  <div style={{
-                    width: '32px', height: '32px', borderRadius: '10px', flexShrink: 0,
-                    background: isActive ? 'var(--primary)' : 'rgba(118,108,255,0.1)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: isActive ? '#fff' : 'var(--primary)',
-                    transition: 'all 0.2s',
-                  }}>
-                    {typeof t.icon === 'string' ? (
-                      <div dangerouslySetInnerHTML={{ __html: t.icon }} style={{ display: 'flex', width: '20px', height: '20px' }} />
-                    ) : (
-                      t.icon
-                    )}
-                  </div>
-                  <span style={{ 
-                    ...F, 
-                    fontSize: isMd ? '11px' : '14px', 
-                    fontWeight: 700, 
-                    color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
-                    writingMode: isMd ? 'vertical-lr' : undefined,
-                    transform: isMd ? 'rotate(180deg)' : undefined,
-                    whiteSpace: 'nowrap',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em'
-                  }}>
-                    {t.label}
-                  </span>
-                  {!isMd && (
-                    <div style={{ marginLeft: 'auto', opacity: isActive ? 1 : 0.2 }}>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                        <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
+                <div key={t.id || i} style={{ position: 'relative', width: '100%' }}>
+                  {/* Invisible scroll targets with sticky header offset */}
+                  <div id={labelSlug} style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                  {labelSlug !== titleSlug && (
+                    <div id={titleSlug} style={{ position: 'absolute', top: '-100px', left: 0 }} />
                   )}
-                </button>
+                  {labelSlug.includes('bugs') && (
+                    <div id="bugs" style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                  )}
+                  {labelSlug.includes('maintenance') && (
+                    <div id="maintenance" style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                  )}
+                  <button
+                    onClick={() => go(i)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: isMd ? '24px 16px' : '16px 16px',
+                      background: isActive ? 'rgba(118,108,255,0.10)' : 'transparent',
+                      border: 'none',
+                      borderLeft: isMd ? `2px solid ${isActive ? 'var(--primary)' : 'transparent'}` : 'none',
+                      borderRadius: !isMd && isActive ? '12px' : '0',
+                      margin: !isMd ? '2px 0' : '0',
+                      width: '100%',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s var(--ease)',
+                      textAlign: 'left',
+                      color: isActive ? (isMd ? '#fff' : 'var(--primary)') : 'rgba(255,255,255,0.45)',
+                    }}
+                  >
+                    <div style={{
+                      width: '32px', height: '32px', borderRadius: '10px', flexShrink: 0,
+                      background: isActive ? 'var(--primary)' : 'rgba(118,108,255,0.1)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: isActive ? '#fff' : 'var(--primary)',
+                      transition: 'all 0.2s',
+                    }}>
+                      {typeof t.icon === 'string' ? (
+                        <div dangerouslySetInnerHTML={{ __html: t.icon }} style={{ display: 'flex', width: '20px', height: '20px' }} />
+                      ) : (
+                        t.icon
+                      )}
+                    </div>
+                    <span style={{ 
+                      ...F, 
+                      fontSize: isMd ? '11px' : '14px', 
+                      fontWeight: 700, 
+                      color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
+                      writingMode: isMd ? 'vertical-lr' : undefined,
+                      transform: isMd ? 'rotate(180deg)' : undefined,
+                      whiteSpace: 'nowrap',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em'
+                    }}>
+                      {t.label}
+                    </span>
+                    {!isMd && (
+                      <div style={{ marginLeft: 'auto', opacity: isActive ? 1 : 0.2 }}>
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                          <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                    )}
+                  </button>
+                </div>
               )
             })}
           </div>

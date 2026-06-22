@@ -150,6 +150,26 @@ function getIconForWhyUs(iconStr: string | undefined, title: string): React.Reac
   return WHY_ICONS.default;
 }
 
+function getHashIdFromTitle(title: string): string | undefined {
+  const t = (title || '').toLowerCase();
+  if (t.includes('speed') || t.includes('performance')) return 'speed';
+  if (t.includes('security')) return 'security';
+  if (t.includes('virus') || t.includes('malware')) return 'virus-removal';
+  if (t.includes('backup')) return 'backup';
+  if (t.includes('redesign') || t.includes('re-design')) return 'redesign';
+  if (t.includes('multilingual') || t.includes('translation') || t.includes('global')) return 'multilingual';
+  if (t.includes('theme') || t.includes('customization')) return 'theme';
+  if (t.includes('payment')) return 'payments';
+  if (t.includes('multivendor') || t.includes('multi-vendor')) return 'multivendor';
+  if (t.includes('setup') || t.includes('configuration')) return 'setup';
+  if (t.includes('integration')) return 'integrations';
+  if (t.includes('plus')) return 'plus';
+  if (t.includes('app dev') || t.includes('app development')) return 'app-dev';
+  
+  // Slugify fallback
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
 export default function WhyUsSection({ 
   eyebrow='Why Choose Us', 
   headline='Why 100+ Businesses Trust\nARIOSETECH\nfor Their Success', 
@@ -188,6 +208,7 @@ export default function WhyUsSection({
             {safe.map((b, i) => (
               <div 
                 key={i} 
+                id={getHashIdFromTitle(b.title)}
                 className="premium-row sr" 
                 style={{ 
                   display: 'grid', 
@@ -195,7 +216,8 @@ export default function WhyUsSection({
                   gap: '40px', 
                   padding: '40px 0', 
                   alignItems: 'center',
-                  position: 'relative'
+                  position: 'relative',
+                  scrollMarginTop: '100px'
                 }}
               >
                 {/* Column 1: Icon & Title & Desc */}
@@ -367,6 +389,7 @@ export default function WhyUsSection({
             {safe.map((b, i) => (
               <div 
                 key={i} 
+                id={getHashIdFromTitle(b.title)}
                 className="sr" 
                 style={{ 
                   display: 'flex', 
@@ -380,6 +403,7 @@ export default function WhyUsSection({
                   transition: 'all 0.3s var(--ease)', 
                   animationDelay: `${i*0.08}s`,
                   backdropFilter: 'blur(10px)',
+                  scrollMarginTop: '100px'
                 }}
                 onMouseEnter={e => {
                   const el = e.currentTarget;
@@ -510,7 +534,7 @@ export default function WhyUsSection({
           
           <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
             {safe.map((b,i) => (
-              <div key={i} className="sr" style={{ display:'flex', gap:'18px', padding:'24px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'16px', overflow:'hidden', position:'relative', transition:'all 0.25s var(--ease)', animationDelay:`${i*0.08}s` }}
+              <div key={i} id={getHashIdFromTitle(b.title)} className="sr" style={{ display:'flex', gap:'18px', padding:'24px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'16px', overflow:'hidden', position:'relative', transition:'all 0.25s var(--ease)', animationDelay:`${i*0.08}s`, scrollMarginTop: '100px' }}
                 onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='rgba(118,108,255,0.35)';el.style.transform='translateX(4px)'}}
                 onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor='var(--border)';el.style.transform=''}}>
                 <div style={{ flexShrink:0, width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', padding:'12px' }}>
