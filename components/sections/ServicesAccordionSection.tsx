@@ -423,7 +423,7 @@ export default function ServicesAccordionSection({
                   style={{
                     position: 'relative', 
                     inset: 'auto',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                    display: 'flex', flexDirection: 'column',
                     background: 'rgba(5,5,8,0.72)',
                     padding: isMd ? '24px 40px' : '20px 20px',
                     overflowY: 'hidden',
@@ -431,33 +431,35 @@ export default function ServicesAccordionSection({
                   }}
                 >
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
-                  <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
-                    {tab.sub}
-                  </p>
-                  <h3 style={{ ...F, fontSize: isMd ? 'clamp(1.5rem,2.5vw,2.1rem)' : '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '12px' }}>
-                    {tab.title}
-                  </h3>
-                  <div style={{ marginBottom: '18px' }}>
-                    {renderFormattedContent(tab.desc)}
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: isMd ? 'repeat(3,1fr)' : 'repeat(2,1fr)', gap: '7px 16px', marginBottom: '22px' }}>
-                    {featuresList.map(f => (
-                      <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
-                        <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: 'rgba(118,108,255,0.2)', border: '1px solid rgba(118,108,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
-                          <Check />
-                        </span>
-                        {f}
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '14px' }}>
-                    <div>
-                      <p style={{ ...M, fontSize: '8px', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '2px' }}>Starting at</p>
-                      <p style={{ ...F, fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{tab.price}</p>
+                  <div style={{ margin: 'auto 0', display: 'flex', flexDirection: 'column' }}>
+                    <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
+                      {tab.sub}
+                    </p>
+                    <h3 style={{ ...F, fontSize: isMd ? 'clamp(1.5rem,2.5vw,2.1rem)' : '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '12px' }}>
+                      {tab.title}
+                    </h3>
+                    <div style={{ marginBottom: '18px' }}>
+                      {renderFormattedContent(tab.desc)}
                     </div>
-                    <Link href={tab.href || '#'} className="btn btn-primary btn-md">
-                      Learn More <Arrow />
-                    </Link>
+                    <div style={{ display: 'grid', gridTemplateColumns: isMd ? 'repeat(3,1fr)' : 'repeat(2,1fr)', gap: '7px 16px', marginBottom: '22px' }}>
+                      {featuresList.map(f => (
+                        <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
+                          <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: 'rgba(118,108,255,0.2)', border: '1px solid rgba(118,108,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
+                            <Check />
+                          </span>
+                          {f}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '14px' }}>
+                      <div>
+                        <p style={{ ...M, fontSize: '8px', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '2px' }}>Starting at</p>
+                        <p style={{ ...F, fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{tab.price}</p>
+                      </div>
+                      <Link href={tab.href || '#'} className="btn btn-primary btn-md">
+                        Learn More <Arrow />
+                      </Link>
+                    </div>
                   </div>
                 </motion.div>
               )}
