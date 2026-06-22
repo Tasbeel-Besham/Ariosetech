@@ -95,25 +95,51 @@ function renderFormattedContent(text: string) {
   const flushList = (key: string | number) => {
     if (!currentList) return;
     const ListTag = currentList.type;
-    elements.push(
-      <ListTag 
-        key={`list-${key}`} 
-        style={{ 
-          margin: '0 0 18px 20px', 
-          padding: 0,
-          listStyleType: currentList.type === 'ol' ? 'decimal' : 'disc',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px'
-        }}
-      >
-        {currentList.items.map((item, idx) => (
-          <li key={idx} style={{ fontSize: '13px', lineHeight: '1.65', color: 'rgba(255,255,255,0.7)' }}>
-            {parseInlineMarkdown(item)}
-          </li>
-        ))}
-      </ListTag>
-    );
+    
+    if (currentList.type === 'ul') {
+      elements.push(
+        <ul 
+          key={`list-${key}`} 
+          style={{ 
+            margin: '0 0 18px 0', 
+            padding: 0,
+            listStyleType: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
+          }}
+        >
+          {currentList.items.map((item, idx) => (
+            <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '13px', lineHeight: '1.65', color: 'rgba(255,255,255,0.7)' }}>
+              <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              <span>{parseInlineMarkdown(item)}</span>
+            </li>
+          ))}
+        </ul>
+      );
+    } else {
+      elements.push(
+        <ListTag 
+          key={`list-${key}`} 
+          style={{ 
+            margin: '0 0 18px 20px', 
+            padding: 0,
+            listStyleType: 'decimal',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px'
+          }}
+        >
+          {currentList.items.map((item, idx) => (
+            <li key={idx} style={{ fontSize: '13px', lineHeight: '1.65', color: 'rgba(255,255,255,0.7)' }}>
+              {parseInlineMarkdown(item)}
+            </li>
+          ))}
+        </ListTag>
+      );
+    }
     currentList = null;
   };
 
@@ -279,7 +305,7 @@ export default function ServicesAccordionSection({
           borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)',
           overflow: 'hidden', background: 'rgba(8,8,18,0.85)',
           boxShadow: '0 40px 120px rgba(0,0,0,0.55)',
-          minHeight: isMd ? '440px' : undefined,
+          minHeight: isMd ? '380px' : undefined,
         }}>
 
           {/* ── Tab strip ── */}
@@ -294,12 +320,26 @@ export default function ServicesAccordionSection({
               const isActive = i === active
               const labelSlug = slugify(t.label || '');
               const titleSlug = slugify(t.title || '');
+              const getHashId = (title: string) => {
+                const lower = (title || '').toLowerCase();
+                if (lower.includes('speed') || lower.includes('performance')) return 'speed';
+                if (lower.includes('theme') || lower.includes('customization')) return 'theme';
+                if (lower.includes('payment')) return 'payments';
+                return null;
+              };
+              const mappedId = getHashId(t.title);
+
               return (
                 <div key={t.id || i} style={{ position: 'relative', width: '100%' }}>
-                  {/* Invisible scroll targets with sticky header offset */}
                   <div id={labelSlug} style={{ position: 'absolute', top: '-100px', left: 0 }} />
                   {labelSlug !== titleSlug && (
                     <div id={titleSlug} style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                  )}
+                  {mappedId && mappedId !== labelSlug && mappedId !== titleSlug && (
+                    <div id={mappedId} style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                  )}
+                  {t.title.toLowerCase().includes('performance') && (
+                    <div id="performance" style={{ position: 'absolute', top: '-100px', left: 0 }} />
                   )}
                   {labelSlug.includes('bugs') && (
                     <div id="bugs" style={{ position: 'absolute', top: '-100px', left: 0 }} />
@@ -366,7 +406,7 @@ export default function ServicesAccordionSection({
           </div>
 
           {/* ── Content panel ── */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: isMd ? '440px' : 'auto' }}>
+          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: isMd ? '380px' : 'auto' }}>
             <div style={{ position: 'absolute', inset: 0, background: tab?.bg || '#05050a', transition: 'background 0.4s' }} />
             <div style={{ position: 'absolute', inset: 0, opacity: 0.045, backgroundImage: 'linear-gradient(rgba(118,108,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,108,255,1) 1px,transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', top: '-20%', right: '5%', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(118,108,255,0.18) 0%,transparent 70%)', filter: 'blur(24px)', pointerEvents: 'none' }} />
@@ -382,12 +422,12 @@ export default function ServicesAccordionSection({
                   exit="exit"
                   transition={{ duration: 0.28, ease: [0.22,1,0.36,1] }}
                   style={{
-                    position: isMd ? 'absolute' : 'relative', 
-                    inset: isMd ? 0 : 'auto',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                    position: 'relative', 
+                    inset: 'auto',
+                    display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
                     background: 'rgba(5,5,8,0.72)',
                     padding: isMd ? '36px 40px' : '32px 20px',
-                    overflow: 'hidden'
+                    overflowY: 'hidden'
                   }}
                 >
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />

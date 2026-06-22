@@ -165,9 +165,229 @@ function getHashIdFromTitle(title: string): string | undefined {
   if (t.includes('integration')) return 'integrations';
   if (t.includes('plus')) return 'plus';
   if (t.includes('app dev') || t.includes('app development')) return 'app-dev';
+  if (t.includes('migration')) return 'migration';
+  if (t.includes('maintenance')) return 'maintenance';
   
   // Slugify fallback
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+function renderFormattedContent(text: string, variant?: 'pills') {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  
+  let currentList: { type: 'ol' | 'ul'; items: string[] } | null = null;
+
+  const flushList = (key: string | number) => {
+    if (!currentList) return;
+    const ListTag = currentList.type;
+    
+    if (variant === 'pills' && currentList.type === 'ul') {
+      elements.push(
+        <div 
+          key={`list-${key}`} 
+          style={{ 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: '12px', 
+            marginTop: '12px', 
+            marginBottom: '16px' 
+          }}
+        >
+          {currentList.items.map((item, idx) => (
+            <div key={idx} style={{ 
+              background: 'rgba(118, 108, 255, 0.1)', 
+              border: '1px solid rgba(118, 108, 255, 0.2)', 
+              color: '#fff', 
+              padding: '8px 16px', 
+              borderRadius: '100px', 
+              fontSize: '13px', 
+              fontWeight: 500,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <span style={{ color: 'var(--primary)', fontSize: '14px' }}>✓</span>
+              {parseInlineMarkdown(item)}
+            </div>
+          ))}
+        </div>
+      );
+    } else {
+      elements.push(
+        <ListTag 
+          key={`list-${key}`} 
+          style={{ 
+            margin: '0 0 16px 16px', 
+            padding: 0,
+            listStyleType: currentList.type === 'ol' ? 'decimal' : 'disc',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
+          }}
+        >
+          {currentList.items.map((item, idx) => (
+            <li key={idx} style={{ fontSize: '13.5px', lineHeight: '1.65', color: 'var(--text-2)' }}>
+              {parseInlineMarkdown(item)}
+            </li>
+          ))}
+        </ListTag>
+      );
+    }
+    currentList = null;
+  };
+
+  const parseInlineMarkdown = (str: string) => {
+    const parts = str.split(/\*\*(.*?)\*\*/g);
+    return parts.map((part, i) => {
+      if (i % 2 === 1) {
+        return <strong key={i} style={{ color: '#fff', fontWeight: 600 }}>{part}</strong>;
+      }
+      return part;
+    });
+  };
+
+  lines.forEach((line, i) => {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      if (currentList) flushList(i);
+      return;
+    }
+
+    const numMatch = trimmed.match(/^(\d+)\.\s+(.*)$/);
+    const bulletMatch = trimmed.match(/^([•\*\-])\s+(.*)$/);
+
+    if (numMatch) {
+      if (!currentList || currentList.type !== 'ol') {
+        if (currentList) flushList(i);
+        currentList = { type: 'ol', items: [numMatch[2]] };
+      } else {
+        currentList.items.push(numMatch[2]);
+      }
+    } else if (bulletMatch) {
+      if (!currentList || currentList.type !== 'ul') {
+        if (currentList) flushList(i);
+        currentList = { type: 'ul', items: [bulletMatch[2]] };
+      } else {
+        currentList.items.push(bulletMatch[2]);
+      }
+    } else {
+      if (currentList) flushList(i);
+      elements.push(
+        <p key={`p-${i}`} style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.75, marginBottom: '12px' }}>
+          {parseInlineMarkdown(trimmed)}
+        </p>
+      );
+    }
+  });
+
+  if (currentList) flushList('end');
+
+  return <div className="formatted-content">{elements}</div>;
+}
+
+function renderBentoContent(text: string) {
+  if (!text) return null;
+  
+  const lines = text.split('\n');
+  let introPara: string[] = [];
+  let columns: { title: string, items: string[] }[] = [];
+  let outroPara: string[] = [];
+  let currentColumn = -1;
+  let parsingColumns = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const t = line.trim();
+    
+    // Lookahead to see if it's a column
+    let isColumnHeader = false;
+    if (t.startsWith('•')) {
+      const colonIdx = t.indexOf(':');
+      const nextLine = (i + 1 < lines.length) ? lines[i+1].trim() : '';
+      if (colonIdx !== -1 || nextLine.startsWith('-')) {
+        isColumnHeader = true;
+      }
+    }
+
+    if (isColumnHeader) {
+      parsingColumns = true;
+      const colonIdx = t.indexOf(':');
+      if (colonIdx !== -1) {
+        const title = t.substring(1, colonIdx).trim();
+        const contentStr = t.substring(colonIdx + 1).trim();
+        let items: string[] = [];
+        if (contentStr) {
+           items = contentStr.split(',').map(s => s.trim()).filter(Boolean);
+        }
+        columns.push({ title, items });
+        currentColumn++;
+      } else {
+        columns.push({ title: t.substring(1).trim(), items: [] });
+        currentColumn++;
+      }
+    } else if (t.startsWith('-') && parsingColumns && currentColumn >= 0) {
+      columns[currentColumn].items.push(t.substring(1).trim());
+    } else {
+      if (!parsingColumns) {
+        if (t) introPara.push(t);
+      } else {
+        if (t) outroPara.push(t);
+      }
+    }
+  }
+
+  if (columns.length > 0 && columns.some(c => c.items.length > 0)) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {introPara.length > 0 && (
+          <div style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.7 }}>
+            {renderFormattedContent(introPara.join('\n'))}
+          </div>
+        )}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, 
+          gap: '20px', 
+          marginTop: '8px' 
+        }}>
+          {columns.map((col, idx) => (
+            <div key={idx} style={{ 
+              background: 'rgba(255,255,255,0.03)', 
+              border: '1px solid rgba(255,255,255,0.06)', 
+              borderRadius: '16px', 
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <h4 style={{ color: '#fff', fontSize: '14px', fontWeight: 700, marginBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
+                {col.title}
+              </h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', flexGrow: 1 }}>
+                {col.items.map((item, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'start', gap: '10px', fontSize: '13px', color: 'var(--text-2)', lineHeight: 1.5 }}>
+                    <span style={{ color: 'var(--primary)', marginTop: '2px', flexShrink: 0 }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        {outroPara.length > 0 && (
+          <div style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.7, marginTop: '16px' }}>
+            {renderFormattedContent(outroPara.join('\n'), 'pills')}
+          </div>
+        )}
+      </div>
+    )
+  }
+  
+  return renderFormattedContent(text);
 }
 
 export default function WhyUsSection({ 
@@ -182,6 +402,107 @@ export default function WhyUsSection({
   const F = { fontFamily:'var(--font-display)' } as const
   const M = { fontFamily: 'var(--font-mono)' } as const
   const safe = Array.isArray(items) ? items : []
+
+  if (layout === 'bento-table') {
+    return (
+      <section className="section" style={{ overflow: 'visible', background: 'var(--bg-2)', borderBottom: '1px solid var(--border)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '64px', maxWidth: '720px', margin: '0 auto 64px' }}>
+            {eyebrow && <p className="eyebrow" style={{ justifyContent: 'center', marginBottom: '16px' }}>{eyebrow}</p>}
+            <h2 style={{ ...F, fontSize: 'clamp(2rem,4.5vw,3rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '20px' }}>
+              {headline.split('\n').map((line, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </React.Fragment>
+              ))}
+            </h2>
+            {desc && (
+              <p style={{ fontSize: '15.5px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+                {desc}
+              </p>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            {safe.map((b, i) => (
+              <div 
+                key={i} 
+                id={getHashIdFromTitle(b.title)}
+                className="sr" 
+                style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  padding: '40px', 
+                  background: 'rgba(8, 8, 18, 0.7)', 
+                  border: '1px solid rgba(255,255,255,0.06)', 
+                  borderRadius: '24px', 
+                  position: 'relative', 
+                  transition: 'all 0.4s var(--ease)',
+                  scrollMarginTop: '100px'
+                }}
+              >
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', borderRadius: '24px', background: 'radial-gradient(ellipse at center, rgba(118,108,255,0.03) 0%, transparent 60%)' }} />
+                
+                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '32px', position: 'relative' }}>
+                  <div style={{ 
+                    flexShrink: 0, 
+                    width: '56px', 
+                    height: '56px', 
+                    borderRadius: '14px', 
+                    background: 'var(--primary-soft)', 
+                    border: '1px solid rgba(118,108,255,0.2)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    color: 'var(--primary)', 
+                    padding: '14px' 
+                  }}>
+                    {getIconForWhyUs(b.icon, b.title)}
+                  </div>
+                  <div>
+                    <h3 style={{ ...F, fontSize: '24px', fontWeight: 800, color: '#fff', marginBottom: '6px', letterSpacing: '-0.02em' }}>{b.title}</h3>
+                    <p style={{ ...F, fontSize: '12px', fontWeight: 600, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{b.subhead}</p>
+                  </div>
+                  
+                  {(b.price || b.href) && (
+                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '24px' }}>
+                      {b.price && (
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', display: 'none' /* hide price on mobile, or keep flex and hide with media query, we will just show it inline */ }} className="hidden md-flex">
+                          <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-4)', letterSpacing: '0.05em', marginBottom: '2px' }}>Starting at</span>
+                          <span style={{ fontSize: '24px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{b.price}</span>
+                        </div>
+                      )}
+                      {b.href && (
+                        <Link href={b.href} className="btn btn-primary btn-md" style={{ flexShrink: 0, padding: '12px 24px', borderRadius: '8px', fontSize: '13.5px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          Get Started
+                        </Link>
+                      )}
+                    </div>
+                  )}
+                </div>
+                
+                <div style={{ position: 'relative' }}>
+                  {renderBentoContent(b.desc)}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {ctaLabel && (
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '64px' }}>
+              <Link href={ctaHref || '/contact'} className="btn btn-primary btn-lg sr">
+                {ctaLabel}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
 
   if (layout === 'rows') {
     return (
@@ -238,7 +559,7 @@ export default function WhyUsSection({
                   <div>
                     <h3 className="row-title" style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '4px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{b.title}</h3>
                     <p style={{ ...F, fontSize: '11px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{b.subhead}</p>
-                    <p style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.75 }}>{b.desc}</p>
+                    {renderFormattedContent(b.desc)}
                   </div>
                 </div>
 
@@ -439,7 +760,7 @@ export default function WhyUsSection({
                 <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                   <p style={{ ...F, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{b.title}</p>
                   <p style={{ ...F, fontSize: '12px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{b.subhead}</p>
-                  <p style={{ fontSize: '13.5px', color: 'var(--text-3)', lineHeight: 1.75, marginBottom: b.features ? '16px' : '0' }}>{b.desc}</p>
+                  {renderFormattedContent(b.desc)}
                   
                   {b.features && (
                     <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: 0, margin: '16px 0 24px 0', listStyle: 'none', fontSize: '13px' }}>
@@ -543,7 +864,7 @@ export default function WhyUsSection({
                 <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                   <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'3px' }}>{b.title}</p>
                   <p style={{ ...F, fontSize:'12px', fontWeight:600, color:'var(--primary)', marginBottom:'8px' }}>{b.subhead}</p>
-                  <p style={{ fontSize:'13px', color:'var(--text-3)', lineHeight:1.75, marginBottom: b.features ? '16px' : '0' }}>{b.desc}</p>
+                  {renderFormattedContent(b.desc)}
 
                   {b.features && (
                     <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: 0, margin: '16px 0 24px 0', listStyle: 'none', fontSize: '13px' }}>
