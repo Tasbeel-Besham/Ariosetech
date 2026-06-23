@@ -20,9 +20,7 @@ export default function ImpactSection({ eyebrow='Results That Matter', headline=
         </div>
         <div className="g-3" style={{ gap:'24px' }}>
           {safe.map((m,i) => (
-            <div key={i} className="sr" style={{ animationDelay:`${i*0.1}s`, background:'rgba(10,10,18,0.7)', border:'1px solid rgba(118,108,255,0.18)', borderRadius:'24px', padding:'44px 36px', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', position:'relative', overflow:'hidden', transition:'all 0.3s var(--ease)' }}
-              onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='rgba(118,108,255,0.45)';el.style.transform='translateY(-8px)';el.style.boxShadow='0 32px 80px rgba(0,0,0,0.6),0 0 60px rgba(118,108,255,0.08)'}}
-              onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor='rgba(118,108,255,0.18)';el.style.transform='';el.style.boxShadow=''}}>
+            <div key={i} className="sr card-hover" style={{ animationDelay:`${i*0.1}s`, background:'rgba(10,10,18,0.7)', border:'1px solid rgba(118,108,255,0.18)', borderRadius:'24px', padding:'44px 36px', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', position:'relative', overflow:'hidden' }}>
               <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
               <div style={{ position:'absolute', top:'-30%', left:'-10%', width:'60%', height:'60%', background:'radial-gradient(ellipse, rgba(118,108,255,0.12) 0%, transparent 70%)', pointerEvents:'none' }} />
               <p style={{ ...F, fontSize:'clamp(3rem,5vw,4.5rem)', fontWeight:800, lineHeight:1, marginBottom:'12px', ...P }}>{m.value}</p>

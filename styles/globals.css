@@ -151,13 +151,15 @@
     border: 1px solid var(--border);
     border-radius: var(--r-xl);
     overflow: hidden;
-    transition: border-color 0.3s var(--ease), transform 0.4s var(--spring), box-shadow 0.4s var(--ease);
+    transition: all 0.3s var(--ease);
+  }
+  .card-hover {
+    transition: all 0.3s var(--ease);
   }
   .card-hover:hover {
-    border-color: rgba(118,108,255,0.3);
-    transform: translateY(-5px);
-    transform: translateY(-6px);
-    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    border-color: rgba(118,108,255,0.35);
+    transform: translateX(4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
   }
 
   /* ── Inputs ── */

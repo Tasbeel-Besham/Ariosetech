@@ -711,7 +711,7 @@ export default function WhyUsSection({
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="sr" 
+                className="sr card-hover" 
                 style={{ 
                   display: 'flex', 
                   flexDirection: 'column',
@@ -721,22 +721,9 @@ export default function WhyUsSection({
                   border: '1px solid var(--border)', 
                   borderRadius: '20px', 
                   position: 'relative', 
-                  transition: 'all 0.3s var(--ease)', 
                   animationDelay: `${i*0.08}s`,
                   backdropFilter: 'blur(10px)',
                   scrollMarginTop: '100px'
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget;
-                  el.style.borderColor = 'rgba(118,108,255,0.35)';
-                  el.style.transform = 'translateY(-6px)';
-                  el.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget;
-                  el.style.borderColor = 'var(--border)';
-                  el.style.transform = '';
-                  el.style.boxShadow = '';
                 }}
               >
                 <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(118,108,255,0.3), transparent)', pointerEvents: 'none' }} />
@@ -855,9 +842,7 @@ export default function WhyUsSection({
           
           <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
             {safe.map((b,i) => (
-              <div key={i} id={getHashIdFromTitle(b.title)} className="sr" style={{ display:'flex', gap:'18px', padding:'24px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'16px', overflow:'hidden', position:'relative', transition:'all 0.25s var(--ease)', animationDelay:`${i*0.08}s`, scrollMarginTop: '100px' }}
-                onMouseEnter={e=>{const el=e.currentTarget;el.style.borderColor='rgba(118,108,255,0.35)';el.style.transform='translateX(4px)'}}
-                onMouseLeave={e=>{const el=e.currentTarget;el.style.borderColor='var(--border)';el.style.transform=''}}>
+              <div key={i} id={getHashIdFromTitle(b.title)} className="sr card-hover" style={{ display:'flex', gap:'18px', padding:'24px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'16px', overflow:'hidden', position:'relative', animationDelay:`${i*0.08}s`, scrollMarginTop: '100px' }}>
                 <div style={{ flexShrink:0, width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', padding:'12px' }}>
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>

@@ -68,9 +68,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
           {posts.map((post, i) => (
             <Link key={post._id} href={`/blog/${post.slug}`}
               className="card card-hover"
-              style={{ display:'flex', flexDirection:'column', textDecoration:'none', transition:'all 0.25s var(--ease)', animationDelay:`${i*0.08}s` }}
-              onMouseEnter={e=>{const el=e.currentTarget;el.style.transform='translateY(-5px)'}}
-              onMouseLeave={e=>{const el=e.currentTarget;el.style.transform=''}}>
+              style={{ display:'flex', flexDirection:'column', textDecoration:'none', animationDelay:`${i*0.08}s` }}>
               <div style={{ padding:'26px', flex:1, display:'flex', flexDirection:'column' }}>
                 <span style={{ ...M, fontSize:'9px', textTransform:'uppercase', letterSpacing:'0.14em', color:'var(--primary)', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', padding:'4px 12px', borderRadius:'var(--r-f)', display:'inline-block', marginBottom:'14px', width:'fit-content', fontWeight:700 }}>{post.category}</span>
                 <h3 style={{ ...F, fontSize:'17px', fontWeight:700, color:'#fff', lineHeight:1.3, marginBottom:'10px', flex:1 }}>{post.title}</h3>
