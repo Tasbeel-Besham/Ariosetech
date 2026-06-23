@@ -354,13 +354,14 @@ function renderBentoContent(text: string) {
           marginTop: '8px' 
         }}>
           {columns.map((col, idx) => (
-            <div key={idx} style={{ 
+            <div key={idx} className="card-hover" style={{ 
               background: 'rgba(255,255,255,0.03)', 
               border: '1px solid rgba(255,255,255,0.06)', 
               borderRadius: '16px', 
               padding: '24px',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              transition: 'all 0.3s var(--ease)'
             }}>
               <h4 style={{ color: '#fff', fontSize: '14px', fontWeight: 700, marginBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
                 {col.title}
@@ -429,7 +430,7 @@ export default function WhyUsSection({
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="sr" 
+                className="sr card-hover" 
                 style={{ 
                   display: 'flex', 
                   flexDirection: 'column',

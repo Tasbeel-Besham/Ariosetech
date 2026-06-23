@@ -22,7 +22,7 @@ export default function TestimonialsSection({ eyebrow='Client Reviews', headline
         </div>
         <div className="g-3" style={{ gap:'20px', marginBottom:'40px' }}>
           {safe.map((t,i) => (
-            <div key={i} className="card sr" style={{ padding:'32px', animationDelay:`${i*0.08}s` }}>
+            <div key={i} className="card card-hover sr" style={{ padding:'32px', animationDelay:`${i*0.08}s` }}>
               <div style={{ display:'flex', gap:'3px', marginBottom:'20px' }}>
                 {[0,1,2,3,4].map(s => <StarSVG key={s} />)}
               </div>
