@@ -16,25 +16,25 @@ const CTA_TRUST = '✓ No Long-Term Contracts,✓ 30-Day Money-Back Guarantee,�
 
 const WHY_ITEMS = [
   {
-    "icon": "💰",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"23\"></line><path d=\"M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\"></path></svg>",
     "title": "Cost-Effective Excellence",
     "subhead": "Save 60% Without Compromising Quality",
     "desc": "Get premium web development at a fraction of US agency costs. Professional results, affordable pricing, transparent communication."
   },
   {
-    "icon": "⚡",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"></polygon></svg>",
     "title": "Lightning-Fast Delivery",
     "subhead": "From Concept to Launch in 30 Days",
     "desc": "Our streamlined process and dedicated team ensure rapid turnaround without cutting corners. Most projects completed ahead of schedule."
   },
   {
-    "icon": "🛡️",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"></path></svg>",
     "title": "Professional Support",
     "subhead": "24/7 Expert Assistance When You Need It",
     "desc": "Round-the-clock support across time zones. Emergency fixes, regular maintenance, and proactive monitoring included."
   },
   {
-    "icon": "📈",
+    "icon": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.7\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><polyline points=\"23 6 13.5 15.5 8.5 10.5 1 18\"></polyline><polyline points=\"17 6 23 6 23 12\"></polyline></svg>",
     "title": "Proven Results",
     "subhead": "Track Record of Growing Businesses",
     "desc": "Our clients see average 150% increase in conversions and 40% improvement in site speed. Real results, measurable impact."
