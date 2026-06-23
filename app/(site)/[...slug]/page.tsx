@@ -53,6 +53,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DynamicPage({ params }: Props) {
   const { slug } = await params
   const page = await getPageData(slug)
-  if (!page) notFound()
-  return <BuilderRenderer sections={page.layout?.sections || []} />
+  if (!page || !page.layout || !page.layout.sections || page.layout.sections.length === 0) {
+    notFound()
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com';
+  const pageUrl = `${siteUrl}${page.fullPath}`;
+
+  return (
+    <BuilderRenderer 
+      sections={page.layout.sections} 
+      pageName={page.title || 'Page'}
+      pageUrl={pageUrl}
+    />
+  )
 }
