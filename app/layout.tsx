@@ -36,10 +36,15 @@ export const metadata: Metadata = {
   },
 }
 
+import Animations from '@/components/ui/Animations'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable} ${roadRadio.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Animations />
+        {children}
+      </body>
     </html>
   )
 }
