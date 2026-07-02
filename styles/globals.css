@@ -176,7 +176,7 @@
     opacity: 1;
   }
   .card-hover:hover {
-    border-color: rgba(118,108,255,0.35);
+    border-color: rgba(118,108,255,0.35) !important;
     transform: translateX(4px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
   }
