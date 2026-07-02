@@ -37,12 +37,14 @@ export const metadata: Metadata = {
 }
 
 import Animations from '@/components/ui/Animations'
+import SpotlightEffect from '@/components/ui/SpotlightEffect'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable} ${roadRadio.variable}`}>
       <body>
         <Animations />
+        <SpotlightEffect />
         {children}
       </body>
     </html>

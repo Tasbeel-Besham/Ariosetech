@@ -155,6 +155,25 @@
   }
   .card-hover {
     transition: all 0.3s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .card-hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(118, 108, 255, 0.08),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+    z-index: 0;
+  }
+  .card-hover:hover::before {
+    opacity: 1;
   }
   .card-hover:hover {
     border-color: rgba(118,108,255,0.35);
