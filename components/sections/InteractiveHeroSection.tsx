@@ -279,106 +279,106 @@ export default function InteractiveHeroSection({
       <div className="container" style={{ position: 'relative', zIndex: 10, flex: 1, display: 'grid', gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 1fr)', alignItems: 'center', gap: '4rem', padding: '80px 32px 60px', maxWidth: '1280px', margin: '0 auto' }}>
         
         {/* Left Side */}
-        <div style={{ display: 'flex', flexDirection: 'column', pointerEvents: 'all' }}>
+        <div className="flex flex-col pointer-events-auto">
           {eyebrow && eyebrow.trim().length > 0 && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '22px' }}>
-                <div style={{ width: '22px', height: '1.5px', background: 'var(--grad)' }} />
-                <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: B_PRI, opacity: 0.6 }} />
-                <span style={{ ...M, fontSize: '10.5px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>{eyebrow}</span>
+              <div className="inline-flex items-center gap-10 mb-20">
+                <div className="w-[22px] h-[1.5px] bg-grad" />
+                <div className="w-[4px] h-[4px] rounded-full opacity-60" style={{ background: B_PRI }} />
+                <span className="font-mono uppercase tracking-widest text-white/30" style={{ fontSize: '10.5px' }}>{eyebrow}</span>
               </div>
             </motion.div>
           )}
 
-          <div ref={headlineRef} style={{ marginBottom: '24px', maxWidth: '680px' }}>
+          <div ref={headlineRef} className="mb-24 max-w-[680px]">
             {headline && headline.trim().length > 0 && (
-              <h1 style={{ ...F, fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 800, lineHeight: 1.18, letterSpacing: '-0.03em', color: '#fff', cursor: 'none' }}>
+              <h1 className="font-display font-extrabold leading-none tracking-tighter text-white cursor-none" style={{ fontSize: 'clamp(2.4rem, 5vw, 3.8rem)' }}>
                 {renderChar(headline + (subheadline && desc && subheadline.length < 120 ? ' ' + subheadline : ''))}
               </h1>
             )}
           </div>
 
           {subheadline && (!desc || subheadline.length >= 120) && (
-            <p style={{ ...B, fontSize: '15px', lineHeight: 1.78, color: 'rgba(255,255,255,0.38)', maxWidth: '500px', marginBottom: desc ? '12px' : '18px', fontWeight: 300 }}>
+            <p className={`font-body text-white/40 max-w-[500px] font-light leading-relaxed ${desc ? 'mb-12' : 'mb-20'}`} style={{ fontSize: '15px' }}>
               {subheadline}
             </p>
           )}
 
           {desc && (
-            <p style={{ ...B, fontSize: '15px', lineHeight: 1.78, color: 'rgba(255,255,255,0.38)', maxWidth: '500px', marginBottom: '18px', fontWeight: 300 }}>
+            <p className="font-body text-white/40 max-w-[500px] font-light leading-relaxed mb-20" style={{ fontSize: '15px' }}>
               {desc}
             </p>
           )}
 
-          <p style={{ ...B, fontSize: '12.5px', color: 'rgba(255,255,255,0.28)', marginBottom: '32px', fontStyle: 'italic' }}>
+          <p className="font-body text-white/30 mb-32 italic" style={{ fontSize: '12.5px' }}>
             {trust ? trust : (
               <>
-                Trusted by businesses in <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>USA</span>, <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>UAE</span>, and <span style={{ color: 'rgba(118,108,255,0.75)', fontStyle: 'normal' }}>Switzerland</span> for affordable, high-quality development.
+                Trusted by businesses in <span className="not-italic text-primary/75">USA</span>, <span className="not-italic text-primary/75">UAE</span>, and <span className="not-italic text-primary/75">Switzerland</span> for affordable, high-quality development.
               </>
             )}
           </p>
 
-          <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap' }}>
+          <div className="flex gap-16 items-center mb-10 flex-wrap">
             {ctaPrimaryLabel && ctaPrimaryLabel.trim().length > 0 && (
-              <Link href={ctaPrimaryHref || '/contact'} className="cta-custom-primary" style={{ textDecoration: 'none' }}>
+              <Link href={ctaPrimaryHref || '/contact'} className="cta-custom-primary no-underline">
                 {ctaPrimaryLabel.toUpperCase()} <ArrowSVG />
               </Link>
             )}
             {ctaSecondaryLabel && ctaSecondaryLabel.trim().length > 0 && (
-              <Link href={ctaSecondaryHref || '/portfolio'} className="cta-custom-secondary" style={{ textDecoration: 'none' }}>{ctaSecondaryLabel} →</Link>
+              <Link href={ctaSecondaryHref || '/portfolio'} className="cta-custom-secondary no-underline">{ctaSecondaryLabel} →</Link>
             )}
           </div>
         </div>
 
         {/* Right Side */}
-        <div className="hero-right-col" style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px', pointerEvents: 'all' }}>
+        <div className="hero-right-col relative flex flex-col gap-16 pointer-events-auto">
           
-          <div style={{ position: 'absolute', top: '-24px', right: '16px', background: 'rgba(5,5,14,0.95)', border: '1px solid rgba(118,108,255,0.25)', borderRadius: '12px', padding: '10px 16px', fontSize: '11px', color: '#fff', backdropFilter: 'blur(12px)', zIndex: 20, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 32px rgba(118,108,255,0.15)', animation: 'chipBob 4s ease-in-out infinite alternate' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
+          <div className="absolute top-[-24px] right-4 px-16 py-10 text-white flex items-center gap-8 z-20" style={{ background: 'rgba(5,5,14,0.95)', border: '1px solid rgba(118,108,255,0.25)', borderRadius: '12px', fontSize: '11px', backdropFilter: 'blur(12px)', boxShadow: '0 8px 32px rgba(118,108,255,0.15)', animation: 'chipBob 4s ease-in-out infinite alternate' }}>
+            <div className="w-8 h-8 rounded-full" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
             {liveSiteText}
           </div>
 
-          <div style={{ background: 'rgba(10,10,22,0.9)', border: '1px solid rgba(118,108,255,0.22)', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 32px 100px rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }}>
-            <div style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '12px 18px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ display: 'flex', gap: '7px' }}>
-                <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#ff5f57', boxShadow: '0 0 5px rgba(255,95,87,0.4)' }} />
-                <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#febc2e', boxShadow: '0 0 5px rgba(254,188,46,0.4)' }} />
-                <div style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#28c840', boxShadow: '0 0 5px rgba(40,200,64,0.4)' }} />
+          <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(10,10,22,0.9)', border: '1px solid rgba(118,108,255,0.22)', boxShadow: '0 32px 100px rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }}>
+            <div className="px-18 py-12 flex items-center gap-12" style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+              <div className="flex gap-6">
+                <div className="w-[11px] h-[11px] rounded-full" style={{ background: '#ff5f57', boxShadow: '0 0 5px rgba(255,95,87,0.4)' }} />
+                <div className="w-[11px] h-[11px] rounded-full" style={{ background: '#febc2e', boxShadow: '0 0 5px rgba(254,188,46,0.4)' }} />
+                <div className="w-[11px] h-[11px] rounded-full" style={{ background: '#28c840', boxShadow: '0 0 5px rgba(40,200,64,0.4)' }} />
               </div>
-              <div style={{ marginLeft: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.3)', ...M }}>{codeFilename}</div>
+              <div className="ml-8 font-mono text-white/30" style={{ fontSize: '11px' }}>{codeFilename}</div>
             </div>
-            <div style={{ padding: '22px', ...M, fontSize: '12px', lineHeight: 1.9, minHeight: '240px', maxHeight: '240px', overflow: 'hidden' }}>
+            <div className="p-24 font-mono leading-loose min-h-[240px] max-h-[240px] overflow-hidden" style={{ fontSize: '12px' }}>
               {typedLines.map((toks, i) => (
-                <div key={i} style={{ display: 'flex', gap: '14px' }}>
-                  <span style={{ color: 'rgba(255,255,255,0.15)', minWidth: '18px', textAlign: 'right', fontSize: '10px' }}>{i + 1}</span>
-                  <span style={{ color: 'rgba(255,255,255,0.55)' }}>
+                <div key={i} className="flex gap-14">
+                  <span className="text-white/15 min-w-[18px] text-right" style={{ fontSize: '10px' }}>{i + 1}</span>
+                  <span className="text-white/50">
                     {toks.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
                   </span>
                 </div>
               ))}
               {lineIdxRef.current < codeLines.length && (
-                <div style={{ display: 'flex', gap: '14px' }}>
-                   <span style={{ color: 'rgba(255,255,255,0.15)', minWidth: '18px', textAlign: 'right', fontSize: '10px' }}>{typedLines.length + 1}</span>
-                   <span style={{ color: 'rgba(255,255,255,0.55)' }}>
+                <div className="flex gap-14">
+                   <span className="text-white/15 min-w-[18px] text-right" style={{ fontSize: '10px' }}>{typedLines.length + 1}</span>
+                   <span className="text-white/50">
                      {currentLine.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
-                     <span style={{ display: 'inline-block', width: '2px', height: '14px', background: B_PRI, animation: 'cblink .9s infinite', verticalAlign: 'middle', marginLeft: '3px' }} />
+                     <span className="inline-block w-[2px] h-[14px] align-middle ml-[3px]" style={{ background: B_PRI, animation: 'cblink .9s infinite' }} />
                    </span>
                 </div>
               )}
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '14px' }}>
+          <div className="flex gap-14">
             {(metrics || [
               { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: B_PRI, c2: B_SEC, bar: 0.92 },
               { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: B_PRI, c2: B_SEC, bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ]).map((m, i) => (
-              <div key={m.lbl + i} style={{ flex: 1, background: 'rgba(15,15,30,0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px', position: 'relative', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.3)' }}>
-                <div style={{ color: m.c1, marginBottom: '8px', display: 'flex' }}>{m.ico}</div>
-                <div style={{ ...F, fontWeight: 800, fontSize: '22px', color: '#fff', marginBottom: '2px' }}>{m.val}</div>
-                <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{m.lbl}</div>
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3px', background: `linear-gradient(90deg, ${m.c1}, ${m.c2})`, transform: `scaleX(${m.bar})`, transformOrigin: 'left', opacity: 0.8 }} />
+              <div key={m.lbl + i} className="flex-1 rounded-2xl p-18 relative overflow-hidden" style={{ background: 'rgba(15,15,30,0.85)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 12px 40px rgba(0,0,0,0.3)' }}>
+                <div className="mb-8 flex" style={{ color: m.c1 }}>{m.ico}</div>
+                <div className="font-display font-extrabold text-white mb-4" style={{ fontSize: '22px' }}>{m.val}</div>
+                <div className="uppercase tracking-widest font-semibold" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>{m.lbl}</div>
+                <div className="absolute bottom-0 left-0 right-0 h-[3px] opacity-80 origin-left" style={{ background: `linear-gradient(90deg, ${m.c1}, ${m.c2})`, transform: `scaleX(${m.bar})` }} />
               </div>
             ))}
           </div>
@@ -386,13 +386,13 @@ export default function InteractiveHeroSection({
         </div>
       </div>
 
-      <div style={{ background: 'rgba(5,5,14,0.92)', borderTop: '1px solid rgba(255,255,255,0.06)', padding: '12px 0', overflow: 'hidden' }}>
-        <div style={{ display: 'flex', whiteSpace: 'nowrap', animation: 'ticker 35s linear infinite' }}>
+      <div className="py-12 overflow-hidden" style={{ background: 'rgba(5,5,14,0.92)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex whitespace-nowrap" style={{ animation: 'ticker 35s linear infinite' }}>
           {[...Array(2)].map((_, i) => (
-            <div key={i} style={{ display: 'flex' }}>
+            <div key={i} className="flex">
               {marqueeItems.map(text => (
-                <span key={text} style={{ display: 'inline-flex', alignItems: 'center', gap: '16px', padding: '0 36px', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', ...M, fontWeight: 700 }}>
-                  <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: B_PRI, boxShadow: `0 0 8px ${B_GLO}` }} />
+                <span key={text} className="inline-flex items-center gap-16 px-36 font-mono font-bold tracking-widest uppercase text-white/25" style={{ fontSize: '10px' }}>
+                  <div className="w-[5px] h-[5px] rounded-full" style={{ background: B_PRI, boxShadow: `0 0 8px ${B_GLO}` }} />
                   {text}
                 </span>
               ))}

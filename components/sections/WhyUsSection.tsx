@@ -406,11 +406,11 @@ export default function WhyUsSection({
 
   if (layout === 'bento-table') {
     return (
-      <section className="section" style={{ overflow: 'visible', background: 'var(--bg-2)', borderBottom: '1px solid var(--border)' }}>
+      <section className="section overflow-visible bg-subtle" style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '64px', maxWidth: '720px', margin: '0 auto 64px' }}>
-            {eyebrow && <p className="eyebrow" style={{ justifyContent: 'center', marginBottom: '16px' }}>{eyebrow}</p>}
-            <h2 style={{ ...F, fontSize: 'clamp(2rem,4.5vw,3rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '20px' }}>
+          <div className="text-center mb-64 max-w-720 mx-auto">
+            {eyebrow && <p className="eyebrow justify-center mb-16">{eyebrow}</p>}
+            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter" style={{ fontSize: 'clamp(2rem,4.5vw,3rem)' }}>
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
@@ -419,63 +419,41 @@ export default function WhyUsSection({
               ))}
             </h2>
             {desc && (
-              <p style={{ fontSize: '15.5px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+              <p className="text-gray-2 leading-loose" style={{ fontSize: '15.5px' }}>
                 {desc}
               </p>
             )}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          <div className="flex flex-col gap-32">
             {safe.map((b, i) => (
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="sr card-hover" 
-                style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column',
-                  padding: '40px', 
-                  background: 'rgba(8, 8, 18, 0.7)', 
-                  border: '1px solid rgba(255,255,255,0.06)', 
-                  borderRadius: '24px', 
-                  position: 'relative', 
-                  transition: 'all 0.4s var(--ease)',
-                  scrollMarginTop: '100px'
-                }}
+                className="sr card-hover flex flex-col p-40 rounded-2xl relative bg-subtle-2 border-subtle-2" 
+                style={{ scrollMarginTop: '100px' }}
               >
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', borderRadius: '24px', background: 'radial-gradient(ellipse at center, rgba(118,108,255,0.03) 0%, transparent 60%)' }} />
+                <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, rgba(118,108,255,0.03) 0%, transparent 60%)' }} />
                 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '32px', position: 'relative' }}>
-                  <div style={{ 
-                    flexShrink: 0, 
-                    width: '56px', 
-                    height: '56px', 
-                    borderRadius: '14px', 
-                    background: 'var(--primary-soft)', 
-                    border: '1px solid rgba(118,108,255,0.2)', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    color: 'var(--primary)', 
-                    padding: '14px' 
-                  }}>
+                <div className="flex items-center gap-20 mb-32 relative">
+                  <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary" style={{ width: '56px', height: '56px', border: '1px solid rgba(118,108,255,0.2)', padding: '14px' }}>
                     {getIconForWhyUs(b.icon, b.title)}
                   </div>
                   <div>
-                    <h3 style={{ ...F, fontSize: '24px', fontWeight: 800, color: '#fff', marginBottom: '6px', letterSpacing: '-0.02em' }}>{b.title}</h3>
-                    <p style={{ ...F, fontSize: '12px', fontWeight: 600, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{b.subhead}</p>
+                    <h3 className="font-display font-extrabold text-2xl text-white mb-6 tracking-tight">{b.title}</h3>
+                    <p className="font-display font-semibold text-sm text-primary uppercase tracking-widest">{b.subhead}</p>
                   </div>
                   
                   {(b.price || b.href) && (
-                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '24px' }}>
+                    <div className="ml-auto flex items-center gap-24">
                       {b.price && (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', display: 'none' /* hide price on mobile, or keep flex and hide with media query, we will just show it inline */ }} className="hidden md-flex">
-                          <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-4)', letterSpacing: '0.05em', marginBottom: '2px' }}>Starting at</span>
-                          <span style={{ fontSize: '24px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{b.price}</span>
+                        <div className="hidden md-flex flex-col items-end">
+                          <span className="text-xs uppercase text-gray-4 tracking-wider mb-4">Starting at</span>
+                          <span className="text-2xl font-extrabold text-white leading-none">{b.price}</span>
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-md" style={{ flexShrink: 0, padding: '12px 24px', borderRadius: '8px', fontSize: '13.5px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <Link href={b.href} className="btn btn-primary btn-md shrink-0 uppercase tracking-wider font-semibold rounded-lg" style={{ padding: '12px 24px', fontSize: '13.5px' }}>
                           Get Started
                         </Link>
                       )}
@@ -483,7 +461,7 @@ export default function WhyUsSection({
                   )}
                 </div>
                 
-                <div style={{ position: 'relative' }}>
+                <div className="relative">
                   {renderBentoContent(b.desc)}
                 </div>
               </div>
@@ -491,7 +469,7 @@ export default function WhyUsSection({
           </div>
           
           {ctaLabel && (
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '64px' }}>
+            <div className="flex justify-center mt-64">
               <Link href={ctaHref || '/contact'} className="btn btn-primary btn-lg sr">
                 {ctaLabel}
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -507,11 +485,11 @@ export default function WhyUsSection({
 
   if (layout === 'rows') {
     return (
-      <section className="section" style={{ overflow: 'visible', background: 'linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)', borderBottom: '1px solid var(--border)' }}>
+      <section className="section overflow-visible" style={{ background: 'linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ marginBottom: '56px', maxWidth: '720px' }}>
-            {eyebrow && <p className="eyebrow" style={{ marginBottom: '12px' }}>{eyebrow}</p>}
-            <h2 style={{ ...F, fontSize: 'clamp(2rem,4.5vw,3rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '18px' }}>
+          <div className="mb-64 max-w-720">
+            {eyebrow && <p className="eyebrow mb-12">{eyebrow}</p>}
+            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter" style={{ fontSize: 'clamp(2rem,4.5vw,3rem)' }}>
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
@@ -520,46 +498,32 @@ export default function WhyUsSection({
               ))}
             </h2>
             {desc && (
-              <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+              <p className="text-gray-2 leading-loose text-base">
                 {desc}
               </p>
             )}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="flex flex-col border-t" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             {safe.map((b, i) => (
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="premium-row sr" 
+                className="premium-row sr relative items-center py-40 gap-40" 
                 style={{ 
                   display: 'grid', 
                   gridTemplateColumns: '1.2fr 1fr 220px',
-                  gap: '40px', 
-                  padding: '40px 0', 
-                  alignItems: 'center',
-                  position: 'relative',
                   scrollMarginTop: '100px'
                 }}
               >
                 {/* Column 1: Icon & Title & Desc */}
-                <div style={{ display: 'flex', gap: '20px', alignItems: 'start' }}>
-                  <div className="row-icon-container" style={{ 
-                    flexShrink: 0, 
-                    width: '48px', 
-                    height: '48px', 
-                    borderRadius: '12px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    color: 'var(--primary)', 
-                    padding: '12px' 
-                  }}>
+                <div className="flex items-start gap-20">
+                  <div className="row-icon-container shrink-0 flex items-center justify-center rounded-xl text-primary p-12" style={{ width: '48px', height: '48px' }}>
                     {getIconForWhyUs(b.icon, b.title)}
                   </div>
                   <div>
-                    <h3 className="row-title" style={{ ...F, fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '4px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{b.title}</h3>
-                    <p style={{ ...F, fontSize: '11px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{b.subhead}</p>
+                    <h3 className="row-title font-display font-extrabold text-white mb-4 tracking-tight leading-tight text-xl">{b.title}</h3>
+                    <p className="font-display font-semibold text-primary mb-10 uppercase tracking-widest text-xs">{b.subhead}</p>
                     {renderFormattedContent(b.desc)}
                   </div>
                 </div>
@@ -567,24 +531,15 @@ export default function WhyUsSection({
                 {/* Column 2: Features checklist */}
                 <div className="premium-row__features-col">
                   {b.features && (
-                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: 0, margin: 0, listStyle: 'none' }}>
+                    <ul className="flex flex-col gap-10 p-0 m-0" style={{ listStyle: 'none' }}>
                       {b.features.split(',').map((feat, idx) => (
-                        <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-2)' }}>
-                          <div style={{ 
-                            width: '16px', 
-                            height: '16px', 
-                            borderRadius: '4px', 
-                            background: 'rgba(118, 108, 255, 0.1)', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center',
-                            flexShrink: 0
-                          }}>
+                        <li key={idx} className="flex items-center gap-10 text-gray-2">
+                          <div className="shrink-0 flex items-center justify-center rounded" style={{ width: '16px', height: '16px', background: 'rgba(118, 108, 255, 0.1)' }}>
                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
                           </div>
-                          <span style={{ fontSize: '13.5px', color: 'var(--text-2)' }}>{feat.trim()}</span>
+                          <span className="text-gray-2" style={{ fontSize: '13.5px' }}>{feat.trim()}</span>
                         </li>
                       ))}
                     </ul>
@@ -592,24 +547,15 @@ export default function WhyUsSection({
                 </div>
 
                 {/* Column 3: Price & CTA button */}
-                <div className="premium-row__cta-col" style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'flex-end', 
-                  justifyContent: 'center', 
-                  gap: '16px',
-                  borderLeft: '1px solid rgba(255,255,255,0.06)',
-                  paddingLeft: '32px',
-                  height: '100%'
-                }}>
+                <div className="premium-row__cta-col flex flex-col items-end justify-center gap-16 h-full pl-32" style={{ borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
                   {b.price && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                      <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-3)', letterSpacing: '0.08em', marginBottom: '2px' }}>Starting at</span>
-                      <span style={{ fontSize: '26px', fontWeight: 800, color: '#fff', lineHeight: 1.1 }}>{b.price}</span>
+                    <div className="flex flex-col items-end">
+                      <span className="text-xs uppercase text-gray-3 tracking-widest mb-4">Starting at</span>
+                      <span className="font-extrabold text-white leading-tight" style={{ fontSize: '26px' }}>{b.price}</span>
                     </div>
                   )}
                   {b.href && (
-                    <Link href={b.href} className="btn btn-primary btn-md" style={{ width: '100%', textAlign: 'center', justifyContent: 'center' }}>
+                    <Link href={b.href} className="btn btn-primary btn-md w-full justify-center text-center">
                       Get Started
                     </Link>
                   )}
@@ -683,11 +629,11 @@ export default function WhyUsSection({
 
   if (layout === 'grid') {
     return (
-      <section className="section" style={{ overflow:'visible' }}>
+      <section className="section overflow-visible">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '56px', maxWidth: '720px', margin: '0 auto 56px' }}>
-            {eyebrow && <p className="eyebrow" style={{ justifyContent: 'center', marginBottom: '12px' }}>{eyebrow}</p>}
-            <h2 style={{ ...F, fontSize: 'clamp(2rem,4.5vw,3rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.04em', color: '#fff', marginBottom: '18px' }}>
+          <div className="text-center mb-64 max-w-720 mx-auto">
+            {eyebrow && <p className="eyebrow justify-center mb-12">{eyebrow}</p>}
+            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter" style={{ fontSize: 'clamp(2rem,4.5vw,3rem)' }}>
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
@@ -696,65 +642,40 @@ export default function WhyUsSection({
               ))}
             </h2>
             {desc && (
-              <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+              <p className="text-gray-2 leading-loose text-base">
                 {desc}
               </p>
             )}
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
-            marginBottom: ctaLabel ? '48px' : 0
-          }}>
+          <div className="g" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', marginBottom: ctaLabel ? '48px' : 0 }}>
             {safe.map((b, i) => (
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="sr card-hover" 
+                className="sr card-hover flex flex-col gap-16 p-32 rounded-2xl relative bg-subtle-2 border-subtle" 
                 style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column',
-                  gap: '16px', 
-                  padding: '28px', 
-                  background: 'rgba(8, 8, 18, 0.6)', 
-                  border: '1px solid var(--border)', 
-                  borderRadius: '20px', 
-                  position: 'relative', 
                   animationDelay: `${i*0.08}s`,
                   backdropFilter: 'blur(10px)',
                   scrollMarginTop: '100px'
                 }}
               >
-                <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(118,108,255,0.3), transparent)', pointerEvents: 'none' }} />
+                <div className="absolute inset-0 h-1 pointer-events-none" style={{ left: '10%', right: '10%', background: 'linear-gradient(90deg, transparent, rgba(118,108,255,0.3), transparent)' }} />
                 
-                <div style={{ 
-                  flexShrink: 0, 
-                  width: '48px', 
-                  height: '48px', 
-                  borderRadius: '12px', 
-                  background: 'var(--primary-soft)', 
-                  border: '1px solid rgba(118,108,255,0.2)', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  color: 'var(--primary)', 
-                  padding: '12px' 
-                }}>
+                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12" style={{ width: '48px', height: '48px', border: '1px solid rgba(118,108,255,0.2)' }}>
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
                 
-                <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                  <p style={{ ...F, fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>{b.title}</p>
-                  <p style={{ ...F, fontSize: '12px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{b.subhead}</p>
+                <div className="flex flex-col grow-1">
+                  <p className="font-display font-bold text-white mb-4 text-lg">{b.title}</p>
+                  <p className="font-display font-semibold text-primary mb-10 uppercase tracking-wider text-sm">{b.subhead}</p>
                   {renderFormattedContent(b.desc)}
                   
                   {b.features && (
-                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: 0, margin: '16px 0 24px 0', listStyle: 'none', fontSize: '13px' }}>
+                    <ul className="flex flex-col gap-8 p-0 list-none text-sm my-16">
                       {b.features.split(',').map((feat, idx) => (
-                        <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-2)' }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                        <li key={idx} className="flex items-center gap-8 text-gray-2">
+                          <svg className="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12"></polyline>
                           </svg>
                           <span>{feat.trim()}</span>
@@ -764,15 +685,15 @@ export default function WhyUsSection({
                   )}
 
                   {(b.price || b.href) && (
-                    <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                    <div className="mt-auto pt-16 flex items-center justify-between gap-12" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                       {b.price && (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-4)', letterSpacing: '0.05em' }}>Starting at</span>
-                          <span style={{ fontSize: '18px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{b.price}</span>
+                        <div className="flex flex-col">
+                          <span className="text-xs uppercase text-gray-4 tracking-wider">Starting at</span>
+                          <span className="font-extrabold text-white leading-none text-lg">{b.price}</span>
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-sm" style={{ padding: '6px 14px', fontSize: '11.5px', fontWeight: 600, borderRadius: '8px' }}>
+                        <Link href={b.href} className="btn btn-primary btn-sm font-semibold rounded-lg" style={{ padding: '6px 14px', fontSize: '11.5px' }}>
                           Get Started
                         </Link>
                       )}
@@ -784,7 +705,7 @@ export default function WhyUsSection({
           </div>
 
           {ctaLabel && (
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+            <div className="flex justify-center mt-40">
               <Link href={ctaHref || '/contact'} className="btn btn-primary btn-lg sr">
                 {ctaLabel}
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -799,12 +720,12 @@ export default function WhyUsSection({
   }
 
   return (
-    <section className="section" style={{ overflow:'visible' }}>
+    <section className="section overflow-visible">
       <div className="container">
-        <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
+        <div className="g-2 items-start" style={{ gap:'80px' }}>
           <div className="sticky-mobile-fix lg:sticky" style={{ position:'sticky', top:'88px' }}>
             <p className="eyebrow sr">{eyebrow}</p>
-            <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
+            <h2 className="sr font-display font-extrabold mb-20 leading-tight tracking-tighter" style={{ fontSize:'clamp(2rem,4vw,3rem)' }}>
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i === 1 ? (
@@ -819,9 +740,9 @@ export default function WhyUsSection({
             </h2>
             
             {desc ? (
-              <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.85, marginBottom:'32px' }}>{desc}</p>
+              <p className="text-gray-2 mb-32 leading-loose text-base">{desc}</p>
             ) : (
-              <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.85, marginBottom:'32px' }}>We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code — business growth.</p>
+              <p className="text-gray-2 mb-32 leading-loose text-base">We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code — business growth.</p>
             )}
 
             {ctaLabel ? (
@@ -841,22 +762,22 @@ export default function WhyUsSection({
             )}
           </div>
           
-          <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
+          <div className="flex flex-col gap-16">
             {safe.map((b,i) => (
-              <div key={i} id={getHashIdFromTitle(b.title)} className="sr card-hover" style={{ display:'flex', gap:'18px', padding:'24px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'16px', overflow:'hidden', position:'relative', animationDelay:`${i*0.08}s`, scrollMarginTop: '100px' }}>
-                <div style={{ flexShrink:0, width:'48px', height:'48px', borderRadius:'12px', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', padding:'12px' }}>
+              <div key={i} id={getHashIdFromTitle(b.title)} className="sr card-hover flex gap-20 p-24 bg-subtle-2 border-subtle rounded-xl relative overflow-hidden" style={{ animationDelay:`${i*0.08}s`, scrollMarginTop: '100px' }}>
+                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12" style={{ width:'48px', height:'48px', border:'1px solid rgba(118,108,255,0.2)' }}>
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                  <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'3px' }}>{b.title}</p>
-                  <p style={{ ...F, fontSize:'12px', fontWeight:600, color:'var(--primary)', marginBottom:'8px' }}>{b.subhead}</p>
+                <div className="flex flex-col grow-1">
+                  <p className="font-display font-bold text-white mb-4 text-base">{b.title}</p>
+                  <p className="font-display font-semibold text-primary mb-8 uppercase tracking-widest text-sm">{b.subhead}</p>
                   {renderFormattedContent(b.desc)}
 
                   {b.features && (
-                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: 0, margin: '16px 0 24px 0', listStyle: 'none', fontSize: '13px' }}>
+                    <ul className="flex flex-col gap-8 p-0 list-none text-sm my-16">
                       {b.features.split(',').map((feat, idx) => (
-                        <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-2)' }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                        <li key={idx} className="flex items-center gap-8 text-gray-2">
+                          <svg className="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="20 6 9 17 4 12"></polyline>
                           </svg>
                           <span>{feat.trim()}</span>
@@ -866,15 +787,15 @@ export default function WhyUsSection({
                   )}
 
                   {(b.price || b.href) && (
-                    <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                    <div className="mt-auto pt-16 flex items-center justify-between gap-12" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                       {b.price && (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--text-4)', letterSpacing: '0.05em' }}>Starting at</span>
-                          <span style={{ fontSize: '18px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{b.price}</span>
+                        <div className="flex flex-col">
+                          <span className="text-xs uppercase text-gray-4 tracking-wider">Starting at</span>
+                          <span className="font-extrabold text-white leading-none text-lg">{b.price}</span>
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-sm" style={{ padding: '6px 14px', fontSize: '11.5px', fontWeight: 600, borderRadius: '8px' }}>
+                        <Link href={b.href} className="btn btn-primary btn-sm font-semibold rounded-lg" style={{ padding: '6px 14px', fontSize: '11.5px' }}>
                           Get Started
                         </Link>
                       )}

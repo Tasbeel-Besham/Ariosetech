@@ -235,25 +235,25 @@ export default function PortfolioSection({
       <section id="projects" className="section section--dark" style={{ paddingTop: '80px' }}>
         <div className="container">
           
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap', marginBottom: '40px' }}>
+          <div className="flex items-end justify-between gap-20 flex-wrap mb-40">
             <div>
-              <p className="eyebrow" style={{ ...M, fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.14em', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', fontWeight: 700 }}>
-                <span style={{ opacity: 0.5 }}>—</span> {eyebrow}
+              <p className="eyebrow font-mono text-primary uppercase tracking-widest flex items-center gap-8 mb-14 font-bold" style={{ fontSize: '10px' }}>
+                <span className="opacity-50">—</span> {eyebrow}
               </p>
-              <h2 style={{ ...F, fontSize:'clamp(2.4rem,4vw,3.5rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', color:'#fff', maxWidth:'700px' }}>
+              <h2 className="font-display font-extrabold leading-none tracking-tighter text-white max-w-[700px]" style={{ fontSize:'clamp(2.4rem,4vw,3.5rem)' }}>
                 {headline}
               </h2>
             </div>
             {intro && (
-              <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', maxWidth: '340px', lineHeight: 1.75, marginLeft: 'auto' }}>
+              <div className="text-right">
+                <p className="text-base text-gray-2 max-w-[340px] leading-relaxed ml-auto">
                   {intro}
                 </p>
               </div>
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', paddingBottom: '32px', flexWrap: 'wrap' }}>
+          <div className="flex gap-10 pb-32 flex-wrap">
             <button className={`fb ${filter === 'all' ? 'on' : ''}`} onClick={() => setFilter('all')}>All Projects</button>
             {displayCats.map(c => (
               <button key={c} className={`fb ${filter === c ? 'on' : ''}`} onClick={() => setFilter(c)}>
@@ -262,7 +262,7 @@ export default function PortfolioSection({
             ))}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '40px' }}>
+          <div className="flex flex-col pb-40">
             {filtered.map((item, i) => {
               const catClass = (item.cat || 'other').toLowerCase()
               const itemUrl = item.slug ? `/portfolio/${catClass}/${item.slug}` : (item.url || '#')
@@ -280,8 +280,8 @@ export default function PortfolioSection({
                   <div className="pnum">{String(i + 1).padStart(2, '0')}</div>
                   <div>
                     <div className="pname">{item.title}</div>
-                    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                      <span className={`ptag ${catClass}`} style={{ ...M, fontSize: '10px', padding: '3px 12px', borderRadius: '100px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                    <div className="flex gap-6 flex-wrap mb-8">
+                      <span className={`ptag ${catClass} font-mono px-12 py-3 rounded-full font-bold uppercase tracking-widest`} style={{ fontSize: '10px' }}>
                         {item.platform || catClass}
                       </span>
                     </div>
@@ -289,10 +289,10 @@ export default function PortfolioSection({
                   </div>
                   
                   {/* Stats desktop only to match HTML layout cleanly */}
-                  <div className="hidden md:flex" style={{ gap: '24px', flexShrink: 0 }}>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ ...F, fontSize: '1.25rem', fontWeight: 900, background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', lineHeight: 1 }}>{item.result}</div>
-                      <div style={{ ...M, fontSize: '9px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '4px', fontWeight: 600 }}>{item.resultLabel}</div>
+                  <div className="hidden md-flex shrink-0 gap-24">
+                    <div className="text-right">
+                      <div className="font-display font-black leading-none text-gradient" style={{ fontSize: '1.25rem' }}>{item.result}</div>
+                      <div className="font-mono text-gray-3 uppercase tracking-wider mt-4 font-semibold" style={{ fontSize: '9px' }}>{item.resultLabel}</div>
                     </div>
                   </div>
                   
@@ -302,50 +302,49 @@ export default function PortfolioSection({
             })}
           </div>
           
-          <div style={{ textAlign: 'center' }}>
+          <div className="text-center">
              <Link href={ctaHref} className="btn btn-outline btn-md">{ctaLabel}</Link>
           </div>
         </div>
       </section>
 
       {/* POPUP */}
-      <div ref={wrapRef} className="portfolio-popup" style={{
-        position: 'fixed', width: '300px', height: '220px', borderRadius: '16px', overflow: 'hidden', pointerEvents: 'none', zIndex: 9999,
+      <div ref={wrapRef} className="portfolio-popup fixed w-[300px] h-[220px] rounded-2xl overflow-hidden pointer-events-none z-[9999]" style={{
         opacity: hovered ? 1 : 0, transform: hovered ? 'scale(1) translateY(0)' : 'scale(0.88) translateY(8px)',
         transition: 'opacity .22s cubic-bezier(.16,1,.3,1), transform .22s cubic-bezier(.16,1,.3,1)',
         border: '1px solid rgba(118,108,255,.35)', boxShadow: '0 32px 80px rgba(0,0,0,.85), 0 0 0 1px rgba(118,108,255,.1)'
       }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '28px', background: 'rgba(6,6,18,.98)', display: 'flex', alignItems: 'center', gap: '5px', padding: '0 12px', zIndex: 3, borderBottom: '1px solid rgba(255,255,255,.06)' }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f57' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#febc2e' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#28c840' }} />
-          <div style={{ ...M, fontSize: '9px', color: 'rgba(240,240,255,.3)', marginLeft: '8px', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 600 }}>
+        <div className="absolute top-0 left-0 right-0 h-28 flex items-center gap-6 px-12 z-[3]" style={{ background: 'rgba(6,6,18,.98)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-grad" />
+          <div className="w-8 h-8 rounded-full" style={{ background: '#ff5f57' }} />
+          <div className="w-8 h-8 rounded-full" style={{ background: '#febc2e' }} />
+          <div className="w-8 h-8 rounded-full" style={{ background: '#28c840' }} />
+          <div className="font-mono ml-8 flex-1 overflow-hidden whitespace-nowrap text-ellipsis font-semibold" style={{ fontSize: '9px', color: 'rgba(240,240,255,.3)' }}>
             {hovered && hovered.url ? hovered.url.replace(/https?:\/\//, '') : 'Preview'}
           </div>
         </div>
         
-        <div style={{ position: 'absolute', top: '28px', left: 0, right: 0, bottom: 0, overflow: 'hidden', background: 'var(--bg-2)' }}>
+        <div className="absolute top-28 left-0 right-0 bottom-0 overflow-hidden bg-subtle-2">
           {loadingImg && (
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', zIndex: 4, background: 'var(--bg-2)' }}>
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-12 z-[4] bg-subtle-2">
               <div className="spin" />
-              <div style={{ ...M, fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>Loading preview...</div>
+              <div className="font-mono tracking-widest" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)' }}>Loading preview...</div>
             </div>
           )}
           {imgError && (
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 4, background: 'var(--bg-2)' }}>
-              <div style={{ ...M, fontSize: '10px', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em' }}>Preview unavailable</div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-[4] bg-subtle-2">
+              <div className="font-mono tracking-widest" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>Preview unavailable</div>
             </div>
           )}
           
-          <img ref={imgRef} src="" alt="" draggable="false" style={{ width: '100%', display: 'block', position: 'absolute', top: 0, left: 0 }} />
+          <img ref={imgRef} src="" alt="" draggable="false" className="w-full block absolute top-0 left-0" />
           
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(5,5,8,.8) 0%, transparent 40%)', zIndex: 2, pointerEvents: 'none' }} />
+          <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(5,5,8,.8) 0%, transparent 40%)' }} />
           
           {hovered && (
-            <div style={{ position: 'absolute', bottom: '10px', left: '10px', right: '10px', zIndex: 3, display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              <div style={{ padding: '4px 10px', borderRadius: '6px', background: 'rgba(6,6,18,.88)', border: '1px solid rgba(118,108,255,.25)', ...M, fontSize: '9px', fontWeight: 700, color: '#fff', backdropFilter: 'blur(8px)' }}>
-                <span style={{ color: 'var(--primary)' }}>{hovered.result}</span> {hovered.resultLabel}
+            <div className="absolute bottom-10 left-10 right-10 z-[3] flex gap-6 flex-wrap">
+              <div className="font-mono font-bold text-white px-10 py-4 rounded-md backdrop-blur-sm" style={{ background: 'rgba(6,6,18,.88)', border: '1px solid rgba(118,108,255,.25)', fontSize: '9px' }}>
+                <span className="text-primary">{hovered.result}</span> {hovered.resultLabel}
               </div>
             </div>
           )}

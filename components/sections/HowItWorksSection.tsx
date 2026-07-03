@@ -1,38 +1,45 @@
 "use client";
+import SectionHeader from '@/components/ui/SectionHeader'
+
 type Step = { n: string; title: string; sub: string; desc: string }
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; intro?: string; items?: Step[]; steps?: Step[] }
 
 export default function HowItWorksSection({ eyebrow='Our Process', headline='How It Works', subheadline, intro, items=[], steps=[] }: Props) {
-  const F = { fontFamily:'var(--font-display)' } as const
-  const M = { fontFamily:'var(--font-mono)' } as const
   const safe = items.length ? items : steps
   const sub = subheadline || intro || ''
+  
   return (
-    <section className="section" style={{ position:'relative', overflow:'hidden' }}>
-      <div style={{ position:'absolute', left:'50%', top:'160px', bottom:'80px', width:'1px', background:'linear-gradient(to bottom, transparent, rgba(118,108,255,0.20) 20%, rgba(118,108,255,0.20) 80%, transparent)', pointerEvents:'none' }} className="hidden-mobile" />
-      <div className="container" style={{ position:'relative', zIndex:1 }}>
-        <div style={{ textAlign:'center', marginBottom:'72px' }}>
-          <p className="eyebrow sr" style={{ justifyContent:'center' }}>{eyebrow}</p>
-          <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>{headline}</h2>
-          {sub && <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8, maxWidth:'480px', margin:'16px auto 0' }}>{sub}</p>}
+    <section className="section relative overflow-hidden">
+      <div className="absolute hidden-mobile pointer-events-none" style={{ left:'50%', top:'160px', bottom:'80px', width:'1px', background:'linear-gradient(to bottom, transparent, rgba(118,108,255,0.20) 20%, rgba(118,108,255,0.20) 80%, transparent)' }} />
+      <div className="container relative z-10">
+        <div className="mb-64">
+          <SectionHeader
+            eyebrow={eyebrow}
+            headline={headline}
+            desc={sub}
+            center
+            mb={0}
+            headlineClass="font-display font-extrabold tracking-tighter"
+          />
         </div>
-        <div style={{ display:'flex', flexDirection:'column', gap:'32px', maxWidth:'900px', margin:'0 auto' }}>
+        
+        <div className="flex flex-col gap-32 mx-auto" style={{ maxWidth: '900px' }}>
           {safe.map((step,i) => {
             const isRight = i % 2 !== 0
             const card = (dir: 'left'|'right') => (
-              <div className="card-hover" style={{ background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'20px', padding:'32px 36px', overflow:'hidden', position:'relative', transition:'all 0.3s var(--ease)' }}>
-                <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
-                <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
-                <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
-                <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{step.desc}</p>
+              <div className="card-hover bg-subtle border-subtle rounded-2xl relative overflow-hidden p-32">
+                <p className="font-display font-extrabold leading-none mb-16 select-none" style={{ fontSize:'clamp(3rem,4vw,3.8rem)', color:'rgba(118,108,255,0.15)' }}>{step.n}</p>
+                <p className="font-display font-extrabold text-white mb-6" style={{ fontSize: '17px' }}>{step.title}</p>
+                <p className="font-display font-semibold text-primary mb-12 uppercase tracking-widest text-xs">{step.sub}</p>
+                <p className="text-gray-2 leading-loose text-sm">{step.desc}</p>
               </div>
             )
             return (
-              <div key={i} className="sr" style={{ animationDelay:`${i*0.1}s`, display:'grid', gridTemplateColumns:'1fr 80px 1fr', alignItems:'center' }}>
+              <div key={i} className="sr items-center" style={{ animationDelay:`${i*0.1}s`, display:'grid', gridTemplateColumns:'1fr 80px 1fr' }}>
                 {isRight ? <div /> : card('left')}
-                <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-                  <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:'var(--primary-soft)', border:'2px solid rgba(118,108,255,0.35)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                    <span style={{ ...M, fontSize:'12px', fontWeight:800, color:'var(--primary)' }}>{step.n}</span>
+                <div className="flex flex-col items-center">
+                  <div className="shrink-0 flex items-center justify-center rounded-full bg-soft text-primary" style={{ width:'44px', height:'44px', border:'2px solid rgba(118,108,255,0.35)' }}>
+                    <span className="font-mono font-extrabold text-xs">{step.n}</span>
                   </div>
                 </div>
                 {!isRight ? <div /> : card('right')}
