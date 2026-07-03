@@ -30,75 +30,69 @@ export default function AdminLogin() {
     else { setError('Invalid username or password'); setLoading(false) }
   }
 
-  return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-      {/* Background glow */}
-      <div style={{ position: 'fixed', inset: 0, background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(79,110,247,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-[11px] px-3.5 text-sm text-white outline-none box-border font-body transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-2"
 
-      <div style={{ width: '100%', maxWidth: '400px', position: 'relative' }}>
+  return (
+    <div className="min-h-screen bg-bg flex items-center justify-center p-5">
+      {/* Background glow */}
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(79,110,247,0.1)_0%,transparent_70%)] pointer-events-none" />
+
+      <div className="w-full max-w-[400px] relative">
         {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          {logoUrl ? (<img src={logoUrl} alt="ARIOSETECH" style={{ height: '40px', width: 'auto', objectFit: 'contain', margin: '0 auto', display: 'block' }} />) : (<div style={{ fontFamily: 'var(--font-logo)', fontSize: '28px', color: '#fff', textAlign: 'center' }}>ARIOSETECH</div>)}
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+        <div className="text-center mb-10">
+          {logoUrl ? (<img src={logoUrl} alt="ARIOSETECH" className="h-10 w-auto object-contain mx-auto block" />) : (<div className="font-logo text-[28px] text-white text-center">ARIOSETECH</div>)}
+          <p className="font-mono text-[11px] text-text-3 mt-2 uppercase tracking-[0.12em]">
             Admin Dashboard
           </p>
         </div>
 
         {/* Card */}
-        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '20px', padding: '36px' }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 800, color: 'var(--text)', marginBottom: '6px', letterSpacing: '-0.02em' }}>
+        <div className="bg-bg-2 border border-border rounded-[20px] p-9">
+          <h1 className="font-display text-[22px] font-extrabold text-white mb-1.5 tracking-[-0.02em]">
             Sign in
           </h1>
-          <p style={{ fontSize: '13px', color: 'var(--text-3)', marginBottom: '28px' }}>
+          <p className="text-[13px] text-text-3 mb-7">
             Enter your credentials to continue
           </p>
 
-          <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <form onSubmit={submit} className="flex flex-col gap-4">
             <div>
-              <label style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: '8px' }}>
+              <label className={lblClass}>
                 Username
               </label>
               <input
                 type="text" value={username} onChange={e => setUsername(e.target.value)}
                 placeholder="admin" autoComplete="username" required
-                style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '10px', padding: '11px 14px', fontSize: '14px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-body)', transition: 'border-color 0.2s' }}
-                onFocus={e => (e.target.style.borderColor = 'rgba(79,110,247,0.5)')}
-                onBlur={e => (e.target.style.borderColor = 'var(--border)')}
+                className={inpClass}
               />
             </div>
 
             <div>
-              <label style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: '8px' }}>
+              <label className={lblClass}>
                 Password
               </label>
               <input
                 type="password" value={password} onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••" autoComplete="current-password" required
-                style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '10px', padding: '11px 14px', fontSize: '14px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-body)', transition: 'border-color 0.2s' }}
-                onFocus={e => (e.target.style.borderColor = 'rgba(79,110,247,0.5)')}
-                onBlur={e => (e.target.style.borderColor = 'var(--border)')}
+                className={inpClass}
               />
             </div>
 
             {error && (
-              <div style={{ background: 'rgba(255,77,109,0.1)', border: '1px solid rgba(255,77,109,0.3)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: '#ff4d6d', textAlign: 'center' }}>
+              <div className="bg-[rgba(255,77,109,0.1)] border border-[rgba(255,77,109,0.3)] rounded-lg py-2.5 px-3.5 text-[13px] text-[#ff4d6d] text-center">
                 {error}
               </div>
             )}
 
-            <button type="submit" disabled={loading} style={{
-              width: '100%', padding: '12px', borderRadius: '10px', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
-              background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)',
-              color: '#fff', fontSize: '14px', fontWeight: 700, fontFamily: 'var(--font-display)',
-              opacity: loading ? 0.7 : 1, transition: 'opacity 0.2s',
-            }}>
+            <button type="submit" disabled={loading} className="w-full py-3 rounded-lg border-none cursor-pointer bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-sm font-bold font-display transition-opacity hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed">
               {loading ? 'Signing in…' : 'Sign In →'}
             </button>
           </form>
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '12px', color: 'var(--text-3)' }}>
-          <Link href="/" style={{ color: 'var(--text-3)', textDecoration: 'none' }}>← Back to website</Link>
+        <p className="text-center mt-5 text-xs text-text-3">
+          <Link href="/" className="text-text-3 no-underline transition-colors hover:text-white">← Back to website</Link>
         </p>
       </div>
     </div>

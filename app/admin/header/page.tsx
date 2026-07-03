@@ -50,78 +50,78 @@ export default function HeaderAdmin() {
     setUploading(false)
   }
 
-  const inp = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box' as const, fontFamily: 'var(--font-body)' }
-  const lbl = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
-  const card = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '20px' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3.5 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
+  const cardClass = "bg-bg-2 border border-border rounded-2xl p-6 mb-5"
 
   const logoUrl = String(config.logo || '').replace(/^\/+/, '')
 
-  if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
+  if (loading) return <AdminShell><div className="p-10 text-center text-text-3">Loading…</div></AdminShell>
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px', maxWidth: '800px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="p-8 max-w-[800px]">
+        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.03em' }}>Header Builder</h1>
-            <p style={{ fontSize: '13px', color: 'var(--text-3)', marginTop: '4px' }}>Configure your site header</p>
+            <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Header Builder</h1>
+            <p className="text-[13px] text-text-3 mt-1">Configure your site header</p>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <a href="/" target="_blank" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', borderRadius: '10px', border: '1px solid var(--border)', color: 'var(--text-3)', textDecoration: 'none', fontSize: '13px' }}>
+          <div className="flex gap-2.5">
+            <a href="/" target="_blank" className="flex items-center gap-1.5 py-2.5 px-4 rounded-lg border border-border text-text-3 no-underline text-[13px] transition-colors hover:bg-bg-3 hover:text-white">
               <Eye size={14} /> Preview
             </a>
-            <button onClick={save} disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
+            <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90">
               <Save size={14} /> {saving ? 'Saving…' : 'Save'}
             </button>
           </div>
         </div>
 
         {/* Logo */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>🖼 Logo</h2>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">🖼 Logo</h2>
 
           {/* Upload area */}
-          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', marginBottom: '16px' }}>
+          <div className="flex gap-4 items-start mb-4 max-sm:flex-col">
 
             {/* Preview box */}
-            <div style={{ width: '120px', height: '80px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', position: 'relative' }}>
+            <div className="w-[120px] h-20 bg-bg-3 border border-border rounded-xl flex items-center justify-center shrink-0 overflow-hidden relative">
               {logoUrl && logoUrl.startsWith('http') ? (
-                <Image src={logoUrl} alt="Logo preview" fill style={{ objectFit: 'contain', padding: '8px' }} unoptimized />
+                <Image src={logoUrl} alt="Logo preview" fill className="object-contain p-2" unoptimized />
               ) : (
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)' }}>No logo</span>
+                <span className="font-mono text-[10px] text-text-3">No logo</span>
               )}
             </div>
 
             {/* Upload controls */}
-            <div style={{ flex: 1 }}>
-              <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}
+            <div className="flex-1 w-full">
+              <input ref={fileRef} type="file" accept="image/*" className="hidden"
                 onChange={e => { if (e.target.files?.[0]) uploadLogo(e.target.files[0]) }} />
 
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+              <div className="flex gap-2 mb-2.5 flex-wrap">
                 <button onClick={() => fileRef.current?.click()} disabled={uploading}
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border-2)', background: 'var(--bg-3)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', justifyContent: 'center' }}>
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border-2 bg-bg-3 text-white text-[13px] font-semibold cursor-pointer transition-colors hover:border-[rgba(79,110,247,0.5)] hover:text-primary min-w-[120px]">
                   <Upload size={14} />
                   {uploading ? 'Uploading…' : 'Upload New'}
                 </button>
                 <button onClick={() => set('showMediaModal', true)}
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border-2)', background: 'var(--bg-3)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', justifyContent: 'center' }}>
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border-2 bg-bg-3 text-white text-[13px] font-semibold cursor-pointer transition-colors hover:border-[rgba(79,110,247,0.5)] hover:text-primary min-w-[120px]">
                   <Eye size={14} />
                   Media Library
                 </button>
               </div>
 
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', marginBottom: '10px' }}>
+              <p className="font-mono text-[10px] text-text-3 mb-2.5">
                 PNG, SVG, WebP recommended. Transparent background works best.
               </p>
 
               {/* Or paste URL */}
               <div>
-                <label style={lbl}>Or paste URL directly</label>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <label className={lblClass}>Or paste URL directly</label>
+                <div className="flex gap-2">
                   <input value={logoUrl} onChange={e => set('logo', e.target.value)}
-                    placeholder="https://..." style={{ ...inp, flex: 1 }} />
+                    placeholder="https://..." className={`${inpClass} flex-1`} />
                   {logoUrl && (
-                    <button onClick={() => set('logo', '')} style={{ padding: '10px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-3)', color: 'var(--red)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                    <button onClick={() => set('logo', '')} className="p-2.5 rounded-lg border border-border bg-bg-3 text-[#ff4d6d] cursor-pointer flex items-center transition-colors hover:border-[#ff4d6d]/40">
                       <X size={14} />
                     </button>
                   )}
@@ -130,9 +130,9 @@ export default function HeaderAdmin() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px', gap: '12px' }}>
-            <div><label style={lbl}>Logo Alt Text</label><input value={String(config.logoAlt || '')} onChange={e => set('logoAlt', e.target.value)} style={inp} /></div>
-            <div><label style={lbl}>Width (px)</label><input type="number" value={Number(config.logoWidth || 160)} onChange={e => set('logoWidth', Number(e.target.value))} style={inp} /></div>
+          <div className="grid grid-cols-[1fr_120px] gap-3 max-sm:grid-cols-1">
+            <div><label className={lblClass}>Logo Alt Text</label><input value={String(config.logoAlt || '')} onChange={e => set('logoAlt', e.target.value)} className={inpClass} /></div>
+            <div><label className={lblClass}>Width (px)</label><input type="number" value={Number(config.logoWidth || 160)} onChange={e => set('logoWidth', Number(e.target.value))} className={inpClass} /></div>
           </div>
         </div>
 
@@ -145,45 +145,45 @@ export default function HeaderAdmin() {
         )}
 
         {/* Top bar */}
-        <div style={card}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>📢 Top Bar</h2>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-              <input type="checkbox" checked={Boolean(config.showTopBar)} onChange={e => set('showTopBar', e.target.checked)} />
-              <span style={{ fontSize: '13px', color: 'var(--text-2)' }}>Show top bar</span>
+        <div className={cardClass}>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-display text-[15px] font-bold text-white">📢 Top Bar</h2>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={Boolean(config.showTopBar)} onChange={e => set('showTopBar', e.target.checked)} className="accent-primary" />
+              <span className="text-[13px] text-text-2">Show top bar</span>
             </label>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div><label style={lbl}>Phone</label><input value={String(config.topBarPhone || '')} onChange={e => set('topBarPhone', e.target.value)} style={inp} /></div>
-            <div><label style={lbl}>Email</label><input value={String(config.topBarEmail || '')} onChange={e => set('topBarEmail', e.target.value)} style={inp} /></div>
-            <div style={{ gridColumn: 'span 2' }}><label style={lbl}>Status Text</label><input value={String(config.topBarText || '')} onChange={e => set('topBarText', e.target.value)} placeholder="Available for new projects" style={inp} /></div>
+          <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+            <div><label className={lblClass}>Phone</label><input value={String(config.topBarPhone || '')} onChange={e => set('topBarPhone', e.target.value)} className={inpClass} /></div>
+            <div><label className={lblClass}>Email</label><input value={String(config.topBarEmail || '')} onChange={e => set('topBarEmail', e.target.value)} className={inpClass} /></div>
+            <div className="col-span-2 max-sm:col-span-1"><label className={lblClass}>Status Text</label><input value={String(config.topBarText || '')} onChange={e => set('topBarText', e.target.value)} placeholder="Available for new projects" className={inpClass} /></div>
           </div>
         </div>
 
         {/* CTA Buttons */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>🔘 CTA Buttons</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div><label style={lbl}>Primary Button Label</label><input value={String(config.ctaPrimaryLabel || '')} onChange={e => set('ctaPrimaryLabel', e.target.value)} style={inp} /></div>
-            <div><label style={lbl}>Primary Button URL</label><input value={String(config.ctaPrimaryHref || '')} onChange={e => set('ctaPrimaryHref', e.target.value)} style={inp} /></div>
-            <div><label style={lbl}>Secondary Button Label</label><input value={String(config.ctaSecondaryLabel || '')} onChange={e => set('ctaSecondaryLabel', e.target.value)} style={inp} /></div>
-            <div><label style={lbl}>Secondary Button URL</label><input value={String(config.ctaSecondaryHref || '')} onChange={e => set('ctaSecondaryHref', e.target.value)} style={inp} /></div>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">🔘 CTA Buttons</h2>
+          <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+            <div><label className={lblClass}>Primary Button Label</label><input value={String(config.ctaPrimaryLabel || '')} onChange={e => set('ctaPrimaryLabel', e.target.value)} className={inpClass} /></div>
+            <div><label className={lblClass}>Primary Button URL</label><input value={String(config.ctaPrimaryHref || '')} onChange={e => set('ctaPrimaryHref', e.target.value)} className={inpClass} /></div>
+            <div><label className={lblClass}>Secondary Button Label</label><input value={String(config.ctaSecondaryLabel || '')} onChange={e => set('ctaSecondaryLabel', e.target.value)} className={inpClass} /></div>
+            <div><label className={lblClass}>Secondary Button URL</label><input value={String(config.ctaSecondaryHref || '')} onChange={e => set('ctaSecondaryHref', e.target.value)} className={inpClass} /></div>
           </div>
         </div>
 
         {/* Options */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>⚙️ Options</h2>
-          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">⚙️ Options</h2>
+          <div className="flex gap-6 flex-wrap">
             {[
               { key: 'sticky', label: 'Sticky header', desc: 'Header stays on scroll' },
               { key: 'transparent', label: 'Transparent on load', desc: 'Transparent until scrolled' },
             ].map(({ key, label, desc }) => (
-              <label key={key} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-                <input type="checkbox" checked={Boolean(config[key])} onChange={e => set(key, e.target.checked)} style={{ width: '16px', height: '16px' }} />
+              <label key={key} className="flex items-center gap-2.5 cursor-pointer">
+                <input type="checkbox" checked={Boolean(config[key])} onChange={e => set(key, e.target.checked)} className="w-4 h-4 accent-primary" />
                 <div>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text)' }}>{label}</p>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)' }}>{desc}</p>
+                  <p className="text-[13px] font-semibold text-white">{label}</p>
+                  <p className="font-mono text-[10px] text-text-3">{desc}</p>
                 </div>
               </label>
             ))}

@@ -23,28 +23,28 @@ export default function TrackingAdmin() {
     setSaving(false); toast.success('Tracking saved! Redeploy to apply.')
   }
 
-  const inp = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box' as const, fontFamily: 'var(--font-mono)' }
-  const lbl = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
-  const card = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '20px' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3.5 text-[13px] text-white outline-none box-border font-mono transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
+  const cardClass = "bg-bg-2 border border-border rounded-2xl p-6 mb-5"
 
-  if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
+  if (loading) return <AdminShell><div className="p-10 text-center text-text-3">Loading…</div></AdminShell>
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px', maxWidth: '800px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="p-8 max-w-[800px]">
+        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.03em' }}>Tracking & Analytics</h1>
-            <p style={{ fontSize: '13px', color: 'var(--text-3)', marginTop: '4px' }}>Connect analytics and tracking tools</p>
+            <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Tracking & Analytics</h1>
+            <p className="text-[13px] text-text-3 mt-1">Connect analytics and tracking tools</p>
           </div>
-          <button onClick={save} disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
+          <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
             <Save size={14} /> {saving ? 'Saving…' : 'Save'}
           </button>
         </div>
 
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>📊 Analytics IDs</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">📊 Analytics IDs</h2>
+          <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
             {[
               { key: 'googleAnalyticsId',   label: 'Google Analytics 4 ID',  placeholder: 'G-XXXXXXXXXX' },
               { key: 'googleTagManagerId',  label: 'Google Tag Manager ID',   placeholder: 'GTM-XXXXXXX' },
@@ -53,31 +53,31 @@ export default function TrackingAdmin() {
               { key: 'clarityId',           label: 'Microsoft Clarity ID',     placeholder: 'xxxxxxxxxx' },
             ].map(({ key, label, placeholder }) => (
               <div key={key}>
-                <label style={lbl}>{label}</label>
-                <input value={config[key] || ''} onChange={e => set(key, e.target.value)} placeholder={placeholder} style={inp} />
+                <label className={lblClass}>{label}</label>
+                <input value={config[key] || ''} onChange={e => set(key, e.target.value)} placeholder={placeholder} className={inpClass} />
               </div>
             ))}
           </div>
         </div>
 
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '8px' }}>📜 Custom Scripts</h2>
-          <p style={{ fontSize: '12px', color: 'var(--text-3)', marginBottom: '20px' }}>Add custom HTML/JS scripts (e.g. live chat, CRMs). These require a code update to inject.</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-2">📜 Custom Scripts</h2>
+          <p className="text-xs text-text-3 mb-5">Add custom HTML/JS scripts (e.g. live chat, CRMs). These require a code update to inject.</p>
+          <div className="flex flex-col gap-4">
             <div>
-              <label style={lbl}>Head Scripts (before &lt;/head&gt;)</label>
-              <textarea value={config.customHeadScripts || ''} onChange={e => set('customHeadScripts', e.target.value)} rows={4} placeholder="<!-- Your scripts here -->" style={{ ...inp, resize: 'vertical', lineHeight: 1.6 }} />
+              <label className={lblClass}>Head Scripts (before &lt;/head&gt;)</label>
+              <textarea value={config.customHeadScripts || ''} onChange={e => set('customHeadScripts', e.target.value)} rows={4} placeholder="<!-- Your scripts here -->" className={`${inpClass} resize-y leading-[1.6]`} />
             </div>
             <div>
-              <label style={lbl}>Body Scripts (before &lt;/body&gt;)</label>
-              <textarea value={config.customBodyScripts || ''} onChange={e => set('customBodyScripts', e.target.value)} rows={4} placeholder="<!-- Your scripts here -->" style={{ ...inp, resize: 'vertical', lineHeight: 1.6 }} />
+              <label className={lblClass}>Body Scripts (before &lt;/body&gt;)</label>
+              <textarea value={config.customBodyScripts || ''} onChange={e => set('customBodyScripts', e.target.value)} rows={4} placeholder="<!-- Your scripts here -->" className={`${inpClass} resize-y leading-[1.6]`} />
             </div>
           </div>
         </div>
 
-        <div style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '12px', padding: '16px 20px' }}>
-          <p style={{ fontSize: '13px', color: 'var(--text-2)' }}>
-            ⚠️ <strong>Note:</strong> Tracking IDs require a Vercel redeploy to take effect. Custom scripts need to be injected via your layout.tsx.
+        <div className="bg-[rgba(251,191,36,0.06)] border border-[rgba(251,191,36,0.2)] rounded-xl py-4 px-5">
+          <p className="text-[13px] text-text-2">
+            ⚠️ <strong className="text-white">Note:</strong> Tracking IDs require a Vercel redeploy to take effect. Custom scripts need to be injected via your layout.tsx.
           </p>
         </div>
       </div>

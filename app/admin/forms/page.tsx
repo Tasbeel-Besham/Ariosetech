@@ -37,89 +37,89 @@ export default function FormsAdmin() {
     toast.success('Embed code copied!')
   }
 
-  const inp = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '9px 12px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box' as const, fontFamily: 'var(--font-body)' }
-  const lbl = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3.5 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px', maxWidth: '900px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="p-8 max-w-[900px]">
+        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.03em' }}>Contact Forms</h1>
-            <p style={{ fontSize: '13px', color: 'var(--text-3)', marginTop: '4px' }}>Build forms that capture leads</p>
+            <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Contact Forms</h1>
+            <p className="text-[13px] text-text-3 mt-1">Build forms that capture leads</p>
           </div>
-          <button onClick={() => setCreating(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
+          <button onClick={() => setCreating(true)} className="flex items-center gap-2 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90">
             <Plus size={15} /> New Form
           </button>
         </div>
 
         {/* Create form */}
         {creating && (
-          <div style={{ background: 'var(--bg-2)', border: '1px solid rgba(79,110,247,0.3)', borderRadius: '16px', padding: '28px', marginBottom: '24px' }}>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>New Form</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
-              <div><label style={lbl}>Form Name</label><input value={newForm.name} onChange={e => setNewForm(f => ({ ...f, name: e.target.value }))} style={inp} /></div>
-              <div><label style={lbl}>Send Emails To</label><input value={newForm.emailTo} onChange={e => setNewForm(f => ({ ...f, emailTo: e.target.value }))} style={inp} /></div>
-              <div><label style={lbl}>Email Subject</label><input value={newForm.emailSubject} onChange={e => setNewForm(f => ({ ...f, emailSubject: e.target.value }))} style={inp} /></div>
-              <div><label style={lbl}>Success Message</label><input value={newForm.successMessage} onChange={e => setNewForm(f => ({ ...f, successMessage: e.target.value }))} style={inp} /></div>
+          <div className="bg-bg-2 border border-primary/30 rounded-2xl p-7 mb-6">
+            <h3 className="font-display text-base font-bold text-white mb-5">New Form</h3>
+            <div className="grid grid-cols-2 gap-3.5 mb-3.5 max-sm:grid-cols-1">
+              <div><label className={lblClass}>Form Name</label><input value={newForm.name} onChange={e => setNewForm(f => ({ ...f, name: e.target.value }))} className={inpClass} /></div>
+              <div><label className={lblClass}>Send Emails To</label><input value={newForm.emailTo} onChange={e => setNewForm(f => ({ ...f, emailTo: e.target.value }))} className={inpClass} /></div>
+              <div><label className={lblClass}>Email Subject</label><input value={newForm.emailSubject} onChange={e => setNewForm(f => ({ ...f, emailSubject: e.target.value }))} className={inpClass} /></div>
+              <div><label className={lblClass}>Success Message</label><input value={newForm.successMessage} onChange={e => setNewForm(f => ({ ...f, successMessage: e.target.value }))} className={inpClass} /></div>
             </div>
 
             {/* Fields */}
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <label style={{ ...lbl, marginBottom: 0 }}>Form Fields</label>
-                <button onClick={addField} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '5px 10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '12px' }}>
+            <div className="mb-5">
+              <div className="flex justify-between items-center mb-3">
+                <label className={`${lblClass} mb-0`}>Form Fields</label>
+                <button onClick={addField} className="flex items-center gap-1 py-1.5 px-2.5 rounded-md border border-border bg-transparent text-text-3 cursor-pointer text-xs transition-colors hover:text-white hover:bg-bg-3">
                   <Plus size={11} /> Add Field
                 </button>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div className="flex flex-col gap-2">
                 {newForm.fields.map((field, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px 100px auto', gap: '8px', alignItems: 'center', background: 'var(--bg-3)', padding: '10px', borderRadius: '10px' }}>
-                    <input value={field.label} onChange={e => updateField(i, 'label', e.target.value)} placeholder="Label" style={{ ...inp, fontSize: '12px', padding: '7px 10px' }} />
-                    <input value={field.name} onChange={e => updateField(i, 'name', e.target.value)} placeholder="field_name" style={{ ...inp, fontSize: '12px', padding: '7px 10px', fontFamily: 'var(--font-mono)' }} />
-                    <select value={field.type} onChange={e => updateField(i, 'type', e.target.value)} style={{ ...inp, fontSize: '12px', padding: '7px 10px' }}>
+                  <div key={i} className="grid grid-cols-[1fr_1fr_120px_100px_auto] gap-2 items-center bg-bg-3 p-2.5 rounded-lg max-md:grid-cols-[1fr_1fr] max-sm:grid-cols-1">
+                    <input value={field.label} onChange={e => updateField(i, 'label', e.target.value)} placeholder="Label" className={`${inpClass} text-xs py-[7px] px-2.5`} />
+                    <input value={field.name} onChange={e => updateField(i, 'name', e.target.value)} placeholder="field_name" className={`${inpClass} text-xs py-[7px] px-2.5 font-mono`} />
+                    <select value={field.type} onChange={e => updateField(i, 'type', e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`}>
                       {['text', 'email', 'phone', 'textarea', 'select'].map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', color: 'var(--text-2)' }}>
-                      <input type="checkbox" checked={field.required} onChange={e => updateField(i, 'required', e.target.checked)} />
+                    <label className="flex items-center gap-1.5 cursor-pointer text-xs text-text-2">
+                      <input type="checkbox" checked={field.required} onChange={e => updateField(i, 'required', e.target.checked)} className="accent-primary" />
                       Required
                     </label>
-                    <button onClick={() => removeField(i)} style={{ padding: '7px', borderRadius: '6px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-3)' }} className="hover:text-[#ff4d6d]">
+                    <button onClick={() => removeField(i)} className="p-2 rounded-md border-none bg-transparent cursor-pointer text-text-3 transition-colors hover:text-[#ff4d6d]">
                       <Trash2 size={13} />
                     </button>
                   </div>
                 ))}
                 {newForm.fields.length === 0 && (
-                  <p style={{ textAlign: 'center', color: 'var(--text-3)', fontSize: '13px', padding: '16px' }}>Add fields above</p>
+                  <p className="text-center text-text-3 text-[13px] p-4">Add fields above</p>
                 )}
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={save} style={{ padding: '10px 24px', borderRadius: '10px', border: 'none', background: 'var(--blue)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>Create Form</button>
-              <button onClick={() => setCreating(false)} style={{ padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-3)', fontSize: '13px', cursor: 'pointer' }}>Cancel</button>
+            <div className="flex gap-2.5">
+              <button onClick={save} className="py-2.5 px-6 rounded-lg border-none bg-[color:var(--blue)] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90">Create Form</button>
+              <button onClick={() => setCreating(false)} className="py-2.5 px-[18px] rounded-lg border border-border bg-transparent text-text-3 text-[13px] cursor-pointer transition-colors hover:bg-bg-3">Cancel</button>
             </div>
           </div>
         )}
 
         {/* Forms list */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {loading ? <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div> :
-          forms.length === 0 ? <div style={{ padding: '60px', textAlign: 'center', background: 'var(--bg-2)', border: '1px dashed var(--border)', borderRadius: '16px', color: 'var(--text-3)' }}>No forms yet. Create one above.</div> :
+        <div className="flex flex-col gap-3">
+          {loading ? <div className="p-10 text-center text-text-3">Loading…</div> :
+          forms.length === 0 ? <div className="p-[60px] text-center bg-bg-2 border border-dashed border-border rounded-2xl text-text-3">No forms yet. Create one above.</div> :
           forms.map(form => (
-            <div key={form._id} style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+            <div key={form._id} className="bg-bg-2 border border-border rounded-[14px] p-5 flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '4px' }}>{form.name}</p>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)' }}>{form.fields?.length || 0} fields</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)' }}>→ {form.emailTo}</span>
+                <p className="font-display text-[15px] font-bold text-white mb-1">{form.name}</p>
+                <div className="flex gap-3 items-center">
+                  <span className="font-mono text-[11px] text-text-3">{form.fields?.length || 0} fields</span>
+                  <span className="font-mono text-[11px] text-text-3">→ {form.emailTo}</span>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <button onClick={() => copyEmbedCode(form._id)} title="Copy embed code" style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '7px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '12px', fontFamily: 'var(--font-display)' }}>
+              <div className="flex gap-2">
+                <button onClick={() => copyEmbedCode(form._id)} title="Copy embed code" className="flex items-center gap-1.5 py-2 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display transition-colors hover:text-white hover:bg-bg-3">
                   <Copy size={12} /> Embed Code
                 </button>
-                <button onClick={() => del(form._id)} style={{ padding: '7px 8px', borderRadius: '8px', border: '1px solid var(--border)', background: 'none', cursor: 'pointer', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }} className="hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]">
+                <button onClick={() => del(form._id)} className="py-2 px-2.5 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 flex items-center transition-colors hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]">
                   <Trash2 size={13} />
                 </button>
               </div>

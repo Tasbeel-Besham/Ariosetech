@@ -92,22 +92,22 @@ export default function FooterAdmin() {
     setSaving(false); toast.success('Footer saved! Refresh the site to see changes.')
   }
 
-  const inp: React.CSSProperties = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-md)', padding: '9px 12px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-body)' }
-  const lbl: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
-  const card: React.CSSProperties = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '20px' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
+  const cardClass = "bg-bg-2 border border-border rounded-2xl p-6 mb-5"
 
-  if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
+  if (loading) return <AdminShell><div className="p-10 text-center text-text-3">Loading…</div></AdminShell>
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px', maxWidth: '960px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="p-8 max-w-[960px]">
+        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
           <div>
             <h1 className="admin-page__title">Footer Builder</h1>
             <p className="admin-page__subtitle">Changes reflect live on the website</p>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <Link href="/#footer" target="_blank" className="btn btn-outline btn-md"><Eye size={14} /> Preview</Link>
+          <div className="flex gap-2.5">
+            <Link href="/#footer" target="_blank" className="btn btn-outline btn-md no-underline"><Eye size={14} /> Preview</Link>
             <button onClick={save} disabled={saving} className="btn btn-primary btn-md">
               <Save size={14} /> {saving ? 'Saving…' : 'Save Footer'}
             </button>
@@ -115,64 +115,62 @@ export default function FooterAdmin() {
         </div>
 
         {/* CTA */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>📢 CTA Banner</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div><label style={lbl}>Headline</label><input value={String(config.ctaHeadline || '')} onChange={e => set('ctaHeadline', e.target.value)} style={inp} /></div>
-            <div><label style={lbl}>Description</label><input value={String(config.ctaDesc || '')} onChange={e => set('ctaDesc', e.target.value)} style={inp} /></div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div><label style={lbl}>CTA Button Label</label><input value={String(config.ctaPrimaryLabel || '')} onChange={e => set('ctaPrimaryLabel', e.target.value)} style={inp} /></div>
-              <div><label style={lbl}>CTA Button URL</label><input value={String(config.ctaPrimaryHref || '')} onChange={e => set('ctaPrimaryHref', e.target.value)} style={inp} /></div>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">📢 CTA Banner</h2>
+          <div className="flex flex-col gap-3">
+            <div><label className={lblClass}>Headline</label><input value={String(config.ctaHeadline || '')} onChange={e => set('ctaHeadline', e.target.value)} className={inpClass} /></div>
+            <div><label className={lblClass}>Description</label><input value={String(config.ctaDesc || '')} onChange={e => set('ctaDesc', e.target.value)} className={inpClass} /></div>
+            <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+              <div><label className={lblClass}>CTA Button Label</label><input value={String(config.ctaPrimaryLabel || '')} onChange={e => set('ctaPrimaryLabel', e.target.value)} className={inpClass} /></div>
+              <div><label className={lblClass}>CTA Button URL</label><input value={String(config.ctaPrimaryHref || '')} onChange={e => set('ctaPrimaryHref', e.target.value)} className={inpClass} /></div>
             </div>
           </div>
         </div>
 
         {/* Tagline */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '14px' }}>✍️ Brand Tagline</h2>
-          <div><label style={lbl}>Tagline (shown under logo in footer)</label>
-            <textarea value={String(config.tagline || '')} onChange={e => set('tagline', e.target.value)} rows={2} style={{ ...inp, resize: 'vertical' }} />
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-[14px]">✍️ Brand Tagline</h2>
+          <div><label className={lblClass}>Tagline (shown under logo in footer)</label>
+            <textarea value={String(config.tagline || '')} onChange={e => set('tagline', e.target.value)} rows={2} className={`${inpClass} resize-y`} />
           </div>
         </div>
 
         {/* Link Columns */}
-        <div style={card}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>🔗 Navigation Columns</h2>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={populateMegaMenu} className="btn btn-outline btn-sm" style={{ borderColor: 'rgba(118,108,255,0.4)', color: 'var(--primary)' }}>Populate Mega Menu</button>
+        <div className={cardClass}>
+          <div className="flex justify-between items-center mb-5 flex-wrap gap-3">
+            <h2 className="font-display text-[15px] font-bold text-white">🔗 Navigation Columns</h2>
+            <div className="flex gap-2">
+              <button onClick={populateMegaMenu} className="btn btn-outline btn-sm border-primary/40 text-primary hover:border-primary hover:bg-primary/5">Populate Mega Menu</button>
               <button onClick={addCol} className="btn btn-outline btn-sm"><Plus size={12} /> Add Column</button>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px' }}>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
             {cols.map((col, ci) => (
-              <div key={ci} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                  <input value={col.title} onChange={e => updateCol(ci, 'title', e.target.value)} style={{ ...inp, width: 'auto', flex: 1, fontWeight: 700, fontSize: '14px', fontFamily: 'var(--font-display)' }} placeholder="Column Title" />
-                  <button onClick={() => removeCol(ci)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-3)', flexShrink: 0, padding: '0 4px' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')} onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>
+              <div key={ci} className="bg-bg-3 border border-border rounded-xl p-4">
+                <div className="flex justify-between mb-3 gap-2">
+                  <input value={col.title} onChange={e => updateCol(ci, 'title', e.target.value)} className={`${inpClass} flex-1 w-auto font-bold text-sm font-display`} placeholder="Column Title" />
+                  <button onClick={() => removeCol(ci)} className="bg-transparent border-none cursor-pointer text-text-3 shrink-0 px-1 transition-colors hover:text-[#ff4d6d]">
                     <Trash2 size={13} />
                   </button>
                 </div>
                 {col.links.map((link, li) => (
-                  <div key={li} style={{ display: 'flex', gap: '5px', marginBottom: '5px', alignItems: 'center' }}>
-                    <input value={link.label} onChange={e => updateLink(ci, li, 'label', e.target.value)} style={{ ...inp, flex: 1, fontSize: '12px', padding: '6px 8px' }} placeholder="Label" />
-                    <input value={link.href} onChange={e => updateLink(ci, li, 'href', e.target.value)} style={{ ...inp, flex: 1, fontSize: '11px', padding: '6px 8px', fontFamily: 'var(--font-mono)' }} placeholder="/url" />
-                    <button onClick={() => removeLink(ci, li)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-3)', padding: '0 2px' }}
-                      onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')} onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>✕</button>
+                  <div key={li} className="flex gap-[5px] mb-[5px] items-center">
+                    <input value={link.label} onChange={e => updateLink(ci, li, 'label', e.target.value)} className={`${inpClass} flex-1 text-xs py-1.5 px-2`} placeholder="Label" />
+                    <input value={link.href} onChange={e => updateLink(ci, li, 'href', e.target.value)} className={`${inpClass} flex-1 text-[11px] py-1.5 px-2 font-mono`} placeholder="/url" />
+                    <button onClick={() => removeLink(ci, li)} className="bg-transparent border-none cursor-pointer text-text-3 px-[2px] transition-colors hover:text-[#ff4d6d]">✕</button>
                   </div>
                 ))}
-                <button onClick={() => addLink(ci)} style={{ width: '100%', padding: '6px', borderRadius: '6px', border: '1px dashed var(--border)', background: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '11px', marginTop: '4px' }}>+ Add Link</button>
+                <button onClick={() => addLink(ci)} className="w-full py-1.5 rounded-md border border-dashed border-border bg-transparent text-text-3 cursor-pointer text-[11px] mt-1 hover:text-white hover:border-text-3">+ Add Link</button>
               </div>
             ))}
           </div>
         </div>
 
         {/* Bottom text */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '14px' }}>⬇️ Bottom Copyright Bar</h2>
-          <div><label style={lbl}>Copyright Text</label>
-            <input value={String(config.bottomText || '')} onChange={e => set('bottomText', e.target.value)} style={inp} />
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-[14px]">⬇️ Bottom Copyright Bar</h2>
+          <div><label className={lblClass}>Copyright Text</label>
+            <input value={String(config.bottomText || '')} onChange={e => set('bottomText', e.target.value)} className={inpClass} />
           </div>
         </div>
 

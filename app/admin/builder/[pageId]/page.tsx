@@ -13,8 +13,7 @@ import { BuilderToolbar } from '@/components/builder/toolbar/BuilderToolbar'
 import { SectionPicker } from '@/components/builder/panels/SectionPicker'
 import { PropertiesPanel } from '@/components/builder/panels/PropertiesPanel'
 import { SectionListPanel } from '@/components/builder/panels/SectionListPanel'
-import Link from 'next/link'
-import { Plus, Settings, ArrowRight } from 'lucide-react'
+import { Plus } from 'lucide-react'
 
 initRegistry()
 
@@ -48,37 +47,36 @@ export default function BuilderPage() {
   }
 
   if (loading) return (
-    <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '3px solid var(--border)', borderTopColor: 'var(--blue)', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
-        <p style={{ color: 'var(--text-3)', fontSize: '14px', fontFamily: 'var(--font-body)' }}>Loading builder…</p>
+    <div className="h-screen flex items-center justify-center bg-bg">
+      <div className="text-center">
+        <div className="w-10 h-10 rounded-full border-[3px] border-border border-t-primary animate-spin mx-auto mb-4" />
+        <p className="text-text-3 text-sm font-body">Loading builder…</p>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </div>
   )
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)', overflow: 'hidden' }}>
+    <div className="h-screen flex flex-col bg-bg overflow-hidden">
       {/* Top toolbar */}
       <BuilderToolbar onAddSection={() => setPickerOpen(true)} />
 
       {/* Three-column layout: section list | canvas | properties */}
-      <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+      <div className="flex-1 flex overflow-hidden">
 
         {/* LEFT: Section list panel */}
         <SectionListPanel onAddSection={() => setPickerOpen(true)} />
 
         {/* CENTER: Canvas */}
-        <div className='builder-canvas' style={{ flex: 1, overflowY: 'auto', background: 'var(--bg)', position: 'relative' }}>
+        <div className='builder-canvas flex-1 overflow-y-auto bg-bg relative'>
           {layout.sections.length === 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80%', gap: 'var(--space-4)', padding: 'var(--space-8)' }}>
-              <div style={{ width: '64px', height: '64px', borderRadius: 'var(--radius-xl)', background: 'rgba(79,110,247,0.1)', border: '1px solid rgba(79,110,247,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Plus size={28} style={{ color: 'var(--blue)' }} />
+            <div className="flex flex-col items-center justify-center min-h-[80%] gap-4 p-8">
+              <div className="w-16 h-16 rounded-[var(--radius-xl)] bg-[rgba(79,110,247,0.1)] border border-[rgba(79,110,247,0.2)] flex items-center justify-center">
+                <Plus size={28} className="text-primary" />
               </div>
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--text)', marginBottom: '8px' }}>Empty canvas</p>
-                <p style={{ fontSize: '14px', color: 'var(--text-3)', marginBottom: '24px', maxWidth: '280px', lineHeight: 1.6 }}>Add sections from the left panel or click the button below</p>
-                <button onClick={() => setPickerOpen(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: 'var(--radius-lg)', border: 'none', background: 'var(--gradient-primary)', color: '#fff', fontSize: '14px', fontWeight: 700, fontFamily: 'var(--font-display)', cursor: 'pointer' }}>
+              <div className="text-center">
+                <p className="font-display text-[20px] font-bold text-white mb-2">Empty canvas</p>
+                <p className="text-sm text-text-3 mb-6 max-w-[280px] leading-[1.6]">Add sections from the left panel or click the button below</p>
+                <button onClick={() => setPickerOpen(true)} className="inline-flex items-center gap-2 py-3 px-6 rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-sm font-bold font-display cursor-pointer transition-opacity hover:opacity-90">
                   <Plus size={16} /> Add First Section
                 </button>
               </div>
@@ -92,8 +90,8 @@ export default function BuilderPage() {
                   ))}
                 </SortableContext>
               </DndContext>
-              <div style={{ padding: 'var(--space-6)', display: 'flex', justifyContent: 'center' }}>
-                <button onClick={() => setPickerOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: 'var(--radius-md)', border: '1px dashed var(--border-2)', background: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '13px', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }} className="hover:border-[rgba(79,110,247,0.5)] hover:text-[var(--blue)]">
+              <div className="p-6 flex justify-center">
+                <button onClick={() => setPickerOpen(true)} className="flex items-center gap-2 py-2.5 px-5 rounded-md border border-dashed border-border-2 bg-transparent text-text-3 cursor-pointer text-[13px] font-body transition-all hover:border-[rgba(79,110,247,0.5)] hover:text-primary">
                   <Plus size={14} /> Add Section
                 </button>
               </div>

@@ -150,17 +150,17 @@ export default function MenusAdmin() {
     toast.success('Reset to defaults — click Save to apply')
   }
 
-  const inp: React.CSSProperties = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-md)', padding: '8px 12px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-body)', transition: 'border-color 0.15s' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2 px-3 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px', maxWidth: '860px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="p-8 max-w-[860px]">
+        <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
           <div>
             <h1 className="admin-page__title">Menus</h1>
             <p className="admin-page__subtitle">Manage navigation menus for header, footer, and mobile</p>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="flex gap-2.5">
             <button onClick={resetToDefault} className="btn btn-outline btn-md">Reset to Default</button>
             <button onClick={save} disabled={saving} className="btn btn-primary btn-md">
               <Save size={14} /> {saving ? 'Saving…' : 'Save Menu'}
@@ -169,17 +169,11 @@ export default function MenusAdmin() {
         </div>
 
         {/* Location tabs */}
-        <div style={{ display: 'flex', gap: '6px', marginBottom: '24px', borderBottom: '1px solid var(--border)', paddingBottom: '16px' }}>
+        <div className="flex gap-1.5 mb-6 border-b border-border pb-4 flex-wrap">
           {LOCATIONS.map(loc => (
-            <button key={loc.value} onClick={() => setActive(loc.value)} style={{
-              padding: '8px 18px', borderRadius: '100px', cursor: 'pointer',
-              border: `1px solid ${active === loc.value ? 'rgba(118,108,255,0.5)' : 'var(--border)'}`,
-              background: active === loc.value ? 'var(--primary-soft)' : 'transparent',
-              color: active === loc.value ? 'var(--primary)' : 'var(--text-3)',
-              fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-display)', transition: 'all 0.2s',
-            }}>
+            <button key={loc.value} onClick={() => setActive(loc.value)} className={`py-2 px-[18px] rounded-full cursor-pointer text-[13px] font-semibold font-display transition-all border ${active === loc.value ? 'border-primary/50 bg-primary/10 text-primary' : 'border-border bg-transparent text-text-3'}`}>
               {loc.label}
-              <span style={{ marginLeft: '6px', fontFamily: 'var(--font-mono)', fontSize: '10px', opacity: 0.7 }}>
+              <span className="ml-1.5 font-mono text-[10px] opacity-70">
                 ({menus.find(m => m.location === loc.value)?.items.length ?? `${DEFAULTS[loc.value]?.length} default`})
               </span>
             </button>
@@ -188,80 +182,72 @@ export default function MenusAdmin() {
 
         {/* Note if using defaults */}
         {!menus.find(m => m.location === active) && (
-          <div className="info-box" style={{ marginBottom: '16px' }}>
+          <div className="info-box mb-4">
             📋 Showing <strong>default menu items</strong> — click <strong>Save Menu</strong> to save these to your database, or edit and save your custom menu.
           </div>
         )}
 
         {/* Items editor */}
-        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
+        <div className="bg-bg-2 border border-border rounded-2xl overflow-hidden">
           {/* Header */}
-          <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700, color: 'var(--text)' }}>
+          <div className="py-3.5 px-[18px] border-b border-border flex justify-between items-center flex-wrap gap-3">
+            <p className="font-display text-sm font-bold text-white">
               {LOCATIONS.find(l => l.value === active)?.label} ({currentItems.length} items)
             </p>
             <button onClick={addItem} className="btn btn-outline btn-sm"><Plus size={12} /> Add Item</button>
           </div>
 
           {/* Items list */}
-          <div style={{ padding: '12px' }}>
+          <div className="p-3">
             {loading ? (
-              <div style={{ padding: '32px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div>
+              <div className="p-8 text-center text-text-3">Loading…</div>
             ) : currentItems.length === 0 ? (
-              <div style={{ padding: '32px', textAlign: 'center' }}>
-                <p style={{ color: 'var(--text-3)', fontSize: '13px', marginBottom: '12px' }}>No items yet.</p>
+              <div className="p-8 text-center">
+                <p className="text-text-3 text-[13px] mb-3">No items yet.</p>
                 <button onClick={addItem} className="btn btn-primary btn-md"><Plus size={13} /> Add First Item</button>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div className="flex flex-col gap-1.5">
                 {currentItems.map((item, i) => (
-                  <div key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '10px', overflow: 'hidden' }}>
+                  <div key={i} className="bg-bg-3 border border-border rounded-[10px] overflow-hidden">
                     {/* Main item row */}
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '10px 12px' }}>
-                      <GripVertical size={14} style={{ color: 'var(--text-3)', flexShrink: 0, cursor: 'grab' }} />
-                      <input value={item.label} onChange={e => updateItem(i, 'label', e.target.value)}
-                        style={{ ...inp, flex: '0 0 160px', fontWeight: 600 }} placeholder="Label"
-                        onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')}
-                        onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
-                      <input value={item.href} onChange={e => updateItem(i, 'href', e.target.value)}
-                        style={{ ...inp, flex: 1, fontFamily: 'var(--font-mono)', fontSize: '12px' }} placeholder="/url"
-                        onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')}
-                        onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
-                      <select value={item.target || '_self'} onChange={e => updateItem(i, 'target', e.target.value)}
-                        style={{ ...inp, width: '100px', cursor: 'pointer', fontSize: '12px' }}>
-                        <option value="_self">Same tab</option>
-                        <option value="_blank">New tab</option>
-                      </select>
-                      <button onClick={() => addChild(i)}
-                        style={{ padding: '7px 10px', borderRadius: '7px', border: '1px solid var(--border)', background: 'none', cursor: 'pointer', color: 'var(--text-3)', fontSize: '11px', whiteSpace: 'nowrap', fontFamily: 'var(--font-display)' }}>
-                        + Sub
-                      </button>
-                      <button onClick={() => removeItem(i)}
-                        style={{ padding: '7px', borderRadius: '7px', border: '1px solid var(--border)', background: 'none', cursor: 'pointer', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')}
-                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>
-                        <Trash2 size={13} />
-                      </button>
+                    <div className="flex gap-2 items-center p-2.5 flex-wrap max-md:flex-col max-md:items-start">
+                      <div className="flex gap-2 items-center w-full max-md:w-auto">
+                        <GripVertical size={14} className="text-text-3 shrink-0 cursor-grab" />
+                        <input value={item.label} onChange={e => updateItem(i, 'label', e.target.value)}
+                          className={`${inpClass} flex-none w-[160px] font-semibold max-sm:w-full`} placeholder="Label" />
+                        <input value={item.href} onChange={e => updateItem(i, 'href', e.target.value)}
+                          className={`${inpClass} flex-1 font-mono text-xs`} placeholder="/url" />
+                      </div>
+                      <div className="flex gap-2 items-center w-full max-md:w-auto md:w-auto">
+                        <select value={item.target || '_self'} onChange={e => updateItem(i, 'target', e.target.value)}
+                          className={`${inpClass} w-[100px] cursor-pointer text-xs`}>
+                          <option value="_self">Same tab</option>
+                          <option value="_blank">New tab</option>
+                        </select>
+                        <button onClick={() => addChild(i)}
+                          className="py-[7px] px-2.5 rounded-[7px] border border-border bg-transparent cursor-pointer text-text-3 text-[11px] whitespace-nowrap font-display transition-colors hover:text-white hover:border-text-3">
+                          + Sub
+                        </button>
+                        <button onClick={() => removeItem(i)}
+                          className="p-[7px] rounded-[7px] border border-border bg-transparent cursor-pointer text-text-3 flex items-center transition-colors hover:border-[#ff4d6d]/40 hover:text-[#ff4d6d]">
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
                     </div>
 
                     {/* Sub-items */}
                     {item.children && item.children.length > 0 && (
-                      <div style={{ borderTop: '1px solid var(--border)', padding: '8px 12px 10px 36px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                      <div className="border-t border-border py-2 px-3 pl-9 flex flex-col gap-[5px]">
                         {item.children.map((child, ci) => (
-                          <div key={ci} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--primary)', flexShrink: 0 }}>↳</span>
+                          <div key={ci} className="flex gap-2 items-center flex-wrap">
+                            <span className="font-mono text-[10px] text-primary shrink-0">↳</span>
                             <input value={child.label} onChange={e => updateChild(i, ci, 'label', e.target.value)}
-                              style={{ ...inp, flex: '0 0 140px', fontSize: '12px', padding: '6px 10px' }} placeholder="Sub label"
-                              onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')}
-                              onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
+                              className={`${inpClass} flex-none w-[140px] text-xs py-1.5 px-2.5`} placeholder="Sub label" />
                             <input value={child.href} onChange={e => updateChild(i, ci, 'href', e.target.value)}
-                              style={{ ...inp, flex: 1, fontSize: '11px', padding: '6px 10px', fontFamily: 'var(--font-mono)' }} placeholder="/url"
-                              onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')}
-                              onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
+                              className={`${inpClass} flex-1 text-[11px] py-1.5 px-2.5 font-mono`} placeholder="/url" />
                             <button onClick={() => removeChild(i, ci)}
-                              style={{ padding: '5px', borderRadius: '6px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-3)', fontSize: '13px' }}
-                              onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')}
-                              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>✕</button>
+                              className="p-[5px] rounded-md border-none bg-transparent cursor-pointer text-text-3 text-[13px] transition-colors hover:text-[#ff4d6d]">✕</button>
                           </div>
                         ))}
                       </div>
@@ -273,8 +259,8 @@ export default function MenusAdmin() {
           </div>
         </div>
 
-        <div className="warn-box" style={{ marginTop: '16px' }}>
-          ⚠️ <strong>Note:</strong> The Navbar and Footer currently use hardcoded navigation links. After saving menus here, connect them to the database by updating the Navbar component to fetch from <code style={{ fontFamily: 'var(--font-mono)', color: 'var(--primary)' }}>/api/menus?location=header</code>. This is the data store for future dynamic navigation.
+        <div className="warn-box mt-4">
+          ⚠️ <strong>Note:</strong> The Navbar and Footer currently use hardcoded navigation links. After saving menus here, connect them to the database by updating the Navbar component to fetch from <code className="font-mono text-primary">/api/menus?location=header</code>. This is the data store for future dynamic navigation.
         </div>
       </div>
     </AdminShell>

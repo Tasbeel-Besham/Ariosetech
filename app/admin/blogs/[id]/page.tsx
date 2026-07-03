@@ -75,97 +75,97 @@ export default function EditBlogPost() {
     else { const { error } = await res.json(); toast.error(error || 'Failed') }
   }
 
-  const inp = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box' as const, fontFamily: 'var(--font-body)', transition: 'border-color 0.15s' }
-  const lbl = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
-  const card = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '20px' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3.5 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
+  const cardClass = "bg-bg-2 border border-border rounded-2xl p-6 mb-5"
 
-  if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
+  if (loading) return <AdminShell><div className="p-10 text-center text-text-3">Loading…</div></AdminShell>
 
   return (
     <AdminShell>
-      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Link href="/admin/blogs" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-3)', textDecoration: 'none', fontSize: '13px' }} className="hover:text-[var(--text)]">
+      <div className="max-w-[900px] mx-auto p-8">
+        <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <Link href="/admin/blogs" className="flex items-center gap-1.5 text-text-3 no-underline text-[13px] transition-colors hover:text-white">
               <ArrowLeft size={14} /> Blogs
             </Link>
-            <span style={{ color: 'var(--border-2)' }}>/</span>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>Edit Post</h1>
+            <span className="text-border-2">/</span>
+            <h1 className="font-display text-[20px] font-extrabold text-white tracking-tight">Edit Post</h1>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button onClick={() => save(false)} disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-2)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
+          <div className="flex gap-2.5">
+            <button onClick={() => save(false)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">
               <Save size={14} /> Save
             </button>
-            <button onClick={() => save(true)} disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
+            <button onClick={() => save(true)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
               <Eye size={14} /> {saving ? 'Saving…' : 'Publish'}
             </button>
           </div>
         </div>
 
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>📝 Post Details</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">📝 Post Details</h2>
+          <div className="flex flex-col gap-4">
             <div>
-              <label style={lbl}>Title</label>
-              <input value={form.title} onChange={e => set('title', e.target.value)} style={{ ...inp, fontSize: '16px', fontWeight: 600 }} onFocus={e => (e.target.style.borderColor = 'rgba(79,110,247,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
+              <label className={lblClass}>Title</label>
+              <input value={form.title} onChange={e => set('title', e.target.value)} className={`${inpClass} text-base font-semibold`} />
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', overflow: 'hidden' }}>
-              <span style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--text-3)', background: 'var(--bg-4)', borderRight: '1px solid var(--border)', whiteSpace: 'nowrap' }}>ariosetech.com/blog/</span>
-              <input value={form.slug} onChange={e => set('slug', e.target.value)} style={{ ...inp, border: 'none', borderRadius: 0, background: 'transparent', fontFamily: 'var(--font-mono)' }} />
+            <div className="flex items-center bg-bg-3 border border-border rounded-lg overflow-hidden">
+              <span className="py-2.5 px-3.5 font-mono text-xs text-text-3 bg-bg-4 border-r border-border whitespace-nowrap">ariosetech.com/blog/</span>
+              <input value={form.slug} onChange={e => set('slug', e.target.value)} className={`${inpClass} border-none rounded-none bg-transparent font-mono`} />
             </div>
             <div>
-              <label style={lbl}>Excerpt</label>
-              <textarea value={form.excerpt} onChange={e => set('excerpt', e.target.value)} rows={2} style={{ ...inp, resize: 'vertical' }} onFocus={e => (e.target.style.borderColor = 'rgba(79,110,247,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
+              <label className={lblClass}>Excerpt</label>
+              <textarea value={form.excerpt} onChange={e => set('excerpt', e.target.value)} rows={2} className={`${inpClass} resize-y`} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 80px', gap: '12px' }}>
-              <div><label style={lbl}>Category</label><select value={form.category} onChange={e => set('category', e.target.value)} style={inp}>{CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
-              <div><label style={lbl}>Author</label><input value={form.author} onChange={e => set('author', e.target.value)} style={inp} /></div>
-              <div><label style={lbl}>Date</label><input type="date" value={form.date} onChange={e => set('date', e.target.value)} style={inp} /></div>
-              <div><label style={lbl}>Read (min)</label><input type="number" value={form.readTime} onChange={e => set('readTime', e.target.value)} min={1} style={inp} /></div>
+            <div className="grid grid-cols-[1fr_1fr_1fr_80px] gap-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+              <div><label className={lblClass}>Category</label><select value={form.category} onChange={e => set('category', e.target.value)} className={inpClass}>{CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
+              <div><label className={lblClass}>Author</label><input value={form.author} onChange={e => set('author', e.target.value)} className={inpClass} /></div>
+              <div><label className={lblClass}>Date</label><input type="date" value={form.date} onChange={e => set('date', e.target.value)} className={inpClass} /></div>
+              <div><label className={lblClass}>Read (min)</label><input type="number" value={form.readTime} onChange={e => set('readTime', e.target.value)} min={1} className={inpClass} /></div>
             </div>
-            <div><label style={lbl}>Tags</label><input value={form.tags} onChange={e => set('tags', e.target.value)} placeholder="WordPress, Speed" style={inp} /></div>
+            <div><label className={lblClass}>Tags</label><input value={form.tags} onChange={e => set('tags', e.target.value)} placeholder="WordPress, Speed" className={inpClass} /></div>
           </div>
         </div>
 
-        <div style={card}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>✍️ Content</h2>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => addBlock('h2')} style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '12px', fontFamily: 'var(--font-display)', fontWeight: 600 }}>+ Heading</button>
-              <button onClick={() => addBlock('p')} style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '12px', fontFamily: 'var(--font-display)', fontWeight: 600 }}>+ Paragraph</button>
+        <div className={cardClass}>
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="font-display text-[15px] font-bold text-white">✍️ Content</h2>
+            <div className="flex gap-2">
+              <button onClick={() => addBlock('h2')} className="py-1.5 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display font-semibold hover:text-white hover:bg-bg-3 transition-colors">+ Heading</button>
+              <button onClick={() => addBlock('p')} className="py-1.5 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display font-semibold hover:text-white hover:bg-bg-3 transition-colors">+ Paragraph</button>
             </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="flex flex-col gap-2.5">
             {form.content.map((block, i) => (
-              <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: block.type === 'h2' ? 'var(--blue)' : 'var(--text-3)', background: block.type === 'h2' ? 'rgba(79,110,247,0.1)' : 'var(--bg-4)', padding: '3px 6px', borderRadius: '4px', border: `1px solid ${block.type === 'h2' ? 'rgba(79,110,247,0.2)' : 'var(--border)'}`, marginTop: '10px', flexShrink: 0 }}>{block.type === 'h2' ? 'H2' : 'P'}</span>
-                <textarea value={block.text} onChange={e => updateBlock(i, e.target.value)} rows={block.type === 'h2' ? 1 : 3} style={{ ...inp, flex: 1, resize: 'vertical', fontSize: block.type === 'h2' ? '15px' : '13px', fontWeight: block.type === 'h2' ? 700 : 400, fontFamily: block.type === 'h2' ? 'var(--font-display)' : 'var(--font-body)' }} onFocus={e => (e.target.style.borderColor = 'rgba(79,110,247,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
-                <button onClick={() => removeBlock(i)} style={{ padding: '8px', borderRadius: '8px', border: '1px solid var(--border)', background: 'none', cursor: 'pointer', color: 'var(--text-3)', flexShrink: 0, marginTop: '1px' }} className="hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]">✕</button>
+              <div key={i} className="flex gap-2.5 items-start">
+                <span className={`font-mono text-[9px] uppercase tracking-wider py-1 px-1.5 rounded border mt-2.5 shrink-0 ${block.type === 'h2' ? 'text-[color:var(--blue)] bg-[rgba(79,110,247,0.1)] border-[rgba(79,110,247,0.2)]' : 'text-text-3 bg-bg-4 border-border'}`}>{block.type === 'h2' ? 'H2' : 'P'}</span>
+                <textarea value={block.text} onChange={e => updateBlock(i, e.target.value)} rows={block.type === 'h2' ? 1 : 3} className={`${inpClass} flex-1 resize-y ${block.type === 'h2' ? 'text-[15px] font-bold font-display' : 'text-[13px] font-normal font-body'}`} />
+                <button onClick={() => removeBlock(i)} className="p-2 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 shrink-0 mt-[1px] transition-colors hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]">✕</button>
               </div>
             ))}
           </div>
         </div>
 
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>🔍 SEO</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">🔍 SEO</h2>
+          <div className="flex flex-col gap-3.5">
             <div>
-              <label style={lbl}>SEO Title</label>
-              <input value={form.seo.title} onChange={e => setSeo('title', e.target.value)} style={inp} onFocus={e => (e.target.style.borderColor = 'rgba(79,110,247,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: form.seo.title.length > 60 ? '#ff4d6d' : 'var(--text-3)', marginTop: '4px' }}>{form.seo.title.length}/60</p>
+              <label className={lblClass}>SEO Title</label>
+              <input value={form.seo.title} onChange={e => setSeo('title', e.target.value)} className={inpClass} />
+              <p className={`font-mono text-[10px] mt-1 ${form.seo.title.length > 60 ? 'text-[#ff4d6d]' : 'text-text-3'}`}>{form.seo.title.length}/60</p>
             </div>
             <div>
-              <label style={lbl}>Meta Description</label>
-              <textarea value={form.seo.description} onChange={e => setSeo('description', e.target.value)} rows={2} style={{ ...inp, resize: 'vertical' }} onFocus={e => (e.target.style.borderColor = 'rgba(79,110,247,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: form.seo.description.length > 160 ? '#ff4d6d' : 'var(--text-3)', marginTop: '4px' }}>{form.seo.description.length}/160</p>
+              <label className={lblClass}>Meta Description</label>
+              <textarea value={form.seo.description} onChange={e => setSeo('description', e.target.value)} rows={2} className={`${inpClass} resize-y`} />
+              <p className={`font-mono text-[10px] mt-1 ${form.seo.description.length > 160 ? 'text-[#ff4d6d]' : 'text-text-3'}`}>{form.seo.description.length}/160</p>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div><label style={lbl}>Keywords</label><input value={form.seo.keywords} onChange={e => setSeo('keywords', e.target.value)} placeholder="wordpress, speed" style={inp} /></div>
+            <div className="grid grid-cols-2 gap-3 max-md:grid-cols-1">
+              <div><label className={lblClass}>Keywords</label><input value={form.seo.keywords} onChange={e => setSeo('keywords', e.target.value)} placeholder="wordpress, speed" className={inpClass} /></div>
               <div>
-                <label style={lbl}>OG Image URL</label>
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <input value={form.seo.ogImage} onChange={e => setSeo('ogImage', e.target.value)} style={{...inp, flex: 1}} />
-                  <button onClick={() => setShowMediaModal(true)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px', whiteSpace: 'nowrap' }}>
+                <label className={lblClass}>OG Image URL</label>
+                <div className="flex gap-1.5">
+                  <input value={form.seo.ogImage} onChange={e => setSeo('ogImage', e.target.value)} className={`${inpClass} flex-1`} />
+                  <button onClick={() => setShowMediaModal(true)} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] whitespace-nowrap hover:bg-white/5 transition-colors">
                     Library
                   </button>
                 </div>
@@ -174,10 +174,10 @@ export default function EditBlogPost() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-          <Link href="/admin/blogs" style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-3)', fontSize: '13px', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>Cancel</Link>
-          <button onClick={() => save(false)} disabled={saving} style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid var(--border)', background: 'none', color: 'var(--text-2)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>Save Draft</button>
-          <button onClick={() => save(true)} disabled={saving} style={{ padding: '10px 24px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)', opacity: saving ? 0.7 : 1 }}>
+        <div className="flex gap-2.5 justify-end">
+          <Link href="/admin/blogs" className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-3 text-[13px] no-underline flex items-center transition-colors hover:bg-bg-3">Cancel</Link>
+          <button onClick={() => save(false)} disabled={saving} className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">Save Draft</button>
+          <button onClick={() => save(true)} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
             {saving ? 'Saving…' : 'Publish'}
           </button>
         </div>

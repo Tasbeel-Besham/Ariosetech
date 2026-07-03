@@ -48,18 +48,16 @@ export default function NewPortfolio() {
     else { const d = await res.json(); toast.error(d.error || 'Failed') }
   }
 
-  const inp: React.CSSProperties = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-body)', transition: 'border-color 0.15s' }
-  const lbl: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
-  const card: React.CSSProperties = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px', marginBottom: '20px' }
-  const onF = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')
-  const onB = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => (e.target.style.borderColor = 'var(--border)')
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3.5 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
+  const cardClass = "bg-bg-2 border border-border rounded-[14px] p-6 mb-5"
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px', maxWidth: '860px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <Link href="/admin/portfolio" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-3)', textDecoration: 'none', fontSize: '13px', fontFamily: 'var(--font-mono)' }}>
+      <div className="p-8 max-w-[860px]">
+        <div className="flex justify-between items-center mb-7 flex-wrap gap-4">
+          <div className="flex items-center gap-3.5">
+            <Link href="/admin/portfolio" className="flex items-center gap-1.5 text-text-3 no-underline text-[13px] font-mono transition-colors hover:text-white">
               <ArrowLeft size={14} /> Back
             </Link>
             <div>
@@ -67,31 +65,31 @@ export default function NewPortfolio() {
               <p className="admin-page__subtitle">Add a portfolio case study</p>
             </div>
           </div>
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-2)' }}>
-              <input type="checkbox" checked={form.published} onChange={e => set('published', e.target.checked)} style={{ width: '14px', height: '14px' }} />
+          <div className="flex gap-2.5 items-center">
+            <label className="flex items-center gap-2 cursor-pointer text-[13px] text-text-2 transition-colors hover:text-white">
+              <input type="checkbox" checked={form.published} onChange={e => set('published', e.target.checked)} className="w-3.5 h-3.5 accent-primary" />
               Published
             </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-2)' }}>
-              <input type="checkbox" checked={form.featured} onChange={e => set('featured', e.target.checked)} style={{ width: '14px', height: '14px' }} />
+            <label className="flex items-center gap-2 cursor-pointer text-[13px] text-text-2 transition-colors hover:text-white">
+              <input type="checkbox" checked={form.featured} onChange={e => set('featured', e.target.checked)} className="w-3.5 h-3.5 accent-primary" />
               Featured
             </label>
-            <button onClick={save} disabled={saving} className="btn btn-primary btn-md">
+            <button onClick={save} disabled={saving} className="btn btn-primary btn-md ml-2">
               <Save size={14} /> {saving ? 'Creating…' : 'Create Project'}
             </button>
           </div>
         </div>
 
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700, color: 'var(--text)', marginBottom: '18px' }}>Basic Information</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-            <div><label style={lbl}>Project Title *</label><input value={form.title} onChange={e => set('title', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="The Kapra" /></div>
-            <div><label style={lbl}>Client Name *</label><input value={form.client} onChange={e => set('client', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="Client Company" /></div>
-            <div><label style={lbl}>Slug</label><input value={form.slug} onChange={e => set('slug', e.target.value)} style={{ ...inp, fontFamily: 'var(--font-mono)', fontSize: '12px' }} onFocus={onF} onBlur={onB} placeholder="auto-generated" /></div>
-            <div><label style={lbl}>Client Website</label><input value={form.clientUrl} onChange={e => set('clientUrl', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="https://client.com" /></div>
+        <div className={cardClass}>
+          <h2 className="font-display text-sm font-bold text-white mb-4.5">Basic Information</h2>
+          <div className="grid grid-cols-2 gap-3.5 max-md:grid-cols-1">
+            <div><label className={lblClass}>Project Title *</label><input value={form.title} onChange={e => set('title', e.target.value)} className={inpClass} placeholder="The Kapra" /></div>
+            <div><label className={lblClass}>Client Name *</label><input value={form.client} onChange={e => set('client', e.target.value)} className={inpClass} placeholder="Client Company" /></div>
+            <div><label className={lblClass}>Slug</label><input value={form.slug} onChange={e => set('slug', e.target.value)} className={`${inpClass} font-mono text-xs`} placeholder="auto-generated" /></div>
+            <div><label className={lblClass}>Client Website</label><input value={form.clientUrl} onChange={e => set('clientUrl', e.target.value)} className={inpClass} placeholder="https://client.com" /></div>
             <div>
-              <label style={lbl}>Category</label>
-              <div style={{ display: 'flex', gap: '6px' }}>
+              <label className={lblClass}>Category</label>
+              <div className="flex gap-1.5">
                 <select 
                   value={isCustomCat ? 'new' : (CATS.includes(form.category) ? form.category : (form.category ? form.category : ''))}
                   onChange={e => {
@@ -103,8 +101,7 @@ export default function NewPortfolio() {
                       set('category', e.target.value)
                     }
                   }}
-                  style={{...inp, flex: isCustomCat ? '0 0 auto' : 1, width: isCustomCat ? '130px' : 'auto'}}
-                  onFocus={onF} onBlur={onB}
+                  className={`${inpClass} ${isCustomCat ? 'flex-none w-[130px]' : 'flex-1 w-auto'}`}
                 >
                   <option value="" disabled>Select...</option>
                   {CATS.map(c => <option key={c} value={c}>{c}</option>)}
@@ -115,8 +112,7 @@ export default function NewPortfolio() {
                   <input 
                     value={form.category} 
                     onChange={e => set('category', e.target.value)} 
-                    style={{...inp, flex: 1}} 
-                    onFocus={onF} onBlur={onB} 
+                    className={`${inpClass} flex-1`} 
                     placeholder="Type custom category..." 
                     autoFocus
                   />
@@ -124,10 +120,10 @@ export default function NewPortfolio() {
               </div>
             </div>
             <div>
-              <label style={lbl}>Cover Image URL</label>
-              <div style={{ display: 'flex', gap: '6px' }}>
-                <input value={form.image} onChange={e => set('image', e.target.value)} style={{...inp, flex: 1}} onFocus={onF} onBlur={onB} placeholder="https://… or /image.jpg" />
-                <button onClick={() => setShowMediaModal(true)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px', whiteSpace: 'nowrap' }}>
+              <label className={lblClass}>Cover Image URL</label>
+              <div className="flex gap-1.5">
+                <input value={form.image} onChange={e => set('image', e.target.value)} className={`${inpClass} flex-1`} placeholder="https://… or /image.jpg" />
+                <button onClick={() => setShowMediaModal(true)} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] whitespace-nowrap hover:bg-white/5 transition-colors">
                   Library
                 </button>
               </div>
@@ -135,30 +131,29 @@ export default function NewPortfolio() {
           </div>
         </div>
 
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700, color: 'var(--text)', marginBottom: '18px' }}>Content</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div><label style={lbl}>Summary</label><textarea value={form.summary} onChange={e => set('summary', e.target.value)} rows={3} style={{ ...inp, resize: 'vertical' }} onFocus={onF} onBlur={onB} /></div>
-            <div><label style={lbl}>The Challenge</label><textarea value={form.challenge} onChange={e => set('challenge', e.target.value)} rows={4} style={{ ...inp, resize: 'vertical' }} onFocus={onF} onBlur={onB} /></div>
-            <div><label style={lbl}>Our Solution</label><textarea value={form.solution} onChange={e => set('solution', e.target.value)} rows={4} style={{ ...inp, resize: 'vertical' }} onFocus={onF} onBlur={onB} /></div>
-            <div><label style={lbl}>Client Quote</label><textarea value={form.quote} onChange={e => set('quote', e.target.value)} rows={2} style={{ ...inp, resize: 'vertical' }} onFocus={onF} onBlur={onB} /></div>
-            <div><label style={lbl}>Tech Stack (comma separated)</label><input value={form.stack} onChange={e => set('stack', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="WordPress, WooCommerce, PHP" /></div>
+        <div className={cardClass}>
+          <h2 className="font-display text-sm font-bold text-white mb-4.5">Content</h2>
+          <div className="flex flex-col gap-3.5">
+            <div><label className={lblClass}>Summary</label><textarea value={form.summary} onChange={e => set('summary', e.target.value)} rows={3} className={`${inpClass} resize-y`} /></div>
+            <div><label className={lblClass}>The Challenge</label><textarea value={form.challenge} onChange={e => set('challenge', e.target.value)} rows={4} className={`${inpClass} resize-y`} /></div>
+            <div><label className={lblClass}>Our Solution</label><textarea value={form.solution} onChange={e => set('solution', e.target.value)} rows={4} className={`${inpClass} resize-y`} /></div>
+            <div><label className={lblClass}>Client Quote</label><textarea value={form.quote} onChange={e => set('quote', e.target.value)} rows={2} className={`${inpClass} resize-y`} /></div>
+            <div><label className={lblClass}>Tech Stack (comma separated)</label><input value={form.stack} onChange={e => set('stack', e.target.value)} className={inpClass} placeholder="WordPress, WooCommerce, PHP" /></div>
           </div>
         </div>
 
-        <div style={card}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700, color: 'var(--text)' }}>Results / Stats</h2>
+        <div className={cardClass}>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-display text-sm font-bold text-white">Results / Stats</h2>
             <button onClick={addResult} className="btn btn-outline btn-sm"><Plus size={12} /> Add Result</button>
           </div>
           {results.length === 0 ? (
-            <p style={{ fontSize: '13px', color: 'var(--text-3)', textAlign: 'center', padding: '16px 0' }}>No results yet. Add stats like &quot;+300% Revenue&quot;.</p>
+            <p className="text-[13px] text-text-3 text-center py-4">No results yet. Add stats like &quot;+300% Revenue&quot;.</p>
           ) : results.map((r, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '10px', alignItems: 'end', marginBottom: '10px' }}>
-              <div><label style={lbl}>Value</label><input value={r.value} onChange={e => updateResult(i, 'value', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="+300%" /></div>
-              <div><label style={lbl}>Label</label><input value={r.label} onChange={e => updateResult(i, 'label', e.target.value)} style={inp} onFocus={onF} onBlur={onB} placeholder="Revenue Growth" /></div>
-              <button onClick={() => removeResult(i)} style={{ background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', padding: '10px 6px' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')} onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>
+            <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-2.5 items-end mb-2.5 max-sm:grid-cols-[1fr_auto]">
+              <div className="max-sm:col-span-2"><label className={lblClass}>Value</label><input value={r.value} onChange={e => updateResult(i, 'value', e.target.value)} className={inpClass} placeholder="+300%" /></div>
+              <div className="max-sm:col-span-1"><label className={lblClass}>Label</label><input value={r.label} onChange={e => updateResult(i, 'label', e.target.value)} className={inpClass} placeholder="Revenue Growth" /></div>
+              <button onClick={() => removeResult(i)} className="bg-transparent border-none text-text-3 cursor-pointer py-2.5 px-1.5 transition-colors hover:text-[#ff4d6d]">
                 <Trash2 size={15} />
               </button>
             </div>

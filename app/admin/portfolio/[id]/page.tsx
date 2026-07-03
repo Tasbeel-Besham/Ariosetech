@@ -13,12 +13,9 @@ type Block  = {
   id: string
   type: 'title' | 'client' | 'summary' | 'challenge' | 'solution' | 'quote' | 'stack'
       | 'results' | 'text' | 'highlights' | 'metrics' | 'image' | 'technology' | 'process'
-  // core fields (used by built-in blocks)
   value?: string
   items?: Result[] | string[]
-  // shared label shown in header
   label: string
-  // expandable
   open: boolean
 }
 
@@ -59,12 +56,10 @@ export default function EditPortfolio() {
   /* Load */
   useEffect(() => {
     fetch(`/api/portfolio/${id}`).then(r => r.json()).then(d => {
-      // Build ordered blocks from saved data
       const saved: Block[] = Array.isArray(d.blocks) ? d.blocks : []
       if (saved.length > 0) {
         setBlocks(saved.map(b => ({ ...b, open: false })))
       } else {
-        // First load — build default order from legacy fields
         setBlocks([
           coreBlock('title',     'Project Title',   d.title     || ''),
           coreBlock('client',    'Client Name',     d.client    || ''),
@@ -88,10 +83,8 @@ export default function EditPortfolio() {
   }, [id])
 
   /* Block helpers */
-  const toggle = (bid: string) =>
-    setBlocks(bs => bs.map(b => b.id === bid ? { ...b, open: !b.open } : b))
-  const update = (bid: string, patch: Partial<Block>) =>
-    setBlocks(bs => bs.map(b => b.id === bid ? { ...b, ...patch } : b))
+  const toggle = (bid: string) => setBlocks(bs => bs.map(b => b.id === bid ? { ...b, open: !b.open } : b))
+  const update = (bid: string, patch: Partial<Block>) => setBlocks(bs => bs.map(b => b.id === bid ? { ...b, ...patch } : b))
   const remove = (bid: string) => setBlocks(bs => bs.filter(b => b.id !== bid))
   const move   = (i: number, dir: -1 | 1) => {
     const j = i + dir
@@ -104,20 +97,19 @@ export default function EditPortfolio() {
     setPicking(false)
   }
 
-  /* Result helpers (for results block) */
-  const addResult    = (bid: string) => update(bid, { items: [...(blocks.find(b => b.id === bid)?.items as Result[] || []), { label: '', value: '' }] })
+  /* Result helpers */
+  const addResult = (bid: string) => update(bid, { items: [...(blocks.find(b => b.id === bid)?.items as Result[] || []), { label: '', value: '' }] })
   const removeResult = (bid: string, i: number) => update(bid, { items: (blocks.find(b => b.id === bid)?.items as Result[] || []).filter((_, j) => j !== i) })
   const updateResult = (bid: string, i: number, k: keyof Result, v: string) =>
     update(bid, { items: (blocks.find(b => b.id === bid)?.items as Result[] || []).map((r, j) => j === i ? { ...r, [k]: v } : r) })
 
-  /* List-item helpers (for highlights, technology, process) */
-  const addItem    = (bid: string) => update(bid, { items: [...(blocks.find(b => b.id === bid)?.items as string[] || []), ''] })
+  /* List-item helpers */
+  const addItem = (bid: string) => update(bid, { items: [...(blocks.find(b => b.id === bid)?.items as string[] || []), ''] })
   const removeItem = (bid: string, i: number) => update(bid, { items: (blocks.find(b => b.id === bid)?.items as string[] || []).filter((_, j) => j !== i) })
-  const updateItem = (bid: string, i: number, v: string) =>
-    update(bid, { items: (blocks.find(b => b.id === bid)?.items as string[] || []).map((x, j) => j === i ? v : x) })
+  const updateItem = (bid: string, i: number, v: string) => update(bid, { items: (blocks.find(b => b.id === bid)?.items as string[] || []).map((x, j) => j === i ? v : x) })
 
-  /* Metric helpers (value::label pairs stored as strings) */
-  const addMetric    = (bid: string) => update(bid, { items: [...(blocks.find(b => b.id === bid)?.items as string[] || []), '::'] })
+  /* Metric helpers */
+  const addMetric = (bid: string) => update(bid, { items: [...(blocks.find(b => b.id === bid)?.items as string[] || []), '::'] })
   const removeMetric = (bid: string, i: number) => update(bid, { items: (blocks.find(b => b.id === bid)?.items as string[] || []).filter((_, j) => j !== i) })
   const updateMetric = (bid: string, i: number, part: 0 | 1, v: string) => {
     const cur = (blocks.find(b => b.id === bid)?.items as string[] || [])[i] || '::'
@@ -129,7 +121,6 @@ export default function EditPortfolio() {
   /* Save */
   const save = async () => {
     setSaving(true)
-    // Derive legacy top-level fields for backward compatibility with the detail page
     const get = (type: string) => blocks.find(b => b.type === type)?.value || ''
     const getItems = (type: string) => blocks.find(b => b.type === type)?.items || []
     const res = await fetch(`/api/portfolio/${id}`, {
@@ -145,8 +136,8 @@ export default function EditPortfolio() {
         quote:     get('quote'),
         stack:     get('stack').split(',').map((s: string) => s.trim()).filter(Boolean),
         results:   getItems('results'),
-        blocks,                    // full ordered block list
-        sections: blocks           // also save as sections for detail page renderer
+        blocks,
+        sections: blocks
           .filter(b => !['title','client','summary','challenge','solution','quote','stack','results'].includes(b.type))
           .map(b => ({ id: b.id, type: b.type, title: b.label, content: b.value || '', items: Array.isArray(b.items) ? b.items as string[] : [] })),
         updatedAt: new Date().toISOString(),
@@ -157,24 +148,21 @@ export default function EditPortfolio() {
     else { const d = await res.json(); toast.error(d.error || 'Failed') }
   }
 
-  /* Styles */
-  const inp: React.CSSProperties  = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '9px 12px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-body)', transition: 'border-color 0.15s' }
-  const lbl: React.CSSProperties  = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '5px' }
-  const onF = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')
-  const onB = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => (e.target.style.borderColor = 'var(--border)')
+  const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-[9px] px-3 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
 
-  if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
+  if (loading) return <AdminShell><div className="p-10 text-center text-text-3">Loading…</div></AdminShell>
 
   const CORE_TYPES = ['title','client','summary','challenge','solution','quote','stack','results']
 
   return (
     <AdminShell>
-      <div style={{ padding: '28px 32px', maxWidth: '820px' }}>
+      <div className="py-7 px-8 max-w-[820px]">
 
         {/* ── Header ── */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <Link href="/admin/portfolio" style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-3)', textDecoration: 'none', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
+        <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
+          <div className="flex items-center gap-3.5">
+            <Link href="/admin/portfolio" className="flex items-center gap-1.5 text-text-3 no-underline text-xs font-mono transition-colors hover:text-white">
               <ArrowLeft size={13} /> Back
             </Link>
             <div>
@@ -182,35 +170,35 @@ export default function EditPortfolio() {
               <p className="admin-page__subtitle">Drag blocks to reorder · Add custom sections anywhere</p>
             </div>
           </div>
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-2)' }}>
-              <input type="checkbox" checked={meta.published} onChange={e => setMeta(m => ({ ...m, published: e.target.checked }))} /> Published
+          <div className="flex gap-2.5 items-center">
+            <label className="flex items-center gap-1.5 cursor-pointer text-[13px] text-text-2 transition-colors hover:text-white">
+              <input type="checkbox" checked={meta.published} onChange={e => setMeta(m => ({ ...m, published: e.target.checked }))} className="accent-primary" /> Published
             </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-2)' }}>
-              <input type="checkbox" checked={meta.featured} onChange={e => setMeta(m => ({ ...m, featured: e.target.checked }))} /> Featured
+            <label className="flex items-center gap-1.5 cursor-pointer text-[13px] text-text-2 transition-colors hover:text-white">
+              <input type="checkbox" checked={meta.featured} onChange={e => setMeta(m => ({ ...m, featured: e.target.checked }))} className="accent-primary" /> Featured
             </label>
-            <button onClick={save} disabled={saving} className="btn btn-primary btn-md">
+            <button onClick={save} disabled={saving} className="btn btn-primary btn-md ml-1">
               <Save size={14} /> {saving ? 'Saving…' : 'Save'}
             </button>
           </div>
         </div>
 
         {/* ── Meta row ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '20px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px' }}>
-          <div><label style={lbl}>Slug</label><input value={meta.slug} onChange={e => setMeta(m => ({ ...m, slug: e.target.value }))} style={{ ...inp, fontFamily: 'var(--font-mono)', fontSize: '11px' }} onFocus={onF} onBlur={onB} placeholder="project-slug" /></div>
-          <div><label style={lbl}>Client URL</label><input value={meta.clientUrl} onChange={e => setMeta(m => ({ ...m, clientUrl: e.target.value }))} style={inp} onFocus={onF} onBlur={onB} placeholder="https://…" /></div>
+        <div className="grid grid-cols-4 gap-2.5 mb-5 bg-bg-2 border border-border rounded-xl p-4 max-md:grid-cols-2 max-sm:grid-cols-1">
+          <div><label className={lblClass}>Slug</label><input value={meta.slug} onChange={e => setMeta(m => ({ ...m, slug: e.target.value }))} className={`${inpClass} font-mono text-[11px]`} placeholder="project-slug" /></div>
+          <div><label className={lblClass}>Client URL</label><input value={meta.clientUrl} onChange={e => setMeta(m => ({ ...m, clientUrl: e.target.value }))} className={inpClass} placeholder="https://…" /></div>
           <div>
-            <label style={lbl}>Cover Image URL</label>
-            <div style={{ display: 'flex', gap: '6px' }}>
-              <input value={meta.image} onChange={e => setMeta(m => ({ ...m, image: e.target.value }))} style={{...inp, flex: 1}} onFocus={onF} onBlur={onB} placeholder="https://…" />
-              <button onClick={() => setMediaTarget('meta')} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px', whiteSpace: 'nowrap' }}>
+            <label className={lblClass}>Cover Image URL</label>
+            <div className="flex gap-1.5">
+              <input value={meta.image} onChange={e => setMeta(m => ({ ...m, image: e.target.value }))} className={`${inpClass} flex-1`} placeholder="https://…" />
+              <button onClick={() => setMediaTarget('meta')} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] whitespace-nowrap hover:bg-white/5 transition-colors">
                 Library
               </button>
             </div>
           </div>
           <div>
-            <label style={lbl}>Category</label>
-            <div style={{ display: 'flex', gap: '6px' }}>
+            <label className={lblClass}>Category</label>
+            <div className="flex gap-1.5">
               <select 
                 value={isCustomCat ? 'new' : (CATS.includes(meta.category) ? meta.category : (meta.category ? meta.category : ''))}
                 onChange={e => {
@@ -222,8 +210,7 @@ export default function EditPortfolio() {
                     setMeta(m => ({ ...m, category: e.target.value }))
                   }
                 }}
-                style={{...inp, flex: isCustomCat ? '0 0 auto' : 1, width: isCustomCat ? '130px' : 'auto'}}
-                onFocus={onF} onBlur={onB}
+                className={`${inpClass} ${isCustomCat ? 'flex-none w-[130px]' : 'flex-1 w-auto'}`}
               >
                 <option value="" disabled>Select...</option>
                 {CATS.map(c => <option key={c} value={c}>{c}</option>)}
@@ -234,8 +221,7 @@ export default function EditPortfolio() {
                 <input 
                   value={meta.category} 
                   onChange={e => setMeta(m => ({ ...m, category: e.target.value }))} 
-                  style={{...inp, flex: 1}} 
-                  onFocus={onF} onBlur={onB} 
+                  className={`${inpClass} flex-1`} 
                   placeholder="Type custom category..." 
                   autoFocus
                 />
@@ -245,113 +231,110 @@ export default function EditPortfolio() {
         </div>
 
         {/* ── Blocks list ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div className="flex flex-col gap-2">
           {blocks.map((block, i) => {
             const isCore = CORE_TYPES.includes(block.type)
             const iconMap: Record<string, string> = { title:'✏️', client:'🏢', summary:'📄', challenge:'⚡', solution:'🔧', quote:'💬', stack:'⚙️', results:'📊', text:'📝', highlights:'✅', metrics:'📊', image:'🖼', technology:'🛠', process:'📋' }
             return (
-              <div key={block.id} style={{ background: 'var(--bg-2)', border: `1px solid ${block.open ? 'rgba(118,108,255,0.35)' : 'var(--border)'}`, borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' }}>
+              <div key={block.id} className={`bg-bg-2 border rounded-xl overflow-hidden transition-colors duration-200 ${block.open ? 'border-primary/35' : 'border-border'}`}>
 
                 {/* Block header — click to expand */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '11px 14px', cursor: 'pointer', userSelect: 'none' }}
+                <div className="flex items-center gap-2 py-2.5 px-3.5 cursor-pointer select-none"
                   onClick={() => toggle(block.id)}>
-                  <GripVertical size={14} style={{ color: 'var(--text-3)', flexShrink: 0 }} />
-                  <span style={{ fontSize: '15px', flexShrink: 0 }}>{iconMap[block.type] || '📦'}</span>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 600, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <GripVertical size={14} className="text-text-3 shrink-0" />
+                  <span className="text-[15px] shrink-0">{iconMap[block.type] || '📦'}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-display text-[13px] font-semibold text-white overflow-hidden text-ellipsis whitespace-nowrap">
                       {block.label}
-                      {block.type === 'title' && block.value && <span style={{ color: 'var(--text-3)', fontWeight: 400, marginLeft: '8px' }}>{block.value.slice(0, 40)}</span>}
+                      {block.type === 'title' && block.value && <span className="text-text-3 font-normal ml-2">{block.value.slice(0, 40)}</span>}
                     </p>
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: isCore ? 'var(--primary)' : 'var(--green)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                    <p className={`font-mono text-[9px] uppercase tracking-wider ${isCore ? 'text-primary' : 'text-[#00e5a0]'}`}>
                       {isCore ? 'core' : 'custom'}
                     </p>
                   </div>
-                  <div style={{ display: 'flex', gap: '2px', alignItems: 'center', flexShrink: 0 }}>
+                  <div className="flex gap-0.5 items-center shrink-0">
                     <button onClick={e => { e.stopPropagation(); move(i, -1) }} disabled={i === 0}
-                      style={{ background: 'none', border: 'none', cursor: i === 0 ? 'default' : 'pointer', color: i === 0 ? 'var(--bg-4)' : 'var(--text-3)', padding: '4px' }}>
+                      className={`bg-transparent border-none p-1 ${i === 0 ? 'cursor-default text-bg-4' : 'cursor-pointer text-text-3 hover:text-white transition-colors'}`}>
                       <ChevronUp size={13} />
                     </button>
                     <button onClick={e => { e.stopPropagation(); move(i, 1) }} disabled={i === blocks.length - 1}
-                      style={{ background: 'none', border: 'none', cursor: i === blocks.length - 1 ? 'default' : 'pointer', color: i === blocks.length - 1 ? 'var(--bg-4)' : 'var(--text-3)', padding: '4px' }}>
+                      className={`bg-transparent border-none p-1 ${i === blocks.length - 1 ? 'cursor-default text-bg-4' : 'cursor-pointer text-text-3 hover:text-white transition-colors'}`}>
                       <ChevronDown size={13} />
                     </button>
                     {!isCore && (
                       <button onClick={e => { e.stopPropagation(); remove(block.id) }}
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-3)', padding: '4px' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')}
-                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>
+                        className="bg-transparent border-none cursor-pointer text-text-3 p-1 transition-colors hover:text-[#ff4d6d]">
                         <Trash2 size={13} />
                       </button>
                     )}
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)', padding: '0 4px' }}>{block.open ? '▲' : '▼'}</span>
+                    <span className="font-mono text-[11px] text-text-3 px-1">{block.open ? '▲' : '▼'}</span>
                   </div>
                 </div>
 
                 {/* Block fields */}
                 {block.open && (
-                  <div style={{ borderTop: '1px solid var(--border)', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div className="border-t border-border py-3.5 px-4 flex flex-col gap-2.5">
 
                     {/* Label rename (custom blocks) */}
                     {!isCore && (
-                      <div><label style={lbl}>Section heading</label>
-                        <input value={block.label} onChange={e => update(block.id, { label: e.target.value })} style={inp} onFocus={onF} onBlur={onB} placeholder="Section title…" />
+                      <div><label className={lblClass}>Section heading</label>
+                        <input value={block.label} onChange={e => update(block.id, { label: e.target.value })} className={inpClass} placeholder="Section title…" />
                       </div>
                     )}
 
                     {/* Single-value text blocks */}
                     {['title','client','summary','challenge','solution','text'].includes(block.type) && (
-                      <div><label style={lbl}>{block.label}</label>
+                      <div><label className={lblClass}>{block.label}</label>
                         {['summary','challenge','solution','text'].includes(block.type)
-                          ? <textarea value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} rows={4} style={{ ...inp, resize: 'vertical', lineHeight: 1.6 }} onFocus={onF} onBlur={onB} />
-                          : <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} style={inp} onFocus={onF} onBlur={onB} />}
+                          ? <textarea value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} rows={4} className={`${inpClass} resize-y leading-[1.6]`} />
+                          : <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} className={inpClass} />}
                       </div>
                     )}
 
                     {/* Quote */}
                     {block.type === 'quote' && (
-                      <div><label style={lbl}>Quote text</label>
-                        <textarea value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} rows={3} style={{ ...inp, resize: 'vertical', fontStyle: 'italic' }} onFocus={onF} onBlur={onB} placeholder="Client quote…" />
+                      <div><label className={lblClass}>Quote text</label>
+                        <textarea value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} rows={3} className={`${inpClass} resize-y italic`} placeholder="Client quote…" />
                       </div>
                     )}
 
                     {/* Image */}
                     {block.type === 'image' && (
-                      <div><label style={lbl}>Image URL</label>
-                        <div style={{ display: 'flex', gap: '6px' }}>
-                          <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} style={{...inp, flex: 1}} onFocus={onF} onBlur={onB} placeholder="https://… or /image.jpg" />
-                          <button onClick={() => setMediaTarget(block.id)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '12px', whiteSpace: 'nowrap' }}>
+                      <div><label className={lblClass}>Image URL</label>
+                        <div className="flex gap-1.5">
+                          <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} className={`${inpClass} flex-1`} placeholder="https://… or /image.jpg" />
+                          <button onClick={() => setMediaTarget(block.id)} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-xs whitespace-nowrap hover:bg-white/5 transition-colors">
                             Library
                           </button>
                         </div>
                         {block.value && (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={block.value} alt="" style={{ marginTop: '8px', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--border)', width: '100%' }} />
+                          <img src={block.value} alt="" className="mt-2 h-20 object-cover rounded-md border border-border w-full" />
                         )}
                       </div>
                     )}
 
                     {/* Tech stack (comma list) */}
                     {block.type === 'stack' && (
-                      <div><label style={lbl}>Technologies (comma separated)</label>
-                        <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} style={inp} onFocus={onF} onBlur={onB} placeholder="WordPress, PHP, ACF, WooCommerce" />
+                      <div><label className={lblClass}>Technologies (comma separated)</label>
+                        <input value={block.value || ''} onChange={e => update(block.id, { value: e.target.value })} className={inpClass} placeholder="WordPress, PHP, ACF, WooCommerce" />
                       </div>
                     )}
 
                     {/* Results block */}
                     {block.type === 'results' && (
                       <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                          <label style={lbl}>Stats / Metrics</label>
-                          <button onClick={() => addResult(block.id)} style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer' }}>+ Add</button>
+                        <div className="flex justify-between mb-2">
+                          <label className={lblClass}>Stats / Metrics</label>
+                          <button onClick={() => addResult(block.id)} className="font-mono text-[10px] text-primary bg-transparent border-none cursor-pointer hover:underline">+ Add</button>
                         </div>
                         {((block.items || []) as Result[]).length === 0
-                          ? <p style={{ fontSize: '12px', color: 'var(--text-3)', textAlign: 'center', padding: '12px' }}>No stats yet — click + Add</p>
+                          ? <p className="text-xs text-text-3 text-center p-3">No stats yet — click + Add</p>
                           : ((block.items || []) as Result[]).map((r, ri) => (
-                          <div key={ri} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '8px', marginBottom: '7px', alignItems: 'center' }}>
-                            <input value={r.value} onChange={e => updateResult(block.id, ri, 'value', e.target.value)} style={{ ...inp, fontSize: '12px', padding: '7px 10px' }} onFocus={onF} onBlur={onB} placeholder="+300%" />
-                            <input value={r.label} onChange={e => updateResult(block.id, ri, 'label', e.target.value)} style={{ ...inp, fontSize: '12px', padding: '7px 10px' }} onFocus={onF} onBlur={onB} placeholder="Revenue Growth" />
-                            <button onClick={() => removeResult(block.id, ri)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-3)', padding: '4px' }}
-                              onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')} onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>✕</button>
+                          <div key={ri} className="grid grid-cols-[1fr_1fr_auto] gap-2 mb-2 items-center max-sm:grid-cols-[1fr_auto]">
+                            <div className="max-sm:col-span-2"><input value={r.value} onChange={e => updateResult(block.id, ri, 'value', e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="+300%" /></div>
+                            <div className="max-sm:col-span-1"><input value={r.label} onChange={e => updateResult(block.id, ri, 'label', e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="Revenue Growth" /></div>
+                            <button onClick={() => removeResult(block.id, ri)} className="bg-transparent border-none cursor-pointer text-text-3 p-1 transition-colors hover:text-[#ff4d6d]">✕</button>
                           </div>
                         ))}
                       </div>
@@ -360,16 +343,15 @@ export default function EditPortfolio() {
                     {/* List blocks: highlights, technology, process */}
                     {['highlights','technology','process'].includes(block.type) && (
                       <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                          <label style={lbl}>{block.type === 'technology' ? 'Technologies' : block.type === 'process' ? 'Steps' : 'Highlights'}</label>
-                          <button onClick={() => addItem(block.id)} style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer' }}>+ Add</button>
+                        <div className="flex justify-between mb-2">
+                          <label className={lblClass}>{block.type === 'technology' ? 'Technologies' : block.type === 'process' ? 'Steps' : 'Highlights'}</label>
+                          <button onClick={() => addItem(block.id)} className="font-mono text-[10px] text-primary bg-transparent border-none cursor-pointer hover:underline">+ Add</button>
                         </div>
                         {((block.items || []) as string[]).map((item, ii) => (
-                          <div key={ii} style={{ display: 'flex', gap: '8px', marginBottom: '6px', alignItems: 'center' }}>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--primary)', minWidth: '18px' }}>{ii+1}.</span>
-                            <input value={item} onChange={e => updateItem(block.id, ii, e.target.value)} style={{ ...inp, flex: 1, fontSize: '12px', padding: '7px 10px' }} onFocus={onF} onBlur={onB} placeholder={block.type === 'process' ? 'Step description…' : block.type === 'technology' ? 'Technology name' : 'Highlight point'} />
-                            <button onClick={() => removeItem(block.id, ii)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-3)' }}
-                              onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')} onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>✕</button>
+                          <div key={ii} className="flex gap-2 mb-1.5 items-center">
+                            <span className="font-mono text-[10px] text-primary min-w-[18px]">{ii+1}.</span>
+                            <input value={item} onChange={e => updateItem(block.id, ii, e.target.value)} className={`${inpClass} flex-1 text-xs py-[7px] px-2.5`} placeholder={block.type === 'process' ? 'Step description…' : block.type === 'technology' ? 'Technology name' : 'Highlight point'} />
+                            <button onClick={() => removeItem(block.id, ii)} className="bg-transparent border-none cursor-pointer text-text-3 transition-colors hover:text-[#ff4d6d]">✕</button>
                           </div>
                         ))}
                       </div>
@@ -378,18 +360,17 @@ export default function EditPortfolio() {
                     {/* Metrics block (value::label pairs) */}
                     {block.type === 'metrics' && (
                       <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                          <label style={lbl}>Metric Cards</label>
-                          <button onClick={() => addMetric(block.id)} style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer' }}>+ Add</button>
+                        <div className="flex justify-between mb-2">
+                          <label className={lblClass}>Metric Cards</label>
+                          <button onClick={() => addMetric(block.id)} className="font-mono text-[10px] text-primary bg-transparent border-none cursor-pointer hover:underline">+ Add</button>
                         </div>
                         {((block.items || []) as string[]).map((item, ii) => {
                           const [val, lbl2] = item.split('::')
                           return (
-                            <div key={ii} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '8px', marginBottom: '6px' }}>
-                              <input value={val || ''} onChange={e => updateMetric(block.id, ii, 0, e.target.value)} style={{ ...inp, fontSize: '12px', padding: '7px 10px' }} onFocus={onF} onBlur={onB} placeholder="+300%" />
-                              <input value={lbl2 || ''} onChange={e => updateMetric(block.id, ii, 1, e.target.value)} style={{ ...inp, fontSize: '12px', padding: '7px 10px' }} onFocus={onF} onBlur={onB} placeholder="Revenue Growth" />
-                              <button onClick={() => removeMetric(block.id, ii)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-3)' }}
-                                onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')} onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>✕</button>
+                            <div key={ii} className="grid grid-cols-[1fr_1fr_auto] gap-2 mb-1.5 max-sm:grid-cols-[1fr_auto]">
+                              <div className="max-sm:col-span-2"><input value={val || ''} onChange={e => updateMetric(block.id, ii, 0, e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="+300%" /></div>
+                              <div className="max-sm:col-span-1"><input value={lbl2 || ''} onChange={e => updateMetric(block.id, ii, 1, e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="Revenue Growth" /></div>
+                              <button onClick={() => removeMetric(block.id, ii)} className="bg-transparent border-none cursor-pointer text-text-3 transition-colors hover:text-[#ff4d6d]">✕</button>
                             </div>
                           )
                         })}
@@ -403,31 +384,29 @@ export default function EditPortfolio() {
         </div>
 
         {/* ── Add section picker ── */}
-        <div style={{ marginTop: '12px' }}>
+        <div className="mt-3">
           {picking ? (
-            <div style={{ background: 'var(--bg-2)', border: '1px solid rgba(118,108,255,0.3)', borderRadius: '14px', padding: '18px' }}>
-              <p style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700, color: 'var(--text)', marginBottom: '12px' }}>Choose section type to insert at bottom:</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px' }}>
+            <div className="bg-bg-2 border border-primary/30 rounded-[14px] p-4.5">
+              <p className="font-display text-[13px] font-bold text-white mb-3">Choose section type to insert at bottom:</p>
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2">
                 {ADD_TYPES.map(t => (
                   <button key={t.type} onClick={() => addBlock(t.type, t.label)}
-                    style={{ padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--bg-3)', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.background = 'var(--primary-soft)' }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--bg-3)' }}>
-                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 600, color: 'var(--text)', marginBottom: '2px' }}>{t.icon} {t.label}</p>
-                    <p style={{ fontSize: '11px', color: 'var(--text-3)' }}>{t.desc}</p>
+                    className="py-3 px-3.5 rounded-lg border border-border bg-bg-3 cursor-pointer text-left transition-all hover:border-primary hover:bg-primary/5">
+                    <p className="font-display text-xs font-semibold text-white mb-0.5">{t.icon} {t.label}</p>
+                    <p className="text-[11px] text-text-3">{t.desc}</p>
                   </button>
                 ))}
               </div>
-              <button onClick={() => setPicking(false)} style={{ marginTop: '10px', background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '12px' }}>Cancel</button>
+              <button onClick={() => setPicking(false)} className="mt-2.5 bg-transparent border-none text-text-3 cursor-pointer text-xs hover:underline">Cancel</button>
             </div>
           ) : (
-            <button onClick={() => setPicking(true)} className="btn btn-outline btn-md" style={{ width: '100%', justifyContent: 'center' }}>
+            <button onClick={() => setPicking(true)} className="btn btn-outline btn-md w-full justify-center">
               <Plus size={14} /> Add Section Below
             </button>
           )}
         </div>
 
-        <div className="info-box" style={{ marginTop: '14px' }}>
+        <div className="info-box mt-3.5">
           💡 Use ▲ ▼ arrows to reorder any block. Core blocks (blue) can be reordered but not deleted. Custom blocks (green) can be removed. All blocks render in order on the live case study page.
         </div>
 
