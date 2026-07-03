@@ -10,14 +10,14 @@ export function PropertiesPanel() {
 
   if (!section) {
     return (
-      <aside style={{ width: '280px', flexShrink: 0, height: '100%', background: 'var(--bg-2)', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ padding: '16px', borderBottom: '1px solid var(--border)' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Properties</p>
+      <aside className="w-[280px] shrink-0 h-full bg-bg-2 border-l border-border flex flex-col">
+        <div className="p-4 border-b border-border">
+          <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider">Properties</p>
         </div>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', textAlign: 'center' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'var(--bg-3)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', marginBottom: '12px' }}>⚙️</div>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 600, color: 'var(--text)', marginBottom: '6px' }}>No section selected</p>
-          <p style={{ fontSize: '12px', color: 'var(--text-3)', lineHeight: 1.6 }}>Click a section on the canvas or in the panel to edit its properties</p>
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <div className="w-12 h-12 rounded-xl bg-bg-3 border border-border flex items-center justify-center text-[22px] mb-3">⚙️</div>
+          <p className="font-display text-[13px] font-semibold text-white mb-1.5">No section selected</p>
+          <p className="text-xs text-text-3 leading-[1.6]">Click a section on the canvas or in the panel to edit its properties</p>
         </div>
       </aside>
     )
@@ -29,8 +29,8 @@ export function PropertiesPanel() {
 
   const update = (name: string, value: unknown) => updateProps(section.id, { [name]: value })
 
-  const inp: React.CSSProperties = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', padding: '8px 10px', fontSize: '12px', color: 'var(--text)', outline: 'none', fontFamily: 'var(--font-body)', boxSizing: 'border-box', transition: 'border-color 0.15s' }
-  const lbl: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: '4px' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-sm py-2 px-2.5 text-xs text-white outline-none font-body box-border transition-colors focus:border-primary/50"
+  const lblClass = "font-mono text-[9px] text-text-3 uppercase tracking-wider block mb-1"
 
   const renderField = (field: FieldSchema, prefix = '', parentValue?: Record<string, unknown>) => {
     const key = prefix ? `${prefix}.${field.name}` : field.name
@@ -40,24 +40,22 @@ export function PropertiesPanel() {
       case 'text':
         return (
           <div key={key}>
-            <label style={lbl}>{field.label}</label>
-            <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} style={inp}
-              onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
+            <label className={lblClass}>{field.label}</label>
+            <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} className={inpClass} />
           </div>
         )
       case 'textarea':
         return (
           <div key={key}>
-            <label style={lbl}>{field.label}</label>
-            <textarea value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} rows={3} style={{ ...inp, resize: 'vertical', lineHeight: 1.5 }}
-              onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
+            <label className={lblClass}>{field.label}</label>
+            <textarea value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} rows={3} className={`${inpClass} resize-y leading-[1.5]`} />
           </div>
         )
       case 'select':
         return (
           <div key={key}>
-            <label style={lbl}>{field.label}</label>
-            <select value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} style={{ ...inp, cursor: 'pointer' }}>
+            <label className={lblClass}>{field.label}</label>
+            <select value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} className={`${inpClass} cursor-pointer`}>
               {(field.options || []).map(opt => <option key={opt} value={opt}>{opt}</option>)}
             </select>
           </div>
@@ -65,40 +63,40 @@ export function PropertiesPanel() {
       case 'color':
         return (
           <div key={key}>
-            <label style={lbl}>{field.label}</label>
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-              <input type="color" value={String(value ?? '#766cff')} onChange={e => update(field.name, e.target.value)} style={{ width: '36px', height: '30px', padding: '2px', border: '1px solid var(--border)', borderRadius: '6px', background: 'var(--bg-3)', cursor: 'pointer' }} />
-              <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} style={{ ...inp, flex: 1, fontFamily: 'var(--font-mono)', fontSize: '11px' }} />
+            <label className={lblClass}>{field.label}</label>
+            <div className="flex gap-1.5 items-center">
+              <input type="color" value={String(value ?? '#766cff')} onChange={e => update(field.name, e.target.value)} className="w-9 h-[30px] p-0.5 border border-border rounded-md bg-bg-3 cursor-pointer" />
+              <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} className={`${inpClass} flex-1 font-mono text-[11px]`} />
             </div>
           </div>
         )
       case 'boolean':
         return (
-          <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <input type="checkbox" checked={Boolean(value)} onChange={e => update(field.name, e.target.checked)} style={{ width: '14px', height: '14px', cursor: 'pointer' }} />
-            <label style={{ ...lbl, marginBottom: 0, cursor: 'pointer' }}>{field.label}</label>
+          <div key={key} className="flex items-center gap-2">
+            <input type="checkbox" checked={Boolean(value)} onChange={e => update(field.name, e.target.checked)} className="w-3.5 h-3.5 cursor-pointer" />
+            <label className={`${lblClass} mb-0 cursor-pointer`}>{field.label}</label>
           </div>
         )
       case 'number':
         return (
           <div key={key}>
-            <label style={lbl}>{field.label}</label>
-            <input type="number" value={Number(value ?? 0)} onChange={e => update(field.name, Number(e.target.value))} style={inp} />
+            <label className={lblClass}>{field.label}</label>
+            <input type="number" value={Number(value ?? 0)} onChange={e => update(field.name, Number(e.target.value))} className={inpClass} />
           </div>
         )
       case 'image':
         return (
           <div key={key}>
-            <label style={lbl}>{field.label}</label>
-            <div style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
-              <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} placeholder="https://… or /image.jpg" style={{ ...inp, flex: 1, marginBottom: 0 }} />
-              <button onClick={() => updateMeta(section.id, { _mediaField: field.name } as any)} style={{ padding: '0 10px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', color: 'var(--text)', cursor: 'pointer', fontSize: '11px' }}>
+            <label className={lblClass}>{field.label}</label>
+            <div className="flex gap-1.5 mb-1.5">
+              <input value={String(value ?? '')} onChange={e => update(field.name, e.target.value)} placeholder="https://… or /image.jpg" className={`${inpClass} flex-1 mb-0`} />
+              <button onClick={() => updateMeta(section.id, { _mediaField: field.name } as any)} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] hover:bg-white/5 transition-colors">
                 Library
               </button>
             </div>
             {Boolean(value) && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={String(value)} alt="" style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--border)' }} />
+              <img src={String(value)} alt="" className="w-full h-20 object-cover rounded-md border border-border" />
             )}
             {(section.meta as any)?._mediaField === field.name && (
               <MediaPickerModal 
@@ -112,22 +110,22 @@ export function PropertiesPanel() {
         const items = Array.isArray(value) ? value as Record<string, unknown>[] : []
         return (
           <div key={key}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-              <label style={lbl}>{field.label}</label>
+            <div className="flex justify-between items-center mb-1.5">
+              <label className={lblClass}>{field.label}</label>
               <button onClick={() => {
                 const blank: Record<string, unknown> = {}
                 ;(field.fields || []).forEach((f) => { blank[f.name] = '' })
                 update(field.name, [...items, blank])
-              }} style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer', padding: '0' }}>+ Add</button>
+              }} className="font-mono text-[10px] text-primary bg-transparent border-none cursor-pointer p-0 hover:underline">+ Add</button>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="flex flex-col gap-2">
               {items.map((item, i) => (
-                <div key={i} style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-3)', textTransform: 'uppercase' }}>Item {i + 1}</span>
-                    <button onClick={() => update(field.name, items.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', color: 'var(--red)', cursor: 'pointer', fontSize: '12px' }}>✕</button>
+                <div key={i} className="bg-bg-3 border border-border rounded-lg p-2.5">
+                  <div className="flex justify-between mb-2">
+                    <span className="font-mono text-[9px] text-text-3 uppercase">Item {i + 1}</span>
+                    <button onClick={() => update(field.name, items.filter((_, j) => j !== i))} className="bg-transparent border-none text-[color:var(--red)] cursor-pointer text-xs hover:text-red-400">✕</button>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div className="flex flex-col gap-1.5">
                     {(field.fields || []).map(subField => {
                       const subValue = item[subField.name]
                       const updateSub = (v: unknown) => {
@@ -138,15 +136,15 @@ export function PropertiesPanel() {
                       if (subField.type === 'textarea') {
                         return (
                           <div key={subField.name}>
-                            <label style={lbl}>{subField.label}</label>
-                            <textarea value={String(subValue ?? '')} onChange={e => updateSub(e.target.value)} rows={2} style={{ ...inp, resize: 'vertical', lineHeight: 1.4 }} />
+                            <label className={lblClass}>{subField.label}</label>
+                            <textarea value={String(subValue ?? '')} onChange={e => updateSub(e.target.value)} rows={2} className={`${inpClass} resize-y leading-[1.4]`} />
                           </div>
                         )
                       }
                       return (
                         <div key={subField.name}>
-                          <label style={lbl}>{subField.label}</label>
-                          <input value={String(subValue ?? '')} onChange={e => updateSub(e.target.value)} style={inp} />
+                          <label className={lblClass}>{subField.label}</label>
+                          <input value={String(subValue ?? '')} onChange={e => updateSub(e.target.value)} className={inpClass} />
                         </div>
                       )
                     })}
@@ -162,27 +160,26 @@ export function PropertiesPanel() {
   }
 
   return (
-    <aside style={{ width: '280px', flexShrink: 0, height: '100%', background: 'var(--bg-2)', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <aside className="w-[280px] shrink-0 h-full bg-bg-2 border-l border-border flex flex-col overflow-hidden">
       {/* Header */}
-      <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <span style={{ fontSize: '16px' }}>{def?.icon || '⚙️'}</span>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 600, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{def?.label || section.type}</p>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Edit properties</p>
+      <div className="py-3 px-3.5 border-b border-border flex items-center gap-2">
+        <span className="text-base">{def?.icon || '⚙️'}</span>
+        <div className="flex-1 min-w-0">
+          <p className="font-display text-[13px] font-semibold text-white overflow-hidden text-ellipsis whitespace-nowrap">{def?.label || section.type}</p>
+          <p className="font-mono text-[9px] text-text-3 uppercase tracking-wider">Edit properties</p>
         </div>
       </div>
 
       {/* Section label override */}
-      <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border)' }}>
-        <label style={lbl}>Display Name (optional)</label>
-        <input value={section.meta?.label || ''} onChange={e => updateMeta(section.id, { label: e.target.value })} placeholder={def?.label || section.type} style={inp}
-          onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')} onBlur={e => (e.target.style.borderColor = 'var(--border)')} />
+      <div className="py-3 px-3.5 border-b border-border">
+        <label className={lblClass}>Display Name (optional)</label>
+        <input value={section.meta?.label || ''} onChange={e => updateMeta(section.id, { label: e.target.value })} placeholder={def?.label || section.type} className={inpClass} />
       </div>
 
       {/* Fields */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '14px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <div className="flex-1 overflow-y-auto p-3.5 flex flex-col gap-3.5">
         {schema.length === 0 ? (
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)', textAlign: 'center', padding: '20px 0' }}>No editable fields</p>
+          <p className="font-mono text-[11px] text-text-3 text-center py-5">No editable fields</p>
         ) : schema.map(field => renderField(field))}
       </div>
     </aside>

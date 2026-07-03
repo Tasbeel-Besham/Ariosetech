@@ -23,11 +23,11 @@ class SectionErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: '24px', background: 'rgba(255,77,109,0.06)', border: '1px solid rgba(255,77,109,0.2)', borderRadius: '12px', margin: '8px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--red)', marginBottom: '4px', fontWeight: 700 }}>
+        <div className="p-6 bg-[rgba(255,77,109,0.06)] border border-[rgba(255,77,109,0.2)] rounded-xl m-2">
+          <p className="font-mono text-xs text-[color:var(--red)] mb-1 font-bold">
             ⚠ Section render error: {this.props.type}
           </p>
-          <p style={{ fontSize: '11px', color: 'var(--text-3)' }}>{this.state.error}</p>
+          <p className="text-[11px] text-text-3">{this.state.error}</p>
         </div>
       )
     }
@@ -47,49 +47,48 @@ export function SortableSection({ section }: { section: SectionInstance }) {
     transform: CSS.Transform.toString(transform) || undefined,
     transition: [transition, 'outline 150ms ease'].filter(Boolean).join(', '),
     opacity: isDragging ? 0.45 : isHidden ? 0.35 : 1,
-    position: 'relative',
     outline: isSelected ? '2px solid rgba(79,110,247,0.7)' : '2px solid transparent',
     outlineOffset: '0px',
   }
 
   return (
-    <div ref={setNodeRef} style={style} onClick={e => { e.stopPropagation(); selectSection(isSelected ? null : section.id) }}>
+    <div ref={setNodeRef} style={style} className="relative" onClick={e => { e.stopPropagation(); selectSection(isSelected ? null : section.id) }}>
 
       {/* Toolbar — top right, visible when selected */}
-      <div style={{
-        position: 'absolute', top: '10px', right: '10px', zIndex: 20,
-        display: 'flex', gap: '4px', alignItems: 'center',
-        opacity: isSelected ? 1 : 0,
-        transform: isSelected ? 'translateY(0)' : 'translateY(-4px)',
-        transition: 'opacity 0.15s, transform 0.15s',
-        pointerEvents: isSelected ? 'auto' : 'none',
-      }}>
+      <div 
+        className="absolute top-2.5 right-2.5 z-20 flex gap-1 items-center transition-all duration-150"
+        style={{
+          opacity: isSelected ? 1 : 0,
+          transform: isSelected ? 'translateY(0)' : 'translateY(-4px)',
+          pointerEvents: isSelected ? 'auto' : 'none',
+        }}
+      >
         {/* Drag handle */}
         <div {...attributes} {...listeners}
-          style={{ cursor: 'grab', padding: '6px', borderRadius: '6px', background: 'rgba(6,6,18,0.92)', border: '1px solid var(--border-2)', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }}
+          className="cursor-grab p-1.5 rounded-md bg-[rgba(6,6,18,0.92)] border border-border-2 text-text-3 flex items-center"
           title="Drag to reorder">
           <GripVertical size={13} />
         </div>
 
         {/* Section type label */}
-        <div style={{ padding: '5px 10px', borderRadius: '6px', background: 'rgba(79,110,247,0.85)', color: '#fff', fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.04em' }}>
+        <div className="py-1 px-2.5 rounded-md bg-[rgba(79,110,247,0.85)] text-white text-[11px] font-mono font-semibold tracking-wider">
           {def?.label || section.type}
         </div>
 
         {/* Actions */}
         {[
-          { Icon: isHidden ? Eye : EyeOff, fn: () => updateMeta(section.id, { hidden: !isHidden }), title: isHidden ? 'Show' : 'Hide', color: 'var(--text-3)' },
-          { Icon: Copy, fn: () => { duplicate(section.id); selectSection(section.id + '_copy') }, title: 'Duplicate', color: 'var(--text-3)' },
-          { Icon: Settings2, fn: () => selectSection(section.id), title: 'Edit properties', color: 'var(--blue)' },
-        ].map(({ Icon, fn, title, color }) => (
+          { Icon: isHidden ? Eye : EyeOff, fn: () => updateMeta(section.id, { hidden: !isHidden }), title: isHidden ? 'Show' : 'Hide', colorClass: 'text-text-3' },
+          { Icon: Copy, fn: () => { duplicate(section.id); selectSection(section.id + '_copy') }, title: 'Duplicate', colorClass: 'text-text-3' },
+          { Icon: Settings2, fn: () => selectSection(section.id), title: 'Edit properties', colorClass: 'text-[color:var(--blue)]' },
+        ].map(({ Icon, fn, title, colorClass }) => (
           <button key={title} onClick={e => { e.stopPropagation(); fn() }} title={title}
-            style={{ padding: '6px', borderRadius: '6px', border: '1px solid var(--border-2)', background: 'rgba(6,6,18,0.92)', color, cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'all 0.15s' }}>
+            className={`p-1.5 rounded-md border border-border-2 bg-[rgba(6,6,18,0.92)] ${colorClass} cursor-pointer flex items-center transition-all duration-150`}>
             <Icon size={13} />
           </button>
         ))}
 
         <button onClick={e => { e.stopPropagation(); removeSection(section.id) }} title="Delete section"
-          style={{ padding: '6px', borderRadius: '6px', border: '1px solid rgba(255,77,109,0.35)', background: 'rgba(6,6,18,0.92)', color: 'var(--red)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          className="p-1.5 rounded-md border border-[rgba(255,77,109,0.35)] bg-[rgba(6,6,18,0.92)] text-[color:var(--red)] cursor-pointer flex items-center">
           <Trash2 size={13} />
         </button>
       </div>

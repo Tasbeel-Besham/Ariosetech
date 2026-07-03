@@ -41,7 +41,7 @@ export default function TypingTerminal() {
   }, [lineIndex])
 
   return (
-    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', lineHeight: 1.8 }}>
+    <div className="font-mono text-[13px] leading-[1.8]">
       {LOG_LINES.slice(0, visibleLines).map((line, i) => (
         <p key={i} style={{ color: line.color, fontWeight: line.bold ? 700 : 400, margin: 0 }}>
           {line.text}

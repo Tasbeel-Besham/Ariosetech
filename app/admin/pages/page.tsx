@@ -68,8 +68,8 @@ export default function PagesAdmin() {
     else toast.error('Save failed')
   }
 
-  const inp: React.CSSProperties = { width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--r-md)', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-body)' }
-  const lbl: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
+  const inpClass = "w-full bg-bg-3 border border-border rounded-md py-2.5 px-3.5 text-[13px] text-white outline-none box-border font-body"
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
 
   return (
     <AdminShell>
@@ -79,9 +79,9 @@ export default function PagesAdmin() {
             <h1 className="admin-page__title">Pages</h1>
             <p className="admin-page__subtitle">{pages.length} pages in database · Build layouts with the page builder</p>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="flex gap-2.5">
             <button onClick={runSeed} disabled={seeding} className="btn btn-outline btn-md">
-              <RefreshCw size={14} style={{ animation: seeding ? 'spin 1s linear infinite' : 'none' }} />
+              <RefreshCw size={14} className={seeding ? 'animate-spin' : ''} />
               {seeding ? 'Seeding…' : 'Seed DB'}
             </button>
             <button onClick={() => setCreating(true)} className="btn btn-primary btn-md">
@@ -92,13 +92,19 @@ export default function PagesAdmin() {
 
         {/* Create form */}
         {creating && (
-          <div style={{ background: 'var(--bg-2)', border: '1px solid rgba(118,108,255,0.3)', borderRadius: '14px', padding: '24px', marginBottom: '20px' }}>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>New Page</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
-              <div><label style={lbl}>Title</label><input value={newTitle} onChange={e => { setNewTitle(e.target.value); if (!newSlug) setNewSlug(e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')) }} placeholder="About Us" style={inp} /></div>
-              <div><label style={lbl}>Slug</label><input value={newSlug} onChange={e => setNewSlug(e.target.value)} placeholder="about-us" style={{ ...inp, fontFamily: 'var(--font-mono)' }} /></div>
+          <div className="bg-bg-2 border border-[rgba(118,108,255,0.3)] rounded-2xl p-6 mb-5">
+            <h3 className="font-display text-[15px] font-bold text-white mb-4">New Page</h3>
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div>
+                <label className={lblClass}>Title</label>
+                <input value={newTitle} onChange={e => { setNewTitle(e.target.value); if (!newSlug) setNewSlug(e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')) }} placeholder="About Us" className={inpClass} />
+              </div>
+              <div>
+                <label className={lblClass}>Slug</label>
+                <input value={newSlug} onChange={e => setNewSlug(e.target.value)} placeholder="about-us" className={`${inpClass} font-mono`} />
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div className="flex gap-2.5">
               <button onClick={createPage} className="btn btn-primary btn-md">Create</button>
               <button onClick={() => setCreating(false)} className="btn btn-outline btn-md">Cancel</button>
             </div>
@@ -106,17 +112,17 @@ export default function PagesAdmin() {
         )}
 
         {/* Table */}
-        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', overflow: 'hidden' }}>
+        <div className="bg-bg-2 border border-border rounded-2xl overflow-hidden">
           {loading ? (
-            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', border: '3px solid var(--border)', borderTopColor: 'var(--primary)', animation: 'spin 0.8s linear infinite', margin: '0 auto 12px' }} />
+            <div className="p-10 text-center text-text-3">
+              <div className="w-8 h-8 rounded-full border-[3px] border-border border-t-primary animate-spin mx-auto mb-3" />
               Loading pages…
             </div>
           ) : pages.length === 0 ? (
-            <div style={{ padding: '60px', textAlign: 'center' }}>
-              <p style={{ color: 'var(--text-3)', marginBottom: '16px' }}>No pages in database.</p>
-              <p style={{ ...{ fontFamily: 'var(--font-mono)' }, fontSize: '12px', color: 'var(--text-3)', marginBottom: '20px' }}>Run the seed to populate all pages from the frontend:</p>
-              <button onClick={runSeed} disabled={seeding} className="btn btn-primary btn-lg">
+            <div className="p-[60px] text-center">
+              <p className="text-text-3 mb-4">No pages in database.</p>
+              <p className="font-mono text-xs text-text-3 mb-5">Run the seed to populate all pages from the frontend:</p>
+              <button onClick={runSeed} disabled={seeding} className="btn btn-primary btn-lg mx-auto">
                 <RefreshCw size={15} /> Seed Database
               </button>
             </div>
@@ -128,20 +134,20 @@ export default function PagesAdmin() {
               <tbody>
                 {pages.map(page => (
                   <tr key={page._id}>
-                    <td style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--text)' }}>{page.title}</td>
-                    <td><code style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)' }}>{page.fullPath}</code></td>
-                    <td style={{ fontSize: '12px' }}>
-                      {page.seo?.title ? <span style={{ color: 'var(--text-2)' }}>{page.seo.title.slice(0, 40)}</span> : <span style={{ color: 'var(--amber)', fontSize: '11px' }}>⚠ Missing</span>}
+                    <td className="font-display font-semibold text-white">{page.title}</td>
+                    <td><code className="font-mono text-[11px] text-text-3">{page.fullPath}</code></td>
+                    <td className="text-xs">
+                      {page.seo?.title ? <span className="text-text-2">{page.seo.title.slice(0, 40)}</span> : <span className="text-amber-400 text-[11px]">⚠ Missing</span>}
                     </td>
                     <td><span className={`status-badge status-badge--${page.status}`}>{page.status}</span></td>
-                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)' }}>{new Date(page.updatedAt).toLocaleDateString()}</td>
+                    <td className="font-mono text-[11px] text-text-3">{new Date(page.updatedAt).toLocaleDateString()}</td>
                     <td>
-                      <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                      <div className="flex gap-1 items-center">
                         <Link href={`/admin/builder/${page._id}`} className="btn btn-outline btn-sm"><Pencil size={11} /> Builder</Link>
                         <button onClick={() => openSeo(page)} className="btn btn-ghost btn-sm" title="SEO"><Settings size={13} /></button>
                         <button onClick={() => duplicatePage(page)} className="btn btn-ghost btn-sm" title="Duplicate"><Copy size={13} /></button>
                         <Link href={page.fullPath || '/'} target="_blank" className="btn btn-ghost btn-sm" title="View"><Eye size={13} /></Link>
-                        <button onClick={() => deletePage(page._id, page.title)} className="btn btn-ghost btn-sm" style={{ color: 'var(--red)' }} title="Delete"><Trash2 size={13} /></button>
+                        <button onClick={() => deletePage(page._id, page.title)} className="btn btn-ghost btn-sm text-[color:var(--red)]" title="Delete"><Trash2 size={13} /></button>
                       </div>
                     </td>
                   </tr>
@@ -151,46 +157,46 @@ export default function PagesAdmin() {
           )}
         </div>
 
-        <div className="info-box" style={{ marginTop: '16px' }}>
-          💡 <strong>Single source of truth:</strong> All pages are stored in MongoDB. The frontend reads from the same database. Run the seed to populate all 9 default pages: <code style={{ fontFamily: 'var(--font-mono)', color: 'var(--primary)' }}>POST /api/seed?secret=YOUR_JWT_SECRET</code>
+        <div className="info-box mt-4">
+          💡 <strong>Single source of truth:</strong> All pages are stored in MongoDB. The frontend reads from the same database. Run the seed to populate all 9 default pages: <code className="font-mono text-primary">POST /api/seed?secret=YOUR_JWT_SECRET</code>
         </div>
       </div>
 
       {/* SEO Modal */}
       {editSeo && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={() => setEditSeo(null)}>
-          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border-2)', borderRadius: '20px', width: '100%', maxWidth: '560px', maxHeight: '90vh', overflow: 'auto' }} onClick={e => e.stopPropagation()}>
-            <div style={{ padding: '22px 26px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[200] flex items-center justify-center p-5" onClick={() => setEditSeo(null)}>
+          <div className="bg-bg-2 border border-border-2 rounded-[20px] w-full max-w-[560px] max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
+            <div className="py-5 px-6 border-b border-border flex justify-between items-center">
               <div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, color: 'var(--text)' }}>SEO & URL Settings</h2>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', marginTop: '3px' }}>{editSeo.fullPath}</p>
+                <h2 className="font-display text-[17px] font-extrabold text-white">SEO & URL Settings</h2>
+                <p className="font-mono text-[10px] text-text-3 mt-1">{editSeo.fullPath}</p>
               </div>
-              <button onClick={() => setEditSeo(null)} style={{ background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', fontSize: '18px' }}>✕</button>
+              <button onClick={() => setEditSeo(null)} className="bg-transparent border-none text-text-3 cursor-pointer text-lg hover:text-white">✕</button>
             </div>
-            <div style={{ padding: '24px 26px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div><label style={lbl}>Slug</label>
-                <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border)', borderRadius: 'var(--r-md)', overflow: 'hidden', background: 'var(--bg-3)' }}>
-                  <span style={{ padding: '10px 12px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)', background: 'var(--bg-4)', borderRight: '1px solid var(--border)', whiteSpace: 'nowrap' }}>ariosetech.com/</span>
-                  <input value={seoForm.slug} onChange={e => setSeoForm(f => ({ ...f, slug: e.target.value }))} style={{ ...inp, border: 'none', background: 'transparent', fontFamily: 'var(--font-mono)' }} />
+            <div className="p-6 flex flex-col gap-4">
+              <div><label className={lblClass}>Slug</label>
+                <div className="flex items-center border border-border rounded-md overflow-hidden bg-bg-3">
+                  <span className="py-2.5 px-3 font-mono text-[11px] text-text-3 bg-bg-4 border-r border-border whitespace-nowrap">ariosetech.com/</span>
+                  <input value={seoForm.slug} onChange={e => setSeoForm(f => ({ ...f, slug: e.target.value }))} className={`${inpClass} border-none bg-transparent font-mono`} />
                 </div>
               </div>
-              <div><label style={lbl}>SEO Title <span style={{ color: 'var(--text-3)' }}>(50-60 chars)</span></label>
-                <input value={seoForm.title} onChange={e => setSeoForm(f => ({ ...f, title: e.target.value }))} placeholder={`${editSeo.title} | ARIOSETECH`} style={inp} />
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: seoForm.title.length > 60 ? 'var(--red)' : 'var(--text-3)', marginTop: '4px' }}>{seoForm.title.length}/60</p>
+              <div><label className={lblClass}>SEO Title <span className="text-text-3">(50-60 chars)</span></label>
+                <input value={seoForm.title} onChange={e => setSeoForm(f => ({ ...f, title: e.target.value }))} placeholder={`${editSeo.title} | ARIOSETECH`} className={inpClass} />
+                <p className={`font-mono text-[10px] ${seoForm.title.length > 60 ? 'text-[color:var(--red)]' : 'text-text-3'} mt-1`}>{seoForm.title.length}/60</p>
               </div>
-              <div><label style={lbl}>Meta Description <span style={{ color: 'var(--text-3)' }}>(150-160 chars)</span></label>
-                <textarea value={seoForm.description} onChange={e => setSeoForm(f => ({ ...f, description: e.target.value }))} rows={3} style={{ ...inp, resize: 'vertical' }} />
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: seoForm.description.length > 160 ? 'var(--red)' : 'var(--text-3)', marginTop: '4px' }}>{seoForm.description.length}/160</p>
+              <div><label className={lblClass}>Meta Description <span className="text-text-3">(150-160 chars)</span></label>
+                <textarea value={seoForm.description} onChange={e => setSeoForm(f => ({ ...f, description: e.target.value }))} rows={3} className={`${inpClass} resize-y`} />
+                <p className={`font-mono text-[10px] ${seoForm.description.length > 160 ? 'text-[color:var(--red)]' : 'text-text-3'} mt-1`}>{seoForm.description.length}/160</p>
               </div>
               {/* Google preview */}
               {(seoForm.title || editSeo.title) && (
-                <div style={{ background: '#fff', borderRadius: '10px', padding: '14px' }}>
-                  <p style={{ fontSize: '13px', color: '#1a0dab', fontWeight: 500, marginBottom: '2px', fontFamily: 'Arial' }}>{seoForm.title || `${editSeo.title} | ARIOSETECH`}</p>
-                  <p style={{ fontSize: '11px', color: '#006621', marginBottom: '3px', fontFamily: 'Arial' }}>ariosetech.com{editSeo.fullPath}</p>
-                  <p style={{ fontSize: '12px', color: '#545454', fontFamily: 'Arial', lineHeight: 1.4 }}>{seoForm.description || 'No meta description set.'}</p>
+                <div className="bg-white rounded-xl p-3.5">
+                  <p className="text-[13px] text-[#1a0dab] font-medium mb-0.5 font-[Arial]">{seoForm.title || `${editSeo.title} | ARIOSETECH`}</p>
+                  <p className="text-[11px] text-[#006621] mb-1 font-[Arial]">ariosetech.com{editSeo.fullPath}</p>
+                  <p className="text-[12px] text-[#545454] font-[Arial] leading-[1.4]">{seoForm.description || 'No meta description set.'}</p>
                 </div>
               )}
-              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+              <div className="flex gap-2.5 justify-end">
                 <button onClick={() => setEditSeo(null)} className="btn btn-outline btn-md">Cancel</button>
                 <button onClick={saveSeo} className="btn btn-primary btn-md">Save Changes</button>
               </div>
@@ -198,7 +204,6 @@ export default function PagesAdmin() {
           </div>
         </div>
       )}
-      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </AdminShell>
   )
 }

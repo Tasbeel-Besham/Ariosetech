@@ -17,67 +17,55 @@ export function BuilderToolbar({ onAddSection }: { onAddSection: () => void }) {
     toast.success('Page published!')
   }
 
-  const btnBase: React.CSSProperties = {
-    display: 'flex', alignItems: 'center', gap: '6px',
-    padding: '7px 14px', borderRadius: '8px', border: 'none',
-    fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-display)',
-    cursor: 'pointer', transition: 'all 0.15s',
-  }
+  const btnBase = "flex items-center justify-center gap-1.5 py-1.5 px-3.5 rounded-lg border-none text-[13px] font-semibold font-display cursor-pointer transition-all duration-150"
 
   return (
-    <div style={{
-      height: '56px', background: 'var(--bg-2)', borderBottom: '1px solid var(--border)',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '0 16px', gap: '12px', position: 'sticky', top: 0, zIndex: 50,
-    }}>
+    <div className="h-14 bg-bg-2 border-b border-border flex items-center justify-between px-4 gap-3 sticky top-0 z-50">
       {/* Left */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <Link href="/admin/pages" style={{
-          display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-3)',
-          textDecoration: 'none', fontSize: '13px', transition: 'color 0.15s',
-        }} className="hover:text-[var(--text)]">
+      <div className="flex items-center gap-3">
+        <Link href="/admin/pages" className="flex items-center gap-1.5 text-text-3 no-underline text-[13px] transition-colors duration-150 hover:text-white">
           <ArrowLeft size={14} /> Pages
         </Link>
 
-        <div style={{ width: '1px', height: '20px', background: 'var(--border)' }} />
+        <div className="w-[1px] h-5 bg-border" />
 
         <div>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700, color: 'var(--text)', lineHeight: 1 }}>{pageTitle || 'Untitled Page'}</p>
-          {pageSlug && <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', marginTop: '2px' }}>/{pageSlug}</p>}
+          <p className="font-display text-sm font-bold text-white leading-none">{pageTitle || 'Untitled Page'}</p>
+          {pageSlug && <p className="font-mono text-[10px] text-text-3 mt-0.5">/{pageSlug}</p>}
         </div>
 
         {isDirty && (
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--amber)', background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.3)', padding: '2px 8px', borderRadius: '20px' }}>
+          <span className="font-mono text-[10px] text-amber-400 bg-amber-400/10 border border-amber-400/30 py-0.5 px-2 rounded-full">
             Unsaved
           </span>
         )}
       </div>
 
       {/* Center: undo/redo + add */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <button onClick={undo} disabled={!canUndo()} title="Undo" style={{ ...btnBase, background: 'var(--bg-3)', color: canUndo() ? 'var(--text-2)' : 'var(--text-3)', border: '1px solid var(--border)', opacity: canUndo() ? 1 : 0.4, padding: '7px 10px' }}>
+      <div className="flex items-center gap-1.5">
+        <button onClick={undo} disabled={!canUndo()} title="Undo" className={`${btnBase} bg-bg-3 border border-border px-2.5 ${canUndo() ? 'text-text-2 opacity-100' : 'text-text-3 opacity-40'}`}>
           <Undo2 size={14} />
         </button>
-        <button onClick={redo} disabled={!canRedo()} title="Redo" style={{ ...btnBase, background: 'var(--bg-3)', color: canRedo() ? 'var(--text-2)' : 'var(--text-3)', border: '1px solid var(--border)', opacity: canRedo() ? 1 : 0.4, padding: '7px 10px' }}>
+        <button onClick={redo} disabled={!canRedo()} title="Redo" className={`${btnBase} bg-bg-3 border border-border px-2.5 ${canRedo() ? 'text-text-2 opacity-100' : 'text-text-3 opacity-40'}`}>
           <Redo2 size={14} />
         </button>
 
-        <div style={{ width: '1px', height: '20px', background: 'var(--border)', margin: '0 4px' }} />
+        <div className="w-[1px] h-5 bg-border mx-1" />
 
-        <button onClick={onAddSection} style={{ ...btnBase, background: 'rgba(79,110,247,0.12)', color: 'var(--blue)', border: '1px solid rgba(79,110,247,0.3)' }}>
+        <button onClick={onAddSection} className={`${btnBase} bg-primary/10 text-[color:var(--blue)] border border-[rgba(79,110,247,0.3)]`}>
           <Plus size={14} /> Add Section
         </button>
       </div>
 
       {/* Right: save + publish + preview */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <Link href={`/${pageSlug}`} target="_blank" style={{ ...btnBase, background: 'var(--bg-3)', color: 'var(--text-3)', border: '1px solid var(--border)', textDecoration: 'none' }}>
+      <div className="flex items-center gap-2">
+        <Link href={`/${pageSlug}`} target="_blank" className={`${btnBase} bg-bg-3 text-text-3 border border-border no-underline`}>
           <Eye size={14} /> Preview
         </Link>
-        <button onClick={save} disabled={isSaving} style={{ ...btnBase, background: 'var(--bg-3)', color: 'var(--text-2)', border: '1px solid var(--border)', opacity: isSaving ? 0.6 : 1 }}>
+        <button onClick={save} disabled={isSaving} className={`${btnBase} bg-bg-3 text-text-2 border border-border ${isSaving ? 'opacity-60' : 'opacity-100'}`}>
           <Save size={14} /> {isSaving ? 'Saving…' : 'Save Draft'}
         </button>
-        <button onClick={publish} disabled={isPublishing} style={{ ...btnBase, background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', opacity: isPublishing ? 0.6 : 1 }}>
+        <button onClick={publish} disabled={isPublishing} className={`${btnBase} bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white ${isPublishing ? 'opacity-60' : 'opacity-100'}`}>
           <Globe size={14} /> {isPublishing ? 'Publishing…' : 'Publish'}
         </button>
       </div>

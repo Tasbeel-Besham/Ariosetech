@@ -13,10 +13,6 @@ const StarSVG = () => (
   </svg>
 )
 
-const P  = { background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' } as const
-const F  = { fontFamily:'var(--font-display)' } as const
-const M  = { fontFamily:'var(--font-mono)'    } as const
-
 /* ── Content — verbatim from Google Doc ─────────────────────── */
 
 const CLIENT_LOGOS = [
@@ -179,15 +175,15 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
 
       {/* ══ CLIENT LOGOS MARQUEE ══════════════════════════════════════ */}
-      <div style={{ background:'var(--bg-3)', borderBottom:'1px solid var(--border)', padding:'20px 0', overflow:'hidden' }}>
-        <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
-          <p style={{ ...M, fontSize:'9px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.14em', flexShrink:0, paddingLeft:'32px', whiteSpace:'nowrap', fontWeight:700 }}>Trusted by 100+ businesses</p>
-          <div style={{ flex:1, overflow:'hidden', position:'relative' }}>
-            <div style={{ position:'absolute', left:0, top:0, bottom:0, width:'100px', background:'linear-gradient(to right, var(--bg-3), transparent)', zIndex:1, pointerEvents:'none' }} />
-            <div style={{ position:'absolute', right:0, top:0, bottom:0, width:'100px', background:'linear-gradient(to left, var(--bg-3), transparent)', zIndex:1, pointerEvents:'none' }} />
-            <div style={{ display:'flex', gap:'10px', animation:'marquee 40s linear infinite', width:'max-content' }}>
+      <div className="bg-bg-3 border-b border-border py-5 overflow-hidden">
+        <div className="flex items-center gap-4">
+          <p className="font-mono text-[9px] text-text-3 uppercase tracking-[0.14em] shrink-0 pl-8 whitespace-nowrap font-bold">Trusted by 100+ businesses</p>
+          <div className="flex-1 overflow-hidden relative">
+            <div className="absolute left-0 top-0 bottom-0 w-[100px] bg-gradient-to-r from-bg-3 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-[100px] bg-gradient-to-l from-bg-3 to-transparent z-10 pointer-events-none" />
+            <div className="flex gap-2.5 animate-[marquee_40s_linear_infinite] w-max">
               {[...CLIENT_LOGOS,...CLIENT_LOGOS].map((name,i) => (
-                <span key={i} style={{ ...M, fontSize:'11px', fontWeight:600, color:'var(--text-3)', padding:'5px 16px', borderRadius:'var(--r-f)', background:'rgba(255,255,255,0.03)', border:'1px solid var(--border)', whiteSpace:'nowrap' }}>{name}</span>
+                <span key={i} className="font-mono text-[11px] font-semibold text-text-3 py-1.5 px-4 rounded-full bg-white/5 border border-border whitespace-nowrap">{name}</span>
               ))}
             </div>
           </div>
@@ -202,29 +198,29 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       />
 
       {/* ══ WHY CHOOSE US ══════════════════════════════════════════ */}
-      <section className="section" style={{ overflow: 'visible' }}>
+      <section className="section overflow-visible">
         <div className="container">
-          <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
+          <div className="g-2 gap-20 items-start">
 
             {/* LEFT — sticky */}
-            <div className="sticky-mobile-fix" style={{ position:'sticky', top:'88px' }}>
+            <div className="sticky-mobile-fix sticky top-[88px]">
               <p className="eyebrow sr">Why Choose Us</p>
-              <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
+              <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.05] tracking-tight mb-5">
                 Why 100+ Businesses Trust{' '}
-                <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>ARIOSETECH</span>
+                <span className="bg-brand-gradient bg-clip-text text-transparent">ARIOSETECH</span>
                 {' '}for Their Success
               </h2>
-              <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.85, marginBottom:'32px' }}>
+              <p className="text-[15px] text-text-2 leading-[1.85] mb-8">
                 We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code — business growth.
               </p>
               <Link href="/contact" className="btn btn-primary btn-lg sr">Start a Project <ArrowSVG size={16} /></Link>
             </div>
 
             {/* RIGHT — scrollable vertical cards */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr', gap:'16px' }}>
+            <div className="grid grid-cols-1 gap-4">
               {WHY_US.map((b: WhyUsItem, i: number) => (
-                <div key={b.title} className="sr card card-hover" style={{ display:'flex', gap:'24px', padding:'32px', animationDelay:`${i*0.08}s`, position:'relative', overflow:'hidden', alignItems:'flex-start' }}>
-                  <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
+                <div key={b.title} className="sr card card-hover relative overflow-hidden flex gap-6 p-8 items-start" style={{ animationDelay:`${i*0.08}s` }}>
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />
                   
                   {/* Icon Box */}
                   <IconBox size={56} radius={14}>
@@ -233,9 +229,9 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
                   {/* Content */}
                   <div>
-                    <h3 style={{ ...F, fontSize:'18px', fontWeight:800, color:'#fff', marginBottom:'8px', letterSpacing:'-0.02em' }}>{b.title}</h3>
-                    <p style={{ ...F, fontSize:'11px', fontWeight:700, color:'var(--primary)', marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.06em' }}>{b.subhead}</p>
-                    <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8 }}>{b.desc}</p>
+                    <h3 className="font-display text-lg font-extrabold text-white mb-2 tracking-tight">{b.title}</h3>
+                    <p className="font-display text-[11px] font-bold text-primary mb-3 uppercase tracking-wider">{b.subhead}</p>
+                    <p className="text-sm text-text-3 leading-[1.8]">{b.desc}</p>
                   </div>
                 </div>
               ))}
@@ -246,50 +242,37 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       </section>
 
       {/* ══ IMPACT QUANTIFIED ══════════════════════════════════════ */}
-      <section className="section section--dark" style={{ position:'relative', overflow:'hidden' }}>
+      <section className="section section--dark relative overflow-hidden">
         {/* Ambient glow */}
-        <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:'70%', height:'80%', background:'radial-gradient(ellipse, rgba(118,108,255,0.09) 0%, transparent 65%)', pointerEvents:'none', filter:'blur(30px)' }} />
-        <div className="container" style={{ position:'relative', zIndex:1 }}>
-          <div style={{ textAlign:'center', marginBottom:'64px' }}>
-            <p className="eyebrow sr" style={{ justifyContent:'center' }}>Results That Matter</p>
-            <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>
-              The Impact,{' '}<span style={P}>Quantified</span>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px]" style={{ background:'radial-gradient(ellipse, rgba(118,108,255,0.09) 0%, transparent 65%)' }} />
+        <div className="container relative z-10">
+          <div className="text-center mb-16">
+            <p className="eyebrow sr justify-center">Results That Matter</p>
+            <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">
+              The Impact,{' '}<span className="bg-brand-gradient bg-clip-text text-transparent">Quantified</span>
             </h2>
-            <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8, maxWidth:'520px', margin:'16px auto 0' }}>
+            <p className="sr text-base text-text-2 leading-[1.8] max-w-[520px] mx-auto mt-4">
               Numbers don&apos;t lie. Here&apos;s what working with ARIOSETECH actually delivers for your business.
             </p>
           </div>
 
-          <div className="g-3" style={{ gap:'24px' }}>
+          <div className="g-3 gap-6">
             {IMPACT_METRICS.map((m: ImpactMetric, i: number) => (
               <div
                 key={m.label}
-                className="sr"
-                style={{
-                  animationDelay: `${i * 0.1}s`,
-                  background: 'rgba(10,10,18,0.7)',
-                  border: '1px solid rgba(118,108,255,0.18)',
-                  borderRadius: '24px',
-                  padding: '44px 36px',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  transition: 'all 0.3s var(--ease)',
-                }}
-                onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.45)'; el.style.transform = 'translateY(-8px)'; el.style.boxShadow = '0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(118,108,255,0.08)' }}
-                onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.18)'; el.style.transform = ''; el.style.boxShadow = '' }}
+                className="sr relative overflow-hidden transition-all duration-300 bg-bg-2/70 border border-border rounded-3xl p-11 backdrop-blur-md hover:-translate-y-2 hover:border-primary/45 hover:shadow-[0_32px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(118,108,255,0.08)]"
+                style={{ animationDelay: `${i * 0.1}s` }}
               >
                 {/* Subtle gradient top-bar */}
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)' }} />
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />
                 {/* Inner glow */}
-                <div style={{ position:'absolute', top:'-30%', left:'-10%', width:'60%', height:'60%', background:'radial-gradient(ellipse, rgba(118,108,255,0.12) 0%, transparent 70%)', pointerEvents:'none' }} />
+                <div className="absolute -top-[30%] -left-[10%] w-[60%] h-[60%] pointer-events-none" style={{ background:'radial-gradient(ellipse, rgba(118,108,255,0.12) 0%, transparent 70%)' }} />
 
-                <p style={{ ...F, fontSize:'clamp(3rem,5vw,4.5rem)', fontWeight:800, lineHeight:1, marginBottom:'12px', ...P }}>
+                <p className="font-display text-[clamp(3rem,5vw,4.5rem)] font-extrabold leading-none mb-3 bg-brand-gradient bg-clip-text text-transparent">
                   {m.value}
                 </p>
-                <p style={{ ...F, fontSize:'16px', fontWeight:700, color:'#fff', marginBottom:'14px' }}>{m.label}</p>
-                <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{m.desc}</p>
+                <p className="font-display text-base font-bold text-white mb-3.5">{m.label}</p>
+                <p className="text-sm text-text-2 leading-[1.8]">{m.desc}</p>
               </div>
             ))}
           </div>
@@ -297,86 +280,58 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       </section>
 
       {/* ══ HOW IT WORKS ════════════════════════════════════════════ */}
-      <section className="section" style={{ position:'relative', overflow:'hidden' }}>
+      <section className="section relative overflow-hidden">
         {/* Vertical connector line */}
-        <div style={{ position:'absolute', left:'50%', top:'160px', bottom:'80px', width:'1px', background:'linear-gradient(to bottom, transparent, rgba(118,108,255,0.20) 20%, rgba(118,108,255,0.20) 80%, transparent)', pointerEvents:'none' }} className="hidden-mobile" />
-        <div className="container" style={{ position:'relative', zIndex:1 }}>
-          <div style={{ textAlign:'center', marginBottom:'72px' }}>
-            <p className="eyebrow sr" style={{ justifyContent:'center' }}>Our Process</p>
-            <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>
+        <div className="hidden-mobile absolute left-1/2 top-[160px] bottom-[80px] w-[1px] pointer-events-none" style={{ background:'linear-gradient(to bottom, transparent, rgba(118,108,255,0.20) 20%, rgba(118,108,255,0.20) 80%, transparent)' }} />
+        <div className="container relative z-10">
+          <div className="text-center mb-[72px]">
+            <p className="eyebrow sr justify-center">Our Process</p>
+            <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">
               How It Works
             </h2>
-            <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8, maxWidth:'480px', margin:'16px auto 0' }}>
+            <p className="sr text-base text-text-2 leading-[1.8] max-w-[480px] mx-auto mt-4">
               From setup to scale — a proven 5-step process that takes you from idea to a live, high-performing site.
             </p>
           </div>
 
-          <div className="how-it-works-grid" style={{ display:'flex', flexDirection:'column', gap:'32px', maxWidth:'900px', margin:'0 auto' }}>
+          <div className="how-it-works-grid flex flex-col gap-8 max-w-[900px] mx-auto">
             {HOW_IT_WORKS.map((step: Step, i: number) => {
               const isRight = i % 2 !== 0
               return (
                 <div
                   key={step.n}
-                  className="sr how-step-row"
-                  style={{
-                    animationDelay: `${i * 0.1}s`,
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 80px 1fr',
-                    alignItems: 'center',
-                    gap: '0',
-                  }}
+                  className="sr how-step-row grid grid-cols-[1fr_80px_1fr] items-center gap-0"
+                  style={{ animationDelay: `${i * 0.1}s` }}
                 >
                   {/* Left slot */}
                   <div className={isRight ? "how-step__empty hidden-mobile" : "how-step__card"}>
                     {!isRight && (
-                      <div
-                        style={{
-                          background: 'var(--bg-2)',
-                          border: '1px solid var(--border)',
-                          borderRadius: '20px',
-                          padding: '32px 36px',
-                          transition: 'all 0.3s var(--ease)',
-                          position: 'relative', overflow: 'hidden'
-                        }}
-                        onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateX(-6px)' }}
-                        onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}
-                      >
-                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)', opacity: 0.5 }} />
-                        <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
-                        <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
-                        <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
-                        <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{step.desc}</p>
+                      <div className="relative overflow-hidden bg-bg-2 border border-border rounded-[20px] py-8 px-9 transition-all duration-300 hover:border-primary/35 hover:-translate-x-1.5">
+                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient opacity-50" />
+                        <p className="font-display text-[clamp(3rem,4vw,3.8rem)] font-extrabold text-primary/15 leading-none mb-4 select-none">{step.n}</p>
+                        <p className="font-display text-[17px] font-extrabold text-white mb-1.5">{step.title}</p>
+                        <p className="text-xs text-primary font-semibold mb-3 uppercase tracking-wider">{step.sub}</p>
+                        <p className="text-sm text-text-2 leading-[1.8]">{step.desc}</p>
                       </div>
                     )}
                   </div>
 
                   {/* Centre connector dot */}
-                  <div className="how-step__dot hidden-mobile" style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'0' }}>
-                    <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:'var(--primary-soft)', border:'2px solid rgba(118,108,255,0.35)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                      <span style={{ ...F, fontSize:'12px', fontWeight:800, color:'var(--primary)' }}>{step.n}</span>
+                  <div className="how-step__dot hidden-mobile flex flex-col items-center gap-0">
+                    <div className="w-11 h-11 rounded-full bg-primary/10 border-2 border-primary/35 flex items-center justify-center shrink-0">
+                      <span className="font-display text-xs font-extrabold text-primary">{step.n}</span>
                     </div>
                   </div>
 
                   {/* Right slot */}
                   <div className={!isRight ? "how-step__empty hidden-mobile" : "how-step__card"}>
                     {isRight && (
-                      <div
-                        style={{
-                          background: 'var(--bg-2)',
-                          border: '1px solid var(--border)',
-                          borderRadius: '20px',
-                          padding: '32px 36px',
-                          transition: 'all 0.3s var(--ease)',
-                          position: 'relative', overflow: 'hidden'
-                        }}
-                        onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = 'rgba(118,108,255,0.35)'; el.style.transform = 'translateX(6px)' }}
-                        onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = 'var(--border)'; el.style.transform = '' }}
-                      >
-                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
-                        <p style={{ ...F, fontSize:'clamp(3rem,4vw,3.8rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{step.n}</p>
-                        <p style={{ ...F, fontSize:'17px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>{step.title}</p>
-                        <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'12px', textTransform:'uppercase', letterSpacing:'0.08em' }}>{step.sub}</p>
-                        <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.8 }}>{step.desc}</p>
+                      <div className="relative overflow-hidden bg-bg-2 border border-border rounded-[20px] py-8 px-9 transition-all duration-300 hover:border-primary/35 hover:translate-x-1.5">
+                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />
+                        <p className="font-display text-[clamp(3rem,4vw,3.8rem)] font-extrabold text-primary/15 leading-none mb-4 select-none">{step.n}</p>
+                        <p className="font-display text-[17px] font-extrabold text-white mb-1.5">{step.title}</p>
+                        <p className="text-xs text-primary font-semibold mb-3 uppercase tracking-wider">{step.sub}</p>
+                        <p className="text-sm text-text-2 leading-[1.8]">{step.desc}</p>
                       </div>
                     )}
                   </div>
@@ -393,71 +348,47 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ PORTFOLIO ═══════════════════════════════════════════════ */}
       <section className="section section--dark">
         <div className="container">
-          <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:'56px', flexWrap:'wrap', gap:'20px' }}>
+          <div className="flex items-end justify-between mb-14 flex-wrap gap-5">
             <div>
               <p className="eyebrow sr">Our Work</p>
-              <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>
+              <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">
                 Success Stories That Speak for Themselves
               </h2>
-              <p className="sr" style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8, marginTop:'14px', maxWidth:'560px' }}>
+              <p className="sr text-base text-text-2 leading-[1.8] mt-3.5 max-w-[560px]">
                 Discover how we&apos;ve transformed businesses across industries with custom web solutions that drive growth and maximize ROI.
               </p>
             </div>
             <Link href="/portfolio" className="btn btn-outline btn-lg">Explore All Projects <ArrowSVG size={15} /></Link>
           </div>
 
-          <div className="g-3" style={{ gap:'20px' }}>
+          <div className="g-3 gap-5">
             {displayPortfolio.map((p,i) => (
-              <Link key={p._id} href={`/portfolio/${p.slug}`} className="sr" style={{ display:'flex', flexDirection:'column', textDecoration:'none', background:'var(--bg-3)', border:'1px solid var(--border)', borderRadius:'20px', overflow:'hidden', transition:'all 0.3s var(--ease)', animationDelay:`${i*0.08}s` }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget
-                  el.style.borderColor = 'rgba(118,108,255,0.35)'
-                  el.style.transform = 'translateY(-6px)'
-                  el.style.boxShadow = '0 28px 70px rgba(0,0,0,0.55)'
-                  const img = el.querySelector('[data-hp-img]') as HTMLElement | null
-                  if (img) img.style.transform = 'translateY(-18%)'
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget
-                  el.style.borderColor = 'var(--border)'
-                  el.style.transform = ''
-                  el.style.boxShadow = ''
-                  const img = el.querySelector('[data-hp-img]') as HTMLElement | null
-                  if (img) img.style.transform = 'translateY(0%)'
-                }}>
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'var(--grad)', zIndex:2 }} />
+              <Link key={p._id} href={`/portfolio/${p.slug}`} className="sr group flex flex-col no-underline bg-bg-3 border border-border rounded-[20px] overflow-hidden transition-all duration-300 hover:border-primary/35 hover:-translate-y-1.5 hover:shadow-[0_28px_70px_rgba(0,0,0,0.55)]" style={{ animationDelay:`${i*0.08}s` }}>
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient z-10" />
                 {/* Image preview (scroll on hover) */}
-                <div style={{ height:'190px', overflow:'hidden', position:'relative', borderBottom:'1px solid var(--border)' }}>
+                <div className="h-[190px] overflow-hidden relative border-b border-border">
                   <div
                     data-hp-img
-                    style={{
-                      position:'absolute',
-                      inset:0,
-                      backgroundImage:`radial-gradient(ellipse 60% 60% at 30% 30%, rgba(118,108,255,0.22) 0%, rgba(118,108,255,0) 55%), linear-gradient(145deg, rgba(15,15,26,1) 0%, rgba(5,5,8,1) 100%)`,
-                      backgroundSize:'cover',
-                      backgroundPosition:'top center',
-                      transform:'translateY(0%)',
-                      transition:'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)',
-                      willChange:'transform',
-                    }}
+                    className="absolute inset-0 bg-cover bg-top transform transition-transform duration-[1200ms] ease-in-out will-change-transform group-hover:-translate-y-[18%]"
+                    style={{ backgroundImage:`radial-gradient(ellipse 60% 60% at 30% 30%, rgba(118,108,255,0.22) 0%, rgba(118,108,255,0) 55%), linear-gradient(145deg, rgba(15,15,26,1) 0%, rgba(5,5,8,1) 100%)` }}
                   />
-                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(to top, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.0) 65%)' }} />
-                  <div style={{ position:'absolute', bottom:'14px', left:'16px', right:'16px', display:'flex', justifyContent:'space-between', alignItems:'center', gap:'10px' }}>
-                    <span style={{ ...M, fontSize:'9px', color:'rgba(255,255,255,0.68)', textTransform:'uppercase', letterSpacing:'0.14em', fontWeight:700 }}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg/95 to-bg/0" />
+                  <div className="absolute bottom-3.5 left-4 right-4 flex justify-between items-center gap-2.5">
+                    <span className="font-mono text-[9px] text-white/70 uppercase tracking-[0.14em] font-bold">
                       Hover to preview
                     </span>
-                    <span style={{ ...M, fontSize:'9px', color:'var(--primary)', background:'rgba(118,108,255,0.10)', border:'1px solid rgba(118,108,255,0.22)', padding:'3px 10px', borderRadius:'9999px', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:800 }}>
+                    <span className="font-mono text-[9px] text-primary bg-primary/10 border border-primary/20 py-[3px] px-2.5 rounded-full uppercase tracking-wider font-extrabold">
                       {p.platform}
                     </span>
                   </div>
                 </div>
-                <div style={{ padding:'28px', flex:1, display:'flex', flexDirection:'column' }}>
-                  <p style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:'8px' }}>{p.client}</p>
-                  <h3 style={{ ...F, fontSize:'22px', fontWeight:800, color:'#fff', marginBottom:'14px' }}>{p.title}</h3>
-                  <p style={{ fontSize:'13px', color:'var(--text-3)', lineHeight:1.75, fontStyle:'italic', flex:1, marginBottom:'20px' }}>&ldquo;{p.quote}&rdquo;</p>
-                  <div style={{ display:'flex', alignItems:'baseline', gap:'10px', paddingTop:'18px', borderTop:'1px solid var(--border)' }}>
-                    <p style={{ ...F, fontSize:'2.2rem', fontWeight:800, color:'var(--primary)', lineHeight:1 }}>{p.result}</p>
-                    <p style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.08em', fontWeight:700 }}>{p.resultLabel}</p>
+                <div className="p-7 flex-1 flex flex-col">
+                  <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider mb-2">{p.client}</p>
+                  <h3 className="font-display text-[22px] font-extrabold text-white mb-3.5">{p.title}</h3>
+                  <p className="text-[13px] text-text-3 leading-[1.75] italic flex-1 mb-5">&ldquo;{p.quote}&rdquo;</p>
+                  <div className="flex items-baseline gap-2.5 pt-4.5 border-t border-border">
+                    <p className="font-display text-[2.2rem] font-extrabold text-primary leading-none">{p.result}</p>
+                    <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider font-bold">{p.resultLabel}</p>
                   </div>
                 </div>
               </Link>
@@ -469,28 +400,28 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ TESTIMONIALS ════════════════════════════════════════════ */}
       <section className="section">
         <div className="container">
-          <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:'56px', flexWrap:'wrap', gap:'20px' }}>
+          <div className="flex items-end justify-between mb-14 flex-wrap gap-5">
             <div>
               <p className="eyebrow sr">Client Reviews</p>
-              <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>
+              <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">
                 What Our Clients Say About Working With Us
               </h2>
             </div>
             <div className="sr"><ClutchWidget widgetType={7} height={65} /></div>
           </div>
 
-          <div className="g-3" style={{ gap:'20px', marginBottom:'40px' }}>
+          <div className="g-3 gap-5 mb-10">
             {TESTIMONIALS.map((t: Testimonial, i: number) => (
-              <div key={t.name} className="card sr" style={{ padding:'32px', animationDelay:`${i*0.08}s` }}>
-                <div style={{ display:'flex', gap:'3px', marginBottom:'20px' }}>
+              <div key={t.name} className="card sr p-8 flex flex-col" style={{ animationDelay:`${i*0.08}s` }}>
+                <div className="flex gap-[3px] mb-5">
                   {[0,1,2,3,4].map(s => <StarSVG key={s} />)}
                 </div>
-                <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.85, fontStyle:'italic', marginBottom:'28px', flex:1 }}>&ldquo;{t.quote}&rdquo;</p>
-                <div style={{ display:'flex', alignItems:'center', gap:'14px', paddingTop:'20px', borderTop:'1px solid var(--border)' }}>
-                  <div style={{ width:'44px', height:'44px', borderRadius:'12px', background:'var(--grad)', display:'flex', alignItems:'center', justifyContent:'center', ...F, fontSize:'14px', fontWeight:800, color:'#fff', flexShrink:0 }}>{t.initials}</div>
+                <p className="text-[15px] text-text-2 leading-[1.85] italic mb-7 flex-1">&ldquo;{t.quote}&rdquo;</p>
+                <div className="flex items-center gap-3.5 pt-5 border-t border-border">
+                  <div className="w-11 h-11 rounded-xl bg-brand-gradient flex items-center justify-center font-display text-sm font-extrabold text-white shrink-0">{t.initials}</div>
                   <div>
-                    <p style={{ ...F, fontSize:'14px', fontWeight:700, color:'#fff' }}>{t.name}</p>
-                    <p style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.08em', fontWeight:600 }}>{t.role}</p>
+                    <p className="font-display text-sm font-bold text-white">{t.name}</p>
+                    <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider font-semibold">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -498,7 +429,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           </div>
 
           {/* Live carousel */}
-          <div style={{ borderRadius:'16px', overflow:'hidden', border:'1px solid var(--border)' }}>
+          <div className="rounded-2xl overflow-hidden border border-border">
             <ClutchWidget widgetType={12} height={375} reviews="449566,412231,406618,406326,405095,379000,373080,373075,372945,372930,372228,372128" />
           </div>
         </div>
@@ -507,21 +438,21 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ PROCESS ════════════════════════════════════════════════ */}
       <section className="section section--dark">
         <div className="container">
-          <div style={{ textAlign:'center', marginBottom:'60px' }}>
-            <p className="eyebrow sr" style={{ justifyContent:'center' }}>How We Work</p>
-            <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>
+          <div className="text-center mb-15">
+            <p className="eyebrow sr justify-center">How We Work</p>
+            <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">
               Your Success Journey in 5 Simple Steps
             </h2>
           </div>
 
           {/* Horizontal steps with large numbers */}
-          <div className="process-grid" style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', borderTop:'1px solid var(--border)', paddingTop:'40px' }}>
+          <div className="process-grid grid grid-cols-5 border-t border-border pt-10">
             {PROCESS.map(({ n, title, sub, desc, time }: ProcessStep, i: number) => (
-              <div key={n} className="sr process-item" style={{ padding:'0 28px 0 0', borderRight:i<4?'1px solid var(--border)':'none', paddingRight:i<4?'28px':'0', animationDelay:`${i*0.07}s` }}>
-                <p style={{ ...F, fontSize:'clamp(3.5rem,5vw,5rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{n}</p>
-                <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'5px' }}>{title}</p>
-                <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'10px' }}>{sub}</p>
-                <p style={{ fontSize:'12px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'14px' }}>{desc}</p>
+              <div key={n} className="sr process-item pr-7" style={{ borderRight:i<4?'1px solid var(--border)':'none', paddingRight:i<4?'28px':'0', animationDelay:`${i*0.07}s` }}>
+                <p className="font-display text-[clamp(3.5rem,5vw,5rem)] font-extrabold text-primary/15 leading-none mb-4 select-none">{n}</p>
+                <p className="font-display text-[15px] font-bold text-white mb-1.5">{title}</p>
+                <p className="text-xs text-primary font-semibold mb-2.5">{sub}</p>
+                <p className="text-xs text-text-3 leading-[1.8] mb-3.5">{desc}</p>
                 <span className="tag">{time}</span>
               </div>
             ))}
@@ -542,30 +473,30 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ FREE AUDIT ════════════════════════════════════════════ */}
       <section className="section">
         <div className="container">
-          <div style={{ background:'linear-gradient(135deg, rgba(118,108,255,0.10) 0%, rgba(118,108,255,0.04) 100%)', border:'1px solid rgba(118,108,255,0.20)', borderRadius:'28px', padding:'clamp(40px,6vw,72px)', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'56px', alignItems:'center' }}>
+          <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-[28px] p-[clamp(40px,6vw,72px)] grid grid-cols-[1fr_1fr] gap-14 items-center max-md:grid-cols-1">
             <div>
               <p className="eyebrow">Free Audit</p>
-              <h2 style={{ ...F, fontSize:'clamp(1.8rem,3.5vw,2.6rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'16px' }}>
+              <h2 className="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-extrabold leading-[1.05] tracking-tight mb-4">
                 Get Your Free Website Performance Audit
               </h2>
-              <p style={{ ...F, fontSize:'17px', fontWeight:600, color:'var(--text-2)', marginBottom:'12px' }}>
+              <p className="font-display text-[17px] font-semibold text-text-2 mb-3">
                 Discover what&apos;s holding your website back from peak performance.
               </p>
-              <p style={{ fontSize:'15px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'14px' }}>
+              <p className="text-[15px] text-text-3 leading-[1.8] mb-3.5">
                 Find out exactly how to improve your site&apos;s speed, SEO, security, and conversion rates with our comprehensive 25-point website audit.
               </p>
-              <p style={{ ...M, fontSize:'11px', color:'var(--text-3)', fontStyle:'italic' }}>No spam, ever. Detailed report delivered within 24 hours.</p>
+              <p className="font-mono text-[11px] text-text-3 italic">No spam, ever. Detailed report delivered within 24 hours.</p>
             </div>
-            <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
+            <div className="flex flex-col gap-3">
               {AUDIT_ITEMS.map(item => (
-                <div key={item} style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+                <div key={item} className="flex items-center gap-4">
                   <IconBox size={32} radius={10}>
                     <CheckSVG size={14} />
                   </IconBox>
-                  <span style={{ fontSize:'15px', color:'var(--text-2)', fontWeight: 500 }}>{item}</span>
+                  <span className="text-[15px] text-text-2 font-medium">{item}</span>
                 </div>
               ))}
-              <Link href="/contact" className="btn btn-primary btn-lg" style={{ marginTop:'10px', justifyContent:'center' }}>
+              <Link href="/contact" className="btn btn-primary btn-lg mt-2.5 justify-center">
                 Get My Free Audit Report <ArrowSVG size={16} />
               </Link>
             </div>
@@ -577,24 +508,22 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {blogs.length > 0 && (
         <section className="section section--dark">
           <div className="container">
-            <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:'52px', flexWrap:'wrap', gap:'20px' }}>
+            <div className="flex items-end justify-between mb-12 flex-wrap gap-5">
               <div>
                 <p className="eyebrow sr">Knowledge Base</p>
-                <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>Latest Insights &amp; Tutorials</h2>
+                <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">Latest Insights &amp; Tutorials</h2>
               </div>
               <Link href="/blog" className="btn btn-outline btn-lg">All Articles <ArrowSVG size={15} /></Link>
             </div>
-            <div className="g-3" style={{ gap:'20px' }}>
+            <div className="g-3 gap-5">
               {blogs.map((post) => (
-                <Link key={post._id} href={`/blog/${post.slug}`} className="sr" style={{ display:'flex', flexDirection:'column', textDecoration:'none', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'20px', overflow:'hidden', transition:'all 0.25s var(--ease)' }}
-                  onMouseEnter={e => { const el=e.currentTarget; el.style.borderColor='rgba(118,108,255,0.3)'; el.style.transform='translateY(-5px)' }}
-                  onMouseLeave={e => { const el=e.currentTarget; el.style.borderColor='var(--border)'; el.style.transform='' }}>
-                  <div style={{ height:'3px', background:'var(--grad)' }} />
-                  <div style={{ padding:'26px', flex:1, display:'flex', flexDirection:'column' }}>
-                    <span style={{ ...M, fontSize:'9px', textTransform:'uppercase', letterSpacing:'0.14em', color:'var(--primary)', background:'var(--primary-soft)', border:'1px solid rgba(118,108,255,0.2)', padding:'4px 12px', borderRadius:'var(--r-f)', display:'inline-block', marginBottom:'14px', width:'fit-content', fontWeight:700 }}>{post.category}</span>
-                    <h3 style={{ ...F, fontSize:'17px', fontWeight:700, color:'#fff', lineHeight:1.3, marginBottom:'10px', flex:1 }}>{post.title}</h3>
-                    <p style={{ fontSize:'13px', color:'var(--text-3)', lineHeight:1.7, marginBottom:'16px', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden' }}>{post.excerpt}</p>
-                    <p style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.08em', fontWeight:600 }}>
+                <Link key={post._id} href={`/blog/${post.slug}`} className="sr flex flex-col no-underline bg-bg-2 border border-border rounded-[20px] overflow-hidden transition-all duration-300 hover:border-primary/30 hover:-translate-y-1">
+                  <div className="h-[3px] bg-brand-gradient" />
+                  <div className="p-6 flex-1 flex flex-col">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-primary bg-primary/10 border border-primary/20 py-1 px-3 rounded-full inline-block mb-3.5 w-fit font-bold">{post.category}</span>
+                    <h3 className="font-display text-[17px] font-bold text-white leading-snug mb-2.5 flex-1">{post.title}</h3>
+                    <p className="text-[13px] text-text-3 leading-[1.7] mb-4 line-clamp-2 overflow-hidden">{post.excerpt}</p>
+                    <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider font-semibold">
                       {new Date(post.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} · {post.readTime}min read
                     </p>
                   </div>
@@ -606,37 +535,37 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       )}
 
       {/* ══ FAQ ═════════════════════════════════════════════════════ */}
-      <section className="section section--dark" style={{ overflow: 'visible' }}>
+      <section className="section section--dark overflow-visible">
         <div className="container">
-          <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
+          <div className="g-2 gap-20 items-start max-md:grid-cols-1">
 
             {/* LEFT — sticky */}
-            <div className="sr sticky-mobile-fix" style={{ position:'sticky', top:'100px' }}>
+            <div className="sr sticky-mobile-fix sticky top-[100px]">
               <p className="eyebrow">FAQ</p>
-              <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'24px' }}>
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.05] tracking-tight mb-6">
                 Frequently Asked{' '}
-                <span style={P}>Questions</span>
+                <span className="bg-brand-gradient bg-clip-text text-transparent">Questions</span>
               </h2>
-              <p style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.8, marginBottom:'32px' }}>
+              <p className="text-base text-text-2 leading-[1.8] mb-8">
                 Can&apos;t find what you&apos;re looking for? We&apos;re here to help.
               </p>
               <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={15} /></Link>
-              <p style={{ ...M, fontSize: '12px', color: 'var(--text-3)', marginTop: '24px', fontStyle: 'italic', letterSpacing:'0.05em' }}>
+              <p className="font-mono text-xs text-text-3 mt-6 italic tracking-wider">
                 30-day money-back guarantee | Free training
               </p>
             </div>
 
             {/* RIGHT — scrollable */}
-            <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
+            <div className="flex flex-col gap-2.5">
               {FAQS.map(({ q, a }: FAQItem, i: number) => (
-                <div key={i} className="sr" style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', transition: 'all 0.3s var(--ease)', animationDelay:`${i*0.06}s` }}>
-                  <details style={{ width:'100%' }}>
-                    <summary style={{ padding: '24px 28px', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-                      <span style={{ ...F, fontSize: '16px', fontWeight: 700, color: '#fff', flex: 1, lineHeight: 1.4 }}>{q}</span>
-                      <div style={{ color:'var(--primary)', flexShrink:0 }}><ChevSVG open={false} /></div>
+                <div key={i} className="sr bg-bg-3 border border-border rounded-2xl overflow-hidden transition-all duration-300" style={{ animationDelay:`${i*0.06}s` }}>
+                  <details className="w-full">
+                    <summary className="p-6 px-7 cursor-pointer list-none flex justify-between items-center gap-4">
+                      <span className="font-display text-base font-bold text-white flex-1 leading-[1.4]">{q}</span>
+                      <div className="text-primary shrink-0"><ChevSVG open={false} /></div>
                     </summary>
-                    <div style={{ padding: '0 28px 24px' }}>
-                      <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>{a}</p>
+                    <div className="px-7 pb-6">
+                      <p className="text-[15px] text-text-2 leading-[1.8]">{a}</p>
                     </div>
                   </details>
                 </div>
@@ -648,24 +577,24 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       </section>
 
       {/* ══ FINAL CTA ═══════════════════════════════════════════════ */}
-      <section className="section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(79,110,247,0.1) 0%, transparent 80%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)', pointerEvents: 'none', opacity: 0.3 }} />
-        <div className="container" style={{ position:'relative', zIndex:1 }}>
-          <p className="eyebrow sr" style={{ justifyContent:'center' }}>Get Started Today</p>
-          <h2 className="sr" style={{ ...F, fontSize:'clamp(2.5rem,6vw,5rem)', fontWeight:800, letterSpacing:'-0.05em', lineHeight:0.95, color:'#fff', marginBottom:'20px' }}>
+      <section className="section text-center relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(79,110,247,0.1) 0%, transparent 80%)' }} />
+        <div className="absolute inset-0 pointer-events-none opacity-30" style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)' }} />
+        <div className="container relative z-10">
+          <p className="eyebrow sr justify-center">Get Started Today</p>
+          <h2 className="sr font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold tracking-tight leading-[0.95] text-white mb-5">
             Start Your Success<br />
-            <span style={P}>Story Today</span>
+            <span className="bg-brand-gradient bg-clip-text text-transparent">Story Today</span>
           </h2>
-          <p className="sr" style={{ fontSize:'18px', color:'var(--text-2)', lineHeight:1.8, maxWidth:'520px', margin:'0 auto 20px' }}>
+          <p className="sr text-lg text-text-2 leading-[1.8] max-w-[520px] mx-auto mb-5">
             Join 100+ successful businesses that chose ARIOSETECH for their web development needs. Professional results, affordable pricing, and ongoing support.
           </p>
-          <div className="sr" style={{ display:'flex', gap:'10px', flexWrap:'wrap', justifyContent:'center', marginBottom:'40px' }}>
+          <div className="sr flex gap-2.5 flex-wrap justify-center mb-10">
             {['No Long-Term Contracts','30-Day Money-Back Guarantee','Free Post-Launch Support','Transparent Pricing'].map(t => (
-              <span key={t} className="tag" style={{ color:'var(--text-2)', border:'1px solid var(--border-2)' }}>✓ {t}</span>
+              <span key={t} className="tag text-text-2 border-border-2">✓ {t}</span>
             ))}
           </div>
-          <div className="sr" style={{ display:'flex', gap:'14px', justifyContent:'center', flexWrap:'wrap' }}>
+          <div className="sr flex gap-3.5 justify-center flex-wrap">
             <Link href="/contact" className="btn btn-primary btn-lg">Schedule Free Consultation <ArrowSVG size={15} /></Link>
             <Link href="/portfolio" className="btn btn-outline btn-lg">View Our Portfolio</Link>
           </div>

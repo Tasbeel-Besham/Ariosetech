@@ -44,13 +44,13 @@ export default function PortfolioAdmin() {
           </Link>
         </div>
 
-        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', overflow: 'hidden' }}>
+        <div className="bg-bg-2 border border-border rounded-2xl overflow-hidden">
           {loading ? (
-            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div>
+            <div className="p-10 text-center text-text-3">Loading…</div>
           ) : items.length === 0 ? (
-            <div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-3)' }}>
-              <p style={{ marginBottom: '16px' }}>No portfolio items. Run the seed or create one.</p>
-              <Link href="/admin/portfolio/new" className="btn btn-primary btn-md"><Plus size={14} /> Add First Project</Link>
+            <div className="p-[60px] text-center text-text-3">
+              <p className="mb-4">No portfolio items. Run the seed or create one.</p>
+              <Link href="/admin/portfolio/new" className="btn btn-primary btn-md mx-auto"><Plus size={14} /> Add First Project</Link>
             </div>
           ) : (
             <table className="admin-table">
@@ -62,35 +62,35 @@ export default function PortfolioAdmin() {
                   const color = CAT_COLOR[item.category] || '#766cff'
                   return (
                     <tr key={item._id}>
-                      <td style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--text)' }}>{item.title}</td>
-                      <td style={{ color: 'var(--text-2)', fontSize: '13px' }}>{item.client}</td>
+                      <td className="font-display font-semibold text-white">{item.title}</td>
+                      <td className="text-text-2 text-[13px]">{item.client}</td>
                       <td>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', padding: '3px 10px', borderRadius: '100px', textTransform: 'uppercase', letterSpacing: '0.08em', background: `${color}15`, border: `1px solid ${color}35`, color }}>
+                        <span className="font-mono text-[10px] py-[3px] px-2.5 rounded-full uppercase tracking-wider border" style={{ background: `${color}15`, borderColor: `${color}35`, color }}>
                           {item.category}
                         </span>
                       </td>
                       <td>
                         <button onClick={() => toggle(item._id, 'published', item.published)}
-                          style={{ cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
+                          className="cursor-pointer bg-transparent border-none p-0">
                           <span className={`status-badge status-badge--${item.published ? 'published' : 'draft'}`}>
                             {item.published ? 'Published' : 'Draft'}
                           </span>
                         </button>
                       </td>
                       <td>
-                        <button onClick={() => toggle(item._id, 'featured', item.featured)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
-                          <Star size={16} fill={item.featured ? 'var(--amber)' : 'none'} style={{ color: item.featured ? 'var(--amber)' : 'var(--text-3)', transition: 'all 0.2s' }} />
+                        <button onClick={() => toggle(item._id, 'featured', item.featured)} className="bg-transparent border-none cursor-pointer p-1">
+                          <Star size={16} fill={item.featured ? 'var(--amber)' : 'none'} className={`transition-colors duration-200 ${item.featured ? 'text-amber-400' : 'text-text-3'}`} />
                         </button>
                       </td>
                       <td>
-                        <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                        <div className="flex items-center gap-1">
                           <Link href={`/admin/portfolio/${item._id}`} className="btn btn-outline btn-sm">
                             <Pencil size={11} /> Edit
                           </Link>
                           <Link href={`/portfolio/${item.slug}`} target="_blank" className="btn btn-ghost btn-sm" title="View live">
                             <ExternalLink size={13} />
                           </Link>
-                          <button onClick={() => del(item._id, item.title)} className="btn btn-ghost btn-sm" style={{ color: 'var(--red)' }}>
+                          <button onClick={() => del(item._id, item.title)} className="btn btn-ghost btn-sm text-[color:var(--red)]">
                             <Trash2 size={13} />
                           </button>
                         </div>

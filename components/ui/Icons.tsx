@@ -143,8 +143,8 @@ export const Loader = ({ size = 24, style, className, color }: IconProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    style={{ animation: 'spin 0.7s linear infinite', ...style }}
-    className={className}
+    style={style}
+    className={`animate-spin ${className || ''}`}
     aria-hidden
   >
     <path d="M21 12a9 9 0 1 1-6.219-8.56" />

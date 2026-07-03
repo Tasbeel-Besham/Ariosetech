@@ -30,40 +30,42 @@ export default function ThemeAdmin() {
     setSaving(false); toast.success('Theme saved! Redeploy to apply font changes.')
   }
 
-  const lbl = { fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }
-  const card = { background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '20px' }
+  const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
+  const cardClass = "bg-bg-2 border border-border rounded-2xl p-6 mb-5"
+  const inpClass = "flex-1 bg-bg-3 border border-border rounded-lg py-[9px] px-3 text-[13px] text-white outline-none font-mono focus:border-primary/50 transition-colors w-full box-border"
+  const selectClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3.5 text-[13px] text-white outline-none font-body focus:border-primary/50 transition-colors"
 
   const ColorField = ({ k, label }: { k: string; label: string }) => (
     <div>
-      <label style={lbl}>{label}</label>
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+      <label className={lblClass}>{label}</label>
+      <div className="flex gap-2 items-center">
         <input type="color" value={theme[k] || '#000'} onChange={e => set(k, e.target.value)}
-          style={{ width: '44px', height: '36px', padding: '2px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg-3)', cursor: 'pointer' }} />
+          className="w-11 h-9 p-0.5 rounded-lg border border-border bg-bg-3 cursor-pointer shrink-0" />
         <input value={theme[k] || ''} onChange={e => set(k, e.target.value)}
-          style={{ flex: 1, background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '9px 12px', fontSize: '13px', color: 'var(--text)', outline: 'none', fontFamily: 'var(--font-mono)' }} />
+          className={inpClass} />
       </div>
     </div>
   )
 
-  if (loading) return <AdminShell><div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div></AdminShell>
+  if (loading) return <AdminShell><div className="p-10 text-center text-text-3">Loading…</div></AdminShell>
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px', maxWidth: '800px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="p-8 max-w-[800px]">
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.03em' }}>Theme</h1>
-            <p style={{ fontSize: '13px', color: 'var(--text-3)', marginTop: '4px' }}>Brand colors, typography, and spacing</p>
+            <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Theme</h1>
+            <p className="text-[13px] text-text-3 mt-1">Brand colors, typography, and spacing</p>
           </div>
-          <button onClick={save} disabled={saving} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 18px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-display)' }}>
+          <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-60">
             <Save size={14} /> {saving ? 'Saving…' : 'Save Theme'}
           </button>
         </div>
 
         {/* Colors */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>🎨 Brand Colors</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">🎨 Brand Colors</h2>
+          <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
             <ColorField k="colorPrimary"   label="Primary (Blue)" />
             <ColorField k="colorSecondary" label="Secondary (Violet)" />
             <ColorField k="colorAccent"    label="Accent (Green)" />
@@ -73,20 +75,20 @@ export default function ThemeAdmin() {
         </div>
 
         {/* Live preview */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>👁 Color Preview</h2>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">👁 Color Preview</h2>
+          <div className="flex gap-2.5 flex-wrap">
             {[
               { label: 'Primary', color: theme.colorPrimary },
               { label: 'Secondary', color: theme.colorSecondary },
               { label: 'Accent', color: theme.colorAccent },
             ].map(({ label, color }) => (
-              <div key={label} style={{ flex: 1, minWidth: '120px', borderRadius: '12px', overflow: 'hidden' }}>
-                <div style={{ height: '64px', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ color: '#fff', fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-display)', textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>{label}</span>
+              <div key={label} className="flex-1 min-w-[120px] rounded-xl overflow-hidden border border-border">
+                <div className="h-16 flex items-center justify-center" style={{ background: color }}>
+                  <span className="text-white text-[13px] font-semibold font-display shadow-sm">{label}</span>
                 </div>
-                <div style={{ padding: '8px', background: 'var(--bg-3)', textAlign: 'center' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)' }}>{color}</span>
+                <div className="p-2 bg-bg-3 text-center border-t border-border">
+                  <span className="font-mono text-[11px] text-text-3">{color}</span>
                 </div>
               </div>
             ))}
@@ -94,27 +96,27 @@ export default function ThemeAdmin() {
         </div>
 
         {/* Typography */}
-        <div style={card}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>🔤 Typography</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 120px', gap: '16px' }}>
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">🔤 Typography</h2>
+          <div className="grid grid-cols-[1fr_1fr_120px] gap-4 max-md:grid-cols-1">
             <div>
-              <label style={lbl}>Display / Heading Font</label>
+              <label className={lblClass}>Display / Heading Font</label>
               <select value={theme.fontDisplay} onChange={e => set('fontDisplay', e.target.value)}
-                style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', fontFamily: 'var(--font-body)' }}>
+                className={selectClass}>
                 {FONTS.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
             </div>
             <div>
-              <label style={lbl}>Body Font</label>
+              <label className={lblClass}>Body Font</label>
               <select value={theme.fontBody} onChange={e => set('fontBody', e.target.value)}
-                style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', fontFamily: 'var(--font-body)' }}>
+                className={selectClass}>
                 {FONTS.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
             </div>
             <div>
-              <label style={lbl}>Border Radius</label>
+              <label className={lblClass}>Border Radius</label>
               <select value={theme.borderRadius} onChange={e => set('borderRadius', e.target.value)}
-                style={{ width: '100%', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: 'var(--text)', outline: 'none', fontFamily: 'var(--font-body)' }}>
+                className={selectClass}>
                 {RADII.map(r => <option key={r} value={r}>{r}</option>)}
               </select>
             </div>

@@ -1,4 +1,4 @@
-import type { ReactNode, CSSProperties } from 'react'
+import type { ReactNode } from 'react'
 
 interface CardProps {
   children: ReactNode
@@ -8,32 +8,32 @@ interface CardProps {
   padding?: 'none' | 'sm' | 'md' | 'lg'
   accent?: string
   className?: string
-  style?: CSSProperties
   onClick?: () => void
   href?: string
 }
 
-const PAD = { none: '0', sm: 'var(--space-4)', md: 'var(--space-6)', lg: 'var(--space-8)' }
+const PAD = { none: 'p-0', sm: 'p-4', md: 'p-6', lg: 'p-8' }
 
 export default function Card({
   children, hover, dark, darker, padding = 'md',
-  accent, className, style, onClick,
+  accent, className, onClick,
 }: CardProps) {
   const cls = [
-    'card',
+    'card relative',
     hover ? 'card-hover' : '',
     dark ? 'card--dark' : '',
     darker ? 'card--darker' : '',
+    onClick ? 'cursor-pointer' : '',
     className || '',
   ].filter(Boolean).join(' ')
 
   return (
-    <div className={cls} style={{ cursor: onClick ? 'pointer' : undefined, ...style }} onClick={onClick}>
+    <div className={cls} onClick={onClick}>
       {accent && (
-        <div style={{ height: '3px', background: `linear-gradient(90deg, ${accent}, ${accent}55)` }} />
+        <div className="absolute top-0 left-0 w-full h-[3px]" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}55)` }} />
       )}
       {padding !== 'none' ? (
-        <div style={{ padding: PAD[padding] }}>{children}</div>
+        <div className={PAD[padding]}>{children}</div>
       ) : children}
     </div>
   )

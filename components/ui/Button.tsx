@@ -49,7 +49,7 @@ export default function Button({
     >
       {loading ? (
         <>
-          <span style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+          <span className="spinner" />
           {children}
         </>
       ) : children}

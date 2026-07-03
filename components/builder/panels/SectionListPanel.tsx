@@ -8,26 +8,22 @@ export function SectionListPanel({ onAddSection }: { onAddSection: () => void })
   const { layout, selectedId, selectSection, removeSection, duplicate, updateMeta } = useBuilderStore()
 
   return (
-    <div style={{
-      width: '220px', flexShrink: 0, height: '100%',
-      background: 'var(--bg-2)', borderRight: '1px solid var(--border)',
-      display: 'flex', flexDirection: 'column', overflow: 'hidden',
-    }}>
+    <div className="w-[220px] shrink-0 h-full bg-bg-2 border-r border-border flex flex-col overflow-hidden">
       {/* Header */}
-      <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+      <div className="py-3 px-3.5 border-b border-border flex items-center justify-between">
+        <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider">
           Sections ({layout.sections.length})
         </p>
-        <button onClick={onAddSection} style={{ width: '24px', height: '24px', borderRadius: '6px', border: '1px solid var(--border)', background: 'none', cursor: 'pointer', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }} className="hover:border-[var(--blue)] hover:text-[var(--blue)]" title="Add section">
+        <button onClick={onAddSection} className="w-6 h-6 rounded-md border border-border bg-transparent cursor-pointer text-text-3 flex items-center justify-center transition-all duration-150 hover:border-primary/50 hover:text-primary" title="Add section">
           <Plus size={13} />
         </button>
       </div>
 
       {/* Section list */}
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div className="flex-1 overflow-y-auto">
         {layout.sections.length === 0 ? (
-          <div style={{ padding: '24px 14px', textAlign: 'center' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', lineHeight: 1.6 }}>No sections yet.<br />Click + to add one.</p>
+          <div className="py-6 px-3.5 text-center">
+            <p className="font-mono text-[10px] text-text-3 leading-[1.6]">No sections yet.<br />Click + to add one.</p>
           </div>
         ) : (
           layout.sections.map((section: SectionInstance, i: number) => {
@@ -39,45 +35,41 @@ export function SectionListPanel({ onAddSection }: { onAddSection: () => void })
               <div
                 key={section.id}
                 onClick={() => selectSection(isSelected ? null : section.id)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '8px',
-                  padding: '9px 12px', cursor: 'pointer',
-                  borderBottom: '1px solid var(--border)',
-                  background: isSelected ? 'rgba(79,110,247,0.1)' : 'transparent',
-                  borderLeft: isSelected ? '2px solid var(--blue)' : '2px solid transparent',
-                  opacity: isHidden ? 0.45 : 1,
-                  transition: 'all 0.15s',
-                }}
-                className={!isSelected ? 'hover:bg-[var(--bg-3)]' : ''}
+                className={`group flex items-center gap-2 py-[9px] px-3 cursor-pointer border-b border-border border-l-2 transition-all duration-150 ${
+                  isSelected ? 'bg-primary/10 border-l-[color:var(--blue)]' : 'border-l-transparent hover:bg-bg-3'
+                }`}
+                style={{ opacity: isHidden ? 0.45 : 1 }}
               >
                 {/* Drag indicator */}
-                <GripVertical size={12} style={{ color: 'var(--text-3)', flexShrink: 0, cursor: 'grab' }} />
+                <GripVertical size={12} className="text-text-3 shrink-0 cursor-grab" />
 
                 {/* Icon + label */}
-                <span style={{ fontSize: '14px', flexShrink: 0 }}>{def?.icon || '📦'}</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: isSelected ? 600 : 500, color: isSelected ? 'var(--blue)' : 'var(--text-2)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span className="text-sm shrink-0">{def?.icon || '📦'}</span>
+                <div className="flex-1 min-w-0">
+                  <p className={`font-display text-xs leading-[1.2] overflow-hidden text-ellipsis whitespace-nowrap ${
+                    isSelected ? 'font-semibold text-[color:var(--blue)]' : 'font-medium text-text-2'
+                  }`}>
                     {section.meta?.label || def?.label || section.type}
                   </p>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--text-3)', marginTop: '1px' }}>
+                  <p className="font-mono text-[9px] text-text-3 mt-[1px]">
                     #{i + 1} · {section.type}
                   </p>
                 </div>
 
                 {/* Actions (show on hover/selected) */}
-                <div style={{ display: 'flex', gap: '2px', flexShrink: 0, opacity: isSelected ? 1 : 0, transition: 'opacity 0.15s' }} className="group-hover:opacity-100">
+                <div className={`flex gap-[2px] shrink-0 transition-opacity duration-150 ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                   <button onClick={e => { e.stopPropagation(); updateMeta(section.id, { hidden: !isHidden }) }}
-                    style={{ width: '20px', height: '20px', borderRadius: '4px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    className="w-5 h-5 rounded border-none bg-transparent cursor-pointer text-text-3 flex items-center justify-center hover:bg-white/5"
                     title={isHidden ? 'Show' : 'Hide'}>
                     {isHidden ? <Eye size={11} /> : <EyeOff size={11} />}
                   </button>
                   <button onClick={e => { e.stopPropagation(); duplicate(section.id) }}
-                    style={{ width: '20px', height: '20px', borderRadius: '4px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    className="w-5 h-5 rounded border-none bg-transparent cursor-pointer text-text-3 flex items-center justify-center hover:bg-white/5"
                     title="Duplicate">
                     <Copy size={11} />
                   </button>
                   <button onClick={e => { e.stopPropagation(); removeSection(section.id) }}
-                    style={{ width: '20px', height: '20px', borderRadius: '4px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--danger)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    className="w-5 h-5 rounded border-none bg-transparent cursor-pointer text-[color:var(--danger)] flex items-center justify-center hover:bg-white/5"
                     title="Delete">
                     <Trash2 size={11} />
                   </button>

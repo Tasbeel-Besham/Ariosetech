@@ -518,3 +518,6 @@ header { animation: slideDown 0.4s var(--ease) both; }
 .leading-relaxed { lineHeight: 1.7; }
 .leading-loose { lineHeight: 1.8; }
 
+
+.spinner { width: 14px; height: 14px; border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

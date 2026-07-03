@@ -24,18 +24,11 @@ export function IconBox({
 }: IconBoxProps) {
   return (
     <div 
-      className={className}
+      className={`flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 ${className || ''}`}
       style={{ 
-        width: `${size}px`, 
-        height: `${size}px`, 
-        borderRadius: `${radius}px`, 
-        background: 'var(--primary-soft)', 
-        border: '1px solid rgba(118,108,255,0.22)', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        color: 'var(--primary)', 
-        flexShrink: 0,
+        width: size, 
+        height: size, 
+        borderRadius: radius, 
         ...style 
       }}
     >
@@ -53,13 +46,7 @@ export const CheckSVG = ({ size = 14 }: { size?: number }) => (
 )
 
 export const StandardCheck = ({ size = 18 }: { size?: number }) => (
-  <span style={{ 
-    width: `${size}px`, height: `${size}px`, borderRadius: '10px', 
-    background: 'rgba(118,108,255,0.1)', 
-    border: '1px solid rgba(118,108,255,0.2)', 
-    display: 'flex', alignItems: 'center', justifyContent: 'center', 
-    color: 'var(--primary)', flexShrink: 0 
-  }}>
+  <span className="flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 rounded-md" style={{ width: size, height: size }}>
     <CheckSVG size={size * 0.65} />
   </span>
 )
@@ -71,7 +58,7 @@ export const ArrowSVG = ({ size = 16 }: { size?: number }) => (
 )
 
 export const ChevSVG = ({ open }: { open: boolean }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: open ? 'rotate(180deg)' : '', transition: 'transform 0.25s', flexShrink: 0 }}>
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={`shrink-0 transition-transform duration-250 ${open ? 'rotate-180' : ''}`}>
     <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )

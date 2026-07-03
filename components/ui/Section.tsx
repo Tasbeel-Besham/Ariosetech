@@ -29,7 +29,7 @@ export default function Section({
     <section id={id} className={classes} style={style}>
       {mesh && <div className="bg-mesh" />}
       {dots && <div className="bg-dot-grid" />}
-      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+      <div className="container relative z-10">
         {children}
       </div>
     </section>

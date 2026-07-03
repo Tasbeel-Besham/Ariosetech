@@ -22,56 +22,62 @@ export default function BlogsAdmin() {
 
   return (
     <AdminShell>
-      <div style={{ padding: '32px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="p-8">
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.03em' }}>Blog Posts</h1>
-            <p style={{ fontSize: '13px', color: 'var(--text-3)', marginTop: '4px' }}>{blogs.length} posts</p>
+            <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Blog Posts</h1>
+            <p className="text-[13px] text-text-3 mt-1">{blogs.length} posts</p>
           </div>
-          <Link href="/admin/blogs/new" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', background: 'linear-gradient(135deg, #4f6ef7, #9b6dff)', color: '#fff', textDecoration: 'none', fontSize: '13px', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
+          <Link href="/admin/blogs/new" className="flex items-center gap-2 py-2.5 px-[18px] rounded-lg bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white no-underline text-[13px] font-bold font-display transition-opacity hover:opacity-90">
             <Plus size={15} /> New Post
           </Link>
         </div>
 
-        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
+        <div className="bg-bg-2 border border-border rounded-2xl overflow-hidden">
           {loading ? (
-            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)' }}>Loading…</div>
+            <div className="p-10 text-center text-text-3">Loading…</div>
           ) : blogs.length === 0 ? (
-            <div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-3)' }}>
-              <p style={{ marginBottom: '16px' }}>No blog posts yet</p>
-              <Link href="/admin/blogs/new" style={{ color: 'var(--blue)', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 600 }}>Create your first post →</Link>
+            <div className="p-[60px] text-center text-text-3">
+              <p className="mb-4">No blog posts yet</p>
+              <Link href="/admin/blogs/new" className="text-[color:var(--blue)] no-underline font-display font-semibold hover:underline">Create your first post →</Link>
             </div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <table className="w-full border-collapse">
               <thead>
-                <tr style={{ borderBottom: '1px solid var(--border)' }}>
+                <tr className="border-b border-border">
                   {['Title', 'Category', 'Status', 'Date', 'Actions'].map(h => (
-                    <th key={h} style={{ padding: '12px 16px', textAlign: 'left', fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500 }}>{h}</th>
+                    <th key={h} className="py-3 px-4 text-left font-mono text-[10px] text-text-3 uppercase tracking-wider font-medium">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {blogs.map((b, i) => (
-                  <tr key={b._id} style={{ borderBottom: i < blogs.length - 1 ? '1px solid var(--border)' : 'none' }} className="hover:bg-[var(--bg-3)]">
-                    <td style={{ padding: '14px 16px', fontSize: '14px', fontWeight: 600, color: 'var(--text)', fontFamily: 'var(--font-display)', maxWidth: '280px' }}>
-                      <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{b.title}</span>
+                  <tr key={b._id} className={`hover:bg-bg-3 ${i < blogs.length - 1 ? 'border-b border-border' : ''}`}>
+                    <td className="py-3.5 px-4 text-sm font-semibold text-white font-display max-w-[280px]">
+                      <span className="block overflow-hidden text-ellipsis whitespace-nowrap">{b.title}</span>
                     </td>
-                    <td style={{ padding: '14px 16px' }}><span className="tag">{b.category}</span></td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', padding: '3px 10px', borderRadius: '20px', textTransform: 'uppercase', letterSpacing: '0.08em', background: b.published ? 'rgba(0,229,160,0.12)' : 'rgba(251,191,36,0.12)', border: b.published ? '1px solid rgba(0,229,160,0.3)' : '1px solid rgba(251,191,36,0.3)', color: b.published ? '#00e5a0' : '#fbbf24' }}>
+                    <td className="py-3.5 px-4"><span className="tag">{b.category}</span></td>
+                    <td className="py-3.5 px-4">
+                      <span className={`font-mono text-[10px] py-1 px-2.5 rounded-full uppercase tracking-wider border ${
+                        b.published ? 'bg-[#00e5a0]/10 border-[#00e5a0]/30 text-[#00e5a0]' : 'bg-[#fbbf24]/10 border-[#fbbf24]/30 text-[#fbbf24]'
+                      }`}>
                         {b.published ? 'Published' : 'Draft'}
                       </span>
                     </td>
-                    <td style={{ padding: '14px 16px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-3)' }}>
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-text-3">
                       {new Date(b.date).toLocaleDateString()}
                     </td>
-                    <td style={{ padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', gap: '6px' }}>
-                        <Link href={`/admin/blogs/${b._id}`} style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '6px 12px', borderRadius: '8px', textDecoration: 'none', background: 'rgba(79,110,247,0.1)', border: '1px solid rgba(79,110,247,0.2)', color: 'var(--blue)', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-display)' }}>
+                    <td className="py-3.5 px-4">
+                      <div className="flex gap-1.5">
+                        <Link href={`/admin/blogs/${b._id}`} className="flex items-center gap-1.5 py-1.5 px-3 rounded-lg no-underline bg-[rgba(79,110,247,0.1)] border border-[rgba(79,110,247,0.2)] text-[color:var(--blue)] text-xs font-semibold font-display transition-colors hover:bg-[rgba(79,110,247,0.2)]">
                           <Pencil size={12} /> Edit
                         </Link>
-                        <Link href={`/blog/${b.slug}`} target="_blank" style={{ padding: '6px 8px', borderRadius: '8px', border: '1px solid var(--border)', color: 'var(--text-3)', display: 'flex', alignItems: 'center', textDecoration: 'none' }} className="hover:text-[var(--text)]"><Eye size={13} /></Link>
-                        <button onClick={() => del(b._id)} style={{ padding: '6px 8px', borderRadius: '8px', border: '1px solid var(--border)', background: 'none', cursor: 'pointer', color: 'var(--text-3)', display: 'flex', alignItems: 'center' }} className="hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]"><Trash2 size={13} /></button>
+                        <Link href={`/blog/${b.slug}`} target="_blank" className="py-1.5 px-2 rounded-lg border border-border text-text-3 flex items-center no-underline transition-colors hover:text-white hover:border-border-2">
+                          <Eye size={13} />
+                        </Link>
+                        <button onClick={() => del(b._id)} className="py-1.5 px-2 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 flex items-center transition-colors hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]">
+                          <Trash2 size={13} />
+                        </button>
                       </div>
                     </td>
                   </tr>

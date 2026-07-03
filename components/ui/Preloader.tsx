@@ -62,55 +62,32 @@ export default function Preloader() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          style={{
-            position: 'fixed', inset: 0, zIndex: 9999,
-            background: '#07070f',
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
-          }}
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#07070f]"
         >
 
           {/* ── Content (centered, sits above curtain seam) ── */}
-          <div style={{
-            position: 'relative', zIndex: 2,
-            display: 'flex', flexDirection: 'column', alignItems: 'center',
-            userSelect: 'none',
-          }}>
+          <div className="relative z-10 flex flex-col items-center select-none">
             {/* Counter */}
-            <div style={{
-              fontFamily: 'var(--font-display)',
+            <div className="font-display font-black leading-none text-center w-full tabular-nums tracking-tighter" style={{
               fontSize: 'clamp(4rem, 13vw, 11rem)',
-              fontWeight: 900,
-              lineHeight: 1,
-              letterSpacing: '-0.04em',
               background: 'linear-gradient(135deg, #a78bfa 0%, #766cff 40%, #60a5fa 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               marginBottom: '0.05em',
-              textAlign: 'center',
-              width: '100%',
               paddingRight: '0.08em', // Prevent slanted font from clipping on the right
-              fontVariantNumeric: 'tabular-nums',
-            } as React.CSSProperties}>
+            }}>
               {count}
             </div>
 
             {/* Brand name with stagger reveal */}
             <div
               ref={letterScope}
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.1rem, 3.5vw, 2.2rem)',
-                fontWeight: 900,
-                letterSpacing: '0.28em',
-                color: '#ffffff',
-                display: 'flex', gap: '0.04em',
-                overflow: 'hidden',
-              }}
+              className="font-display font-black text-white flex overflow-hidden tracking-[0.28em]"
+              style={{ fontSize: 'clamp(1.1rem, 3.5vw, 2.2rem)', gap: '0.04em' }}
             >
               {BRAND.split('').map((ch, i) => (
-                <span key={i} style={{ display: 'inline-block', opacity: 0 }}>
+                <span key={i} className="inline-block opacity-0">
                   {ch}
                 </span>
               ))}
@@ -121,44 +98,23 @@ export default function Preloader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 'clamp(9px, 1.2vw, 11px)',
-                color: 'rgba(255,255,255,0.3)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.22em',
-                marginTop: '14px',
-              }}
+              className="font-mono text-white/30 uppercase tracking-[0.22em] mt-[14px]"
+              style={{ fontSize: 'clamp(9px, 1.2vw, 11px)' }}
             >
               {TAGLINE}
             </motion.p>
           </div>
 
           {/* ── Progress bar (bottom) ── */}
-          <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0,
-            height: '2px', background: 'rgba(255,255,255,0.06)', zIndex: 3,
-          }}>
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/5 z-20">
             <motion.div
-              style={{
-                height: '100%',
-                background: 'linear-gradient(90deg, #766cff, #a78bfa, #60a5fa)',
-                width: `${count}%`,
-                transformOrigin: 'left',
-              }}
+              className="h-full origin-left"
+              style={{ background: 'linear-gradient(90deg, #766cff, #a78bfa, #60a5fa)', width: `${count}%` }}
             />
           </div>
 
           {/* ── Percentage label (bottom right) ── */}
-          <div style={{
-            position: 'absolute', bottom: '20px', right: '28px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px', fontWeight: 700,
-            color: 'rgba(255,255,255,0.25)',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            zIndex: 3,
-          }}>
+          <div className="absolute bottom-5 right-7 font-mono text-[10px] font-bold text-white/25 uppercase tracking-[0.14em] z-20">
             Loading {count}%
           </div>
         </motion.div>

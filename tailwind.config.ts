@@ -15,6 +15,10 @@ const config: Config = {
         'bg-2': '#0d0d1b',
         'bg-3': '#121220',
         'bg-4': '#17172a',
+        'text-2': 'var(--text-2)',
+        'text-3': 'var(--text-3)',
+        border: 'var(--border)',
+        'border-2': 'var(--border-2)',
       },
       fontFamily: {
         display: ['var(--font-logo)',    'RoadRadio',     'system-ui', 'sans-serif'],

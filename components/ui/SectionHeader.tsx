@@ -23,12 +23,7 @@ export default function SectionHeader({
         {headline}
       </h2>
       {desc && (
-        <p className="t-body sr" style={{
-          maxWidth: 'var(--max-w-text)',
-          marginTop: 'var(--space-5)',
-          marginLeft: center ? 'auto' : undefined,
-          marginRight: center ? 'auto' : undefined,
-        }}>
+        <p className={`t-body sr max-w-2xl mt-8 ${center ? 'mx-auto' : ''}`}>
           {desc}
         </p>
       )}
