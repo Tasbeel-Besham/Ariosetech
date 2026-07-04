@@ -24,10 +24,11 @@ export function IconBox({
 }: IconBoxProps) {
   return (
     <div 
-      className={`flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 w-[var(--icon-size)] h-[var(--icon-size)] rounded-[var(--icon-radius)] ${className || ''}`}
+      className={`flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 ${className || ''}`}
       style={{ 
-        '--icon-size': `${size}px`,
-        '--icon-radius': `${radius}px`,
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: `${radius}px`,
         ...style 
       } as React.CSSProperties}
     >
@@ -46,8 +47,8 @@ export const CheckSVG = ({ size = 14 }: { size?: number }) => (
 
 export const StandardCheck = ({ size = 18 }: { size?: number }) => (
   <span 
-    className="flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 rounded-md w-[var(--icon-size)] h-[var(--icon-size)]" 
-    style={{ '--icon-size': `${size}px` } as React.CSSProperties}
+    className="flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 rounded-md" 
+    style={{ width: `${size}px`, height: `${size}px` } as React.CSSProperties}
   >
     <CheckSVG size={size * 0.65} />
   </span>

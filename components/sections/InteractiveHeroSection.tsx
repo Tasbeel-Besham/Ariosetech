@@ -279,7 +279,7 @@ export default function InteractiveHeroSection({
         <canvas ref={canvasRef} className="absolute inset-0 z-0" />
       </div>
 
-      <div className="container relative z-10 flex-1 grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[4rem] pt-[80px] pb-[60px] px-[32px] max-w-[1280px] mx-auto">
+      <div className="container relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[4rem] pt-[80px] pb-[60px] px-[32px] max-w-[1280px] mx-auto">
         
         {/* Left Side */}
         <div className="flex flex-col pointer-events-auto">
@@ -295,7 +295,7 @@ export default function InteractiveHeroSection({
 
           <div ref={headlineRef} className="mb-24 max-w-[680px]">
             {headline && headline.trim().length > 0 && (
-              <h1 className="font-display font-extrabold leading-none tracking-tighter text-white cursor-none text-[clamp(2.4rem,5vw,3.8rem)]">
+              <h1 className="hero-headline">
                 {renderChar(headline + (subheadline && desc && subheadline.length < 120 ? ' ' + subheadline : ''))}
               </h1>
             )}
@@ -321,14 +321,17 @@ export default function InteractiveHeroSection({
             )}
           </p>
 
-          <div className="flex gap-16 items-center mb-10 flex-wrap">
+          <div className="flex gap-4 items-center flex-wrap">
             {ctaPrimaryLabel && ctaPrimaryLabel.trim().length > 0 && (
-              <Link href={ctaPrimaryHref || '/contact'} className="cta-custom-primary no-underline">
-                {ctaPrimaryLabel.toUpperCase()} <ArrowSVG />
+              <Link href={ctaPrimaryHref || '/contact'} className="btn btn-primary btn-xl uppercase tracking-[0.12em] font-bold">
+                {ctaPrimaryLabel}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </Link>
             )}
             {ctaSecondaryLabel && ctaSecondaryLabel.trim().length > 0 && (
-              <Link href={ctaSecondaryHref || '/portfolio'} className="cta-custom-secondary no-underline">{ctaSecondaryLabel} →</Link>
+              <Link href={ctaSecondaryHref || '/portfolio'} className="btn btn-outline btn-xl uppercase tracking-[0.12em] font-bold text-white">
+                {ctaSecondaryLabel}
+              </Link>
             )}
           </div>
         </div>

@@ -378,7 +378,7 @@ export default function ServicesAccordionSection({
                         <p className="svc-price-label">Starting at</p>
                         <p className="svc-price">{tab.price}</p>
                       </div>
-                      <Link href={tab.href || '#'} className="btn btn-primary btn-md">
+                      <Link href={tab.href || '#'} className="btn btn-primary btn-md uppercase tracking-[0.1em] font-bold text-[13px]">
                         Learn More <Arrow />
                       </Link>
                     </div>
