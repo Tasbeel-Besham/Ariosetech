@@ -475,7 +475,7 @@ export default function WhyUsSection({
               >
                 {/* Column 1: Icon & Title & Desc */}
                 <div className="flex items-start gap-20">
-                  <div className="row-icon-container shrink-0 flex items-center justify-center rounded-xl text-primary p-12 icon-tile-48">
+                  <div className="row-icon-container shrink-0 flex items-center justify-center rounded-xl text-primary p-3 icon-tile-48">
                     {getIconForWhyUs(b.icon, b.title)}
                   </div>
                   <div>
@@ -556,7 +556,7 @@ export default function WhyUsSection({
               >
                 <div className="absolute inset-0 h-1 pointer-events-none card-topline" />
                 
-                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12 icon-tile icon-tile-48">
+                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-3 icon-tile icon-tile-48">
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
                 
@@ -659,7 +659,7 @@ export default function WhyUsSection({
           <div className="flex flex-col gap-16">
             {safe.map((b,i) => (
               <div key={i} id={getHashIdFromTitle(b.title)} className="sr card-hover flex gap-20 p-24 bg-subtle-2 border-subtle rounded-xl relative overflow-hidden scroll-mt-100" style={{ animationDelay:`${i*0.08}s` }}>
-                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12 icon-tile icon-tile-48">
+                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-3 icon-tile icon-tile-48">
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
                 <div className="flex flex-col grow-1">
