@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
@@ -256,27 +256,30 @@ export default function InteractiveHeroSection({
   const renderChar = (txt: string) => {
     const words = txt.split(' ')
     return words.map((word, wi) => (
-      <span key={wi} style={{ display: 'inline-block', whiteSpace: 'nowrap', marginRight: '0.25em' }}>
-        {[...word].map((ch, ci) => (
-          <span key={ci} className="char" style={{ display: 'inline-block', transition: 'transform .08s, color .15s', willChange: 'transform' }}>
-            {ch}
-          </span>
-        ))}
-      </span>
+      <React.Fragment key={wi}>
+        {wi > 0 && ' '}
+        <span className="inline-block whitespace-nowrap">
+          {[...word].map((ch, ci) => (
+            <span key={ci} className="char inline-block will-change-transform hero-char">
+              {ch}
+            </span>
+          ))}
+        </span>
+      </React.Fragment>
     ))
   }
 
   return (
-    <section className="hero-section-wrapper" style={{ position: 'relative', minHeight: '100vh', width: '100%', overflow: 'hidden', background: '#05050e', display: 'flex', flexDirection: 'column' }}>
+    <section className="hero-section-wrapper flex flex-col relative min-h-screen w-full overflow-hidden bg-[#05050e]">
       
       {/* Interaction Background */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-        <div ref={cdotRef} className="custom-cursor" style={{ position: 'fixed', zIndex: 9999, width: '6px', height: '6px', background: '#fff', borderRadius: '50%', transform: 'translate(-50%, -50%)', opacity: 0, transition: 'opacity 0.3s' }} />
-        <div ref={cringRef} className="custom-cursor" style={{ position: 'fixed', zIndex: 9999, width: '32px', height: '32px', border: '1px solid rgba(255,255,255,0.45)', borderRadius: '50%', transform: 'translate(-50%, -50%)', opacity: 0, transition: 'opacity 0.3s' }} />
-        <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, zIndex: 0 }} />
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div ref={cdotRef} className="custom-cursor fixed z-[9999] w-[6px] h-[6px] bg-white rounded-full -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300" />
+        <div ref={cringRef} className="custom-cursor fixed z-[9999] w-[32px] h-[32px] border border-[rgba(255,255,255,0.45)] rounded-full -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300" />
+        <canvas ref={canvasRef} className="absolute inset-0 z-0" />
       </div>
 
-      <div className="container" style={{ position: 'relative', zIndex: 10, flex: 1, display: 'grid', gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 1fr)', alignItems: 'center', gap: '4rem', padding: '80px 32px 60px', maxWidth: '1280px', margin: '0 auto' }}>
+      <div className="container relative z-10 flex-1 grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[4rem] pt-[80px] pb-[60px] px-[32px] max-w-[1280px] mx-auto">
         
         {/* Left Side */}
         <div className="flex flex-col pointer-events-auto">
@@ -284,33 +287,33 @@ export default function InteractiveHeroSection({
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="inline-flex items-center gap-10 mb-20">
                 <div className="w-[22px] h-[1.5px] bg-grad" />
-                <div className="w-[4px] h-[4px] rounded-full opacity-60" style={{ background: B_PRI }} />
-                <span className="font-mono uppercase tracking-widest text-white/30" style={{ fontSize: '10.5px' }}>{eyebrow}</span>
+                <div className="w-[4px] h-[4px] rounded-full opacity-60 bg-primary-solid" />
+                <span className="font-mono uppercase tracking-widest text-white/30 text-[10.5px]">{eyebrow}</span>
               </div>
             </motion.div>
           )}
 
           <div ref={headlineRef} className="mb-24 max-w-[680px]">
             {headline && headline.trim().length > 0 && (
-              <h1 className="font-display font-extrabold leading-none tracking-tighter text-white cursor-none" style={{ fontSize: 'clamp(2.4rem, 5vw, 3.8rem)' }}>
+              <h1 className="font-display font-extrabold leading-none tracking-tighter text-white cursor-none text-[clamp(2.4rem,5vw,3.8rem)]">
                 {renderChar(headline + (subheadline && desc && subheadline.length < 120 ? ' ' + subheadline : ''))}
               </h1>
             )}
           </div>
 
           {subheadline && (!desc || subheadline.length >= 120) && (
-            <p className={`font-body text-white/40 max-w-[500px] font-light leading-relaxed ${desc ? 'mb-12' : 'mb-20'}`} style={{ fontSize: '15px' }}>
+            <p className={`font-body text-white/40 max-w-[500px] font-light leading-relaxed text-[15px] ${desc ? 'mb-12' : 'mb-20'}`}>
               {subheadline}
             </p>
           )}
 
           {desc && (
-            <p className="font-body text-white/40 max-w-[500px] font-light leading-relaxed mb-20" style={{ fontSize: '15px' }}>
+            <p className="font-body text-white/40 max-w-[500px] font-light leading-relaxed mb-20 text-[15px]">
               {desc}
             </p>
           )}
 
-          <p className="font-body text-white/30 mb-32 italic" style={{ fontSize: '12.5px' }}>
+          <p className="font-body text-white/30 mb-32 italic text-[12.5px]">
             {trust ? trust : (
               <>
                 Trusted by businesses in <span className="not-italic text-primary/75">USA</span>, <span className="not-italic text-primary/75">UAE</span>, and <span className="not-italic text-primary/75">Switzerland</span> for affordable, high-quality development.
@@ -333,24 +336,24 @@ export default function InteractiveHeroSection({
         {/* Right Side */}
         <div className="hero-right-col relative flex flex-col gap-16 pointer-events-auto">
           
-          <div className="absolute top-[-24px] right-4 px-16 py-10 text-white flex items-center gap-8 z-20" style={{ background: 'rgba(5,5,14,0.95)', border: '1px solid rgba(118,108,255,0.25)', borderRadius: '12px', fontSize: '11px', backdropFilter: 'blur(12px)', boxShadow: '0 8px 32px rgba(118,108,255,0.15)', animation: 'chipBob 4s ease-in-out infinite alternate' }}>
-            <div className="w-8 h-8 rounded-full" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
+          <div className="absolute top-[-24px] right-4 px-16 py-10 text-white flex items-center gap-8 z-20 bg-[rgba(5,5,14,0.95)] border border-[rgba(118,108,255,0.25)] rounded-[12px] text-[11px] backdrop-blur-[12px] shadow-[0_8px_32px_rgba(118,108,255,0.15)] animate-[chipBob_4s_ease-in-out_infinite_alternate]">
+            <div className="w-8 h-8 rounded-full bg-[#22c55e] shadow-[0_0_10px_#22c55e]" />
             {liveSiteText}
           </div>
 
-          <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(10,10,22,0.9)', border: '1px solid rgba(118,108,255,0.22)', boxShadow: '0 32px 100px rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)' }}>
-            <div className="px-18 py-12 flex items-center gap-12" style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="rounded-2xl overflow-hidden bg-[rgba(10,10,22,0.9)] border border-[rgba(118,108,255,0.22)] shadow-[0_32px_100px_rgba(0,0,0,0.7)] backdrop-blur-[12px]">
+            <div className="px-18 py-12 flex items-center gap-12 bg-[rgba(255,255,255,0.05)] border-b border-[rgba(255,255,255,0.08)]">
               <div className="flex gap-6">
-                <div className="w-[11px] h-[11px] rounded-full" style={{ background: '#ff5f57', boxShadow: '0 0 5px rgba(255,95,87,0.4)' }} />
-                <div className="w-[11px] h-[11px] rounded-full" style={{ background: '#febc2e', boxShadow: '0 0 5px rgba(254,188,46,0.4)' }} />
-                <div className="w-[11px] h-[11px] rounded-full" style={{ background: '#28c840', boxShadow: '0 0 5px rgba(40,200,64,0.4)' }} />
+                <div className="w-[11px] h-[11px] rounded-full bg-[#ff5f57] shadow-[0_0_5px_rgba(255,95,87,0.4)]" />
+                <div className="w-[11px] h-[11px] rounded-full bg-[#febc2e] shadow-[0_0_5px_rgba(254,188,46,0.4)]" />
+                <div className="w-[11px] h-[11px] rounded-full bg-[#28c840] shadow-[0_0_5px_rgba(40,200,64,0.4)]" />
               </div>
-              <div className="ml-8 font-mono text-white/30" style={{ fontSize: '11px' }}>{codeFilename}</div>
+              <div className="ml-8 font-mono text-white/30 text-[11px]">{codeFilename}</div>
             </div>
-            <div className="p-24 font-mono leading-loose min-h-[240px] max-h-[240px] overflow-hidden" style={{ fontSize: '12px' }}>
+            <div className="p-24 font-mono leading-loose min-h-[240px] max-h-[240px] overflow-hidden text-[12px]">
               {typedLines.map((toks, i) => (
                 <div key={i} className="flex gap-14">
-                  <span className="text-white/15 min-w-[18px] text-right" style={{ fontSize: '10px' }}>{i + 1}</span>
+                  <span className="text-white/15 min-w-[18px] text-right text-[10px]">{i + 1}</span>
                   <span className="text-white/50">
                     {toks.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
                   </span>
@@ -358,10 +361,10 @@ export default function InteractiveHeroSection({
               ))}
               {lineIdxRef.current < codeLines.length && (
                 <div className="flex gap-14">
-                   <span className="text-white/15 min-w-[18px] text-right" style={{ fontSize: '10px' }}>{typedLines.length + 1}</span>
+                   <span className="text-white/15 min-w-[18px] text-right text-[10px]">{typedLines.length + 1}</span>
                    <span className="text-white/50">
                      {currentLine.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
-                     <span className="inline-block w-[2px] h-[14px] align-middle ml-[3px]" style={{ background: B_PRI, animation: 'cblink .9s infinite' }} />
+                     <span className="inline-block w-[2px] h-[14px] align-middle ml-[3px] animate-[cblink_.9s_infinite] bg-primary-solid" />
                    </span>
                 </div>
               )}
@@ -374,10 +377,10 @@ export default function InteractiveHeroSection({
               { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: B_PRI, c2: B_SEC, bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ]).map((m, i) => (
-              <div key={m.lbl + i} className="flex-1 rounded-2xl p-18 relative overflow-hidden" style={{ background: 'rgba(15,15,30,0.85)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 12px 40px rgba(0,0,0,0.3)' }}>
+              <div key={m.lbl + i} className="flex-1 rounded-2xl p-18 relative overflow-hidden bg-[rgba(15,15,30,0.85)] border border-[rgba(255,255,255,0.08)] shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
                 <div className="mb-8 flex" style={{ color: m.c1 }}>{m.ico}</div>
-                <div className="font-display font-extrabold text-white mb-4" style={{ fontSize: '22px' }}>{m.val}</div>
-                <div className="uppercase tracking-widest font-semibold" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>{m.lbl}</div>
+                <div className="font-display font-extrabold text-white mb-4 text-[22px]">{m.val}</div>
+                <div className="uppercase tracking-widest font-semibold text-[10px] text-[rgba(255,255,255,0.3)]">{m.lbl}</div>
                 <div className="absolute bottom-0 left-0 right-0 h-[3px] opacity-80 origin-left" style={{ background: `linear-gradient(90deg, ${m.c1}, ${m.c2})`, transform: `scaleX(${m.bar})` }} />
               </div>
             ))}
@@ -386,13 +389,13 @@ export default function InteractiveHeroSection({
         </div>
       </div>
 
-      <div className="py-12 overflow-hidden" style={{ background: 'rgba(5,5,14,0.92)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="flex whitespace-nowrap" style={{ animation: 'ticker 35s linear infinite' }}>
+      <div className="py-12 overflow-hidden bg-[rgba(5,5,14,0.92)] border-t border-[rgba(255,255,255,0.06)]">
+        <div className="flex whitespace-nowrap animate-[ticker_35s_linear_infinite]">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex">
               {marqueeItems.map(text => (
-                <span key={text} className="inline-flex items-center gap-16 px-36 font-mono font-bold tracking-widest uppercase text-white/25" style={{ fontSize: '10px' }}>
-                  <div className="w-[5px] h-[5px] rounded-full" style={{ background: B_PRI, boxShadow: `0 0 8px ${B_GLO}` }} />
+                <span key={text} className="inline-flex items-center gap-16 px-36 font-mono font-bold tracking-widest uppercase text-white/25 text-[10px]">
+                  <div className="w-[5px] h-[5px] rounded-full shadow-[0_0_8px_rgba(118,108,255,0.25)] bg-primary-solid" />
                   {text}
                 </span>
               ))}

@@ -6,16 +6,12 @@ export const metadata: Metadata = {
   description: 'Read the terms and conditions governing use of ARIOSETECH services and website.',
 }
 
-const hs = { fontFamily: 'var(--font-display)' } as const
-const hm = { fontFamily: 'var(--font-mono)' } as const
-const hb = { fontFamily: 'var(--font-body)' } as const
-
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <section style={{ marginBottom: '40px' }}>
-    <h2 style={{ ...hs, fontSize: 'clamp(1.1rem,2vw,1.4rem)', fontWeight: 700, color: 'var(--text)', marginBottom: '12px' }}>
+  <section className="mb-10">
+    <h2 className="font-display text-[clamp(1.1rem,2vw,1.4rem)] font-bold text-[var(--text)] mb-3">
       {title}
     </h2>
-    <div style={{ ...hb, fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+    <div className="font-body text-[15px] text-text-2 leading-[1.8]">
       {children}
     </div>
   </section>
@@ -23,18 +19,18 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 
 export default function TermsOfServicePage() {
   return (
-    <main style={{ paddingTop: '120px', paddingBottom: '80px' }}>
-      <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
+    <main className="pt-[120px] pb-[80px]">
+      <div className="container max-w-[800px] mx-auto">
 
         {/* Header */}
-        <div style={{ marginBottom: '48px' }}>
-          <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
+        <div className="mb-12">
+          <p className="font-mono text-[11px] text-primary tracking-[0.1em] uppercase mb-3">
             Legal
           </p>
-          <h1 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: 'var(--text)', marginBottom: '16px', letterSpacing: '-0.03em' }}>
+          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold text-[var(--text)] mb-4 tracking-[-0.03em]">
             Terms of Service
           </h1>
-          <p style={{ ...hb, fontSize: '15px', color: 'var(--text-3)' }}>
+          <p className="font-body text-[15px] text-text-3">
             Last updated: January 2025
           </p>
         </div>
@@ -46,10 +42,10 @@ export default function TermsOfServicePage() {
         </Section>
 
         <Section title="2. Services">
-          <p style={{ marginBottom: '12px' }}>
+          <p className="mb-3">
             ARIOSETECH provides professional web development services including but not limited to:
           </p>
-          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+          <ul className="pl-5 mt-2">
             {[
               'WordPress website development, maintenance, and support',
               'WooCommerce store development and optimisation',
@@ -57,19 +53,19 @@ export default function TermsOfServicePage() {
               'SEO services (website SEO, local SEO, technical SEO, content SEO)',
               'Speed optimisation, security hardening, and migration services',
             ].map((item, i) => (
-              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+              <li key={i} className="mb-2">{item}</li>
             ))}
           </ul>
-          <p style={{ marginTop: '12px' }}>
+          <p className="mt-3">
             All services are subject to separate project agreements, proposals, or statements of work that outline specific deliverables, timelines, and pricing.
           </p>
         </Section>
 
         <Section title="3. Project Agreements & Payment">
-          <p style={{ marginBottom: '12px' }}>
+          <p className="mb-3">
             All projects require a signed proposal or agreement before work commences. Unless otherwise specified:
           </p>
-          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+          <ul className="pl-5 mt-2">
             {[
               'A 50% deposit is required to begin any project',
               'The remaining balance is due upon project completion before final delivery',
@@ -77,7 +73,7 @@ export default function TermsOfServicePage() {
               'All prices are in USD unless otherwise agreed',
               'Invoices are due within 7 days of issue',
             ].map((item, i) => (
-              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+              <li key={i} className="mb-2">{item}</li>
             ))}
           </ul>
         </Section>
@@ -89,18 +85,18 @@ export default function TermsOfServicePage() {
         </Section>
 
         <Section title="5. Client Responsibilities">
-          <p style={{ marginBottom: '12px' }}>To ensure timely project delivery, clients are responsible for:</p>
-          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+          <p className="mb-3">To ensure timely project delivery, clients are responsible for:</p>
+          <ul className="pl-5 mt-2">
             {[
               'Providing all necessary content, assets, and login credentials promptly',
               'Responding to questions and approvals within a reasonable timeframe',
               'Ensuring all provided content does not infringe third-party intellectual property rights',
               'Maintaining secure access credentials for any shared accounts',
             ].map((item, i) => (
-              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+              <li key={i} className="mb-2">{item}</li>
             ))}
           </ul>
-          <p style={{ marginTop: '12px' }}>
+          <p className="mt-3">
             Delays caused by late client responses may result in revised project timelines.
           </p>
         </Section>
@@ -155,16 +151,16 @@ export default function TermsOfServicePage() {
 
         <Section title="14. Contact Us">
           <p>For any questions about these Terms of Service, please contact us:</p>
-          <div style={{ marginTop: '16px', padding: '20px 24px', background: 'var(--bg-2)', borderRadius: '12px', border: '1px solid var(--border)' }}>
-            <p style={{ marginBottom: '6px' }}><strong>ARIOSETECH</strong></p>
-            <p style={{ marginBottom: '6px' }}>95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770</p>
-            <p style={{ marginBottom: '6px' }}>Email: <a href="mailto:info@ariosetech.com" style={{ color: 'var(--primary)' }}>info@ariosetech.com</a></p>
-            <p>WhatsApp: <a href="https://wa.me/923009484739" style={{ color: 'var(--primary)' }}>+92 300 9484 739</a></p>
+          <div className="mt-4 py-5 px-6 bg-bg-2 rounded-xl border border-border">
+            <p className="mb-[6px]"><strong>ARIOSETECH</strong></p>
+            <p className="mb-[6px]">95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770</p>
+            <p className="mb-[6px]">Email: <a href="mailto:info@ariosetech.com" className="text-primary">info@ariosetech.com</a></p>
+            <p>WhatsApp: <a href="https://wa.me/923009484739" className="text-primary">+92 300 9484 739</a></p>
           </div>
         </Section>
 
-        <div style={{ paddingTop: '32px', borderTop: '1px solid var(--border)' }}>
-          <Link href="/" style={{ ...hm, fontSize: '13px', color: 'var(--primary)', textDecoration: 'none' }}>
+        <div className="pt-8 border-t border-border">
+          <Link href="/" className="font-mono text-[13px] text-primary no-underline">
             ← Back to Home
           </Link>
         </div>

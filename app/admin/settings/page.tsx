@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save, Upload, RefreshCw } from 'lucide-react'
+import { Save, Upload, RefreshCw } from '@/components/ui/Icons'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { MediaPickerModal } from '@/components/ui/MediaPickerModal'

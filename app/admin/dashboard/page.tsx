@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AdminShell from '@/components/layout/AdminShell'
-import { FileText, Briefcase, Layers, MessageSquare, ArrowRight, Plus, Globe, Settings } from 'lucide-react'
+import { FileText, Briefcase, Layers, MessageSquare, ArrowRight, Plus, Globe, Settings } from '@/components/ui/Icons'
 
 type Stats = { blogs: number; portfolio: number; pages: number; leads: number; newLeads: number; services: number }
 

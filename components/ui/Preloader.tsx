@@ -68,23 +68,14 @@ export default function Preloader() {
           {/* ── Content (centered, sits above curtain seam) ── */}
           <div className="relative z-10 flex flex-col items-center select-none">
             {/* Counter */}
-            <div className="font-display font-black leading-none text-center w-full tabular-nums tracking-tighter" style={{
-              fontSize: 'clamp(4rem, 13vw, 11rem)',
-              background: 'linear-gradient(135deg, #a78bfa 0%, #766cff 40%, #60a5fa 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              marginBottom: '0.05em',
-              paddingRight: '0.08em', // Prevent slanted font from clipping on the right
-            }}>
+            <div className="font-display font-black leading-none text-center w-full tabular-nums tracking-tighter text-[clamp(4rem,13vw,11rem)] bg-[linear-gradient(135deg,#a78bfa_0%,#766cff_40%,#60a5fa_100%)] bg-clip-text text-transparent mb-[0.05em] pr-[0.08em]">
               {count}
             </div>
 
             {/* Brand name with stagger reveal */}
             <div
               ref={letterScope}
-              className="font-display font-black text-white flex overflow-hidden tracking-[0.28em]"
-              style={{ fontSize: 'clamp(1.1rem, 3.5vw, 2.2rem)', gap: '0.04em' }}
+              className="font-display font-black text-white flex overflow-hidden tracking-[0.28em] text-[clamp(1.1rem,3.5vw,2.2rem)] gap-[0.04em]"
             >
               {BRAND.split('').map((ch, i) => (
                 <span key={i} className="inline-block opacity-0">
@@ -98,8 +89,7 @@ export default function Preloader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              className="font-mono text-white/30 uppercase tracking-[0.22em] mt-[14px]"
-              style={{ fontSize: 'clamp(9px, 1.2vw, 11px)' }}
+              className="font-mono text-white/30 uppercase tracking-[0.22em] mt-[14px] text-[clamp(9px,1.2vw,11px)]"
             >
               {TAGLINE}
             </motion.p>
@@ -108,8 +98,8 @@ export default function Preloader() {
           {/* ── Progress bar (bottom) ── */}
           <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/5 z-20">
             <motion.div
-              className="h-full origin-left"
-              style={{ background: 'linear-gradient(90deg, #766cff, #a78bfa, #60a5fa)', width: `${count}%` }}
+              className="h-full origin-left bg-[linear-gradient(90deg,#766cff,#a78bfa,#60a5fa)]"
+              style={{ width: `${count}%` }}
             />
           </div>
 

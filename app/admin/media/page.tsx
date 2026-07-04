@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useRef, useCallback } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Upload, Copy, Trash2, Check } from 'lucide-react'
+import { Upload, Copy, Trash2, Check } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type MediaItem = { _id: string; url: string; alt: string; width?: number; height?: number; size?: number; createdAt: string }

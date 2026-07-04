@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import AdminShell from '@/components/layout/AdminShell'
-import { Plus, Pencil, Trash2, Eye, Settings, Copy, RefreshCw } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye, Settings, Copy, RefreshCw } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type Page = { _id: string; title: string; slug: string; fullPath: string; status: string; updatedAt: string; seo?: { title?: string; description?: string } }

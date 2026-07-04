@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { getSectionsByCategory } from '@/lib/builder/registry'
 import { useBuilderStore } from '@/lib/builder/store'
-import { X, Search } from 'lucide-react'
+import { X, Search } from '@/components/ui/Icons'
 
 export function SectionPicker({ onClose }: { onClose: () => void }) {
   const [search, setSearch] = useState('')

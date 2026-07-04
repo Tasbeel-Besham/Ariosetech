@@ -41,7 +41,7 @@ function ScrambleText({ text, delay = 0, className, style }: { text: string; del
   }, [scramble, delay, revealed])
 
   return (
-    <span ref={ref} className={className} style={{ fontFamily:'inherit', ...style, display:'inline' }}>
+    <span ref={ref} className={`scramble-inline${className ? ` ${className}` : ''}`} style={style}>
       {display}
     </span>
   )
@@ -92,19 +92,19 @@ export default function ApproachSection({
   if (safeItems.length === 0) return null
 
   return (
-    <div ref={wrapperRef} className="approach-wrapper" style={{ height:`${safeItems.length * 100 + 60}vh`, position:'relative' }}>
-      <div className="approach-sticky" style={{ position:'sticky', top:0, height:'100vh', overflow:'hidden', display:'flex', flexDirection:'column', background:'var(--bg)' }}>
+    <div ref={wrapperRef} className="approach-wrapper relative" style={{ height:`${safeItems.length * 100 + 60}vh` }}>
+      <div className="approach-sticky approach-sticky-shell">
 
         {/* Header */}
         <div className="approach-header shrink-0 text-center pb-28 pt-52">
           {eyebrow && <p className="eyebrow justify-center">{eyebrow}</p>}
-          <h2 className="font-display font-extrabold mb-20 leading-none tracking-tighter" style={{ fontSize:'clamp(2rem,4vw,3rem)' }}>
+          <h2 className="font-display font-extrabold mb-20 leading-none tracking-tighter section-headline-sm">
             {headline} {scrambleWord && <ScrambleText text={scrambleWord} className="text-gradient" />}
           </h2>
           {/* Progress dots */}
           <div className="flex justify-center gap-8">
             {safeItems.map((_, i) => (
-              <div key={i} className="rounded-full transition-all duration-400 ease" style={{ width: i === activeIdx ? '24px' : '6px', height:'6px', background: i === activeIdx ? 'var(--primary)' : 'rgba(118,108,255,0.25)' }} />
+              <div key={i} className={`rounded-full transition-all duration-400 ease approach-dot${i === activeIdx ? ' active' : ''}`} />
             ))}
           </div>
         </div>
@@ -112,20 +112,13 @@ export default function ApproachSection({
         {/* Sliding strip */}
         <div className="approach-strip-container flex-1 overflow-hidden flex items-center relative">
           {/* Edge fades */}
-          <div className="approach-fade absolute top-0 bottom-0 left-0 w-[80px] z-[2] pointer-events-none" style={{ background:'linear-gradient(to right, var(--bg), transparent)' }} />
-          <div className="approach-fade absolute top-0 bottom-0 right-0 w-[80px] z-[2] pointer-events-none" style={{ background:'linear-gradient(to left, var(--bg), transparent)' }} />
+          <div className="approach-fade approach-fade-l absolute top-0 bottom-0 left-0 w-[80px] z-[2] pointer-events-none" />
+          <div className="approach-fade approach-fade-r absolute top-0 bottom-0 right-0 w-[80px] z-[2] pointer-events-none" />
 
             <div
               ref={stripRef}
               className="approach-strip flex gap-20"
-              style={{
-                flexDirection:'var(--approach-flex-dir, row)' as any,
-                paddingLeft:'var(--approach-pad-l, 8vw)',
-                paddingRight:'var(--approach-pad-r, 8vw)',
-                transform:`translateX(var(--approach-tx, ${tx}px))`,
-                willChange:'transform',
-                transition:'transform 0.06s linear',
-              }}
+              style={{ transform:`translateX(var(--approach-tx, ${tx}px))` }}
             >
               {safeItems.map((item, i) => {
                 const isActive = i === activeIdx
@@ -133,33 +126,22 @@ export default function ApproachSection({
                   <div
                     key={item.n || i}
                     className={`approach-card shrink-0 relative overflow-hidden rounded-3xl transition-all duration-400 ease ${isActive ? 'active' : ''}`}
-                    style={{
-                      width:'min(460px, 82vw)',
-                      padding:'44px 40px',
-                      background: isActive
-                        ? 'linear-gradient(145deg, rgba(118,108,255,0.13) 0%, rgba(10,10,18,0.95) 80%)'
-                        : 'var(--bg-2)',
-                      border:`1px solid ${isActive ? 'rgba(118,108,255,0.45)' : 'var(--border)'}`,
-                      transform: isActive ? 'scale(1.02)' : 'scale(0.95)',
-                      opacity: isActive ? 1 : 0.45,
-                      boxShadow: isActive ? '0 32px 80px rgba(0,0,0,0.5), 0 0 60px rgba(118,108,255,0.1)' : 'none',
-                    }}
                   >
                     {/* Gradient top bar */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-grad transition-opacity duration-400" style={{ opacity: isActive ? 1 : 0 }} />
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-grad transition-opacity duration-400 approach-topline" />
   
                     {/* Ghost number */}
-                    <p className="approach-ghost-num font-display font-black absolute top-10 right-16 leading-none select-none tracking-tighter pointer-events-none" style={{ fontSize:'clamp(8rem,13vw,14rem)', color:'rgba(255,255,255,0.04)' }}>
+                    <p className="approach-ghost-num font-display font-black absolute top-10 right-16 leading-none select-none tracking-tighter pointer-events-none">
                       {item.n}
                     </p>
   
                     {/* Step number pill */}
-                    <div className="approach-pill inline-flex items-center gap-6 px-12 py-4 rounded-full border border-subtle-primary bg-soft-primary" style={{ marginBottom:'clamp(32px,5vw,64px)' }}>
+                    <div className="approach-pill inline-flex items-center gap-6 px-12 py-4 rounded-full border border-subtle-primary bg-soft-primary">
                       <span className="font-mono font-bold text-primary tracking-widest text-xs">{item.n}</span>
                     </div>
   
                     {/* Title */}
-                    <h3 className="font-display font-black text-white leading-tight mb-16 uppercase tracking-tight break-words" style={{ fontSize:'clamp(1.8rem, 2.8vw, 2.2rem)' }}>
+                    <h3 className="font-display font-black text-white leading-tight mb-16 uppercase tracking-tight break-words approach-card-title">
                       {item.title}
                     </h3>
   
@@ -176,12 +158,12 @@ export default function ApproachSection({
           </div>
   
           {/* Scroll hint */}
-          <div className="approach-hint shrink-0 text-center pb-20 pt-16 pointer-events-none transition-opacity duration-500" style={{ opacity: showHint ? 1 : 0 }}>
+          <div className={`approach-hint shrink-0 text-center pb-20 pt-16 pointer-events-none transition-opacity duration-500${showHint ? ' visible-hint' : ' hidden-hint'}`}>
             <div className="inline-flex items-center gap-8">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14M5 12l7 7 7-7"/>
               </svg>
-              <span className="font-mono text-gray-3 uppercase tracking-widest" style={{ fontSize:'10px' }}>Scroll to explore</span>
+              <span className="font-mono text-gray-3 uppercase tracking-widest text-10">Scroll to explore</span>
             </div>
           </div>
   

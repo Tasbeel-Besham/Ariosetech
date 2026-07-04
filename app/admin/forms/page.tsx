@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Plus, Trash2, Copy } from 'lucide-react'
+import { Plus, Trash2, Copy } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type FormField = { name: string; label: string; type: string; required: boolean; options?: string }

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2 } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type User = { _id: string; username: string; role: string; createdAt: string }

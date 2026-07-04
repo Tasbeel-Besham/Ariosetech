@@ -1,45 +1,26 @@
 "use client";
-import { useState, useEffect } from 'react'
+import type { CSSProperties } from 'react'
 
 type Step = { n: string; title: string; sub: string; desc: string; time: string }
 type Props = { eyebrow?: string; headline?: string; items?: Step[]; steps?: Step[] }
 
 export default function ProcessSection({ eyebrow='How We Work', headline='Your Success Journey in 5 Simple Steps', items=[], steps=[] }: Props) {
-  const F = { fontFamily:'var(--font-display)' } as const
   const safe = items.length ? items : steps
-  
-  const [w, setW] = useState(1280)
-  useEffect(() => {
-    const s = () => setW(window.innerWidth)
-    s()
-    window.addEventListener('resize', s)
-    return () => window.removeEventListener('resize', s)
-  }, [])
-  const isMd = w >= 768
 
   return (
     <section className="section section--dark">
       <div className="container">
-        <div style={{ textAlign:'center', marginBottom:'60px' }}>
-          <p className="eyebrow sr" style={{ justifyContent:'center' }}>{eyebrow}</p>
-          <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em' }}>{headline}</h2>
+        <div className="text-center mb-60">
+          <p className="eyebrow sr justify-center">{eyebrow}</p>
+          <h2 className="sr process-headline">{headline}</h2>
         </div>
-        <div style={{ 
-          display:'grid', 
-          gridTemplateColumns: isMd ? `repeat(${safe.length}, 1fr)` : '1fr',
-          gap: isMd ? '0' : '30px'
-        }}>
+        <div className="process-grid" style={{ '--process-cols': safe.length } as CSSProperties}>
           {safe.map(({n,title,sub,desc,time},i) => (
-            <div key={i} className="sr" style={{ 
-              paddingRight: isMd && i < safe.length - 1 ? '28px' : '0', 
-              paddingLeft: isMd && i > 0 ? '28px' : '0',
-              borderRight: isMd && i < safe.length - 1 ? '1px solid var(--border)' : 'none', 
-              animationDelay: `${i*0.07}s` 
-            }}>
-              <p style={{ ...F, fontSize:'clamp(3.5rem,5vw,5rem)', fontWeight:800, color:'rgba(118,108,255,0.15)', lineHeight:1, marginBottom:'16px', userSelect:'none' }}>{n}</p>
-              <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'5px' }}>{title}</p>
-              <p style={{ fontSize:'12px', color:'var(--primary)', fontWeight:600, marginBottom:'10px' }}>{sub}</p>
-              <p style={{ fontSize:'12px', color:'var(--text-3)', lineHeight:1.8, marginBottom:'14px' }}>{desc}</p>
+            <div key={i} className="sr process-step" style={{ animationDelay: `${i*0.07}s` }}>
+              <p className="process-num">{n}</p>
+              <p className="process-title">{title}</p>
+              <p className="process-sub">{sub}</p>
+              <p className="process-desc">{desc}</p>
               {time && <span className="tag">{time}</span>}
             </div>
           ))}

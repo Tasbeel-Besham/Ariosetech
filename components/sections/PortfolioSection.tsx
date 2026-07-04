@@ -232,15 +232,15 @@ export default function PortfolioSection({
       `}} />
 
       {/* Grid */}
-      <section id="projects" className="section section--dark" style={{ paddingTop: '80px' }}>
+      <section id="projects" className="section section--dark pf-section">
         <div className="container">
           
           <div className="flex items-end justify-between gap-20 flex-wrap mb-40">
             <div>
-              <p className="eyebrow font-mono text-primary uppercase tracking-widest flex items-center gap-8 mb-14 font-bold" style={{ fontSize: '10px' }}>
+              <p className="eyebrow font-mono text-primary uppercase tracking-widest flex items-center gap-8 mb-14 font-bold text-10">
                 <span className="opacity-50">—</span> {eyebrow}
               </p>
-              <h2 className="font-display font-extrabold leading-none tracking-tighter text-white max-w-[700px]" style={{ fontSize:'clamp(2.4rem,4vw,3.5rem)' }}>
+              <h2 className="font-display font-extrabold leading-none tracking-tighter text-white max-w-[700px] pf-headline">
                 {headline}
               </h2>
             </div>
@@ -281,7 +281,7 @@ export default function PortfolioSection({
                   <div>
                     <div className="pname">{item.title}</div>
                     <div className="flex gap-6 flex-wrap mb-8">
-                      <span className={`ptag ${catClass} font-mono px-12 py-3 rounded-full font-bold uppercase tracking-widest`} style={{ fontSize: '10px' }}>
+                      <span className={`ptag ${catClass} font-mono px-12 py-3 rounded-full font-bold uppercase tracking-widest text-10`}>
                         {item.platform || catClass}
                       </span>
                     </div>
@@ -291,8 +291,8 @@ export default function PortfolioSection({
                   {/* Stats desktop only to match HTML layout cleanly */}
                   <div className="hidden md-flex shrink-0 gap-24">
                     <div className="text-right">
-                      <div className="font-display font-black leading-none text-gradient" style={{ fontSize: '1.25rem' }}>{item.result}</div>
-                      <div className="font-mono text-gray-3 uppercase tracking-wider mt-4 font-semibold" style={{ fontSize: '9px' }}>{item.resultLabel}</div>
+                      <div className="font-display font-black leading-none text-gradient pf-result">{item.result}</div>
+                      <div className="font-mono text-gray-3 uppercase tracking-wider mt-4 font-semibold text-9">{item.resultLabel}</div>
                     </div>
                   </div>
                   
@@ -309,17 +309,13 @@ export default function PortfolioSection({
       </section>
 
       {/* POPUP */}
-      <div ref={wrapRef} className="portfolio-popup fixed w-[300px] h-[220px] rounded-2xl overflow-hidden pointer-events-none z-[9999]" style={{
-        opacity: hovered ? 1 : 0, transform: hovered ? 'scale(1) translateY(0)' : 'scale(0.88) translateY(8px)',
-        transition: 'opacity .22s cubic-bezier(.16,1,.3,1), transform .22s cubic-bezier(.16,1,.3,1)',
-        border: '1px solid rgba(118,108,255,.35)', boxShadow: '0 32px 80px rgba(0,0,0,.85), 0 0 0 1px rgba(118,108,255,.1)'
-      }}>
-        <div className="absolute top-0 left-0 right-0 h-28 flex items-center gap-6 px-12 z-[3]" style={{ background: 'rgba(6,6,18,.98)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
+      <div ref={wrapRef} className={`portfolio-popup fixed w-[300px] h-[220px] rounded-2xl overflow-hidden pointer-events-none z-[9999]${hovered ? ' visible' : ''}`}>
+        <div className="absolute top-0 left-0 right-0 h-28 flex items-center gap-6 px-12 z-[3] pf-popup-bar">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-grad" />
-          <div className="w-8 h-8 rounded-full" style={{ background: '#ff5f57' }} />
-          <div className="w-8 h-8 rounded-full" style={{ background: '#febc2e' }} />
-          <div className="w-8 h-8 rounded-full" style={{ background: '#28c840' }} />
-          <div className="font-mono ml-8 flex-1 overflow-hidden whitespace-nowrap text-ellipsis font-semibold" style={{ fontSize: '9px', color: 'rgba(240,240,255,.3)' }}>
+          <div className="w-8 h-8 rounded-full dot-red" />
+          <div className="w-8 h-8 rounded-full dot-yellow" />
+          <div className="w-8 h-8 rounded-full dot-green" />
+          <div className="font-mono ml-8 flex-1 overflow-hidden whitespace-nowrap text-ellipsis font-semibold pf-popup-url">
             {hovered && hovered.url ? hovered.url.replace(/https?:\/\//, '') : 'Preview'}
           </div>
         </div>
@@ -328,22 +324,22 @@ export default function PortfolioSection({
           {loadingImg && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-12 z-[4] bg-subtle-2">
               <div className="spin" />
-              <div className="font-mono tracking-widest" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)' }}>Loading preview...</div>
+              <div className="font-mono tracking-widest pf-popup-loading">Loading preview...</div>
             </div>
           )}
           {imgError && (
             <div className="absolute inset-0 flex flex-col items-center justify-center z-[4] bg-subtle-2">
-              <div className="font-mono tracking-widest" style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>Preview unavailable</div>
+              <div className="font-mono tracking-widest pf-popup-error">Preview unavailable</div>
             </div>
           )}
           
           <img ref={imgRef} src="" alt="" draggable="false" className="w-full block absolute top-0 left-0" />
           
-          <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(5,5,8,.8) 0%, transparent 40%)' }} />
+          <div className="absolute inset-0 z-[2] pointer-events-none pf-popup-shade" />
           
           {hovered && (
             <div className="absolute bottom-10 left-10 right-10 z-[3] flex gap-6 flex-wrap">
-              <div className="font-mono font-bold text-white px-10 py-4 rounded-md backdrop-blur-sm" style={{ background: 'rgba(6,6,18,.88)', border: '1px solid rgba(118,108,255,.25)', fontSize: '9px' }}>
+              <div className="font-mono font-bold text-white px-10 py-4 rounded-md backdrop-blur-sm pf-popup-badge">
                 <span className="text-primary">{hovered.result}</span> {hovered.resultLabel}
               </div>
             </div>

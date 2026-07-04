@@ -33,136 +33,30 @@ export default function ContactClient() {
     finally { setSending(false) }
   }
 
-  const inpShared = {
-    width:'100%', background:'rgba(255,255,255,0.03)',
-    border:'1px solid var(--border)', borderRadius:'12px',
-    fontSize:'15px', color:'var(--text)',
-    outline:'none', fontFamily:'var(--font-body)',
-    transition:'border-color 0.2s, box-shadow 0.2s, background 0.2s',
-    boxSizing:'border-box' as const,
-  }
-
   const FloatingInput = ({ label, type='text', value, onChange, required, multiline=false }: any) => {
     const [focused, setFocused] = useState(false)
     const active = focused || value.length > 0
     
     return (
-      <div style={{ position:'relative', width:'100%' }}>
+      <div className="fl-wrap">
         {multiline ? (
           <textarea
             value={value} onChange={e => onChange(e.target.value)} required={required}
-            style={{
-              ...inpShared,
-              padding: '24px 20px 16px', minHeight: '140px', resize: 'vertical',
-              borderColor: focused ? 'rgba(118,108,255,0.55)' : 'var(--border)',
-              boxShadow: focused ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
-              background: focused ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
-            }}
+            className={`fl-input fl-textarea${focused ? ' focused' : ''}`}
             onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
           />
         ) : (
           <input
             type={type} value={value} onChange={e => onChange(e.target.value)} required={required}
-            style={{
-              ...inpShared,
-              padding: '22px 20px 10px', height: '56px',
-              borderColor: focused ? 'rgba(118,108,255,0.55)' : 'var(--border)',
-              boxShadow: focused ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
-              background: focused ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
-            }}
+            className={`fl-input fl-input-text${focused ? ' focused' : ''}`}
             onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
           />
         )}
-        <label style={{
-          position:'absolute', left:'20px',
-          top: active ? (multiline ? '14px' : '10px') : (multiline ? '22px' : '50%'),
-          transform: active ? 'none' : 'translateY(-50%)',
-          fontSize: active ? '10px' : '15px',
-          color: active ? 'var(--primary)' : 'var(--text-3)',
-          fontFamily: active ? 'var(--font-mono)' : 'var(--font-body)',
-          textTransform: active ? 'uppercase' : 'none',
-          letterSpacing: active ? '0.1em' : 'normal',
-          fontWeight: active ? 700 : 400,
-          transition:'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          pointerEvents:'none'
-        }}>
-          {label} {required && <span style={{color:'var(--primary)'}}>*</span>}
+        <label className={`fl-label${multiline ? ' fl-label-ta' : ''}${active ? ' active' : ''}`}>
+          {label} {required && <span className="text-primary">*</span>}
         </label>
       </div>
     )
-  }
-
-  const FloatingSelect = ({ label, value, onChange, options }: any) => {
-    const [open, setOpen] = useState(false)
-    const active = open || value.length > 0
-    return (
-      <div style={{ position:'relative', width:'100%' }} onClick={(e) => { e.stopPropagation(); setOpen(!open) }}>
-        {/* Fake input for UI */}
-        <div style={{
-          ...inpShared,
-          padding: '22px 40px 10px 20px', height: '56px', cursor: 'pointer',
-          display: 'flex', alignItems: 'flex-end', userSelect: 'none',
-          borderColor: open ? 'rgba(118,108,255,0.55)' : 'var(--border)',
-          boxShadow: open ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
-          background: open ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
-        }}>
-          <span style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: value ? 'var(--text)' : 'transparent' }}>
-            {value || '-'}
-          </span>
-          <svg style={{ position: 'absolute', right: '16px', top: '50%', transform: `translateY(-50%) rotate(${open ? '180deg' : '0'})`, transition: 'transform 0.2s', color: 'var(--text-3)' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-        <label style={{
-          position:'absolute', left:'20px',
-          top: active ? '10px' : '50%',
-          transform: active ? 'none' : 'translateY(-50%)',
-          fontSize: active ? '10px' : '15px',
-          color: active ? 'var(--primary)' : 'var(--text-3)',
-          fontFamily: active ? 'var(--font-mono)' : 'var(--font-body)',
-          textTransform: active ? 'uppercase' : 'none',
-          letterSpacing: active ? '0.1em' : 'normal',
-          fontWeight: active ? 700 : 400,
-          transition:'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          pointerEvents:'none'
-        }}>
-          {label}
-        </label>
-        {/* Dropdown Menu */}
-        <div style={{
-          position:'absolute', top:'calc(100% + 8px)', left:0, right:0,
-          background:'rgba(15,15,22,0.95)', backdropFilter:'blur(16px)',
-          border:'1px solid var(--border)', borderRadius:'12px',
-          padding:'8px', zIndex:50,
-          opacity: open ? 1 : 0, visibility: open ? 'visible' : 'hidden',
-          transform: open ? 'translateY(0)' : 'translateY(-10px)',
-          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-          maxHeight: '260px', overflowY: 'auto'
-        }}>
-          {options.map((opt: string) => (
-            <div key={opt} onClick={() => onChange(opt)}
-                 style={{
-                   padding:'12px 16px', borderRadius:'8px', cursor:'pointer', fontSize:'14px', color:'var(--text-2)',
-                   transition:'all 0.15s',
-                   background: value === opt ? 'rgba(118,108,255,0.1)' : 'transparent',
-                 }}
-                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff' }}
-                 onMouseLeave={e => { e.currentTarget.style.background = value === opt ? 'rgba(118,108,255,0.1)' : 'transparent'; e.currentTarget.style.color = 'var(--text-2)' }}>
-              {opt}
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  // Close dropdowns globally when clicking outside
-  if (typeof window !== 'undefined') {
-    window.onclick = () => {
-      // Just a trigger for React to re-render but custom selects handle their own state via event bubbling.
-      // Actually, since we stopPropagation on the select wrapper, clicking anywhere else will trigger window.onclick.
-      // But we can't easily force all instances to close without context.
-      // Wait, we can dispatch a custom event!
-    }
   }
 
   // To properly close custom selects on outside click without context:
@@ -172,14 +66,6 @@ export default function ContactClient() {
     return () => window.removeEventListener('click', fn)
   }, [])
 
-  const SelectWrapper = ({ children }: any) => {
-    const [o, setO] = useState(false)
-    // pass o to children... 
-    // Wait, the FloatingSelect component should handle this directly! Let's revise it inside.
-    return children
-  }
-
-  // We'll rewrite the custom select using a robust outside click listener:
   const FloatingSelectWithOutsideClick = ({ label, value, onChange, options }: any) => {
     const [open, setOpen] = useState(false)
     useEffect(() => {
@@ -190,55 +76,20 @@ export default function ContactClient() {
     
     const active = open || value.length > 0
     return (
-      <div style={{ position:'relative', width:'100%' }} onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('closeSelects')); setOpen(!open) }}>
-        <div style={{
-          ...inpShared,
-          padding: '22px 40px 10px 20px', height: '56px', cursor: 'pointer',
-          display: 'flex', alignItems: 'flex-end', userSelect: 'none',
-          borderColor: open ? 'rgba(118,108,255,0.55)' : 'var(--border)',
-          boxShadow: open ? '0 0 0 4px rgba(118,108,255,0.10)' : 'none',
-          background: open ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.03)'
-        }}>
-          <span style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: value ? 'var(--text)' : 'transparent', fontSize: '15px' }}>
+      <div className="fl-wrap" onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('closeSelects')); setOpen(!open) }}>
+        <div className={`fl-input fl-select${open ? ' focused' : ''}`}>
+          <span className={`fl-select-value text-15px${value ? '' : ' empty'}`}>
             {value || '-'}
           </span>
-          <svg style={{ position: 'absolute', right: '16px', top: '50%', transform: `translateY(-50%) rotate(${open ? '180deg' : '0'})`, transition: 'transform 0.2s', color: 'var(--text-3)' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+          <svg className={`fl-chevron${open ? ' open' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
         </div>
-        <label style={{
-          position:'absolute', left:'20px',
-          top: active ? '10px' : '50%',
-          transform: active ? 'none' : 'translateY(-50%)',
-          fontSize: active ? '10px' : '15px',
-          color: active ? 'var(--primary)' : 'var(--text-3)',
-          fontFamily: active ? 'var(--font-mono)' : 'var(--font-body)',
-          textTransform: active ? 'uppercase' : 'none',
-          letterSpacing: active ? '0.1em' : 'normal',
-          fontWeight: active ? 700 : 400,
-          transition:'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          pointerEvents:'none'
-        }}>
+        <label className={`fl-label${active ? ' active' : ''}`}>
           {label}
         </label>
-        <div style={{
-          position:'absolute', top:'calc(100% + 8px)', left:0, right:0,
-          background:'rgba(15,15,22,0.95)', backdropFilter:'blur(16px)',
-          border:'1px solid var(--border)', borderRadius:'12px',
-          padding:'8px', zIndex:50,
-          opacity: open ? 1 : 0, visibility: open ? 'visible' : 'hidden',
-          transform: open ? 'translateY(0)' : 'translateY(-10px)',
-          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-          maxHeight: '260px', overflowY: 'auto'
-        }}>
+        <div className={`fl-menu${open ? ' open' : ''}`}>
           {options.map((opt: string) => (
             <div key={opt} onClick={() => { onChange(opt); setOpen(false) }}
-                 style={{
-                   padding:'12px 16px', borderRadius:'8px', cursor:'pointer', fontSize:'14px', color: value === opt ? '#fff' : 'var(--text-2)',
-                   transition:'all 0.15s',
-                   background: value === opt ? 'var(--primary)' : 'transparent',
-                 }}
-                 onMouseEnter={e => { if(value!==opt){ e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff' } }}
-                 onMouseLeave={e => { if(value!==opt){ e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-2)' } }}>
+                 className={`fl-option${value === opt ? ' selected' : ''}`}>
               {opt}
             </div>
           ))}
@@ -276,38 +127,36 @@ export default function ContactClient() {
       {/* ══ FORM + INFO ══════════════════════════════════════════════ */}
       <section className="section" id="quote">
         <div className="container">
-          <div className="g-2" style={{ gap:'72px', alignItems:'start' }}>
+          <div className="g-2 gap-72 items-start">
 
             {/* ── LEFT: info ──────────────────────────────────── */}
             <div>
-              <h2 style={{ ...F, fontSize:'clamp(1.8rem,2.8vw,2.4rem)', fontWeight:800, color:'#fff', marginBottom:'14px', letterSpacing:'-0.03em', lineHeight:1.1 }}>
+              <h2 className="contact-headline">
                 Let&apos;s Build Something<br />
-                <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Great Together</span>
+                <span className="text-grad">Great Together</span>
               </h2>
-              <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.9, marginBottom:'36px', maxWidth:'480px' }}>
+              <p className="contact-lede">
                 Tell us about your project. We&apos;ll reply within 24 hours with a free, no-obligation quote and an honest assessment.
               </p>
 
               {/* Contact cards */}
-              <div style={{ display:'flex', flexDirection:'column', gap:'14px', marginBottom:'32px' }}>
+              <div className="flex flex-col gap-14 mb-32">
                 {[
                   { Icon:Mail,          label:'Email',            value:'info@ariosetech.com',   href:'mailto:info@ariosetech.com',  note:'Proposals & project discussions' },
                   { Icon:Phone,         label:'Phone / WhatsApp', value:'+92 300 9484 739',       href:'tel:+923009484739',           note:'Quick questions, instant consultation' },
                   { Icon:MapPin,        label:'Office',           value:'Lahore, Pakistan',       href:undefined,                    note:'95 College Road, PCSIR Staff Colony' },
                   { Icon:Clock,         label:'Response Time',    value:'Within 24 Hours',        href:undefined,                    note:'No spam. No lock-in contracts.' },
                 ].map(({ Icon, label, value, href, note }) => (
-                  <div key={label} style={{ display:'flex', gap:'16px', alignItems:'flex-start', padding:'20px 22px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'16px', transition:'border-color 0.2s' }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor='rgba(118,108,255,0.3)')}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor='var(--border)')}>
-                    <div style={{ width:'42px', height:'42px', borderRadius:'12px', background:'rgba(118,108,255,0.10)', border:'1px solid rgba(118,108,255,0.18)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, color:'var(--primary)' }}>
+                  <div key={label} className="cc-card">
+                    <div className="cc-icon">
                       <Icon size={18} />
                     </div>
                     <div>
-                      <p style={{ ...M, fontSize:'9px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'4px' }}>{label}</p>
+                      <p className="cc-label">{label}</p>
                       {href
-                        ? <a href={href} style={{ fontSize:'15px', fontWeight:600, color:'var(--text)', display:'block', marginBottom:'3px', transition:'color 0.15s' }} onMouseEnter={e=>(e.currentTarget.style.color='var(--primary)')} onMouseLeave={e=>(e.currentTarget.style.color='var(--text)')}>{value}</a>
-                        : <p style={{ fontSize:'15px', fontWeight:600, color:'var(--text)', marginBottom:'3px' }}>{value}</p>}
-                      <p style={{ fontSize:'12px', color:'var(--text-3)', lineHeight:1.6 }}>{note}</p>
+                        ? <a href={href} className="cc-value cc-value-link">{value}</a>
+                        : <p className="cc-value">{value}</p>}
+                      <p className="cc-note">{note}</p>
                     </div>
                   </div>
                 ))}
@@ -315,51 +164,50 @@ export default function ContactClient() {
 
               {/* WhatsApp */}
               <a href="https://wa.me/923009484739?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20project" target="_blank" rel="noopener noreferrer"
-                style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', padding:'18px', borderRadius:'14px', textDecoration:'none', background:'linear-gradient(135deg,#25D366,#128C7E)', color:'#fff', fontSize:'15px', fontWeight:700, fontFamily:'var(--font-display)', marginBottom:'20px', transition:'opacity 0.2s' }}
-                onMouseEnter={e=>(e.currentTarget.style.opacity='0.88')} onMouseLeave={e=>(e.currentTarget.style.opacity='1')}>
+                className="wa-btn">
                 <MessageCircle size={20} /> Chat on WhatsApp — Instant Reply
               </a>
 
               {/* Countries */}
-              <div style={{ background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'14px', padding:'20px 22px' }}>
-                <p style={{ ...M, fontSize:'9px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'12px' }}>Clients we serve globally</p>
-                <div style={{ display:'flex', flexWrap:'wrap', gap:'7px' }}>
+              <div className="chip-box">
+                <p className="chip-label">Clients we serve globally</p>
+                <div className="flex flex-wrap gap-7">
                   {['🇺🇸 USA','🇦🇪 UAE','🇨🇭 Switzerland','🇬🇧 UK','🇦🇺 Australia','🇨🇦 Canada','🇩🇪 Germany','🇵🇰 Pakistan'].map(c => (
-                    <span key={c} style={{ fontSize:'12px', color:'var(--text-2)', background:'var(--bg-3)', border:'1px solid var(--border)', padding:'5px 12px', borderRadius:'8px' }}>{c}</span>
+                    <span key={c} className="chip">{c}</span>
                   ))}
                 </div>
               </div>
             </div>
 
             {/* ── RIGHT: form ─────────────────────────────────── */}
-            <div style={{ background:'var(--bg-2)', border:'1px solid rgba(118,108,255,0.2)', borderRadius:'24px', overflow:'hidden', position:'relative', top:0, boxShadow:'0 32px 80px rgba(0,0,0,0.45)' }} className="lg:sticky lg:top-[88px]">
+            <div className="quote-card lg:sticky lg:top-[88px]">
               {/* Header */}
-              <div style={{ padding:'36px 48px 28px', borderBottom:'1px solid var(--border)', background:'linear-gradient(135deg,rgba(118,108,255,0.09),rgba(118,108,255,0.03))' }}>
-                <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'8px' }}>
-                  <div style={{ width:'10px', height:'10px', borderRadius:'50%', background:'#22c55e', boxShadow:'0 0 8px rgba(34,197,94,0.6)' }} />
-                  <span style={{ ...M, fontSize:'10px', color:'#22c55e', textTransform:'uppercase', letterSpacing:'0.14em', fontWeight:700 }}>Accepting new projects</span>
+              <div className="quote-head">
+                <div className="flex items-center gap-12 mb-8">
+                  <div className="quote-dot" />
+                  <span className="quote-status">Accepting new projects</span>
                 </div>
-                <h3 style={{ ...F, fontSize:'22px', fontWeight:800, color:'#fff', marginBottom:'6px' }}>Request a Free Quote</h3>
-                <p style={{ ...M, fontSize:'11px', color:'var(--text-3)' }}>Reply within 24 hours · No commitment · No spam</p>
+                <h3 className="quote-title">Request a Free Quote</h3>
+                <p className="quote-sub">Reply within 24 hours · No commitment · No spam</p>
               </div>
 
               {sent ? (
-                <div style={{ padding:'80px 48px', textAlign:'center' }}>
-                  <div style={{ width:'64px', height:'64px', borderRadius:'16px', background:'rgba(118,108,255,0.12)', border:'1px solid rgba(118,108,255,0.3)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px', fontSize:'28px' }}>✓</div>
-                  <p style={{ ...F, fontSize:'20px', fontWeight:800, color:'#fff', marginBottom:'10px' }}>Message Sent!</p>
-                  <p style={{ fontSize:'14px', color:'var(--text-3)', lineHeight:1.8 }}>We&apos;ll get back to you within 24 hours.<br/>Check your inbox — including spam.</p>
+                <div className="sent-box">
+                  <div className="sent-icon">✓</div>
+                  <p className="sent-title">Message Sent!</p>
+                  <p className="sent-desc">We&apos;ll get back to you within 24 hours.<br/>Check your inbox — including spam.</p>
                 </div>
               ) : (
-                <form onSubmit={send} style={{ padding:'40px 48px 48px', display:'flex', flexDirection:'column', gap:'20px' }}>
+                <form onSubmit={send} className="quote-form">
 
-                  <div className="g-2" style={{ gap:'20px' }}>
+                  <div className="g-2 gap-20">
                     <FloatingInput label="Full Name" value={form.name} onChange={(v:string) => set('name', v)} required />
                     <FloatingInput label="Email Address" type="email" value={form.email} onChange={(v:string) => set('email', v)} required />
                   </div>
 
                   <FloatingInput label="Phone / WhatsApp (optional)" value={form.phone} onChange={(v:string) => set('phone', v)} />
 
-                  <div className="g-2" style={{ gap:'20px' }}>
+                  <div className="g-2 gap-20">
                     <FloatingSelectWithOutsideClick label="Service Needed" value={form.service} onChange={(v:string) => set('service', v)} options={SERVICES} />
                     <FloatingSelectWithOutsideClick label="Budget Range" value={form.budget} onChange={(v:string) => set('budget', v)} options={BUDGETS} />
                   </div>
@@ -367,16 +215,16 @@ export default function ContactClient() {
                   <FloatingInput label="Project Details" value={form.message} onChange={(v:string) => set('message', v)} required multiline />
 
                   {/* Submit */}
-                  <div style={{ display:'flex', flexDirection:'column', gap:'14px', marginTop:'10px' }}>
-                    <button type="submit" disabled={sending} className="btn btn-primary btn-lg" style={{ width:'100%', justifyContent:'center', padding:'18px 28px', fontSize:'16px' }}>
+                  <div className="flex flex-col gap-14 mt-10">
+                    <button type="submit" disabled={sending} className="btn btn-primary btn-lg w-full justify-center">
                       {sending ? (
                         <>
-                          <span style={{ width:'16px', height:'16px', border:'2px solid rgba(255,255,255,0.3)', borderTopColor:'#fff', borderRadius:'50%', animation:'spin 0.7s linear infinite' }} />
+                          <span className="btn-spin" />
                           Sending your message…
                         </>
                       ) : <>Send Message — Get Free Quote in 24h <ArrowRight size={17} /></>}
                     </button>
-                    <p style={{ ...M, fontSize:'11px', color:'var(--text-3)', textAlign:'center', lineHeight:1.7 }}>
+                    <p className="form-note">
                       🔒 Your information is 100% private. No spam. No lock-in contracts.
                     </p>
                   </div>
@@ -392,28 +240,28 @@ export default function ContactClient() {
       {/* ══ STRATEGY SESSION ════════════════════════════════════════ */}
       <section className="section section--dark">
         <div className="container">
-          <div className="g-2" style={{ gap:'56px', alignItems:'center' }}>
+          <div className="g-2 gap-56 items-center">
           <div>
             <p className="eyebrow">Schedule a Call</p>
-            <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3.2rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'18px', color:'#fff' }}>
+            <h2 className="strategy-headline">
               Book a Free Strategy Session
             </h2>
-            <p style={{ fontSize:'16px', color:'var(--text-2)', lineHeight:1.9, maxWidth:'560px', marginBottom:'22px' }}>
+            <p className="strategy-lede">
               Prefer to talk? Book a free 30-minute strategy call with our team. We&apos;ll discuss your project, answer questions, and give honest recommendations — no sales pressure.
             </p>
-            <div style={{ display:'flex', flexWrap:'wrap', gap:'10px', marginBottom:'28px' }}>
+            <div className="flex flex-wrap gap-10 mb-28">
               {['30-minute call','Project advice & recommendations','Transparent pricing discussion','No obligation, no pressure'].map(t => (
-                <span key={t} className="tag" style={{ color:'var(--text-2)', border:'1px solid var(--border-2)' }}>✓ {t}</span>
+                <span key={t} className="tag cta-badge">✓ {t}</span>
               ))}
             </div>
             <a href="#quote" className="btn btn-primary btn-lg">Schedule your free call <ArrowRight size={16} /></a>
           </div>
-          <div style={{ background:'rgba(10,10,18,0.7)', border:'1px solid rgba(118,108,255,0.18)', borderRadius:'24px', padding:'40px', backdropFilter:'blur(20px)' }}>
-            <p style={{ ...M, fontSize:'10px', color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.16em', fontWeight:800, marginBottom:'14px' }}>Pick a time that works for you</p>
-            <p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.85, marginBottom:'22px' }}>
+          <div className="glass-card">
+            <p className="glass-label">Pick a time that works for you</p>
+            <p className="glass-desc">
               Message us on WhatsApp to schedule a call at your convenience. We accommodate all time zones — USA, UAE, UK, and beyond.
             </p>
-            <a href="https://wa.me/923009484739?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20strategy%20session" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-md" style={{ width:'100%', justifyContent:'center' }}>
+            <a href="https://wa.me/923009484739?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20strategy%20session" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-md w-full justify-center">
               Chat on WhatsApp to book
             </a>
           </div>
@@ -425,8 +273,8 @@ export default function ContactClient() {
       <section className="section">
         <div className="container">
           <p className="eyebrow">FAQ</p>
-          <h2 style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.0, letterSpacing:'-0.04em', marginBottom:'40px', color:'#fff' }}>Common Questions</h2>
-          <div className="g-2" style={{ gap:'16px' }}>
+          <h2 className="process-headline mb-40 text-white">Common Questions</h2>
+          <div className="g-2 gap-16">
             {[
               { q:'How long does a website project take?',        a:'Most projects complete in 15–30 days. WordPress: 2–3 weeks. WooCommerce: 3–5 weeks. Shopify: 2–4 weeks. You receive a detailed timeline in every proposal.' },
               { q:'What is your pricing structure?',             a:'WordPress starts at $799, Shopify at $999, WooCommerce at $1,299. Fixed-price quotes — no hourly surprises. Typically 50% upfront, 50% on completion.' },
@@ -435,9 +283,9 @@ export default function ContactClient() {
               { q:'Do you work with clients in the USA & UAE?',  a:'Yes. Most clients are in the USA, UAE, and Switzerland. We schedule calls at your convenience and provide regular async updates.' },
               { q:'Can you work on my existing website?',        a:'Absolutely. Redesigns, speed optimizations, security fixes, migrations, and custom feature development for WordPress, WooCommerce, and Shopify.' },
             ].map(({ q, a }) => (
-              <div key={q} style={{ background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:'16px', padding:'28px' }}>
-                <p style={{ ...F, fontSize:'15px', fontWeight:700, color:'#fff', marginBottom:'10px', lineHeight:1.4 }}>{q}</p>
-                <p style={{ fontSize:'13px', color:'var(--text-2)', lineHeight:1.9 }}>{a}</p>
+              <div key={q} className="qa-card">
+                <p className="qa-q">{q}</p>
+                <p className="qa-a">{a}</p>
               </div>
             ))}
           </div>
@@ -445,13 +293,13 @@ export default function ContactClient() {
       </section>
 
       {/* ══ FINAL CTA ════════════════════════════════════════════════ */}
-      <section style={{ padding:'120px 0', borderBottom:'1px solid var(--border)', background:'var(--bg-2)' }}>
-        <div className="container" style={{ textAlign:'center' }}>
-          <p className="eyebrow" style={{ justifyContent:'center' }}>Ready to start?</p>
-          <h2 style={{ ...F, fontSize:'clamp(2.4rem,4.5vw,3.6rem)', fontWeight:800, letterSpacing:'-0.04em', color:'#fff', marginBottom:'16px' }}>
+      <section className="final-cta">
+        <div className="container text-center">
+          <p className="eyebrow justify-center">Ready to start?</p>
+          <h2 className="final-cta-headline">
             Get a free quote in 24 hours.<br/>No commitment required.
           </h2>
-          <div style={{ display:'flex', gap:'14px', justifyContent:'center', flexWrap:'wrap', marginTop:'28px' }}>
+          <div className="flex gap-14 justify-center flex-wrap mt-28">
             <Link href="/portfolio" className="btn btn-outline btn-xl">View Our Work</Link>
             <a href="#quote" className="btn btn-primary btn-xl">Get Free Quote <ArrowRight size={16} /></a>
           </div>

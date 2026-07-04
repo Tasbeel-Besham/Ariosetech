@@ -5,9 +5,9 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, FileText, Briefcase, Settings, Users, LogOut,
-  Menu, Layers, ChevronRight, Image as ImageIcon, Globe, Palette,
+  Menu, Layers, ChevronRight, ImageIcon, Globe, Palette,
   Navigation, Mail, BarChart2, MessageSquare, ChevronDown,
-} from 'lucide-react'
+} from '@/components/ui/Icons'
 
 const NAV = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },

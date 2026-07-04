@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save, Plus, Trash2, GripVertical } from 'lucide-react'
+import { Save, Plus, Trash2, GripVertical } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type NavItem = { label: string; href: string; target?: string; children?: NavItem[] }

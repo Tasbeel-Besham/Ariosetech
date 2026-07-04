@@ -244,7 +244,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ IMPACT QUANTIFIED ══════════════════════════════════════ */}
       <section className="section section--dark relative overflow-hidden">
         {/* Ambient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px]" style={{ background:'radial-gradient(ellipse, rgba(118,108,255,0.09) 0%, transparent 65%)' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px] bg-[radial-gradient(ellipse,rgba(118,108,255,0.09)_0%,transparent_65%)]" />
         <div className="container relative z-10">
           <div className="text-center mb-16">
             <p className="eyebrow sr justify-center">Results That Matter</p>
@@ -266,7 +266,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                 {/* Subtle gradient top-bar */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />
                 {/* Inner glow */}
-                <div className="absolute -top-[30%] -left-[10%] w-[60%] h-[60%] pointer-events-none" style={{ background:'radial-gradient(ellipse, rgba(118,108,255,0.12) 0%, transparent 70%)' }} />
+                <div className="absolute -top-[30%] -left-[10%] w-[60%] h-[60%] pointer-events-none bg-[radial-gradient(ellipse,rgba(118,108,255,0.12)_0%,transparent_70%)]" />
 
                 <p className="font-display text-[clamp(3rem,5vw,4.5rem)] font-extrabold leading-none mb-3 bg-brand-gradient bg-clip-text text-transparent">
                   {m.value}
@@ -282,7 +282,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ HOW IT WORKS ════════════════════════════════════════════ */}
       <section className="section relative overflow-hidden">
         {/* Vertical connector line */}
-        <div className="hidden-mobile absolute left-1/2 top-[160px] bottom-[80px] w-[1px] pointer-events-none" style={{ background:'linear-gradient(to bottom, transparent, rgba(118,108,255,0.20) 20%, rgba(118,108,255,0.20) 80%, transparent)' }} />
+        <div className="hidden-mobile absolute left-1/2 top-[160px] bottom-[80px] w-[1px] pointer-events-none bg-[linear-gradient(to_bottom,transparent,rgba(118,108,255,0.20)_20%,rgba(118,108,255,0.20)_80%,transparent)]" />
         <div className="container relative z-10">
           <div className="text-center mb-[72px]">
             <p className="eyebrow sr justify-center">Our Process</p>
@@ -369,8 +369,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                 <div className="h-[190px] overflow-hidden relative border-b border-border">
                   <div
                     data-hp-img
-                    className="absolute inset-0 bg-cover bg-top transform transition-transform duration-[1200ms] ease-in-out will-change-transform group-hover:-translate-y-[18%]"
-                    style={{ backgroundImage:`radial-gradient(ellipse 60% 60% at 30% 30%, rgba(118,108,255,0.22) 0%, rgba(118,108,255,0) 55%), linear-gradient(145deg, rgba(15,15,26,1) 0%, rgba(5,5,8,1) 100%)` }}
+                    className="absolute inset-0 bg-cover bg-top transform transition-transform duration-[1200ms] ease-in-out will-change-transform group-hover:-translate-y-[18%] bg-[radial-gradient(ellipse_60%_60%_at_30%_30%,rgba(118,108,255,0.22)_0%,rgba(118,108,255,0)_55%),linear-gradient(145deg,rgba(15,15,26,1)_0%,rgba(5,5,8,1)_100%)]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-bg/95 to-bg/0" />
                   <div className="absolute bottom-3.5 left-4 right-4 flex justify-between items-center gap-2.5">
@@ -448,7 +447,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           {/* Horizontal steps with large numbers */}
           <div className="process-grid grid grid-cols-5 border-t border-border pt-10">
             {PROCESS.map(({ n, title, sub, desc, time }: ProcessStep, i: number) => (
-              <div key={n} className="sr process-item pr-7" style={{ borderRight:i<4?'1px solid var(--border)':'none', paddingRight:i<4?'28px':'0', animationDelay:`${i*0.07}s` }}>
+              <div key={n} className={`sr process-item ${i<4 ? 'border-r border-border pr-7' : 'pr-0'}`} style={{ animationDelay:`${i*0.07}s` }}>
                 <p className="font-display text-[clamp(3.5rem,5vw,5rem)] font-extrabold text-primary/15 leading-none mb-4 select-none">{n}</p>
                 <p className="font-display text-[15px] font-bold text-white mb-1.5">{title}</p>
                 <p className="text-xs text-primary font-semibold mb-2.5">{sub}</p>
@@ -578,8 +577,8 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
       {/* ══ FINAL CTA ═══════════════════════════════════════════════ */}
       <section className="section text-center relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(79,110,247,0.1) 0%, transparent 80%)' }} />
-        <div className="absolute inset-0 pointer-events-none opacity-30" style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%)' }} />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(79,110,247,0.1)_0%,transparent_80%)]" />
+        <div className="absolute inset-0 pointer-events-none opacity-30 bg-[linear-gradient(var(--border)_1px,transparent_1px),linear-gradient(90deg,var(--border)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,black_20%,transparent_100%)]" />
         <div className="container relative z-10">
           <p className="eyebrow sr justify-center">Get Started Today</p>
           <h2 className="sr font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold tracking-tight leading-[0.95] text-white mb-5">

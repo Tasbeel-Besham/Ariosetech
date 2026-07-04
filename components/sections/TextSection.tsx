@@ -4,7 +4,7 @@ export default function TextSection({ content = 'Edit this text block.' }: Props
   return (
     <section className="section">
       <div className="container">
-        <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.85, maxWidth: '720px', whiteSpace: 'pre-wrap' }}>{content}</p>
+        <p className="text-[16px] text-[var(--text-2)] leading-[1.85] max-w-[720px] whitespace-pre-wrap">{content}</p>
       </div>
     </section>
   )

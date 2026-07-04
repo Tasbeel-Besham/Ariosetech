@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { X } from 'lucide-react'
+import { X } from '@/components/ui/Icons'
 
 export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, onSelect: (url: string) => void }) {
   const [items, setItems] = useState<Array<{_id: string, url: string}>>([])

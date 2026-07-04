@@ -73,50 +73,38 @@ const FAQS = [
 
 export default function FAQPage() {
   return (
-    <main style={{ paddingTop: '120px', paddingBottom: '80px' }}>
-      <div className="container" style={{ maxWidth: '900px', margin: '0 auto' }}>
+    <main className="faqp-main">
+      <div className="container faqp-narrow">
 
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
+        <div className="text-center mb-64">
+          <p className="faqp-eyebrow">
             FAQ
           </p>
-          <h1 style={{ ...hs, fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, color: 'var(--text)', marginBottom: '16px', letterSpacing: '-0.03em' }}>
+          <h1 className="faqp-title">
             Frequently Asked Questions
           </h1>
-          <p style={{ ...hb, fontSize: '17px', color: 'var(--text-2)', maxWidth: '600px', margin: '0 auto', lineHeight: 1.7 }}>
+          <p className="faqp-lede">
             Everything you need to know about ARIOSETECH services, pricing, timelines, and how we work.
           </p>
         </div>
 
         {/* FAQ Categories */}
         {FAQS.map((group) => (
-          <div key={group.category} style={{ marginBottom: '56px' }}>
-            <h2 style={{ ...hm, fontSize: '11px', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px', paddingBottom: '12px', borderBottom: '1px solid var(--border)' }}>
+          <div key={group.category} className="mb-56">
+            <h2 className="faqp-group">
               {group.category}
             </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            <div className="flex flex-col">
               {group.items.map((faq, i) => (
-                <details key={i} style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0' }}>
-                  <summary style={{
-                    ...hs,
-                    fontSize: '16px',
-                    fontWeight: 600,
-                    color: 'var(--text)',
-                    padding: '20px 0',
-                    cursor: 'pointer',
-                    listStyle: 'none',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '16px',
-                  }}>
+                <details key={i} className="faqp-item">
+                  <summary className="faqp-q">
                     {faq.q}
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, opacity: 0.5 }}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="faqp-chevron">
                       <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </summary>
-                  <p style={{ ...hb, fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8, paddingBottom: '20px', marginTop: '-4px' }}>
+                  <p className="faqp-a">
                     {faq.a}
                   </p>
                 </details>
@@ -126,18 +114,18 @@ export default function FAQPage() {
         ))}
 
         {/* CTA */}
-        <div style={{ marginTop: '64px', padding: '40px', background: 'var(--bg-2)', borderRadius: '20px', border: '1px solid var(--border)', textAlign: 'center' }}>
-          <h2 style={{ ...hs, fontSize: 'clamp(1.4rem,3vw,2rem)', fontWeight: 800, color: 'var(--text)', marginBottom: '12px' }}>
+        <div className="faqp-cta">
+          <h2 className="faqp-cta-title">
             Still have questions?
           </h2>
-          <p style={{ ...hb, fontSize: '15px', color: 'var(--text-2)', marginBottom: '24px', lineHeight: 1.7 }}>
+          <p className="faqp-cta-desc">
             Our team responds to all enquiries within 2 hours during business days.
           </p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="btn btn-primary" style={{ padding: '14px 28px' }}>
+          <div className="flex gap-12 justify-center flex-wrap">
+            <Link href="/contact" className="btn btn-primary btn-lg">
               Get In Touch
             </Link>
-            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ padding: '14px 28px' }}>
+            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg">
               WhatsApp Us
             </a>
           </div>

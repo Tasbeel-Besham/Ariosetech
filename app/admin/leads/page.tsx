@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Trash2, Mail, Phone, RefreshCw } from 'lucide-react'
+import { Trash2, Mail, Phone, RefreshCw } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type Lead = {

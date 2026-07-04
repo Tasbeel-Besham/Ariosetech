@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useRef } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save, Eye, Upload, X } from 'lucide-react'
+import { Save, Eye, Upload, X } from '@/components/ui/Icons'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 

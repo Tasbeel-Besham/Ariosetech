@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useBuilderStore } from '@/lib/builder/store'
-import { Undo2, Redo2, Eye, Save, Globe, ArrowLeft, Plus } from 'lucide-react'
+import { Undo2, Redo2, Eye, Save, Globe, ArrowLeft, Plus } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 export function BuilderToolbar({ onAddSection }: { onAddSection: () => void }) {

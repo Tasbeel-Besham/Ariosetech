@@ -15,8 +15,8 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div
-      className={`section-header${center ? ' section-header--center' : ''}`}
-      style={{ marginBottom: mb }}
+      className={`section-header mb-[var(--sh-mb)]${center ? ' section-header--center' : ''}`}
+      style={{ '--sh-mb': `${mb}px` } as React.CSSProperties}
     >
       {eyebrow && <Eyebrow center={center}>{eyebrow}</Eyebrow>}
       <h2 className={`t-h2 sr${headlineClass ? ` ${headlineClass}` : ''}`}>

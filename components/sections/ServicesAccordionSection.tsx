@@ -100,18 +100,11 @@ function renderFormattedContent(text: string) {
       elements.push(
         <ul 
           key={`list-${key}`} 
-          style={{ 
-            margin: '0 0 18px 0', 
-            padding: 0,
-            listStyleType: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px'
-          }}
+          className="sa-ul"
         >
           {currentList.items.map((item, idx) => (
-            <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '13px', lineHeight: '1.65', color: 'rgba(255,255,255,0.7)' }}>
-              <span style={{ color: 'var(--primary)', flexShrink: 0, marginTop: '2px' }}>
+            <li key={idx} className="sa-uli">
+              <span className="sa-check">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </span>
               <span>{parseInlineMarkdown(item)}</span>
@@ -123,17 +116,10 @@ function renderFormattedContent(text: string) {
       elements.push(
         <ListTag 
           key={`list-${key}`} 
-          style={{ 
-            margin: '0 0 18px 20px', 
-            padding: 0,
-            listStyleType: 'decimal',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '6px'
-          }}
+          className="sa-ol"
         >
           {currentList.items.map((item, idx) => (
-            <li key={idx} style={{ fontSize: '13px', lineHeight: '1.65', color: 'rgba(255,255,255,0.7)' }}>
+            <li key={idx} className="sa-oli">
               {parseInlineMarkdown(item)}
             </li>
           ))}
@@ -147,7 +133,7 @@ function renderFormattedContent(text: string) {
     const parts = str.split(/\*\*(.*?)\*\*/g);
     return parts.map((part, i) => {
       if (i % 2 === 1) {
-        return <strong key={i} style={{ color: '#fff', fontWeight: 650 }}>{part}</strong>;
+        return <strong key={i} className="sa-strong">{part}</strong>;
       }
       return part;
     });
@@ -185,27 +171,13 @@ function renderFormattedContent(text: string) {
       if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
         const headerText = trimmed.replace(/\*\*/g, '');
         elements.push(
-          <h4 key={i} style={{ 
-            fontSize: '13.5px', 
-            fontWeight: 700, 
-            color: 'var(--primary)', 
-            marginTop: '16px', 
-            marginBottom: '8px', 
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-          }}>
+          <h4 key={i} className="sa-h4">
             {headerText.endsWith(':') ? headerText.slice(0, -1) : headerText}
           </h4>
         );
       } else {
         elements.push(
-          <p key={i} style={{ 
-            fontSize: '13px', 
-            color: 'rgba(255,255,255,0.65)', 
-            lineHeight: 1.75, 
-            marginBottom: '12px',
-            maxWidth: '520px'
-          }}>
+          <p key={i} className="sa-para">
             {parseInlineMarkdown(trimmed)}
           </p>
         );
@@ -215,7 +187,7 @@ function renderFormattedContent(text: string) {
 
   if (currentList) flushList(lines.length);
 
-  return <div style={{ display: 'flex', flexDirection: 'column' }}>{elements}</div>;
+  return <div className="flex flex-col">{elements}</div>;
 }
 
 interface Props {
@@ -287,34 +259,23 @@ export default function ServicesAccordionSection({
       <div className="container">
 
         {/* Header */}
-        <div style={{ display: 'grid', gridTemplateColumns: isMd ? '1fr 1fr' : '1fr', gap: '40px', alignItems: 'end', marginBottom: '48px' }}>
+        <div className="svc-header">
           <div>
             <p className="eyebrow sr">{eyebrow}</p>
-            <h2 className="sr" style={{ ...F, fontSize: 'clamp(1.9rem,4vw,3rem)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.04em' }}>
+            <h2 className="sr svc-headline">
               {headline}
             </h2>
           </div>
-          <p className="sr" style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+          <p className="sr svc-intro">
             {intro}
           </p>
         </div>
 
         {/* Accordion shell */}
-        <div style={{
-          display: 'flex', flexDirection: isMd ? 'row' : 'column',
-          borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)',
-          overflow: 'hidden', background: 'rgba(8,8,18,0.85)',
-          boxShadow: '0 40px 120px rgba(0,0,0,0.55)'
-        }}>
+        <div className="svc-shell">
 
           {/* ── Tab strip ── */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            flexShrink: 0,
-            borderRight: isMd ? '1px solid rgba(255,255,255,0.07)' : 'none',
-            background: 'rgba(5,5,10,0.6)',
-          }}>
+          <div className="svc-tabstrip">
             {items.map((t, i) => {
               const isActive = i === active
               const labelSlug = slugify(t.label || '');
@@ -329,68 +290,39 @@ export default function ServicesAccordionSection({
               const mappedId = getHashId(t.title);
 
               return (
-                <div key={t.id || i} style={{ position: 'relative', width: '100%' }}>
-                  <div id={labelSlug} style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                <div key={t.id || i} className="relative w-full">
+                  <div id={labelSlug} className="svc-anchor" />
                   {labelSlug !== titleSlug && (
-                    <div id={titleSlug} style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                    <div id={titleSlug} className="svc-anchor" />
                   )}
                   {mappedId && mappedId !== labelSlug && mappedId !== titleSlug && (
-                    <div id={mappedId} style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                    <div id={mappedId} className="svc-anchor" />
                   )}
                   {t.title.toLowerCase().includes('performance') && (
-                    <div id="performance" style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                    <div id="performance" className="svc-anchor" />
                   )}
                   {labelSlug.includes('bugs') && (
-                    <div id="bugs" style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                    <div id="bugs" className="svc-anchor" />
                   )}
                   {labelSlug.includes('maintenance') && (
-                    <div id="maintenance" style={{ position: 'absolute', top: '-100px', left: 0 }} />
+                    <div id="maintenance" className="svc-anchor" />
                   )}
                   <button
                     onClick={() => go(i)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: isMd ? '16px 16px' : '12px 16px',
-                      background: isActive ? 'rgba(118,108,255,0.10)' : 'transparent',
-                      border: 'none',
-                      borderLeft: isMd ? `2px solid ${isActive ? 'var(--primary)' : 'transparent'}` : 'none',
-                      borderRadius: !isMd && isActive ? '12px' : '0',
-                      margin: !isMd ? '2px 0' : '0',
-                      width: '100%',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s var(--ease)',
-                      textAlign: 'left',
-                      color: isActive ? (isMd ? '#fff' : 'var(--primary)') : 'rgba(255,255,255,0.45)',
-                    }}
+                    className={`svc-tab${isActive ? ' active' : ''}`}
                   >
-                    <div style={{
-                      width: '32px', height: '32px', borderRadius: '10px', flexShrink: 0,
-                      background: isActive ? 'var(--primary)' : 'rgba(118,108,255,0.1)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: isActive ? '#fff' : 'var(--primary)',
-                      transition: 'all 0.2s',
-                    }}>
+                    <div className="svc-tab-icon">
                       {typeof t.icon === 'string' ? (
-                        <div dangerouslySetInnerHTML={{ __html: t.icon }} style={{ display: 'flex', width: '20px', height: '20px' }} />
+                        <div dangerouslySetInnerHTML={{ __html: t.icon }} className="svc-tab-icon-svg" />
                       ) : (
                         t.icon
                       )}
                     </div>
-                    <span style={{ 
-                      ...F, 
-                      fontSize: isMd ? '11px' : '14px', 
-                      fontWeight: 700, 
-                      color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
-                      whiteSpace: 'nowrap',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.1em'
-                    }}>
+                    <span className="svc-tab-label">
                       {t.label}
                     </span>
                     {!isMd && (
-                      <div style={{ marginLeft: 'auto', opacity: isActive ? 1 : 0.2 }}>
+                      <div className="svc-tab-chevron ml-auto">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
                           <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
@@ -403,10 +335,10 @@ export default function ServicesAccordionSection({
           </div>
 
           {/* ── Content panel ── */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ position: 'absolute', inset: 0, background: tab?.bg || '#05050a', transition: 'background 0.4s' }} />
-            <div style={{ position: 'absolute', inset: 0, opacity: 0.045, backgroundImage: 'linear-gradient(rgba(118,108,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(118,108,255,1) 1px,transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', top: '-20%', right: '5%', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(118,108,255,0.18) 0%,transparent 70%)', filter: 'blur(24px)', pointerEvents: 'none' }} />
+          <div className="svc-panel">
+            <div className="svc-panel-bg" style={{ background: tab?.bg || '#05050a' }} />
+            <div className="svc-panel-grid" />
+            <div className="svc-panel-orb" />
 
             <AnimatePresence mode="wait" custom={dir}>
               {tab && (
@@ -418,41 +350,33 @@ export default function ServicesAccordionSection({
                   animate="center"
                   exit="exit"
                   transition={{ duration: 0.28, ease: [0.22,1,0.36,1] }}
-                  style={{
-                    position: 'relative', 
-                    inset: 'auto',
-                    display: 'flex', flexDirection: 'column',
-                    background: 'rgba(5,5,8,0.72)',
-                    padding: isMd ? '24px 40px' : '20px 20px',
-                    overflowY: 'hidden',
-                    flex: 1
-                  }}
+                  className="svc-content"
                 >
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--grad)' }} />
-                  <div style={{ margin: 'auto 0', display: 'flex', flexDirection: 'column' }}>
-                    <p style={{ ...M, fontSize: '9px', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: '6px' }}>
+                  <div className="svc-topline" />
+                  <div className="svc-content-inner">
+                    <p className="svc-sub">
                       {tab.sub}
                     </p>
-                    <h3 style={{ ...F, fontSize: isMd ? 'clamp(1.5rem,2.5vw,2.1rem)' : '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '12px' }}>
+                    <h3 className="svc-title">
                       {tab.title}
                     </h3>
-                    <div style={{ marginBottom: '18px' }}>
+                    <div className="svc-desc">
                       {renderFormattedContent(tab.desc)}
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: isMd ? 'repeat(3,1fr)' : 'repeat(2,1fr)', gap: '7px 16px', marginBottom: '22px' }}>
+                    <div className="svc-features">
                       {featuresList.map(f => (
-                        <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>
-                          <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: 'rgba(118,108,255,0.2)', border: '1px solid rgba(118,108,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
+                        <div key={f} className="svc-feature">
+                          <span className="svc-feature-check">
                             <Check />
                           </span>
                           {f}
                         </div>
                       ))}
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '14px' }}>
+                    <div className="svc-cta">
                       <div>
-                        <p style={{ ...M, fontSize: '8px', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '2px' }}>Starting at</p>
-                        <p style={{ ...F, fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>{tab.price}</p>
+                        <p className="svc-price-label">Starting at</p>
+                        <p className="svc-price">{tab.price}</p>
                       </div>
                       <Link href={tab.href || '#'} className="btn btn-primary btn-md">
                         Learn More <Arrow />

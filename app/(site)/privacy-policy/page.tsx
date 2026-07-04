@@ -6,16 +6,12 @@ export const metadata: Metadata = {
   description: 'Learn how ARIOSETECH collects, uses, and protects your personal information.',
 }
 
-const hs = { fontFamily: 'var(--font-display)' } as const
-const hm = { fontFamily: 'var(--font-mono)' } as const
-const hb = { fontFamily: 'var(--font-body)' } as const
-
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <section style={{ marginBottom: '40px' }}>
-    <h2 style={{ ...hs, fontSize: 'clamp(1.1rem,2vw,1.4rem)', fontWeight: 700, color: 'var(--text)', marginBottom: '12px' }}>
+  <section className="mb-10">
+    <h2 className="font-display text-[clamp(1.1rem,2vw,1.4rem)] font-bold text-[var(--text)] mb-3">
       {title}
     </h2>
-    <div style={{ ...hb, fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.8 }}>
+    <div className="font-body text-[15px] text-text-2 leading-[1.8]">
       {children}
     </div>
   </section>
@@ -23,18 +19,18 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 
 export default function PrivacyPolicyPage() {
   return (
-    <main style={{ paddingTop: '120px', paddingBottom: '80px' }}>
-      <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
+    <main className="pt-[120px] pb-[80px]">
+      <div className="container max-w-[800px] mx-auto">
 
         {/* Header */}
-        <div style={{ marginBottom: '48px' }}>
-          <p style={{ ...hm, fontSize: '11px', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
+        <div className="mb-12">
+          <p className="font-mono text-[11px] text-primary tracking-[0.1em] uppercase mb-3">
             Legal
           </p>
-          <h1 style={{ ...hs, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, color: 'var(--text)', marginBottom: '16px', letterSpacing: '-0.03em' }}>
+          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold text-[var(--text)] mb-4 tracking-[-0.03em]">
             Privacy Policy
           </h1>
-          <p style={{ ...hb, fontSize: '15px', color: 'var(--text-3)' }}>
+          <p className="font-body text-[15px] text-text-3">
             Last updated: January 2025
           </p>
         </div>
@@ -46,8 +42,8 @@ export default function PrivacyPolicyPage() {
         </Section>
 
         <Section title="2. Information We Collect">
-          <p style={{ marginBottom: '12px' }}>We may collect the following types of information:</p>
-          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+          <p className="mb-3">We may collect the following types of information:</p>
+          <ul className="pl-5 mt-2">
             {[
               'Personal identification information (name, email address, phone number)',
               'Business information (company name, website URL, project requirements)',
@@ -55,14 +51,14 @@ export default function PrivacyPolicyPage() {
               'Usage data (pages visited, time spent, browser type, IP address)',
               'Communications (emails, contact form submissions, chat messages)',
             ].map((item, i) => (
-              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+              <li key={i} className="mb-2">{item}</li>
             ))}
           </ul>
         </Section>
 
         <Section title="3. How We Use Your Information">
-          <p style={{ marginBottom: '12px' }}>We use the information we collect to:</p>
-          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+          <p className="mb-3">We use the information we collect to:</p>
+          <ul className="pl-5 mt-2">
             {[
               'Provide, operate, and improve our web development services',
               'Respond to your enquiries and provide customer support',
@@ -71,7 +67,7 @@ export default function PrivacyPolicyPage() {
               'Send occasional marketing emails (you can unsubscribe at any time)',
               'Comply with legal obligations',
             ].map((item, i) => (
-              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+              <li key={i} className="mb-2">{item}</li>
             ))}
           </ul>
         </Section>
@@ -101,8 +97,8 @@ export default function PrivacyPolicyPage() {
         </Section>
 
         <Section title="8. Your Rights">
-          <p style={{ marginBottom: '12px' }}>Depending on your location, you may have the right to:</p>
-          <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+          <p className="mb-3">Depending on your location, you may have the right to:</p>
+          <ul className="pl-5 mt-2">
             {[
               'Access the personal data we hold about you',
               'Request correction of inaccurate data',
@@ -111,11 +107,11 @@ export default function PrivacyPolicyPage() {
               'Data portability (receive your data in a structured format)',
               'Withdraw consent where processing is based on consent',
             ].map((item, i) => (
-              <li key={i} style={{ marginBottom: '8px' }}>{item}</li>
+              <li key={i} className="mb-2">{item}</li>
             ))}
           </ul>
-          <p style={{ marginTop: '12px' }}>
-            To exercise any of these rights, please contact us at <a href="mailto:info@ariosetech.com" style={{ color: 'var(--primary)' }}>info@ariosetech.com</a>.
+          <p className="mt-3">
+            To exercise any of these rights, please contact us at <a href="mailto:info@ariosetech.com" className="text-primary">info@ariosetech.com</a>.
           </p>
         </Section>
 
@@ -141,16 +137,16 @@ export default function PrivacyPolicyPage() {
           <p>
             If you have any questions about this Privacy Policy or our data practices, please contact us:
           </p>
-          <div style={{ marginTop: '16px', padding: '20px 24px', background: 'var(--bg-2)', borderRadius: '12px', border: '1px solid var(--border)' }}>
-            <p style={{ marginBottom: '6px' }}><strong>ARIOSETECH</strong></p>
-            <p style={{ marginBottom: '6px' }}>95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770</p>
-            <p style={{ marginBottom: '6px' }}>Email: <a href="mailto:info@ariosetech.com" style={{ color: 'var(--primary)' }}>info@ariosetech.com</a></p>
-            <p>WhatsApp: <a href="https://wa.me/923009484739" style={{ color: 'var(--primary)' }}>+92 300 9484 739</a></p>
+          <div className="mt-4 py-5 px-6 bg-bg-2 rounded-xl border border-border">
+            <p className="mb-[6px]"><strong>ARIOSETECH</strong></p>
+            <p className="mb-[6px]">95 College Road, Block E Block D PCSIR Staff Colony, Lahore, 54770</p>
+            <p className="mb-[6px]">Email: <a href="mailto:info@ariosetech.com" className="text-primary">info@ariosetech.com</a></p>
+            <p>WhatsApp: <a href="https://wa.me/923009484739" className="text-primary">+92 300 9484 739</a></p>
           </div>
         </Section>
 
-        <div style={{ paddingTop: '32px', borderTop: '1px solid var(--border)' }}>
-          <Link href="/" style={{ ...hm, fontSize: '13px', color: 'var(--primary)', textDecoration: 'none' }}>
+        <div className="pt-8 border-t border-border">
+          <Link href="/" className="font-mono text-[13px] text-primary no-underline">
             ← Back to Home
           </Link>
         </div>

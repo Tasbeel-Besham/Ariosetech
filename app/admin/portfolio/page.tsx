@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AdminShell from '@/components/layout/AdminShell'
-import { Plus, Pencil, Trash2, Star, ExternalLink } from 'lucide-react'
+import { Plus, Pencil, Trash2, Star, ExternalLink } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type Item = { _id: string; title: string; client: string; category: string; slug: string; featured: boolean; published: boolean; updatedAt: string }

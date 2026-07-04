@@ -43,8 +43,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
   if (!loaded) return (
     <section className="section section--dark">
       <div className="container text-center py-40">
-        <div className="rounded-full mx-auto" style={{ width:'32px', height:'32px', border:'2px solid var(--border)', borderTopColor:'var(--primary)', animation:'spin 0.8s linear infinite' }} />
-        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+        <div className="rounded-full mx-auto w-[32px] h-[32px] border-2 border-solid border-[var(--border)] border-t-[var(--primary)] animate-[spin_0.8s_linear_infinite]" />
       </div>
     </section>
   )
@@ -55,7 +54,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
         <div className="flex items-end justify-between flex-wrap gap-20 mb-64">
           <div>
             <p className="eyebrow">{eyebrow}</p>
-            <h2 className="font-display font-extrabold leading-none tracking-tighter" style={{ fontSize:'clamp(2rem,4vw,3rem)' }}>{headline}</h2>
+            <h2 className="font-display font-extrabold leading-none tracking-tighter text-[clamp(2rem,4vw,3rem)]">{headline}</h2>
           </div>
           <Link href={ctaHref} className="btn btn-outline btn-lg shrink-0">
             {ctaLabel}
@@ -68,10 +67,10 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
               className="card card-hover flex flex-col no-underline"
               style={{ animationDelay:`${i*0.08}s` }}>
               <div className="flex flex-col flex-1 p-32">
-                <span className="font-mono font-bold text-primary bg-soft uppercase tracking-widest px-12 py-4 rounded-full border border-subtle-primary mb-16 w-fit" style={{ fontSize:'9px' }}>{post.category}</span>
+                <span className="font-mono font-bold text-primary bg-soft uppercase tracking-widest px-12 py-4 rounded-full border border-subtle-primary mb-16 w-fit text-[9px]">{post.category}</span>
                 <h3 className="font-display font-bold text-white leading-tight mb-12 flex-1 text-lg">{post.title}</h3>
-                <p className="text-gray-3 leading-loose mb-20 text-sm overflow-hidden" style={{ display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}>{post.excerpt}</p>
-                <p className="font-mono font-semibold text-gray-3 uppercase tracking-wider" style={{ fontSize:'10px' }}>
+                <p className="text-gray-3 leading-loose mb-20 text-sm overflow-hidden line-clamp-2">{post.excerpt}</p>
+                <p className="font-mono font-semibold text-gray-3 uppercase tracking-wider text-[10px]">
                   {new Date(post.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} · {post.readTime}min read
                 </p>
               </div>

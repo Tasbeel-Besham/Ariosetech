@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AdminShell from '@/components/layout/AdminShell'
-import { Plus, Pencil, Trash2, Eye } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type Blog = { _id: string; title: string; slug: string; category: string; published: boolean; date: string }

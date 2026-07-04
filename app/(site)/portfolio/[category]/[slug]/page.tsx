@@ -47,29 +47,28 @@ export default async function PortfolioDetailPage({ params }: Props) {
   const M = { fontFamily: 'var(--font-mono)' } as React.CSSProperties
 
   return (
-    <>
+    <div style={{ '--proj-color': color } as React.CSSProperties}>
       {/* Hero */}
-      <section style={{ paddingTop: '100px', paddingBottom: '72px', borderBottom: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse 60% 50% at 20% 60%, ${color}18 0%, transparent 60%)`, pointerEvents: 'none' }} />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <Link href={`/portfolio/${(item.category || 'other').toLowerCase()}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', ...M, fontSize: '12px', color: 'var(--text-3)', textDecoration: 'none', marginBottom: '28px', transition: 'color 0.2s' }}
-            onMouseEnter={undefined} className="hover:text-[var(--text-2)]">
+      <section className="pd-hero">
+        <div className="pd-hero-glow" />
+        <div className="container relative z-1">
+          <Link href={`/portfolio/${(item.category || 'other').toLowerCase()}`} className="pd-back hover:text-[var(--text-2)]">
             <ArrowLeft size={13} /> Back to Portfolio
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-            <span style={{ ...M, fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em', color, background: `${color}15`, border: `1px solid ${color}30`, padding: '4px 12px', borderRadius: '100px' }}>
+          <div className="flex items-center gap-10 mb-16">
+            <span className="pd-cat">
               {item.category}
             </span>
           </div>
 
-          <h1 style={{ ...F, fontSize: 'clamp(2.4rem,5vw,4rem)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '-0.04em', color: '#fff', marginBottom: '12px' }}>{item.title}</h1>
-          <p style={{ ...M, fontSize: '14px', color: 'var(--text-3)', marginBottom: '20px' }}>{item.client}</p>
-          <p style={{ fontSize: '17px', color: 'var(--text-2)', lineHeight: 1.8, maxWidth: '680px', marginBottom: '32px' }}>{item.summary}</p>
+          <h1 className="pd-title">{item.title}</h1>
+          <p className="pd-client">{item.client}</p>
+          <p className="pd-summary">{item.summary}</p>
 
           {item.clientUrl && (
             <a href={item.clientUrl} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', padding: '10px 20px', borderRadius: '10px', background: `${color}15`, border: `1px solid ${color}35`, color, textDecoration: 'none', ...F, fontSize: '14px', fontWeight: 600, transition: 'all 0.2s' }}>
+              className="pd-visit">
               Visit Live Site <ExternalLink size={14} />
             </a>
           )}
@@ -78,14 +77,14 @@ export default async function PortfolioDetailPage({ params }: Props) {
 
       {/* Results stats */}
       {item.results && item.results.length > 0 && (
-        <section style={{ padding: '56px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
+        <section className="pd-stats-section">
           <div className="container">
-            <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '28px', textAlign: 'center' }}>Results Achieved</p>
-            <div className="portfolio-stats-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(item.results.length, 4)}, 1fr)`, gap: '20px' }}>
+            <p className="pd-label text-center mb-28-i">Results Achieved</p>
+            <div className="portfolio-stats-grid pd-stats-grid" style={{ '--stat-cols': Math.min(item.results.length, 4) } as React.CSSProperties}>
               {item.results.map((r) => (
-                <div key={r.label} style={{ textAlign: 'center', padding: '28px 20px', background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: '20px' }}>
-                  <p style={{ ...F, fontSize: '2.4rem', fontWeight: 800, color, lineHeight: 1, marginBottom: '8px' }}>{r.value}</p>
-                  <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{r.label}</p>
+                <div key={r.label} className="pd-stat pd-stat-r20 bg-3">
+                  <p className="pd-stat-value">{r.value}</p>
+                  <p className="pd-stat-label">{r.label}</p>
                 </div>
               ))}
             </div>
@@ -94,21 +93,21 @@ export default async function PortfolioDetailPage({ params }: Props) {
       )}
 
       {/* Challenge + Solution */}
-      <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
+      <section className="pd-section-80">
         <div className="container">
-          <div className="g-2" style={{ gap: '48px' }}>
+          <div className="g-2 gap-48">
             {item.challenge && (
               <div>
-                <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '14px' }}>The Challenge</p>
-                <h2 style={{ ...F, fontSize: '1.6rem', fontWeight: 800, color: '#fff', marginBottom: '16px', letterSpacing: '-0.03em', lineHeight: 1.2 }}>What problem did we solve?</h2>
-                <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.85 }}>{item.challenge}</p>
+                <p className="pd-label mb-14-i">The Challenge</p>
+                <h2 className="pd-h2">What problem did we solve?</h2>
+                <p className="pd-body">{item.challenge}</p>
               </div>
             )}
             {item.solution && (
               <div>
-                <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '14px' }}>Our Solution</p>
-                <h2 style={{ ...F, fontSize: '1.6rem', fontWeight: 800, color: '#fff', marginBottom: '16px', letterSpacing: '-0.03em', lineHeight: 1.2 }}>How we built it</h2>
-                <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.85 }}>{item.solution}</p>
+                <p className="pd-label mb-14-i">Our Solution</p>
+                <h2 className="pd-h2">How we built it</h2>
+                <p className="pd-body">{item.solution}</p>
               </div>
             )}
           </div>
@@ -117,24 +116,24 @@ export default async function PortfolioDetailPage({ params }: Props) {
 
       {/* Quote */}
       {item.quote && (
-        <section style={{ padding: '80px 0', borderBottom: '1px solid var(--border)', background: 'var(--bg-2)' }}>
-          <div className="container" style={{ maxWidth: '720px', textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', color, marginBottom: '20px', lineHeight: 1 }}>&ldquo;</div>
-            <p style={{ ...F, fontSize: 'clamp(1.2rem,2.5vw,1.6rem)', fontWeight: 600, color: '#fff', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '24px' }}>{item.quote}</p>
-            <p style={{ ...M, fontSize: '12px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{item.client}</p>
+        <section className="pd-section-80 bg-2-section">
+          <div className="container pd-quote-wrap">
+            <div className="pd-quote-mark">&ldquo;</div>
+            <p className="pd-quote">{item.quote}</p>
+            <p className="pd-quote-by">{item.client}</p>
           </div>
         </section>
       )}
 
       {/* Tech stack */}
       {item.stack && item.stack.length > 0 && (
-        <section style={{ padding: '60px 0', borderBottom: '1px solid var(--border)' }}>
+        <section className="pd-section-60">
           <div className="container">
-            <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '20px', textAlign: 'center' }}>Technologies Used</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+            <p className="pd-label text-center mb-20-i">Technologies Used</p>
+            <div className="flex flex-wrap gap-10 justify-center">
               {item.stack.map(tech => (
-                <div key={tech} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px', color: 'var(--text-2)', fontWeight: 500 }}>
-                  <Check size={12} style={{ color }} /> {tech}
+                <div key={tech} className="pd-tech">
+                  <Check size={12} className="pd-accent" /> {tech}
                 </div>
               ))}
             </div>
@@ -144,51 +143,51 @@ export default async function PortfolioDetailPage({ params }: Props) {
 
       {/* Extra sections */}
       {item.sections && item.sections.length > 0 && item.sections.map(sec => (
-        <section key={sec.id} style={{ padding: '72px 0', borderBottom: '1px solid var(--border)' }}>
+        <section key={sec.id} className="pd-section-72">
           <div className="container">
             {sec.title && (
-              <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '10px' }}>{sec.title}</p>
+              <p className="pd-label mb-10-i">{sec.title}</p>
             )}
 
             {sec.type === 'text' && (
-              <p style={{ fontSize: '16px', color: 'var(--text-2)', lineHeight: 1.9, maxWidth: '720px', whiteSpace: 'pre-wrap' }}>{sec.content}</p>
+              <p className="pd-text">{sec.content}</p>
             )}
 
             {sec.type === 'quote' && (
-              <div style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center' }}>
-                <div style={{ fontSize: '3rem', color, lineHeight: 1, marginBottom: '16px' }}>&ldquo;</div>
-                <p style={{ ...F, fontSize: 'clamp(1.1rem,2.5vw,1.5rem)', fontWeight: 600, color: '#fff', lineHeight: 1.65, fontStyle: 'italic' }}>{sec.content}</p>
+              <div className="pd-quote-wrap-sm">
+                <div className="pd-quote-mark-sm">&ldquo;</div>
+                <p className="pd-quote pd-quote-sm">{sec.content}</p>
               </div>
             )}
 
             {sec.type === 'image' && sec.content && (
-              <div style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--border)' }}>
+              <div className="pd-img-frame">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={sec.content} alt={sec.title || 'Project image'} style={{ width: '100%', height: 'auto', display: 'block' }} />
+                <img src={sec.content} alt={sec.title || 'Project image'} className="pd-img" />
               </div>
             )}
 
             {sec.type === 'highlights' && sec.items && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+              <div className="pd-feature-grid">
                 {sec.items.map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '14px 16px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '10px' }}>
-                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: `${color}15`, border: `1px solid ${color}35`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                  <div key={i} className="pd-feature">
+                    <div className="pd-check">
                       <svg width="10" height="10" viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </div>
-                    <span style={{ fontSize: '14px', color: 'var(--text-2)', lineHeight: 1.6 }}>{item}</span>
+                    <span className="pd-feature-text">{item}</span>
                   </div>
                 ))}
               </div>
             )}
 
             {sec.type === 'metrics' && sec.items && (
-              <div className="portfolio-stats-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(sec.items.length, 4)}, 1fr)`, gap: '20px' }}>
+              <div className="portfolio-stats-grid pd-stats-grid" style={{ '--stat-cols': Math.min(sec.items.length, 4) } as React.CSSProperties}>
                 {sec.items.map((item, i) => {
                   const [val, lbl] = item.split('::')
                   return (
-                    <div key={i} style={{ textAlign: 'center', padding: '28px 20px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '16px' }}>
-                      <p style={{ ...F, fontSize: '2.2rem', fontWeight: 800, color, lineHeight: 1, marginBottom: '8px' }}>{val}</p>
-                      <p style={{ ...M, fontSize: '10px', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{lbl}</p>
+                    <div key={i} className="pd-stat pd-stat-r16 bg-2-card">
+                      <p className="pd-stat-value pd-stat-value-sm">{val}</p>
+                      <p className="pd-stat-label">{lbl}</p>
                     </div>
                   )
                 })}
@@ -196,9 +195,9 @@ export default async function PortfolioDetailPage({ params }: Props) {
             )}
 
             {sec.type === 'technology' && sec.items && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              <div className="flex flex-wrap gap-10">
                 {sec.items.map((tech, i) => (
-                  <span key={i} style={{ padding: '8px 16px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px', color: 'var(--text-2)', fontWeight: 500 }}>
+                  <span key={i} className="pd-tech">
                     {tech}
                   </span>
                 ))}
@@ -206,13 +205,13 @@ export default async function PortfolioDetailPage({ params }: Props) {
             )}
 
             {sec.type === 'process' && sec.items && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '680px' }}>
+              <div className="flex flex-col gap-12 pd-steps">
                 {sec.items.map((step, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: `${color}15`, border: `1px solid ${color}35`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, ...F, fontSize: '12px', fontWeight: 800, color }}>
+                  <div key={i} className="flex gap-16 items-start">
+                    <div className="pd-step-num">
                       {String(i + 1).padStart(2, '0')}
                     </div>
-                    <p style={{ fontSize: '15px', color: 'var(--text-2)', lineHeight: 1.7, paddingTop: '5px' }}>{step}</p>
+                    <p className="pd-step-text">{step}</p>
                   </div>
                 ))}
               </div>
@@ -222,29 +221,21 @@ export default async function PortfolioDetailPage({ params }: Props) {
       ))}
 
       {/* CTA */}
-      <section style={{ padding: '100px 0', borderBottom: '1px solid var(--border)' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p className="eyebrow" style={{ justifyContent: 'center' }}>Start Your Project</p>
-          <h2 style={{ ...F, fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#fff', marginBottom: '16px' }}>
+      <section className="pd-section-100">
+        <div className="container text-center">
+          <p className="eyebrow justify-center">Start Your Project</p>
+          <h2 className="pd-cta-title">
             Ready for results like these?
           </h2>
-          <p style={{ fontSize: '16px', color: 'var(--text-2)', maxWidth: '480px', margin: '0 auto 32px', lineHeight: 1.75 }}>
+          <p className="pd-cta-desc">
             Get a free consultation and let&apos;s discuss how we can deliver similar results for your business.
           </p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className="flex gap-12 justify-center flex-wrap">
             <Link href="/contact" className="btn btn-primary btn-xl">Start a Project <ArrowRight size={16} /></Link>
             <Link href="/portfolio" className="btn btn-outline btn-xl">View More Work</Link>
           </div>
         </div>
       </section>
-      <style>{`
-        @media (max-width: 1024px) {
-          .portfolio-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 640px) {
-          .portfolio-stats-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
-    </>
+    </div>
   )
 }

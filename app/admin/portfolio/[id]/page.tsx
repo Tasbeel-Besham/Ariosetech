@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save, ArrowLeft, Plus, Trash2, ChevronUp, ChevronDown, GripVertical } from 'lucide-react'
+import { Save, ArrowLeft, Plus, Trash2, ChevronUp, ChevronDown, GripVertical } from '@/components/ui/Icons'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { MediaPickerModal } from '@/components/ui/MediaPickerModal'

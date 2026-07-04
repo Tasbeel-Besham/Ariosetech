@@ -21,7 +21,7 @@ export async function GET(request: Request) {
           eyebrow: 'WordPress Services',
           headline: 'Professional WordPress\nDevelopment Services',
           subheadline: 'Display Your Business Online with a WordPress Website',
-          desc: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 50+ businesses worldwide for speed, security, and scalability.',
+          desc: 'From simple business websites to complex enterprise platforms, we create WordPress sites that drive results. Trusted by 100+ businesses worldwide for speed, security, and scalability.',
           ctaPrimaryLabel: 'Get Free WordPress Consultation',
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'View WordPress Portfolio',

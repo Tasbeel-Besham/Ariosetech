@@ -13,7 +13,7 @@ import { BuilderToolbar } from '@/components/builder/toolbar/BuilderToolbar'
 import { SectionPicker } from '@/components/builder/panels/SectionPicker'
 import { PropertiesPanel } from '@/components/builder/panels/PropertiesPanel'
 import { SectionListPanel } from '@/components/builder/panels/SectionListPanel'
-import { Plus } from 'lucide-react'
+import { Plus } from '@/components/ui/Icons'
 
 initRegistry()
 

@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { useBuilderStore } from '@/lib/builder/store'
 import { sectionRegistry } from '@/lib/builder/registry'
 import FallbackSection from '@/components/sections/FallbackSection'
-import { GripVertical, Copy, Trash2, EyeOff, Eye, Settings2 } from 'lucide-react'
+import { GripVertical, Copy, Trash2, EyeOff, Eye, Settings2 } from '@/components/ui/Icons'
 import type { SectionInstance } from '@/types'
 import React from 'react'
 

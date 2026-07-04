@@ -19,19 +19,19 @@ type Props = {
   ctaLabel?: string;
   ctaHref?: string;
   items?: Item[];
-  layout?: 'split' | 'grid' | 'rows';
+  layout?: 'split' | 'grid' | 'rows' | 'bento-table';
 }
 
 const WHY_ICONS: Record<string, React.ReactNode> = {
   rocket: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <path d="M4.5 16.5c-1.5 1.26-2.5 3.19-2.5 5.5h20c0-2.31-1-4.24-2.5-5.5" />
       <path d="M12 2C7.5 2 4 5.5 4 10c0 6 8 12 8 12s8-6 8-12c0-4.5-3.5-8-8-8z" />
       <circle cx="12" cy="10" r="2" />
     </svg>
   ),
   palette: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 2.222 1.206 4.16 3 5.197.185.107.3.3.3.513v1.79c0 .884.716 1.6 1.6 1.6h5.1z" />
       <circle cx="7.5" cy="10.5" r="1.5" />
       <circle cx="11.5" cy="7.5" r="1.5" />
@@ -39,18 +39,18 @@ const WHY_ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   settings: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <circle cx="12" cy="12" r="3" />
       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
     </svg>
   ),
   shield: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   ),
   trophy: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
       <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
       <path d="M4 22h16" />
@@ -59,30 +59,30 @@ const WHY_ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   lock: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
   ),
   bolt: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
     </svg>
   ),
   money: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <line x1="12" y1="1" x2="12" y2="23" />
       <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
     </svg>
   ),
   trend: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
       <polyline points="17 6 23 6 23 12" />
     </svg>
   ),
   team: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
       <circle cx="9" cy="7" r="4" />
       <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -90,7 +90,7 @@ const WHY_ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   default: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon-fill">
       <circle cx="12" cy="12" r="10"/>
       <polyline points="12 6 12 12 16 14"/>
     </svg>
@@ -100,7 +100,7 @@ const WHY_ICONS: Record<string, React.ReactNode> = {
 function getIconForWhyUs(iconStr: string | undefined, title: string): React.ReactNode {
   const normalized = (iconStr || '').toLowerCase().trim();
   if (normalized.startsWith('<svg')) {
-    return <div dangerouslySetInnerHTML={{ __html: iconStr! }} style={{ display: 'flex', width: '100%', height: '100%' }} />;
+    return <div dangerouslySetInnerHTML={{ __html: iconStr! }} className="flex icon-fill" />;
   }
 
   if (normalized === '🚀' || normalized === 'rocket' || normalized.includes('plus') || normalized.includes('scale')) {
@@ -144,7 +144,7 @@ function getIconForWhyUs(iconStr: string | undefined, title: string): React.Reac
   if (titleLower.includes('design') || titleLower.includes('style') || titleLower.includes('aesthetic') || titleLower.includes('theme') || titleLower.includes('redesign')) return WHY_ICONS.palette;
 
   if (iconStr && iconStr.length <= 4) {
-    return <span style={{ fontSize: '20px', lineHeight: 1 }}>{iconStr}</span>;
+    return <span className="emoji-icon">{iconStr}</span>;
   }
 
   return WHY_ICONS.default;
@@ -188,28 +188,11 @@ function renderFormattedContent(text: string, variant?: 'pills') {
       elements.push(
         <div 
           key={`list-${key}`} 
-          style={{ 
-            display: 'flex', 
-            flexWrap: 'wrap', 
-            gap: '12px', 
-            marginTop: '12px', 
-            marginBottom: '16px' 
-          }}
+          className="pill-list"
         >
           {currentList.items.map((item, idx) => (
-            <div key={idx} style={{ 
-              background: 'rgba(118, 108, 255, 0.1)', 
-              border: '1px solid rgba(118, 108, 255, 0.2)', 
-              color: '#fff', 
-              padding: '8px 16px', 
-              borderRadius: '100px', 
-              fontSize: '13px', 
-              fontWeight: 500,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <span style={{ color: 'var(--primary)', fontSize: '14px' }}>✓</span>
+            <div key={idx} className="pill-item">
+              <span className="pill-check">✓</span>
               {parseInlineMarkdown(item)}
             </div>
           ))}
@@ -219,17 +202,10 @@ function renderFormattedContent(text: string, variant?: 'pills') {
       elements.push(
         <ListTag 
           key={`list-${key}`} 
-          style={{ 
-            margin: '0 0 16px 16px', 
-            padding: 0,
-            listStyleType: currentList.type === 'ol' ? 'decimal' : 'disc',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px'
-          }}
+          className={currentList.type === 'ol' ? 'md-list md-list-ol' : 'md-list md-list-ul'}
         >
           {currentList.items.map((item, idx) => (
-            <li key={idx} style={{ fontSize: '13.5px', lineHeight: '1.65', color: 'var(--text-2)' }}>
+            <li key={idx} className="md-li">
               {parseInlineMarkdown(item)}
             </li>
           ))}
@@ -243,7 +219,7 @@ function renderFormattedContent(text: string, variant?: 'pills') {
     const parts = str.split(/\*\*(.*?)\*\*/g);
     return parts.map((part, i) => {
       if (i % 2 === 1) {
-        return <strong key={i} style={{ color: '#fff', fontWeight: 600 }}>{part}</strong>;
+        return <strong key={i} className="md-strong">{part}</strong>;
       }
       return part;
     });
@@ -276,7 +252,7 @@ function renderFormattedContent(text: string, variant?: 'pills') {
     } else {
       if (currentList) flushList(i);
       elements.push(
-        <p key={`p-${i}`} style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.75, marginBottom: '12px' }}>
+        <p key={`p-${i}`} className="md-para">
           {parseInlineMarkdown(trimmed)}
         </p>
       );
@@ -341,35 +317,22 @@ function renderBentoContent(text: string) {
 
   if (columns.length > 0 && columns.some(c => c.items.length > 0)) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div className="flex flex-col gap-24">
         {introPara.length > 0 && (
-          <div style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.7 }}>
+          <div className="bento-intro">
             {renderFormattedContent(introPara.join('\n'))}
           </div>
         )}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: `repeat(auto-fit, minmax(250px, 1fr))`, 
-          gap: '20px', 
-          marginTop: '8px' 
-        }}>
+        <div className="bento-cols">
           {columns.map((col, idx) => (
-            <div key={idx} className="card-hover" style={{ 
-              background: 'rgba(255,255,255,0.03)', 
-              border: '1px solid rgba(255,255,255,0.06)', 
-              borderRadius: '16px', 
-              padding: '24px',
-              display: 'flex',
-              flexDirection: 'column',
-              transition: 'all 0.3s var(--ease)'
-            }}>
-              <h4 style={{ color: '#fff', fontSize: '14px', fontWeight: 700, marginBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
+            <div key={idx} className="card-hover bento-col">
+              <h4 className="bento-col-title">
                 {col.title}
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', flexGrow: 1 }}>
+              <ul className="bento-col-list">
                 {col.items.map((item, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'start', gap: '10px', fontSize: '13px', color: 'var(--text-2)', lineHeight: 1.5 }}>
-                    <span style={{ color: 'var(--primary)', marginTop: '2px', flexShrink: 0 }}>
+                  <li key={i} className="bento-col-li">
+                    <span className="bento-check">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </span>
                     {item}
@@ -380,7 +343,7 @@ function renderBentoContent(text: string) {
           ))}
         </div>
         {outroPara.length > 0 && (
-          <div style={{ fontSize: '14px', color: 'var(--text-3)', lineHeight: 1.7, marginTop: '16px' }}>
+          <div className="bento-intro mt-16">
             {renderFormattedContent(outroPara.join('\n'), 'pills')}
           </div>
         )}
@@ -406,11 +369,11 @@ export default function WhyUsSection({
 
   if (layout === 'bento-table') {
     return (
-      <section className="section overflow-visible bg-subtle" style={{ borderBottom: '1px solid var(--border)' }}>
+      <section className="section overflow-visible bg-subtle">
         <div className="container">
           <div className="text-center mb-64 max-w-720 mx-auto">
             {eyebrow && <p className="eyebrow justify-center mb-16">{eyebrow}</p>}
-            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter" style={{ fontSize: 'clamp(2rem,4.5vw,3rem)' }}>
+            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter section-headline">
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
@@ -419,7 +382,7 @@ export default function WhyUsSection({
               ))}
             </h2>
             {desc && (
-              <p className="text-gray-2 leading-loose" style={{ fontSize: '15.5px' }}>
+              <p className="text-gray-2 leading-loose text-15">
                 {desc}
               </p>
             )}
@@ -430,13 +393,12 @@ export default function WhyUsSection({
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="sr card-hover flex flex-col p-40 rounded-2xl relative bg-subtle-2 border-subtle-2" 
-                style={{ scrollMarginTop: '100px' }}
+                className="sr card-hover flex flex-col p-40 rounded-2xl relative bg-subtle-2 border-subtle-2 scroll-mt-100"
               >
-                <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, rgba(118,108,255,0.03) 0%, transparent 60%)' }} />
+                <div className="absolute inset-0 rounded-2xl pointer-events-none card-halo" />
                 
                 <div className="flex items-center gap-20 mb-32 relative">
-                  <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary" style={{ width: '56px', height: '56px', border: '1px solid rgba(118,108,255,0.2)', padding: '14px' }}>
+                  <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary icon-tile icon-tile-56">
                     {getIconForWhyUs(b.icon, b.title)}
                   </div>
                   <div>
@@ -453,7 +415,7 @@ export default function WhyUsSection({
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-md shrink-0 uppercase tracking-wider font-semibold rounded-lg" style={{ padding: '12px 24px', fontSize: '13.5px' }}>
+                        <Link href={b.href} className="btn btn-primary btn-md shrink-0">
                           Get Started
                         </Link>
                       )}
@@ -485,11 +447,11 @@ export default function WhyUsSection({
 
   if (layout === 'rows') {
     return (
-      <section className="section overflow-visible" style={{ background: 'linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%)', borderBottom: '1px solid var(--border)' }}>
+      <section className="section overflow-visible section-fade-bg">
         <div className="container">
           <div className="mb-64 max-w-720">
             {eyebrow && <p className="eyebrow mb-12">{eyebrow}</p>}
-            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter" style={{ fontSize: 'clamp(2rem,4.5vw,3rem)' }}>
+            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter section-headline">
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
@@ -504,21 +466,16 @@ export default function WhyUsSection({
             )}
           </div>
 
-          <div className="flex flex-col border-t" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="flex flex-col premium-rows">
             {safe.map((b, i) => (
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="premium-row sr relative items-center py-40 gap-40" 
-                style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: '1.2fr 1fr 220px',
-                  scrollMarginTop: '100px'
-                }}
+                className="premium-row sr relative items-center py-40 gap-40 scroll-mt-100"
               >
                 {/* Column 1: Icon & Title & Desc */}
                 <div className="flex items-start gap-20">
-                  <div className="row-icon-container shrink-0 flex items-center justify-center rounded-xl text-primary p-12" style={{ width: '48px', height: '48px' }}>
+                  <div className="row-icon-container shrink-0 flex items-center justify-center rounded-xl text-primary p-12 icon-tile-48">
                     {getIconForWhyUs(b.icon, b.title)}
                   </div>
                   <div>
@@ -531,15 +488,15 @@ export default function WhyUsSection({
                 {/* Column 2: Features checklist */}
                 <div className="premium-row__features-col">
                   {b.features && (
-                    <ul className="flex flex-col gap-10 p-0 m-0" style={{ listStyle: 'none' }}>
+                    <ul className="flex flex-col gap-10 p-0 m-0 list-none">
                       {b.features.split(',').map((feat, idx) => (
                         <li key={idx} className="flex items-center gap-10 text-gray-2">
-                          <div className="shrink-0 flex items-center justify-center rounded" style={{ width: '16px', height: '16px', background: 'rgba(118, 108, 255, 0.1)' }}>
+                          <div className="shrink-0 flex items-center justify-center rounded check-chip">
                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
                           </div>
-                          <span className="text-gray-2" style={{ fontSize: '13.5px' }}>{feat.trim()}</span>
+                          <span className="text-gray-2 text-135">{feat.trim()}</span>
                         </li>
                       ))}
                     </ul>
@@ -547,11 +504,11 @@ export default function WhyUsSection({
                 </div>
 
                 {/* Column 3: Price & CTA button */}
-                <div className="premium-row__cta-col flex flex-col items-end justify-center gap-16 h-full pl-32" style={{ borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="premium-row__cta-col flex flex-col items-end justify-center gap-16 h-full pl-32">
                   {b.price && (
                     <div className="flex flex-col items-end">
                       <span className="text-xs uppercase text-gray-3 tracking-widest mb-4">Starting at</span>
-                      <span className="font-extrabold text-white leading-tight" style={{ fontSize: '26px' }}>{b.price}</span>
+                      <span className="font-extrabold text-white leading-tight price-lg">{b.price}</span>
                     </div>
                   )}
                   {b.href && (
@@ -563,65 +520,6 @@ export default function WhyUsSection({
               </div>
             ))}
           </div>
-
-          <style>{`
-            .premium-row {
-              border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-              transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-              background: transparent !important;
-            }
-            .premium-row:hover {
-              border-bottom-color: rgba(118, 108, 255, 0.35) !important;
-              background: radial-gradient(circle at 5% 50%, rgba(118, 108, 255, 0.04) 0%, transparent 60%) !important;
-              padding-left: 24px !important;
-              padding-right: 24px !important;
-            }
-            .premium-row .row-title {
-              color: #fff !important;
-              transition: color 0.4s var(--ease) !important;
-            }
-            .premium-row:hover .row-title {
-              color: var(--primary) !important;
-              text-shadow: 0 0 15px rgba(118, 108, 255, 0.2);
-            }
-            .premium-row .row-icon-container {
-              border-color: rgba(255,255,255,0.06) !important;
-              background: rgba(255,255,255,0.02) !important;
-              border: 1px solid rgba(255,255,255,0.06) !important;
-              transition: all 0.4s var(--ease) !important;
-            }
-            .premium-row:hover .row-icon-container {
-              border-color: rgba(118,108,255,0.3) !important;
-              background: var(--primary-soft) !important;
-              transform: rotate(5deg) scale(1.05);
-            }
-            
-            @media (max-width: 991px) {
-              .premium-row {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-                padding: 32px 16px !important;
-              }
-              .premium-row:hover {
-                padding-left: 16px !important;
-                padding-right: 16px !important;
-                background: transparent !important;
-              }
-              .premium-row__cta-col {
-                border-left: none !important;
-                padding-left: 0 !important;
-                align-items: flex-start !important;
-                width: 100% !important;
-              }
-              .premium-row__cta-col > div {
-                align-items: flex-start !important;
-              }
-              .premium-row__cta-col a {
-                width: 100% !important;
-                max-width: 280px !important;
-              }
-            }
-          `}</style>
         </div>
       </section>
     )
@@ -633,7 +531,7 @@ export default function WhyUsSection({
         <div className="container">
           <div className="text-center mb-64 max-w-720 mx-auto">
             {eyebrow && <p className="eyebrow justify-center mb-12">{eyebrow}</p>}
-            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter" style={{ fontSize: 'clamp(2rem,4.5vw,3rem)' }}>
+            <h2 className="font-display font-extrabold text-white mb-20 leading-tight tracking-tighter section-headline">
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
@@ -648,21 +546,17 @@ export default function WhyUsSection({
             )}
           </div>
 
-          <div className="g" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', marginBottom: ctaLabel ? '48px' : 0 }}>
+          <div className={`g wu-grid${ctaLabel ? ' mb-48' : ''}`}>
             {safe.map((b, i) => (
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="sr card-hover flex flex-col gap-16 p-32 rounded-2xl relative bg-subtle-2 border-subtle" 
-                style={{ 
-                  animationDelay: `${i*0.08}s`,
-                  backdropFilter: 'blur(10px)',
-                  scrollMarginTop: '100px'
-                }}
+                className="sr card-hover flex flex-col gap-16 p-32 rounded-2xl relative bg-subtle-2 border-subtle scroll-mt-100 backdrop-blur-10" 
+                style={{ animationDelay: `${i*0.08}s` }}
               >
-                <div className="absolute inset-0 h-1 pointer-events-none" style={{ left: '10%', right: '10%', background: 'linear-gradient(90deg, transparent, rgba(118,108,255,0.3), transparent)' }} />
+                <div className="absolute inset-0 h-1 pointer-events-none card-topline" />
                 
-                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12" style={{ width: '48px', height: '48px', border: '1px solid rgba(118,108,255,0.2)' }}>
+                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12 icon-tile icon-tile-48">
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
                 
@@ -685,7 +579,7 @@ export default function WhyUsSection({
                   )}
 
                   {(b.price || b.href) && (
-                    <div className="mt-auto pt-16 flex items-center justify-between gap-12" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="mt-auto pt-16 flex items-center justify-between gap-12 card-divider">
                       {b.price && (
                         <div className="flex flex-col">
                           <span className="text-xs uppercase text-gray-4 tracking-wider">Starting at</span>
@@ -693,7 +587,7 @@ export default function WhyUsSection({
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-sm font-semibold rounded-lg" style={{ padding: '6px 14px', fontSize: '11.5px' }}>
+                        <Link href={b.href} className="btn btn-primary btn-sm">
                           Get Started
                         </Link>
                       )}
@@ -722,14 +616,14 @@ export default function WhyUsSection({
   return (
     <section className="section overflow-visible">
       <div className="container">
-        <div className="g-2 items-start" style={{ gap:'80px' }}>
-          <div className="sticky-mobile-fix lg:sticky" style={{ position:'sticky', top:'88px' }}>
+        <div className="g-2 items-start gap-80">
+          <div className="sticky-mobile-fix lg:sticky sticky-88">
             <p className="eyebrow sr">{eyebrow}</p>
-            <h2 className="sr font-display font-extrabold mb-20 leading-tight tracking-tighter" style={{ fontSize:'clamp(2rem,4vw,3rem)' }}>
+            <h2 className="sr font-display font-extrabold mb-20 leading-tight tracking-tighter section-headline-sm">
               {headline.split('\n').map((line, i) => (
                 <React.Fragment key={i}>
                   {i === 1 ? (
-                    <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
+                    <span className="text-grad">
                       {line}
                     </span>
                   ) : (
@@ -764,8 +658,8 @@ export default function WhyUsSection({
           
           <div className="flex flex-col gap-16">
             {safe.map((b,i) => (
-              <div key={i} id={getHashIdFromTitle(b.title)} className="sr card-hover flex gap-20 p-24 bg-subtle-2 border-subtle rounded-xl relative overflow-hidden" style={{ animationDelay:`${i*0.08}s`, scrollMarginTop: '100px' }}>
-                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12" style={{ width:'48px', height:'48px', border:'1px solid rgba(118,108,255,0.2)' }}>
+              <div key={i} id={getHashIdFromTitle(b.title)} className="sr card-hover flex gap-20 p-24 bg-subtle-2 border-subtle rounded-xl relative overflow-hidden scroll-mt-100" style={{ animationDelay:`${i*0.08}s` }}>
+                <div className="shrink-0 flex items-center justify-center rounded-xl bg-soft text-primary p-12 icon-tile icon-tile-48">
                   {getIconForWhyUs(b.icon, b.title)}
                 </div>
                 <div className="flex flex-col grow-1">
@@ -787,7 +681,7 @@ export default function WhyUsSection({
                   )}
 
                   {(b.price || b.href) && (
-                    <div className="mt-auto pt-16 flex items-center justify-between gap-12" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="mt-auto pt-16 flex items-center justify-between gap-12 card-divider">
                       {b.price && (
                         <div className="flex flex-col">
                           <span className="text-xs uppercase text-gray-4 tracking-wider">Starting at</span>
@@ -795,7 +689,7 @@ export default function WhyUsSection({
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-sm font-semibold rounded-lg" style={{ padding: '6px 14px', fontSize: '11.5px' }}>
+                        <Link href={b.href} className="btn btn-primary btn-sm">
                           Get Started
                         </Link>
                       )}

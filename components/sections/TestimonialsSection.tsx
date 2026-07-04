@@ -14,7 +14,7 @@ export default function TestimonialsSection({ eyebrow='Client Reviews', headline
         <div className="flex items-end justify-between flex-wrap gap-20 mb-56">
           <div>
             <p className="eyebrow sr">{eyebrow}</p>
-            <h2 className="sr font-display font-extrabold leading-none tracking-tighter" style={{ fontSize:'clamp(2rem,4vw,3rem)' }}>{headline}</h2>
+            <h2 className="sr font-display font-extrabold leading-none tracking-tighter section-headline">{headline}</h2>
           </div>
           <div className="sr"><ClutchWidget widgetType={7} height={65} /></div>
         </div>
@@ -29,7 +29,7 @@ export default function TestimonialsSection({ eyebrow='Client Reviews', headline
                 <div className="w-11 h-11 rounded-xl bg-grad flex items-center justify-center font-display text-sm font-extrabold text-white shrink-0">{t.initials}</div>
                 <div>
                   <p className="font-display text-sm font-bold text-white">{t.name}</p>
-                  <p className="font-mono text-gray-3 uppercase tracking-wider font-semibold" style={{ fontSize:'10px' }}>{t.role}</p>
+                  <p className="font-mono text-gray-3 uppercase tracking-wider font-semibold text-10">{t.role}</p>
                 </div>
               </div>
             </div>

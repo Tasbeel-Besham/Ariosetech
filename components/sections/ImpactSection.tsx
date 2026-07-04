@@ -10,7 +10,7 @@ export default function ImpactSection({ eyebrow='Results That Matter', headline=
   
   return (
     <section className="section section--dark relative overflow-hidden">
-      <div className="absolute top-[50%] left-[50%] pointer-events-none" style={{ transform:'translate(-50%,-50%)', width:'70%', height:'80%', background:'radial-gradient(ellipse, rgba(118,108,255,0.09) 0%, transparent 65%)', filter: 'blur(30px)' }} />
+      <div className="absolute top-[50%] left-[50%] pointer-events-none -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] bg-[radial-gradient(ellipse,rgba(118,108,255,0.09)_0%,transparent_65%)] blur-[30px]" />
       <div className="container relative z-10">
         <div className="mb-64">
           <SectionHeader
@@ -29,10 +29,10 @@ export default function ImpactSection({ eyebrow='Results That Matter', headline=
         
         <div className="g-3 gap-24">
           {safe.map((m,i) => (
-            <div key={i} className="sr card-hover relative overflow-hidden p-40" style={{ borderRadius: '24px', animationDelay:`${i*0.1}s`, background:'rgba(10,10,18,0.7)', border:'1px solid rgba(118,108,255,0.18)', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)' }}>
-              <div className="absolute top-0 left-0 right-0 bg-grad" style={{ height: '2px' }} />
-              <div className="absolute pointer-events-none" style={{ top:'-30%', left:'-10%', width:'60%', height:'60%', background:'radial-gradient(ellipse, rgba(118,108,255,0.12) 0%, transparent 70%)' }} />
-              <p className="font-display font-extrabold leading-none mb-12 text-gradient" style={{ fontSize:'clamp(3rem,5vw,4.5rem)' }}>{m.value}</p>
+            <div key={i} className="sr card-hover relative overflow-hidden p-40 rounded-[24px] bg-[rgba(10,10,18,0.7)] border border-[rgba(118,108,255,0.18)] backdrop-blur-[20px]" style={{ animationDelay:`${i*0.1}s` }}>
+              <div className="absolute top-0 left-0 right-0 bg-grad h-[2px]" />
+              <div className="absolute pointer-events-none top-[-30%] left-[-10%] w-[60%] h-[60%] bg-[radial-gradient(ellipse,rgba(118,108,255,0.12)_0%,transparent_70%)]" />
+              <p className="font-display font-extrabold leading-none mb-12 text-gradient text-[clamp(3rem,5vw,4.5rem)]">{m.value}</p>
               <p className="font-display font-bold text-white mb-16 text-base">{m.label}</p>
               <p className="text-gray-2 leading-loose text-sm">{m.desc}</p>
             </div>

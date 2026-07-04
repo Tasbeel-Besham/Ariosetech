@@ -1,7 +1,7 @@
 'use client'
 import { useBuilderStore } from '@/lib/builder/store'
 import { sectionRegistry } from '@/lib/builder/registry'
-import { Plus, Eye, EyeOff, Copy, Trash2, GripVertical } from 'lucide-react'
+import { Plus, Eye, EyeOff, Copy, Trash2, GripVertical } from '@/components/ui/Icons'
 import type { SectionInstance } from '@/types'
 
 export function SectionListPanel({ onAddSection }: { onAddSection: () => void }) {

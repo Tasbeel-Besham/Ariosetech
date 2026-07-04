@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save, Plus, Trash2, Eye } from 'lucide-react'
+import { Save, Plus, Trash2, Eye } from '@/components/ui/Icons'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 

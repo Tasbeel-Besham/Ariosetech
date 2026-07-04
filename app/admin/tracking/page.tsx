@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save } from 'lucide-react'
+import { Save } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 export default function TrackingAdmin() {

@@ -79,22 +79,22 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer style={{ background:'var(--bg-2)' }}>
+    <footer className="site-footer">
       {/* CTA banner */}
-      <div style={{ background:'linear-gradient(135deg, rgba(118,108,255,0.15), rgba(118,108,255,0.04))', padding:'48px 0', position:'relative', overflow:'hidden' }}>
-        <div style={{ position:'absolute', top:'-50%', right:'-10%', width:'400px', height:'400px', background:'radial-gradient(circle, rgba(118,108,255,0.15) 0%, transparent 70%)', filter:'blur(60px)', pointerEvents:'none' }} />
-        <div className="container flex flex-col md:flex-row items-center text-center md:text-left justify-between" style={{ position:'relative', zIndex:1, gap:'40px' }}>
-          <div style={{ flex:1, width:'100%' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize:'clamp(1.8rem,4vw,2.4rem)', fontWeight:800, color:'#fff', marginBottom:'12px', letterSpacing:'-0.03em', lineHeight:1.1 }}>
+      <div className="footer-cta">
+        <div className="footer-cta-orb" />
+        <div className="container flex flex-col md:flex-row items-center text-center md:text-left justify-between footer-cta-inner">
+          <div className="flex-1 w-full">
+            <h2 className="footer-cta-headline">
               {ctaHeadline}
             </h2>
-            <p className="mx-auto md:mx-0" style={{ fontFamily: 'var(--font-body)', fontSize:'16px', color:'var(--text-2)', lineHeight:1.7, fontWeight: 500, maxWidth:'600px' }}>
+            <p className="mx-auto md:mx-0 footer-cta-sub">
               {ctaDesc}
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row w-full md:w-auto" style={{ gap:'14px', flexShrink:0 }}>
-            <Link href={ctaHref} className="btn btn-primary btn-lg" style={{ padding:'16px 32px' }}>{ctaLabel}</Link>
-            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg" style={{ padding:'16px 32px' }}>
+          <div className="flex flex-col sm:flex-row w-full md:w-auto gap-14 shrink-0">
+            <Link href={ctaHref} className="btn btn-primary btn-lg">{ctaLabel}</Link>
+            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg">
               WhatsApp Us
             </a>
           </div>
@@ -102,27 +102,25 @@ export default function Footer() {
       </div>
 
       {/* Main footer */}
-      <div className="container" style={{ paddingTop:'60px', paddingBottom:'40px' }}>
-        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5" style={{ gap:'40px', marginBottom:'48px' }}>
+      <div className="container footer-main">
+        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 footer-grid">
 
           {/* Brand column */}
           <div className="col-span-full lg:col-span-1">
-            <Link href="/" style={{ display:'flex', alignItems:'center', textDecoration:'none', flexShrink:0, marginBottom:'20px' }}>
-              <div style={{ fontFamily:'var(--font-logo), sans-serif', fontSize:'22px', color:'#fff', letterSpacing:'1px', lineHeight:1 }}>
-                {logoUrl ? <img src={logoUrl} alt={siteName} style={{ height:'28px', maxWidth:'160px', width:'auto', objectFit:'contain', display:'block' }} /> : siteName}
+            <Link href="/" className="footer-logo-link">
+              <div className="footer-wordmark">
+                {logoUrl ? <img src={logoUrl} alt={siteName} className="footer-logo-img" /> : siteName}
               </div>
             </Link>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'var(--text-3)', lineHeight:1.85, marginBottom:'28px', maxWidth:'300px', fontWeight: 500 }}>
+            <p className="footer-about">
               {tagline}
             </p>
 
             {/* Socials */}
-            <div style={{ display:'flex', gap:'8px' }}>
+            <div className="flex gap-8">
               {SOCIALS.map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
-                  style={{ width:'36px', height:'36px', borderRadius:'8px', background:'var(--bg-3)', border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--text-3)', textDecoration:'none', transition:'all 0.2s' }}
-                  onMouseEnter={e => { e.currentTarget.style.background='var(--primary-soft)'; e.currentTarget.style.borderColor='rgba(118,108,255,0.3)'; e.currentTarget.style.color='var(--primary)' }}
-                  onMouseLeave={e => { e.currentTarget.style.background='var(--bg-3)'; e.currentTarget.style.borderColor='var(--border)'; e.currentTarget.style.color='var(--text-3)' }}>
+                  className="footer-social">
                   {s.icon}
                 </a>
               ))}
@@ -132,14 +130,12 @@ export default function Footer() {
           {/* Link columns */}
           {columns.map((col, idx) => (
             <div key={idx}>
-              <p style={{ ...M, fontSize:'13px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'20px' }}>{col.title}</p>
+              <p className="footer-col-title">{col.title}</p>
               {col.links && col.links.length > 0 && (
-                <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'12px' }}>
+                <ul className="footer-col-list">
                   {col.links.map((item: any) => (
                     <li key={item.href}>
-                      <Link href={item.href} target={item.target || '_self'} style={{ fontFamily: 'var(--font-body)', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', transition:'color 0.2s', fontWeight: 500 }}
-                        onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-                        onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.65)')}>
+                      <Link href={item.href} target={item.target || '_self'} className="footer-link">
                         {item.label}
                       </Link>
                     </li>
@@ -151,20 +147,16 @@ export default function Footer() {
 
           {/* Contact Information Column */}
           <div>
-            <p style={{ ...M, fontSize:'13px', fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'20px' }}>Contact</p>
-            <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
-              <a href="mailto:info@ariosetech.com" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', fontWeight: 500 }}
-                onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.65)')}>
-                <Mail size={16} style={{ flexShrink:0 }} /> info@ariosetech.com
+            <p className="footer-col-title">Contact</p>
+            <div className="flex flex-col gap-12">
+              <a href="mailto:info@ariosetech.com" className="footer-contact-link">
+                <Mail size={16} className="shrink-0" /> info@ariosetech.com
               </a>
-              <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'center', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', textDecoration:'none', fontWeight: 500 }}
-                onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color='rgba(255,255,255,0.65)')}>
-                <Phone size={16} style={{ flexShrink:0 }} /> +92 300 9484 739
+              <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="footer-contact-link">
+                <Phone size={16} className="shrink-0" /> +92 300 9484 739
               </a>
-              <div style={{ fontFamily: 'var(--font-body)', display:'flex', alignItems:'flex-start', gap:'10px', fontSize:'13px', color:'rgba(255,255,255,0.65)', margin:0, maxWidth:'240px', lineHeight: 1.6, fontWeight: 500 }}>
-                <MapPin size={16} style={{ flexShrink:0, marginTop:'3px' }} />
+              <div className="footer-address">
+                <MapPin size={16} className="shrink-0 mt-3" />
                 <span>95 College Road, Block E, PCSIR<br/>Staff Colony, Lahore, 54770</span>
               </div>
             </div>
@@ -172,29 +164,25 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between" style={{ paddingTop:'24px', borderTop:'1px solid var(--border)', gap:'20px' }}>
-          <p style={{ ...M, fontSize:'11px', color:'var(--text-3)' }}>
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between footer-bottom">
+          <p className="footer-fineprint">
             {bottomText}
           </p>
-          <div style={{ display:'flex', gap:'20px', flexWrap:'wrap' }}>
+          <div className="flex gap-20 flex-wrap">
             {['Privacy Policy','Terms of Service','FAQ'].map(t => (
               <Link key={t} href={`/${t.toLowerCase().replace(/ /g,'-')}`}
-                style={{ ...M, fontSize:'11px', color:'var(--text-3)', textDecoration:'none' }}
-                onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
+                className="footer-legal-link">
                 {t}
               </Link>
             ))}
             <a href="https://g.co/kgs/oiGmWD7" target="_blank" rel="noopener noreferrer"
-              style={{ ...M, fontSize:'11px', color:'var(--text-3)', textDecoration:'none', display:'flex', alignItems:'center', gap:'4px' }}
-              onMouseEnter={e => (e.currentTarget.style.color='var(--primary)')}
-              onMouseLeave={e => (e.currentTarget.style.color='var(--text-3)')}>
+              className="footer-legal-link flex items-center gap-4">
               ⭐ Google Reviews
             </a>
           </div>
-          <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
-            <div style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#22c55e', boxShadow:'0 0 6px #22c55e' }} />
-            <p style={{ ...M, fontSize:'10px', color:'var(--text-3)' }}>All systems operational</p>
+          <div className="flex items-center gap-6">
+            <div className="footer-status-dot" />
+            <p className="footer-status-text">All systems operational</p>
           </div>
         </div>
       </div>

@@ -10,16 +10,16 @@ export default function FaqSection({ eyebrow='FAQ', headline='Frequently Asked\n
   const F = { fontFamily:'var(--font-display)' } as const
   const safe = Array.isArray(items) ? items : []
   return (
-    <section className="section" style={{ overflow:'visible' }}>
+    <section className="section overflow-visible">
       <div className="container">
-        <div className="g-2" style={{ gap:'80px', alignItems:'start' }}>
-          <div className="sticky-mobile-fix lg:sticky" style={{ position:'sticky', top:'100px' }}>
+        <div className="g-2 gap-80 items-start">
+          <div className="sticky-mobile-fix lg:sticky sticky-100">
             <p className="eyebrow">{eyebrow}</p>
-            <h2 className="sr" style={{ ...F, fontSize:'clamp(2rem,4vw,3rem)', fontWeight:800, lineHeight:1.05, letterSpacing:'-0.04em', marginBottom:'20px' }}>
+            <h2 className="sr faq-headline">
               {headline.split('\n').map((line, i, arr) => (
                 <React.Fragment key={i}>
                   {i === arr.length - 1 ? (
-                    <span style={{ background:'var(--grad)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
+                    <span className="text-grad">
                       {line}
                     </span>
                   ) : (
@@ -28,22 +28,22 @@ export default function FaqSection({ eyebrow='FAQ', headline='Frequently Asked\n
                 </React.Fragment>
               ))}
             </h2>
-            <p style={{ fontSize:'15px', color:'var(--text-2)', lineHeight:1.8, marginBottom:'32px' }}>{subheadline}</p>
+            <p className="faq-sub">{subheadline}</p>
             <Link href={ctaHref} className="btn btn-primary btn-lg">
               {ctaLabel}
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </Link>
           </div>
-          <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
+          <div className="flex flex-col gap-8">
             {safe.map(({q,a},i) => (
-              <div key={i} style={{ background:'var(--bg-2)', border:`1px solid ${open===i?'rgba(118,108,255,0.35)':'var(--border)'}`, borderRadius:'14px', overflow:'hidden', transition:'border-color 0.2s' }}>
-                <button onClick={()=>setOpen(open===i?null:i)} style={{ width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center', padding:'20px 22px', background:'none', border:'none', cursor:'pointer', gap:'16px', textAlign:'left' }}>
-                  <span style={{ ...F, fontSize:'15px', fontWeight:600, color:open===i?'var(--primary)':'#fff', flex:1, lineHeight:1.4 }}>{q}</span>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform:open===i?'rotate(180deg)':'', transition:'transform 0.25s', flexShrink:0 }}>
+              <div key={i} className={`faq-item${open===i ? ' open' : ''}`}>
+                <button onClick={()=>setOpen(open===i?null:i)} className="faq-q">
+                  <span className="faq-q-text">{q}</span>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="faq-chevron">
                     <path d="M4 6l4 4 4-4" stroke={open===i?'var(--primary)':'var(--text-3)'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
-                {open===i && <div style={{ padding:'0 22px 20px' }}><p style={{ fontSize:'14px', color:'var(--text-2)', lineHeight:1.85 }}>{a}</p></div>}
+                {open===i && <div className="faq-a"><p>{a}</p></div>}
               </div>
             ))}
           </div>
