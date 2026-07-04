@@ -415,7 +415,7 @@ export default function WhyUsSection({
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-md shrink-0 uppercase tracking-[0.05em] text-[13.5px]">
+                        <Link href={b.href} className="btn btn-primary btn-md shrink-0 uppercase tracking-wider text-sm">
                           Get Started
                         </Link>
                       )}
@@ -512,7 +512,7 @@ export default function WhyUsSection({
                     </div>
                   )}
                   {b.href && (
-                    <Link href={b.href} className="btn btn-primary btn-md w-full justify-center text-center uppercase tracking-[0.05em] text-[13.5px]">
+                    <Link href={b.href} className="btn btn-primary btn-md w-full justify-center text-center uppercase tracking-wider text-sm">
                       Get Started
                     </Link>
                   )}
@@ -587,7 +587,7 @@ export default function WhyUsSection({
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-sm uppercase tracking-[0.05em] text-[11.5px]">
+                        <Link href={b.href} className="btn btn-primary btn-sm uppercase tracking-wider text-xs">
                           Get Started
                         </Link>
                       )}
@@ -689,7 +689,7 @@ export default function WhyUsSection({
                         </div>
                       )}
                       {b.href && (
-                        <Link href={b.href} className="btn btn-primary btn-sm uppercase tracking-[0.05em] text-[11.5px]">
+                        <Link href={b.href} className="btn btn-primary btn-sm uppercase tracking-wider text-xs">
                           Get Started
                         </Link>
                       )}
