@@ -376,7 +376,7 @@ export default function ServicesAccordionSection({
                     <div className="svc-cta">
                       <div>
                         <p className="svc-price-label">Starting at</p>
-                        <p className="svc-price">{tab.price}</p>
+                        <p className="svc-price">{(tab.price || '').replace(/\$\$+/g, '$')}</p>
                       </div>
                       <Link href={tab.href || '#'} className="btn btn-primary btn-md">
                         Learn More <Arrow />

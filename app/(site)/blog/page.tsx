@@ -64,7 +64,7 @@ export default async function BlogPage() {
       {rest.length > 0 && (
         <section className="section">
           <div className="container">
-            <p className="eyebrow sr mb-36">All Articles</p>
+            <p className="eyebrow sr mb-[36px]">All Articles</p>
             <div className="g-3">
               {rest.map((post, i) => (
                 <Link key={String(post._id)} href={`/blog/${post.slug}`}
@@ -99,7 +99,7 @@ export default async function BlogPage() {
 
       {posts.length === 0 && (
         <section className="section">
-          <div className="container text-center py-60">
+          <div className="container text-center py-[60px]">
             <p className="bl-empty">No posts yet. Check back soon.</p>
           </div>
         </section>

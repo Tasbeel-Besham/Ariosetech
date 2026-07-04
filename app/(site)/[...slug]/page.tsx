@@ -19,6 +19,22 @@ async function getPageData(slugArray: string[]) {
   }
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
+const DEFAULT_OG_IMAGE = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png'
+
+/** Pull a usable description out of the page's own sections when no SEO description is set. */
+function deriveDescription(page: PageDoc): string | undefined {
+  const sections = page.layout?.sections || []
+  for (const s of sections) {
+    const p = (s as { props?: Record<string, unknown> }).props || {}
+    const candidate = (p.desc || p.intro || p.sub || p.body) as string | undefined
+    if (typeof candidate === 'string' && candidate.trim().length > 40) {
+      return candidate.trim().slice(0, 160)
+    }
+  }
+  return undefined
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const page = await getPageData(slug)
@@ -29,22 +45,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isIndexed = seo.robots?.index !== false
   const isFollowed = seo.robots?.follow !== false
 
+  const title = seo.title || page.title
+  // Never emit an empty description — it suppresses the tag and Google writes its own snippet.
+  const description = seo.description || deriveDescription(page)
+  const ogImage = seo.ogImage || DEFAULT_OG_IMAGE
+
   return {
-    title: seo.title || page.title,
-    description: seo.description || '',
-    keywords: seo.keywords?.join(', ') || '',
+    title,
+    description,
+    keywords: seo.keywords?.length ? seo.keywords.join(', ') : undefined,
     openGraph: {
-      title: seo.ogTitle || seo.title || page.title,
-      description: seo.ogDescription || seo.description || '',
-      images: seo.ogImage ? [seo.ogImage] : [],
+      type: 'website',
+      siteName: 'ARIOSETECH',
+      url: `${SITE_URL}${path}`,
+      title: seo.ogTitle || title,
+      description: seo.ogDescription || description,
+      images: [ogImage],
     },
     twitter: {
-      title: seo.twitterTitle || seo.title || page.title,
-      description: seo.twitterDescription || seo.description || '',
-      images: seo.twitterImage ? [seo.twitterImage] : [],
+      card: 'summary_large_image',
+      title: seo.twitterTitle || title,
+      description: seo.twitterDescription || description,
+      images: [seo.twitterImage || ogImage],
     },
     alternates: {
-      canonical: seo.canonicalUrl || `${process.env.NEXT_PUBLIC_SITE_URL || ''}${path}`,
+      canonical: seo.canonicalUrl || `${SITE_URL}${path}`,
     },
     robots: `${isIndexed ? 'index' : 'noindex'},${isFollowed ? 'follow' : 'nofollow'}`,
   }

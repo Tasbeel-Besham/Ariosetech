@@ -10,7 +10,7 @@ export default function ProcessSection({ eyebrow='How We Work', headline='Your S
   return (
     <section className="section section--dark">
       <div className="container">
-        <div className="text-center mb-60">
+        <div className="text-center mb-[60px]">
           <p className="eyebrow sr justify-center">{eyebrow}</p>
           <h2 className="sr process-headline">{headline}</h2>
         </div>

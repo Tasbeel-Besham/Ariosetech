@@ -100,7 +100,7 @@ const WHY_ICONS: Record<string, React.ReactNode> = {
 function getIconForWhyUs(iconStr: string | undefined, title: string): React.ReactNode {
   const normalized = (iconStr || '').toLowerCase().trim();
   if (normalized.startsWith('<svg')) {
-    return <div dangerouslySetInnerHTML={{ __html: iconStr! }} className="flex icon-fill" />;
+    return <div dangerouslySetInnerHTML={{ __html: iconStr! }} className="flex items-center justify-center icon-fill icon-svg-host" />;
   }
 
   if (normalized === '🚀' || normalized === 'rocket' || normalized.includes('plus') || normalized.includes('scale')) {
@@ -148,6 +148,11 @@ function getIconForWhyUs(iconStr: string | undefined, title: string): React.Reac
   }
 
   return WHY_ICONS.default;
+}
+
+/** DB seeds occasionally contain doubled dollar signs ("$$399") — normalize on render. */
+function fmtPrice(p?: string) {
+  return (p || '').replace(/\$\$+/g, '$')
 }
 
 function getHashIdFromTitle(title: string): string | undefined {
@@ -409,9 +414,9 @@ export default function WhyUsSection({
                   {(b.price || b.href) && (
                     <div className="ml-auto flex items-center gap-24">
                       {b.price && (
-                        <div className="hidden md-flex flex-col items-end">
+                        <div className="hidden md:flex flex-col items-end">
                           <span className="text-xs uppercase text-gray-4 tracking-wider mb-4">Starting at</span>
-                          <span className="text-2xl font-extrabold text-white leading-none">{b.price}</span>
+                          <span className="text-2xl font-extrabold text-white leading-none">{fmtPrice(b.price)}</span>
                         </div>
                       )}
                       {b.href && (
@@ -431,7 +436,7 @@ export default function WhyUsSection({
           </div>
           
           {ctaLabel && (
-            <div className="flex justify-center mt-64">
+            <div className="flex justify-center mt-[64px]">
               <Link href={ctaHref || '/contact'} className="btn btn-primary btn-lg sr">
                 {ctaLabel}
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -471,7 +476,7 @@ export default function WhyUsSection({
               <div 
                 key={i} 
                 id={getHashIdFromTitle(b.title)}
-                className="premium-row sr relative items-center py-40 gap-40 scroll-mt-100"
+                className="premium-row sr relative items-center py-[40px] gap-40 scroll-mt-100"
               >
                 {/* Column 1: Icon & Title & Desc */}
                 <div className="flex items-start gap-20">
@@ -504,11 +509,11 @@ export default function WhyUsSection({
                 </div>
 
                 {/* Column 3: Price & CTA button */}
-                <div className="premium-row__cta-col flex flex-col items-end justify-center gap-16 h-full pl-32">
+                <div className="premium-row__cta-col flex flex-col items-end justify-center gap-16 h-full pl-[32px]">
                   {b.price && (
                     <div className="flex flex-col items-end">
                       <span className="text-xs uppercase text-gray-3 tracking-widest mb-4">Starting at</span>
-                      <span className="font-extrabold text-white leading-tight price-lg">{b.price}</span>
+                      <span className="font-extrabold text-white leading-tight price-lg">{fmtPrice(b.price)}</span>
                     </div>
                   )}
                   {b.href && (
@@ -566,7 +571,7 @@ export default function WhyUsSection({
                   {renderFormattedContent(b.desc)}
                   
                   {b.features && (
-                    <ul className="flex flex-col gap-8 p-0 list-none text-sm my-16">
+                    <ul className="flex flex-col gap-8 p-0 list-none text-sm my-[16px]">
                       {b.features.split(',').map((feat, idx) => (
                         <li key={idx} className="flex items-center gap-8 text-gray-2">
                           <svg className="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -579,11 +584,11 @@ export default function WhyUsSection({
                   )}
 
                   {(b.price || b.href) && (
-                    <div className="mt-auto pt-16 flex items-center justify-between gap-12 card-divider">
+                    <div className="mt-auto pt-[16px] flex items-center justify-between gap-12 card-divider">
                       {b.price && (
                         <div className="flex flex-col">
                           <span className="text-xs uppercase text-gray-4 tracking-wider">Starting at</span>
-                          <span className="font-extrabold text-white leading-none text-lg">{b.price}</span>
+                          <span className="font-extrabold text-white leading-none text-lg">{fmtPrice(b.price)}</span>
                         </div>
                       )}
                       {b.href && (
@@ -599,7 +604,7 @@ export default function WhyUsSection({
           </div>
 
           {ctaLabel && (
-            <div className="flex justify-center mt-40">
+            <div className="flex justify-center mt-[40px]">
               <Link href={ctaHref || '/contact'} className="btn btn-primary btn-lg sr">
                 {ctaLabel}
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -668,7 +673,7 @@ export default function WhyUsSection({
                   {renderFormattedContent(b.desc)}
 
                   {b.features && (
-                    <ul className="flex flex-col gap-8 p-0 list-none text-sm my-16">
+                    <ul className="flex flex-col gap-8 p-0 list-none text-sm my-[16px]">
                       {b.features.split(',').map((feat, idx) => (
                         <li key={idx} className="flex items-center gap-8 text-gray-2">
                           <svg className="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -681,11 +686,11 @@ export default function WhyUsSection({
                   )}
 
                   {(b.price || b.href) && (
-                    <div className="mt-auto pt-16 flex items-center justify-between gap-12 card-divider">
+                    <div className="mt-auto pt-[16px] flex items-center justify-between gap-12 card-divider">
                       {b.price && (
                         <div className="flex flex-col">
                           <span className="text-xs uppercase text-gray-4 tracking-wider">Starting at</span>
-                          <span className="font-extrabold text-white leading-none text-lg">{b.price}</span>
+                          <span className="font-extrabold text-white leading-none text-lg">{fmtPrice(b.price)}</span>
                         </div>
                       )}
                       {b.href && (

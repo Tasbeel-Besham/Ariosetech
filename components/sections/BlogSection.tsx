@@ -33,7 +33,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
   if (loaded && posts.length === 0) {
     return (
       <section className="section section--dark">
-        <div className="container text-center py-40">
+        <div className="container text-center py-[40px]">
           <p className="font-display text-gray-3 text-sm">No blog posts yet — run the seed or add posts in Admin → Blog Posts.</p>
         </div>
       </section>
@@ -42,7 +42,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
 
   if (!loaded) return (
     <section className="section section--dark">
-      <div className="container text-center py-40">
+      <div className="container text-center py-[40px]">
         <div className="rounded-full mx-auto w-[32px] h-[32px] border-2 border-solid border-[var(--border)] border-t-[var(--primary)] animate-[spin_0.8s_linear_infinite]" />
       </div>
     </section>
@@ -67,7 +67,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
               className="card card-hover flex flex-col no-underline"
               style={{ animationDelay:`${i*0.08}s` }}>
               <div className="flex flex-col flex-1 p-32">
-                <span className="font-mono font-bold text-primary bg-soft uppercase tracking-widest px-12 py-4 rounded-full border border-subtle-primary mb-16 w-fit text-[9px]">{post.category}</span>
+                <span className="font-mono font-bold text-primary bg-soft uppercase tracking-widest px-[12px] py-[4px] rounded-full border border-subtle-primary mb-16 w-fit text-[9px]">{post.category}</span>
                 <h3 className="font-display font-bold text-white leading-tight mb-12 flex-1 text-lg">{post.title}</h3>
                 <p className="text-gray-3 leading-loose mb-20 text-sm overflow-hidden line-clamp-2">{post.excerpt}</p>
                 <p className="font-mono font-semibold text-gray-3 uppercase tracking-wider text-[10px]">

@@ -68,7 +68,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Featured image */}
       {(post.featuredImage || post.coverImage) && (
         <section className="border-b-subtle">
-          <div className="container bp-narrow pt-40 pb-0">
+          <div className="container bp-narrow pt-[40px] pb-0">
             <div className="bp-cover">
               <Image src={(post.featuredImage || post.coverImage)!} alt={post.title} fill className="object-cover" sizes="780px" />
             </div>

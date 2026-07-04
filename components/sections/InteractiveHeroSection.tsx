@@ -293,16 +293,16 @@ export default function InteractiveHeroSection({
             </motion.div>
           )}
 
-          <div ref={headlineRef} className="mb-24 max-w-[680px]">
+          <div ref={headlineRef} className="mb-16 max-w-[680px]">
             {headline && headline.trim().length > 0 && (
               <h1 className="hero-headline">
-                {renderChar(headline + (subheadline && desc && subheadline.length < 120 ? ' ' + subheadline : ''))}
+                {renderChar(headline)}
               </h1>
             )}
           </div>
 
-          {subheadline && (!desc || subheadline.length >= 120) && (
-            <p className={`font-body text-white/40 max-w-[500px] font-light leading-relaxed text-[15px] ${desc ? 'mb-12' : 'mb-20'}`}>
+          {subheadline && subheadline.trim().length > 0 && (
+            <p className="hero-subheadline font-display font-semibold text-white/75 max-w-[560px] leading-snug mb-14 text-[17px] tracking-tight">
               {subheadline}
             </p>
           )}
@@ -314,22 +314,31 @@ export default function InteractiveHeroSection({
           )}
 
           <p className="font-body text-white/30 mb-32 italic text-[12.5px]">
-            {trust ? trust : (
+            {trust ? (
+              trust.includes(',') ? (
+                trust.split(',').map((t, i) => (
+                  <span key={i} className="whitespace-nowrap">
+                    {i > 0 && <span className="not-italic text-primary/60 mx-[8px]">•</span>}
+                    {t.trim()}
+                  </span>
+                ))
+              ) : trust
+            ) : (
               <>
                 Trusted by businesses in <span className="not-italic text-primary/75">USA</span>, <span className="not-italic text-primary/75">UAE</span>, and <span className="not-italic text-primary/75">Switzerland</span> for affordable, high-quality development.
               </>
             )}
           </p>
 
-          <div className="flex gap-4 items-center flex-wrap">
+          <div className="hero-ctas flex gap-[14px] items-center flex-wrap">
             {ctaPrimaryLabel && ctaPrimaryLabel.trim().length > 0 && (
-              <Link href={ctaPrimaryHref || '/contact'} className="btn btn-primary btn-xl">
+              <Link href={ctaPrimaryHref || '/contact'} className="btn btn-primary btn-lg">
                 {ctaPrimaryLabel}
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </Link>
             )}
             {ctaSecondaryLabel && ctaSecondaryLabel.trim().length > 0 && (
-              <Link href={ctaSecondaryHref || '/portfolio'} className="btn btn-outline btn-xl">
+              <Link href={ctaSecondaryHref || '/portfolio'} className="btn btn-outline btn-lg">
                 {ctaSecondaryLabel}
               </Link>
             )}
@@ -339,23 +348,23 @@ export default function InteractiveHeroSection({
         {/* Right Side */}
         <div className="hero-right-col relative flex flex-col gap-16 pointer-events-auto">
           
-          <div className="absolute top-[-24px] right-4 px-16 py-10 text-white flex items-center gap-8 z-20 bg-[rgba(5,5,14,0.95)] border border-[rgba(118,108,255,0.25)] rounded-[12px] text-[11px] backdrop-blur-[12px] shadow-[0_8px_32px_rgba(118,108,255,0.15)] animate-[chipBob_4s_ease-in-out_infinite_alternate]">
-            <div className="w-8 h-8 rounded-full bg-[#22c55e] shadow-[0_0_10px_#22c55e]" />
+          <div className="absolute top-[-24px] right-4 px-[16px] py-[10px] text-white flex items-center gap-8 z-20 bg-[rgba(5,5,14,0.95)] border border-[rgba(118,108,255,0.25)] rounded-[12px] text-[11px] backdrop-blur-[12px] shadow-[0_8px_32px_rgba(118,108,255,0.15)] animate-[chipBob_4s_ease-in-out_infinite_alternate]">
+            <div className="w-[8px] h-[8px] rounded-full bg-[#22c55e] shadow-[0_0_10px_#22c55e]" />
             {liveSiteText}
           </div>
 
           <div className="rounded-2xl overflow-hidden bg-[rgba(10,10,22,0.9)] border border-[rgba(118,108,255,0.22)] shadow-[0_32px_100px_rgba(0,0,0,0.7)] backdrop-blur-[12px]">
-            <div className="px-18 py-12 flex items-center gap-12 bg-[rgba(255,255,255,0.05)] border-b border-[rgba(255,255,255,0.08)]">
+            <div className="px-[18px] py-[12px] flex items-center gap-12 bg-[rgba(255,255,255,0.05)] border-b border-[rgba(255,255,255,0.08)]">
               <div className="flex gap-6">
                 <div className="w-[11px] h-[11px] rounded-full bg-[#ff5f57] shadow-[0_0_5px_rgba(255,95,87,0.4)]" />
                 <div className="w-[11px] h-[11px] rounded-full bg-[#febc2e] shadow-[0_0_5px_rgba(254,188,46,0.4)]" />
                 <div className="w-[11px] h-[11px] rounded-full bg-[#28c840] shadow-[0_0_5px_rgba(40,200,64,0.4)]" />
               </div>
-              <div className="ml-8 font-mono text-white/30 text-[11px]">{codeFilename}</div>
+              <div className="ml-[8px] font-mono text-white/30 text-[11px]">{codeFilename}</div>
             </div>
             <div className="p-24 font-mono leading-loose min-h-[240px] max-h-[240px] overflow-hidden text-[12px]">
               {typedLines.map((toks, i) => (
-                <div key={i} className="flex gap-14">
+                <div key={i} className="flex gap-[14px]">
                   <span className="text-white/15 min-w-[18px] text-right text-[10px]">{i + 1}</span>
                   <span className="text-white/50">
                     {toks.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
@@ -363,7 +372,7 @@ export default function InteractiveHeroSection({
                 </div>
               ))}
               {lineIdxRef.current < codeLines.length && (
-                <div className="flex gap-14">
+                <div className="flex gap-[14px]">
                    <span className="text-white/15 min-w-[18px] text-right text-[10px]">{typedLines.length + 1}</span>
                    <span className="text-white/50">
                      {currentLine.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
@@ -374,13 +383,13 @@ export default function InteractiveHeroSection({
             </div>
           </div>
 
-          <div className="flex gap-14">
+          <div className="flex gap-[14px]">
             {(metrics || [
               { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: B_PRI, c2: B_SEC, bar: 0.92 },
               { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: B_PRI, c2: B_SEC, bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ]).map((m, i) => (
-              <div key={m.lbl + i} className="flex-1 rounded-2xl p-18 relative overflow-hidden bg-[rgba(15,15,30,0.85)] border border-[rgba(255,255,255,0.08)] shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
+              <div key={m.lbl + i} className="flex-1 rounded-2xl p-[18px] relative overflow-hidden bg-[rgba(15,15,30,0.85)] border border-[rgba(255,255,255,0.08)] shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
                 <div className="mb-8 flex" style={{ color: m.c1 }}>{m.ico}</div>
                 <div className="font-display font-extrabold text-white mb-4 text-[22px]">{m.val}</div>
                 <div className="uppercase tracking-widest font-semibold text-[10px] text-[rgba(255,255,255,0.3)]">{m.lbl}</div>
@@ -392,12 +401,12 @@ export default function InteractiveHeroSection({
         </div>
       </div>
 
-      <div className="py-12 overflow-hidden bg-[rgba(5,5,14,0.92)] border-t border-[rgba(255,255,255,0.06)]">
+      <div className="py-[12px] overflow-hidden bg-[rgba(5,5,14,0.92)] border-t border-[rgba(255,255,255,0.06)]">
         <div className="flex whitespace-nowrap animate-[ticker_35s_linear_infinite]">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex">
               {marqueeItems.map(text => (
-                <span key={text} className="inline-flex items-center gap-16 px-36 font-mono font-bold tracking-widest uppercase text-white/25 text-[10px]">
+                <span key={text} className="inline-flex items-center gap-16 px-[36px] font-mono font-bold tracking-widest uppercase text-white/25 text-[10px]">
                   <div className="w-[5px] h-[5px] rounded-full shadow-[0_0_8px_rgba(118,108,255,0.25)] bg-primary-solid" />
                   {text}
                 </span>
@@ -426,8 +435,13 @@ export default function InteractiveHeroSection({
           transition: all 0.25s; white-space: nowrap; cursor: none;
         }
         .cta-custom-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.35); }
+        /* Hero CTAs: keep on a single line on desktop */
+        @media (min-width: 1025px) {
+          .hero-ctas { flex-wrap: nowrap; }
+          .hero-ctas .btn { padding: 14px 24px; font-size: 13.5px; white-space: nowrap; }
+        }
         @media (max-width: 1024px) {
-          .container { grid-template-columns: 1fr !important; padding-top: 120px !important; gap: 2rem !important; }
+          .hero-section-wrapper .container { grid-template-columns: 1fr !important; padding-top: 120px !important; gap: 2rem !important; }
           .hero-right-col { display: none !important; }
         }
       `}</style>

@@ -253,7 +253,7 @@ export default function PortfolioSection({
             )}
           </div>
 
-          <div className="flex gap-10 pb-32 flex-wrap">
+          <div className="flex gap-10 pb-[32px] flex-wrap">
             <button className={`fb ${filter === 'all' ? 'on' : ''}`} onClick={() => setFilter('all')}>All Projects</button>
             {displayCats.map(c => (
               <button key={c} className={`fb ${filter === c ? 'on' : ''}`} onClick={() => setFilter(c)}>
@@ -262,7 +262,7 @@ export default function PortfolioSection({
             ))}
           </div>
 
-          <div className="flex flex-col pb-40">
+          <div className="flex flex-col pb-[40px]">
             {filtered.map((item, i) => {
               const catClass = (item.cat || 'other').toLowerCase()
               const itemUrl = item.slug ? `/portfolio/${catClass}/${item.slug}` : (item.url || '#')
@@ -281,7 +281,7 @@ export default function PortfolioSection({
                   <div>
                     <div className="pname">{item.title}</div>
                     <div className="flex gap-6 flex-wrap mb-8">
-                      <span className={`ptag ${catClass} font-mono px-12 py-3 rounded-full font-bold uppercase tracking-widest text-10`}>
+                      <span className={`ptag ${catClass} font-mono px-[12px] py-[3px] rounded-full font-bold uppercase tracking-widest text-10`}>
                         {item.platform || catClass}
                       </span>
                     </div>
@@ -289,7 +289,7 @@ export default function PortfolioSection({
                   </div>
                   
                   {/* Stats desktop only to match HTML layout cleanly */}
-                  <div className="hidden md-flex shrink-0 gap-24">
+                  <div className="hidden md:flex shrink-0 gap-24">
                     <div className="text-right">
                       <div className="font-display font-black leading-none text-gradient pf-result">{item.result}</div>
                       <div className="font-mono text-gray-3 uppercase tracking-wider mt-4 font-semibold text-9">{item.resultLabel}</div>
@@ -310,17 +310,17 @@ export default function PortfolioSection({
 
       {/* POPUP */}
       <div ref={wrapRef} className={`portfolio-popup fixed w-[300px] h-[220px] rounded-2xl overflow-hidden pointer-events-none z-[9999]${hovered ? ' visible' : ''}`}>
-        <div className="absolute top-0 left-0 right-0 h-28 flex items-center gap-6 px-12 z-[3] pf-popup-bar">
+        <div className="absolute top-0 left-0 right-0 h-[28px] flex items-center gap-6 px-[12px] z-[3] pf-popup-bar">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-grad" />
-          <div className="w-8 h-8 rounded-full dot-red" />
-          <div className="w-8 h-8 rounded-full dot-yellow" />
-          <div className="w-8 h-8 rounded-full dot-green" />
-          <div className="font-mono ml-8 flex-1 overflow-hidden whitespace-nowrap text-ellipsis font-semibold pf-popup-url">
+          <div className="w-[8px] h-[8px] rounded-full dot-red" />
+          <div className="w-[8px] h-[8px] rounded-full dot-yellow" />
+          <div className="w-[8px] h-[8px] rounded-full dot-green" />
+          <div className="font-mono ml-[8px] flex-1 overflow-hidden whitespace-nowrap text-ellipsis font-semibold pf-popup-url">
             {hovered && hovered.url ? hovered.url.replace(/https?:\/\//, '') : 'Preview'}
           </div>
         </div>
         
-        <div className="absolute top-28 left-0 right-0 bottom-0 overflow-hidden bg-subtle-2">
+        <div className="absolute top-[28px] left-0 right-0 bottom-0 overflow-hidden bg-subtle-2">
           {loadingImg && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-12 z-[4] bg-subtle-2">
               <div className="spin" />
@@ -338,8 +338,8 @@ export default function PortfolioSection({
           <div className="absolute inset-0 z-[2] pointer-events-none pf-popup-shade" />
           
           {hovered && (
-            <div className="absolute bottom-10 left-10 right-10 z-[3] flex gap-6 flex-wrap">
-              <div className="font-mono font-bold text-white px-10 py-4 rounded-md backdrop-blur-sm pf-popup-badge">
+            <div className="absolute bottom-[10px] left-[10px] right-[10px] z-[3] flex gap-6 flex-wrap">
+              <div className="font-mono font-bold text-white px-[10px] py-[4px] rounded-md backdrop-blur-sm pf-popup-badge">
                 <span className="text-primary">{hovered.result}</span> {hovered.resultLabel}
               </div>
             </div>

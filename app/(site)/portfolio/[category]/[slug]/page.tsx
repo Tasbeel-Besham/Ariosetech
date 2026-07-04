@@ -95,7 +95,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
       {/* Challenge + Solution */}
       <section className="pd-section-80">
         <div className="container">
-          <div className="g-2 gap-48">
+          <div className="g-2 gap-[48px]">
             {item.challenge && (
               <div>
                 <p className="pd-label mb-14-i">The Challenge</p>

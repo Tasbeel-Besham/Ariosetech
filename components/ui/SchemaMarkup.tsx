@@ -21,7 +21,8 @@ export default function SchemaMarkup({
   type = 'WebPage' 
 }: SchemaProps) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com';
-  const fullUrl = `${baseUrl}${pageUrl}`;
+  // pageUrl may arrive absolute (from BuilderRenderer) or relative — never double the origin.
+  const fullUrl = pageUrl.startsWith('http') ? pageUrl : `${baseUrl}${pageUrl}`;
 
   const schemaObjects: any[] = [];
 

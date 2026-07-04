@@ -14,22 +14,32 @@ export async function generateMetadata(): Promise<Metadata> {
     const seo = page.seo || {}
     const isIndexed = seo.robots?.index !== false
     const isFollowed = seo.robots?.follow !== false
+    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
+    const DEFAULT_OG_IMAGE = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png'
+    const DEFAULT_DESC = 'Professional WordPress, Shopify & WooCommerce development since 2017. 100+ businesses scaled globally.'
+    const title = seo.title || page.title
+    const description = seo.description || DEFAULT_DESC
+    const ogImage = seo.ogImage || DEFAULT_OG_IMAGE
     return {
-      title: seo.title || page.title,
-      description: seo.description || '',
-      keywords: seo.keywords?.join(', ') || '',
+      title,
+      description,
+      keywords: seo.keywords?.length ? seo.keywords.join(', ') : undefined,
       openGraph: {
-        title: seo.ogTitle || seo.title || page.title,
-        description: seo.ogDescription || seo.description || '',
-        images: seo.ogImage ? [seo.ogImage] : [],
+        type: 'website',
+        siteName: 'ARIOSETECH',
+        url: `${SITE_URL}/`,
+        title: seo.ogTitle || title,
+        description: seo.ogDescription || description,
+        images: [ogImage],
       },
       twitter: {
-        title: seo.twitterTitle || seo.title || page.title,
-        description: seo.twitterDescription || seo.description || '',
-        images: seo.twitterImage ? [seo.twitterImage] : [],
+        card: 'summary_large_image',
+        title: seo.twitterTitle || title,
+        description: seo.twitterDescription || description,
+        images: [seo.twitterImage || ogImage],
       },
       alternates: {
-        canonical: seo.canonicalUrl || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'}/`,
+        canonical: seo.canonicalUrl || `${SITE_URL}/`,
       },
       robots: `${isIndexed ? 'index' : 'noindex'},${isFollowed ? 'follow' : 'nofollow'}`,
     }

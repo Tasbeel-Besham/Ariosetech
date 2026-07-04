@@ -6,7 +6,7 @@ const hs = { fontFamily: 'var(--font-display)' } as const
 export default function NotFound() {
   return (
     <div className="nf-wrap">
-      <div className="container py-80">
+      <div className="container py-[80px]">
         <p className="nf-code">404</p>
         <h1 className="nf-title">Page not found</h1>
         <p className="nf-desc">

@@ -22,28 +22,11 @@ export function IconBox({
   className, 
   style 
 }: IconBoxProps) {
-  const sizeClass = {
-    48: 'w-12 h-12',
-    56: 'w-14 h-14',
-    64: 'w-16 h-16',
-    32: 'w-8 h-8',
-    40: 'w-10 h-10',
-    20: 'w-5 h-5',
-    24: 'w-6 h-6',
-  }[size] || `w-[${size}px] h-[${size}px]`; // Fallback arbitrary value just in case
-
-  const radiusClass = {
-    8: 'rounded-lg',
-    10: 'rounded-[10px]',
-    12: 'rounded-xl',
-    14: 'rounded-2xl',
-    16: 'rounded-2xl',
-  }[radius] || `rounded-[${radius}px]`;
-
+  // Dynamic Tailwind classes (e.g. `w-[${size}px]`) never compile — size must be inline.
   return (
-    <div 
-      className={`flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 ${sizeClass} ${radiusClass} ${className || ''}`}
-      style={style}
+    <div
+      className={`flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 ${className || ''}`}
+      style={{ width: size, height: size, borderRadius: radius, ...style }}
     >
       {children}
     </div>
@@ -58,23 +41,14 @@ export const CheckSVG = ({ size = 14 }: { size?: number }) => (
   </svg>
 )
 
-export const StandardCheck = ({ size = 18 }: { size?: number }) => {
-  const sizeClass = {
-    14: 'w-3.5 h-3.5',
-    16: 'w-4 h-4',
-    18: 'w-[18px] h-[18px]',
-    20: 'w-5 h-5',
-    24: 'w-6 h-6',
-  }[size] || `w-[${size}px] h-[${size}px]`;
-
-  return (
-    <span 
-      className={`flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 rounded-md ${sizeClass}`}
-    >
-      <CheckSVG size={size * 0.65} />
-    </span>
-  )
-}
+export const StandardCheck = ({ size = 18 }: { size?: number }) => (
+  <span
+    className="flex items-center justify-center shrink-0 text-primary bg-primary/10 border border-primary/20 rounded-md"
+    style={{ width: size, height: size }}
+  >
+    <CheckSVG size={Math.round(size * 0.65)} />
+  </span>
+)
 
 export const ArrowSVG = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
@@ -83,7 +57,7 @@ export const ArrowSVG = ({ size = 16 }: { size?: number }) => (
 )
 
 export const ChevSVG = ({ open }: { open: boolean }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={`shrink-0 transition-transform duration-250 ${open ? 'rotate-180' : ''}`}>
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={`shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
     <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )

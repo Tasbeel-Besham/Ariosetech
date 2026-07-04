@@ -140,7 +140,7 @@ export default function ContactClient() {
               </p>
 
               {/* Contact cards */}
-              <div className="flex flex-col gap-14 mb-32">
+              <div className="flex flex-col gap-[14px] mb-32">
                 {[
                   { Icon:Mail,          label:'Email',            value:'info@ariosetech.com',   href:'mailto:info@ariosetech.com',  note:'Proposals & project discussions' },
                   { Icon:Phone,         label:'Phone / WhatsApp', value:'+92 300 9484 739',       href:'tel:+923009484739',           note:'Quick questions, instant consultation' },
@@ -215,7 +215,7 @@ export default function ContactClient() {
                   <FloatingInput label="Project Details" value={form.message} onChange={(v:string) => set('message', v)} required multiline />
 
                   {/* Submit */}
-                  <div className="flex flex-col gap-14 mt-10">
+                  <div className="flex flex-col gap-[14px] mt-10">
                     <button type="submit" disabled={sending} className="btn btn-primary btn-lg w-full justify-center">
                       {sending ? (
                         <>
@@ -249,7 +249,7 @@ export default function ContactClient() {
             <p className="strategy-lede">
               Prefer to talk? Book a free 30-minute strategy call with our team. We&apos;ll discuss your project, answer questions, and give honest recommendations — no sales pressure.
             </p>
-            <div className="flex flex-wrap gap-10 mb-28">
+            <div className="flex flex-wrap gap-10 mb-[28px]">
               {['30-minute call','Project advice & recommendations','Transparent pricing discussion','No obligation, no pressure'].map(t => (
                 <span key={t} className="tag cta-badge">✓ {t}</span>
               ))}
@@ -299,7 +299,7 @@ export default function ContactClient() {
           <h2 className="final-cta-headline">
             Get a free quote in 24 hours.<br/>No commitment required.
           </h2>
-          <div className="flex gap-14 justify-center flex-wrap mt-28">
+          <div className="flex gap-[14px] justify-center flex-wrap mt-28">
             <Link href="/portfolio" className="btn btn-outline btn-xl">View Our Work</Link>
             <a href="#quote" className="btn btn-primary btn-xl">Get Free Quote <ArrowRight size={16} /></a>
           </div>

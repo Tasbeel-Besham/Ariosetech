@@ -91,7 +91,7 @@ export default function FAQPage() {
 
         {/* FAQ Categories */}
         {FAQS.map((group) => (
-          <div key={group.category} className="mb-56">
+          <div key={group.category} className="mb-[56px]">
             <h2 className="faqp-group">
               {group.category}
             </h2>

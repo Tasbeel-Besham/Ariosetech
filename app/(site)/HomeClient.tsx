@@ -385,7 +385,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                   <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider mb-2">{p.client}</p>
                   <h3 className="font-display text-[22px] font-extrabold text-white mb-3.5">{p.title}</h3>
                   <p className="text-[13px] text-text-3 leading-[1.75] italic flex-1 mb-5">&ldquo;{p.quote}&rdquo;</p>
-                  <div className="flex items-baseline gap-2.5 pt-4.5 border-t border-border">
+                  <div className="flex items-baseline gap-2.5 pt-[18px] border-t border-border">
                     <p className="font-display text-[2.2rem] font-extrabold text-primary leading-none">{p.result}</p>
                     <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider font-bold">{p.resultLabel}</p>
                   </div>
@@ -437,7 +437,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ PROCESS ════════════════════════════════════════════════ */}
       <section className="section section--dark">
         <div className="container">
-          <div className="text-center mb-15">
+          <div className="text-center mb-[60px]">
             <p className="eyebrow sr justify-center">How We Work</p>
             <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">
               Your Success Journey in 5 Simple Steps

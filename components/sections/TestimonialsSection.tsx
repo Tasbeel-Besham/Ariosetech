@@ -11,7 +11,7 @@ export default function TestimonialsSection({ eyebrow='Client Reviews', headline
   return (
     <section className="section">
       <div className="container">
-        <div className="flex items-end justify-between flex-wrap gap-20 mb-56">
+        <div className="flex items-end justify-between flex-wrap gap-20 mb-[56px]">
           <div>
             <p className="eyebrow sr">{eyebrow}</p>
             <h2 className="sr font-display font-extrabold leading-none tracking-tighter section-headline">{headline}</h2>
@@ -24,8 +24,8 @@ export default function TestimonialsSection({ eyebrow='Client Reviews', headline
               <div className="flex gap-4 mb-20">
                 {[0,1,2,3,4].map(s => <StarSVG key={s} />)}
               </div>
-              <p className="text-gray-2 leading-loose italic mb-28 flex-1 text-base">&ldquo;{t.quote}&rdquo;</p>
-              <div className="flex items-center gap-14 pt-20 border-t border-subtle">
+              <p className="text-gray-2 leading-loose italic mb-[28px] flex-1 text-base">&ldquo;{t.quote}&rdquo;</p>
+              <div className="flex items-center gap-[14px] pt-[20px] border-t border-subtle">
                 <div className="w-11 h-11 rounded-xl bg-grad flex items-center justify-center font-display text-sm font-extrabold text-white shrink-0">{t.initials}</div>
                 <div>
                   <p className="font-display text-sm font-bold text-white">{t.name}</p>

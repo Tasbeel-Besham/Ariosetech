@@ -92,7 +92,7 @@ export default function Footer() {
               {ctaDesc}
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row w-full md:w-auto gap-14 shrink-0">
+          <div className="flex flex-col sm:flex-row w-full md:w-auto gap-[14px] shrink-0">
             <Link href={ctaHref} className="btn btn-primary btn-lg">{ctaLabel}</Link>
             <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg">
               WhatsApp Us

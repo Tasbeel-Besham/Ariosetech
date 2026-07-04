@@ -96,7 +96,7 @@ export default function ApproachSection({
       <div className="approach-sticky approach-sticky-shell">
 
         {/* Header */}
-        <div className="approach-header shrink-0 text-center pb-28 pt-52">
+        <div className="approach-header shrink-0 text-center pb-[28px] pt-[52px]">
           {eyebrow && <p className="eyebrow justify-center">{eyebrow}</p>}
           <h2 className="font-display font-extrabold mb-20 leading-none tracking-tighter section-headline-sm">
             {headline} {scrambleWord && <ScrambleText text={scrambleWord} className="text-gradient" />}
@@ -104,7 +104,7 @@ export default function ApproachSection({
           {/* Progress dots */}
           <div className="flex justify-center gap-8">
             {safeItems.map((_, i) => (
-              <div key={i} className={`rounded-full transition-all duration-400 ease approach-dot${i === activeIdx ? ' active' : ''}`} />
+              <div key={i} className={`rounded-full transition-all duration-[400ms] approach-dot${i === activeIdx ? ' active' : ''}`} />
             ))}
           </div>
         </div>
@@ -125,18 +125,18 @@ export default function ApproachSection({
                 return (
                   <div
                     key={item.n || i}
-                    className={`approach-card shrink-0 relative overflow-hidden rounded-3xl transition-all duration-400 ease ${isActive ? 'active' : ''}`}
+                    className={`approach-card shrink-0 relative overflow-hidden rounded-3xl transition-all duration-[400ms] ${isActive ? 'active' : ''}`}
                   >
                     {/* Gradient top bar */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-grad transition-opacity duration-400 approach-topline" />
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-grad transition-opacity duration-[400ms] approach-topline" />
   
                     {/* Ghost number */}
-                    <p className="approach-ghost-num font-display font-black absolute top-10 right-16 leading-none select-none tracking-tighter pointer-events-none">
+                    <p className="approach-ghost-num font-display font-black absolute top-[10px] right-[16px] leading-none select-none tracking-tighter pointer-events-none">
                       {item.n}
                     </p>
   
                     {/* Step number pill */}
-                    <div className="approach-pill inline-flex items-center gap-6 px-12 py-4 rounded-full border border-subtle-primary bg-soft-primary">
+                    <div className="approach-pill inline-flex items-center gap-6 px-[12px] py-[4px] rounded-full border border-subtle-primary bg-soft-primary">
                       <span className="font-mono font-bold text-primary tracking-widest text-xs">{item.n}</span>
                     </div>
   
@@ -158,7 +158,7 @@ export default function ApproachSection({
           </div>
   
           {/* Scroll hint */}
-          <div className={`approach-hint shrink-0 text-center pb-20 pt-16 pointer-events-none transition-opacity duration-500${showHint ? ' visible-hint' : ' hidden-hint'}`}>
+          <div className={`approach-hint shrink-0 text-center pb-[20px] pt-[16px] pointer-events-none transition-opacity duration-500${showHint ? ' visible-hint' : ' hidden-hint'}`}>
             <div className="inline-flex items-center gap-8">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14M5 12l7 7 7-7"/>
