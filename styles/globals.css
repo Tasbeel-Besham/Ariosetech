@@ -241,7 +241,8 @@
   white-space: nowrap; cursor: pointer; border: none;
   text-decoration: none !important; color: #fff !important;
   transition: transform 0.2s var(--spring), box-shadow 0.2s var(--ease), background 0.15s;
-  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 .btn:active { transform: scale(0.97) !important; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }

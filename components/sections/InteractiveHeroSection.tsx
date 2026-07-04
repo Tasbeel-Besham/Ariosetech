@@ -323,13 +323,13 @@ export default function InteractiveHeroSection({
 
           <div className="flex gap-4 items-center flex-wrap">
             {ctaPrimaryLabel && ctaPrimaryLabel.trim().length > 0 && (
-              <Link href={ctaPrimaryHref || '/contact'} className="btn btn-primary btn-xl uppercase tracking-widest font-bold">
+              <Link href={ctaPrimaryHref || '/contact'} className="btn btn-primary btn-xl">
                 {ctaPrimaryLabel}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </Link>
             )}
             {ctaSecondaryLabel && ctaSecondaryLabel.trim().length > 0 && (
-              <Link href={ctaSecondaryHref || '/portfolio'} className="btn btn-outline btn-xl uppercase tracking-widest font-bold text-white">
+              <Link href={ctaSecondaryHref || '/portfolio'} className="btn btn-outline btn-xl">
                 {ctaSecondaryLabel}
               </Link>
             )}
