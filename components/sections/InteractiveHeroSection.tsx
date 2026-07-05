@@ -211,20 +211,20 @@ export default function InteractiveHeroSection({
             </motion.p>
           )}
 
-          <motion.p variants={fadeUp} initial="hidden" animate="show" custom={4} className="font-body text-white/35 mb-[28px] text-[13px] max-w-full">
+          <motion.p variants={fadeUp} initial="hidden" animate="show" custom={4} className="font-body text-white/35 mb-[28px] text-[13px] max-w-full flex flex-wrap items-center gap-x-1 gap-y-1.5">
             {trust ? (
               trust.includes(',') ? (
                 trust.split(',').map((t, i) => (
-                  <span key={i} className="whitespace-nowrap">
+                  <span key={i} className="whitespace-nowrap inline-flex items-center">
                     {i > 0 && <span className="text-primary/50 mx-[9px]">·</span>}
                     {stripLeadMark(t.trim())}
                   </span>
                 ))
               ) : trust
             ) : (
-              <>
+              <span>
                 Trusted by businesses in <span className="text-primary/80">USA</span>, <span className="text-primary/80">UAE</span>, and <span className="text-primary/80">Switzerland</span> for affordable, high-quality development.
-              </>
+              </span>
             )}
           </motion.p>
 
