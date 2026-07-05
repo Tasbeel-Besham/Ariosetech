@@ -23,11 +23,11 @@ export async function POST(req: NextRequest) {
 
   // data is a flat key/value map of the builder form's fields.
   const lead: Record<string, unknown> = { ...(data as Record<string, unknown>), source: formDoc.name }
-  await Promise.allSettled([
-    sendLeadNotification(lead),
-    // Only send a confirmation if the form captured an email address.
-    lead.email ? sendLeadConfirmation(lead) : Promise.resolve(false),
-  ])
+  // Customer confirmation first, then internal notification. Best-effort.
+  if (lead.email) {
+    try { await sendLeadConfirmation(lead) } catch (e) { console.error('[submit] confirmation failed', e) }
+  }
+  try { await sendLeadNotification(lead) } catch (e) { console.error('[submit] notification failed', e) }
 
   return NextResponse.json({ success: true })
 }
