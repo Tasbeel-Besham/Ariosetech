@@ -39,17 +39,24 @@ export async function getTheme(): Promise<SiteTheme> {
     const col = await getCollection('site_config')
     const doc = (await col.findOne({ key: 'theme' })) as Record<string, string> | null
     if (!doc) return DEFAULT_THEME
+    // Note: colorBg/colorText are intentionally NOT read from saved data anymore.
+    // They caused the whole app to render unreadable when set to a light value.
+    // The base surface is fixed in globals.css; only accents are themeable.
     return {
-      colorPrimary: doc.colorPrimary || DEFAULT_THEME.colorPrimary,
-      colorPrimaryDark: doc.colorPrimaryDark || doc.colorSecondary || DEFAULT_THEME.colorPrimaryDark,
-      colorSecondary: doc.colorSecondary || DEFAULT_THEME.colorSecondary,
-      colorBg: doc.colorBg || DEFAULT_THEME.colorBg,
-      colorText: doc.colorText || DEFAULT_THEME.colorText,
+      colorPrimary: isHex(doc.colorPrimary) ? doc.colorPrimary : DEFAULT_THEME.colorPrimary,
+      colorPrimaryDark: isHex(doc.colorPrimaryDark) ? doc.colorPrimaryDark : DEFAULT_THEME.colorPrimaryDark,
+      colorSecondary: isHex(doc.colorSecondary) ? doc.colorSecondary : DEFAULT_THEME.colorSecondary,
+      colorBg: DEFAULT_THEME.colorBg,
+      colorText: DEFAULT_THEME.colorText,
       borderRadius: doc.borderRadius || DEFAULT_THEME.borderRadius,
     }
   } catch {
     return DEFAULT_THEME
   }
+}
+
+function isHex(v: string | undefined): boolean {
+  return !!v && /^#?[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/.test(v.trim())
 }
 
 /**
@@ -60,6 +67,11 @@ export async function getTheme(): Promise<SiteTheme> {
 export function themeToCss(theme: SiteTheme): string {
   const primaryRgb = hexToRgb(theme.colorPrimary)
   const secondaryRgb = hexToRgb(theme.colorSecondary)
+  // Brand/accent variables are safe to override everywhere — they only recolour
+  // accents, never the readable base UI. Background & text are deliberately NOT
+  // set here: a bad value would make the whole app unreadable, and the admin must
+  // stay on its fixed dark surface. Site bg/text (if ever needed) are scoped
+  // separately below under .site-scope.
   return `:root{
 --primary:${theme.colorPrimary};
 --primary-rgb:${primaryRgb};
@@ -70,8 +82,6 @@ export function themeToCss(theme: SiteTheme): string {
 --secondary:${theme.colorSecondary};
 --secondary-rgb:${secondaryRgb};
 --grad:linear-gradient(135deg, ${theme.colorPrimary} 0%, ${theme.colorSecondary} 100%);
---bg:${theme.colorBg};
---text:${theme.colorText};
 --r-md:${theme.borderRadius};
 }`
 }

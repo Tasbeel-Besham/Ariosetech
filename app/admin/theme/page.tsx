@@ -26,8 +26,12 @@ export default function ThemeAdmin() {
 
   const save = async () => {
     setSaving(true)
-    await fetch('/api/theme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(theme) })
-    setSaving(false); toast.success('Theme saved! Redeploy to apply font changes.')
+    const res = await fetch('/api/theme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(theme) })
+    setSaving(false)
+    if (!res.ok) { toast.error('Could not save — are you logged in?'); return }
+    toast.success('Theme saved. Applying…')
+    // Colours are injected server-side at the root, so a full reload shows the change everywhere.
+    setTimeout(() => window.location.reload(), 700)
   }
 
   const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
@@ -70,8 +74,6 @@ export default function ThemeAdmin() {
             <ColorField k="colorPrimary"     label="Primary" />
             <ColorField k="colorSecondary"   label="Secondary (gradient end)" />
             <ColorField k="colorPrimaryDark" label="Primary Dark (hover/deep)" />
-            <ColorField k="colorBg"          label="Background" />
-            <ColorField k="colorText"        label="Text Color" />
           </div>
         </div>
 

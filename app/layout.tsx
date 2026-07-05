@@ -40,6 +40,9 @@ import Animations from '@/components/ui/Animations'
 import SpotlightEffect from '@/components/ui/SpotlightEffect'
 import { getTheme, themeToCss } from '@/lib/theme'
 
+// Read the live theme on every request so admin colour changes apply immediately.
+export const dynamic = 'force-dynamic'
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const theme = await getTheme()
   return (

@@ -17,7 +17,17 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json()
+  // Only persist brand/accent + typography. colorBg/colorText are deliberately
+  // dropped — they previously broke the whole UI when set to a light value.
+  const safe: Record<string, string> = {}
+  for (const k of ['colorPrimary', 'colorSecondary', 'colorPrimaryDark', 'fontDisplay', 'fontBody', 'borderRadius'] as const) {
+    if (typeof body[k] === 'string' && body[k].trim()) safe[k] = body[k].trim()
+  }
   const col = await getCollection('site_config')
-  await col.updateOne({ key: 'theme' }, { $set: { ...body, key: 'theme', updatedAt: new Date() } } as never, { upsert: true })
+  await col.updateOne(
+    { key: 'theme' },
+    { $set: { ...safe, key: 'theme', updatedAt: new Date() }, $unset: { colorBg: '', colorText: '', colorAccent: '' } } as never,
+    { upsert: true },
+  )
   return NextResponse.json({ success: true })
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
+import { sendLeadNotification, sendLeadConfirmation } from '@/lib/email'
 
 export async function POST(req: NextRequest) {
   const { formId, data } = await req.json()
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
   const form = await formsCol.findOne({ _id: new ObjectId(formId) })
   if (!form) return NextResponse.json({ error: 'Form not found' }, { status: 404 })
 
-  const formDoc = form as unknown as { name: string }
+  const formDoc = form as unknown as { name: string; emailTo?: string }
   const leadsCol = await getCollection('leads')
   await leadsCol.insertOne({
     formId, formName: formDoc.name, data,
@@ -20,22 +21,13 @@ export async function POST(req: NextRequest) {
     createdAt: new Date(),
   } as never)
 
-  // Send email if Resend configured
-  if (process.env.RESEND_API_KEY) {
-    try {
-      const formFields = form as unknown as { emailTo?: string; emailSubject?: string; name: string }
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.RESEND_API_KEY}` },
-        body: JSON.stringify({
-          from: 'noreply@ariosetech.com',
-          to: formFields.emailTo || 'info@ariosetech.com',
-          subject: formFields.emailSubject || `New submission: ${formFields.name}`,
-          html: `<h2>New Form Submission</h2><table>${Object.entries(data).map(([k, v]) => `<tr><td><b>${k}</b></td><td>${v}</td></tr>`).join('')}</table>`,
-        }),
-      })
-    } catch (e) { console.error('[submit] email failed', e) }
-  }
+  // data is a flat key/value map of the builder form's fields.
+  const lead: Record<string, unknown> = { ...(data as Record<string, unknown>), source: formDoc.name }
+  await Promise.allSettled([
+    sendLeadNotification(lead),
+    // Only send a confirmation if the form captured an email address.
+    lead.email ? sendLeadConfirmation(lead) : Promise.resolve(false),
+  ])
 
   return NextResponse.json({ success: true })
 }

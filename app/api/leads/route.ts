@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
+import { sendContactEmails } from '@/lib/email'
 
 // GET — admin only
 export async function GET(req: NextRequest) {
@@ -31,6 +32,11 @@ export async function POST(req: NextRequest) {
       updatedAt: new Date(),
     }
     const result = await col.insertOne(lead as never)
+
+    // Notify the business + send the visitor a branded confirmation.
+    // Best-effort: email problems never fail the submission.
+    await sendContactEmails(lead)
+
     return NextResponse.json({ success: true, _id: result.insertedId }, { status: 201 })
   } catch (err) {
     console.error('[leads POST]', err)
