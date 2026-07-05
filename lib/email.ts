@@ -121,7 +121,7 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
                 </tr>
               </table>
 
-              <h1 style="margin:0 0 12px; font-size:22px; color:#1a1a26; font-weight:700;">Thanks, ${name} — we got your message</h1>
+              <h1 style="margin:0 0 12px; font-size:22px; color:#1a1a26; font-weight:700;">Thanks, ${name} we got your message</h1>
 
               <p style="margin:0 0 16px; font-size:14px; color:#54546a; line-height:1.8;">
                 Your request about <strong style="color:#1a1a26;">${service}</strong> has reached our team. One of our experts will reply within <strong style="color:#1a1a26;">24 hours</strong> with next steps and a free quote.
@@ -139,7 +139,7 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
                 <div style="font-size:14px; color:#1a1a26; line-height:1.7;">${message}</div>
               </div>` : ''}
 
-              <p style="margin:0 0 20px; font-size:14px; color:#54546a; line-height:1.8;">Need something urgent? Message us on WhatsApp — we usually respond within minutes.</p>
+              <p style="margin:0 0 20px; font-size:14px; color:#54546a; line-height:1.8;">Need something urgent? Message us on WhatsApp, we usually respond within minutes.</p>
 
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
@@ -153,7 +153,7 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
                 </tr>
               </table>
 
-              <p style="margin:24px 0 0; font-size:12px; color:#9a9aa8; line-height:1.7;">This is an automatic confirmation — replying to this email reaches us too.</p>
+              <p style="margin:24px 0 0; font-size:12px; color:#9a9aa8; line-height:1.7;">This is an automatic confirmation replying to this email reaches us too.</p>
 
             </td>
           </tr>
@@ -161,7 +161,7 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
           <tr>
             <td style="padding:22px 32px; border-top:1px solid #eeeef4; background:#fafafc;">
               <p style="margin:0; font-size:11px; color:#9a9aa8; line-height:1.8;">
-                ARIOSETECH — WordPress, Shopify and WooCommerce development since 2017<br />
+                ARIOSETECH. WordPress, Shopify and WooCommerce development since 2017<br />
                 <a href="https://ariosetech.com" style="color:${accent}; text-decoration:none;">ariosetech.com</a> &nbsp;&middot;&nbsp;
                 <a href="mailto:info@ariosetech.com" style="color:${accent}; text-decoration:none;">info@ariosetech.com</a> &nbsp;&middot;&nbsp;
                 <a href="https://wa.me/923009484739" style="color:${accent}; text-decoration:none;">+92 300 9484739</a>
