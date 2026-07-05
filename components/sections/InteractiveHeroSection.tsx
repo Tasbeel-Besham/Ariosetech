@@ -171,19 +171,19 @@ export default function InteractiveHeroSection({
       <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] items-center gap-[56px] pt-[88px] pb-[72px] max-w-[1240px] mx-auto">
 
         {/* Left Side */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0 max-w-full">
           {eyebrow && eyebrow.trim().length > 0 && (
             <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
               <div className="inline-flex items-center gap-10 mb-20">
-                <div className="w-[22px] h-[1.5px] bg-grad" />
+                <div className="w-[22px] h-[1.5px] bg-grad shrink-0" />
                 <span className="font-mono uppercase tracking-widest text-white/35 text-[10.5px]">{stripLeadMark(eyebrow)}</span>
               </div>
             </motion.div>
           )}
 
           {headlineLines.length > 0 && (
-            <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1} className="mb-16 max-w-[640px]">
-              <h1 className="hero-headline text-balance">
+            <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1} className="mb-16 max-w-[640px] w-full">
+              <h1 className="hero-headline text-balance break-words">
                 {headlineLines.map((line, i) => (
                   <React.Fragment key={i}>
                     {i > 0 && <br />}
@@ -198,20 +198,20 @@ export default function InteractiveHeroSection({
             <motion.p
               variants={fadeUp} initial="hidden" animate="show" custom={2}
               className={subheadline.length > 140
-                ? 'hero-subheadline font-body text-white/55 max-w-[560px] leading-relaxed mb-14 text-[15.5px]'
-                : 'hero-subheadline font-display font-semibold text-white/80 max-w-[540px] leading-snug mb-14 text-[17px] tracking-tight'}
+                ? 'hero-subheadline font-body text-white/55 max-w-[560px] w-full leading-relaxed mb-14 text-[15.5px]'
+                : 'hero-subheadline font-display font-semibold text-white/80 max-w-[540px] w-full leading-snug mb-14 text-[17px] tracking-tight'}
             >
               {subheadline}
             </motion.p>
           )}
 
           {desc && (
-            <motion.p variants={fadeUp} initial="hidden" animate="show" custom={3} className="font-body text-white/45 max-w-[500px] leading-relaxed mb-20 text-[15px]">
+            <motion.p variants={fadeUp} initial="hidden" animate="show" custom={3} className="font-body text-white/45 max-w-[500px] w-full leading-relaxed mb-20 text-[15px]">
               {desc}
             </motion.p>
           )}
 
-          <motion.p variants={fadeUp} initial="hidden" animate="show" custom={4} className="font-body text-white/35 mb-[28px] text-[13px]">
+          <motion.p variants={fadeUp} initial="hidden" animate="show" custom={4} className="font-body text-white/35 mb-[28px] text-[13px] max-w-full">
             {trust ? (
               trust.includes(',') ? (
                 trust.split(',').map((t, i) => (

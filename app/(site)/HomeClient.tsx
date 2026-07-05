@@ -472,8 +472,8 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ FREE AUDIT ════════════════════════════════════════════ */}
       <section className="section">
         <div className="container">
-          <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-[28px] p-[clamp(40px,6vw,72px)] grid grid-cols-[1fr_1fr] gap-14 items-center max-md:grid-cols-1">
-            <div>
+          <div className="audit-card bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-[28px] p-[clamp(40px,6vw,72px)] grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
+            <div className="min-w-0">
               <p className="eyebrow">Free Audit</p>
               <h2 className="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-extrabold leading-[1.05] tracking-tight mb-4">
                 Get Your Free Website Performance Audit
@@ -486,13 +486,13 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
               </p>
               <p className="font-mono text-[11px] text-text-3 italic">No spam, ever. Detailed report delivered within 24 hours.</p>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 min-w-0">
               {AUDIT_ITEMS.map(item => (
-                <div key={item} className="flex items-center gap-4">
+                <div key={item} className="flex items-center gap-4 min-w-0">
                   <IconBox size={32} radius={10}>
                     <CheckSVG size={14} />
                   </IconBox>
-                  <span className="text-[15px] text-text-2 font-medium">{item}</span>
+                  <span className="text-[15px] text-text-2 font-medium min-w-0">{item}</span>
                 </div>
               ))}
               <Link href="/contact" className="btn btn-primary btn-lg mt-2.5 justify-center">

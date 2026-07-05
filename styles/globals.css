@@ -430,6 +430,20 @@ header { animation: slideDown 0.4s var(--ease) both; }
   .p-24 { padding: 20px !important; }
   /* Cap huge clamp-based padding on feature cards */
   .p-\[clamp\(40px\2c 6vw\2c 72px\)\] { padding: 28px !important; }
+
+  /* Safety net: any arbitrary 2-column grid collapses to one column so content
+     can't be pushed off-screen. Covers grid-cols-[1fr_1fr] and similar that the
+     inline-style fallback doesn't catch. */
+  .grid-cols-\[1fr_1fr\],
+  .grid-cols-\[1fr_80px_1fr\],
+  .grid-cols-\[repeat\(2\2c 1fr\)\] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Also below the md breakpoint (768px) for tablets in portrait */
+@media (max-width: 767px) {
+  .audit-card { grid-template-columns: 1fr !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1618,6 +1632,13 @@ span.pd-tech { display: inline-flex; }
   letter-spacing: -0.035em;
   color: #fff;
   margin-bottom: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+@media (max-width: 640px) {
+  .hero-headline { font-size: clamp(1.7rem, 8vw, 2.3rem); letter-spacing: -0.03em; }
+  /* Trust line: allow items to wrap to new rows on narrow screens */
+  .hero-subheadline { max-width: 100% !important; }
 }
 .hero-headline-inner {
   display: inline-flex;
