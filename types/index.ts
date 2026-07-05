@@ -69,12 +69,30 @@ export type PageDoc = {
   updatedAt: Date
 }
 
+export type BlogBlockType = 'h2' | 'h3' | 'p' | 'image' | 'quote' | 'list' | 'code' | 'callout' | 'divider' | 'button'
+
+export type BlogBlock = {
+  type: BlogBlockType
+  /** Main text for h2/h3/p/quote/callout, or the button label. */
+  text?: string
+  /** Image URL (image block) or button URL (button block). */
+  url?: string
+  /** Image alt text or caption; quote attribution. */
+  caption?: string
+  /** One item per line for list blocks. */
+  items?: string[]
+  /** true = ordered list, false/undefined = bullet list. */
+  ordered?: boolean
+  /** Language hint for code blocks (display only). */
+  lang?: string
+}
+
 export type BlogDoc = {
   _id?: ObjectId
   slug: string
   title: string
   excerpt: string
-  content: { type: 'h2' | 'p'; text: string }[]
+  content: BlogBlock[]
   featuredImage?: string
   coverImage?: string
   status: 'draft' | 'published'

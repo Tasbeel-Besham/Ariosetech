@@ -29,29 +29,24 @@ const slug = 'wordpress-speed-optimization-guide'
 
 // Body is a sequence of h2 headings and paragraphs — matches the blog content model.
 const content = [
-  { type: 'p',  text: 'A slow WordPress site quietly costs you customers. Studies consistently show that most visitors abandon a page that takes more than three seconds to load, and Google uses page speed as a ranking signal. The good news: most WordPress performance problems come from a short list of fixable causes. This guide walks through the ones that matter, in the order we tackle them for our own clients.' },
-
+  { type: 'p', text: 'A slow WordPress site quietly costs you customers. Most visitors abandon a page that takes more than three seconds to load, and Google uses page speed as a ranking signal. The good news: most WordPress performance problems come from a short, fixable list. Here is the exact order we tackle them.' },
+  { type: 'callout', text: 'Quick win: right-sizing and compressing images alone can cut total page weight in half. If you only do one thing on this list, do that.' },
   { type: 'h2', text: '1. Start With a Real Measurement' },
-  { type: 'p',  text: 'Before changing anything, measure. Run your homepage and one heavy inner page through Google PageSpeed Insights and a waterfall tool like WebPageTest. Note your Largest Contentful Paint, Total Blocking Time, and Cumulative Layout Shift. These three Core Web Vitals are what Google actually scores, so they are the numbers to move.' },
-  { type: 'p',  text: 'Write the numbers down. Optimization without a baseline is guesswork, and it is the only way to prove the work paid off.' },
-
-  { type: 'h2', text: '2. Choose Hosting That Is Built for WordPress' },
-  { type: 'p',  text: 'Cheap shared hosting is the single most common cause of a slow site. If your server takes 800 milliseconds just to respond before anything even downloads, no amount of plugin tuning will save you. Managed WordPress hosting with server-level caching and modern PHP gives you a faster starting point than any optimization plugin can.' },
-  { type: 'p',  text: 'Look for hosts that offer PHP 8.2 or newer, server-side caching, and a content delivery network. These fundamentals matter more than any single plugin.' },
-
-  { type: 'h2', text: '3. Optimize and Properly Size Your Images' },
-  { type: 'p',  text: 'Images are usually the largest thing on a page. Serve them in modern formats like WebP or AVIF, compress them, and never load a 3000-pixel image into a 400-pixel slot. Lazy-load anything below the fold so the browser only fetches what the visitor can actually see.' },
-  { type: 'p',  text: 'On a typical store, right-sizing images alone can cut total page weight in half. It is the highest-return task on this list for the least effort.' },
-
-  { type: 'h2', text: '4. Cache Aggressively' },
-  { type: 'p',  text: 'Caching stores a ready-made copy of your pages so the server does not rebuild them on every visit. A good caching setup combines page caching, browser caching, and object caching. Pair it with a content delivery network so visitors load your site from a server near them rather than from a single origin halfway around the world.' },
-
-  { type: 'h2', text: '5. Trim Plugins and Scripts' },
-  { type: 'p',  text: 'Every active plugin adds code, and some load their assets on every page whether they are needed there or not. Audit your plugin list, remove what you do not use, and defer or delay non-critical JavaScript so it does not block the first paint. A lean set of well-chosen plugins beats a pile of overlapping ones.' },
-
-  { type: 'h2', text: 'When to Bring in Help' },
-  { type: 'p',  text: 'If you have worked through this list and your site is still sluggish, the bottleneck is usually deeper: bloated theme code, an inefficient database, or render-blocking resources that need hands-on tuning. That is where a professional audit pays for itself, often turning a failing score into a 90-plus in a single engagement.' },
-  { type: 'p',  text: 'Speed is not a one-time task. It is a habit. Measure, fix the biggest problem, measure again, and repeat. Do that consistently and your site will stay fast as it grows.' },
+  { type: 'p', text: 'Before changing anything, measure. Run your homepage and one heavy inner page through Google PageSpeed Insights and note your Core Web Vitals.' },
+  { type: 'list', ordered: false, items: ['Largest Contentful Paint (LCP): under 2.5s', 'Interaction to Next Paint (INP): under 200ms', 'Cumulative Layout Shift (CLS): under 0.1'] },
+  { type: 'p', text: 'Write the numbers down. Optimization without a baseline is guesswork.' },
+  { type: 'image', url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80', caption: 'A performance waterfall reveals exactly what is slowing your page down.' },
+  { type: 'h2', text: '2. Choose Hosting Built for WordPress' },
+  { type: 'p', text: 'Cheap shared hosting is the single most common cause of a slow site. Managed WordPress hosting with server-level caching and modern PHP gives you a faster starting point than any plugin can.' },
+  { type: 'quote', text: 'Your server response time sets the ceiling for how fast your site can ever be. Fix that first.', caption: 'ARIOSETECH Engineering' },
+  { type: 'h2', text: '3. Cache Aggressively' },
+  { type: 'p', text: 'Caching stores a ready-made copy of your pages so the server does not rebuild them on every visit.' },
+  { type: 'code', lang: 'php', text: '// wp-config.php\ndefine( "WP_CACHE", true );\ndefine( "WP_REDIS_HOST", "127.0.0.1" );' },
+  { type: 'h3', text: 'Do not forget a CDN' },
+  { type: 'p', text: 'Pair caching with a content delivery network so visitors load your site from a server near them.' },
+  { type: 'divider' },
+  { type: 'p', text: 'Speed is a habit, not a one-time task. Measure, fix the biggest problem, measure again, and repeat.' },
+  { type: 'button', text: 'Get a Free Speed Audit', url: '/contact' },
 ]
 
 const now = new Date()

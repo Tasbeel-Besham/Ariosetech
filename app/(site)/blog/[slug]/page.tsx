@@ -6,6 +6,7 @@ import { ArrowLeft, Clock, Calendar, ArrowRight } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc } from '@/types'
 import ReadingProgress from '@/components/ui/ReadingProgress'
+import BlogContent from '@/components/blog/BlogContent'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -117,13 +118,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Body */}
         <div className="bp-content-section">
           <div className="container bp-narrow">
-            <div className="bp-prose">
-              {post.content.map((block, i) =>
-                block.type === 'h2'
-                  ? <h2 key={i} className="bp-h2">{block.text}</h2>
-                  : <p key={i} className="bp-p">{block.text}</p>
-              )}
-            </div>
+            <BlogContent blocks={post.content} />
 
             {post.tags.length > 0 && (
               <div className="bp-tags">

@@ -6,6 +6,8 @@ import { ArrowLeft, Save, Eye } from '@/components/ui/Icons'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
+import BlogBlockEditor from '@/components/admin/BlogBlockEditor'
+import type { BlogBlock } from '@/types'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
 
@@ -18,7 +20,7 @@ export default function EditBlogPost() {
     title: '', slug: '', excerpt: '', category: 'WordPress',
     author: 'ARIOSETECH Team', date: new Date().toISOString().split('T')[0],
     readTime: 5, tags: '', published: false,
-    content: [] as { type: 'h2' | 'p'; text: string }[],
+    content: [] as BlogBlock[],
     seo: { title: '', description: '', keywords: '', ogImage: '' },
   })
 
@@ -47,9 +49,6 @@ export default function EditBlogPost() {
 
   const set = (key: string, val: unknown) => setForm(f => ({ ...f, [key]: val }))
   const setSeo = (key: string, val: string) => setForm(f => ({ ...f, seo: { ...f.seo, [key]: val } }))
-  const addBlock = (type: 'h2' | 'p') => setForm(f => ({ ...f, content: [...f.content, { type, text: '' }] }))
-  const updateBlock = (i: number, text: string) => setForm(f => ({ ...f, content: f.content.map((b, j) => j === i ? { ...b, text } : b) }))
-  const removeBlock = (i: number) => setForm(f => ({ ...f, content: f.content.filter((_, j) => j !== i) }))
 
   const save = async (publish: boolean) => {
     setSaving(true)
@@ -128,22 +127,8 @@ export default function EditBlogPost() {
         </div>
 
         <div className={cardClass}>
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="font-display text-[15px] font-bold text-white">Content</h2>
-            <div className="flex gap-2">
-              <button onClick={() => addBlock('h2')} className="py-1.5 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display font-semibold hover:text-white hover:bg-bg-3 transition-colors">+ Heading</button>
-              <button onClick={() => addBlock('p')} className="py-1.5 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display font-semibold hover:text-white hover:bg-bg-3 transition-colors">+ Paragraph</button>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2.5">
-            {form.content.map((block, i) => (
-              <div key={i} className="flex gap-2.5 items-start">
-                <span className={`font-mono text-[9px] uppercase tracking-wider py-1 px-1.5 rounded border mt-2.5 shrink-0 ${block.type === 'h2' ? 'text-[color:var(--blue)] bg-[rgba(var(--primary-rgb),0.1)] border-[rgba(var(--primary-rgb),0.2)]' : 'text-text-3 bg-bg-4 border-border'}`}>{block.type === 'h2' ? 'H2' : 'P'}</span>
-                <textarea value={block.text} onChange={e => updateBlock(i, e.target.value)} rows={block.type === 'h2' ? 1 : 3} className={`${inpClass} flex-1 resize-y ${block.type === 'h2' ? 'text-[15px] font-bold font-display' : 'text-[13px] font-normal font-body'}`} />
-                <button onClick={() => removeBlock(i)} className="p-2 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 shrink-0 mt-[1px] transition-colors hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]"></button>
-              </div>
-            ))}
-          </div>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Content</h2>
+          <BlogBlockEditor blocks={form.content} onChange={blocks => set('content', blocks)} />
         </div>
 
         <div className={cardClass}>
