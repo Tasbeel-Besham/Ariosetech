@@ -80,38 +80,107 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
   if (!lead.email) return false
   const from = process.env.EMAIL_FROM || 'ARIOSETECH <noreply@ariosetech.com>'
 
+  // Accent colour follows the admin theme; the template itself is a light layout.
   const theme = await getTheme()
-  const primary = theme.colorPrimary || '#766cff'
-  const secondary = theme.colorSecondary || '#9b8fff'
-  const name = lead.name ? esc(lead.name).split(' ')[0] : 'there'
+  const accent = theme.colorPrimary || '#766cff'
 
-  const html = `<div style="background:#0a0a12;padding:32px 16px;font-family:system-ui,-apple-system,sans-serif">
-    <div style="max-width:520px;margin:0 auto;background:#12121f;border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden">
-      <div style="height:4px;background:linear-gradient(90deg,${primary},${secondary})"></div>
-      <div style="padding:36px 32px">
-        <div style="font-family:sans-serif;font-weight:800;letter-spacing:2px;color:#fff;font-size:20px;margin-bottom:24px">ARIOSETECH</div>
-        <h1 style="color:#fff;font-size:22px;margin:0 0 14px">Thanks, ${name} — we've got your message.</h1>
-        <p style="color:#b0b0cc;font-size:15px;line-height:1.7;margin:0 0 16px">
-          Our team will review your enquiry and get back to you within one business day.
-          If it's urgent, reply to this email or reach us on WhatsApp.
-        </p>
-        ${lead.message ? `<div style="background:#0a0a12;border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 16px;margin:0 0 20px">
-          <p style="color:#7a7a9a;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:0 0 6px">Your message</p>
-          <p style="color:#d0d0e0;font-size:14px;line-height:1.6;margin:0">${esc(lead.message).replace(/\n/g, '<br/>')}</p>
-        </div>` : ''}
-        <a href="https://ariosetech.com/portfolio" style="display:inline-block;background:linear-gradient(180deg,${secondary},${primary});color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:12px 24px;border-radius:10px">See our recent work →</a>
-        <p style="color:#5a5a72;font-size:12px;line-height:1.6;margin:28px 0 0">
-          ARIOSETECH · Professional WordPress, Shopify &amp; WooCommerce development since 2017<br/>
-          You're receiving this because you contacted us at ariosetech.com.
-        </p>
-      </div>
-    </div>
-  </div>`
+  const name = lead.name ? esc(String(lead.name)).split(' ')[0] : 'there'
+  const service = lead.service ? esc(String(lead.service)) : 'your project'
+  const budget = lead.budget ? esc(String(lead.budget)) : 'To be discussed'
+  const phone = lead.phone ? esc(String(lead.phone)) : 'Not provided'
+  const message = lead.message ? esc(String(lead.message)).replace(/\n/g, '<br />') : ''
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <title>We received your request</title>
+</head>
+<body style="margin:0; padding:0; background:#eef0f5; font-family:'Segoe UI', Arial, Helvetica, sans-serif; -webkit-font-smoothing:antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef0f5; padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(20,20,45,0.08);">
+
+          <tr><td style="height:4px; background:${accent}; line-height:4px; font-size:0;">&nbsp;</td></tr>
+
+          <tr>
+            <td style="background:#0a0a12; padding:26px 32px; text-align:center;">
+              <img src="https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png" alt="ARIOSETECH" width="220" style="display:inline-block; width:220px; max-width:70%; height:auto; border:0;" />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:34px 32px;">
+
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
+                <tr>
+                  <td style="width:48px; height:48px; border-radius:50%; background:#eeedfe; text-align:center; vertical-align:middle; font-size:26px; color:${accent}; line-height:48px;">&#10003;</td>
+                </tr>
+              </table>
+
+              <h1 style="margin:0 0 12px; font-size:22px; color:#1a1a26; font-weight:700;">Thanks, ${name} — we got your message</h1>
+
+              <p style="margin:0 0 16px; font-size:14px; color:#54546a; line-height:1.8;">
+                Your request about <strong style="color:#1a1a26;">${service}</strong> has reached our team. One of our experts will reply within <strong style="color:#1a1a26;">24 hours</strong> with next steps and a free quote.
+              </p>
+
+              <div style="background:#f6f6fa; border:1px solid #eeeef4; border-radius:12px; padding:16px 18px; margin:0 0 18px;">
+                <div style="font-size:10px; color:#9a9aa8; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Summary of your request</div>
+                <div style="font-size:13px; color:#54546a; padding:3px 0;"><span style="color:#9a9aa8;">Service:</span> <strong style="color:#1a1a26;">${service}</strong></div>
+                <div style="font-size:13px; color:#54546a; padding:3px 0;"><span style="color:#9a9aa8;">Budget:</span> <strong style="color:#1a1a26;">${budget}</strong></div>
+                <div style="font-size:13px; color:#54546a; padding:3px 0;"><span style="color:#9a9aa8;">Phone:</span> <strong style="color:#1a1a26;">${phone}</strong></div>
+              </div>
+
+              ${message ? `<div style="background:#f6f6fa; border:1px solid #eeeef4; border-radius:12px; padding:16px 18px; margin:0 0 22px;">
+                <div style="font-size:10px; color:#9a9aa8; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">A copy of your enquiry</div>
+                <div style="font-size:14px; color:#1a1a26; line-height:1.7;">${message}</div>
+              </div>` : ''}
+
+              <p style="margin:0 0 20px; font-size:14px; color:#54546a; line-height:1.8;">Need something urgent? Message us on WhatsApp — we usually respond within minutes.</p>
+
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="border-radius:10px; background:${accent};">
+                    <a href="https://wa.me/923009484739" style="display:inline-block; padding:13px 26px; font-size:14px; font-weight:700; color:#ffffff; text-decoration:none;">Chat on WhatsApp</a>
+                  </td>
+                  <td style="width:12px;">&nbsp;</td>
+                  <td style="border-radius:10px; border:1px solid #d9d9e6;">
+                    <a href="https://ariosetech.com/portfolio" style="display:inline-block; padding:13px 26px; font-size:14px; font-weight:700; color:#1a1a26; text-decoration:none;">See our work</a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:24px 0 0; font-size:12px; color:#9a9aa8; line-height:1.7;">This is an automatic confirmation — replying to this email reaches us too.</p>
+
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:22px 32px; border-top:1px solid #eeeef4; background:#fafafc;">
+              <p style="margin:0; font-size:11px; color:#9a9aa8; line-height:1.8;">
+                ARIOSETECH — WordPress, Shopify and WooCommerce development since 2017<br />
+                <a href="https://ariosetech.com" style="color:${accent}; text-decoration:none;">ariosetech.com</a> &nbsp;&middot;&nbsp;
+                <a href="mailto:info@ariosetech.com" style="color:${accent}; text-decoration:none;">info@ariosetech.com</a> &nbsp;&middot;&nbsp;
+                <a href="https://wa.me/923009484739" style="color:${accent}; text-decoration:none;">+92 300 9484739</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
 
   return send({
     from,
+    reply_to: process.env.EMAIL_TO || 'info@ariosetech.com',
     to: String(lead.email),
-    subject: "We received your message — ARIOSETECH",
+    subject: 'We received your request — ARIOSETECH',
     html,
   })
 }
