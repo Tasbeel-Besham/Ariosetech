@@ -116,7 +116,7 @@ export default function FooterAdmin() {
 
         {/* CTA */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">📢 CTA Banner</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">CTA Banner</h2>
           <div className="flex flex-col gap-3">
             <div><label className={lblClass}>Headline</label><input value={String(config.ctaHeadline || '')} onChange={e => set('ctaHeadline', e.target.value)} className={inpClass} /></div>
             <div><label className={lblClass}>Description</label><input value={String(config.ctaDesc || '')} onChange={e => set('ctaDesc', e.target.value)} className={inpClass} /></div>
@@ -129,7 +129,7 @@ export default function FooterAdmin() {
 
         {/* Tagline */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-[14px]">✍️ Brand Tagline</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-[14px]">Brand Tagline</h2>
           <div><label className={lblClass}>Tagline (shown under logo in footer)</label>
             <textarea value={String(config.tagline || '')} onChange={e => set('tagline', e.target.value)} rows={2} className={`${inpClass} resize-y`} />
           </div>
@@ -138,7 +138,7 @@ export default function FooterAdmin() {
         {/* Link Columns */}
         <div className={cardClass}>
           <div className="flex justify-between items-center mb-5 flex-wrap gap-3">
-            <h2 className="font-display text-[15px] font-bold text-white">🔗 Navigation Columns</h2>
+            <h2 className="font-display text-[15px] font-bold text-white">Navigation Columns</h2>
             <div className="flex gap-2">
               <button onClick={populateMegaMenu} className="btn btn-outline btn-sm border-primary/40 text-primary hover:border-primary hover:bg-primary/5">Populate Mega Menu</button>
               <button onClick={addCol} className="btn btn-outline btn-sm"><Plus size={12} /> Add Column</button>
@@ -157,7 +157,7 @@ export default function FooterAdmin() {
                   <div key={li} className="flex gap-[5px] mb-[5px] items-center">
                     <input value={link.label} onChange={e => updateLink(ci, li, 'label', e.target.value)} className={`${inpClass} flex-1 text-xs py-1.5 px-2`} placeholder="Label" />
                     <input value={link.href} onChange={e => updateLink(ci, li, 'href', e.target.value)} className={`${inpClass} flex-1 text-[11px] py-1.5 px-2 font-mono`} placeholder="/url" />
-                    <button onClick={() => removeLink(ci, li)} className="bg-transparent border-none cursor-pointer text-text-3 px-[2px] transition-colors hover:text-[#ff4d6d]">✕</button>
+                    <button onClick={() => removeLink(ci, li)} className="bg-transparent border-none cursor-pointer text-text-3 px-[2px] transition-colors hover:text-[#ff4d6d]"></button>
                   </div>
                 ))}
                 <button onClick={() => addLink(ci)} className="w-full py-1.5 rounded-md border border-dashed border-border bg-transparent text-text-3 cursor-pointer text-[11px] mt-1 hover:text-white hover:border-text-3">+ Add Link</button>
@@ -168,7 +168,7 @@ export default function FooterAdmin() {
 
         {/* Bottom text */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-[14px]">⬇️ Bottom Copyright Bar</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-[14px]">Bottom Copyright Bar</h2>
           <div><label className={lblClass}>Copyright Text</label>
             <input value={String(config.bottomText || '')} onChange={e => set('bottomText', e.target.value)} className={inpClass} />
           </div>

@@ -94,7 +94,7 @@ export default function SettingsAdmin() {
 
         {/* ── LOGO & FAVICON ── */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">🎨 Logo &amp; Favicon</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Logo &amp; Favicon</h2>
           <p className="text-[13px] text-text-3 mb-5 leading-[1.6]">
             Changing the logo here updates it <strong className="text-text-2">everywhere</strong>, navbar, footer, admin panel, and OG image. Changing the favicon updates the browser tab icon.
           </p>
@@ -157,7 +157,7 @@ export default function SettingsAdmin() {
 
         {/* ── SITE INFO ── */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">🏢 Site Information</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">Site Information</h2>
           <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
             {[
               { k:'site_name', l:'Site Name',   ph:'ARIOSETECH' },
@@ -170,7 +170,7 @@ export default function SettingsAdmin() {
 
         {/* ── CONTACT ── */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">📞 Contact Details</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">Contact Details</h2>
           <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
             {[
               { k:'email',    l:'Email',           ph:'info@ariosetech.com' },
@@ -185,7 +185,7 @@ export default function SettingsAdmin() {
 
         {/* ── SOCIAL ── */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">🔗 Social Media</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">Social Media</h2>
           <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
             {[
               { k:'facebook',  l:'Facebook URL',  ph:'https://facebook.com/ariosetech' },

@@ -334,7 +334,7 @@ export default function EditPortfolio() {
                           <div key={ri} className="grid grid-cols-[1fr_1fr_auto] gap-2 mb-2 items-center max-sm:grid-cols-[1fr_auto]">
                             <div className="max-sm:col-span-2"><input value={r.value} onChange={e => updateResult(block.id, ri, 'value', e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="+300%" /></div>
                             <div className="max-sm:col-span-1"><input value={r.label} onChange={e => updateResult(block.id, ri, 'label', e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="Revenue Growth" /></div>
-                            <button onClick={() => removeResult(block.id, ri)} className="bg-transparent border-none cursor-pointer text-text-3 p-1 transition-colors hover:text-[#ff4d6d]">✕</button>
+                            <button onClick={() => removeResult(block.id, ri)} className="bg-transparent border-none cursor-pointer text-text-3 p-1 transition-colors hover:text-[#ff4d6d]"></button>
                           </div>
                         ))}
                       </div>
@@ -351,7 +351,7 @@ export default function EditPortfolio() {
                           <div key={ii} className="flex gap-2 mb-1.5 items-center">
                             <span className="font-mono text-[10px] text-primary min-w-[18px]">{ii+1}.</span>
                             <input value={item} onChange={e => updateItem(block.id, ii, e.target.value)} className={`${inpClass} flex-1 text-xs py-[7px] px-2.5`} placeholder={block.type === 'process' ? 'Step description…' : block.type === 'technology' ? 'Technology name' : 'Highlight point'} />
-                            <button onClick={() => removeItem(block.id, ii)} className="bg-transparent border-none cursor-pointer text-text-3 transition-colors hover:text-[#ff4d6d]">✕</button>
+                            <button onClick={() => removeItem(block.id, ii)} className="bg-transparent border-none cursor-pointer text-text-3 transition-colors hover:text-[#ff4d6d]"></button>
                           </div>
                         ))}
                       </div>
@@ -370,7 +370,7 @@ export default function EditPortfolio() {
                             <div key={ii} className="grid grid-cols-[1fr_1fr_auto] gap-2 mb-1.5 max-sm:grid-cols-[1fr_auto]">
                               <div className="max-sm:col-span-2"><input value={val || ''} onChange={e => updateMetric(block.id, ii, 0, e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="+300%" /></div>
                               <div className="max-sm:col-span-1"><input value={lbl2 || ''} onChange={e => updateMetric(block.id, ii, 1, e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="Revenue Growth" /></div>
-                              <button onClick={() => removeMetric(block.id, ii)} className="bg-transparent border-none cursor-pointer text-text-3 transition-colors hover:text-[#ff4d6d]">✕</button>
+                              <button onClick={() => removeMetric(block.id, ii)} className="bg-transparent border-none cursor-pointer text-text-3 transition-colors hover:text-[#ff4d6d]"></button>
                             </div>
                           )
                         })}

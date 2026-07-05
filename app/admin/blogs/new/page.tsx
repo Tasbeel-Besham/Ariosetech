@@ -95,7 +95,7 @@ export default function NewBlogPost() {
 
         {/* Basic Info */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">📝 Post Details</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Post Details</h2>
           <div className="flex flex-col gap-4">
             <div>
               <label className={lblClass}>Title *</label>
@@ -141,7 +141,7 @@ export default function NewBlogPost() {
         {/* Content editor */}
         <div className={cardClass}>
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-display text-[15px] font-bold text-white">✍️ Content</h2>
+            <h2 className="font-display text-[15px] font-bold text-white">Content</h2>
             <div className="flex gap-2">
               <button onClick={() => addBlock('h2')} className="py-1.5 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display font-semibold hover:text-white hover:bg-bg-3 transition-colors">
                 + Heading
@@ -180,7 +180,7 @@ export default function NewBlogPost() {
 
         {/* SEO */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">🔍 SEO Settings</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">SEO Settings</h2>
           <div className="flex flex-col gap-3.5">
             <div>
               <label className={lblClass}>SEO Title <span className="text-text-3 font-normal">(50-60 chars recommended)</span></label>

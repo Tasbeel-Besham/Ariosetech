@@ -43,7 +43,7 @@ export default function TrackingAdmin() {
         </div>
 
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">📊 Analytics IDs</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Analytics IDs</h2>
           <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
             {[
               { key: 'googleAnalyticsId',   label: 'Google Analytics 4 ID',  placeholder: 'G-XXXXXXXXXX' },
@@ -61,7 +61,7 @@ export default function TrackingAdmin() {
         </div>
 
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-2">📜 Custom Scripts</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-2">Custom Scripts</h2>
           <p className="text-xs text-text-3 mb-5">Add custom HTML/JS scripts (e.g. live chat, CRMs). These require a code update to inject.</p>
           <div className="flex flex-col gap-4">
             <div>

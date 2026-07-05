@@ -78,7 +78,7 @@ export default function HeaderAdmin() {
 
         {/* Logo */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">🖼 Logo</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">Logo</h2>
 
           {/* Upload area */}
           <div className="flex gap-4 items-start mb-4 max-sm:flex-col">
@@ -147,7 +147,7 @@ export default function HeaderAdmin() {
         {/* Top bar */}
         <div className={cardClass}>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-display text-[15px] font-bold text-white">📢 Top Bar</h2>
+            <h2 className="font-display text-[15px] font-bold text-white">Top Bar</h2>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={Boolean(config.showTopBar)} onChange={e => set('showTopBar', e.target.checked)} className="accent-primary" />
               <span className="text-[13px] text-text-2">Show top bar</span>
@@ -162,7 +162,7 @@ export default function HeaderAdmin() {
 
         {/* CTA Buttons */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">🔘 CTA Buttons</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">CTA Buttons</h2>
           <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
             <div><label className={lblClass}>Primary Button Label</label><input value={String(config.ctaPrimaryLabel || '')} onChange={e => set('ctaPrimaryLabel', e.target.value)} className={inpClass} /></div>
             <div><label className={lblClass}>Primary Button URL</label><input value={String(config.ctaPrimaryHref || '')} onChange={e => set('ctaPrimaryHref', e.target.value)} className={inpClass} /></div>
@@ -173,7 +173,7 @@ export default function HeaderAdmin() {
 
         {/* Options */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">⚙️ Options</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">Options</h2>
           <div className="flex gap-6 flex-wrap">
             {[
               { key: 'sticky', label: 'Sticky header', desc: 'Header stays on scroll' },

@@ -103,7 +103,7 @@ export default function EditBlogPost() {
         </div>
 
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">📝 Post Details</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Post Details</h2>
           <div className="flex flex-col gap-4">
             <div>
               <label className={lblClass}>Title</label>
@@ -129,7 +129,7 @@ export default function EditBlogPost() {
 
         <div className={cardClass}>
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-display text-[15px] font-bold text-white">✍️ Content</h2>
+            <h2 className="font-display text-[15px] font-bold text-white">Content</h2>
             <div className="flex gap-2">
               <button onClick={() => addBlock('h2')} className="py-1.5 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display font-semibold hover:text-white hover:bg-bg-3 transition-colors">+ Heading</button>
               <button onClick={() => addBlock('p')} className="py-1.5 px-3 rounded-lg border border-border bg-transparent text-text-3 cursor-pointer text-xs font-display font-semibold hover:text-white hover:bg-bg-3 transition-colors">+ Paragraph</button>
@@ -140,14 +140,14 @@ export default function EditBlogPost() {
               <div key={i} className="flex gap-2.5 items-start">
                 <span className={`font-mono text-[9px] uppercase tracking-wider py-1 px-1.5 rounded border mt-2.5 shrink-0 ${block.type === 'h2' ? 'text-[color:var(--blue)] bg-[rgba(var(--primary-rgb),0.1)] border-[rgba(var(--primary-rgb),0.2)]' : 'text-text-3 bg-bg-4 border-border'}`}>{block.type === 'h2' ? 'H2' : 'P'}</span>
                 <textarea value={block.text} onChange={e => updateBlock(i, e.target.value)} rows={block.type === 'h2' ? 1 : 3} className={`${inpClass} flex-1 resize-y ${block.type === 'h2' ? 'text-[15px] font-bold font-display' : 'text-[13px] font-normal font-body'}`} />
-                <button onClick={() => removeBlock(i)} className="p-2 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 shrink-0 mt-[1px] transition-colors hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]">✕</button>
+                <button onClick={() => removeBlock(i)} className="p-2 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 shrink-0 mt-[1px] transition-colors hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]"></button>
               </div>
             ))}
           </div>
         </div>
 
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">🔍 SEO</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">SEO</h2>
           <div className="flex flex-col gap-3.5">
             <div>
               <label className={lblClass}>SEO Title</label>

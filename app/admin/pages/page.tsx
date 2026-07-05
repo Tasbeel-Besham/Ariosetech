@@ -137,7 +137,7 @@ export default function PagesAdmin() {
                     <td className="font-display font-semibold text-white">{page.title}</td>
                     <td><code className="font-mono text-[11px] text-text-3">{page.fullPath}</code></td>
                     <td className="text-xs">
-                      {page.seo?.title ? <span className="text-text-2">{page.seo.title.slice(0, 40)}</span> : <span className="text-amber-400 text-[11px]">⚠ Missing</span>}
+                      {page.seo?.title ? <span className="text-text-2">{page.seo.title.slice(0, 40)}</span> : <span className="text-amber-400 text-[11px]">Missing</span>}
                     </td>
                     <td><span className={`status-badge status-badge--${page.status}`}>{page.status}</span></td>
                     <td className="font-mono text-[11px] text-text-3">{new Date(page.updatedAt).toLocaleDateString()}</td>
@@ -171,7 +171,7 @@ export default function PagesAdmin() {
                 <h2 className="font-display text-[17px] font-extrabold text-white">SEO & URL Settings</h2>
                 <p className="font-mono text-[10px] text-text-3 mt-1">{editSeo.fullPath}</p>
               </div>
-              <button onClick={() => setEditSeo(null)} className="bg-transparent border-none text-text-3 cursor-pointer text-lg hover:text-white">✕</button>
+              <button onClick={() => setEditSeo(null)} className="bg-transparent border-none text-text-3 cursor-pointer text-lg hover:text-white"></button>
             </div>
             <div className="p-6 flex flex-col gap-4">
               <div><label className={lblClass}>Slug</label>

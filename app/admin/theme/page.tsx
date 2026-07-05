@@ -117,7 +117,7 @@ export default function ThemeAdmin() {
 
         {/* Typography */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">🔤 Typography</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Typography</h2>
           <div className="grid grid-cols-[1fr_1fr_120px] gap-4 max-md:grid-cols-1">
             <div>
               <label className={lblClass}>Display / Heading Font</label>

@@ -298,7 +298,7 @@ export default function MenusAdmin() {
                               {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
                             </select>
                             <button onClick={() => removeChild(i, ci)}
-                              className="p-[5px] rounded-md border-none bg-transparent cursor-pointer text-text-3 text-[13px] transition-colors hover:text-[#ff4d6d]">✕</button>
+                              className="p-[5px] rounded-md border-none bg-transparent cursor-pointer text-text-3 text-[13px] transition-colors hover:text-[#ff4d6d]"></button>
                           </div>
                         ))}
                       </div>

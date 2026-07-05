@@ -277,7 +277,7 @@ function ToolsPanel({ onEnter, onLeave, links }: { onEnter: () => void; onLeave:
 
 /* ── Mobile Drawer ── */
 function MobileDrawer({
-  open, setOpen, isActive, siteName, tagline, logoUrl, navLinks, serviceTabs
+  open, setOpen, isActive, siteName, tagline, logoUrl, navLinks, serviceTabs, toolLinks
 }: {
   open: boolean
   setOpen: (v: boolean) => void
@@ -287,6 +287,7 @@ function MobileDrawer({
   logoUrl: string
   navLinks: any[]
   serviceTabs: any[]
+  toolLinks: any[]
 }) {
   const [scope, animate] = useAnimate()
   const [drawerRef, { height }] = useMeasure()
@@ -349,28 +350,44 @@ function MobileDrawer({
 
           {/* Primary links */}
           <nav className="drawer-nav">
-            {navLinks.map(item => (
-              <Link key={item.href} href={item.href} className={`drawer-link${isActive(item.href) ? ' active' : ''}`}>
+            {navLinks.filter(item => !item.hasMega && !item.hasTools).map(item => (
+              <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className={`drawer-link${isActive(item.href) ? ' active' : ''}`}>
                 {item.label}
               </Link>
             ))}
           </nav>
 
           {/* Service sub-links */}
-          <div className="mb-32">
-            <p className="drawer-svc-label">Services</p>
-            <div className="drawer-svc-grid">
-              {serviceTabs.map(t => (
-                <Link key={t.id} href={t.href} className="drawer-svc-link">
-                  <span className="drawer-svc-icon">{t.icon}</span>
-                  {t.label}
-                </Link>
-              ))}
+          {serviceTabs.length > 0 && (
+            <div className="mb-32">
+              <p className="drawer-svc-label">Services</p>
+              <div className="drawer-svc-grid">
+                {serviceTabs.map(t => (
+                  <Link key={t.id} href={t.href} onClick={() => setOpen(false)} className="drawer-svc-link">
+                    <span className="drawer-svc-icon">{t.icon}</span>
+                    {t.label}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Tools sub-links */}
+          {toolLinks.length > 0 && (
+            <div className="mb-32">
+              <p className="drawer-svc-label">Tools</p>
+              <div className="flex flex-col gap-1">
+                {toolLinks.map(t => (
+                  <Link key={t.href} href={t.href} onClick={() => setOpen(false)} className="drawer-link" style={{ fontSize: '15px', paddingTop: '10px', paddingBottom: '10px' }}>
+                    {t.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* CTA */}
-          <Link href="/contact" className="btn btn-primary btn-lg w-full justify-center">
+          <Link href="/contact" onClick={() => setOpen(false)} className="btn btn-primary btn-lg w-full justify-center">
             Get Free Quote
           </Link>
         </div>
@@ -592,6 +609,7 @@ export default function Navbar() {
       logoUrl={logoUrl} 
       navLinks={navLinks}
       serviceTabs={serviceTabs}
+      toolLinks={toolLinks}
     />
     </>
   )
