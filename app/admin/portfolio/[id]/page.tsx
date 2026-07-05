@@ -238,7 +238,7 @@ export default function EditPortfolio() {
             return (
               <div key={block.id} className={`bg-bg-2 border rounded-xl overflow-hidden transition-colors duration-200 ${block.open ? 'border-primary/35' : 'border-border'}`}>
 
-                {/* Block header — click to expand */}
+                {/* Block header, click to expand */}
                 <div className="flex items-center gap-2 py-2.5 px-3.5 cursor-pointer select-none"
                   onClick={() => toggle(block.id)}>
                   <GripVertical size={14} className="text-text-3 shrink-0" />
@@ -329,7 +329,7 @@ export default function EditPortfolio() {
                           <button onClick={() => addResult(block.id)} className="font-mono text-[10px] text-primary bg-transparent border-none cursor-pointer hover:underline">+ Add</button>
                         </div>
                         {((block.items || []) as Result[]).length === 0
-                          ? <p className="text-xs text-text-3 text-center p-3">No stats yet — click + Add</p>
+                          ? <p className="text-xs text-text-3 text-center p-3">No stats yet, click + Add</p>
                           : ((block.items || []) as Result[]).map((r, ri) => (
                           <div key={ri} className="grid grid-cols-[1fr_1fr_auto] gap-2 mb-2 items-center max-sm:grid-cols-[1fr_auto]">
                             <div className="max-sm:col-span-2"><input value={r.value} onChange={e => updateResult(block.id, ri, 'value', e.target.value)} className={`${inpClass} text-xs py-[7px] px-2.5`} placeholder="+300%" /></div>

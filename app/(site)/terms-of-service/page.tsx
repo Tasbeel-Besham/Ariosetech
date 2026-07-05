@@ -80,7 +80,7 @@ export default function TermsOfServicePage() {
 
         <Section title="4. 30-Day Money-Back Guarantee">
           <p>
-            We offer a 30-day money-back guarantee on all web development projects. If you are not satisfied with our work within 30 days of project delivery, we will refund your payment in full — no questions asked. This guarantee applies to development projects only and not to ongoing maintenance, SEO retainers, or domain/hosting costs.
+            We offer a 30-day money-back guarantee on all web development projects. If you are not satisfied with our work within 30 days of project delivery, we will refund your payment in full, no questions asked. This guarantee applies to development projects only and not to ongoing maintenance, SEO retainers, or domain/hosting costs.
           </p>
         </Section>
 

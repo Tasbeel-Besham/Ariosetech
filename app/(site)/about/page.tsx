@@ -7,7 +7,7 @@ import CtaSection from '@/components/sections/CtaSection'
 import Reveal from '@/components/motion/Reveal'
 
 export const metadata: Metadata = {
-  title: 'About ARIOSETECH — Professional Web Development Since 2017',
+  title: 'About ARIOSETECH, Professional Web Development Since 2017',
   description: 'Meet the team behind 100+ successful web development projects. WordPress, WooCommerce, and Shopify specialists based in Lahore, Pakistan.',
 }
 
@@ -47,7 +47,7 @@ export default function AboutPage() {
       <InteractiveHeroSection 
         eyebrow="About Us"
         headline={'Specialists, Not Generalists.\nConsider It Solved.'}
-        subheadline="ARIOSETECH was founded with one mission: give growing businesses access to the same quality of web development that enterprise brands enjoy — at honest, transparent prices."
+        subheadline="ARIOSETECH was founded with one mission: give growing businesses access to the same quality of web development that enterprise brands enjoy, at honest, transparent prices."
         ctaPrimaryLabel="Work With Us"
         ctaPrimaryHref="/contact"
         ctaSecondaryLabel="View Our Services"
@@ -67,14 +67,14 @@ export default function AboutPage() {
               <div className="flex flex-col gap-[20px]">
                 <p className="text-[16px] text-text-2 leading-[1.85]">
                   Since 2017, we've helped 100+ businesses across 40+ industries scale their online presence. From small fashion brands in Lahore to international B2B
-                  distributors in Switzerland and the UAE — we've seen what works and what doesn't.
+                  distributors in Switzerland and the UAE, we've seen what works and what doesn't.
                 </p>
                 <p className="text-[16px] text-text-2 leading-[1.85]">
-                  We don't dabble in everything. <strong className="text-white">WordPress, WooCommerce, and Shopify</strong> are all we do — and we do them
+                  We don't dabble in everything. <strong className="text-white">WordPress, WooCommerce, and Shopify</strong> are all we do, and we do them
                   exceptionally well. Every project gets our full expertise, not a junior who googled it.
                 </p>
                 <p className="text-[16px] text-text-2 leading-[1.85]">
-                  Based in <strong className="text-white">Lahore, Pakistan</strong>, we serve clients globally across the USA, UAE, Switzerland, and beyond —
+                  Based in <strong className="text-white">Lahore, Pakistan</strong>, we serve clients globally across the USA, UAE, Switzerland, and beyond  - 
                   delivering world-class quality at honest prices.
                 </p>
               </div>
@@ -129,8 +129,8 @@ export default function AboutPage() {
               {[
                 { icon: <ValIcon1 />, title: 'Specialists Only', desc: 'We only work with WordPress, WooCommerce, and Shopify. This focus means deeper expertise and better results for you.' },
                 { icon: <ValIcon2 />, title: 'Transparent Communication', desc: "No hidden fees, no surprises. You know exactly what you're getting, when you're getting it, and what it costs." },
-                { icon: <ValIcon3 />, title: 'Speed Without Compromise', desc: 'We deliver fast because we\'ve done it before. Our team knows these platforms inside out — no learning on your dime.' },
-                { icon: <ValIcon4 />, title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth — we\'re your long-term web partner.' }
+                { icon: <ValIcon3 />, title: 'Speed Without Compromise', desc: 'We deliver fast because we\'ve done it before. Our team knows these platforms inside out, no learning on your dime.' },
+                { icon: <ValIcon4 />, title: 'Long-term Partnership', desc: 'We don\'t disappear after launch. Ongoing support, maintenance, and growth, we\'re your long-term web partner.' }
               ].map((v, i) => (
                 <div key={v.title} className="card card-hover flex gap-[24px] p-[32px] relative overflow-hidden items-start" style={{ animationDelay: `${i * 0.1}s` }}>
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />

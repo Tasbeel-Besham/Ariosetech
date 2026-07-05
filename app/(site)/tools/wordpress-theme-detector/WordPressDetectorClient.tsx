@@ -46,7 +46,7 @@ export default function WordPressDetectorClient() {
       if (!res.ok) setError(data.error || 'Detection failed')
       else setResult(data)
     } catch {
-      setError('Network error — please try again')
+      setError('Network error, please try again')
     } finally {
       setLoading(false)
     }
@@ -66,7 +66,7 @@ export default function WordPressDetectorClient() {
             WordPress Theme Detector
           </h1>
           <p className="dt-lede">
-            Discover the WordPress theme and plugins powering any website — instantly and for free.
+            Discover the WordPress theme and plugins powering any website, instantly and for free.
           </p>
 
           {/* Search bar */}
@@ -209,7 +209,7 @@ export default function WordPressDetectorClient() {
       <CtaSection
         eyebrow="Need a Custom WordPress Site?"
         headline={'We Build WordPress Sites\nThat Convert'}
-        subheadline="Like a theme you found? We can build a custom WordPress site inspired by it — or better. Faster, safer, and fully yours."
+        subheadline="Like a theme you found? We can build a custom WordPress site inspired by it, or better. Faster, safer, and fully yours."
         ctaLabel="Get Free Consultation"
         ctaHref="/contact"
         secondaryLabel="View Our Work"

@@ -85,7 +85,7 @@ export default function SettingsAdmin() {
         <div className="flex justify-between items-center mb-7">
           <div>
             <h1 className="admin-page__title">Settings</h1>
-            <p className="admin-page__subtitle">Changes apply sitewide — navbar, footer, SEO, and browser tab</p>
+            <p className="admin-page__subtitle">Changes apply sitewide, navbar, footer, SEO, and browser tab</p>
           </div>
           <button onClick={save} disabled={saving} className="btn btn-primary btn-md">
             <Save size={14} /> {saving ? 'Saving…' : 'Save All Settings'}
@@ -96,7 +96,7 @@ export default function SettingsAdmin() {
         <div className={cardClass}>
           <h2 className="font-display text-[15px] font-bold text-white mb-5">🎨 Logo &amp; Favicon</h2>
           <p className="text-[13px] text-text-3 mb-5 leading-[1.6]">
-            Changing the logo here updates it <strong className="text-text-2">everywhere</strong> — navbar, footer, admin panel, and OG image. Changing the favicon updates the browser tab icon.
+            Changing the logo here updates it <strong className="text-text-2">everywhere</strong>, navbar, footer, admin panel, and OG image. Changing the favicon updates the browser tab icon.
           </p>
 
           <div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
@@ -153,9 +153,6 @@ export default function SettingsAdmin() {
             </div>
           </div>
 
-          <div className="info-box mt-4">
-            💡 <strong>How logo works:</strong> After saving, the logo updates instantly in the navbar and footer. The admin panel logo is hardcoded for reliability. Favicon updates appear after a browser refresh.
-          </div>
         </div>
 
         {/* ── SITE INFO ── */}

@@ -55,7 +55,7 @@ export default function Dashboard() {
           <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight mb-1.5">
             Dashboard
           </h1>
-          <p className="text-sm text-text-3">Welcome back — here&apos;s your site overview.</p>
+          <p className="text-sm text-text-3">Welcome back, here&apos;s your site overview.</p>
         </div>
 
         {/* Stats */}

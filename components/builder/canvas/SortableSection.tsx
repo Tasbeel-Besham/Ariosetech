@@ -54,7 +54,7 @@ export function SortableSection({ section }: { section: SectionInstance }) {
   return (
     <div ref={setNodeRef} style={style} className="relative" onClick={e => { e.stopPropagation(); selectSection(isSelected ? null : section.id) }}>
 
-      {/* Toolbar — top right, visible when selected */}
+      {/* Toolbar, top right, visible when selected */}
       <div 
         className="absolute top-2.5 right-2.5 z-20 flex gap-1 items-center transition-all duration-150"
         style={{

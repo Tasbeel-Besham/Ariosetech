@@ -88,7 +88,7 @@ export default function ShopifyDetectorClient() {
       if (!res.ok) setError(data.error || 'Detection failed')
       else setResult(data)
     } catch {
-      setError('Network error — please try again')
+      setError('Network error, please try again')
     } finally {
       setLoading(false)
     }
@@ -108,7 +108,7 @@ export default function ShopifyDetectorClient() {
             Shopify Theme Detector
           </h1>
           <p className="dt-lede">
-            Instantly find the Shopify theme powering any online store — free, fast, and accurate.
+            Instantly find the Shopify theme powering any online store, free, fast, and accurate.
           </p>
 
           {/* Search */}
@@ -244,7 +244,7 @@ export default function ShopifyDetectorClient() {
       <CtaSection
         eyebrow="Need a Custom Shopify Store?"
         headline={'We Build Shopify Stores\nThat Scale'}
-        subheadline="Like a theme you found? We can build a custom Shopify store inspired by it — or even better. Built to convert and grow with you."
+        subheadline="Like a theme you found? We can build a custom Shopify store inspired by it, or even better. Built to convert and grow with you."
         ctaLabel="Get Free Shopify Consultation"
         ctaHref="/contact"
         secondaryLabel="View Our Work"

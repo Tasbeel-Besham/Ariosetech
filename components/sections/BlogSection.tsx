@@ -34,7 +34,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
     return (
       <section className="section section--dark">
         <div className="container text-center py-[40px]">
-          <p className="font-display text-gray-3 text-sm">No blog posts yet — run the seed or add posts in Admin → Blog Posts.</p>
+          <p className="font-display text-gray-3 text-sm">No blog posts yet, run the seed or add posts in Admin → Blog Posts.</p>
         </div>
       </section>
     )

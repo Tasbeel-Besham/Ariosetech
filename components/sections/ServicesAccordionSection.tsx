@@ -70,7 +70,7 @@ const TABS: TabItem[] = [
   },
   {
     id: 4, label: 'SEO', title: 'SEO Services', sub: 'Rank Higher, Get Found Faster',
-    desc: 'Business-first SEO built for real growth. From technical fixes to local SEO and content strategy — stronger search presence that drives leads.',
+    desc: 'Business-first SEO built for real growth. From technical fixes to local SEO and content strategy, stronger search presence that drives leads.',
     features: ['Website SEO', 'Local SEO', 'Technical SEO', 'SEO Content Strategy', 'Core Web Vitals', 'Competitor Analysis'],
     price: 'Custom', href: '/services/seo',
     bg: 'radial-gradient(ellipse 70% 70% at 20% 20%, rgba(var(--primary-rgb),0.30) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(80,70,220,0.18) 0%, transparent 50%), linear-gradient(160deg,#08081a,#05050a)',
@@ -209,7 +209,7 @@ function slugify(text: string): string {
 export default function ServicesAccordionSection({
   eyebrow  = 'What We Offer',
   headline = 'Comprehensive Web Development Solutions',
-  intro    = "Three core platforms. One expert team. We don't dabble — we specialise so you get the best results every time.",
+  intro    = "Three core platforms. One expert team. We don't dabble, we specialise so you get the best results every time.",
   items    = TABS,
 }: Props) {
   const [active, setActive] = useState(0)

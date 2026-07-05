@@ -124,7 +124,7 @@ export default function MediaAdmin() {
                 <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={e => { const files = Array.from(e.target.files || []); if (files.length) uploadFiles(files); e.target.value = '' }} />
                 <div className="info-box mt-3">
                   <strong>Setup required:</strong> Add one of these to Vercel env vars:
-                  <br />• <code className="font-mono text-primary">IMGBB_API_KEY</code> — free at <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">imgbb.com</a>
+                  <br />• <code className="font-mono text-primary">IMGBB_API_KEY</code>, free at <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">imgbb.com</a>
                   <br />• <code className="font-mono text-primary">CLOUDINARY_CLOUD_NAME</code> + <code className="font-mono text-primary">CLOUDINARY_UPLOAD_PRESET</code>
                 </div>
               </>

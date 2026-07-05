@@ -238,7 +238,7 @@ export default function PortfolioSection({
           <div className="flex items-end justify-between gap-20 flex-wrap mb-40">
             <div>
               <p className="eyebrow font-mono text-primary uppercase tracking-widest flex items-center gap-8 mb-14 font-bold text-10">
-                <span className="opacity-50">—</span> {eyebrow}
+                <span className="opacity-50"> - </span> {eyebrow}
               </p>
               <h2 className="font-display font-extrabold leading-none tracking-tighter text-white max-w-[700px] pf-headline">
                 {headline}

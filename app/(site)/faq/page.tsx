@@ -15,8 +15,8 @@ const FAQS = [
     category: 'General',
     items: [
       { q: 'What services does ARIOSETECH offer?', a: 'We specialise in WordPress development, WooCommerce store development, Shopify development, and SEO services. This includes new builds, redesigns, migrations, speed optimisation, security hardening, maintenance plans, and multilingual setups.' },
-      { q: 'How long have you been in business?', a: 'ARIOSETECH has been delivering professional web development since 2017 — over 7 years of focused experience across WordPress, WooCommerce, and Shopify.' },
-      { q: 'Where are you based and who do you work with?', a: 'We are based in Lahore, Pakistan and serve clients globally — primarily in the USA, UAE, Switzerland, UK, and Australia. We work across all industries and business sizes.' },
+      { q: 'How long have you been in business?', a: 'ARIOSETECH has been delivering professional web development since 2017, over 7 years of focused experience across WordPress, WooCommerce, and Shopify.' },
+      { q: 'Where are you based and who do you work with?', a: 'We are based in Lahore, Pakistan and serve clients globally, primarily in the USA, UAE, Switzerland, UK, and Australia. We work across all industries and business sizes.' },
       { q: 'Do you have a portfolio I can review?', a: 'Yes! You can browse our portfolio at ariosetech.com/portfolio. We have delivered 100+ projects including fashion stores, international marketplaces, corporate sites, and service businesses.' },
     ],
   },
@@ -55,14 +55,14 @@ const FAQS = [
     items: [
       { q: 'What SEO services do you offer?', a: 'We offer website SEO (on-page optimisation), local SEO (Google Business Profile, local rankings), technical SEO (crawl issues, speed, indexing), and SEO content strategy.' },
       { q: 'How long does SEO take to show results?', a: 'SEO is a long-term investment. Some technical improvements are visible quickly, but meaningful ranking improvements typically take 3-6 months depending on competition and your starting point.' },
-      { q: 'Is SEO worth it for small businesses?', a: 'Absolutely. SEO helps small businesses appear when potential customers are searching for their services — driving qualified, free organic traffic without ongoing ad spend.' },
+      { q: 'Is SEO worth it for small businesses?', a: 'Absolutely. SEO helps small businesses appear when potential customers are searching for their services, driving qualified, free organic traffic without ongoing ad spend.' },
       { q: 'Do you offer local SEO?', a: 'Yes. We optimise your Google Business Profile, create local landing pages, build local citations, and improve your visibility for location-based searches.' },
     ],
   },
   {
     category: 'Pricing & Process',
     items: [
-      { q: 'Do you offer a money-back guarantee?', a: 'Yes — we offer a 30-day money-back guarantee on all development projects. If you are not satisfied with our work, we will refund you in full, no questions asked.' },
+      { q: 'Do you offer a money-back guarantee?', a: 'Yes, we offer a 30-day money-back guarantee on all development projects. If you are not satisfied with our work, we will refund you in full, no questions asked.' },
       { q: 'Do you require a deposit to start?', a: 'Yes. We require a 50% deposit to begin work, with the remaining 50% due upon project completion before final delivery.' },
       { q: 'How do we communicate during a project?', a: 'We use email, WhatsApp, and video calls based on your preference. You will receive regular progress updates throughout the project.' },
       { q: 'Do you sign NDAs?', a: 'Yes. We are happy to sign a Non-Disclosure Agreement before discussing sensitive project details.' },

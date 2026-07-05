@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = await getItem(slug)
   if (!item) return {}
   return {
-    title: `${item.title} — Case Study`,
+    title: `${item.title}, Case Study`,
     description: item.summary,
   }
 }

@@ -22,7 +22,7 @@ const LOGO = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ario
 const FAVICON = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539349/ariosetech/cmeul8vugjeeujikb4e5.png'
 
 export const metadata: Metadata = {
-  title: { default: 'ARIOSETECH — Consider It Solved', template: '%s | ARIOSETECH' },
+  title: { default: 'ARIOSETECH, Consider It Solved', template: '%s | ARIOSETECH' },
   description: 'Professional WordPress, Shopify & WooCommerce development since 2017. 100+ businesses scaled globally.',
   metadataBase: new URL('https://ariosetech.com'),
   icons: {

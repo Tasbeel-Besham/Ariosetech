@@ -5,7 +5,7 @@ import { IconBox, CheckSVG, ArrowSVG } from '@/components/ui/IconBox'
 type CheckItem = { value: string }
 type Props = { eyebrow?: string; headline?: string; subheadline?: string; subhead?: string; desc?: string; note?: string; guarantee?: string; ctaLabel?: string; ctaHref?: string; items?: CheckItem[] }
 
-const DEFAULT_ITEMS = ['Performance bottleneck analysis','SEO issues & keyword opportunities','Conversion barrier identification','Security vulnerability check','Mobile experience assessment','Detailed action plan — no obligation']
+const DEFAULT_ITEMS = ['Performance bottleneck analysis','SEO issues & keyword opportunities','Conversion barrier identification','Security vulnerability check','Mobile experience assessment','Detailed action plan, no obligation']
 
 export default function AuditSection({ eyebrow='Free Audit', headline='Get Your Free Website Performance Audit', subheadline, subhead, desc="Find out exactly how to improve your site's speed, SEO, security, and conversion rates with our comprehensive 25-point website audit.", note, guarantee, ctaLabel='Get My Free Audit Report', ctaHref='/contact', items=[] }: Props) {
   const F = { fontFamily:'var(--font-display)' } as const

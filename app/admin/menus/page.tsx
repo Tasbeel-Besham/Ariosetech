@@ -180,7 +180,7 @@ export default function MenusAdmin() {
 
   const resetToDefault = () => {
     setItems(DEFAULTS[active] || [])
-    toast.success('Reset to defaults — click Save to apply')
+    toast.success('Reset to defaults, click Save to apply')
   }
 
   const inpClass = "w-full bg-bg-3 border border-border rounded-lg py-2 px-3 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50"
@@ -216,7 +216,7 @@ export default function MenusAdmin() {
         {/* Note if using defaults */}
         {!menus.find(m => m.location === active) && (
           <div className="info-box mb-4">
-            📋 Showing <strong>default menu items</strong> — click <strong>Save Menu</strong> to save these to your database, or edit and save your custom menu.
+            📋 Showing <strong>default menu items</strong>, click <strong>Save Menu</strong> to save these to your database, or edit and save your custom menu.
           </div>
         )}
 

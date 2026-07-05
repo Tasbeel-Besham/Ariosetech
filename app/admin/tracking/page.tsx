@@ -75,11 +75,6 @@ export default function TrackingAdmin() {
           </div>
         </div>
 
-        <div className="bg-[rgba(251,191,36,0.06)] border border-[rgba(251,191,36,0.2)] rounded-xl py-4 px-5">
-          <p className="text-[13px] text-text-2">
-            ⚠️ <strong className="text-white">Note:</strong> Tracking IDs require a Vercel redeploy to take effect. Custom scripts need to be injected via your layout.tsx.
-          </p>
-        </div>
       </div>
     </AdminShell>
   )

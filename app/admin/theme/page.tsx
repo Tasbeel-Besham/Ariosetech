@@ -52,7 +52,7 @@ export default function ThemeAdmin() {
     setSaving(true)
     const res = await fetch('/api/theme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(theme) })
     setSaving(false)
-    if (!res.ok) { toast.error('Could not save — are you logged in?'); return }
+    if (!res.ok) { toast.error('Could not save, are you logged in?'); return }
     toast.success('Theme saved. Applying…')
     // Colours are injected server-side at the root, so a full reload shows the change everywhere.
     setTimeout(() => window.location.reload(), 700)
@@ -80,7 +80,7 @@ export default function ThemeAdmin() {
         {/* Colors */}
         <div className={cardClass}>
           <h2 className="font-display text-[15px] font-bold text-white mb-1.5">Brand Colors</h2>
-          <p className="text-[11px] text-text-3 mb-5">Primary drives the whole site — buttons, links, gradients, glows. Changes apply after saving and reloading the page.</p>
+          <p className="text-[11px] text-text-3 mb-5">Primary drives the whole site, buttons, links, gradients, glows. Changes apply after saving and reloading the page.</p>
           <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
             <ColorField label="Primary" value={theme.colorPrimary || ''} onChange={v => set('colorPrimary', v)} />
             <ColorField label="Secondary (gradient end)" value={theme.colorSecondary || ''} onChange={v => set('colorSecondary', v)} />

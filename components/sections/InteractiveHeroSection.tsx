@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 type Tok = { t: 'com' | 'kw' | 'fn' | 'attr' | 'str' | 'v'; v: string }
 
 const DEFAULT_CODE_LINES: Tok[][] = [
-  [{ t: 'com', v: '// Ariosetech WooCommerce Store — 2025' }],
+  [{ t: 'com', v: '// Ariosetech WooCommerce Store, 2025' }],
   [],
   [{ t: 'kw', v: 'function ' }, { t: 'fn', v: 'ariose_boost_performance' }, { t: 'v', v: '() {' }],
   [{ t: 'v', v: '  ' }, { t: 'attr', v: '$config' }, { t: 'v', v: ' = [' }, { t: 'str', v: "'speed'" }, { t: 'v', v: ', ' }, { t: 'str', v: "'seo'" }, { t: 'v', v: ', ' }, { t: 'str', v: "'conversions'" }, { t: 'v', v: '];' }],
@@ -250,7 +250,7 @@ export default function InteractiveHeroSection({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Editor window — the one signature element */}
+          {/* Editor window, the one signature element */}
           <div className="rounded-xl overflow-hidden bg-[rgba(10,10,20,0.72)] border border-[rgba(255,255,255,0.09)] shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-[10px]">
             <div className="px-[16px] py-[11px] flex items-center gap-12 bg-[rgba(255,255,255,0.03)] border-b border-[rgba(255,255,255,0.07)]">
               <div className="flex gap-6">

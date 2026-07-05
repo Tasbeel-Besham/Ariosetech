@@ -33,7 +33,7 @@ export default function PagesAdmin() {
     const res = await fetch(`/api/seed?secret=${secret}`, { method: 'POST' })
     setSeeding(false)
     if (res.ok) { toast.success('Database seeded! All pages loaded.'); load() }
-    else toast.error('Seed failed — check your secret')
+    else toast.error('Seed failed, check your secret')
   }
 
   const createPage = async () => {

@@ -33,13 +33,18 @@ export async function POST(req: NextRequest) {
     }
     const result = await col.insertOne(lead as never)
 
-    // Notify the business + send the visitor a branded confirmation.
-    // Best-effort: email problems never fail the submission.
-    await sendContactEmails(lead)
+    // The lead is saved — that's the part that must succeed. Email is a bonus:
+    // wrap it so nothing here (theme lookup, Resend, network) can turn a saved
+    // lead into a 500 for the visitor.
+    try {
+      await sendContactEmails(lead)
+    } catch (emailErr) {
+      console.error('[leads POST] email step failed (lead still saved):', emailErr)
+    }
 
     return NextResponse.json({ success: true, _id: result.insertedId }, { status: 201 })
   } catch (err) {
-    console.error('[leads POST]', err)
+    console.error('[leads POST] FAILED before/at DB write:', err instanceof Error ? err.message : err)
     return NextResponse.json({ error: 'Failed to save lead' }, { status: 500 })
   }
 }

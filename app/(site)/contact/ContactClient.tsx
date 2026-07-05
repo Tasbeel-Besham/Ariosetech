@@ -193,7 +193,7 @@ export default function ContactClient() {
               {/* WhatsApp */}
               <a href="https://wa.me/923009484739?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20project" target="_blank" rel="noopener noreferrer"
                 className="wa-btn">
-                <MessageCircle size={20} /> Chat on WhatsApp — Instant Reply
+                <MessageCircle size={20} /> Chat on WhatsApp, Instant Reply
               </a>
 
               {/* Countries */}
@@ -223,7 +223,7 @@ export default function ContactClient() {
                 <div className="sent-box">
                   <div className="sent-icon">✓</div>
                   <p className="sent-title">Message Sent!</p>
-                  <p className="sent-desc">We&apos;ll get back to you within 24 hours.<br/>Check your inbox — including spam.</p>
+                  <p className="sent-desc">We&apos;ll get back to you within 24 hours.<br/>Check your inbox, including spam.</p>
                 </div>
               ) : (
                 <form onSubmit={send} className="quote-form">
@@ -250,7 +250,7 @@ export default function ContactClient() {
                           <span className="btn-spin" />
                           Sending your message…
                         </>
-                      ) : <>Send Message — Get Free Quote in 24h <ArrowRight size={17} /></>}
+                      ) : <>Send Message, Get Free Quote in 24h <ArrowRight size={17} /></>}
                     </button>
                     <p className="form-note">
                       🔒 Your information is 100% private. No spam. No lock-in contracts.
@@ -275,7 +275,7 @@ export default function ContactClient() {
               Book a Free Strategy Session
             </h2>
             <p className="strategy-lede">
-              Prefer to talk? Book a free 30-minute strategy call with our team. We&apos;ll discuss your project, answer questions, and give honest recommendations — no sales pressure.
+              Prefer to talk? Book a free 30-minute strategy call with our team. We&apos;ll discuss your project, answer questions, and give honest recommendations, no sales pressure.
             </p>
             <div className="flex flex-wrap gap-10 mb-[28px]">
               {['30-minute call','Project advice & recommendations','Transparent pricing discussion','No obligation, no pressure'].map(t => (
@@ -287,7 +287,7 @@ export default function ContactClient() {
           <div className="glass-card">
             <p className="glass-label">Pick a time that works for you</p>
             <p className="glass-desc">
-              Message us on WhatsApp to schedule a call at your convenience. We accommodate all time zones — USA, UAE, UK, and beyond.
+              Message us on WhatsApp to schedule a call at your convenience. We accommodate all time zones, USA, UAE, UK, and beyond.
             </p>
             <a href="https://wa.me/923009484739?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20strategy%20session" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-md w-full justify-center">
               Chat on WhatsApp to book
@@ -305,9 +305,9 @@ export default function ContactClient() {
           <div className="g-2 gap-16">
             {[
               { q:'How long does a website project take?',        a:'Most projects complete in 15–30 days. WordPress: 2–3 weeks. WooCommerce: 3–5 weeks. Shopify: 2–4 weeks. You receive a detailed timeline in every proposal.' },
-              { q:'What is your pricing structure?',             a:'WordPress starts at $799, Shopify at $999, WooCommerce at $1,299. Fixed-price quotes — no hourly surprises. Typically 50% upfront, 50% on completion.' },
+              { q:'What is your pricing structure?',             a:'WordPress starts at $799, Shopify at $999, WooCommerce at $1,299. Fixed-price quotes, no hourly surprises. Typically 50% upfront, 50% on completion.' },
               { q:'Do you offer ongoing maintenance?',           a:'Yes. Monthly plans from $79/month covering updates, security monitoring, backups, and priority support.' },
-              { q:'What is your money-back guarantee?',          a:'30-day money-back guarantee. If we fail to deliver what was agreed, you get a full refund — no questions asked.' },
+              { q:'What is your money-back guarantee?',          a:'30-day money-back guarantee. If we fail to deliver what was agreed, you get a full refund, no questions asked.' },
               { q:'Do you work with clients in the USA & UAE?',  a:'Yes. Most clients are in the USA, UAE, and Switzerland. We schedule calls at your convenience and provide regular async updates.' },
               { q:'Can you work on my existing website?',        a:'Absolutely. Redesigns, speed optimizations, security fixes, migrations, and custom feature development for WordPress, WooCommerce, and Shopify.' },
             ].map(({ q, a }) => (

@@ -175,7 +175,7 @@ export default function FooterAdmin() {
         </div>
 
         <div className="info-box">
-          💡 The <strong>Contact column</strong> (phone, email, social links) is controlled via <strong>Settings</strong> page — it reads your site-wide contact information automatically.
+          💡 The <strong>Contact column</strong> (phone, email, social links) is controlled via <strong>Settings</strong> page, it reads your site-wide contact information automatically.
         </div>
       </div>
     </AdminShell>

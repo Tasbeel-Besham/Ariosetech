@@ -37,7 +37,7 @@ export default function PortfolioAdmin() {
         <div className="admin-page__header">
           <div>
             <h1 className="admin-page__title">Portfolio</h1>
-            <p className="admin-page__subtitle">{items.length} projects — click Edit to modify content, results, and images</p>
+            <p className="admin-page__subtitle">{items.length} projects, click Edit to modify content, results, and images</p>
           </div>
           <Link href="/admin/portfolio/new" className="btn btn-primary btn-md">
             <Plus size={14} /> New Project

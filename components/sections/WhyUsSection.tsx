@@ -151,7 +151,7 @@ function getIconForWhyUs(iconStr: string | undefined, title: string): React.Reac
 }
 
 /** DB content carries decorative emoji prefixes (medals, icons) on titles and list items.
-    The design provides its own SVG markers, so strip leading pictographs — words untouched. */
+    The design provides its own SVG markers, so strip leading pictographs, words untouched. */
 function stripLeadingEmoji(s: string): string {
   let i = 0
   while (i < s.length) {
@@ -656,7 +656,7 @@ export default function WhyUsSection({
             {desc ? (
               <p className="text-gray-2 mb-32 leading-loose text-base">{desc}</p>
             ) : (
-              <p className="text-gray-2 mb-32 leading-loose text-base">We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code — business growth.</p>
+              <p className="text-gray-2 mb-32 leading-loose text-base">We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code, business growth.</p>
             )}
 
             {ctaLabel ? (

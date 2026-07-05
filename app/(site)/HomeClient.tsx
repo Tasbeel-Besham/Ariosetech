@@ -33,7 +33,7 @@ const SERVICES = [
     desc:'Professional Shopify stores built for growth. From startup stores to Shopify Plus enterprises, we deliver results that matter.',
     features:['Custom Store Development','Shopify Plus Solutions','App Integration','Conversion Optimization'], price:'$999', href:'/services/shopify' },
   { icon:<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>, title:'SEO Services', headline:'Rank Higher, Get Found Faster',
-    desc:'Business-first SEO built for real growth. From technical fixes to local SEO and content strategy — stronger search presence that drives leads.',
+    desc:'Business-first SEO built for real growth. From technical fixes to local SEO and content strategy, stronger search presence that drives leads.',
     features:['Website SEO','Local SEO','Technical SEO','SEO Content Strategy'], price:'Custom', href:'/services/seo' },
 ]
 
@@ -62,15 +62,15 @@ const TESTIMONIALS = [
 
 const IMPACT_METRICS = [
   { value: '150%', label: 'Avg Conversion Lift', desc: 'Our tailored e-commerce strategies and optimized UX consistently drive 150%+ conversion improvements for clients.' },
-  { value: '98%',  label: 'Client Satisfaction', desc: 'Every project is delivered with near-perfect precision — on time, on spec, and fully aligned with your business goals.' },
+  { value: '98%',  label: 'Client Satisfaction', desc: 'Every project is delivered with near-perfect precision, on time, on spec, and fully aligned with your business goals.' },
   { value: '40%',  label: 'Site Speed Gain',     desc: 'Performance-first builds mean faster stores, better SEO rankings, and higher revenue from the same traffic.' },
 ]
 
 const HOW_IT_WORKS = [
-  { n:'01', title:'Discovery & Strategy',   sub:'Understand Your Vision',    desc:'We kick off with a deep-dive consultation to understand your business goals, target audience, tech stack, and growth plans — so every decision is rooted in strategy.' },
+  { n:'01', title:'Discovery & Strategy',   sub:'Understand Your Vision',    desc:'We kick off with a deep-dive consultation to understand your business goals, target audience, tech stack, and growth plans, so every decision is rooted in strategy.' },
   { n:'02', title:'Planning & Design',      sub:'Blueprint for Success',     desc:'Detailed project roadmaps, wireframes, and pixel-perfect design mockups that align with your brand identity and maximize conversion at every touchpoint.' },
   { n:'03', title:'Development',            sub:'Bringing Ideas to Life',    desc:'Expert WordPress, Shopify, or WooCommerce development using clean code, reusable components, and scalable architecture built to grow with your business.' },
-  { n:'04', title:'Testing & Optimization', sub:'Ensuring Perfection',       desc:'Rigorous cross-device QA, speed optimization via Core Web Vitals, security hardening, and SEO validation — nothing ships until it\'s flawless.' },
+  { n:'04', title:'Testing & Optimization', sub:'Ensuring Perfection',       desc:'Rigorous cross-device QA, speed optimization via Core Web Vitals, security hardening, and SEO validation, nothing ships until it\'s flawless.' },
   { n:'05', title:'Launch & Scale',         sub:'Your Success, Our Priority', desc:'A smooth go-live, comprehensive handover training, and 30 days of free post-launch support. After that, flexible monthly plans keep your site at peak performance.' },
 ]
 
@@ -85,7 +85,7 @@ const PROCESS = [
 const AUDIT_ITEMS = [
   'Performance bottleneck analysis','SEO issues & keyword opportunities',
   'Conversion barrier identification','Security vulnerability check',
-  'Mobile experience assessment','Detailed action plan — no obligation',
+  'Mobile experience assessment','Detailed action plan, no obligation',
 ]
 
 const FAQS = [
@@ -101,7 +101,7 @@ const APPROACH_DATA = [
   { n:'01', title:'COST-EFFECTIVE', sub:'Save 60% Without Compromising Quality', desc:'Premium web development at a fraction of US agency costs. Professional results, transparent pricing, zero compromise on quality.' },
   { n:'02', title:'TRANSPARENT', sub:'Open Communication at Every Step', desc:'We share project progress, insights, and feedback in real-time so you always know exactly where your investment stands.' },
   { n:'03', title:'RELIABLE', sub:'Consistently Delivered. Always On-Time.', desc:'100+ projects delivered on time and within budget. Our clients come back because our track record speaks for itself.' },
-  { n:'04', title:'SCALABLE', sub:'Built to Grow With Your Business', desc:'Every site we build is architected for scale — whether you launch small or enterprise-level, our code grows seamlessly with your business.' },
+  { n:'04', title:'SCALABLE', sub:'Built to Grow With Your Business', desc:'Every site we build is architected for scale, whether you launch small or enterprise-level, our code grows seamlessly with your business.' },
   { n:'05', title:'SUPPORTED', sub:'24/7 Expert Assistance, Always On', desc:'Round-the-clock support across time zones. Emergency fixes, proactive monitoring, and regular maintenance included in every plan.' },
 ]
 
@@ -194,7 +194,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       <ServicesAccordionSection 
         eyebrow="What We Offer"
         headline="Comprehensive Web Development Solutions for Your Business Growth"
-        intro="We specialize in custom WordPress, Shopify, and WooCommerce development—delivering high-performance websites that scale with your business."
+        intro="We specialize in custom WordPress, Shopify, and WooCommerce development - delivering high-performance websites that scale with your business."
       />
 
       {/* ══ WHY CHOOSE US ══════════════════════════════════════════ */}
@@ -202,7 +202,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
         <div className="container">
           <div className="g-2 gap-20 items-start">
 
-            {/* LEFT — sticky */}
+            {/* LEFT, sticky */}
             <div className="sticky-mobile-fix sticky top-[88px]">
               <p className="eyebrow sr">Why Choose Us</p>
               <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.05] tracking-tight mb-5">
@@ -211,12 +211,12 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                 {' '}for Their Success
               </h2>
               <p className="text-[15px] text-text-2 leading-[1.85] mb-8">
-                We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code — business growth.
+                We combine world-class expertise with transparent pricing and a genuine commitment to your success. Not just code, business growth.
               </p>
               <Link href="/contact" className="btn btn-primary btn-lg sr">Start a Project <ArrowSVG size={16} /></Link>
             </div>
 
-            {/* RIGHT — scrollable vertical cards */}
+            {/* RIGHT, scrollable vertical cards */}
             <div className="grid grid-cols-1 gap-4">
               {WHY_US.map((b: WhyUsItem, i: number) => (
                 <div key={b.title} className="sr card card-hover relative overflow-hidden flex gap-6 p-8 items-start" style={{ animationDelay:`${i*0.08}s` }}>
@@ -290,7 +290,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
               How It Works
             </h2>
             <p className="sr text-base text-text-2 leading-[1.8] max-w-[480px] mx-auto mt-4">
-              From setup to scale — a proven 5-step process that takes you from idea to a live, high-performing site.
+              From setup to scale, a proven 5-step process that takes you from idea to a live, high-performing site.
             </p>
           </div>
 
@@ -538,7 +538,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
         <div className="container">
           <div className="g-2 gap-20 items-start max-md:grid-cols-1">
 
-            {/* LEFT — sticky */}
+            {/* LEFT, sticky */}
             <div className="sr sticky-mobile-fix sticky top-[100px]">
               <p className="eyebrow">FAQ</p>
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-[1.05] tracking-tight mb-6">
@@ -554,7 +554,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
               </p>
             </div>
 
-            {/* RIGHT — scrollable */}
+            {/* RIGHT, scrollable */}
             <div className="flex flex-col gap-2.5">
               {FAQS.map(({ q, a }: FAQItem, i: number) => (
                 <div key={i} className="sr bg-bg-3 border border-border rounded-2xl overflow-hidden transition-all duration-300" style={{ animationDelay:`${i*0.06}s` }}>

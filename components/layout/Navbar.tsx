@@ -548,7 +548,7 @@ export default function Navbar() {
             )
           })}
 
-          {/* Services mega panel — tab tabs inside it */}
+          {/* Services mega panel, tab tabs inside it */}
           <AnimatePresence>
             {megaOpen && (
               <ServicesPanel
