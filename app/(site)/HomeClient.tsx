@@ -244,7 +244,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ IMPACT QUANTIFIED ══════════════════════════════════════ */}
       <section className="section section--dark relative overflow-hidden">
         {/* Ambient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px] bg-[radial-gradient(ellipse,rgba(118,108,255,0.09)_0%,transparent_65%)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px] bg-[radial-gradient(ellipse,rgba(var(--primary-rgb),0.09)_0%,transparent_65%)]" />
         <div className="container relative z-10">
           <div className="text-center mb-16">
             <p className="eyebrow sr justify-center">Results That Matter</p>
@@ -260,13 +260,13 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             {IMPACT_METRICS.map((m: ImpactMetric, i: number) => (
               <div
                 key={m.label}
-                className="sr relative overflow-hidden transition-all duration-300 bg-bg-2/70 border border-border rounded-3xl p-11 backdrop-blur-md hover:-translate-y-2 hover:border-primary/45 hover:shadow-[0_32px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(118,108,255,0.08)]"
+                className="sr relative overflow-hidden transition-all duration-300 bg-bg-2/70 border border-border rounded-3xl p-11 backdrop-blur-md hover:-translate-y-2 hover:border-primary/45 hover:shadow-[0_32px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(var(--primary-rgb),0.08)]"
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 {/* Subtle gradient top-bar */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />
                 {/* Inner glow */}
-                <div className="absolute -top-[30%] -left-[10%] w-[60%] h-[60%] pointer-events-none bg-[radial-gradient(ellipse,rgba(118,108,255,0.12)_0%,transparent_70%)]" />
+                <div className="absolute -top-[30%] -left-[10%] w-[60%] h-[60%] pointer-events-none bg-[radial-gradient(ellipse,rgba(var(--primary-rgb),0.12)_0%,transparent_70%)]" />
 
                 <p className="font-display text-[clamp(3rem,5vw,4.5rem)] font-extrabold leading-none mb-3 bg-brand-gradient bg-clip-text text-transparent">
                   {m.value}
@@ -282,7 +282,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ HOW IT WORKS ════════════════════════════════════════════ */}
       <section className="section relative overflow-hidden">
         {/* Vertical connector line */}
-        <div className="hidden-mobile absolute left-1/2 top-[160px] bottom-[80px] w-[1px] pointer-events-none bg-[linear-gradient(to_bottom,transparent,rgba(118,108,255,0.20)_20%,rgba(118,108,255,0.20)_80%,transparent)]" />
+        <div className="hidden-mobile absolute left-1/2 top-[160px] bottom-[80px] w-[1px] pointer-events-none bg-[linear-gradient(to_bottom,transparent,rgba(var(--primary-rgb),0.20)_20%,rgba(var(--primary-rgb),0.20)_80%,transparent)]" />
         <div className="container relative z-10">
           <div className="text-center mb-[72px]">
             <p className="eyebrow sr justify-center">Our Process</p>
@@ -369,7 +369,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
                 <div className="h-[190px] overflow-hidden relative border-b border-border">
                   <div
                     data-hp-img
-                    className="absolute inset-0 bg-cover bg-top transform transition-transform duration-[1200ms] ease-in-out will-change-transform group-hover:-translate-y-[18%] bg-[radial-gradient(ellipse_60%_60%_at_30%_30%,rgba(118,108,255,0.22)_0%,rgba(118,108,255,0)_55%),linear-gradient(145deg,rgba(15,15,26,1)_0%,rgba(5,5,8,1)_100%)]"
+                    className="absolute inset-0 bg-cover bg-top transform transition-transform duration-[1200ms] ease-in-out will-change-transform group-hover:-translate-y-[18%] bg-[radial-gradient(ellipse_60%_60%_at_30%_30%,rgba(var(--primary-rgb),0.22)_0%,rgba(var(--primary-rgb),0)_55%),linear-gradient(145deg,rgba(15,15,26,1)_0%,rgba(5,5,8,1)_100%)]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-bg/95 to-bg/0" />
                   <div className="absolute bottom-3.5 left-4 right-4 flex justify-between items-center gap-2.5">

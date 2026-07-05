@@ -48,7 +48,7 @@ export default function FormsAdmin() {
             <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Contact Forms</h1>
             <p className="text-[13px] text-text-3 mt-1">Build forms that capture leads</p>
           </div>
-          <button onClick={() => setCreating(true)} className="flex items-center gap-2 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90">
+          <button onClick={() => setCreating(true)} className="flex items-center gap-2 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90">
             <Plus size={15} /> New Form
           </button>
         </div>

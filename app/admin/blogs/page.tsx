@@ -28,7 +28,7 @@ export default function BlogsAdmin() {
             <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Blog Posts</h1>
             <p className="text-[13px] text-text-3 mt-1">{blogs.length} posts</p>
           </div>
-          <Link href="/admin/blogs/new" className="flex items-center gap-2 py-2.5 px-[18px] rounded-lg bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white no-underline text-[13px] font-bold font-display transition-opacity hover:opacity-90">
+          <Link href="/admin/blogs/new" className="flex items-center gap-2 py-2.5 px-[18px] rounded-lg bg-gradient-to-br from-primary to-primary-dark text-white no-underline text-[13px] font-bold font-display transition-opacity hover:opacity-90">
             <Plus size={15} /> New Post
           </Link>
         </div>
@@ -69,7 +69,7 @@ export default function BlogsAdmin() {
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="flex gap-1.5">
-                        <Link href={`/admin/blogs/${b._id}`} className="flex items-center gap-1.5 py-1.5 px-3 rounded-lg no-underline bg-[rgba(79,110,247,0.1)] border border-[rgba(79,110,247,0.2)] text-[color:var(--blue)] text-xs font-semibold font-display transition-colors hover:bg-[rgba(79,110,247,0.2)]">
+                        <Link href={`/admin/blogs/${b._id}`} className="flex items-center gap-1.5 py-1.5 px-3 rounded-lg no-underline bg-[rgba(var(--primary-rgb),0.1)] border border-[rgba(var(--primary-rgb),0.2)] text-[color:var(--blue)] text-xs font-semibold font-display transition-colors hover:bg-[rgba(var(--primary-rgb),0.2)]">
                           <Pencil size={12} /> Edit
                         </Link>
                         <Link href={`/blog/${b.slug}`} target="_blank" className="py-1.5 px-2 rounded-lg border border-border text-text-3 flex items-center no-underline transition-colors hover:text-white hover:border-border-2">

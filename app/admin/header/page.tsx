@@ -70,7 +70,7 @@ export default function HeaderAdmin() {
             <a href="/" target="_blank" className="flex items-center gap-1.5 py-2.5 px-4 rounded-lg border border-border text-text-3 no-underline text-[13px] transition-colors hover:bg-bg-3 hover:text-white">
               <Eye size={14} /> Preview
             </a>
-            <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90">
+            <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90">
               <Save size={14} /> {saving ? 'Saving…' : 'Save'}
             </button>
           </div>
@@ -99,12 +99,12 @@ export default function HeaderAdmin() {
 
               <div className="flex gap-2 mb-2.5 flex-wrap">
                 <button onClick={() => fileRef.current?.click()} disabled={uploading}
-                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border-2 bg-bg-3 text-white text-[13px] font-semibold cursor-pointer transition-colors hover:border-[rgba(79,110,247,0.5)] hover:text-primary min-w-[120px]">
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border-2 bg-bg-3 text-white text-[13px] font-semibold cursor-pointer transition-colors hover:border-[rgba(var(--primary-rgb),0.5)] hover:text-primary min-w-[120px]">
                   <Upload size={14} />
                   {uploading ? 'Uploading…' : 'Upload New'}
                 </button>
                 <button onClick={() => set('showMediaModal', true)}
-                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border-2 bg-bg-3 text-white text-[13px] font-semibold cursor-pointer transition-colors hover:border-[rgba(79,110,247,0.5)] hover:text-primary min-w-[120px]">
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border border-border-2 bg-bg-3 text-white text-[13px] font-semibold cursor-pointer transition-colors hover:border-[rgba(var(--primary-rgb),0.5)] hover:text-primary min-w-[120px]">
                   <Eye size={14} />
                   Media Library
                 </button>

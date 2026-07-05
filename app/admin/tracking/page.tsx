@@ -37,7 +37,7 @@ export default function TrackingAdmin() {
             <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Tracking & Analytics</h1>
             <p className="text-[13px] text-text-3 mt-1">Connect analytics and tracking tools</p>
           </div>
-          <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+          <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
             <Save size={14} /> {saving ? 'Saving…' : 'Save'}
           </button>
         </div>

@@ -109,7 +109,7 @@ export default function MediaAdmin() {
                       <div className="w-9 h-9 rounded-full border-[3px] border-border border-t-primary animate-spin mx-auto mb-3" />
                       <p className="text-sm text-text-3 mb-2.5">Uploading… {progress}%</p>
                       <div className="w-[200px] h-1 bg-bg-4 rounded-sm mx-auto overflow-hidden">
-                        <div className="h-full bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] rounded-sm transition-[width] duration-300" style={{ width: `${progress}%` }} />
+                        <div className="h-full bg-gradient-to-br from-primary to-primary-dark rounded-sm transition-[width] duration-300" style={{ width: `${progress}%` }} />
                       </div>
                     </>
                   ) : (

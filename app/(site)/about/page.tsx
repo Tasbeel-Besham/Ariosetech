@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from '@/components/ui/Icons'
 import ClutchWidget from '@/components/ui/ClutchWidget'
 import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
+import CtaSection from '@/components/sections/CtaSection'
 import Reveal from '@/components/motion/Reveal'
 
 export const metadata: Metadata = {
@@ -133,7 +134,7 @@ export default function AboutPage() {
               ].map((v, i) => (
                 <div key={v.title} className="card card-hover flex gap-[24px] p-[32px] relative overflow-hidden items-start" style={{ animationDelay: `${i * 0.1}s` }}>
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />
-                  <div className="w-[56px] h-[56px] rounded-[14px] bg-primary-soft border border-[rgba(118,108,255,0.2)] flex items-center justify-center text-primary shrink-0">
+                  <div className="w-[56px] h-[56px] rounded-[14px] bg-primary-soft border border-[rgba(var(--primary-rgb),0.2)] flex items-center justify-center text-primary shrink-0">
                     {v.icon}
                   </div>
                   <div>
@@ -168,7 +169,7 @@ export default function AboutPage() {
 
       {/* Clutch live review cards */}
       <section className="section section--dark relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px] bg-[radial-gradient(ellipse,rgba(118,108,255,0.08)_0%,transparent_65%)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px] bg-[radial-gradient(ellipse,rgba(var(--primary-rgb),0.08)_0%,transparent_65%)]" />
         <div className="container relative z-1">
           <div className="text-center mb-[64px]">
             <p className="eyebrow justify-center">Client Reviews</p>
@@ -183,17 +184,15 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="section text-center relative overflow-hidden">
-        <div className="container">
-          <h2 className="font-display text-[clamp(2.5rem,6vw,4rem)] font-extrabold tracking-[-0.05em] leading-none mb-[32px]">
-            Ready to scale your <span className="bg-brand-gradient bg-clip-text text-transparent">online presence?</span>
-          </h2>
-          <div className="flex gap-[16px] justify-center flex-wrap">
-            <Link href="/contact" className="btn btn-primary btn-lg">Schedule a Free Strategy Call <ArrowSVG size={16} /></Link>
-            <Link href="/portfolio" className="btn btn-outline btn-lg">Browse Case Studies</Link>
-          </div>
-        </div>
-      </section>
+      <CtaSection
+        eyebrow="Let's Build Together"
+        headline={'Ready to scale your\nonline presence?'}
+        subheadline="Join 100+ businesses that trusted us with their web development. Professional results, honest pricing, and support that doesn't disappear after launch."
+        ctaLabel="Schedule a Free Strategy Call"
+        ctaHref="/contact"
+        secondaryLabel="Browse Case Studies"
+        secondaryHref="/portfolio"
+      />
     </>
   )
 }

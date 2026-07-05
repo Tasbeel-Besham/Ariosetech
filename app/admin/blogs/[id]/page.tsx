@@ -96,7 +96,7 @@ export default function EditBlogPost() {
             <button onClick={() => save(false)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">
               <Save size={14} /> Save
             </button>
-            <button onClick={() => save(true)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+            <button onClick={() => save(true)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
               <Eye size={14} /> {saving ? 'Saving…' : 'Publish'}
             </button>
           </div>
@@ -138,7 +138,7 @@ export default function EditBlogPost() {
           <div className="flex flex-col gap-2.5">
             {form.content.map((block, i) => (
               <div key={i} className="flex gap-2.5 items-start">
-                <span className={`font-mono text-[9px] uppercase tracking-wider py-1 px-1.5 rounded border mt-2.5 shrink-0 ${block.type === 'h2' ? 'text-[color:var(--blue)] bg-[rgba(79,110,247,0.1)] border-[rgba(79,110,247,0.2)]' : 'text-text-3 bg-bg-4 border-border'}`}>{block.type === 'h2' ? 'H2' : 'P'}</span>
+                <span className={`font-mono text-[9px] uppercase tracking-wider py-1 px-1.5 rounded border mt-2.5 shrink-0 ${block.type === 'h2' ? 'text-[color:var(--blue)] bg-[rgba(var(--primary-rgb),0.1)] border-[rgba(var(--primary-rgb),0.2)]' : 'text-text-3 bg-bg-4 border-border'}`}>{block.type === 'h2' ? 'H2' : 'P'}</span>
                 <textarea value={block.text} onChange={e => updateBlock(i, e.target.value)} rows={block.type === 'h2' ? 1 : 3} className={`${inpClass} flex-1 resize-y ${block.type === 'h2' ? 'text-[15px] font-bold font-display' : 'text-[13px] font-normal font-body'}`} />
                 <button onClick={() => removeBlock(i)} className="p-2 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 shrink-0 mt-[1px] transition-colors hover:border-[rgba(255,77,109,0.4)] hover:text-[#ff4d6d]">✕</button>
               </div>
@@ -177,7 +177,7 @@ export default function EditBlogPost() {
         <div className="flex gap-2.5 justify-end">
           <Link href="/admin/blogs" className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-3 text-[13px] no-underline flex items-center transition-colors hover:bg-bg-3">Cancel</Link>
           <button onClick={() => save(false)} disabled={saving} className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">Save Draft</button>
-          <button onClick={() => save(true)} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+          <button onClick={() => save(true)} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
             {saving ? 'Saving…' : 'Publish'}
           </button>
         </div>

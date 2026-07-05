@@ -23,8 +23,8 @@ const DEFAULT_CODE_LINES: Tok[][] = [
 ]
 
 /* ── Brand Color Configuration ── */
-const B_PRI = '#766cff'
-const B_SEC = '#9b8fff'
+const B_PRI = 'var(--primary)'
+const B_SEC = 'var(--secondary)'
 
 const COLOR_MAP = {
   com: 'rgba(255,255,255,.22)', kw: '#60a5fa', fn: '#fbbf24', attr: '#a78bfa', str: '#4ade80', v: 'rgba(255,255,255,.55)'
@@ -324,10 +324,10 @@ export default function InteractiveHeroSection({
         @keyframes cblink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .hero-backdrop {
           background-image:
-            radial-gradient(ellipse 55% 60% at 22% 18%, rgba(118,108,255,0.10) 0%, transparent 60%),
-            radial-gradient(ellipse 40% 50% at 85% 75%, rgba(118,108,255,0.05) 0%, transparent 60%),
-            linear-gradient(rgba(118,108,255,0.028) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(118,108,255,0.028) 1px, transparent 1px);
+            radial-gradient(ellipse 55% 60% at 22% 18%, rgba(var(--primary-rgb),0.10) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 50% at 85% 75%, rgba(var(--primary-rgb),0.05) 0%, transparent 60%),
+            linear-gradient(rgba(var(--primary-rgb),0.028) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(var(--primary-rgb),0.028) 1px, transparent 1px);
           background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
           mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
           -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);

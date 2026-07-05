@@ -11,7 +11,7 @@ export default function CtaSection({ eyebrow='Get Started Today', headline='Star
   const primaryHref  = ctaPrimaryHref  || ctaHref
   const secLabel = ctaSecondaryLabel || secondaryLabel
   const secHref  = ctaSecondaryHref  || secondaryHref || '/portfolio'
-  const lines = headline.split('\n')
+  const lines = headline.split(/\\n|\n/)
   return (
     <section className="cta-section">
       <div className="cta-glow" />

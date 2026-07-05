@@ -87,7 +87,7 @@ export default function NewBlogPost() {
             <button onClick={() => save(false)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">
               <Save size={14} /> Save Draft
             </button>
-            <button onClick={() => save(true)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+            <button onClick={() => save(true)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
               <Eye size={14} /> {saving ? 'Publishing…' : 'Publish'}
             </button>
           </div>
@@ -156,7 +156,7 @@ export default function NewBlogPost() {
             {form.content.map((block, i) => (
               <div key={i} className="flex gap-2.5 items-start">
                 <div className="flex flex-col gap-1 pt-2 shrink-0">
-                  <span className={`font-mono text-[9px] uppercase tracking-wider py-0.5 px-1.5 rounded border ${block.type === 'h2' ? 'text-[color:var(--blue)] bg-[rgba(79,110,247,0.1)] border-[rgba(79,110,247,0.2)]' : 'text-text-3 bg-bg-4 border-border'}`}>
+                  <span className={`font-mono text-[9px] uppercase tracking-wider py-0.5 px-1.5 rounded border ${block.type === 'h2' ? 'text-[color:var(--blue)] bg-[rgba(var(--primary-rgb),0.1)] border-[rgba(var(--primary-rgb),0.2)]' : 'text-text-3 bg-bg-4 border-border'}`}>
                     {block.type === 'h2' ? 'H2' : 'P'}
                   </span>
                 </div>
@@ -234,7 +234,7 @@ export default function NewBlogPost() {
           <button onClick={() => save(false)} disabled={saving} className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">
             Save Draft
           </button>
-          <button onClick={() => save(true)} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+          <button onClick={() => save(true)} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
             {saving ? 'Publishing…' : 'Publish Post'}
           </button>
         </div>

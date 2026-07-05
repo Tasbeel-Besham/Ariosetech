@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 type Item = { _id: string; title: string; client: string; category: string; slug: string; featured: boolean; published: boolean; updatedAt: string }
 
-const CAT_COLOR: Record<string, string> = { wordpress: '#4f6ef7', woocommerce: '#9b6dff', shopify: '#00e5a0', seo: '#fbbf24' }
+const CAT_COLOR: Record<string, string> = { wordpress: 'var(--primary)', woocommerce: 'var(--secondary)', shopify: '#00e5a0', seo: '#fbbf24' }
 
 export default function PortfolioAdmin() {
   const [items, setItems] = useState<Item[]>([])

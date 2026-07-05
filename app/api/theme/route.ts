@@ -3,9 +3,9 @@ import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 
 const DEFAULT = {
-  key: 'theme', colorPrimary: '#4f6ef7', colorSecondary: '#9b6dff',
-  colorAccent: '#00e5a0', colorBg: '#060612', colorText: '#f2f2ff',
-  fontDisplay: 'Syne', fontBody: 'Plus Jakarta Sans', borderRadius: '12px',
+  key: 'theme', colorPrimary: '#766cff', colorSecondary: '#9b8fff',
+  colorPrimaryDark: '#5a50e0', colorBg: '#050508', colorText: '#f0f0ff',
+  fontDisplay: 'Manrope', fontBody: 'Inter', borderRadius: '12px',
 }
 
 export async function GET() {

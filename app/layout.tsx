@@ -38,10 +38,16 @@ export const metadata: Metadata = {
 
 import Animations from '@/components/ui/Animations'
 import SpotlightEffect from '@/components/ui/SpotlightEffect'
+import { getTheme, themeToCss } from '@/lib/theme'
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const theme = await getTheme()
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable} ${roadRadio.variable}`}>
+      <head>
+        {/* Live brand theme from admin → overrides static defaults in globals.css */}
+        <style id="site-theme" dangerouslySetInnerHTML={{ __html: themeToCss(theme) }} />
+      </head>
       <body>
         <Animations />
         <SpotlightEffect />

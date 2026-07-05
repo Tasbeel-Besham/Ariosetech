@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import CtaSection from '@/components/sections/CtaSection'
 
 const F = { fontFamily:'var(--font-display)' } as const
 const M = { fontFamily:'var(--font-mono)'    } as const
@@ -122,7 +123,7 @@ export default function ShopifyDetectorClient() {
                 onKeyDown={e => e.key === 'Enter' && detect()}
                 placeholder="Enter Shopify store URL (e.g. mystore.com)"
                 className="dt-input"
-                onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.4)')}
+                onFocus={e => (e.target.style.borderColor = 'rgba(var(--primary-rgb),0.4)')}
                 onBlur={e => (e.target.style.borderColor = 'var(--border)')}
               />
             </div>
@@ -240,18 +241,15 @@ export default function ShopifyDetectorClient() {
       </section>
 
       {/* CTA */}
-      <section className="dt-cta">
-        <div className="container text-center">
-          <p className="eyebrow justify-center">Need a Custom Shopify Store?</p>
-          <h2 className="dt-cta-title">
-            We Build Shopify Stores That Scale
-          </h2>
-          <p className="dt-cta-desc">
-            Like a theme you found? We can build a custom Shopify store inspired by it — or even better.
-          </p>
-          <Link href="/contact" className="btn btn-primary btn-lg">Get Free Shopify Consultation <ArrowRight size={15} /></Link>
-        </div>
-      </section>
+      <CtaSection
+        eyebrow="Need a Custom Shopify Store?"
+        headline={'We Build Shopify Stores\nThat Scale'}
+        subheadline="Like a theme you found? We can build a custom Shopify store inspired by it — or even better. Built to convert and grow with you."
+        ctaLabel="Get Free Shopify Consultation"
+        ctaHref="/contact"
+        secondaryLabel="View Our Work"
+        secondaryHref="/portfolio"
+      />
 
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </>

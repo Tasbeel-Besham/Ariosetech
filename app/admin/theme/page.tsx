@@ -11,9 +11,9 @@ const RADII = ['4px', '8px', '10px', '12px', '16px', '20px', '24px']
 
 export default function ThemeAdmin() {
   const [theme, setTheme] = useState<Theme>({
-    colorPrimary: '#4f6ef7', colorSecondary: '#9b6dff', colorAccent: '#00e5a0',
-    colorBg: '#060612', colorText: '#f2f2ff',
-    fontDisplay: 'Syne', fontBody: 'Plus Jakarta Sans', borderRadius: '12px',
+    colorPrimary: '#766cff', colorSecondary: '#9b8fff', colorPrimaryDark: '#5a50e0',
+    colorBg: '#050508', colorText: '#f0f0ff',
+    fontDisplay: 'Manrope', fontBody: 'Inter', borderRadius: '12px',
   })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -57,31 +57,32 @@ export default function ThemeAdmin() {
             <h1 className="font-display text-[28px] font-extrabold text-white tracking-tight">Theme</h1>
             <p className="text-[13px] text-text-3 mt-1">Brand colors, typography, and spacing</p>
           </div>
-          <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-60">
+          <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-60">
             <Save size={14} /> {saving ? 'Saving…' : 'Save Theme'}
           </button>
         </div>
 
         {/* Colors */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-5">🎨 Brand Colors</h2>
+          <h2 className="font-display text-[15px] font-bold text-white mb-1.5">Brand Colors</h2>
+          <p className="text-[11px] text-text-3 mb-5">Primary drives the whole site — buttons, links, gradients, glows. Changes apply after saving and reloading the page.</p>
           <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
-            <ColorField k="colorPrimary"   label="Primary (Blue)" />
-            <ColorField k="colorSecondary" label="Secondary (Violet)" />
-            <ColorField k="colorAccent"    label="Accent (Green)" />
-            <ColorField k="colorBg"        label="Background" />
-            <ColorField k="colorText"      label="Text Color" />
+            <ColorField k="colorPrimary"     label="Primary" />
+            <ColorField k="colorSecondary"   label="Secondary (gradient end)" />
+            <ColorField k="colorPrimaryDark" label="Primary Dark (hover/deep)" />
+            <ColorField k="colorBg"          label="Background" />
+            <ColorField k="colorText"        label="Text Color" />
           </div>
         </div>
 
         {/* Live preview */}
         <div className={cardClass}>
-          <h2 className="font-display text-[15px] font-bold text-white mb-4">👁 Color Preview</h2>
-          <div className="flex gap-2.5 flex-wrap">
+          <h2 className="font-display text-[15px] font-bold text-white mb-4">Color Preview</h2>
+          <div className="flex gap-2.5 flex-wrap mb-4">
             {[
               { label: 'Primary', color: theme.colorPrimary },
               { label: 'Secondary', color: theme.colorSecondary },
-              { label: 'Accent', color: theme.colorAccent },
+              { label: 'Primary Dark', color: theme.colorPrimaryDark },
             ].map(({ label, color }) => (
               <div key={label} className="flex-1 min-w-[120px] rounded-xl overflow-hidden border border-border">
                 <div className="h-16 flex items-center justify-center" style={{ background: color }}>
@@ -92,6 +93,12 @@ export default function ThemeAdmin() {
                 </div>
               </div>
             ))}
+          </div>
+          {/* Gradient + button preview so you see the real combination */}
+          <div className="rounded-xl h-12 mb-3" style={{ background: `linear-gradient(135deg, ${theme.colorPrimary} 0%, ${theme.colorSecondary} 100%)` }} />
+          <div className="flex gap-3">
+            <span className="inline-flex items-center px-5 py-2.5 rounded-[10px] text-white text-[13px] font-semibold" style={{ background: `linear-gradient(180deg, ${theme.colorSecondary} 0%, ${theme.colorPrimary} 100%)` }}>Primary Button</span>
+            <span className="inline-flex items-center px-5 py-2.5 rounded-[10px] text-[13px] font-semibold border" style={{ color: theme.colorPrimary, borderColor: theme.colorPrimary, background: `${theme.colorPrimary}1a` }}>Outline</span>
           </div>
         </div>
 

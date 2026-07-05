@@ -36,7 +36,7 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center p-5">
       {/* Background glow */}
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(79,110,247,0.1)_0%,transparent_70%)] pointer-events-none" />
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(var(--primary-rgb),0.1)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="w-full max-w-[400px] relative">
         {/* Logo */}
@@ -85,7 +85,7 @@ export default function AdminLogin() {
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="w-full py-3 rounded-lg border-none cursor-pointer bg-gradient-to-br from-[#4f6ef7] to-[#9b6dff] text-white text-sm font-bold font-display transition-opacity hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed">
+            <button type="submit" disabled={loading} className="w-full py-3 rounded-lg border-none cursor-pointer bg-gradient-to-br from-primary to-primary-dark text-white text-sm font-bold font-display transition-opacity hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed">
               {loading ? 'Signing in…' : 'Sign In →'}
             </button>
           </form>

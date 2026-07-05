@@ -1,7 +1,8 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, ArrowRight, Check, ExternalLink, AlertCircle, Loader } from '@/components/ui/Icons'
+import CtaSection from '@/components/sections/CtaSection'
+import { Search, Check, ExternalLink, AlertCircle, Loader } from '@/components/ui/Icons'
 
 const F = { fontFamily:'var(--font-display)' } as const
 const M = { fontFamily:'var(--font-mono)'    } as const
@@ -78,7 +79,7 @@ export default function WordPressDetectorClient() {
                 onKeyDown={e => e.key === 'Enter' && detect()}
                 placeholder="Enter website URL (e.g. example.com)"
                 className="dt-input"
-                onFocus={e => (e.target.style.borderColor = 'rgba(118,108,255,0.5)')}
+                onFocus={e => (e.target.style.borderColor = 'rgba(var(--primary-rgb),0.5)')}
                 onBlur={e => (e.target.style.borderColor = 'var(--border)')}
               />
             </div>
@@ -205,18 +206,15 @@ export default function WordPressDetectorClient() {
       </section>
 
       {/* CTA */}
-      <section className="dt-cta">
-        <div className="container text-center">
-          <p className="eyebrow justify-center">Need a Custom WordPress Site?</p>
-          <h2 className="dt-cta-title">
-            We Build WordPress Sites That Convert
-          </h2>
-          <p className="dt-cta-desc">
-            Like a theme you found? We can build a custom WordPress site inspired by it — or better.
-          </p>
-          <Link href="/contact" className="btn btn-primary btn-lg">Get Free Consultation <ArrowRight size={15} /></Link>
-        </div>
-      </section>
+      <CtaSection
+        eyebrow="Need a Custom WordPress Site?"
+        headline={'We Build WordPress Sites\nThat Convert'}
+        subheadline="Like a theme you found? We can build a custom WordPress site inspired by it — or better. Faster, safer, and fully yours."
+        ctaLabel="Get Free Consultation"
+        ctaHref="/contact"
+        secondaryLabel="View Our Work"
+        secondaryHref="/portfolio"
+      />
 
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </>

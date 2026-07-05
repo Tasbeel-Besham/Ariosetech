@@ -85,9 +85,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <Link key={item.href} href={item.href!} title={collapsed ? item.label : undefined} style={{
                 display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 10px', borderRadius: '10px',
                 textDecoration: 'none', transition: 'all 0.15s',
-                background: active ? 'rgba(79,110,247,0.12)' : 'transparent',
-                color: active ? 'var(--blue)' : 'var(--text-3)',
-                border: active ? '1px solid rgba(79,110,247,0.2)' : '1px solid transparent',
+                background: active ? 'rgba(var(--primary-rgb),0.12)' : 'transparent',
+                color: active ? 'var(--primary)' : 'var(--text-3)',
+                border: active ? '1px solid rgba(var(--primary-rgb),0.2)' : '1px solid transparent',
                 whiteSpace: 'nowrap', overflow: 'hidden',
               }} className={!active ? 'hover:bg-[var(--bg-3)] hover:text-[var(--text-2)]' : ''}>
                 <item.icon size={16} style={{ flexShrink: 0 }} />
@@ -103,8 +103,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <div key={item.label}>
               <button onClick={() => !collapsed && toggleGroup(item.label)} style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 10px', borderRadius: '10px',
-                background: anyActive ? 'rgba(79,110,247,0.06)' : 'transparent',
-                border: 'none', cursor: 'pointer', color: anyActive ? 'var(--blue)' : 'var(--text-3)',
+                background: anyActive ? 'rgba(var(--primary-rgb),0.06)' : 'transparent',
+                border: 'none', cursor: 'pointer', color: anyActive ? 'var(--primary)' : 'var(--text-3)',
                 transition: 'all 0.15s', whiteSpace: 'nowrap', overflow: 'hidden', justifyContent: 'flex-start',
               }} className="hover:bg-[var(--bg-3)] hover:text-[var(--text-2)]">
                 <item.icon size={16} style={{ flexShrink: 0 }} />
@@ -123,9 +123,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                       <Link key={child.href} href={child.href} style={{
                         display: 'flex', alignItems: 'center', gap: '8px', padding: '7px 10px', borderRadius: '8px',
                         textDecoration: 'none', transition: 'all 0.15s',
-                        background: active ? 'rgba(79,110,247,0.12)' : 'transparent',
-                        color: active ? 'var(--blue)' : 'var(--text-3)',
-                        borderLeft: active ? '2px solid var(--blue)' : '2px solid transparent',
+                        background: active ? 'rgba(var(--primary-rgb),0.12)' : 'transparent',
+                        color: active ? 'var(--primary)' : 'var(--text-3)',
+                        borderLeft: active ? '2px solid var(--primary)' : '2px solid transparent',
                         whiteSpace: 'nowrap', overflow: 'hidden',
                       }} className={!active ? 'hover:bg-[var(--bg-3)] hover:text-[var(--text-2)]' : ''}>
                         <child.icon size={14} style={{ flexShrink: 0 }} />
