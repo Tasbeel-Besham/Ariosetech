@@ -200,7 +200,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ WHY CHOOSE US ══════════════════════════════════════════ */}
       <section className="section overflow-visible">
         <div className="container">
-          <div className="g-2 gap-20 items-start">
+          <div className="g-2 gap-20 max-md:gap-8 items-start">
 
             {/* LEFT, sticky */}
             <div className="sticky-mobile-fix sticky top-[88px]">
@@ -284,7 +284,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
         {/* Vertical connector line */}
         <div className="hidden-mobile absolute left-1/2 top-[160px] bottom-[80px] w-[1px] pointer-events-none bg-[linear-gradient(to_bottom,transparent,rgba(var(--primary-rgb),0.20)_20%,rgba(var(--primary-rgb),0.20)_80%,transparent)]" />
         <div className="container relative z-10">
-          <div className="text-center mb-[72px]">
+          <div className="text-center mb-[72px] max-md:mb-10">
             <p className="eyebrow sr justify-center">Our Process</p>
             <h2 className="sr font-display text-[clamp(2rem,4vw,3rem)] font-extrabold leading-none tracking-tight">
               How It Works
@@ -536,7 +536,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
       {/* ══ FAQ ═════════════════════════════════════════════════════ */}
       <section className="section section--dark overflow-visible">
         <div className="container">
-          <div className="g-2 gap-20 items-start max-md:grid-cols-1">
+          <div className="g-2 gap-20 max-md:gap-8 items-start max-md:grid-cols-1">
 
             {/* LEFT, sticky */}
             <div className="sr sticky-mobile-fix sticky top-[100px]">
