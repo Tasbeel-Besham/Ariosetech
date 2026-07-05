@@ -55,11 +55,42 @@ export default function SchemaMarkup({
   } else if (type === 'Organization') {
     schemaObjects.push({
       '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'Ariosetech',
+      '@type': 'ProfessionalService',
+      '@id': `${baseUrl}/#organization`,
+      name: 'ARIOSETECH',
+      alternateName: 'Ariosetech Web Development',
       url: baseUrl,
-      logo: `${baseUrl}/logo.png`, // Update if needed
-      description: pageDescription,
+      logo: 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png',
+      image: 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png',
+      description: pageDescription || 'Professional WordPress, Shopify and WooCommerce development agency since 2017.',
+      email: 'info@ariosetech.com',
+      telephone: '+92-300-9484739',
+      foundingDate: '2017',
+      priceRange: '$$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '95 College Road, Block E, PCSIR Staff Colony',
+        addressLocality: 'Lahore',
+        postalCode: '54770',
+        addressCountry: 'PK',
+      },
+      areaServed: ['PK', 'US', 'AE', 'CH', 'GB'],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '5.0',
+        reviewCount: '30',
+        bestRating: '5',
+      },
+      sameAs: [
+        'https://wa.me/923009484739',
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+92-300-9484739',
+        contactType: 'customer service',
+        email: 'info@ariosetech.com',
+        availableLanguage: ['English', 'Urdu'],
+      },
     });
   }
 

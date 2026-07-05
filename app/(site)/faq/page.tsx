@@ -72,8 +72,20 @@ const FAQS = [
 ]
 
 export default function FAQPage() {
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQS.flatMap(group =>
+      group.items.map(item => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      }))
+    ),
+  }
   return (
     <main className="faqp-main">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="container faqp-narrow">
 
         {/* Header */}

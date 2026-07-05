@@ -5,7 +5,7 @@ import AdminShell from '@/components/layout/AdminShell'
 import { Plus, Pencil, Trash2, Eye, Settings, Copy, RefreshCw } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
-type Page = { _id: string; title: string; slug: string; fullPath: string; status: string; updatedAt: string; seo?: { title?: string; description?: string } }
+type Page = { _id: string; title: string; slug: string; fullPath: string; status: string; updatedAt: string; seo?: { title?: string; description?: string; ogImage?: string; canonicalUrl?: string } }
 
 export default function PagesAdmin() {
   const [pages, setPages] = useState<Page[]>([])
@@ -15,7 +15,7 @@ export default function PagesAdmin() {
   const [newTitle, setNewTitle] = useState('')
   const [newSlug, setNewSlug] = useState('')
   const [editSeo, setEditSeo] = useState<Page | null>(null)
-  const [seoForm, setSeoForm] = useState({ title: '', description: '', slug: '' })
+  const [seoForm, setSeoForm] = useState({ title: '', description: '', slug: '', ogImage: '', canonicalUrl: '' })
 
   const load = useCallback(() => {
     setLoading(true)
@@ -58,12 +58,12 @@ export default function PagesAdmin() {
 
   const openSeo = (page: Page) => {
     setEditSeo(page)
-    setSeoForm({ title: page.seo?.title || '', description: page.seo?.description || '', slug: page.slug || '' })
+    setSeoForm({ title: page.seo?.title || '', description: page.seo?.description || '', slug: page.slug || '', ogImage: page.seo?.ogImage || '', canonicalUrl: page.seo?.canonicalUrl || '' })
   }
 
   const saveSeo = async () => {
     if (!editSeo) return
-    const res = await fetch(`/api/pages/${editSeo._id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: seoForm.slug, seo: { title: seoForm.title, description: seoForm.description, robots: { index: true, follow: true } } }) })
+    const res = await fetch(`/api/pages/${editSeo._id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: seoForm.slug, seo: { title: seoForm.title, description: seoForm.description, ogImage: seoForm.ogImage, canonicalUrl: seoForm.canonicalUrl, robots: { index: true, follow: true } } }) })
     if (res.ok) { toast.success('SEO saved'); setEditSeo(null); load() }
     else toast.error('Save failed')
   }
@@ -187,6 +187,13 @@ export default function PagesAdmin() {
               <div><label className={lblClass}>Meta Description <span className="text-text-3">(150-160 chars)</span></label>
                 <textarea value={seoForm.description} onChange={e => setSeoForm(f => ({ ...f, description: e.target.value }))} rows={3} className={`${inpClass} resize-y`} />
                 <p className={`font-mono text-[10px] ${seoForm.description.length > 160 ? 'text-[color:var(--red)]' : 'text-text-3'} mt-1`}>{seoForm.description.length}/160</p>
+              </div>
+              <div><label className={lblClass}>Social Share Image (OG image URL) <span className="text-text-3">(optional)</span></label>
+                <input value={seoForm.ogImage} onChange={e => setSeoForm(f => ({ ...f, ogImage: e.target.value }))} placeholder="https://… (falls back to site default)" className={`${inpClass} font-mono text-xs`} />
+                {seoForm.ogImage && <img src={seoForm.ogImage} alt="" className="mt-2 rounded-lg border border-border max-h-28 object-cover" />}
+              </div>
+              <div><label className={lblClass}>Canonical URL <span className="text-text-3">(optional — leave blank to auto-generate)</span></label>
+                <input value={seoForm.canonicalUrl} onChange={e => setSeoForm(f => ({ ...f, canonicalUrl: e.target.value }))} placeholder={`https://ariosetech.com${editSeo.fullPath}`} className={`${inpClass} font-mono text-xs`} />
               </div>
               {/* Google preview */}
               {(seoForm.title || editSeo.title) && (

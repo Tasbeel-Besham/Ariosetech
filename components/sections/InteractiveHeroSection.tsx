@@ -18,7 +18,7 @@ const DEFAULT_CODE_LINES: Tok[][] = [
   [{ t: 'v', v: '  ' }, { t: 'kw', v: 'return' }, { t: 'v', v: ' ' }, { t: 'str', v: "'✓ Performance Optimized'" }, { t: 'v', v: ';' }],
   [{ t: 'v', v: '}' }],
   [],
-  [{ t: 'com', v: '// Result: 98 PageSpeed · 150% more conversions' }],
+  [{ t: 'com', v: '// Result: 90+ PageSpeed · 150% more conversions' }],
   [{ t: 'fn', v: 'add_action' }, { t: 'v', v: '(' }, { t: 'str', v: "'woocommerce_loaded'" }, { t: 'v', v: ', ' }, { t: 'fn', v: "'ariose_boost_performance'"}, { t: 'v', v: ');' }],
 ]
 
@@ -288,8 +288,8 @@ export default function InteractiveHeroSection({
           {/* Metrics */}
           <div className="flex gap-[14px]">
             {(metrics || [
-              { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: B_PRI, c2: B_SEC, bar: 0.92 },
-              { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: B_PRI, c2: B_SEC, bar: 1.0 },
+              { ico: <SpeedSVG />, val: '90+', lbl: 'PageSpeed Target', c1: B_PRI, c2: B_SEC, bar: 0.92 },
+              { ico: <StarSVG />, val: '5.0', lbl: 'Google Reviews', c1: B_PRI, c2: B_SEC, bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ]).map((m, i) => (
               <div key={m.lbl + i} className="flex-1 rounded-xl p-[16px] relative overflow-hidden bg-[rgba(255,255,255,0.025)] border border-[rgba(255,255,255,0.07)]">
