@@ -1,11 +1,11 @@
 /**
  * Contact-form email via Resend (https://resend.com).
  * Configure these environment variables (in .env.local and on Vercel):
- *   RESEND_API_KEY   – your Resend API key (starts with "re_")
- *   EMAIL_FROM       – verified sender, e.g. "ARIOSETECH <noreply@ariosetech.com>"
- *   EMAIL_TO         – where business notifications land, e.g. "info@ariosetech.com"
+ *   RESEND_API_KEY   - your Resend API key (starts with "re_")
+ *   EMAIL_FROM       - verified sender, e.g. "ARIOSETECH <noreply@ariosetech.com>"
+ *   EMAIL_TO         - where business notifications land, e.g. "info@ariosetech.com"
  * Emails are best-effort: if Resend isn't configured or the call fails, the lead
- * is still saved and the visitor still sees success — email is never a hard dependency.
+ * is still saved and the visitor still sees success  -  email is never a hard dependency.
  */
 
 const RESEND_URL = 'https://api.resend.com/emails'
@@ -65,9 +65,9 @@ function shell(inner: string, tag: string, centerHeader = false): string {
         <tr><td style="padding:32px;">${inner}</td></tr>
         <tr><td style="padding:22px 32px;border-top:1px solid #eeeef4;background:#fafafc;">
           <p style="margin:0;font-size:11px;color:#9a9aa8;line-height:1.8;">
-            ARIOSETECH — WordPress, Shopify and WooCommerce development since 2017<br/>
-            <a href="https://ariosetech.com" style="color:${BRAND};text-decoration:none;">ariosetech.com</a> &nbsp;·&nbsp;
-            <a href="mailto:info@ariosetech.com" style="color:${BRAND};text-decoration:none;">info@ariosetech.com</a> &nbsp;·&nbsp;
+            ARIOSETECH  -  WordPress, Shopify and WooCommerce development since 2017<br/>
+            <a href="https://ariosetech.com" style="color:${BRAND};text-decoration:none;">ariosetech.com</a> &nbsp;&middot;&nbsp;
+            <a href="mailto:info@ariosetech.com" style="color:${BRAND};text-decoration:none;">info@ariosetech.com</a> &nbsp;&middot;&nbsp;
             <a href="${WHATSAPP}" style="color:${BRAND};text-decoration:none;">+92 300 9484739</a>
           </p>
         </td></tr>
@@ -99,7 +99,7 @@ export async function sendLeadNotification(lead: Lead): Promise<boolean> {
 
   const inner = `
     <h1 style="margin:0 0 4px;font-size:20px;color:#1a1a26;font-weight:700;">New enquiry from ${esc(lead.name || 'a visitor')}</h1>
-    <p style="margin:0 0 22px;font-size:13px;color:#9a9aa8;">${esc(lead.source || 'Website')} &middot; ${esc(new Date().toLocaleString())} — reply to this email to respond directly.</p>
+    <p style="margin:0 0 22px;font-size:13px;color:#9a9aa8;">${esc(lead.source || 'Website')} &middot; ${esc(new Date().toLocaleString())}  -  reply to this email to respond directly.</p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #eeeef4;border-radius:12px;overflow:hidden;border-collapse:separate;border-spacing:0;">${rows}</table>
     ${lead.message ? `
     <p style="margin:22px 0 8px;font-size:12px;color:#9a9aa8;text-transform:uppercase;letter-spacing:0.06em;">Project details</p>
@@ -116,8 +116,8 @@ export async function sendLeadNotification(lead: Lead): Promise<boolean> {
     from,
     to,
     reply_to: lead.email ? String(lead.email) : undefined,
-    subject: `New lead: ${lead.name || lead.email || 'Website contact'}${lead.service ? ` — ${lead.service}` : ''}`,
-    html: shell(inner, 'NEW LEAD · WEBSITE FORM'),
+    subject: `New lead: ${lead.name || lead.email || 'Website contact'}${lead.service ? `  -  ${lead.service}` : ''}`,
+    html: shell(inner, 'NEW LEAD &middot; WEBSITE FORM'),
   })
 }
 
@@ -138,7 +138,7 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;"><tr>
       <td style="width:48px;height:48px;border-radius:50%;background:#eeedfe;text-align:center;vertical-align:middle;font-size:26px;color:${BRAND};line-height:48px;">&#10003;</td>
     </tr></table>
-    <h1 style="margin:0 0 12px;font-size:22px;color:#1a1a26;font-weight:700;">Thanks, ${name} — we got your message</h1>
+    <h1 style="margin:0 0 12px;font-size:22px;color:#1a1a26;font-weight:700;">Thanks, ${name}  -  we got your message</h1>
     <p style="margin:0 0 16px;font-size:14px;color:#54546a;line-height:1.8;">
       Your request${lead.service ? ` about <strong style="color:#1a1a26;">${esc(lead.service)}</strong>` : ''} has reached our team.
       One of our experts will reply within <strong style="color:#1a1a26;">24 hours</strong> with next steps and a free quote.
@@ -155,7 +155,7 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
       <div style="font-size:10px;color:#9a9aa8;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">A copy of your enquiry</div>
       <div style="font-size:14px;color:#1a1a26;line-height:1.7;">${br(lead.message)}</div>
     </div>` : ''}
-    <p style="margin:0 0 20px;font-size:14px;color:#54546a;line-height:1.8;">Need something urgent? Message us on WhatsApp — we usually respond within minutes.</p>
+    <p style="margin:0 0 20px;font-size:14px;color:#54546a;line-height:1.8;">Need something urgent? Message us on WhatsApp  -  we usually respond within minutes.</p>
     <table role="presentation" cellpadding="0" cellspacing="0"><tr>
       <td style="border-radius:10px;background:${BRAND};">
         <a href="${WHATSAPP}" style="display:inline-block;padding:13px 26px;font-size:14px;font-weight:700;color:#ffffff;text-decoration:none;">Chat on WhatsApp</a>
@@ -165,20 +165,20 @@ export async function sendLeadConfirmation(lead: Lead): Promise<boolean> {
         <a href="https://ariosetech.com/portfolio" style="display:inline-block;padding:13px 26px;font-size:14px;font-weight:700;color:#1a1a26;text-decoration:none;">See our work</a>
       </td>
     </tr></table>
-    <p style="margin:24px 0 0;font-size:12px;color:#9a9aa8;line-height:1.7;">This is an automatic confirmation — replying to this email reaches us too.</p>
+    <p style="margin:24px 0 0;font-size:12px;color:#9a9aa8;line-height:1.7;">This is an automatic confirmation  -  replying to this email reaches us too.</p>
   `
 
   return send({
     from,
     to: String(lead.email),
-    subject: 'We received your request — ARIOSETECH',
+    subject: 'We received your request  -  ARIOSETECH',
     html: shell(inner, 'CONSIDER IT SOLVED', true),
     reply_to: process.env.EMAIL_TO || 'info@ariosetech.com',
   })
 }
 
 /** Send the visitor's confirmation first, then notify the business.
-    Both are best-effort — a failure in either never blocks the other or the response. */
+    Both are best-effort  -  a failure in either never blocks the other or the response. */
 export async function sendContactEmails(lead: Lead): Promise<void> {
   if (lead.email) {
     try { await sendLeadConfirmation(lead) } catch (e) { console.error('[email] confirmation failed', e) }
