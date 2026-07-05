@@ -429,7 +429,8 @@ export default function Navbar() {
         })))
       }
 
-      if (Array.isArray(servicesMenu) && servicesMenu.length > 0) {
+      if (Array.isArray(servicesMenu) && servicesMenu.length > 0
+          && Array.isArray(servicesMenu[0].items) && servicesMenu[0].items.length > 0) {
         setServiceTabs(servicesMenu[0].items.map((i: any, idx: number) => ({
           id: idx + 1,
           label: i.label,

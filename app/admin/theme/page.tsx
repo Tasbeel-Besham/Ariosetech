@@ -9,6 +9,30 @@ type Theme = Record<string, string>
 const FONTS = ['Plus Jakarta Sans', 'Inter', 'Syne', 'DM Sans', 'Geist', 'Space Grotesk', 'Manrope']
 const RADII = ['4px', '8px', '10px', '12px', '16px', '20px', '24px']
 
+// Module scope on purpose: defining this inside ThemeAdmin makes React remount the
+// inputs on every change, which breaks dragging in the colour picker and limits
+// typing to one character before focus is lost.
+function ColorField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div>
+      <label className="font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5">{label}</label>
+      <div className="flex gap-2 items-center">
+        <input
+          type="color"
+          value={/^#[0-9a-fA-F]{6}$/.test(value) ? value : '#000000'}
+          onChange={e => onChange(e.target.value)}
+          className="w-11 h-9 p-0.5 rounded-lg border border-border bg-bg-3 cursor-pointer shrink-0"
+        />
+        <input
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          className="flex-1 bg-bg-3 border border-border rounded-lg py-[9px] px-3 text-[13px] text-white outline-none font-mono focus:border-primary/50 transition-colors w-full box-border"
+        />
+      </div>
+    </div>
+  )
+}
+
 export default function ThemeAdmin() {
   const [theme, setTheme] = useState<Theme>({
     colorPrimary: '#766cff', colorSecondary: '#9b8fff', colorPrimaryDark: '#5a50e0',
@@ -36,20 +60,7 @@ export default function ThemeAdmin() {
 
   const lblClass = "font-mono text-[10px] text-text-3 uppercase tracking-wider block mb-1.5"
   const cardClass = "bg-bg-2 border border-border rounded-2xl p-6 mb-5"
-  const inpClass = "flex-1 bg-bg-3 border border-border rounded-lg py-[9px] px-3 text-[13px] text-white outline-none font-mono focus:border-primary/50 transition-colors w-full box-border"
   const selectClass = "w-full bg-bg-3 border border-border rounded-lg py-2.5 px-3.5 text-[13px] text-white outline-none font-body focus:border-primary/50 transition-colors"
-
-  const ColorField = ({ k, label }: { k: string; label: string }) => (
-    <div>
-      <label className={lblClass}>{label}</label>
-      <div className="flex gap-2 items-center">
-        <input type="color" value={theme[k] || '#000'} onChange={e => set(k, e.target.value)}
-          className="w-11 h-9 p-0.5 rounded-lg border border-border bg-bg-3 cursor-pointer shrink-0" />
-        <input value={theme[k] || ''} onChange={e => set(k, e.target.value)}
-          className={inpClass} />
-      </div>
-    </div>
-  )
 
   if (loading) return <AdminShell><div className="p-10 text-center text-text-3">Loading…</div></AdminShell>
 
@@ -71,9 +82,9 @@ export default function ThemeAdmin() {
           <h2 className="font-display text-[15px] font-bold text-white mb-1.5">Brand Colors</h2>
           <p className="text-[11px] text-text-3 mb-5">Primary drives the whole site — buttons, links, gradients, glows. Changes apply after saving and reloading the page.</p>
           <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
-            <ColorField k="colorPrimary"     label="Primary" />
-            <ColorField k="colorSecondary"   label="Secondary (gradient end)" />
-            <ColorField k="colorPrimaryDark" label="Primary Dark (hover/deep)" />
+            <ColorField label="Primary" value={theme.colorPrimary || ''} onChange={v => set('colorPrimary', v)} />
+            <ColorField label="Secondary (gradient end)" value={theme.colorSecondary || ''} onChange={v => set('colorSecondary', v)} />
+            <ColorField label="Primary Dark (hover/deep)" value={theme.colorPrimaryDark || ''} onChange={v => set('colorPrimaryDark', v)} />
           </div>
         </div>
 

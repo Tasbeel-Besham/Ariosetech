@@ -11,6 +11,83 @@ const M = { fontFamily: 'var(--font-mono)' } as const
 const SERVICES = ['WordPress Development','WooCommerce Development','Shopify Development','Speed Optimization','Website Maintenance','Website Redesign','SEO Services','Other']
 const BUDGETS  = ['Under $500','$500–$1,000','$1,000–$2,500','$2,500–$5,000','$5,000–$10,000','$10,000+']
 
+// NOTE: These are defined at module scope on purpose. Defining components inside
+// ContactClient makes React treat them as a new component type on every render,
+// which unmounts and remounts the input on each keystroke and loses focus after
+// one character. Keep them out here.
+type FloatingInputProps = {
+  label: string
+  type?: string
+  value: string
+  onChange: (v: string) => void
+  required?: boolean
+  multiline?: boolean
+}
+
+function FloatingInput({ label, type = 'text', value, onChange, required, multiline = false }: FloatingInputProps) {
+  const [focused, setFocused] = useState(false)
+  const active = focused || value.length > 0
+  return (
+    <div className="fl-wrap">
+      {multiline ? (
+        <textarea
+          value={value} onChange={e => onChange(e.target.value)} required={required}
+          className={`fl-input fl-textarea${focused ? ' focused' : ''}`}
+          onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+        />
+      ) : (
+        <input
+          type={type} value={value} onChange={e => onChange(e.target.value)} required={required}
+          className={`fl-input fl-input-text${focused ? ' focused' : ''}`}
+          onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+        />
+      )}
+      <label className={`fl-label${multiline ? ' fl-label-ta' : ''}${active ? ' active' : ''}`}>
+        {label} {required && <span className="text-primary">*</span>}
+      </label>
+    </div>
+  )
+}
+
+type FloatingSelectProps = {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  options: string[]
+}
+
+function FloatingSelect({ label, value, onChange, options }: FloatingSelectProps) {
+  const [open, setOpen] = useState(false)
+  useEffect(() => {
+    const fn = () => setOpen(false)
+    document.addEventListener('closeSelects', fn)
+    return () => document.removeEventListener('closeSelects', fn)
+  }, [])
+
+  const active = open || value.length > 0
+  return (
+    <div className="fl-wrap" onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('closeSelects')); setOpen(!open) }}>
+      <div className={`fl-input fl-select${open ? ' focused' : ''}`}>
+        <span className={`fl-select-value text-15px${value ? '' : ' empty'}`}>
+          {value || '-'}
+        </span>
+        <svg className={`fl-chevron${open ? ' open' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <label className={`fl-label${active ? ' active' : ''}`}>
+        {label}
+      </label>
+      <div className={`fl-menu${open ? ' open' : ''}`}>
+        {options.map((opt: string) => (
+          <div key={opt} onClick={() => { onChange(opt); setOpen(false) }}
+               className={`fl-option${value === opt ? ' selected' : ''}`}>
+            {opt}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function ContactClient() {
   const [form, setForm]       = useState({ name:'', email:'', phone:'', service:'', budget:'', message:'' })
   const [sending, setSending] = useState(false)
@@ -27,76 +104,27 @@ export default function ContactClient() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, source:'Contact Page', formName:'Contact Form', status:'new', createdAt: new Date().toISOString() }),
       })
-      if (res.ok) setSent(true)
-      else alert('Something went wrong. Please email info@ariosetech.com')
-    } catch { alert('Network error. Please email info@ariosetech.com') }
+      if (res.ok) {
+        setSent(true)
+      } else {
+        let detail = ''
+        try { detail = (await res.json())?.error || '' } catch {}
+        console.error('[contact] submit failed', res.status, detail)
+        alert(`Something went wrong${detail ? ` (${detail})` : ''}. Please email info@ariosetech.com`)
+      }
+    } catch (err) {
+      console.error('[contact] network error', err)
+      alert('Network error. Please email info@ariosetech.com')
+    }
     finally { setSending(false) }
   }
 
-  const FloatingInput = ({ label, type='text', value, onChange, required, multiline=false }: any) => {
-    const [focused, setFocused] = useState(false)
-    const active = focused || value.length > 0
-    
-    return (
-      <div className="fl-wrap">
-        {multiline ? (
-          <textarea
-            value={value} onChange={e => onChange(e.target.value)} required={required}
-            className={`fl-input fl-textarea${focused ? ' focused' : ''}`}
-            onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-          />
-        ) : (
-          <input
-            type={type} value={value} onChange={e => onChange(e.target.value)} required={required}
-            className={`fl-input fl-input-text${focused ? ' focused' : ''}`}
-            onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-          />
-        )}
-        <label className={`fl-label${multiline ? ' fl-label-ta' : ''}${active ? ' active' : ''}`}>
-          {label} {required && <span className="text-primary">*</span>}
-        </label>
-      </div>
-    )
-  }
-
-  // To properly close custom selects on outside click without context:
+  // Close custom selects on outside click.
   useEffect(() => {
     const fn = () => document.dispatchEvent(new CustomEvent('closeSelects'))
     window.addEventListener('click', fn)
     return () => window.removeEventListener('click', fn)
   }, [])
-
-  const FloatingSelectWithOutsideClick = ({ label, value, onChange, options }: any) => {
-    const [open, setOpen] = useState(false)
-    useEffect(() => {
-      const fn = () => setOpen(false)
-      document.addEventListener('closeSelects', fn)
-      return () => document.removeEventListener('closeSelects', fn)
-    }, [])
-    
-    const active = open || value.length > 0
-    return (
-      <div className="fl-wrap" onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('closeSelects')); setOpen(!open) }}>
-        <div className={`fl-input fl-select${open ? ' focused' : ''}`}>
-          <span className={`fl-select-value text-15px${value ? '' : ' empty'}`}>
-            {value || '-'}
-          </span>
-          <svg className={`fl-chevron${open ? ' open' : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-        <label className={`fl-label${active ? ' active' : ''}`}>
-          {label}
-        </label>
-        <div className={`fl-menu${open ? ' open' : ''}`}>
-          {options.map((opt: string) => (
-            <div key={opt} onClick={() => { onChange(opt); setOpen(false) }}
-                 className={`fl-option${value === opt ? ' selected' : ''}`}>
-              {opt}
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -208,8 +236,8 @@ export default function ContactClient() {
                   <FloatingInput label="Phone / WhatsApp (optional)" value={form.phone} onChange={(v:string) => set('phone', v)} />
 
                   <div className="g-2 gap-20">
-                    <FloatingSelectWithOutsideClick label="Service Needed" value={form.service} onChange={(v:string) => set('service', v)} options={SERVICES} />
-                    <FloatingSelectWithOutsideClick label="Budget Range" value={form.budget} onChange={(v:string) => set('budget', v)} options={BUDGETS} />
+                    <FloatingSelect label="Service Needed" value={form.service} onChange={(v:string) => set('service', v)} options={SERVICES} />
+                    <FloatingSelect label="Budget Range" value={form.budget} onChange={(v:string) => set('budget', v)} options={BUDGETS} />
                   </div>
 
                   <FloatingInput label="Project Details" value={form.message} onChange={(v:string) => set('message', v)} required multiline />

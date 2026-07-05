@@ -95,6 +95,7 @@ export default function MenusAdmin() {
   const [active, setActive] = useState('header')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving]   = useState(false)
+  const [pageOptions, setPageOptions] = useState<{ label: string; href: string }[]>([])
 
   const load = () => {
     fetch('/api/menus')
@@ -106,6 +107,38 @@ export default function MenusAdmin() {
       .finally(() => setLoading(false))
   }
   useEffect(() => { load() }, [])
+
+  // Build the page picker: real CMS pages + the built-in static routes,
+  // so menu items can point at a page without hand-typing the URL.
+  useEffect(() => {
+    const STATIC: { label: string; href: string }[] = [
+      { label: 'Home', href: '/' },
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'Portfolio', href: '/portfolio' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'FAQ', href: '/faq' },
+      { label: 'WordPress Services', href: '/services/wordpress' },
+      { label: 'WooCommerce Services', href: '/services/woocommerce' },
+      { label: 'Shopify Services', href: '/services/shopify' },
+      { label: 'SEO Services', href: '/services/seo' },
+      { label: 'WordPress Theme Detector', href: '/tools/wordpress-theme-detector' },
+      { label: 'Shopify Theme Detector', href: '/tools/shopify-theme-detector' },
+    ]
+    fetch('/api/pages')
+      .then(r => r.ok ? r.json() : [])
+      .then((pages: unknown) => {
+        const dynamic = Array.isArray(pages)
+          ? (pages as { title?: string; fullPath?: string; status?: string }[])
+              .filter(p => p.fullPath && p.status === 'published')
+              .map(p => ({ label: p.title || p.fullPath || '', href: p.fullPath as string }))
+          : []
+        // Merge, de-duplicating by href (static first so their nicer labels win).
+        const seen = new Set(STATIC.map(s => s.href))
+        setPageOptions([...STATIC, ...dynamic.filter(d => !seen.has(d.href))])
+      })
+      .catch(() => setPageOptions(STATIC))
+  }, [])
 
   // Get current menu — fall back to defaults if DB is empty
   const dbMenu = menus.find(m => m.location === active)
@@ -218,6 +251,15 @@ export default function MenusAdmin() {
                           className={`${inpClass} flex-none w-[160px] font-semibold max-sm:w-full`} placeholder="Label" />
                         <input value={item.href} onChange={e => updateItem(i, 'href', e.target.value)}
                           className={`${inpClass} flex-1 font-mono text-xs`} placeholder="/url" />
+                        <select
+                          value=""
+                          onChange={e => { if (e.target.value) updateItem(i, 'href', e.target.value) }}
+                          className={`${inpClass} w-[130px] cursor-pointer text-xs shrink-0`}
+                          title="Pick a page to fill the URL"
+                        >
+                          <option value="">Pick page…</option>
+                          {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
+                        </select>
                       </div>
                       <div className="flex gap-2 items-center w-full max-md:w-auto md:w-auto">
                         <select value={item.target || '_self'} onChange={e => updateItem(i, 'target', e.target.value)}
@@ -246,6 +288,15 @@ export default function MenusAdmin() {
                               className={`${inpClass} flex-none w-[140px] text-xs py-1.5 px-2.5`} placeholder="Sub label" />
                             <input value={child.href} onChange={e => updateChild(i, ci, 'href', e.target.value)}
                               className={`${inpClass} flex-1 text-[11px] py-1.5 px-2.5 font-mono`} placeholder="/url" />
+                            <select
+                              value=""
+                              onChange={e => { if (e.target.value) updateChild(i, ci, 'href', e.target.value) }}
+                              className={`${inpClass} w-[120px] text-[11px] py-1.5 px-2 cursor-pointer shrink-0`}
+                              title="Pick a page"
+                            >
+                              <option value="">Pick page…</option>
+                              {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
+                            </select>
                             <button onClick={() => removeChild(i, ci)}
                               className="p-[5px] rounded-md border-none bg-transparent cursor-pointer text-text-3 text-[13px] transition-colors hover:text-[#ff4d6d]">✕</button>
                           </div>
@@ -260,7 +311,7 @@ export default function MenusAdmin() {
         </div>
 
         <div className="warn-box mt-4">
-          ⚠️ <strong>Note:</strong> The Navbar and Footer currently use hardcoded navigation links. After saving menus here, connect them to the database by updating the Navbar component to fetch from <code className="font-mono text-primary">/api/menus?location=header</code>. This is the data store for future dynamic navigation.
+          <strong>Tip:</strong> The <strong>Services Mega Menu</strong> location powers the Services dropdown in the navbar. Each top-level item there (WordPress, WooCommerce, Shopify, SEO) is a column, and its <em>sub-items</em> are the links inside that column. If the dropdown ever looks empty, open the <strong>Services Mega Menu</strong> tab and use <strong>Reset to defaults</strong>, then Save. Changes apply on the next page load.
         </div>
       </div>
     </AdminShell>
