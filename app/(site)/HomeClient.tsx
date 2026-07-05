@@ -590,7 +590,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
           </p>
           <div className="sr flex gap-2.5 flex-wrap justify-center mb-10">
             {['No Long-Term Contracts','30-Day Money-Back Guarantee','Free Post-Launch Support','Transparent Pricing'].map(t => (
-              <span key={t} className="tag text-text-2 border-border-2">✓ {t}</span>
+              <span key={t} className="tag text-text-2 border-border-2 inline-flex items-center gap-6"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12"></polyline></svg>{t}</span>
             ))}
           </div>
           <div className="sr flex gap-3.5 justify-center flex-wrap">

@@ -26,7 +26,7 @@ export default function CtaSection({ eyebrow='Get Started Today', headline='Star
         <p className="sr cta-body">{body}</p>
         {badges.length > 0 && (
           <div className="sr cta-badges">
-            {badges.map(t => <span key={t} className="tag cta-badge">✓ {t}</span>)}
+            {badges.map(t => <span key={t} className="tag cta-badge inline-flex items-center gap-6"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12"></polyline></svg>{t}</span>)}
           </div>
         )}
         <div className="sr cta-actions">

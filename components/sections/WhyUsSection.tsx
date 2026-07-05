@@ -150,6 +150,19 @@ function getIconForWhyUs(iconStr: string | undefined, title: string): React.Reac
   return WHY_ICONS.default;
 }
 
+/** DB content carries decorative emoji prefixes (medals, icons) on titles and list items.
+    The design provides its own SVG markers, so strip leading pictographs — words untouched. */
+function stripLeadingEmoji(s: string): string {
+  let i = 0
+  while (i < s.length) {
+    const cp = s.codePointAt(i)!
+    if (cp === 0xFE0F || cp === 0x200D || cp >= 0x2190) { i += cp > 0xFFFF ? 2 : 1; continue }
+    if (s[i] === ' ') { i++; continue }
+    break
+  }
+  return s.slice(i)
+}
+
 /** DB seeds occasionally contain doubled dollar signs ("$$399") — normalize on render. */
 function fmtPrice(p?: string) {
   return (p || '').replace(/\$\$+/g, '$')
@@ -197,8 +210,10 @@ function renderFormattedContent(text: string, variant?: 'pills') {
         >
           {currentList.items.map((item, idx) => (
             <div key={idx} className="pill-item">
-              <span className="pill-check">✓</span>
-              {parseInlineMarkdown(item)}
+              <span className="pill-check">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </span>
+              {parseInlineMarkdown(stripLeadingEmoji(item))}
             </div>
           ))}
         </div>
@@ -211,7 +226,7 @@ function renderFormattedContent(text: string, variant?: 'pills') {
         >
           {currentList.items.map((item, idx) => (
             <li key={idx} className="md-li">
-              {parseInlineMarkdown(item)}
+              {parseInlineMarkdown(stripLeadingEmoji(item))}
             </li>
           ))}
         </ListTag>
@@ -332,7 +347,7 @@ function renderBentoContent(text: string) {
           {columns.map((col, idx) => (
             <div key={idx} className="card-hover bento-col">
               <h4 className="bento-col-title">
-                {col.title}
+                {stripLeadingEmoji(col.title)}
               </h4>
               <ul className="bento-col-list">
                 {col.items.map((item, i) => (
@@ -340,7 +355,7 @@ function renderBentoContent(text: string) {
                     <span className="bento-check">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </span>
-                    {item}
+                    {stripLeadingEmoji(item)}
                   </li>
                 ))}
               </ul>

@@ -45,7 +45,7 @@ export default function AboutPage() {
     <>
       <InteractiveHeroSection 
         eyebrow="About Us"
-        headline="Specialists, Not Generalists.\nConsider It Solved."
+        headline={'Specialists, Not Generalists.\nConsider It Solved.'}
         subheadline="ARIOSETECH was founded with one mission: give growing businesses access to the same quality of web development that enterprise brands enjoy — at honest, transparent prices."
         ctaPrimaryLabel="Work With Us"
         ctaPrimaryHref="/contact"

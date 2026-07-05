@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
@@ -23,9 +23,8 @@ const DEFAULT_CODE_LINES: Tok[][] = [
 ]
 
 /* ── Brand Color Configuration ── */
-const B_PRI = '#766cff' // Ariose Purple
-const B_SEC = '#9b8fff' // Lighter Purple
-const B_GLO = 'rgba(118,108,255,0.25)'
+const B_PRI = '#766cff'
+const B_SEC = '#9b8fff'
 
 const COLOR_MAP = {
   com: 'rgba(255,255,255,.22)', kw: '#60a5fa', fn: '#fbbf24', attr: '#a78bfa', str: '#4ade80', v: 'rgba(255,255,255,.55)'
@@ -33,18 +32,13 @@ const COLOR_MAP = {
 
 /* ── SVGs ── */
 const SpeedSVG = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
 )
 const StarSVG = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 )
 const LockSVG = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-)
-const ArrowSVG = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
 )
 
 type Props = {
@@ -64,6 +58,27 @@ type Props = {
   marqueeItems?: string[]
 }
 
+/** Strip leading decorative glyphs (checkmarks, emoji) that DB content sometimes carries —
+    the design supplies its own markers, so these read as double icons. Words are untouched. */
+function stripLeadMark(s: string): string {
+  let i = 0
+  while (i < s.length) {
+    const cp = s.codePointAt(i)!
+    if (cp === 0x2713 || cp === 0x2714 || cp === 0xFE0F || cp === 0x200D || cp >= 0x2190) {
+      i += cp > 0xFFFF ? 2 : 1
+      continue
+    }
+    if (s[i] === ' ') { i++; continue }
+    break
+  }
+  return s.slice(i)
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 14 },
+  show: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.55, delay: 0.08 * i, ease: [0.22, 1, 0.36, 1] as const } }),
+}
+
 export default function InteractiveHeroSection({
   eyebrow = 'Professional Web Development Since 2017',
   headline = 'Professional WordPress, Shopify & WooCommerce Development',
@@ -80,34 +95,24 @@ export default function InteractiveHeroSection({
   metrics,
   marqueeItems = ['WordPress Development', 'WooCommerce Stores', 'Shopify Development', 'SEO Optimization', 'Speed Optimization', '24/7 Support', '30-Day Guarantee', 'USA · UAE · Switzerland', 'Since 2017'],
 }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const cdotRef = useRef<HTMLDivElement>(null)
-  const cringRef = useRef<HTMLDivElement>(null)
-  const headlineRef = useRef<HTMLDivElement>(null)
-  
   const [typedLines, setTypedLines] = useState<Tok[][]>([])
   const [currentLine, setCurrentLine] = useState<Tok[]>([])
   const lineIdxRef = useRef(0)
   const charIdxRef = useRef(0)
 
-  // Branding Tokens
-  const F = { fontFamily: 'var(--font-manrope), var(--font-display), sans-serif' } as const
-  const B = { fontFamily: 'var(--font-body), sans-serif' } as const
-  const M = { fontFamily: 'var(--font-mono), monospace' } as const
-
-  /* ── Typing Animation ── */
+  /* ── Typing Animation (the hero's single signature) ── */
   useEffect(() => {
     let timer: NodeJS.Timeout
     const tick = () => {
       const lineIdx = lineIdxRef.current
       if (lineIdx >= codeLines.length) {
-        timer = setTimeout(() => { 
-          setTypedLines([]); 
-          setCurrentLine([]);
-          lineIdxRef.current = 0; 
-          charIdxRef.current = 0; 
-          tick() 
-        }, 2800)
+        timer = setTimeout(() => {
+          setTypedLines([])
+          setCurrentLine([])
+          lineIdxRef.current = 0
+          charIdxRef.current = 0
+          tick()
+        }, 3200)
         return
       }
 
@@ -120,221 +125,114 @@ export default function InteractiveHeroSection({
         return
       }
 
-      let charTotal = 0
-      let targetTok: Tok | null = null
-      let tokStart = 0
-      for (const t of tokens) {
-        if (charIdxRef.current < charTotal + t.v.length) {
-          targetTok = t; tokStart = charTotal; break
-        }
-        charTotal += t.v.length
-      }
+      const fullText = tokens.map(t => t.v).join('')
+      const charIdx = charIdxRef.current
 
-      if (targetTok) {
-        const charInTok = charIdxRef.current - tokStart
-        const newTok: Tok = { t: targetTok.t, v: targetTok.v.slice(0, charInTok + 1) }
-        
-        setCurrentLine(prev => {
-          const last = prev[prev.length - 1]
-          if (last && last.t === newTok.t) {
-            return [...prev.slice(0, -1), newTok]
-          }
-          return [...prev, newTok]
-        })
-        
-        charIdxRef.current++
-        timer = setTimeout(tick, 16 + Math.random() * 24)
-      } else {
+      if (charIdx >= fullText.length) {
         setTypedLines(prev => [...prev, tokens])
         setCurrentLine([])
         lineIdxRef.current++
         charIdxRef.current = 0
         timer = setTimeout(tick, (lineIdx + 1) % 3 === 0 ? 260 : 80)
+        return
       }
+
+      // Build partial token list up to charIdx
+      let remaining = charIdx + 1
+      const partial: Tok[] = []
+      for (const tok of tokens) {
+        if (remaining <= 0) break
+        if (tok.v.length <= remaining) {
+          partial.push(tok)
+          remaining -= tok.v.length
+        } else {
+          partial.push({ t: tok.t, v: tok.v.slice(0, remaining) })
+          remaining = 0
+        }
+      }
+      setCurrentLine(partial)
+      charIdxRef.current++
+      timer = setTimeout(tick, 14 + Math.random() * 22)
     }
-    timer = setTimeout(tick, 800)
+    timer = setTimeout(tick, 700)
     return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  /* ── Interactivity ── */
-  useEffect(() => {
-    const cv = canvasRef.current; if (!cv) return
-    const ctx = cv.getContext('2d'); if (!ctx) return
-    let W = cv.width = window.innerWidth, H = cv.height = window.innerHeight
-    let mx = W / 2, my = H / 2, rx = mx, ry = my
-
-    const resize = () => { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight }
-    window.addEventListener('resize', resize)
-    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY }
-    window.addEventListener('mousemove', onMove)
-
-    const TCOUNT = 14, trails: { x: number; y: number }[] = Array(TCOUNT).fill(0).map(() => ({ x: mx, y: my }))
-    const trailEls: HTMLDivElement[] = []
-    for (let i = 0; i < TCOUNT; i++) {
-      const el = document.createElement('div')
-      el.className = 'custom-cursor'
-      const s = Math.max(0.5, 4 - i * 0.26)
-      el.style.cssText = `position:fixed; pointer-events:none; z-index:9990; border-radius:50%; transform:translate(-50%,-50%); width:${s}px; height:${s}px; background:rgba(118,108,255,${(1 - i / TCOUNT) * 0.32}); opacity:0; transition:opacity 0.3s;`
-      document.body.appendChild(el); trailEls.push(el)
-    }
-
-    const rips: { x: number; y: number; r: number; life: number }[] = []
-    let lastR = 0
-    const onMoveRip = () => { const now = Date.now(); if (now - lastR > 70) { rips.push({ x: mx, y: my, r: 0, life: 1 }); lastR = now } }
-    window.addEventListener('mousemove', onMoveRip)
-
-    const pts = Array(70).fill(0).map(() => ({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28,
-      r: Math.random() * 1.2 + 0.3, a: Math.random() * 0.28 + 0.05,
-      c: [[118, 108, 255], [155, 143, 255], [244, 114, 182], [255, 255, 255]][Math.floor(Math.random() * 4)]
-    }))
-
-    const orbs = [
-      { x: 0.35, y: 0.45, r: 340, c: [118, 108, 255], a: 0.045, vx: 0.00015, vy: 0.00012 },
-      { x: 0.72, y: 0.32, r: 220, c: [155, 143, 255], a: 0.035, vx: -0.0002, vy: 0.00015 },
-      { x: 0.15, y: 0.65, r: 180, c: [244, 114, 182], a: 0.028, vx: 0.00018, vy: -0.0002 }
-    ]
-
-    let raf: number
-    let isVisible = true
-    const obs = new IntersectionObserver(([e]) => { isVisible = e.isIntersecting }, { threshold: 0.01 })
-    obs.observe(cv)
-
-    const loop = () => {
-      raf = requestAnimationFrame(loop)
-      if (!isVisible) return
-      ctx.fillStyle = '#05050e'; ctx.fillRect(0, 0, W, H)
-      const sp = 52, ox = (mx * 0.028) % sp, oy = (my * 0.028) % sp
-      ctx.strokeStyle = 'rgba(118,108,255,0.035)'; ctx.lineWidth = 1
-      for (let x = -sp + ox; x < W + sp; x += sp) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
-      for (let y = -sp + oy; y < H + sp; y += sp) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
-      orbs.forEach(o => {
-        o.x += o.vx + (mx / W - 0.5) * 0.0004; o.y += o.vy + (my / H - 0.5) * 0.0004
-        if (o.x < 0.1 || o.x > 0.9) o.vx *= -1; if (o.y < 0.1 || o.y > 0.9) o.vy *= -1
-        const [r, g, b] = o.c; const gr = ctx.createRadialGradient(o.x * W, o.y * H, 0, o.x * W, o.y * H, o.r)
-        gr.addColorStop(0, `rgba(${r},${g},${b},${o.a})`); gr.addColorStop(1, 'rgba(0,0,0,0)')
-        ctx.beginPath(); ctx.arc(o.x * W, o.y * H, o.r, 0, Math.PI * 2); ctx.fillStyle = gr; ctx.fill()
-      })
-      const cg = ctx.createRadialGradient(mx, my, 0, mx, my, 110)
-      cg.addColorStop(0, 'rgba(118,108,255,0.08)'); cg.addColorStop(1, 'rgba(0,0,0,0)')
-      ctx.beginPath(); ctx.arc(mx, my, 110, 0, Math.PI * 2); ctx.fillStyle = cg; ctx.fill()
-      pts.forEach(p => {
-        const d = Math.hypot(mx - p.x, my - p.y); if (d < 90) { p.vx -= (mx - p.x) / d * 0.14; p.vy -= (my - p.y) / d * 0.14 }
-        p.vx *= 0.97; p.vy *= 0.97; p.x += p.vx; p.y += p.vy
-        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0
-        const [r, g, b] = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${r},${g},${b},${p.a})`; ctx.fill()
-      })
-      for (let i = rips.length - 1; i >= 0; i--) {
-        const rp = rips[i]; rp.r += 1.8; rp.life -= 0.038
-        if (rp.life <= 0) { rips.splice(i, 1); continue }
-        ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2); ctx.strokeStyle = `rgba(118,108,255,${rp.life * 0.1})`; ctx.stroke()
-      }
-      if (cdotRef.current) { cdotRef.current.style.left = mx + 'px'; cdotRef.current.style.top = my + 'px' }
-      rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13
-      if (cringRef.current) { cringRef.current.style.left = rx + 'px'; cringRef.current.style.top = ry + 'px' }
-      for (let i = 0; i < TCOUNT; i++) {
-        const p = i === 0 ? { x: mx, y: my } : trails[i - 1]; trails[i].x += (p.x - trails[i].x) * 0.38; trails[i].y += (p.y - trails[i].y) * 0.38
-        trailEls[i].style.left = trails[i].x + 'px'; trailEls[i].style.top = trails[i].y + 'px'
-      }
-      if (headlineRef.current) {
-        headlineRef.current.querySelectorAll('.char').forEach(ch => {
-          const rect = ch.getBoundingClientRect(), cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2
-          const dx = mx - cx, dy = my - cy, dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 80) {
-            const force = (1 - dist / 80), px = -dx * force * 32 / dist || 0, py = -dy * force * 32 / dist || 0, sc = 1 + force * 0.25
-            ;(ch as HTMLElement).style.transform = `translate(${px}px,${py}px) scale(${sc})`
-          } else { ;(ch as HTMLElement).style.transform = 'translate(0,0) scale(1)' }
-        })
-      }
-    }
-    loop()
-    return () => { cancelAnimationFrame(raf); obs.disconnect(); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); window.removeEventListener('mousemove', onMoveRip); trailEls.forEach(el => document.body.removeChild(el)) }
-  }, [])
-
-  /* ── Headline Rendering Logic ── */
-  const renderChar = (txt: string) => {
-    const words = txt.split(' ')
-    return words.map((word, wi) => (
-      <React.Fragment key={wi}>
-        {wi > 0 && ' '}
-        <span className="inline-block whitespace-nowrap">
-          {[...word].map((ch, ci) => (
-            <span key={ci} className="char inline-block will-change-transform hero-char">
-              {ch}
-            </span>
-          ))}
-        </span>
-      </React.Fragment>
-    ))
-  }
+  // DB headlines store line breaks as a literal backslash-n; support both forms
+  const headlineLines = (headline || '').split(/\\n|\n/).filter(l => l.trim().length > 0)
 
   return (
-    <section className="hero-section-wrapper flex flex-col relative min-h-screen w-full overflow-hidden bg-[#05050e]">
-      
-      {/* Interaction Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div ref={cdotRef} className="custom-cursor fixed z-[9999] w-[6px] h-[6px] bg-white rounded-full -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300" />
-        <div ref={cringRef} className="custom-cursor fixed z-[9999] w-[32px] h-[32px] border border-[rgba(255,255,255,0.45)] rounded-full -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300" />
-        <canvas ref={canvasRef} className="absolute inset-0 z-0" />
-      </div>
+    <section className="hero-section-wrapper relative w-full overflow-hidden bg-[#05050e]">
 
-      <div className="container relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] items-center gap-[4rem] pt-[80px] pb-[60px] px-[32px] max-w-[1280px] mx-auto">
-        
+      {/* Static backdrop: faint grid + one soft brand glow. No JS. */}
+      <div className="hero-backdrop absolute inset-0 z-0 pointer-events-none" aria-hidden="true" />
+
+      <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] items-center gap-[56px] pt-[88px] pb-[72px] max-w-[1240px] mx-auto">
+
         {/* Left Side */}
-        <div className="flex flex-col pointer-events-auto">
+        <div className="flex flex-col">
           {eyebrow && eyebrow.trim().length > 0 && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
               <div className="inline-flex items-center gap-10 mb-20">
                 <div className="w-[22px] h-[1.5px] bg-grad" />
-                <div className="w-[4px] h-[4px] rounded-full opacity-60 bg-primary-solid" />
-                <span className="font-mono uppercase tracking-widest text-white/30 text-[10.5px]">{eyebrow}</span>
+                <span className="font-mono uppercase tracking-widest text-white/35 text-[10.5px]">{stripLeadMark(eyebrow)}</span>
               </div>
             </motion.div>
           )}
 
-          <div ref={headlineRef} className="mb-16 max-w-[680px]">
-            {headline && headline.trim().length > 0 && (
-              <h1 className="hero-headline">
-                {renderChar(headline)}
+          {headlineLines.length > 0 && (
+            <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1} className="mb-16 max-w-[640px]">
+              <h1 className="hero-headline text-balance">
+                {headlineLines.map((line, i) => (
+                  <React.Fragment key={i}>
+                    {i > 0 && <br />}
+                    {line}
+                  </React.Fragment>
+                ))}
               </h1>
-            )}
-          </div>
+            </motion.div>
+          )}
 
           {subheadline && subheadline.trim().length > 0 && (
-            <p className="hero-subheadline font-display font-semibold text-white/75 max-w-[560px] leading-snug mb-14 text-[17px] tracking-tight">
+            <motion.p
+              variants={fadeUp} initial="hidden" animate="show" custom={2}
+              className={subheadline.length > 140
+                ? 'hero-subheadline font-body text-white/55 max-w-[560px] leading-relaxed mb-14 text-[15.5px]'
+                : 'hero-subheadline font-display font-semibold text-white/80 max-w-[540px] leading-snug mb-14 text-[17px] tracking-tight'}
+            >
               {subheadline}
-            </p>
+            </motion.p>
           )}
 
           {desc && (
-            <p className="font-body text-white/40 max-w-[500px] font-light leading-relaxed mb-20 text-[15px]">
+            <motion.p variants={fadeUp} initial="hidden" animate="show" custom={3} className="font-body text-white/45 max-w-[500px] leading-relaxed mb-20 text-[15px]">
               {desc}
-            </p>
+            </motion.p>
           )}
 
-          <p className="font-body text-white/30 mb-32 italic text-[12.5px]">
+          <motion.p variants={fadeUp} initial="hidden" animate="show" custom={4} className="font-body text-white/35 mb-[28px] text-[13px]">
             {trust ? (
               trust.includes(',') ? (
                 trust.split(',').map((t, i) => (
                   <span key={i} className="whitespace-nowrap">
-                    {i > 0 && <span className="not-italic text-primary/60 mx-[8px]">•</span>}
-                    {t.trim()}
+                    {i > 0 && <span className="text-primary/50 mx-[9px]">·</span>}
+                    {stripLeadMark(t.trim())}
                   </span>
                 ))
               ) : trust
             ) : (
               <>
-                Trusted by businesses in <span className="not-italic text-primary/75">USA</span>, <span className="not-italic text-primary/75">UAE</span>, and <span className="not-italic text-primary/75">Switzerland</span> for affordable, high-quality development.
+                Trusted by businesses in <span className="text-primary/80">USA</span>, <span className="text-primary/80">UAE</span>, and <span className="text-primary/80">Switzerland</span> for affordable, high-quality development.
               </>
             )}
-          </p>
+          </motion.p>
 
-          <div className="hero-ctas flex gap-[14px] items-center flex-wrap">
+          <motion.div variants={fadeUp} initial="hidden" animate="show" custom={5} className="hero-ctas flex gap-[14px] items-center flex-wrap">
             {ctaPrimaryLabel && ctaPrimaryLabel.trim().length > 0 && (
               <Link href={ctaPrimaryHref || '/contact'} className="btn btn-primary btn-lg">
                 {ctaPrimaryLabel}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </Link>
             )}
             {ctaSecondaryLabel && ctaSecondaryLabel.trim().length > 0 && (
@@ -342,25 +240,29 @@ export default function InteractiveHeroSection({
                 {ctaSecondaryLabel}
               </Link>
             )}
-          </div>
+          </motion.div>
         </div>
 
         {/* Right Side */}
-        <div className="hero-right-col relative flex flex-col gap-16 pointer-events-auto">
-          
-          <div className="absolute top-[-24px] right-4 px-[16px] py-[10px] text-white flex items-center gap-8 z-20 bg-[rgba(5,5,14,0.95)] border border-[rgba(118,108,255,0.25)] rounded-[12px] text-[11px] backdrop-blur-[12px] shadow-[0_8px_32px_rgba(118,108,255,0.15)] animate-[chipBob_4s_ease-in-out_infinite_alternate]">
-            <div className="w-[8px] h-[8px] rounded-full bg-[#22c55e] shadow-[0_0_10px_#22c55e]" />
-            {liveSiteText}
-          </div>
-
-          <div className="rounded-2xl overflow-hidden bg-[rgba(10,10,22,0.9)] border border-[rgba(118,108,255,0.22)] shadow-[0_32px_100px_rgba(0,0,0,0.7)] backdrop-blur-[12px]">
-            <div className="px-[18px] py-[12px] flex items-center gap-12 bg-[rgba(255,255,255,0.05)] border-b border-[rgba(255,255,255,0.08)]">
+        <motion.div
+          className="hero-right-col relative flex flex-col gap-[18px]"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* Editor window — the one signature element */}
+          <div className="rounded-xl overflow-hidden bg-[rgba(10,10,20,0.72)] border border-[rgba(255,255,255,0.09)] shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-[10px]">
+            <div className="px-[16px] py-[11px] flex items-center gap-12 bg-[rgba(255,255,255,0.03)] border-b border-[rgba(255,255,255,0.07)]">
               <div className="flex gap-6">
-                <div className="w-[11px] h-[11px] rounded-full bg-[#ff5f57] shadow-[0_0_5px_rgba(255,95,87,0.4)]" />
-                <div className="w-[11px] h-[11px] rounded-full bg-[#febc2e] shadow-[0_0_5px_rgba(254,188,46,0.4)]" />
-                <div className="w-[11px] h-[11px] rounded-full bg-[#28c840] shadow-[0_0_5px_rgba(40,200,64,0.4)]" />
+                <div className="w-[10px] h-[10px] rounded-full bg-[#ff5f57]" />
+                <div className="w-[10px] h-[10px] rounded-full bg-[#febc2e]" />
+                <div className="w-[10px] h-[10px] rounded-full bg-[#28c840]" />
               </div>
-              <div className="ml-[8px] font-mono text-white/30 text-[11px]">{codeFilename}</div>
+              <div className="ml-[6px] font-mono text-white/30 text-[11px]">{codeFilename}</div>
+              <div className="ml-auto flex items-center gap-8 font-mono text-[10px] text-white/40">
+                <span className="w-[6px] h-[6px] rounded-full bg-[#22c55e] inline-block" />
+                {liveSiteText}
+              </div>
             </div>
             <div className="p-24 font-mono leading-loose min-h-[240px] max-h-[240px] overflow-hidden text-[12px]">
               {typedLines.map((toks, i) => (
@@ -373,41 +275,42 @@ export default function InteractiveHeroSection({
               ))}
               {lineIdxRef.current < codeLines.length && (
                 <div className="flex gap-[14px]">
-                   <span className="text-white/15 min-w-[18px] text-right text-[10px]">{typedLines.length + 1}</span>
-                   <span className="text-white/50">
-                     {currentLine.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
-                     <span className="inline-block w-[2px] h-[14px] align-middle ml-[3px] animate-[cblink_.9s_infinite] bg-primary-solid" />
-                   </span>
+                  <span className="text-white/15 min-w-[18px] text-right text-[10px]">{typedLines.length + 1}</span>
+                  <span className="text-white/50">
+                    {currentLine.map((t, ti) => (<span key={ti} style={{ color: COLOR_MAP[t.t] }}>{t.v}</span>))}
+                    <span className="inline-block w-[2px] h-[14px] align-middle ml-[3px] animate-[cblink_.9s_infinite] bg-primary-solid" />
+                  </span>
                 </div>
               )}
             </div>
           </div>
 
+          {/* Metrics */}
           <div className="flex gap-[14px]">
             {(metrics || [
               { ico: <SpeedSVG />, val: '98', lbl: 'PageSpeed Score', c1: B_PRI, c2: B_SEC, bar: 0.92 },
               { ico: <StarSVG />, val: '5.0', lbl: 'Clutch Rating', c1: B_PRI, c2: B_SEC, bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ]).map((m, i) => (
-              <div key={m.lbl + i} className="flex-1 rounded-2xl p-[18px] relative overflow-hidden bg-[rgba(15,15,30,0.85)] border border-[rgba(255,255,255,0.08)] shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
-                <div className="mb-8 flex" style={{ color: m.c1 }}>{m.ico}</div>
-                <div className="font-display font-extrabold text-white mb-4 text-[22px]">{m.val}</div>
-                <div className="uppercase tracking-widest font-semibold text-[10px] text-[rgba(255,255,255,0.3)]">{m.lbl}</div>
-                <div className="absolute bottom-0 left-0 right-0 h-[3px] opacity-80 origin-left" style={{ background: `linear-gradient(90deg, ${m.c1}, ${m.c2})`, transform: `scaleX(${m.bar})` }} />
+              <div key={m.lbl + i} className="flex-1 rounded-xl p-[16px] relative overflow-hidden bg-[rgba(255,255,255,0.025)] border border-[rgba(255,255,255,0.07)]">
+                <div className="mb-8 flex text-primary/80">{m.ico}</div>
+                <div className="font-display font-extrabold text-white mb-4 text-[20px]">{m.val}</div>
+                <div className="uppercase tracking-wider font-semibold text-[9.5px] text-[rgba(255,255,255,0.35)]">{m.lbl}</div>
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] opacity-70 origin-left" style={{ background: `linear-gradient(90deg, ${m.c1}, ${m.c2})`, transform: `scaleX(${m.bar})` }} />
               </div>
             ))}
           </div>
-
-        </div>
+        </motion.div>
       </div>
 
-      <div className="py-[12px] overflow-hidden bg-[rgba(5,5,14,0.92)] border-t border-[rgba(255,255,255,0.06)]">
-        <div className="flex whitespace-nowrap animate-[ticker_35s_linear_infinite]">
+      {/* Services ticker */}
+      <div className="py-[11px] overflow-hidden border-t border-[rgba(255,255,255,0.05)] relative z-10">
+        <div className="flex whitespace-nowrap animate-[ticker_55s_linear_infinite]">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex">
               {marqueeItems.map(text => (
-                <span key={text} className="inline-flex items-center gap-16 px-[36px] font-mono font-bold tracking-widest uppercase text-white/25 text-[10px]">
-                  <div className="w-[5px] h-[5px] rounded-full shadow-[0_0_8px_rgba(118,108,255,0.25)] bg-primary-solid" />
+                <span key={text} className="inline-flex items-center gap-16 px-[36px] font-mono font-semibold tracking-widest uppercase text-white/20 text-[9.5px]">
+                  <span className="w-[4px] h-[4px] rounded-full bg-primary/40" />
                   {text}
                 </span>
               ))}
@@ -418,30 +321,22 @@ export default function InteractiveHeroSection({
 
       <style jsx global>{`
         @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes chipBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
         @keyframes cblink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .hero-section-wrapper { cursor: none; }
-        .hero-section-wrapper:hover .custom-cursor { opacity: 1 !important; }
-        .cta-custom-primary {
-          background: var(--grad); color: #fff; padding: 0.8rem 1.7rem; border-radius: 12px;
-          font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500;
-          transition: all 0.28s; white-space: nowrap; box-shadow: 0 0 30px ${B_GLO};
-          border: none; cursor: none; display: inline-flex; align-items: center; gap: 8px;
+        .hero-backdrop {
+          background-image:
+            radial-gradient(ellipse 55% 60% at 22% 18%, rgba(118,108,255,0.10) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 50% at 85% 75%, rgba(118,108,255,0.05) 0%, transparent 60%),
+            linear-gradient(rgba(118,108,255,0.028) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(118,108,255,0.028) 1px, transparent 1px);
+          background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+          mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
         }
-        .cta-custom-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 38px rgba(118,108,255,0.5); }
-        .cta-custom-secondary {
-          color: rgba(255,255,255,0.45); font-size: 0.82rem; background: none; border: 1px solid rgba(255,255,255,0.15);
-          padding: 0.78rem 1.5rem; border-radius: 12px; font-family: 'DM Sans', sans-serif;
-          transition: all 0.25s; white-space: nowrap; cursor: none;
-        }
-        .cta-custom-secondary:hover { color: #fff; border-color: rgba(255,255,255,0.35); }
-        /* Hero CTAs: keep on a single line on desktop */
         @media (min-width: 1025px) {
           .hero-ctas { flex-wrap: nowrap; }
-          .hero-ctas .btn { padding: 14px 24px; font-size: 13.5px; white-space: nowrap; }
         }
         @media (max-width: 1024px) {
-          .hero-section-wrapper .container { grid-template-columns: 1fr !important; padding-top: 120px !important; gap: 2rem !important; }
+          .hero-section-wrapper .container { grid-template-columns: 1fr !important; padding-top: 64px !important; padding-bottom: 56px !important; gap: 2rem !important; }
           .hero-right-col { display: none !important; }
         }
       `}</style>

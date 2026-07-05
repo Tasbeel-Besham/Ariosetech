@@ -12,8 +12,8 @@ import { AnimatePresence, motion, useAnimate, stagger } from 'framer-motion'
 
 const BRAND   = 'ARIOSETECH'
 const TAGLINE = 'Consider It Solved'
-const DURATION = 1800          // ms for counter to reach 100
-const SLIDE_DELAY = 2100       // ms before curtain exits
+const DURATION = 900           // ms for counter to reach 100
+const SLIDE_DELAY = 1100       // ms before curtain exits
 
 export default function Preloader() {
   const [count, setCount]   = useState(0)
