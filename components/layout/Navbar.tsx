@@ -99,7 +99,9 @@ const TOOL_LINKS = [
   { label: 'Shopify Theme Detector',   href: '/tools/shopify-theme-detector',   desc: 'Detect any Shopify theme' },
 ]
 
-const NAV_LINKS = [
+type NavItem = { label: string; href: string; hasMega?: boolean; hasTools?: boolean; hasChildren?: boolean; children?: Array<{ label: string; href: string; desc?: string }>; target?: string }
+
+const NAV_LINKS: NavItem[] = [
   { label: 'Home',      href: '/' },
   { label: 'Services',  href: '/services', hasMega: true },
   { label: 'Portfolio', href: '/portfolio' },
@@ -351,9 +353,22 @@ function MobileDrawer({
           {/* Primary links */}
           <nav className="drawer-nav">
             {navLinks.filter(item => !item.hasMega && !item.hasTools).map(item => (
-              <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className={`drawer-link${isActive(item.href) ? ' active' : ''}`}>
-                {item.label}
-              </Link>
+              <div key={item.href}>
+                <Link href={item.href} onClick={() => setOpen(false)} className={`drawer-link${isActive(item.href) ? ' active' : ''}`}>
+                  {item.label}
+                </Link>
+                {/* Admin-created dropdown children show indented beneath the parent */}
+                {Array.isArray(item.children) && item.children.length > 0 && (
+                  <div className="flex flex-col pl-4 mt-1 mb-1 gap-0.5">
+                    {item.children.map((c: { label: string; href: string }) => (
+                      <Link key={c.href} href={c.href} onClick={() => setOpen(false)}
+                        className="drawer-link" style={{ fontSize: '14px', opacity: 0.75, paddingTop: '8px', paddingBottom: '8px' }}>
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </nav>
 
@@ -406,7 +421,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   // Dynamic state
-  const [navLinks, setNavLinks] = useState(NAV_LINKS)
+  const [navLinks, setNavLinks] = useState<NavItem[]>(NAV_LINKS)
   const [serviceTabs, setServiceTabs] = useState(SERVICE_TABS)
   const [toolLinks, setToolLinks] = useState(TOOL_LINKS)
 
@@ -417,6 +432,8 @@ export default function Navbar() {
 
   // Tools state
   const [toolsOpen, setToolsOpen] = useState(false)
+  // Generic per-item dropdown (admin-created dropdowns via children)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
   const pathname   = usePathname()
   const megaTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -443,6 +460,10 @@ export default function Navbar() {
           ...i,
           hasMega: i.label.toLowerCase() === 'services',
           hasTools: i.label.toLowerCase() === 'tools',
+          // Any item with its own children becomes a normal dropdown — this is how
+          // you add new dropdowns from the admin without touching code.
+          hasChildren: Array.isArray(i.children) && i.children.length > 0
+            && i.label.toLowerCase() !== 'services' && i.label.toLowerCase() !== 'tools',
         })))
       }
 
@@ -543,22 +564,36 @@ export default function Navbar() {
           {navLinks.map(item => {
             const hasMega = item.hasMega
             const hasTools = item.hasTools
-            
+            const hasChildren = item.hasChildren
+            const isOpen = openDropdown === item.href
+
             return (
             <div key={item.href} className="relative"
-              onMouseEnter={hasMega ? () => openMega() : (hasTools ? openTools : undefined)}
-              onMouseLeave={hasMega ? closeMega : (hasTools ? closeTools : undefined)}
+              onMouseEnter={hasMega ? () => openMega() : (hasTools ? openTools : (hasChildren ? () => setOpenDropdown(item.href) : undefined))}
+              onMouseLeave={hasMega ? closeMega : (hasTools ? closeTools : (hasChildren ? () => setOpenDropdown(null) : undefined))}
             >
-              <Link href={item.href} className={`nav-link${isActive(item.href) ? ' active' : ''}${hasMega && megaOpen ? ' open' : ''}`}>
+              <Link href={item.href} className={`nav-link${isActive(item.href) ? ' active' : ''}${hasMega && megaOpen ? ' open' : ''}${hasChildren && isOpen ? ' open' : ''}`}>
                 {item.label}
                 {hasMega && <ChevronSVG open={megaOpen} />}
                 {hasTools && <ChevronSVG open={toolsOpen} />}
+                {hasChildren && <ChevronSVG open={isOpen} />}
               </Link>
 
               {/* Tools dropdown */}
               <AnimatePresence>
                 {hasTools && toolsOpen && (
                   <ToolsPanel onEnter={openTools} onLeave={closeTools} links={toolLinks} />
+                )}
+              </AnimatePresence>
+
+              {/* Generic children dropdown (any admin-created dropdown) */}
+              <AnimatePresence>
+                {hasChildren && isOpen && (
+                  <ToolsPanel
+                    onEnter={() => setOpenDropdown(item.href)}
+                    onLeave={() => setOpenDropdown(null)}
+                    links={item.children || []}
+                  />
                 )}
               </AnimatePresence>
             </div>

@@ -240,69 +240,95 @@ export default function MenusAdmin() {
                 <button onClick={addItem} className="btn btn-primary btn-md"><Plus size={13} /> Add First Item</button>
               </div>
             ) : (
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2.5">
                 {currentItems.map((item, i) => (
-                  <div key={i} className="bg-bg-3 border border-border rounded-[10px] overflow-hidden">
-                    {/* Main item row */}
-                    <div className="flex gap-2 items-center p-2.5 flex-wrap max-md:flex-col max-md:items-start">
-                      <div className="flex gap-2 items-center w-full max-md:w-auto">
+                  <div key={i} className="bg-bg-3 border border-border rounded-xl overflow-hidden">
+                    {/* Main item */}
+                    <div className="p-3.5">
+                      <div className="flex items-center gap-2 mb-2.5">
                         <GripVertical size={14} className="text-text-3 shrink-0 cursor-grab" />
-                        <input value={item.label} onChange={e => updateItem(i, 'label', e.target.value)}
-                          className={`${inpClass} flex-none w-[160px] font-semibold max-sm:w-full`} placeholder="Label" />
-                        <input value={item.href} onChange={e => updateItem(i, 'href', e.target.value)}
-                          className={`${inpClass} flex-1 font-mono text-xs`} placeholder="/url" />
-                        <select
-                          value=""
-                          onChange={e => { if (e.target.value) updateItem(i, 'href', e.target.value) }}
-                          className={`${inpClass} w-[130px] cursor-pointer text-xs shrink-0`}
-                          title="Pick a page to fill the URL"
-                        >
-                          <option value="">Pick page…</option>
-                          {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
-                        </select>
+                        <span className="font-mono text-[10px] text-text-3 uppercase tracking-wider">Menu item {i + 1}</span>
+                        <div className="ml-auto flex gap-2">
+                          <button onClick={() => addChild(i)}
+                            className="py-1.5 px-3 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 text-[11px] font-semibold whitespace-nowrap font-display transition-colors hover:text-primary hover:border-primary/40 flex items-center gap-1">
+                            <Plus size={11} /> Add sub-item
+                          </button>
+                          <button onClick={() => removeItem(i)} title="Delete this menu item"
+                            className="py-1.5 px-2.5 rounded-lg border border-border bg-transparent cursor-pointer text-text-3 flex items-center gap-1 text-[11px] transition-colors hover:border-[#ff4d6d]/40 hover:text-[#ff4d6d]">
+                            <Trash2 size={12} /> Delete
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex gap-2 items-center w-full max-md:w-auto md:w-auto">
-                        <select value={item.target || '_self'} onChange={e => updateItem(i, 'target', e.target.value)}
-                          className={`${inpClass} w-[100px] cursor-pointer text-xs`}>
-                          <option value="_self">Same tab</option>
-                          <option value="_blank">New tab</option>
-                        </select>
-                        <button onClick={() => addChild(i)}
-                          className="py-[7px] px-2.5 rounded-[7px] border border-border bg-transparent cursor-pointer text-text-3 text-[11px] whitespace-nowrap font-display transition-colors hover:text-white hover:border-text-3">
-                          + Sub
-                        </button>
-                        <button onClick={() => removeItem(i)}
-                          className="p-[7px] rounded-[7px] border border-border bg-transparent cursor-pointer text-text-3 flex items-center transition-colors hover:border-[#ff4d6d]/40 hover:text-[#ff4d6d]">
-                          <Trash2 size={13} />
-                        </button>
+                      <div className="grid grid-cols-[1fr_1.4fr_auto] gap-2 items-end max-md:grid-cols-1">
+                        <div>
+                          <label className="block text-[10px] text-text-3 mb-1 font-mono uppercase tracking-wider">Label</label>
+                          <input value={item.label} onChange={e => updateItem(i, 'label', e.target.value)}
+                            className={`${inpClass} w-full font-semibold`} placeholder="e.g. About" />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] text-text-3 mb-1 font-mono uppercase tracking-wider">Link / URL</label>
+                          <div className="flex gap-2">
+                            <input value={item.href} onChange={e => updateItem(i, 'href', e.target.value)}
+                              className={`${inpClass} flex-1 font-mono text-xs`} placeholder="/about or https://…" />
+                            <select
+                              value=""
+                              onChange={e => { if (e.target.value) updateItem(i, 'href', e.target.value) }}
+                              className={`${inpClass} w-[130px] cursor-pointer text-xs shrink-0`}
+                              title="Pick one of your pages to fill the URL"
+                            >
+                              <option value="">Pick a page…</option>
+                              {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
+                            </select>
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-[10px] text-text-3 mb-1 font-mono uppercase tracking-wider">Opens in</label>
+                          <select value={item.target || '_self'} onChange={e => updateItem(i, 'target', e.target.value)}
+                            className={`${inpClass} w-[110px] cursor-pointer text-xs max-md:w-full`}>
+                            <option value="_self">Same tab</option>
+                            <option value="_blank">New tab</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Sub-items */}
-                    {item.children && item.children.length > 0 && (
-                      <div className="border-t border-border py-2 px-3 pl-9 flex flex-col gap-[5px]">
-                        {item.children.map((child, ci) => (
-                          <div key={ci} className="flex gap-2 items-center flex-wrap">
-                            <span className="font-mono text-[10px] text-primary shrink-0">↳</span>
-                            <input value={child.label} onChange={e => updateChild(i, ci, 'label', e.target.value)}
-                              className={`${inpClass} flex-none w-[140px] text-xs py-1.5 px-2.5`} placeholder="Sub label" />
-                            <input value={child.href} onChange={e => updateChild(i, ci, 'href', e.target.value)}
-                              className={`${inpClass} flex-1 text-[11px] py-1.5 px-2.5 font-mono`} placeholder="/url" />
-                            <select
-                              value=""
-                              onChange={e => { if (e.target.value) updateChild(i, ci, 'href', e.target.value) }}
-                              className={`${inpClass} w-[120px] text-[11px] py-1.5 px-2 cursor-pointer shrink-0`}
-                              title="Pick a page"
-                            >
-                              <option value="">Pick page…</option>
-                              {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
-                            </select>
-                            <button onClick={() => removeChild(i, ci)}
-                              className="p-[5px] rounded-md border-none bg-transparent cursor-pointer text-text-3 text-[13px] transition-colors hover:text-[#ff4d6d]"></button>
-                          </div>
-                        ))}
+                    {/* Sub-items (dropdown). Always shown so it's clear how to add them. */}
+                    <div className="border-t border-border bg-bg-2/50 py-3 px-3.5 pl-8 flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <p className="font-mono text-[10px] text-text-3 uppercase tracking-wider">
+                          Dropdown links under &ldquo;{item.label}&rdquo; {item.children && item.children.length > 0 ? `(${item.children.length})` : '(none yet)'}
+                        </p>
+                        <button onClick={() => addChild(i)}
+                          className="py-1 px-2.5 rounded-md border border-border bg-transparent cursor-pointer text-text-3 text-[10px] font-semibold font-display transition-colors hover:text-primary hover:border-primary/40 flex items-center gap-1">
+                          <Plus size={10} /> Add dropdown link
+                        </button>
                       </div>
-                    )}
+                      {(item.children || []).map((child, ci) => (
+                        <div key={ci} className="flex gap-2 items-center flex-wrap max-md:flex-col max-md:items-stretch">
+                          <span className="font-mono text-[11px] text-primary shrink-0">↳</span>
+                          <input value={child.label} onChange={e => updateChild(i, ci, 'label', e.target.value)}
+                            className={`${inpClass} w-[150px] text-xs py-1.5 px-2.5 max-md:w-full`} placeholder="Link label" />
+                          <input value={child.href} onChange={e => updateChild(i, ci, 'href', e.target.value)}
+                            className={`${inpClass} flex-1 text-[11px] py-1.5 px-2.5 font-mono min-w-[120px]`} placeholder="/url" />
+                          <select
+                            value=""
+                            onChange={e => { if (e.target.value) updateChild(i, ci, 'href', e.target.value) }}
+                            className={`${inpClass} w-[120px] text-[11px] py-1.5 px-2 cursor-pointer shrink-0 max-md:w-full`}
+                            title="Pick a page"
+                          >
+                            <option value="">Pick page…</option>
+                            {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
+                          </select>
+                          <button onClick={() => removeChild(i, ci)} title="Remove this dropdown link only"
+                            className="py-1.5 px-2 rounded-md border border-border bg-transparent cursor-pointer text-text-3 flex items-center gap-1 text-[10px] shrink-0 transition-colors hover:border-[#ff4d6d]/40 hover:text-[#ff4d6d]">
+                            <Trash2 size={11} /> Remove
+                          </button>
+                        </div>
+                      ))}
+                      {(!item.children || item.children.length === 0) && (
+                        <p className="text-[11px] text-text-3 italic">No dropdown links. This item is a plain link. Add links above to turn it into a dropdown menu.</p>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
