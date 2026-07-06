@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
-import { Save, Plus, Trash2, GripVertical } from '@/components/ui/Icons'
+import { Save, Plus, Trash2 } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
 type NavItem = { label: string; href: string; target?: string; children?: NavItem[] }
@@ -156,6 +156,13 @@ export default function MenusAdmin() {
 
   const addItem    = () => setItems([...currentItems, { label: 'New Item', href: '/' }])
   const removeItem = (i: number) => setItems(currentItems.filter((_, j) => j !== i))
+  const moveItem   = (i: number, dir: -1 | 1) => {
+    const j = i + dir
+    if (j < 0 || j >= currentItems.length) return
+    const next = [...currentItems]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    setItems(next)
+  }
   const updateItem = (i: number, key: string, val: string) =>
     setItems(currentItems.map((item, j) => j === i ? { ...item, [key]: val } : item))
   const addChild   = (i: number) =>
@@ -246,7 +253,12 @@ export default function MenusAdmin() {
                     {/* Main item */}
                     <div className="p-3.5">
                       <div className="flex items-center gap-2 mb-2.5">
-                        <GripVertical size={14} className="text-text-3 shrink-0 cursor-grab" />
+                        <div className="flex flex-col gap-0.5 shrink-0">
+                          <button onClick={() => moveItem(i, -1)} disabled={i === 0} title="Move up"
+                            className="w-5 h-4 rounded border border-border text-text-3 text-[9px] leading-none flex items-center justify-center disabled:opacity-25 hover:text-primary hover:border-primary/40 transition-colors">▲</button>
+                          <button onClick={() => moveItem(i, 1)} disabled={i === currentItems.length - 1} title="Move down"
+                            className="w-5 h-4 rounded border border-border text-text-3 text-[9px] leading-none flex items-center justify-center disabled:opacity-25 hover:text-primary hover:border-primary/40 transition-colors">▼</button>
+                        </div>
                         <span className="font-mono text-[10px] text-text-3 uppercase tracking-wider">Menu item {i + 1}</span>
                         <div className="ml-auto flex gap-2">
                           <button onClick={() => addChild(i)}
@@ -267,19 +279,17 @@ export default function MenusAdmin() {
                         </div>
                         <div>
                           <label className="block text-[10px] text-text-3 mb-1 font-mono uppercase tracking-wider">Link / URL</label>
-                          <div className="flex gap-2">
-                            <input value={item.href} onChange={e => updateItem(i, 'href', e.target.value)}
-                              className={`${inpClass} flex-1 font-mono text-xs`} placeholder="/about or https://…" />
-                            <select
-                              value=""
-                              onChange={e => { if (e.target.value) updateItem(i, 'href', e.target.value) }}
-                              className={`${inpClass} w-[130px] cursor-pointer text-xs shrink-0`}
-                              title="Pick one of your pages to fill the URL"
-                            >
-                              <option value="">Pick a page…</option>
-                              {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
-                            </select>
-                          </div>
+                          <input value={item.href} onChange={e => updateItem(i, 'href', e.target.value)}
+                            className={`${inpClass} w-full font-mono text-xs mb-1.5`} placeholder="/about or https://…" />
+                          <select
+                            value={pageOptions.some(p => p.href === item.href) ? item.href : ''}
+                            onChange={e => { if (e.target.value) updateItem(i, 'href', e.target.value) }}
+                            className={`${inpClass} w-full cursor-pointer text-xs`}
+                            title="Pick one of your pages to fill the URL"
+                          >
+                            <option value="">— or pick a page —</option>
+                            {pageOptions.map(p => <option key={p.href} value={p.href}>{p.label}</option>)}
+                          </select>
                         </div>
                         <div>
                           <label className="block text-[10px] text-text-3 mb-1 font-mono uppercase tracking-wider">Opens in</label>
@@ -311,7 +321,7 @@ export default function MenusAdmin() {
                           <input value={child.href} onChange={e => updateChild(i, ci, 'href', e.target.value)}
                             className={`${inpClass} flex-1 text-[11px] py-1.5 px-2.5 font-mono min-w-[120px]`} placeholder="/url" />
                           <select
-                            value=""
+                            value={pageOptions.some(p => p.href === child.href) ? child.href : ''}
                             onChange={e => { if (e.target.value) updateChild(i, ci, 'href', e.target.value) }}
                             className={`${inpClass} w-[120px] text-[11px] py-1.5 px-2 cursor-pointer shrink-0 max-md:w-full`}
                             title="Pick a page"
