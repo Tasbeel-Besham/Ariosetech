@@ -101,7 +101,7 @@ const TOOL_LINKS = [
 
 const NAV_LINKS = [
   { label: 'Home',      href: '/' },
-  { label: 'Services',  href: '/services/wordpress', hasMega: true },
+  { label: 'Services',  href: '/services', hasMega: true },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Tools',     href: '/tools/wordpress-theme-detector', hasTools: true },
   { label: 'About',     href: '/about' },

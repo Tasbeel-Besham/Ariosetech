@@ -18,7 +18,7 @@ const LOCATIONS = [
 const DEFAULTS: Record<string, NavItem[]> = {
   header: [
     { label: 'Home',      href: '/' },
-    { label: 'Services',  href: '/services/wordpress' },
+    { label: 'Services',  href: '/services' },
     { label: 'Portfolio', href: '/portfolio' },
     { label: 'Tools',     href: '/tools/wordpress-theme-detector' },
     { label: 'About',     href: '/about' },
@@ -82,7 +82,7 @@ const DEFAULTS: Record<string, NavItem[]> = {
   ],
   mobile: [
     { label: 'Home',      href: '/' },
-    { label: 'Services',  href: '/services/wordpress' },
+    { label: 'Services',  href: '/services' },
     { label: 'Portfolio', href: '/portfolio' },
     { label: 'Blog',      href: '/blog' },
     { label: 'About',     href: '/about' },

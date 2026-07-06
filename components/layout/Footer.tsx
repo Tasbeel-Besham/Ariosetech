@@ -168,7 +168,7 @@ export default function Footer() {
           <p className="footer-fineprint">
             {bottomText}
           </p>
-          <div className="flex gap-20 flex-wrap">
+          <div className="flex gap-x-6 gap-y-3 flex-wrap items-center">
             {['Privacy Policy','Terms of Service','FAQ'].map(t => (
               <Link key={t} href={`/${t.toLowerCase().replace(/ /g,'-')}`}
                 className="footer-legal-link">
@@ -176,11 +176,12 @@ export default function Footer() {
               </Link>
             ))}
             <a href="https://g.co/kgs/oiGmWD7" target="_blank" rel="noopener noreferrer"
-              className="footer-legal-link flex items-center gap-4">
-              ⭐ Google Reviews
+              className="footer-review-link">
+              <svg className="footer-review-star" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              5.0 Google Reviews
             </a>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="footer-status">
             <div className="footer-status-dot" />
             <p className="footer-status-text">All systems operational</p>
           </div>

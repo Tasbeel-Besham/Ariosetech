@@ -23,6 +23,10 @@ import ImpactSection            from '@/components/sections/ImpactSection'
 import HowItWorksSection        from '@/components/sections/HowItWorksSection'
 import BlogSection              from '@/components/sections/BlogSection'
 import ApproachSection          from '@/components/sections/ApproachSection'
+import ServicesOverviewSection  from '@/components/sections/ServicesOverviewSection'
+import CapabilitiesSection      from '@/components/sections/CapabilitiesSection'
+import ServiceGridSection       from '@/components/sections/ServiceGridSection'
+import StatBandSection          from '@/components/sections/StatBandSection'
 
 type C = React.FC<Record<string, unknown>>
 
@@ -85,6 +89,69 @@ export function initRegistry() {
         { type: 'text',     name: 'href',     label: 'Button URL' },
         { type: 'text',     name: 'icon',     label: 'SVG icon code' },
         { type: 'textarea', name: 'bg',       label: 'Background CSS (gradient)' },
+      ]},
+    ],
+  })
+
+  // ── SERVICES OVERVIEW (numbered editorial cards) ─────────────
+  registerSection({
+    type: 'services-overview', label: 'Services Overview', category: 'Sections', icon: '🧭',
+    component: ServicesOverviewSection as C,
+    defaultProps: {
+      eyebrow: 'What We Do',
+      headline: 'Services built around your growth',
+      intro: 'Four core capabilities, one senior team. Every engagement is scoped to your business goals — not a template.',
+      items: [
+        { num: '01', title: 'WordPress Development', tagline: 'Powerful, scalable websites', desc: 'Custom themes, complex functionality, and lightning-fast, SEO-ready builds — from brochure sites to membership platforms.', features: 'Custom themes,Speed optimization,Security hardening,Migrations', price: 'From $799', href: '/services/wordpress' },
+        { num: '02', title: 'WooCommerce Development', tagline: 'Stores built to sell', desc: 'Profitable online stores with seamless checkout, payment gateways, and inventory that scales with your business.', features: 'Store setup,Payment gateways,Multi-vendor,COD workflows', price: 'From $1,299', href: '/services/woocommerce' },
+        { num: '03', title: 'Shopify Development', tagline: 'Scale without limits', desc: 'From your first storefront to Shopify Plus — custom themes, app integrations, and conversion-focused design.', features: 'Custom themes,Shopify Plus,App integration,CRO', price: 'From $999', href: '/services/shopify' },
+        { num: '04', title: 'SEO Services', tagline: 'Get found faster', desc: 'Technical, local, and content SEO that moves you up the rankings and brings customers ready to buy.', features: 'Technical SEO,Local SEO,Content strategy,Core Web Vitals', price: 'Custom', href: '/services/seo' },
+      ],
+    },
+    schema: [
+      { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
+      { type: 'text',     name: 'headline', label: 'Section headline' },
+      { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
+      { type: 'repeater', name: 'items',    label: 'Services', fields: [
+        { type: 'text',     name: 'num',      label: 'Number (e.g. 01)' },
+        { type: 'text',     name: 'title',    label: 'Service title' },
+        { type: 'text',     name: 'tagline',  label: 'Short tagline' },
+        { type: 'textarea', name: 'desc',     label: 'Description' },
+        { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
+        { type: 'text',     name: 'price',    label: 'Price label' },
+        { type: 'text',     name: 'href',     label: 'Link URL' },
+      ]},
+    ],
+  })
+
+  // ── CAPABILITIES (standard behind every project) ─────────────
+  registerSection({
+    type: 'capabilities', label: 'Capabilities / Standards', category: 'Sections', icon: '✅',
+    component: CapabilitiesSection as C,
+    defaultProps: {
+      eyebrow: 'How We Work',
+      headline: 'The standard behind every project',
+      desc: 'Whatever platform you need, the fundamentals never change. This is what you get with ARIOSETECH — on every engagement, at every price point.',
+      ctaLabel: 'Start Your Project',
+      ctaHref: '/contact',
+      items: [
+        { title: 'Custom, not templated', desc: 'Every build is designed around your brand and goals — no recycled themes.' },
+        { title: 'Speed-obsessed', desc: 'Core Web Vitals in the green, because slow sites lose customers.' },
+        { title: 'SEO from day one', desc: 'Clean markup, schema, and structure that search engines reward.' },
+        { title: 'Mobile-first', desc: 'Designed for the phone first, where most of your traffic actually is.' },
+        { title: 'Secure by default', desc: 'Hardening, backups, and monitoring baked into every project.' },
+        { title: 'Support that stays', desc: 'We do not disappear at launch — ongoing care keeps you running.' },
+      ],
+    },
+    schema: [
+      { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
+      { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'textarea', name: 'desc',     label: 'Description' },
+      { type: 'text',     name: 'ctaLabel', label: 'CTA label' },
+      { type: 'text',     name: 'ctaHref',  label: 'CTA URL' },
+      { type: 'repeater', name: 'items',    label: 'Capabilities', fields: [
+        { type: 'text',     name: 'title', label: 'Title' },
+        { type: 'textarea', name: 'desc',  label: 'Description' },
       ]},
     ],
   })
@@ -419,6 +486,62 @@ export function initRegistry() {
       { type: 'repeater', name: 'items', label: 'FAQ items', fields: [
         { type: 'text',     name: 'q', label: 'Question' },
         { type: 'textarea', name: 'a', label: 'Answer' },
+      ]},
+    ],
+  })
+
+  // ── SERVICE GRID (new) ───────────────────────────────────────
+  registerSection({
+    type: 'service-grid', label: 'Service Cards Grid', category: 'Sections', icon: '🧩',
+    component: ServiceGridSection as C,
+    defaultProps: {
+      eyebrow: 'What We Do',
+      headline: 'Everything You Need to Succeed Online',
+      intro: 'Four focused disciplines, one expert team. Whatever stage your business is at, we have a service built to move it forward.',
+      items: [
+        { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>', title: 'WordPress Development', tagline: 'Powerful, scalable websites', desc: 'Custom themes, complex functionality, speed-optimized and SEO-ready builds that grow with your business.', features: 'Custom themes,Speed optimization,Migrations,Security hardening,Ongoing support', price: 'From $799', href: '/services/wordpress' },
+        { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>', title: 'WooCommerce Stores', tagline: 'Sell more, manage less', desc: 'Profitable online stores with seamless checkout, payment gateways, and inventory that scales with demand.', features: 'Store setup,Payment gateways,Multi-vendor,COD workflows,Performance tuning', price: 'From $1,299', href: '/services/woocommerce' },
+        { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>', title: 'Shopify Development', tagline: 'From startup to Shopify Plus', desc: 'Conversion-focused Shopify builds and custom apps, whether you are launching your first store or scaling to enterprise.', features: 'Custom themes,Shopify Plus,App integration,Conversion optimization,Migrations', price: 'From $999', href: '/services/shopify' },
+        { icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.3-4.3"/><circle cx="11" cy="11" r="8"/></svg>', title: 'SEO Services', tagline: 'Rank higher, get found', desc: 'Business-first SEO across technical, local, and content strategy so the right customers find you first.', features: 'Technical SEO,Local SEO,Content strategy,Core Web Vitals,Competitor analysis', price: 'Custom', href: '/services/seo' },
+      ],
+    },
+    schema: [
+      { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
+      { type: 'text',     name: 'headline', label: 'Section headline' },
+      { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
+      { type: 'repeater', name: 'items',    label: 'Service cards', fields: [
+        { type: 'textarea', name: 'icon',     label: 'Icon (SVG code)' },
+        { type: 'text',     name: 'title',    label: 'Service title' },
+        { type: 'text',     name: 'tagline',  label: 'Short tagline' },
+        { type: 'textarea', name: 'desc',     label: 'Description' },
+        { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
+        { type: 'text',     name: 'price',    label: 'Price label' },
+        { type: 'text',     name: 'href',     label: 'Link URL' },
+      ]},
+    ],
+  })
+
+  // ── STAT BAND (new) ──────────────────────────────────────────
+  registerSection({
+    type: 'stat-band', label: 'Stats Band', category: 'Sections', icon: '📊',
+    component: StatBandSection as C,
+    defaultProps: {
+      eyebrow: 'By the Numbers',
+      headline: 'Results That Speak for Themselves',
+      items: [
+        { value: '100+', label: 'Projects Delivered', sub: 'Across 5 countries' },
+        { value: '7+',   label: 'Years in Business',  sub: 'Since 2017' },
+        { value: '5.0',  label: 'Average Rating',     sub: 'On Google Reviews' },
+        { value: '24/7', label: 'Support',            sub: 'Across time zones' },
+      ],
+    },
+    schema: [
+      { type: 'text', name: 'eyebrow',  label: 'Eyebrow (optional)' },
+      { type: 'text', name: 'headline', label: 'Headline (optional)' },
+      { type: 'repeater', name: 'items', label: 'Stats', fields: [
+        { type: 'text', name: 'value', label: 'Big number' },
+        { type: 'text', name: 'label', label: 'Label' },
+        { type: 'text', name: 'sub',   label: 'Sub-label (optional)' },
       ]},
     ],
   })
