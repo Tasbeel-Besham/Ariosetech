@@ -36,6 +36,7 @@ const NAV = [
     label: 'Design & Config', icon: Palette, children: [
       { label: 'Theme', href: '/admin/theme', icon: Palette },
       { label: 'SEO Auditor', href: '/admin/seo-audit', icon: Search },
+      { label: 'Schema Generator', href: '/admin/schema-generator', icon: FileText },
       { label: 'Tracking', href: '/admin/tracking', icon: BarChart2 },
       { label: 'Settings', href: '/admin/settings', icon: Settings },
       { label: 'Users', href: '/admin/users', icon: Users },

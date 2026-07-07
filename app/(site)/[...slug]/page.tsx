@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getCollection } from '@/lib/db/mongodb'
+import { webPageSchema, serviceSchema, breadcrumbSchema, trailFromPath, isServicePath } from '@/lib/schema'
 import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
 
@@ -85,11 +86,29 @@ export default async function DynamicPage({ params }: Props) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com';
   const pageUrl = `${siteUrl}${page.fullPath}`;
 
+  // Auto-attach structured data so every builder page has schema (previously
+  // only the homepage, blog and FAQ did). WebPage + Breadcrumbs always; Service
+  // schema when the path is under /services.
+  const seo = page.seo || {}
+  const desc = seo.description || deriveDescription(page)
+  const schemas: object[] = [
+    webPageSchema({ title: seo.title || page.title, description: desc, url: pageUrl, image: seo.ogImage }),
+    breadcrumbSchema(trailFromPath(page.fullPath, page.title || 'Page')),
+  ]
+  if (isServicePath(page.fullPath)) {
+    schemas.push(serviceSchema({ name: page.title || 'Service', description: desc, url: pageUrl }))
+  }
+
   return (
-    <BuilderRenderer 
-      sections={page.layout.sections} 
-      pageName={page.title || 'Page'}
-      pageUrl={pageUrl}
-    />
+    <>
+      {schemas.map((s, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+      ))}
+      <BuilderRenderer
+        sections={page.layout.sections}
+        pageName={page.title || 'Page'}
+        pageUrl={pageUrl}
+      />
+    </>
   )
 }
