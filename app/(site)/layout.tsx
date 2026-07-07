@@ -4,10 +4,11 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import Animations from '@/components/ui/Animations'
 import Preloader from '@/components/ui/Preloader'
+import { FooterCtaProvider } from '@/components/layout/FooterCtaContext'
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <FooterCtaProvider>
       <Preloader />
       <Toaster position="top-right" toastOptions={{
         style: {
@@ -23,6 +24,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <main>{children}</main>
       <Footer />
       <Animations />
-    </>
+    </FooterCtaProvider>
   )
 }

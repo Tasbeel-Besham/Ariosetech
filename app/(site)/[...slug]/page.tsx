@@ -4,6 +4,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import { webPageSchema, serviceSchema, breadcrumbSchema, trailFromPath, isServicePath } from '@/lib/schema'
 import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
+import SetFooterCta from '@/components/layout/SetFooterCta'
 
 
 export const dynamic = 'force-dynamic'
@@ -104,6 +105,14 @@ export default async function DynamicPage({ params }: Props) {
       {schemas.map((s, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
       ))}
+      {page.footerCta && (page.footerCta.headline || page.footerCta.desc) && (
+        <SetFooterCta
+          headline={page.footerCta.headline}
+          desc={page.footerCta.desc}
+          primaryLabel={page.footerCta.primaryLabel}
+          primaryHref={page.footerCta.primaryHref}
+        />
+      )}
       <BuilderRenderer
         sections={page.layout.sections}
         pageName={page.title || 'Page'}

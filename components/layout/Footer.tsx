@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from '@/components/ui/Icons'
+import { useFooterCta } from '@/components/layout/FooterCtaContext'
 
 const SOCIALS = [
   { icon:<Facebook  size={16} />, href:'https://www.facebook.com/ArioseTech/', label:'Facebook' },
@@ -24,6 +25,14 @@ export default function Footer() {
   const [tagline, setTagline] = useState('Professional WordPress, Shopify & WooCommerce Development since 2017. Trusted by 100+ businesses in the USA, UAE, and Switzerland.')
   const [bottomText, setBottomText] = useState(`© ${new Date().getFullYear()} ARIOSETECH. All rights reserved.`)
   const [columns, setColumns] = useState<any[]>([])
+
+  // Per-page CTA override (set by pages via <SetFooterCta/>). Falls back to
+  // the global footer config when a page hasn't set its own.
+  const { cta: pageCta } = useFooterCta()
+  const shownHeadline = pageCta?.headline || ctaHeadline
+  const shownDesc     = pageCta?.desc || ctaDesc
+  const shownLabel    = pageCta?.primaryLabel || ctaLabel
+  const shownHref     = pageCta?.primaryHref || ctaHref
 
   useEffect(() => {
     Promise.all([
@@ -86,14 +95,14 @@ export default function Footer() {
         <div className="container flex flex-col md:flex-row items-center text-center md:text-left justify-between footer-cta-inner">
           <div className="flex-1 w-full">
             <h2 className="footer-cta-headline">
-              {ctaHeadline}
+              {shownHeadline}
             </h2>
             <p className="mx-auto md:mx-0 footer-cta-sub">
-              {ctaDesc}
+              {shownDesc}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row w-full md:w-auto gap-[14px] shrink-0">
-            <Link href={ctaHref} className="btn btn-primary btn-lg">{ctaLabel}</Link>
+            <Link href={shownHref} className="btn btn-primary btn-lg">{shownLabel}</Link>
             <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg">
               WhatsApp Us
             </a>

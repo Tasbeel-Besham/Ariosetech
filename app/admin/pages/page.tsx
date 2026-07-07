@@ -5,7 +5,7 @@ import AdminShell from '@/components/layout/AdminShell'
 import { Plus, Pencil, Trash2, Eye, Settings, Copy, RefreshCw } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
 
-type Page = { _id: string; title: string; slug: string; fullPath: string; status: string; updatedAt: string; seo?: { title?: string; description?: string; ogImage?: string; canonicalUrl?: string } }
+type Page = { _id: string; title: string; slug: string; fullPath: string; status: string; updatedAt: string; seo?: { title?: string; description?: string; ogImage?: string; canonicalUrl?: string }; footerCta?: { headline?: string; desc?: string; primaryLabel?: string; primaryHref?: string } }
 
 export default function PagesAdmin() {
   const [pages, setPages] = useState<Page[]>([])
@@ -15,7 +15,7 @@ export default function PagesAdmin() {
   const [newTitle, setNewTitle] = useState('')
   const [newSlug, setNewSlug] = useState('')
   const [editSeo, setEditSeo] = useState<Page | null>(null)
-  const [seoForm, setSeoForm] = useState({ title: '', description: '', slug: '', ogImage: '', canonicalUrl: '' })
+  const [seoForm, setSeoForm] = useState({ title: '', description: '', slug: '', ogImage: '', canonicalUrl: '', ctaHeadline: '', ctaDesc: '', ctaLabel: '', ctaHref: '' })
 
   const load = useCallback(() => {
     setLoading(true)
@@ -58,12 +58,12 @@ export default function PagesAdmin() {
 
   const openSeo = (page: Page) => {
     setEditSeo(page)
-    setSeoForm({ title: page.seo?.title || '', description: page.seo?.description || '', slug: page.slug || '', ogImage: page.seo?.ogImage || '', canonicalUrl: page.seo?.canonicalUrl || '' })
+    setSeoForm({ title: page.seo?.title || '', description: page.seo?.description || '', slug: page.slug || '', ogImage: page.seo?.ogImage || '', canonicalUrl: page.seo?.canonicalUrl || '', ctaHeadline: page.footerCta?.headline || '', ctaDesc: page.footerCta?.desc || '', ctaLabel: page.footerCta?.primaryLabel || '', ctaHref: page.footerCta?.primaryHref || '' })
   }
 
   const saveSeo = async () => {
     if (!editSeo) return
-    const res = await fetch(`/api/pages/${editSeo._id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: seoForm.slug, seo: { title: seoForm.title, description: seoForm.description, ogImage: seoForm.ogImage, canonicalUrl: seoForm.canonicalUrl, robots: { index: true, follow: true } } }) })
+    const res = await fetch(`/api/pages/${editSeo._id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: seoForm.slug, seo: { title: seoForm.title, description: seoForm.description, ogImage: seoForm.ogImage, canonicalUrl: seoForm.canonicalUrl, robots: { index: true, follow: true } }, footerCta: { headline: seoForm.ctaHeadline, desc: seoForm.ctaDesc, primaryLabel: seoForm.ctaLabel, primaryHref: seoForm.ctaHref } }) })
     if (res.ok) { toast.success('SEO saved'); setEditSeo(null); load() }
     else toast.error('Save failed')
   }
@@ -194,6 +194,24 @@ export default function PagesAdmin() {
               </div>
               <div><label className={lblClass}>Canonical URL <span className="text-text-3">(optional — leave blank to auto-generate)</span></label>
                 <input value={seoForm.canonicalUrl} onChange={e => setSeoForm(f => ({ ...f, canonicalUrl: e.target.value }))} placeholder={`https://ariosetech.com${editSeo.fullPath}`} className={`${inpClass} font-mono text-xs`} />
+              </div>
+
+              {/* Pre-footer CTA override */}
+              <div className="pt-4 mt-2 border-t border-border">
+                <p className="font-display text-[13px] font-bold text-white mb-1">Pre-footer CTA <span className="text-text-3 font-normal font-body text-[11px]">(the banner above the footer)</span></p>
+                <p className="text-[11px] text-text-3 mb-3 leading-relaxed">Customize the call-to-action for this page. Leave blank to use the site-wide default.</p>
+                <div className="flex flex-col gap-3">
+                  <div><label className={lblClass}>CTA headline</label>
+                    <input value={seoForm.ctaHeadline} onChange={e => setSeoForm(f => ({ ...f, ctaHeadline: e.target.value }))} placeholder="e.g. Ready to secure your WordPress site?" className={inpClass} /></div>
+                  <div><label className={lblClass}>CTA description</label>
+                    <textarea value={seoForm.ctaDesc} onChange={e => setSeoForm(f => ({ ...f, ctaDesc: e.target.value }))} rows={2} placeholder="A short line that fits this page's topic." className={`${inpClass} resize-y`} /></div>
+                  <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+                    <div><label className={lblClass}>Button label</label>
+                      <input value={seoForm.ctaLabel} onChange={e => setSeoForm(f => ({ ...f, ctaLabel: e.target.value }))} placeholder="Get a Free Quote" className={inpClass} /></div>
+                    <div><label className={lblClass}>Button link</label>
+                      <input value={seoForm.ctaHref} onChange={e => setSeoForm(f => ({ ...f, ctaHref: e.target.value }))} placeholder="/contact" className={`${inpClass} font-mono text-xs`} /></div>
+                  </div>
+                </div>
               </div>
               {/* Google preview */}
               {(seoForm.title || editSeo.title) && (

@@ -61,6 +61,7 @@ export type PageDoc = {
   layout: PageLayout
   status: 'draft' | 'published'
   seo: SeoFields
+  footerCta?: { headline?: string; desc?: string; primaryLabel?: string; primaryHref?: string }
   schema?: SchemaOrg
   relatedPages?: ObjectId[]
   relatedBlogs?: ObjectId[]

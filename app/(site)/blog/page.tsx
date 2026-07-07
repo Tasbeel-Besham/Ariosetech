@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from '@/components/ui/Icons'
+import SetFooterCta from '@/components/layout/SetFooterCta'
 import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc } from '@/types'
 
@@ -35,6 +36,12 @@ export default async function BlogPage() {
 
   return (
     <>
+      <SetFooterCta
+        headline="Got a project instead of just a question?"
+        desc="Reading up is smart. When you're ready to build, fix, or grow your site, we're here."
+        primaryLabel="Get a Free Quote"
+        primaryHref="/contact"
+      />
       {/* Header */}
       <section className="blog-head">
         <div className="blog-head-glow" aria-hidden="true" />

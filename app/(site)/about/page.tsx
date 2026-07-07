@@ -4,6 +4,7 @@ import { ArrowRight } from '@/components/ui/Icons'
 import ClutchWidget from '@/components/ui/ClutchWidget'
 import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 import CtaSection from '@/components/sections/CtaSection'
+import SetFooterCta from '@/components/layout/SetFooterCta'
 import Reveal from '@/components/motion/Reveal'
 
 export const metadata: Metadata = {
@@ -44,6 +45,12 @@ const ValIcon4 = () => (
 export default function AboutPage() {
   return (
     <>
+      <SetFooterCta
+        headline="Want a team that treats your site like their own?"
+        desc="Since 2017 we've helped 100+ businesses build, fix, and grow. Let's talk about yours."
+        primaryLabel="Work With Us"
+        primaryHref="/contact"
+      />
       <InteractiveHeroSection 
         eyebrow="About Us"
         headline={'Specialists, Not Generalists.\nConsider It Solved.'}
