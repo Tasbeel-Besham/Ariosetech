@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, FileText, Briefcase, Settings, Users, LogOut,
   Menu, Layers, ChevronRight, ImageIcon, Globe, Palette,
-  Navigation, Mail, BarChart2, MessageSquare, ChevronDown,
+  Navigation, Mail, BarChart2, MessageSquare, ChevronDown, Search,
 } from '@/components/ui/Icons'
 
 const NAV = [
@@ -35,6 +35,7 @@ const NAV = [
   {
     label: 'Design & Config', icon: Palette, children: [
       { label: 'Theme', href: '/admin/theme', icon: Palette },
+      { label: 'SEO Auditor', href: '/admin/seo-audit', icon: Search },
       { label: 'Tracking', href: '/admin/tracking', icon: BarChart2 },
       { label: 'Settings', href: '/admin/settings', icon: Settings },
       { label: 'Users', href: '/admin/users', icon: Users },
