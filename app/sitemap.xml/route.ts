@@ -12,6 +12,7 @@ const STATIC_ROUTES = [
   '/faq',
   '/blog',
   '/services',
+  '/services/business-automation',
   '/tools/wordpress-theme-detector',
   '/tools/shopify-theme-detector',
   '/portfolio/wordpress',
