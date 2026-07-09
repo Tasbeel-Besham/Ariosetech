@@ -484,13 +484,23 @@ export default function Navbar() {
 
       if (Array.isArray(servicesMenu) && servicesMenu.length > 0
           && Array.isArray(servicesMenu[0].items) && servicesMenu[0].items.length > 0) {
-        setServiceTabs(servicesMenu[0].items.map((i: any, idx: number) => ({
+        const dbTabs = servicesMenu[0].items.map((i: any, idx: number) => ({
           id: idx + 1,
           label: i.label,
           href: i.href,
           icon: getIcon(i.label),
           items: i.children || []
-        })))
+        }))
+        // Guarantee the Business Automation category is present even if the saved
+        // database menu predates it — merge it in rather than relying on the DB
+        // menu being edited by hand. Match on the href so we never duplicate it.
+        const hasAutomation = dbTabs.some((t: any) =>
+          typeof t.href === 'string' && t.href.includes('/services/business-automation'))
+        if (!hasAutomation) {
+          const auto = SERVICE_TABS.find(t => t.href.includes('/services/business-automation'))
+          if (auto) dbTabs.push({ ...auto, id: dbTabs.length + 1 })
+        }
+        setServiceTabs(dbTabs)
       }
 
       if (Array.isArray(toolsMenu) && toolsMenu.length > 0) {

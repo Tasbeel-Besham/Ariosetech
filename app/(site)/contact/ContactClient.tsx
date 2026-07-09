@@ -8,7 +8,7 @@ import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection
 const F = { fontFamily: 'var(--font-display)' } as const
 const M = { fontFamily: 'var(--font-mono)' } as const
 
-const SERVICES = ['WordPress Development','WooCommerce Development','Shopify Development','Speed Optimization','Website Maintenance','Website Redesign','SEO Services','Other']
+const SERVICES = ['WordPress Development','WooCommerce Development','Shopify Development','Business Automation','Speed Optimization','Website Maintenance','Website Redesign','SEO Services','Other']
 const BUDGETS  = ['Under $500','$500–$1,000','$1,000–$2,500','$2,500–$5,000','$5,000–$10,000','$10,000+']
 
 // NOTE: These are defined at module scope on purpose. Defining components inside
