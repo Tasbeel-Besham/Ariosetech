@@ -10,6 +10,7 @@ type ServiceItem = {
   features?: string   // comma separated
   price?: string
   href?: string
+  anchor?: string
 }
 
 type Props = {
@@ -47,7 +48,7 @@ export default function ServicesOverviewSection({
             const feats = (s.features || '').split(',').map(f => f.trim()).filter(Boolean)
             const href = s.href || '/contact'
             return (
-              <Link href={href} key={i} className="svc-ov-card group">
+              <Link href={href} key={i} id={s.anchor || undefined} className="svc-ov-card group" style={s.anchor ? { scrollMarginTop: '90px' } : undefined}>
                 <div className="svc-ov-num">{s.num || String(i + 1).padStart(2, '0')}</div>
                 <div className="svc-ov-body">
                   <div className="svc-ov-title-row">

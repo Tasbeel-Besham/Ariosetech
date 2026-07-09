@@ -54,7 +54,7 @@ export function BuilderRenderer({
 
         if (section.type === 'approach') {
           return (
-            <div key={section.id}>
+            <div key={section.id} id={(section.props?.anchor as string) || undefined} style={{ scrollMarginTop: '90px' }}>
               <Component {...section.props} />
             </div>
           )
@@ -63,6 +63,8 @@ export function BuilderRenderer({
         return (
           <motion.div
             key={section.id}
+            id={(section.props?.anchor as string) || undefined}
+            style={{ scrollMarginTop: '90px' }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
