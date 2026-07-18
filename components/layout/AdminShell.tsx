@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
@@ -52,6 +52,18 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openGroups, setOpenGroups] = useState<string[]>(['Site Control', 'Content', 'Business', 'Design & Config'])
   const pathname = usePathname()
+
+  // The admin is designed dark-only. Force dark while inside it and restore
+  // the visitor's saved site theme when they leave.
+  useEffect(() => {
+    document.documentElement.dataset.theme = 'dark'
+    return () => {
+      try {
+        const saved = localStorage.getItem('theme')
+        if (saved === 'light') document.documentElement.dataset.theme = 'light'
+      } catch {}
+    }
+  }, [])
   const router = useRouter()
 
   const logout = async () => {

@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion, useDragControls, useMotionValue, useAnimate } from 'framer-motion'
 import useMeasure from 'react-use-measure'
@@ -180,7 +181,7 @@ function Nub({ selected }: { selected: number | null }) {
     <motion.span
       animate={{ left }}
       transition={{ duration: 0.22, ease: 'easeInOut' }}
-      className="mega-nub absolute top-0 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-tl border border-white/10 bg-[rgba(10,10,18,0.98)]"
+      className="mega-nub absolute top-0 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-tl border border-white/10 nav-panel-bg"
     />
   )
 }
@@ -417,6 +418,7 @@ function MobileDrawer({
           )}
 
           {/* CTA */}
+          <div className="flex justify-center mb-3"><ThemeToggle /></div>
           <Link href="/contact" onClick={() => setOpen(false)} className="btn btn-primary btn-lg w-full justify-center">
             Get Free Quote
           </Link>
@@ -654,6 +656,7 @@ export default function Navbar() {
             </span>
             <span className="nav-avail-text">Available for projects</span>
           </div>
+          <ThemeToggle />
           <Link href="/contact" className="btn btn-primary btn-md">Get Free Quote <ArrowSVG size={14} /></Link>
         </div>
       </div>

@@ -46,8 +46,12 @@ export const dynamic = 'force-dynamic'
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const theme = await getTheme()
   return (
-    <html lang="en" className={`${manrope.variable} ${inter.variable} ${roadRadio.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${manrope.variable} ${inter.variable} ${roadRadio.variable}`}>
       <head>
+        {/* Apply saved dark/light choice before first paint (no flash). Dark is default. */}
+        <script dangerouslySetInnerHTML={{ __html:
+          `try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.dataset.theme='light'}}catch(e){}`
+        }} />
         {/* Live brand theme from admin → overrides static defaults in globals.css */}
         <style id="site-theme" dangerouslySetInnerHTML={{ __html: themeToCss(theme) }} />
       </head>
