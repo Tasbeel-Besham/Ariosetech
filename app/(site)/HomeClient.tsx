@@ -363,7 +363,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
           <div className="g-3 gap-5">
             {displayPortfolio.map((p,i) => (
-              <Link key={p._id} href={`/portfolio/${p.slug}`} className="sr group flex flex-col no-underline bg-bg-3 border border-border rounded-[20px] overflow-hidden transition-all duration-300 hover:border-primary/35 hover:-translate-y-1.5 hover:shadow-[0_28px_70px_rgba(0,0,0,0.55)]" style={{ animationDelay:`${i*0.08}s` }}>
+              <Link key={p._id} href={`/portfolio/${p.slug}`} className="sr group flex flex-col no-underline bg-bg-3 border border-border rounded-[20px] overflow-hidden transition-all duration-300 hover:border-primary/35 hover:-translate-y-1.5 pf-hover-card" style={{ animationDelay:`${i*0.08}s` }}>
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient z-10" />
                 {/* Image preview (scroll on hover) */}
                 <div className="h-[190px] overflow-hidden relative border-b border-border">

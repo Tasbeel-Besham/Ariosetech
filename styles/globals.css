@@ -860,15 +860,16 @@ header { animation: slideDown 0.4s var(--ease) both; }
   position: relative; inset: auto;
   display: flex; flex-direction: column;
   background: rgba(5,5,8,0.72);
+  color: #cfcfe2; /* panel is always dark — keep its text light in both themes */
   padding: 20px 20px; overflow-y: hidden; flex: 1;
 }
 .svc-topline { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--grad); }
 .svc-content-inner { margin: auto 0; display: flex; flex-direction: column; }
 .svc-sub { font-family: var(--font-mono); font-size: 9px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.16em; font-weight: 700; margin-bottom: 6px; }
-.svc-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--heading); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 12px; }
+.svc-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: #fff; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 12px; }
 .svc-desc { margin-bottom: 18px; }
 .svc-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px 16px; margin-bottom: 22px; }
-.svc-feature { display: flex; align-items: center; gap: 7px; font-size: 12px; color: rgba(var(--ink-rgb),0.65); }
+.svc-feature { display: flex; align-items: center; gap: 7px; font-size: 12px; color: rgba(255,255,255,0.65); }
 .svc-feature-check {
   width: 15px; height: 15px; border-radius: 50%;
   background: rgba(var(--primary-rgb),0.2); border: 1px solid rgba(var(--primary-rgb),0.4);
@@ -876,7 +877,7 @@ header { animation: slideDown 0.4s var(--ease) both; }
   color: var(--primary); flex-shrink: 0;
 }
 .svc-cta { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-.svc-price-label { font-family: var(--font-mono); font-size: 8px; color: rgba(var(--ink-rgb),0.38); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 2px; }
+.svc-price-label { font-family: var(--font-mono); font-size: 8px; color: rgba(255,255,255,0.38); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 2px; }
 .svc-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--primary); line-height: 1; }
 
 @media (min-width: 768px) {
@@ -1869,3 +1870,29 @@ span.pd-tech { display: inline-flex; }
   color: var(--text-2); transition: color .18s, border-color .18s, background .18s, transform .18s;
 }
 .theme-toggle:hover { color: var(--primary); border-color: rgba(var(--primary-rgb), .4); background: var(--primary-soft); transform: translateY(-1px); }
+
+/* ── Light-mode fixes for sections that stayed dark after the first pass ── */
+
+/* Portfolio card hover shadow (was an arbitrary Tailwind class) */
+.pf-hover-card { transition: box-shadow .3s; }
+.pf-hover-card:hover { box-shadow: 0 28px 70px rgba(0,0,0,0.55); }
+[data-theme="light"] .pf-hover-card:hover { box-shadow: 0 24px 60px -12px rgba(40,40,90,0.22); }
+
+/* Services tab strip flips light; the content panel beside it deliberately
+   stays dark (its per-tab colors come from the page data), like the hero editor. */
+[data-theme="light"] .svc-tabstrip { background: rgba(20,20,60,0.04); }
+[data-theme="light"] .svc-shell { background: var(--bg-2); border: 1px solid rgba(20,20,60,0.12); box-shadow: 0 24px 70px -20px rgba(40,40,90,0.20); }
+
+/* Approach section active card — gradient ended in near-black */
+[data-theme="light"] .approach-card.active {
+  background: linear-gradient(145deg, rgba(var(--primary-rgb),0.10) 0%, var(--bg-2) 80%);
+}
+
+/* Glass cards were dark glass — flip to white glass */
+[data-theme="light"] .glass-card {
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(var(--primary-rgb),0.20);
+}
+
+/* Homepage hero wrapper had a hardcoded near-black background class */
+[data-theme="light"] .bg-\[\#05050e\] { background-color: var(--bg); }
