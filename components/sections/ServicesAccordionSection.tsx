@@ -334,6 +334,30 @@ export default function ServicesAccordionSection({
             })}
           </div>
 
+          {/* ── Crawlable copies of EVERY tab's content. The animated panel
+               below only mounts the active tab, which hides 75% of this
+               section's copy from search engines. This visually-hidden block
+               keeps all tabs' content in the server-rendered DOM for crawlers
+               and screen readers without affecting the visual design. ── */}
+          <div className="sr-only">
+            {items.map((t, i) => {
+              const feats: string[] = Array.isArray(t.features)
+                ? t.features
+                : String(t.features || '').split(',').map(f => f.trim()).filter(Boolean)
+              return (
+                <section key={`seo-${t.id || i}`}>
+                  <h3>{t.title}</h3>
+                  {t.sub ? <p>{t.sub}</p> : null}
+                  {t.desc ? <p>{t.desc}</p> : null}
+                  {feats.length > 0 && (
+                    <ul>{feats.map((f, fi) => <li key={fi}>{f}</li>)}</ul>
+                  )}
+                  {t.price ? <p>{t.price}</p> : null}
+                </section>
+              )
+            })}
+          </div>
+
           {/* ── Content panel ── */}
           <div className="svc-panel">
             <div className="svc-panel-bg" style={{ background: tab?.bg || '#05050a' }} />

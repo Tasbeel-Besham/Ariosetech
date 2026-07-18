@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
     // Permanently redirect leftover WordPress URLs so they stop wasting crawl
     // budget and pass any residual authority to real pages. 301 = permanent.
     return [
+      { source: '/contact-us', destination: '/contact', permanent: true },
+      { source: '/contact-us/:path*', destination: '/contact', permanent: true },
+      { source: '/about-us', destination: '/about', permanent: true },
+      { source: '/our-services', destination: '/services', permanent: true },
+      { source: '/privacy', destination: '/privacy-policy', permanent: true },
+      { source: '/terms', destination: '/terms-of-service', permanent: true },
       { source: '/category/stories', destination: '/portfolio', permanent: true },
       { source: '/category/stories/:path*', destination: '/portfolio', permanent: true },
       { source: '/category/:slug*', destination: '/blog', permanent: true },

@@ -49,9 +49,9 @@ const WHY_US = [
 ]
 
 const PORTFOLIO_STATIC = [
-  { _id:'1', slug:'thekapra', title:'The Kapra', client:'E-commerce Fashion Store', platform:'Custom WooCommerce', result:'300%', resultLabel:'Increase in online sales', quote:'ARIOSETECH transformed our vision into reality with custom code solutions.' },
-  { _id:'2', slug:'drscents', title:'Dr. Scents', client:'International Perfume Online Store', platform:'Multi-site WooCommerce', result:'32', resultLabel:'Countries launched in under 4 months', quote:'Incredible speed and quality. They delivered beyond our expectations.' },
-  { _id:'3', slug:'wyox', title:'WYOX Sports', client:'USA-Based Sports Equipment', platform:'Shopify + Custom Solutions', result:'250%', resultLabel:'Business growth', quote:'Professional, reliable, and always available when we need them.' },
+  { _id:'1', slug:'thekapra-woocommerce', title:'The Kapra', client:'E-commerce Fashion Store', platform:'Custom WooCommerce', result:'300%', resultLabel:'Increase in online sales', quote:'ARIOSETECH transformed our vision into reality with custom code solutions.' },
+  { _id:'2', slug:'drscents-woocommerce', title:'Dr. Scents', client:'International Perfume Online Store', platform:'Multi-site WooCommerce', result:'32', resultLabel:'Countries launched in under 4 months', quote:'Incredible speed and quality. They delivered beyond our expectations.' },
+  { _id:'3', slug:'wyox-shopify', title:'WYOX Sports', client:'USA-Based Sports Equipment', platform:'Shopify + Custom Solutions', result:'250%', resultLabel:'Business growth', quote:'Professional, reliable, and always available when we need them.' },
 ]
 
 const TESTIMONIALS = [

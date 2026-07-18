@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Questions | ARIOSETECH',
+  title: 'Frequently Asked Questions',
   description: 'Answers to the most common questions about ARIOSETECH web development services, pricing, timelines, and support.',
 }
 

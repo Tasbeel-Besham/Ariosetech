@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | ARIOSETECH',
+  title: 'Privacy Policy',
   description: 'Learn how ARIOSETECH collects, uses, and protects your personal information.',
 }
 

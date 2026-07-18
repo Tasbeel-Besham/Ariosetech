@@ -186,6 +186,9 @@ export default function InteractiveHeroSection({
               <h1 className="hero-headline text-balance break-words">
                 {headlineLines.map((line, i) => (
                   <React.Fragment key={i}>
+                    {/* Literal newline keeps a whitespace character in the DOM text so
+                        crawlers/extractors never read line-boundary words concatenated. */}
+                    {i > 0 && '\n'}
                     {i > 0 && <br />}
                     {line}
                   </React.Fragment>
