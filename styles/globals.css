@@ -799,13 +799,13 @@ header { animation: slideDown 0.4s var(--ease) both; }
 
 /* ── Services Accordion ── */
 .sa-ul { margin: 0 0 18px 0; padding: 0; list-style-type: none; display: flex; flex-direction: column; gap: 8px; }
-.sa-uli { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.65; color: rgba(var(--ink-rgb),0.7); }
+.sa-uli { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.65; color: rgba(255,255,255,0.7); }
 .sa-check { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
 .sa-ol { margin: 0 0 18px 20px; padding: 0; list-style-type: decimal; display: flex; flex-direction: column; gap: 6px; }
 .sa-oli { font-size: 13px; line-height: 1.65; color: rgba(var(--ink-rgb),0.7); }
 .sa-strong { color: var(--heading); font-weight: 650; }
 .sa-h4 { font-size: 13.5px; font-weight: 700; color: var(--primary); margin-top: 16px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-.sa-para { font-size: 13px; color: rgba(var(--ink-rgb),0.65); line-height: 1.75; margin-bottom: 12px; max-width: 520px; }
+.sa-para { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.75; margin-bottom: 12px; max-width: 520px; }
 
 .svc-header { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: end; margin-bottom: 48px; }
 .svc-headline { font-family: var(--font-display); font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.04em; }
@@ -1853,7 +1853,7 @@ span.pd-tech { display: inline-flex; }
 
 /* Hero: the interactive code editor intentionally stays dark (like any IDE),
    so give it a boundary the light page can live with. */
-[data-theme="light"] .hero-editor-shell { border: 1px solid rgba(20,20,60,0.12); box-shadow: 0 24px 60px -20px rgba(40,40,90,0.25); }
+
 
 /* Dark site screenshots inside the portfolio hover preview stay dark. */
 [data-theme="light"] .portfolio-popup { border-color: rgba(20,20,60,0.15); }
@@ -1896,3 +1896,26 @@ span.pd-tech { display: inline-flex; }
 
 /* Homepage hero wrapper had a hardcoded near-black background class */
 [data-theme="light"] .bg-\[\#05050e\] { background-color: var(--bg); }
+
+/* ── Round 2 light-mode fixes (from live screenshots) ── */
+
+/* Hero code editor: solid dark in BOTH modes (was translucent — went gray on light) */
+.hero-editor-shell { background: #0c0c16; border: 1px solid rgba(255,255,255,0.09); box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+.hero-editor-bar { background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.07); }
+[data-theme="light"] .hero-editor-shell { border-color: rgba(20,20,60,0.15); box-shadow: 0 24px 60px -18px rgba(40,40,90,0.30); }
+
+/* WhyUs / bento cards: were 70% dark — solid dark card stays in dark mode,
+   flips to a clean light card in light mode */
+[data-theme="light"] .bg-subtle-2 { background: var(--bg-2); box-shadow: 0 10px 34px -14px rgba(40,40,90,0.14); }
+
+/* White logo images: invert to dark in light mode (keeps brand hue) */
+[data-theme="light"] .nav-logo-img,
+[data-theme="light"] .drawer-logo-img,
+[data-theme="light"] .footer-logo-img { filter: invert(1) hue-rotate(180deg); }
+
+/* Complete the text-white opacity variants (arbitrary values seen in the wild) */
+[data-theme="light"] .text-white\/90 { color: rgba(22,22,48,0.92); }
+[data-theme="light"] .text-white\/75 { color: rgba(22,22,48,0.80); }
+[data-theme="light"] .text-white\/65 { color: rgba(22,22,48,0.70); }
+[data-theme="light"] .text-white\/60 { color: rgba(22,22,48,0.66); }
+[data-theme="light"] .text-white\/10 { color: rgba(22,22,48,0.22); }

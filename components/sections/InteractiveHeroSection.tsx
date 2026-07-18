@@ -254,8 +254,8 @@ export default function InteractiveHeroSection({
           transition={{ duration: 0.65, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Editor window, the one signature element */}
-          <div className="rounded-xl overflow-hidden bg-[rgba(10,10,20,0.72)] border border-[rgba(255,255,255,0.09)] shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-[10px]">
-            <div className="px-[16px] py-[11px] flex items-center gap-12 bg-[rgba(255,255,255,0.03)] border-b border-[rgba(255,255,255,0.07)]">
+          <div className="hero-editor-shell rounded-xl overflow-hidden backdrop-blur-[10px]">
+            <div className="hero-editor-bar px-[16px] py-[11px] flex items-center gap-12">
               <div className="flex gap-6">
                 <div className="w-[10px] h-[10px] rounded-full bg-[#ff5f57]" />
                 <div className="w-[10px] h-[10px] rounded-full bg-[#febc2e]" />
@@ -295,10 +295,10 @@ export default function InteractiveHeroSection({
               { ico: <StarSVG />, val: '5.0', lbl: 'Google Reviews', c1: B_PRI, c2: B_SEC, bar: 1.0 },
               { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ]).map((m, i) => (
-              <div key={m.lbl + i} className="flex-1 rounded-xl p-[16px] relative overflow-hidden bg-[rgba(255,255,255,0.025)] border border-[rgba(255,255,255,0.07)]">
+              <div key={m.lbl + i} className="flex-1 rounded-xl p-[16px] relative overflow-hidden bg-white/5 border border-white/10">
                 <div className="mb-8 flex text-primary/80">{m.ico}</div>
                 <div className="font-display font-extrabold text-white mb-4 text-[20px]">{m.val}</div>
-                <div className="uppercase tracking-wider font-semibold text-[9.5px] text-[rgba(255,255,255,0.35)]">{m.lbl}</div>
+                <div className="uppercase tracking-wider font-semibold text-[9.5px] text-white/35">{m.lbl}</div>
                 <div className="absolute bottom-0 left-0 right-0 h-[2px] opacity-70 origin-left" style={{ background: `linear-gradient(90deg, ${m.c1}, ${m.c2})`, transform: `scaleX(${m.bar})` }} />
               </div>
             ))}
@@ -307,7 +307,7 @@ export default function InteractiveHeroSection({
       </div>
 
       {/* Services ticker */}
-      <div className="py-[11px] overflow-hidden border-t border-[rgba(255,255,255,0.05)] relative z-10">
+      <div className="py-[11px] overflow-hidden border-t border-white/10 relative z-10">
         <div className="flex whitespace-nowrap animate-[ticker_55s_linear_infinite]">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex">
