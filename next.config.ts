@@ -30,6 +30,10 @@ const nextConfig: NextConfig = {
       { source: '/tag/:slug*', destination: '/blog', permanent: true },
       { source: '/author/:slug*', destination: '/blog', permanent: true },
       { source: '/wp-content/:path*', destination: '/', permanent: true },
+      // Discovered via GSC referring-pages: old WP service pages named "*-ariosetech"
+      { source: '/wordpress-services-ariosetech', destination: '/services/wordpress', permanent: true },
+      { source: '/wordpress-services-ariosetech/:path*', destination: '/services/wordpress', permanent: true },
+      { source: '/:slug(.*\\-ariosetech)', destination: '/services', permanent: true },
       // ── Full legacy-WordPress taxonomy sweep ──
       // Date archives (/2023/05/some-post/, /2024/, /2024/11/)
       { source: '/:year(\\d{4})/:month(\\d{2})/:slug*', destination: '/blog', permanent: true },
