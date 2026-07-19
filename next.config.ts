@@ -30,6 +30,26 @@ const nextConfig: NextConfig = {
       { source: '/tag/:slug*', destination: '/blog', permanent: true },
       { source: '/author/:slug*', destination: '/blog', permanent: true },
       { source: '/wp-content/:path*', destination: '/', permanent: true },
+      // ── From the GSC 404 export (Jul 2026) ──
+      // Old top-level service pages → new /services/* structure
+      { source: '/wordpress', destination: '/services/wordpress', permanent: true },
+      { source: '/wordpress/:path*', destination: '/services/wordpress', permanent: true },
+      { source: '/woocommerce', destination: '/services/woocommerce', permanent: true },
+      { source: '/woocommerce/:path*', destination: '/services/woocommerce', permanent: true },
+      { source: '/shopify', destination: '/services/shopify', permanent: true },
+      { source: '/shopify/:path*', destination: '/services/shopify', permanent: true },
+      { source: '/seo', destination: '/services/seo', permanent: true },
+      { source: '/seo/:path*', destination: '/services/seo', permanent: true },
+      // Theme detectors used to live at the root → now under /tools
+      { source: '/wordpress-theme-detector', destination: '/tools/wordpress-theme-detector', permanent: true },
+      { source: '/wordpress-theme-detector/:path*', destination: '/tools/wordpress-theme-detector', permanent: true },
+      { source: '/shopify-theme-detector', destination: '/tools/shopify-theme-detector', permanent: true },
+      { source: '/shopify-theme-detector/:path*', destination: '/tools/shopify-theme-detector', permanent: true },
+      // Old two-level portfolio URLs (/portfolio/wordpress/project-name)
+      { source: '/portfolio/:category/:slug+', destination: '/portfolio', permanent: true },
+      // Blog slugs that never existed on this build
+      { source: '/blog/woocommerce-payment-gateways-guide', destination: '/blog', permanent: true },
+      { source: '/blog/shopify-vs-woocommerce-for-fashion', destination: '/blog', permanent: true },
       // Discovered via GSC referring-pages: old WP service pages named "*-ariosetech"
       { source: '/wordpress-services-ariosetech', destination: '/services/wordpress', permanent: true },
       { source: '/wordpress-services-ariosetech/:path*', destination: '/services/wordpress', permanent: true },
