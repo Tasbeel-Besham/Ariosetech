@@ -47,9 +47,6 @@ const nextConfig: NextConfig = {
       { source: '/shopify-theme-detector/:path*', destination: '/tools/shopify-theme-detector', permanent: true },
       // Old two-level portfolio URLs (/portfolio/wordpress/project-name)
       { source: '/portfolio/:category/:slug+', destination: '/portfolio', permanent: true },
-      // Blog slugs that never existed on this build
-      { source: '/blog/woocommerce-payment-gateways-guide', destination: '/blog', permanent: true },
-      { source: '/blog/shopify-vs-woocommerce-for-fashion', destination: '/blog', permanent: true },
       // Discovered via GSC referring-pages: old WP service pages named "*-ariosetech"
       { source: '/wordpress-services-ariosetech', destination: '/services/wordpress', permanent: true },
       { source: '/wordpress-services-ariosetech/:path*', destination: '/services/wordpress', permanent: true },
