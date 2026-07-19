@@ -30,6 +30,30 @@ const nextConfig: NextConfig = {
       { source: '/tag/:slug*', destination: '/blog', permanent: true },
       { source: '/author/:slug*', destination: '/blog', permanent: true },
       { source: '/wp-content/:path*', destination: '/', permanent: true },
+      // ── Full legacy-WordPress taxonomy sweep ──
+      // Date archives (/2023/05/some-post/, /2024/, /2024/11/)
+      { source: '/:year(\\d{4})/:month(\\d{2})/:slug*', destination: '/blog', permanent: true },
+      { source: '/:year(\\d{4})/:month(\\d{2})', destination: '/blog', permanent: true },
+      { source: '/:year(\\d{4})', destination: '/blog', permanent: true },
+      // RSS/Atom feeds
+      { source: '/feed', destination: '/blog', permanent: true },
+      { source: '/feed/:path*', destination: '/blog', permanent: true },
+      { source: '/comments/feed', destination: '/blog', permanent: true },
+      // WP core paths that bots and stale links still hit
+      { source: '/wp-admin/:path*', destination: '/', permanent: true },
+      { source: '/wp-includes/:path*', destination: '/', permanent: true },
+      { source: '/wp-login.php', destination: '/', permanent: true },
+      { source: '/xmlrpc.php', destination: '/', permanent: true },
+      // Paginated archives (/page/2, /blog/page/3)
+      { source: '/page/:num(\\d+)', destination: '/blog', permanent: true },
+      { source: '/blog/page/:num(\\d+)', destination: '/blog', permanent: true },
+      // Common WP leftovers
+      { source: '/sample-page', destination: '/', permanent: true },
+      { source: '/hello-world', destination: '/blog', permanent: true },
+      { source: '/portfolio-item/:slug*', destination: '/portfolio', permanent: true },
+      // Query-string permalinks (?p=123 / ?page_id=7) on the root
+      { source: '/', has: [{ type: 'query', key: 'p' }], destination: '/blog', permanent: true },
+      { source: '/', has: [{ type: 'query', key: 'page_id' }], destination: '/', permanent: true },
     ]
   },
 }
