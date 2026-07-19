@@ -199,23 +199,23 @@ export default function PortfolioSection({
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
-        .ptag { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,0.7); }
+        .ptag { background: rgba(var(--ink-rgb),.08); border: 1px solid rgba(var(--ink-rgb),.22); color: rgba(var(--ink-rgb),0.7); }
         .ptag.woocommerce { background: rgba(155,109,255,.1); border: 1px solid rgba(155,109,255,.22); color: #b49bff; }
         .ptag.shopify { background: rgba(79,186,124,.08); border: 1px solid rgba(79,186,124,.22); color: #4fba7c; }
         .ptag.wordpress { background: rgba(79,110,247,.1); border: 1px solid rgba(79,110,247,.22); color: #6b8ff7; }
-        .fb { padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.13); background: transparent; color: rgba(255,255,255,0.4); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+        .fb { padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(var(--ink-rgb),0.13); background: transparent; color: rgba(var(--ink-rgb),0.4); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; font-weight: 600; }
         .fb.on, .fb:hover { border-color: rgba(var(--primary-rgb),.45); background: rgba(var(--primary-rgb),.12); color: var(--primary); }
         .pi { display: grid; grid-template-columns: 60px 1fr auto 36px; align-items: center; gap: 20px; padding: 24px 0; border-top: 1px solid var(--border); cursor: pointer; position: relative; transition: background .2s; text-decoration: none; }
         .pi:last-child { border-bottom: 1px solid var(--border); }
         .pi::before { content: ''; position: absolute; inset: 0 -16px; background: rgba(var(--primary-rgb),.03); opacity: 0; transition: opacity .2s; border-radius: 6px; }
         .pi:hover::before { opacity: 1; }
-        .pnum { font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,0.28); transition: color .2s; font-weight: 700; }
+        .pnum { font-family: var(--font-mono); font-size: 12px; color: rgba(var(--ink-rgb),0.28); transition: color .2s; font-weight: 700; }
         .pi:hover .pnum { color: var(--primary); }
-        .pname { font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 900; color: #fff; letter-spacing: -0.03em; transition: all .2s; margin-bottom: 7px; }
+        .pname { font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.5rem); font-weight: 900; color: var(--heading); letter-spacing: -0.03em; transition: all .2s; margin-bottom: 7px; }
         .pi:hover .pname { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .pdesc { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.55; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; max-width: 380px; transition: color .2s; }
-        .pi:hover .pdesc { color: rgba(255,255,255,0.7); }
-        .parr { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.13); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: rgba(255,255,255,0.4); transition: all .3s; transform: rotate(-45deg); font-weight: 600; }
+        .pdesc { font-size: 14px; color: rgba(var(--ink-rgb),0.4); line-height: 1.55; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; max-width: 380px; transition: color .2s; }
+        .pi:hover .pdesc { color: rgba(var(--ink-rgb),0.7); }
+        .parr { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(var(--ink-rgb),0.13); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: rgba(var(--ink-rgb),0.4); transition: all .3s; transform: rotate(-45deg); font-weight: 600; }
         .pi:hover .parr { border-color: rgba(var(--primary-rgb),.4); background: rgba(var(--primary-rgb),.12); color: var(--primary); transform: rotate(0); }
         
         .spin { width: 24px; height: 24px; border: 2px solid rgba(var(--primary-rgb),.2); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; }

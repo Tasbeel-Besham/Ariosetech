@@ -47,7 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isIndexed = seo.robots?.index !== false
   const isFollowed = seo.robots?.follow !== false
 
-  const title = seo.title || page.title
+  // Strip any brand suffix typed in the admin — the root template appends it once.
+  const title = (seo.title || page.title || '').replace(/\s*[|\u2014-]\s*ARIOSETECH\s*$/i, '')
   // Never emit an empty description — it suppresses the tag and Google writes its own snippet.
   const description = seo.description || deriveDescription(page)
   const ogImage = seo.ogImage || DEFAULT_OG_IMAGE
@@ -93,7 +94,7 @@ export default async function DynamicPage({ params }: Props) {
   const seo = page.seo || {}
   const desc = seo.description || deriveDescription(page)
   const schemas: object[] = [
-    webPageSchema({ title: seo.title || page.title, description: desc, url: pageUrl, image: seo.ogImage }),
+    webPageSchema({ title: (seo.title || page.title || '').replace(/\s*[|\u2014-]\s*ARIOSETECH\s*$/i, ''), description: desc, url: pageUrl, image: seo.ogImage }),
     breadcrumbSchema(trailFromPath(page.fullPath, page.title || 'Page')),
   ]
   if (isServicePath(page.fullPath)) {

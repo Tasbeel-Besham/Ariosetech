@@ -29,7 +29,7 @@ export default function ImpactSection({ eyebrow='Results That Matter', headline=
         
         <div className="g-3 gap-24">
           {safe.map((m,i) => (
-            <div key={i} className="sr card-hover relative overflow-hidden p-40 rounded-[24px] bg-[rgba(10,10,18,0.7)] border border-[rgba(var(--primary-rgb),0.18)] backdrop-blur-[20px]" style={{ animationDelay:`${i*0.1}s` }}>
+            <div key={i} className="sr card-hover impact-card relative overflow-hidden p-40 rounded-[24px] backdrop-blur-[20px]" style={{ animationDelay:`${i*0.1}s` }}>
               <div className="absolute top-0 left-0 right-0 bg-grad h-[2px]" />
               <div className="absolute pointer-events-none top-[-30%] left-[-10%] w-[60%] h-[60%] bg-[radial-gradient(ellipse,rgba(var(--primary-rgb),0.12)_0%,transparent_70%)]" />
               <p className="font-display font-extrabold leading-none mb-12 text-gradient text-[clamp(3rem,5vw,4.5rem)]">{m.value}</p>

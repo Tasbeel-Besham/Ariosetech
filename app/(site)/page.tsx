@@ -17,11 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
     const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
     const DEFAULT_OG_IMAGE = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png'
     const DEFAULT_DESC = 'Professional WordPress, Shopify & WooCommerce development since 2017. 100+ businesses scaled globally.'
-    const DEFAULT_TITLE = 'WordPress, Shopify & WooCommerce Development Agency | ARIOSETECH'
+    const DEFAULT_TITLE = 'WordPress, Shopify & WooCommerce Development Agency'
     // Never fall back to a bare page title like "Home" — it carries zero keywords
     // and is the single most valuable title on the domain. Only an explicit,
     // meaningful CMS SEO title should override the keyword-rich default.
-    const cmsTitle = (seo.title || '').trim()
+    // Strip any brand suffix the admin typed — the root template appends it once.
+    const cmsTitle = (seo.title || '').trim().replace(/\s*[|\u2014-]\s*ARIOSETECH\s*$/i, '')
     const title = cmsTitle && cmsTitle.toLowerCase() !== 'home' ? cmsTitle : DEFAULT_TITLE
     const description = seo.description || DEFAULT_DESC
     const ogImage = seo.ogImage || DEFAULT_OG_IMAGE

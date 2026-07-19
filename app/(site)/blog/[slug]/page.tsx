@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const img = seo.ogImage || post.featuredImage || post.coverImage
   const desc = seo.description || post.excerpt
   return {
-    title: seo.title || `${post.title} — ARIOSETECH`,
+    title: (seo.title || post.title).replace(/\s*[|\u2014-]\s*ARIOSETECH\s*$/i, ''),
     description: desc,
     keywords: seo.keywords?.length ? seo.keywords.join(', ') : post.tags?.join(', '),
     openGraph: {

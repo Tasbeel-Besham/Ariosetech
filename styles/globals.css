@@ -803,7 +803,7 @@ header { animation: slideDown 0.4s var(--ease) both; }
 .sa-check { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
 .sa-ol { margin: 0 0 18px 20px; padding: 0; list-style-type: decimal; display: flex; flex-direction: column; gap: 6px; }
 .sa-oli { font-size: 13px; line-height: 1.65; color: rgba(var(--ink-rgb),0.7); }
-.sa-strong { color: var(--heading); font-weight: 650; }
+.sa-strong { color: #fff; font-weight: 650; }
 .sa-h4 { font-size: 13.5px; font-weight: 700; color: var(--primary); margin-top: 16px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
 .sa-para { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.75; margin-bottom: 12px; max-width: 520px; }
 
@@ -1133,7 +1133,7 @@ button[aria-label="Open menu"] { background: none; border: none; cursor: pointer
 .pf-popup-loading { font-size: 10px; color: rgba(var(--ink-rgb),0.4); }
 .pf-popup-error { font-size: 10px; color: rgba(var(--ink-rgb),0.3); }
 .pf-popup-shade { background: linear-gradient(to top, rgba(5,5,8,.8) 0%, transparent 40%); }
-.pf-popup-badge { background: rgba(6,6,18,.88); border: 1px solid rgba(var(--primary-rgb),.25); font-size: 9px; }
+.pf-popup-badge { background: rgba(6,6,18,.88); border: 1px solid rgba(var(--primary-rgb),.25); font-size: 9px; color: #fff; }
 
 /* ── Approach section ── */
 .scramble-inline { font-family: inherit; display: inline; }
@@ -1919,3 +1919,7 @@ span.pd-tech { display: inline-flex; }
 [data-theme="light"] .text-white\/65 { color: rgba(22,22,48,0.70); }
 [data-theme="light"] .text-white\/60 { color: rgba(22,22,48,0.66); }
 [data-theme="light"] .text-white\/10 { color: rgba(22,22,48,0.22); }
+
+/* Impact stat cards: solid surfaces per theme (was translucent dark -> gray on light) */
+.impact-card { background: rgba(10,10,18,0.7); border: 1px solid rgba(var(--primary-rgb),0.18); }
+[data-theme="light"] .impact-card { background: var(--bg-2); border: 1px solid rgba(var(--primary-rgb),0.22); box-shadow: 0 12px 40px -16px rgba(40,40,90,0.16); }
