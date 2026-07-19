@@ -80,6 +80,7 @@ export default function Footer() {
             { label: 'About Us', href: '/about' },
             { label: 'Portfolio', href: '/portfolio' },
             { label: 'Blog', href: '/blog' },
+            { label: 'FAQ', href: '/faq' },
             { label: 'Contact', href: '/contact' },
           ]}
         ])
