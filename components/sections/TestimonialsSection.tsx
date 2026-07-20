@@ -1,7 +1,7 @@
 "use client";
 import ClutchWidget from '@/components/ui/ClutchWidget'
 
-type Item = { name: string; role: string; initials: string; quote: string }
+type Item = { name: string; role: string; initials: string; quote: string; image?: string }
 type Props = { eyebrow?: string; headline?: string; items?: Item[] }
 
 const StarSVG = () => <svg width="14" height="14" viewBox="0 0 14 14" fill="var(--primary)"><path d="M7 1l1.5 4.5H13L9.5 8l1.3 4L7 10l-3.8 2 1.3-4L1 5.5h4.5z"/></svg>
@@ -26,7 +26,12 @@ export default function TestimonialsSection({ eyebrow='Client Reviews', headline
               </div>
               <p className="text-gray-2 leading-loose italic mb-[28px] flex-1 text-base">&ldquo;{t.quote}&rdquo;</p>
               <div className="flex items-center gap-[14px] pt-[20px] border-t border-subtle">
-                <div className="w-11 h-11 rounded-xl bg-grad flex items-center justify-center font-display text-sm font-extrabold text-white shrink-0">{t.initials}</div>
+                {t.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={t.image} alt={t.name} className="w-11 h-11 rounded-xl object-cover shrink-0" />
+                ) : (
+                  <div className="w-11 h-11 rounded-xl bg-grad flex items-center justify-center font-display text-sm font-extrabold text-white shrink-0">{t.initials}</div>
+                )}
                 <div>
                   <p className="font-display text-sm font-bold text-white">{t.name}</p>
                   <p className="font-mono text-gray-3 uppercase tracking-wider font-semibold text-10">{t.role}</p>

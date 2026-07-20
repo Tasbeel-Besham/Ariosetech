@@ -238,6 +238,7 @@ export function initRegistry() {
         { type: 'text',     name: 'name',     label: 'Name' },
         { type: 'text',     name: 'role',     label: 'Role / Company' },
         { type: 'text',     name: 'initials', label: 'Initials (2 chars)' },
+        { type: 'text',     name: 'image',    label: 'Photo URL (optional)' },
         { type: 'textarea', name: 'quote',    label: 'Quote' },
       ]},
     ],

@@ -115,27 +115,61 @@ const TOOL_LINKS = [
   { label: 'Shopify Theme Detector',   href: '/tools/shopify-theme-detector',   desc: 'Detect any Shopify theme' },
 ]
 
-type NavItem = { label: string; href: string; hasMega?: boolean; hasTools?: boolean; hasChildren?: boolean; children?: Array<{ label: string; href: string; desc?: string }>; target?: string }
+type NavItem = { label: string; href: string; hasMega?: boolean; hasTools?: boolean; hasChildren?: boolean; hasIndustries?: boolean; children?: Array<{ label: string; href: string; desc?: string }>; target?: string }
 
 const NAV_LINKS: NavItem[] = [
   { label: 'Home',      href: '/' },
   { label: 'Services',  href: '/services', hasMega: true },
-  { label: 'Industries', href: '/industries', children: [
-      { label: 'Fashion & Apparel',      href: '/industries/fashion-apparel' },
-      { label: 'Beauty & Cosmetics',     href: '/industries/beauty-cosmetics' },
-      { label: 'Sports & Equipment',     href: '/industries/sports-equipment' },
-      { label: 'Fragrances & Perfumes',  href: '/industries/fragrances-perfumes' },
-      { label: 'B2B Wholesale',          href: '/industries/b2b-wholesale' },
-      { label: 'Health & Wellness',      href: '/industries/health-wellness' },
-      { label: 'Home Décor',             href: '/industries/home-decor' },
-      { label: 'Jewelry & Accessories',  href: '/industries/jewelry-accessories' },
-      { label: 'All Industries',         href: '/industries' },
-  ] },
+  { label: 'Industries', href: '/industries', hasIndustries: true },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Tools',     href: '/tools/wordpress-theme-detector', hasTools: true },
   { label: 'About',     href: '/about' },
   { label: 'Blog',      href: '/blog' },
   { label: 'Contact',   href: '/contact' },
+]
+
+
+/* ── Industries mega-menu categories (same structure as SERVICE_TABS) ── */
+const INDUSTRY_TABS = [
+  {
+    id: 1, label: 'Retail & Lifestyle', href: '/industries',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+    ),
+    items: [
+      { label: 'Fashion & Apparel',        href: '/industries/fashion-apparel' },
+      { label: 'Jewelry & Accessories',    href: '/industries/jewelry-accessories' },
+      { label: 'Home Décor & Furniture',   href: '/industries/home-decor' },
+      { label: 'Sports & Equipment',       href: '/industries/sports-equipment' },
+    ],
+  },
+  {
+    id: 2, label: 'Beauty & Wellness', href: '/industries',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 2 8h10c0-3 2-5 2-8a7 7 0 0 0-7-7z"/><path d="M9 21h6"/>
+      </svg>
+    ),
+    items: [
+      { label: 'Beauty & Cosmetics',       href: '/industries/beauty-cosmetics' },
+      { label: 'Fragrances & Perfumes',    href: '/industries/fragrances-perfumes' },
+      { label: 'Health & Wellness',        href: '/industries/health-wellness' },
+    ],
+  },
+  {
+    id: 3, label: 'Trade & B2B', href: '/industries',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>
+      </svg>
+    ),
+    items: [
+      { label: 'B2B Wholesale',            href: '/industries/b2b-wholesale' },
+      { label: 'All Industries',           href: '/industries' },
+    ],
+  },
 ]
 
 // ICONS mapping for dynamic services
@@ -204,7 +238,8 @@ function ServicesPanel({
   onEnter,
   onLeave,
   onTabHover,
-  tabs
+  tabs,
+  viewAllSuffix
 }: {
   selected: number | null
   dir: 'l' | 'r' | null
@@ -212,6 +247,7 @@ function ServicesPanel({
   onLeave: () => void
   onTabHover: (tabId: number) => void
   tabs: any[]
+  viewAllSuffix?: string
 }) {
   return (
     <motion.div
@@ -265,7 +301,7 @@ function ServicesPanel({
                   </div>
                   <div className="mega-footer">
                     <Link href={t.href} className="mega-viewall">
-                      View all {t.label} services <ArrowSVG size={10} />
+                      View all {t.label} {viewAllSuffix ?? 'services'} <ArrowSVG size={10} />
                     </Link>
                   </div>
                 </motion.div>
@@ -379,7 +415,7 @@ function MobileDrawer({
 
           {/* Primary links */}
           <nav className="drawer-nav">
-            {navLinks.filter(item => !item.hasMega && !item.hasTools).map(item => (
+            {navLinks.filter(item => !item.hasMega && !item.hasTools && !item.hasIndustries).map(item => (
               <div key={item.href}>
                 <Link href={item.href} onClick={() => setOpen(false)} className={`drawer-link${isActive(item.href) ? ' active' : ''}`}>
                   {item.label}
@@ -413,6 +449,20 @@ function MobileDrawer({
               </div>
             </div>
           )}
+
+          {/* Industries sub-links */}
+          <div className="mb-32">
+            <p className="drawer-svc-label">Industries</p>
+            <div className="drawer-svc-grid">
+              {INDUSTRY_TABS.flatMap(t => t.items)
+                .filter((it, i, arr) => arr.findIndex(x => x.href === it.href) === i)
+                .map(it => (
+                  <Link key={it.href} href={it.href} onClick={() => setOpen(false)} className="drawer-svc-link">
+                    {it.label}
+                  </Link>
+                ))}
+            </div>
+          </div>
 
           {/* Tools sub-links */}
           {toolLinks.length > 0 && (
@@ -458,6 +508,12 @@ export default function Navbar() {
   const [activeTab, setActiveTab] = useState<number | null>(null)
   const [tabDir, setTabDir]       = useState<'l' | 'r' | null>(null)
 
+  // Industries mega state (mirrors the services mega)
+  const [indOpen, setIndOpen]     = useState(false)
+  const [indTab, setIndTab]       = useState<number | null>(null)
+  const [indDir, setIndDir]       = useState<'l' | 'r' | null>(null)
+  const indTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   // Tools state
   const [toolsOpen, setToolsOpen] = useState(false)
   // Generic per-item dropdown (admin-created dropdowns via children)
@@ -488,10 +544,12 @@ export default function Navbar() {
           ...i,
           hasMega: i.label.toLowerCase() === 'services',
           hasTools: i.label.toLowerCase() === 'tools',
+          hasIndustries: typeof i.href === 'string' && i.href.startsWith('/industries'),
           // Any item with its own children becomes a normal dropdown — this is how
           // you add new dropdowns from the admin without touching code.
           hasChildren: Array.isArray(i.children) && i.children.length > 0
-            && i.label.toLowerCase() !== 'services' && i.label.toLowerCase() !== 'tools',
+            && i.label.toLowerCase() !== 'services' && i.label.toLowerCase() !== 'tools'
+            && !(typeof i.href === 'string' && i.href.startsWith('/industries')),
         }))
 
         // Guarantee code-defined nav items that a saved DB menu predates. Without
@@ -506,12 +564,7 @@ export default function Navbar() {
               // Insert before Portfolio if present, else append.
               const at = dbItems.findIndex((i: any) =>
                 typeof i.href === 'string' && i.href.startsWith('/portfolio'))
-              const item = {
-                ...fromCode,
-                hasMega: false,
-                hasTools: false,
-                hasChildren: Array.isArray(fromCode.children) && fromCode.children.length > 0,
-              }
+              const item = { ...fromCode, hasMega: false, hasTools: false, hasIndustries: true, hasChildren: false }
               if (at >= 0) dbItems.splice(at, 0, item)
               else dbItems.push(item)
             }
@@ -562,7 +615,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  useEffect(() => { setMegaOpen(false); setToolsOpen(false); setActiveTab(null); setMobileOpen(false) }, [pathname])
+  useEffect(() => { setMegaOpen(false); setToolsOpen(false); setActiveTab(null); setIndOpen(false); setIndTab(null); setMobileOpen(false) }, [pathname])
 
   const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href)
 
@@ -571,6 +624,7 @@ export default function Navbar() {
     if (megaTimer.current) clearTimeout(megaTimer.current)
     if (toolsTimer.current) clearTimeout(toolsTimer.current)
     setToolsOpen(false)
+    setIndOpen(false); setIndTab(null)
     setMegaOpen(true)
     if (tabId !== undefined) {
       setTabDir(activeTab !== null && activeTab !== tabId ? (activeTab > tabId ? 'r' : 'l') : null)
@@ -583,12 +637,31 @@ export default function Navbar() {
     megaTimer.current = setTimeout(() => { setMegaOpen(false); setActiveTab(null) }, 180)
   }
 
+  /* Industries mega handlers */
+  const openInd = (tabId?: number) => {
+    if (indTimer.current) clearTimeout(indTimer.current)
+    if (megaTimer.current) clearTimeout(megaTimer.current)
+    if (toolsTimer.current) clearTimeout(toolsTimer.current)
+    setMegaOpen(false); setActiveTab(null); setToolsOpen(false)
+    setIndOpen(true)
+    if (tabId !== undefined) {
+      setIndDir(indTab !== null && indTab !== tabId ? (indTab > tabId ? 'r' : 'l') : null)
+      setIndTab(tabId)
+    } else if (indTab === null) {
+      setIndTab(INDUSTRY_TABS[0]?.id || 1)
+    }
+  }
+  const closeInd = () => {
+    indTimer.current = setTimeout(() => { setIndOpen(false); setIndTab(null) }, 180)
+  }
+
   /* Tools handlers */
   const openTools = () => {
     if (toolsTimer.current) clearTimeout(toolsTimer.current)
     if (megaTimer.current) clearTimeout(megaTimer.current)
     setMegaOpen(false)
     setActiveTab(null)
+    setIndOpen(false); setIndTab(null)
     setToolsOpen(true)
   }
   const closeTools = () => { toolsTimer.current = setTimeout(() => setToolsOpen(false), 180) }
@@ -632,17 +705,19 @@ export default function Navbar() {
           {navLinks.map(item => {
             const hasMega = item.hasMega
             const hasTools = item.hasTools
-            const hasChildren = item.hasChildren
+            const hasInd = item.hasIndustries
+            const hasChildren = item.hasChildren && !item.hasIndustries
             const isOpen = openDropdown === item.href
 
             return (
             <div key={item.href} className="relative"
-              onMouseEnter={hasMega ? () => openMega() : (hasTools ? openTools : (hasChildren ? () => setOpenDropdown(item.href) : undefined))}
-              onMouseLeave={hasMega ? closeMega : (hasTools ? closeTools : (hasChildren ? () => setOpenDropdown(null) : undefined))}
+              onMouseEnter={hasMega ? () => openMega() : (hasInd ? () => openInd() : (hasTools ? openTools : (hasChildren ? () => setOpenDropdown(item.href) : undefined)))}
+              onMouseLeave={hasMega ? closeMega : (hasInd ? closeInd : (hasTools ? closeTools : (hasChildren ? () => setOpenDropdown(null) : undefined)))}
             >
-              <Link href={item.href} className={`nav-link${isActive(item.href) ? ' active' : ''}${hasMega && megaOpen ? ' open' : ''}${hasChildren && isOpen ? ' open' : ''}`}>
+              <Link href={item.href} className={`nav-link${isActive(item.href) ? ' active' : ''}${hasMega && megaOpen ? ' open' : ''}${hasInd && indOpen ? ' open' : ''}${hasChildren && isOpen ? ' open' : ''}`}>
                 {item.label}
                 {hasMega && <ChevronSVG open={megaOpen} />}
+                {hasInd && <ChevronSVG open={indOpen} />}
                 {hasTools && <ChevronSVG open={toolsOpen} />}
                 {hasChildren && <ChevronSVG open={isOpen} />}
               </Link>
@@ -683,6 +758,20 @@ export default function Navbar() {
                   if (megaTimer.current) clearTimeout(megaTimer.current)
                 }}
                 onLeave={closeMega}
+              />
+            )}
+            {indOpen && (
+              <ServicesPanel
+                tabs={INDUSTRY_TABS}
+                selected={indTab}
+                dir={indDir}
+                viewAllSuffix="industries"
+                onTabHover={(tabId) => {
+                  setIndDir(indTab !== null && indTab !== tabId ? (indTab > tabId ? 'r' : 'l') : null)
+                  setIndTab(tabId)
+                }}
+                onEnter={() => { if (indTimer.current) clearTimeout(indTimer.current) }}
+                onLeave={closeInd}
               />
             )}
           </AnimatePresence>
