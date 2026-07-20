@@ -167,6 +167,9 @@ const INDUSTRY_TABS = [
     ),
     items: [
       { label: 'B2B Wholesale',            href: '/industries/b2b-wholesale' },
+      { label: 'Transport & Logistics',    href: '/industries/transport-logistics' },
+      { label: 'Telecommunications',       href: '/industries/telecommunications' },
+      { label: 'Education',                href: '/industries/education' },
       { label: 'All Industries',           href: '/industries' },
     ],
   },
