@@ -108,19 +108,6 @@ const SERVICE_TABS = [
       { label: 'AI Content & SEO Tools',       href: '/services/business-automation#ai-tools' },
     ],
   },
-  {
-    id: 6, label: 'Industries', href: '/industries/fashion-apparel',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
-      </svg>
-    ),
-    items: [
-      { label: 'Fashion & Apparel',          href: '/industries/fashion-apparel' },
-      { label: 'Beauty & Cosmetics',         href: '/industries/beauty-cosmetics' },
-      { label: 'Sports & Equipment',         href: '/industries/sports-equipment' },
-    ],
-  },
 ]
 
 const TOOL_LINKS = [
@@ -133,6 +120,17 @@ type NavItem = { label: string; href: string; hasMega?: boolean; hasTools?: bool
 const NAV_LINKS: NavItem[] = [
   { label: 'Home',      href: '/' },
   { label: 'Services',  href: '/services', hasMega: true },
+  { label: 'Industries', href: '/industries', children: [
+      { label: 'Fashion & Apparel',      href: '/industries/fashion-apparel' },
+      { label: 'Beauty & Cosmetics',     href: '/industries/beauty-cosmetics' },
+      { label: 'Sports & Equipment',     href: '/industries/sports-equipment' },
+      { label: 'Fragrances & Perfumes',  href: '/industries/fragrances-perfumes' },
+      { label: 'B2B Wholesale',          href: '/industries/b2b-wholesale' },
+      { label: 'Health & Wellness',      href: '/industries/health-wellness' },
+      { label: 'Home Décor',             href: '/industries/home-decor' },
+      { label: 'Jewelry & Accessories',  href: '/industries/jewelry-accessories' },
+      { label: 'All Industries',         href: '/industries' },
+  ] },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Tools',     href: '/tools/wordpress-theme-detector', hasTools: true },
   { label: 'About',     href: '/about' },
@@ -512,7 +510,7 @@ export default function Navbar() {
         // Guarantee code-defined categories that a saved DB menu predates —
         // merge them in rather than relying on the DB menu being edited by hand.
         // Matched on href so we never duplicate.
-        for (const required of ['/services/business-automation', '/industries/fashion-apparel']) {
+        for (const required of ['/services/business-automation']) {
           const present = dbTabs.some((t: any) =>
             typeof t.href === 'string' && t.href.includes(required))
           if (!present) {
