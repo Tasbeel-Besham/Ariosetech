@@ -484,7 +484,7 @@ export default function Navbar() {
       if (headerData.logoWidth) setLogoWidth(Number(headerData.logoWidth) || 160)
 
       if (Array.isArray(headerMenu) && headerMenu.length > 0) {
-        setNavLinks(headerMenu[0].items.map((i: any) => ({
+        const dbItems = headerMenu[0].items.map((i: any) => ({
           ...i,
           hasMega: i.label.toLowerCase() === 'services',
           hasTools: i.label.toLowerCase() === 'tools',
@@ -492,7 +492,32 @@ export default function Navbar() {
           // you add new dropdowns from the admin without touching code.
           hasChildren: Array.isArray(i.children) && i.children.length > 0
             && i.label.toLowerCase() !== 'services' && i.label.toLowerCase() !== 'tools',
-        })))
+        }))
+
+        // Guarantee code-defined nav items that a saved DB menu predates. Without
+        // this, a header menu saved before Industries existed would hide it
+        // permanently. Matched on href so we never duplicate an existing item.
+        for (const required of ['/industries']) {
+          const present = dbItems.some((i: any) =>
+            typeof i.href === 'string' && i.href.startsWith(required))
+          if (!present) {
+            const fromCode = NAV_LINKS.find(n => n.href === required)
+            if (fromCode) {
+              // Insert before Portfolio if present, else append.
+              const at = dbItems.findIndex((i: any) =>
+                typeof i.href === 'string' && i.href.startsWith('/portfolio'))
+              const item = {
+                ...fromCode,
+                hasMega: false,
+                hasTools: false,
+                hasChildren: Array.isArray(fromCode.children) && fromCode.children.length > 0,
+              }
+              if (at >= 0) dbItems.splice(at, 0, item)
+              else dbItems.push(item)
+            }
+          }
+        }
+        setNavLinks(dbItems)
       }
 
       if (Array.isArray(servicesMenu) && servicesMenu.length > 0

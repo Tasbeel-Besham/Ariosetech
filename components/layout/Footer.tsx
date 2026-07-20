@@ -54,7 +54,24 @@ export default function Footer() {
       if (footerData.bottomText) setBottomText(footerData.bottomText)
 
       if (Array.isArray(footerData.columns) && footerData.columns.length > 0) {
-        setColumns(footerData.columns)
+        // Guarantee key links exist even if the saved footer config predates
+        // those pages. Added to the first column that looks like "Company",
+        // else the first column. Matched on href so we never duplicate.
+        const cols = footerData.columns.map((c: any) => ({ ...c, links: [...(c.links || [])] }))
+        const target =
+          cols.find((c: any) => /company|about/i.test(String(c.title || ''))) || cols[0]
+        if (target) {
+          const required = [
+            { label: 'Meet the Team', href: '/about/team' },
+            { label: 'Industries', href: '/industries' },
+          ]
+          for (const link of required) {
+            const exists = target.links.some((l: any) =>
+              typeof l?.href === 'string' && l.href.replace(/\/$/, '') === link.href)
+            if (!exists) target.links.push(link)
+          }
+        }
+        setColumns(cols)
       } else {
         // Fallback matching default layout
         setColumns([
@@ -79,6 +96,7 @@ export default function Footer() {
           { title: 'Company', links: [
             { label: 'About Us', href: '/about' },
             { label: 'Meet the Team', href: '/about/team' },
+            { label: 'Industries', href: '/industries' },
             { label: 'Portfolio', href: '/portfolio' },
             { label: 'Blog', href: '/blog' },
             { label: 'FAQ', href: '/faq' },
