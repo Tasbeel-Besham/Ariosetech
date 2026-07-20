@@ -78,6 +78,7 @@ export default function Footer() {
           ]},
           { title: 'Company', links: [
             { label: 'About Us', href: '/about' },
+            { label: 'Meet the Team', href: '/about/team' },
             { label: 'Portfolio', href: '/portfolio' },
             { label: 'Blog', href: '/blog' },
             { label: 'FAQ', href: '/faq' },

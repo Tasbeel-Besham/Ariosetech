@@ -108,6 +108,19 @@ const SERVICE_TABS = [
       { label: 'AI Content & SEO Tools',       href: '/services/business-automation#ai-tools' },
     ],
   },
+  {
+    id: 6, label: 'Industries', href: '/industries/fashion-apparel',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
+      </svg>
+    ),
+    items: [
+      { label: 'Fashion & Apparel',          href: '/industries/fashion-apparel' },
+      { label: 'Beauty & Cosmetics',         href: '/industries/beauty-cosmetics' },
+      { label: 'Sports & Equipment',         href: '/industries/sports-equipment' },
+    ],
+  },
 ]
 
 const TOOL_LINKS = [
@@ -496,11 +509,16 @@ export default function Navbar() {
         // Guarantee the Business Automation category is present even if the saved
         // database menu predates it — merge it in rather than relying on the DB
         // menu being edited by hand. Match on the href so we never duplicate it.
-        const hasAutomation = dbTabs.some((t: any) =>
-          typeof t.href === 'string' && t.href.includes('/services/business-automation'))
-        if (!hasAutomation) {
-          const auto = SERVICE_TABS.find(t => t.href.includes('/services/business-automation'))
-          if (auto) dbTabs.push({ ...auto, id: dbTabs.length + 1 })
+        // Guarantee code-defined categories that a saved DB menu predates —
+        // merge them in rather than relying on the DB menu being edited by hand.
+        // Matched on href so we never duplicate.
+        for (const required of ['/services/business-automation', '/industries/fashion-apparel']) {
+          const present = dbTabs.some((t: any) =>
+            typeof t.href === 'string' && t.href.includes(required))
+          if (!present) {
+            const tab = SERVICE_TABS.find(t => t.href.includes(required))
+            if (tab) dbTabs.push({ ...tab, id: dbTabs.length + 1 })
+          }
         }
         setServiceTabs(dbTabs)
       }
