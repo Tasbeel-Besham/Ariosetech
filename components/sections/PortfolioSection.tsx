@@ -187,7 +187,10 @@ export default function PortfolioSection({
     }
   }, [hovered])
 
-  const displayItems = dbItems.length > 0 ? dbItems : safeItems
+  // Priority: if this section was given explicit items (e.g. a hand-picked set
+  // on an industry page), always use those. Only fall back to the full DB
+  // collection when the section left its items empty (the main /portfolio page).
+  const displayItems = safeItems.length > 0 ? safeItems : dbItems
   const displayCats = Array.from(new Set(displayItems.map(item => (item.cat || 'other').toLowerCase())))
   const filtered = filter === 'all' ? displayItems : displayItems.filter(p => (p.cat || '').toLowerCase() === filter)
 
