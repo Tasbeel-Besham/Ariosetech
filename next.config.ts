@@ -46,7 +46,9 @@ const nextConfig: NextConfig = {
       { source: '/shopify-theme-detector', destination: '/tools/shopify-theme-detector', permanent: true },
       { source: '/shopify-theme-detector/:path*', destination: '/tools/shopify-theme-detector', permanent: true },
       // Old two-level portfolio URLs (/portfolio/wordpress/project-name)
-      { source: '/portfolio/:category/:slug+', destination: '/portfolio', permanent: true },
+      // NOTE: We intentionally do NOT redirect /portfolio/:category/:slug —
+      // that is the live case-study route. A redirect here would bounce every
+      // case-study click back to /portfolio. Dead slugs correctly 404 instead.
       // Discovered via GSC referring-pages: old WP service pages named "*-ariosetech"
       { source: '/wordpress-services-ariosetech', destination: '/services/wordpress', permanent: true },
       { source: '/wordpress-services-ariosetech/:path*', destination: '/services/wordpress', permanent: true },
