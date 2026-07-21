@@ -42,6 +42,18 @@ export default async function PortfolioDetailPage({ params }: Props) {
   const item = await getItem(slug)
   if (!item) notFound()
 
+  // Normalize fields that may arrive as a comma-separated string (from the seed
+  // or the admin form) or as an array. `stack` is stored as a string in some
+  // records; calling .map() on a string crashes the page server-side.
+  const stackList: string[] = Array.isArray((item as any).stack)
+    ? (item as any).stack
+    : typeof (item as any).stack === 'string' && (item as any).stack.trim()
+      ? (item as any).stack.split(',').map((t: string) => t.trim()).filter(Boolean)
+      : []
+  const resultsList: { label: string; value: string }[] = Array.isArray((item as any).results)
+    ? (item as any).results
+    : []
+
   const color = CAT_COLOR[item.category] || '#766cff'
   const F = { fontFamily: 'var(--font-display)' } as React.CSSProperties
   const M = { fontFamily: 'var(--font-mono)' } as React.CSSProperties
@@ -76,12 +88,12 @@ export default async function PortfolioDetailPage({ params }: Props) {
       </section>
 
       {/* Results stats */}
-      {item.results && item.results.length > 0 && (
+      {resultsList.length > 0 && (
         <section className="pd-stats-section">
           <div className="container">
             <p className="pd-label text-center mb-28-i">Results Achieved</p>
-            <div className="portfolio-stats-grid pd-stats-grid" style={{ '--stat-cols': Math.min(item.results.length, 4) } as React.CSSProperties}>
-              {item.results.map((r) => (
+            <div className="portfolio-stats-grid pd-stats-grid" style={{ '--stat-cols': Math.min(resultsList.length, 4) } as React.CSSProperties}>
+              {resultsList.map((r) => (
                 <div key={r.label} className="pd-stat pd-stat-r20 bg-3">
                   <p className="pd-stat-value">{r.value}</p>
                   <p className="pd-stat-label">{r.label}</p>
@@ -126,12 +138,12 @@ export default async function PortfolioDetailPage({ params }: Props) {
       )}
 
       {/* Tech stack */}
-      {item.stack && item.stack.length > 0 && (
+      {stackList.length > 0 && (
         <section className="pd-section-60">
           <div className="container">
             <p className="pd-label text-center mb-20-i">Technologies Used</p>
             <div className="flex flex-wrap gap-10 justify-center">
-              {item.stack.map(tech => (
+              {stackList.map(tech => (
                 <div key={tech} className="pd-tech">
                   <Check size={12} className="pd-accent" /> {tech}
                 </div>
