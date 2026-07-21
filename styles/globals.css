@@ -1953,3 +1953,19 @@ span.pd-tech { display: inline-flex; }
   .reviews-badge { flex: 1 1 auto; justify-content: center; min-width: 140px; }
   .reviews-band { padding-left: 12px; padding-right: 12px; }
 }
+
+/* ── How It Works timeline: collapse the 3-column zigzag on mobile ── */
+@media (max-width: 768px) {
+  .hiw-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  /* Hide the empty spacer divs used for the desktop zigzag */
+  .hiw-row > div:empty { display: none; }
+  /* Number node always first (above its card), left-aligned, on every step */
+  .hiw-row > .flex.flex-col.items-center { order: -1; align-items: flex-start; width: auto; }
+  .hiw-node { width: 40px; height: 40px; }
+  .hiw-spine { display: none; }
+}
