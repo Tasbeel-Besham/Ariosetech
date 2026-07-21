@@ -16,12 +16,12 @@ const Star = ({ size = 13 }: { size?: number }) => (
 function Badge({ rating, sub, url, label }: { rating: string; sub: string; url: string; label: string }) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer"
-       className="inline-flex items-center gap-3 rounded-xl px-4 py-3 border border-subtle bg-subtle-2 no-underline transition hover:border-[rgba(var(--primary-rgb),0.4)]"
+       className="reviews-badge inline-flex items-center gap-3 rounded-xl px-4 py-3 no-underline transition"
        aria-label={`${label} rating ${rating}`}>
       <span className="font-display text-xl font-extrabold leading-none" style={{ color: 'var(--primary)' }}>{rating}</span>
       <span className="flex flex-col gap-[3px]">
         <span className="flex gap-[2px]">{[0,1,2,3,4].map(s => <Star key={s} />)}</span>
-        <span className="font-mono text-10 uppercase tracking-wider font-semibold" style={{ color: 'var(--text-2)' }}>{sub} · {label}</span>
+        <span className="reviews-badge-sub font-mono text-10 uppercase tracking-wider font-semibold">{sub} · {label}</span>
       </span>
     </a>
   )

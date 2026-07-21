@@ -1797,7 +1797,7 @@ span.pd-tech { display: inline-flex; }
   --bg-4: #e4e6f0;
 
   /* Borders */
-  --border:   rgba(20, 20, 60, 0.08);
+  --border:   rgba(20, 20, 60, 0.14);
   --border-2: rgba(20, 20, 60, 0.13);
   --border-3: rgba(20, 20, 60, 0.20);
 
@@ -1923,3 +1923,27 @@ span.pd-tech { display: inline-flex; }
 /* Impact stat cards: solid surfaces per theme (was translucent dark -> gray on light) */
 .impact-card { background: rgba(10,10,18,0.7); border: 1px solid rgba(var(--primary-rgb),0.18); }
 [data-theme="light"] .impact-card { background: var(--bg-2); border: 1px solid rgba(var(--primary-rgb),0.22); box-shadow: 0 12px 40px -16px rgba(40,40,90,0.16); }
+
+/* ── Reviews badge (Clutch/Google) — defined edges in BOTH themes ── */
+.reviews-badge {
+  background: rgba(var(--ink-rgb), 0.04);
+  border: 1px solid rgba(var(--ink-rgb), 0.14);
+}
+.reviews-badge:hover { border-color: rgba(var(--primary-rgb), 0.5); }
+.reviews-badge-sub { color: var(--text-2); }
+/* Light mode: white card with a visible cool border + soft shadow so it reads
+   as a distinct chip against the light footer instead of washing out. */
+[data-theme="light"] .reviews-badge {
+  background: #ffffff;
+  border: 1px solid rgba(40, 40, 90, 0.16);
+  box-shadow: 0 4px 14px -6px rgba(40, 40, 90, 0.18);
+}
+[data-theme="light"] .reviews-badge:hover { border-color: rgba(var(--primary-rgb), 0.55); }
+
+/* Reviews band wrapper — subtle panel that reads in both themes */
+.reviews-band { border-top: 1px solid var(--border); }
+[data-theme="light"] .reviews-band {
+  background: rgba(255,255,255,0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(40, 40, 90, 0.10);
+}

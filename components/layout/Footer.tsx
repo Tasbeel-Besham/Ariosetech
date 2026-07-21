@@ -194,7 +194,7 @@ export default function Footer() {
         </div>
 
         {/* Site-wide reviews band (real Clutch 4.9/16 + Google 5.0) */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-6 border-t border-subtle mb-2">
+        <div className="reviews-band flex flex-col sm:flex-row items-center justify-center gap-4 py-6 mb-2">
           <span className="font-mono text-11 uppercase tracking-widest font-semibold" style={{ color: 'var(--text-3)' }}>
             Rated by our clients
           </span>
