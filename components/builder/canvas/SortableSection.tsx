@@ -93,13 +93,24 @@ export function SortableSection({ section }: { section: SectionInstance }) {
         </button>
       </div>
 
-      {/* Section content */}
+      {/* Section content — inside the editor, links and buttons must NOT
+          navigate (clicking a CTA should select the section, not leave the
+          page). We neutralise interactive children with CSS + a capture-phase
+          click guard, while keeping the section itself clickable for selection. */}
       <SectionErrorBoundary type={section.type}>
-        {def ? (
-          <def.component {...section.props as Record<string, unknown>} />
-        ) : (
-          <FallbackSection type={section.type} />
-        )}
+        <div
+          className="builder-noninteractive"
+          onClickCapture={e => {
+            const el = (e.target as HTMLElement).closest('a, button, [role="button"]')
+            if (el) { e.preventDefault(); e.stopPropagation(); selectSection(isSelected ? null : section.id) }
+          }}
+        >
+          {def ? (
+            <def.component {...section.props as Record<string, unknown>} />
+          ) : (
+            <FallbackSection type={section.type} />
+          )}
+        </div>
       </SectionErrorBoundary>
     </div>
   )

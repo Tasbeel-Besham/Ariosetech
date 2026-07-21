@@ -1969,3 +1969,13 @@ span.pd-tech { display: inline-flex; }
   .hiw-node { width: 40px; height: 40px; }
   .hiw-spine { display: none; }
 }
+
+/* ── Builder editor: neutralise links/buttons inside section previews ──
+   The capture-phase handler in SortableSection already prevents navigation;
+   this makes it visually clear that children aren't live (no link cursor),
+   while leaving form fields alone so property editing still feels natural. */
+.builder-noninteractive a,
+.builder-noninteractive button:not([data-builder-control]) {
+  cursor: default !important;
+}
+.builder-noninteractive a { pointer-events: none; }

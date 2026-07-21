@@ -92,6 +92,8 @@ export default function ContactClient() {
   const [form, setForm]       = useState({ name:'', email:'', phone:'', service:'', budget:'', message:'' })
   const [sending, setSending] = useState(false)
   const [sent, setSent]       = useState(false)
+  const [hp, setHp]           = useState('')            // honeypot — must stay empty
+  const [loadedAt] = useState(() => Date.now())          // form render time (bot-timing check)
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
 
   const send = async (e: React.FormEvent) => {
@@ -102,7 +104,7 @@ export default function ContactClient() {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source:'Contact Page', formName:'Contact Form', status:'new', createdAt: new Date().toISOString() }),
+        body: JSON.stringify({ ...form, company_website: hp, formLoadedAt: loadedAt, source:'Contact Page', formName:'Contact Form', status:'new', createdAt: new Date().toISOString() }),
       })
       if (res.ok) {
         setSent(true)
@@ -227,6 +229,20 @@ export default function ContactClient() {
                 </div>
               ) : (
                 <form onSubmit={send} className="quote-form">
+                  {/* Honeypot — positioned off-screen, hidden from real users but
+                      filled by bots. aria-hidden + tabIndex keep it out of a11y flow. */}
+                  <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: 1, height: 1, overflow: 'hidden' }}>
+                    <label htmlFor="company_website">Company website (leave blank)</label>
+                    <input
+                      id="company_website"
+                      name="company_website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={hp}
+                      onChange={e => setHp(e.target.value)}
+                    />
+                  </div>
 
                   <div className="g-2 gap-20">
                     <FloatingInput label="Full Name" value={form.name} onChange={(v:string) => set('name', v)} required />
