@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from '@/components/ui/Icons'
-import ClutchWidget from '@/components/ui/ClutchWidget'
+import ReviewsBadge from '@/components/ui/ReviewsBadge'
 import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 import CtaSection from '@/components/sections/CtaSection'
 import SetFooterCta from '@/components/layout/SetFooterCta'
@@ -174,18 +174,45 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Clutch live review cards */}
+      {/* Client reviews — real verified data (Clutch 4.9/16 + Google 5.0) */}
       <section className="section section--dark relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[80%] pointer-events-none blur-[30px] bg-[radial-gradient(ellipse,rgba(var(--primary-rgb),0.08)_0%,transparent_65%)]" />
         <div className="container relative z-1">
-          <div className="text-center mb-[64px]">
+          <div className="text-center mb-[48px]">
             <p className="eyebrow justify-center">Client Reviews</p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-[-0.04em]">
+            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-[-0.04em] mb-8">
               Trusted by Businesses <span className="bg-brand-gradient bg-clip-text text-transparent">Worldwide</span>
             </h2>
+            <div className="flex justify-center"><ReviewsBadge /></div>
           </div>
-          <div className="max-w-[1000px] mx-auto bg-bg-3 p-[40px] rounded-[24px] border border-border">
-            <ClutchWidget widgetType={2} height={400} />
+          <div className="g-3 gap-20 max-w-[1100px] mx-auto">
+            {[
+              { quote: 'ARIOSETECH delivered an exceptional Shopify store that exceeded our expectations. Their attention to detail and ongoing support have been invaluable to our business growth.', name: 'Dr. Fred Sahafi', role: 'Founder of Genovie', initials: 'FS' },
+              { quote: 'Working with ARIOSETECH was seamless. They understood our complex requirements and delivered a custom WooCommerce solution that perfectly fits our business model.', name: 'Michael Chen', role: 'CEO of GeoMag World', initials: 'MC' },
+              { quote: 'Fast, reliable, and cost-effective. ARIOSETECH helped us launch our wholesale platform ahead of schedule and under budget.', name: 'Muhammad Hannan', role: 'Director of Janya.pk', initials: 'MH' },
+            ].map((t, i) => (
+              <div key={i} className="card p-32 flex flex-col bg-bg-3 border border-border rounded-[20px]">
+                <div className="flex gap-1 mb-5">
+                  {[0,1,2,3,4].map(s => (
+                    <svg key={s} width="15" height="15" viewBox="0 0 14 14" fill="var(--primary)"><path d="M7 1l1.5 4.5H13L9.5 8l1.3 4L7 10l-3.8 2 1.3-4L1 5.5h4.5z" /></svg>
+                  ))}
+                </div>
+                <p className="text-gray-2 leading-loose italic mb-7 flex-1">&ldquo;{t.quote}&rdquo;</p>
+                <div className="flex items-center gap-[14px] pt-5 border-t border-subtle">
+                  <div className="w-11 h-11 rounded-xl bg-grad flex items-center justify-center font-display text-sm font-extrabold text-white shrink-0">{t.initials}</div>
+                  <div>
+                    <p className="font-display text-sm font-bold text-white">{t.name}</p>
+                    <p className="font-mono text-gray-3 uppercase tracking-wider font-semibold text-10">{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <a href="https://clutch.co/profile/ariosetech" target="_blank" rel="noopener noreferrer"
+               className="inline-flex items-center gap-2 font-mono text-11 uppercase tracking-widest font-semibold" style={{ color: 'var(--primary)' }}>
+              Read all 16 verified reviews on Clutch →
+            </a>
           </div>
         </div>
       </section>
