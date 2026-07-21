@@ -76,8 +76,61 @@ export async function GET(request: Request) {
       } catch (e: any) { report.errors.push('blog ' + b.slug + ': ' + e.message) }
     }
 
+    // ---- 4. Empty the /portfolio PAGE's Portfolio Showcase items ----
+    // so the page falls back to the full portfolio collection (all 19 with
+    // proper filter chips), instead of any hardcoded 3-item override.
+    report.portfolioPage = { emptied: 0, fixed: false }
+    try {
+      const pg: any = await pagesCol.findOne({ fullPath: '/portfolio' } as never)
+      if (pg && pg.layout && Array.isArray(pg.layout.sections)) {
+        let changed = false
+        for (const s of pg.layout.sections) {
+          if (s.type === 'portfolio' && s.props && Array.isArray(s.props.items) && s.props.items.length > 0) {
+            s.props.items = []
+            report.portfolioPage.emptied++
+            changed = true
+          }
+        }
+        if (changed) {
+          await pagesCol.updateOne({ fullPath: '/portfolio' } as never, { $set: { layout: pg.layout, updatedAt: new Date() } } as never)
+          report.portfolioPage.fixed = true
+        }
+      }
+    } catch (e: any) { report.errors.push('portfolio-page: ' + e.message) }
+
+    // ---- 5. De-duplicate the portfolio collection ----
+    // Group by title; when duplicates exist, keep the richest doc (one that has
+    // a filled-in `challenge` = the seeded case study), delete the rest.
+    report.dedup = { duplicatesRemoved: 0, remaining: 0 }
+    try {
+      const pCol = await getCollection('portfolio')
+      const all2: any[] = await pCol.find({} as never).toArray()
+      const grp: Record<string, any[]> = {}
+      for (const d of all2) {
+        const k = String(d.title || d.slug || d._id).trim().toLowerCase()
+        ;(grp[k] = grp[k] || []).push(d)
+      }
+      for (const k of Object.keys(grp)) {
+        const g = grp[k]
+        if (g.length < 2) continue
+        const scored = g.map((d: any) => ({
+          d,
+          score:
+            (d.challenge && String(d.challenge).trim() ? 100 : 0) +
+            (d.client && String(d.client).trim().toLowerCase() !== String(d.title).trim().toLowerCase() ? 10 : 0) +
+            (Array.isArray(d.results) && d.results.length ? 1 : 0),
+        }))
+        scored.sort((a: any, b: any) => b.score - a.score)
+        for (let i = 1; i < scored.length; i++) {
+          await pCol.deleteOne({ _id: scored[i].d._id } as never)
+          report.dedup.duplicatesRemoved++
+        }
+      }
+      report.dedup.remaining = await pCol.countDocuments({} as never)
+    } catch (e: any) { report.errors.push('dedup: ' + e.message) }
+
     return NextResponse.json({ success: true, ...report,
-      note: 'Seed complete. Delete app/api/seed-content/route.ts and redeploy.' })
+      note: 'Seed + fix complete. Delete app/api/seed-content/route.ts and redeploy. Hard-refresh /portfolio.' })
   } catch (err: any) {
     return NextResponse.json({ error: 'Seed failed', message: err.message, report }, { status: 500 })
   }
