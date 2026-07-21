@@ -1947,3 +1947,9 @@ span.pd-tech { display: inline-flex; }
   border-radius: 16px;
   border: 1px solid rgba(40, 40, 90, 0.10);
 }
+
+/* Mobile: ensure review badges wrap and stay comfortably sized */
+@media (max-width: 480px) {
+  .reviews-badge { flex: 1 1 auto; justify-content: center; min-width: 140px; }
+  .reviews-band { padding-left: 12px; padding-right: 12px; }
+}

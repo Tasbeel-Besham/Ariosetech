@@ -283,10 +283,17 @@ export default function PortfolioSection({
                   <div className="pnum">{String(i + 1).padStart(2, '0')}</div>
                   <div>
                     <div className="pname">{item.title}</div>
-                    <div className="flex gap-6 flex-wrap mb-8">
+                    <div className="flex gap-6 flex-wrap mb-8 items-center">
                       <span className={`ptag ${catClass} font-mono px-[12px] py-[3px] rounded-full font-bold uppercase tracking-widest text-10`}>
                         {item.platform || catClass}
                       </span>
+                      {/* Result stat inline on mobile (hidden on desktop, which has its own column) */}
+                      {item.result && (
+                        <span className="md:hidden font-mono text-10 font-bold uppercase tracking-wider">
+                          <span className="text-gradient font-display font-black">{item.result}</span>
+                          <span className="text-gray-3 ml-1.5">{item.resultLabel}</span>
+                        </span>
+                      )}
                     </div>
                     <div className="pdesc">{item.quote}</div>
                   </div>
