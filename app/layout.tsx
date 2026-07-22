@@ -19,6 +19,10 @@ const roadRadio = localFont({
 })
 
 const LOGO = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png'
+// Social share card. MUST be 1200x630 for WhatsApp/LinkedIn/Facebook/X to show
+// a full-width preview instead of a small letterboxed logo. Upload a designed
+// card (logo + tagline on the brand background) and put its URL here.
+const OG_IMAGE = process.env.NEXT_PUBLIC_OG_IMAGE || LOGO
 const FAVICON = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539349/ariosetech/cmeul8vugjeeujikb4e5.png'
 
 export const metadata: Metadata = {
@@ -32,7 +36,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website', siteName: 'ARIOSETECH', locale: 'en_US',
-    images: [{ url: LOGO, width: 800, height: 200 }],
+    // Social platforms expect a 1200x630 landscape card. Declaring the real
+    // dimensions stops WhatsApp/LinkedIn/FB from letterboxing it into a
+    // white box. Replace OG_IMAGE with a proper 1200x630 designed card.
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: 'ARIOSETECH — WordPress, Shopify & WooCommerce Development Agency' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'WordPress, Shopify & WooCommerce Development Agency',
+    description: 'Professional WordPress, Shopify & WooCommerce development since 2017. 100+ businesses scaled.',
+    images: [OG_IMAGE],
   },
 }
 

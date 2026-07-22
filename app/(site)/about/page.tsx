@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from '@/components/ui/Icons'
 import ReviewsBadge from '@/components/ui/ReviewsBadge'
+import ClutchWidget from '@/components/ui/ClutchWidget'
 import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 import CtaSection from '@/components/sections/CtaSection'
 import SetFooterCta from '@/components/layout/SetFooterCta'
@@ -213,6 +214,17 @@ export default function AboutPage() {
                className="inline-flex items-center gap-2 font-mono text-11 uppercase tracking-widest font-semibold" style={{ color: 'var(--primary)' }}>
               Read all 16 verified reviews on Clutch →
             </a>
+          </div>
+
+          {/* Live Clutch widget. The static badges + cards above always render,
+              so if Clutch's script is blocked or slow this section still shows
+              real proof instead of an empty box. */}
+          <div className="max-w-[1000px] mx-auto mt-12 rounded-[20px] overflow-hidden">
+            <ClutchWidget
+              widgetType={12}
+              height={375}
+              reviews="449566,412231,406618,406326,405095,379000,373080,373075,372945,372930,372228,372128"
+            />
           </div>
         </div>
       </section>
