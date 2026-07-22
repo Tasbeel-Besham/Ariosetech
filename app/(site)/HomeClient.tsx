@@ -91,7 +91,7 @@ const AUDIT_ITEMS = [
 const FAQS = [
   { q:'How long does a WordPress website take?', a:'Most WordPress websites are completed within 2-4 weeks, depending on complexity and requirements. Complex projects may take 4-6 weeks.' },
   { q:'What is included in your maintenance plans?', a:'Our maintenance plans include regular updates, security monitoring, performance optimization, backup management, and priority support. Plans start at $79/month.' },
-  { q:'Do you offer a money-back guarantee?', a:"Yes. We offer a 30-day money-back guarantee on all our development projects. If you're not satisfied, we'll refund you in full." },
+  { q:'How do you price projects?', a:"Every project gets a fixed-price quote up front, itemised so you know exactly what you are paying for. The price we quote is the price you pay \u2014 no surprise add-ons mid-project. Send us your requirements and you will have a quote within 24 hours." },
   { q:'Can you work with my existing WordPress site?', a:'Absolutely. We work with existing WordPress sites for redesigns, migrations, speed optimization, security fixes, and feature additions.' },
   { q:'Do you offer ongoing support after launch?', a:'Yes. Every project includes 30 days of free post-launch support. After that, we offer flexible monthly maintenance plans starting at $79/month.' },
   { q:'Can you migrate my existing store to Shopify or WooCommerce?', a:'Yes! We provide complete migration services from all major e-commerce platforms including Shopify, WooCommerce, Magento, BigCommerce, and custom solutions.' },
@@ -550,7 +550,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
               </p>
               <Link href="/contact" className="btn btn-primary btn-lg">Ask Us Anything <ArrowSVG size={15} /></Link>
               <p className="font-mono text-xs text-text-3 mt-6 italic tracking-wider">
-                30-day money-back guarantee | Free training
+                Fixed-price quotes, no surprises | Free training
               </p>
             </div>
 
@@ -589,7 +589,7 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
             Join 100+ successful businesses that chose ARIOSETECH for their web development needs. Professional results, affordable pricing, and ongoing support.
           </p>
           <div className="sr flex gap-2.5 flex-wrap justify-center mb-10">
-            {['No Long-Term Contracts','30-Day Money-Back Guarantee','Free Post-Launch Support','Transparent Pricing'].map(t => (
+            {['No Long-Term Contracts','Fixed-Price Quotes, No Surprises','Free Post-Launch Support','Free Quote Within 24 Hours'].map(t => (
               <span key={t} className="tag text-text-2 border-border-2 inline-flex items-center gap-6"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12"></polyline></svg>{t}</span>
             ))}
           </div>

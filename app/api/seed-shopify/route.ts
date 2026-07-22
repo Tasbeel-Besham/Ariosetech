@@ -26,7 +26,7 @@ export async function GET(request: Request) {
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'View Shopify Portfolio',
           ctaSecondaryHref: '/portfolio',
-          trust: 'Starting at $999,30-Day Money-Back Guarantee,Free Post-Launch Training',
+          trust: 'Starting at $999,Fixed-Price Quotes No Surprises,Free Post-Launch Training',
           codeFilename: 'shopify-conversion / optimize.ts',
           codeLines: [
             [{ t: 'com', v: '// Executing Shopify conversion optimization' }],
@@ -201,7 +201,7 @@ export async function GET(request: Request) {
           desc: 'Discover what\'s holding your store back. Get a complete store performance analysis, conversion rate recommendations, and a detailed project proposal.',
           ctaLabel: 'Get Free Store Audit',
           ctaHref: '/contact',
-          guarantee: '30-day money-back guarantee | Free post-launch training | Ongoing support available'
+          guarantee: 'Fixed-price quotes, no surprises | Free post-launch training | Ongoing support available'
         }
       },
       {
@@ -257,7 +257,7 @@ export async function GET(request: Request) {
           ctaHref: '/contact',
           secondaryLabel: 'View Case Studies',
           secondaryHref: '/portfolio',
-          trust: 'Shopify Partner | 30-Day Money-Back Guarantee | Ongoing Support'
+          trust: 'Shopify Partner | Fixed-Price Quotes, No Surprises | Ongoing Support'
         }
       }
     ]

@@ -26,7 +26,7 @@ export async function GET(request: Request) {
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'View Our Portfolio',
           ctaSecondaryHref: '/portfolio',
-          trust: '✓ 7+ Years of Excellence,✓ 100+ Successful Projects,✓ 24/7 Expert Support,✓ 30-Day Money-Back Guarantee',
+          trust: '✓ 7+ Years of Excellence,✓ 100+ Successful Projects,✓ 24/7 Expert Support,✓ Fixed-Price Quotes, No Surprises',
           stats: [
             { value: '100+', label: 'Projects Delivered' },
             { value: '7+', label: 'Years Experience' },
@@ -349,7 +349,7 @@ export async function GET(request: Request) {
           items: [
             { q: 'How long does a WordPress website take?', a: 'Most WordPress websites are completed within 2-4 weeks, depending on complexity and requirements. Complex projects may take 4-6 weeks.' },
             { q: 'What is included in your maintenance plans?', a: 'Our maintenance plans include regular updates, security monitoring, performance optimization, backup management, and priority support. Plans start at $79/month.' },
-            { q: 'Do you offer a money-back guarantee?', a: "Yes. We offer a 30-day money-back guarantee on all our development projects. If you're not satisfied, we'll refund you in full." },
+            { q: 'How do you price projects?', a: 'Every project gets a fixed-price quote up front, itemised so you know exactly what you are paying for \u2014 no surprise add-ons mid-project. Send us your requirements and you will have a quote within 24 hours.' },
             { q: 'Can you work with my existing WordPress site?', a: 'Absolutely. We work with existing WordPress sites for redesigns, migrations, speed optimization, security fixes, and feature additions.' },
             { q: 'Do you offer ongoing support after launch?', a: 'Yes. Every project includes 30 days of free post-launch support. After that, we offer flexible monthly maintenance plans starting at $79/month.' },
             { q: 'Can you migrate my existing store to Shopify or WooCommerce?', a: 'Yes! We provide complete migration services from all major e-commerce platforms including Shopify, WooCommerce, Magento, BigCommerce, and custom solutions.' }
@@ -382,7 +382,7 @@ export async function GET(request: Request) {
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'Download Our Service Guide',
           ctaSecondaryHref: '/portfolio',
-          tags: 'No Long-Term Contracts,30-Day Money-Back Guarantee,Free Post-Launch Support,Transparent Pricing'
+          tags: 'No Long-Term Contracts,Fixed-Price Quotes No Surprises,Free Post-Launch Support,Transparent Pricing'
         }
       }
     ]

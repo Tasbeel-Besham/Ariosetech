@@ -323,7 +323,7 @@ export default function ContactClient() {
               { q:'How long does a website project take?',        a:'Most projects complete in 15–30 days. WordPress: 2–3 weeks. WooCommerce: 3–5 weeks. Shopify: 2–4 weeks. You receive a detailed timeline in every proposal.' },
               { q:'What is your pricing structure?',             a:'WordPress starts at $799, Shopify at $999, WooCommerce at $1,299. Fixed-price quotes, no hourly surprises. Typically 50% upfront, 50% on completion.' },
               { q:'Do you offer ongoing maintenance?',           a:'Yes. Monthly plans from $79/month covering updates, security monitoring, backups, and priority support.' },
-              { q:'What is your money-back guarantee?',          a:'30-day money-back guarantee. If we fail to deliver what was agreed, you get a full refund, no questions asked.' },
+              { q:'How does your pricing work?',                 a:'Fixed-price quotes, no surprises. We scope the work up front and itemise the cost, so the number we quote is the number you pay. You will have your quote within 24 hours.' },
               { q:'Do you work with clients in the USA & UAE?',  a:'Yes. Most clients are in the USA, UAE, and Switzerland. We schedule calls at your convenience and provide regular async updates.' },
               { q:'Can you work on my existing website?',        a:'Absolutely. Redesigns, speed optimizations, security fixes, migrations, and custom feature development for WordPress, WooCommerce, and Shopify.' },
             ].map(({ q, a }) => (

@@ -78,9 +78,15 @@ export default function TermsOfServicePage() {
           </ul>
         </Section>
 
-        <Section title="4. 30-Day Money-Back Guarantee">
+        <Section title="4. Pricing &amp; Quotations">
           <p>
-            We offer a 30-day money-back guarantee on all web development projects. If you are not satisfied with our work within 30 days of project delivery, we will refund your payment in full, no questions asked. This guarantee applies to development projects only and not to ongoing maintenance, SEO retainers, or domain/hosting costs.
+            All projects are quoted on a fixed-price basis. Before work begins, we provide an itemised quotation setting out the agreed scope and the total cost. The quoted price is the price you pay for that scope &mdash; we do not add charges mid-project for work covered by the agreed quotation.
+          </p>
+          <p>
+            Where you request work outside the agreed scope (a &ldquo;change request&rdquo;), we will quote that separately for your written approval before proceeding. No additional work is carried out, or charged for, without your approval.
+          </p>
+          <p>
+            Quotations are typically issued within 24 hours of receiving your project requirements and remain valid for 30 days from the date of issue. Ongoing services such as maintenance plans, SEO retainers, hosting, and third-party licence fees are billed separately and are not included in a project quotation unless expressly stated.
           </p>
         </Section>
 
@@ -133,7 +139,7 @@ export default function TermsOfServicePage() {
 
         <Section title="11. Termination">
           <p>
-            Either party may terminate a project with written notice. If you terminate a project mid-way, you are responsible for payment of all work completed to the date of termination. The 30-day money-back guarantee does not apply to client-initiated terminations after substantial work has commenced.
+            Either party may terminate a project with written notice. If you terminate a project mid-way, you are responsible for payment of all work completed to the date of termination. Any deposit paid is applied against work already carried out.
           </p>
         </Section>
 

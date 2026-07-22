@@ -293,7 +293,7 @@ export default function InteractiveHeroSection({
             {(metrics || [
               { ico: <SpeedSVG />, val: '90+', lbl: 'PageSpeed Target', c1: B_PRI, c2: B_SEC, bar: 0.92 },
               { ico: <StarSVG />, val: '5.0', lbl: 'Google Reviews', c1: B_PRI, c2: B_SEC, bar: 1.0 },
-              { ico: <LockSVG />, val: '30d', lbl: 'Money-Back', c1: B_PRI, c2: B_SEC, bar: 0.98 },
+              { ico: <LockSVG />, val: '24h', lbl: 'Free Quote', c1: B_PRI, c2: B_SEC, bar: 0.98 },
             ]).map((m, i) => (
               <div key={m.lbl + i} className="flex-1 rounded-xl p-[16px] relative overflow-hidden bg-white/5 border border-white/10">
                 <div className="mb-8 flex text-primary/80">{m.ico}</div>

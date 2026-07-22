@@ -26,7 +26,7 @@ export async function GET(request: Request) {
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'View WooCommerce Portfolio',
           ctaSecondaryHref: '/portfolio',
-          trust: 'Starting at $1,299,30-Day Money-Back Guarantee,Free Post-Launch Training',
+          trust: 'Starting at $1,299,Fixed-Price Quotes No Surprises,Free Post-Launch Training',
           codeFilename: 'woocommerce-scaling / optimize.ts',
           codeLines: [
             [{ t: 'com', v: '// Executing WooCommerce scaling optimization' }],
@@ -227,7 +227,7 @@ export async function GET(request: Request) {
           desc: 'Discover what\'s holding your store back. Get a complete e-commerce strategy session, platform analysis, project timeline, and a detailed proposal.',
           ctaLabel: 'Book Free Consultation',
           ctaHref: '/contact',
-          guarantee: '30-day money-back guarantee | Free post-launch training | Ongoing support available'
+          guarantee: 'Fixed-price quotes, no surprises | Free post-launch training | Ongoing support available'
         }
       },
       {
@@ -283,7 +283,7 @@ export async function GET(request: Request) {
           ctaHref: '/contact',
           secondaryLabel: 'View Case Studies',
           secondaryHref: '/portfolio',
-          trust: 'Starting at $1,299 | 30-Day Money-Back Guarantee | Ongoing Support'
+          trust: 'Starting at $1,299 | Fixed-Price Quotes, No Surprises | Ongoing Support'
         }
       }
     ]

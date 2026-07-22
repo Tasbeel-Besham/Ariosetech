@@ -26,7 +26,7 @@ export async function GET(request: Request) {
           ctaPrimaryHref: '/contact',
           ctaSecondaryLabel: 'View WordPress Portfolio',
           ctaSecondaryHref: '/portfolio',
-          trust: 'Starting at $799,30-Day Money-Back Guarantee,Free Post-Launch Support',
+          trust: 'Starting at $799,Fixed-Price Quotes No Surprises,Free Post-Launch Support',
           codeFilename: 'wp-core / security.ts',
           codeLines: [
             [{ t: 'com', v: '// Executing WordPress security hardening' }],
@@ -254,7 +254,7 @@ export async function GET(request: Request) {
           desc: 'Discover what\'s holding your site back. Get a 30-minute strategy session, WordPress recommendations, project timeline and pricing, and a no-obligation proposal.',
           ctaLabel: 'Book Free Consultation',
           ctaHref: '/contact',
-          guarantee: '30-day money-back guarantee on all WordPress development services'
+          guarantee: 'Fixed-price quotes with no surprises \u2014 your quote within 24 hours'
         }
       },
       {
@@ -302,7 +302,7 @@ export async function GET(request: Request) {
           ctaHref: '/contact',
           secondaryLabel: 'View Case Studies',
           secondaryHref: '/portfolio',
-          trust: 'Starting at $799,30-Day Money-Back Guarantee,Free Post-Launch Support'
+          trust: 'Starting at $799,Fixed-Price Quotes No Surprises,Free Post-Launch Support'
         }
       }
     ]

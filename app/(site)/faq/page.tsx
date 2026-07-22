@@ -62,7 +62,7 @@ const FAQS = [
   {
     category: 'Pricing & Process',
     items: [
-      { q: 'Do you offer a money-back guarantee?', a: 'Yes, we offer a 30-day money-back guarantee on all development projects. If you are not satisfied with our work, we will refund you in full, no questions asked.' },
+      { q: 'How do you price projects?', a: 'Every project gets a fixed-price quote up front, itemised so you know exactly what you are paying for. The price we quote is the price you pay \u2014 no surprise add-ons mid-project. Send us your requirements and you will have a quote within 24 hours.' },
       { q: 'Do you require a deposit to start?', a: 'Yes. We require a 50% deposit to begin work, with the remaining 50% due upon project completion before final delivery.' },
       { q: 'How do we communicate during a project?', a: 'We use email, WhatsApp, and video calls based on your preference. You will receive regular progress updates throughout the project.' },
       { q: 'Do you sign NDAs?', a: 'Yes. We are happy to sign a Non-Disclosure Agreement before discussing sensitive project details.' },
