@@ -67,6 +67,35 @@ export default async function BlogPostPage({ params }: Props) {
     related = [...sameCat, ...all.filter(p => p.category !== post.category)].slice(0, 3)
   } catch { /* ignore */ }
 
+  // Resolve the byline to an author profile (if one exists) so the schema can
+  // use a Person with a real URL — this is what Google's "Missing field url"
+  // warning on the author object is asking for, and it is a stronger EEAT
+  // signal than attributing every article to the Organization.
+  let authorLd: Record<string, unknown> = {
+    '@type': 'Organization', name: post.author || 'ARIOSETECH', url: SITE,
+  }
+  let authorSlug: string | null = null
+  if (post.author) {
+    try {
+      const aCol = await getCollection('authors')
+      const a = await aCol.findOne({ name: post.author, published: { $ne: false } } as never) as Record<string, any> | null
+      if (a?.slug) {
+        authorSlug = a.slug
+        authorLd = {
+          '@type': 'Person',
+          name: a.name,
+          url: `${SITE}/author/${a.slug}`,
+          ...(a.role ? { jobTitle: a.role } : {}),
+          ...(a.avatar ? { image: a.avatar } : {}),
+          ...(a.bio ? { description: a.bio } : {}),
+          ...(([a.linkedin, a.twitter, a.website].filter(Boolean).length)
+            ? { sameAs: [a.linkedin, a.twitter, a.website].filter(Boolean) } : {}),
+          worksFor: { '@type': 'Organization', name: 'ARIOSETECH', url: SITE },
+        }
+      }
+    } catch { /* no authors collection yet — fall back to Organization */ }
+  }
+
   // Article structured data for SEO / rich results.
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -75,8 +104,9 @@ export default async function BlogPostPage({ params }: Props) {
     description: post.excerpt,
     image: cover ? [cover] : undefined,
     datePublished: post.publishedAt || post.date,
-    author: { '@type': 'Organization', name: post.author || 'ARIOSETECH' },
-    publisher: { '@type': 'Organization', name: 'ARIOSETECH' },
+    author: authorLd,
+    publisher: { '@type': 'Organization', name: 'ARIOSETECH', url: SITE },
+    dateModified: post.updatedAt || post.publishedAt || post.date,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${slug}` },
     keywords: post.tags?.join(', '),
   }

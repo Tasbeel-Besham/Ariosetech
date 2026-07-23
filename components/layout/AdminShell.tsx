@@ -22,6 +22,7 @@ const NAV = [
   {
     label: 'Content', icon: FileText, children: [
       { label: 'Blog Posts', href: '/admin/blogs', icon: FileText },
+      { label: 'Authors', href: '/admin/authors', icon: FileText },
       { label: 'Portfolio', href: '/admin/portfolio', icon: Briefcase },
       { label: 'Media', href: '/admin/media', icon: ImageIcon },
     ],
@@ -70,6 +71,25 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     await fetch('/api/auth', { method: 'DELETE' })
     router.push('/admin/login')
   }
+
+  // Idle auto-logout: end the session after 30 minutes of no activity, so an
+  // admin session left open on a shared or unattended machine closes itself.
+  useEffect(() => {
+    const IDLE_MS = 30 * 60 * 1000
+    let timer: ReturnType<typeof setTimeout>
+    const reset = () => {
+      clearTimeout(timer)
+      timer = setTimeout(() => { logout() }, IDLE_MS)
+    }
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart']
+    events.forEach(e => window.addEventListener(e, reset, { passive: true }))
+    reset()
+    return () => {
+      clearTimeout(timer)
+      events.forEach(e => window.removeEventListener(e, reset))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
   const toggleGroup = (label: string) => setOpenGroups(g => g.includes(label) ? g.filter(x => x !== label) : [...g, label])

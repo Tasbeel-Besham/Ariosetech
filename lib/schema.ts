@@ -265,3 +265,41 @@ export function faqFromSections(sections: unknown): { q: string; a: string }[] {
   }
   return out
 }
+
+/** Person schema — for author profiles and bylines (EEAT signal). */
+export function personSchema(opts: {
+  name: string
+  url: string
+  jobTitle?: string
+  description?: string
+  image?: string
+  sameAs?: string[]
+  knowsAbout?: string[]
+  email?: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${opts.url}#person`,
+    name: opts.name,
+    url: opts.url,
+    ...(opts.jobTitle ? { jobTitle: opts.jobTitle } : {}),
+    ...(opts.description ? { description: opts.description } : {}),
+    ...(opts.image ? { image: opts.image } : {}),
+    ...(opts.email ? { email: opts.email } : {}),
+    ...(opts.sameAs && opts.sameAs.length ? { sameAs: opts.sameAs } : {}),
+    ...(opts.knowsAbout && opts.knowsAbout.length ? { knowsAbout: opts.knowsAbout } : {}),
+    worksFor: { '@id': ORG_ID },
+  }
+}
+
+/** ProfilePage schema — wraps an author page so Google reads it as a profile. */
+export function profilePageSchema(opts: { name: string; url: string; person: object }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: opts.name,
+    url: opts.url,
+    mainEntity: opts.person,
+  }
+}

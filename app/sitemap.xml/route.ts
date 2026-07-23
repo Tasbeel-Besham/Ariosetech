@@ -45,15 +45,17 @@ function iso(d: unknown): string | undefined {
 }
 
 export async function GET() {
-  const [pagesCol, blogsCol, portfolioCol] = await Promise.all([
+  const [pagesCol, blogsCol, portfolioCol, authorsCol] = await Promise.all([
     getCollection('pages'),
     getCollection('blogs'),
     getCollection('portfolio'),
+    getCollection('authors'),
   ])
-  const [pages, blogs, portfolio] = await Promise.all([
+  const [pages, blogs, portfolio, authors] = await Promise.all([
     pagesCol.find({ status: 'published' }).toArray(),
     blogsCol.find({ published: true }).toArray(),
     portfolioCol.find({ published: true }).toArray().catch(() => []),
+    authorsCol.find({ published: { $ne: false } } as never).toArray().catch(() => []),
   ])
 
   const entries = new Map<string, UrlEntry>()
@@ -68,6 +70,10 @@ export async function GET() {
     const doc = p as unknown as { fullPath: string; updatedAt?: Date; seo?: { robots?: { index?: boolean } } }
     if (doc.seo?.robots?.index === false) continue // don't advertise noindexed pages
     add(doc.fullPath, iso(doc.updatedAt), '0.9')
+  }
+
+  for (const a of authors as Record<string, any>[]) {
+    if (a?.slug) add(`/author/${a.slug}`, undefined, '0.5')
   }
 
   for (const b of blogs) {
