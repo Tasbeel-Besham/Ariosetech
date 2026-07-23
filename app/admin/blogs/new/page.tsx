@@ -6,7 +6,7 @@ import { ArrowLeft, Save, Eye } from '@/components/ui/Icons'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
-import BlogBlockEditor from '@/components/admin/BlogBlockEditor'
+import BlogRichEditor from '@/components/admin/BlogRichEditor'
 import type { BlogBlock } from '@/types'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
@@ -139,7 +139,7 @@ export default function NewBlogPost() {
         {/* Content editor */}
         <div className={cardClass}>
           <h2 className="font-display text-[15px] font-bold text-white mb-5">Content</h2>
-          <BlogBlockEditor blocks={form.content} onChange={blocks => set('content', blocks)} />
+          <BlogRichEditor blocks={form.content} onChange={blocks => set('content', blocks)} />
         </div>
 
         {/* SEO */}
