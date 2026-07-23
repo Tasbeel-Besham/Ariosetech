@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Check, ExternalLink } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
 import { caseStudySchema, breadcrumbSchema } from '@/lib/schema'
+import Breadcrumbs from '@/components/ui/Breadcrumbs'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -89,6 +90,13 @@ export default async function PortfolioDetailPage({ params }: Props) {
     <div style={{ '--proj-color': color } as React.CSSProperties}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(caseLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }} />
+      <div className="container pt-[92px] pb-0">
+        <Breadcrumbs items={[
+          { name: 'Home', url: '/' },
+          { name: 'Portfolio', url: '/portfolio' },
+          { name: item.title },
+        ]} />
+      </div>
       {/* Hero */}
       <section className="pd-hero">
         <div className="pd-hero-glow" />

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getCollection } from '@/lib/db/mongodb'
+import Breadcrumbs from '@/components/ui/Breadcrumbs'
 import { webPageSchema, serviceSchema, breadcrumbSchema, trailFromPath, isServicePath, faqSchema, faqFromSections, itemListSchema } from '@/lib/schema'
 import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
@@ -131,6 +132,14 @@ export default async function DynamicPage({ params }: Props) {
       {schemas.map((s, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
       ))}
+      {/* Visible breadcrumb trail — mirrors the BreadcrumbList schema above.
+          Google expects structured data to describe visible content, and this
+          adds internal links from deep pages back up the hierarchy. */}
+      {page.fullPath !== '/' && (
+        <div className="container pt-[92px] pb-0">
+          <Breadcrumbs items={trailFromPath(page.fullPath, page.title || 'Page')} />
+        </div>
+      )}
       {page.footerCta && (page.footerCta.headline || page.footerCta.desc) && (
         <SetFooterCta
           headline={page.footerCta.headline}

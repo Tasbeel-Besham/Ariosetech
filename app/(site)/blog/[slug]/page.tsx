@@ -109,6 +109,16 @@ export default async function BlogPostPage({ params }: Props) {
     dateModified: post.updatedAt || post.publishedAt || post.date,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${slug}` },
     keywords: post.tags?.join(', '),
+    // Extra context Google uses for article understanding and eligibility.
+    articleSection: post.category || undefined,
+    inLanguage: 'en',
+    wordCount: Array.isArray(post.content)
+      ? post.content.reduce((n: number, b: Record<string, unknown>) => {
+          const t = typeof b.text === 'string' ? b.text : ''
+          const items = Array.isArray(b.items) ? (b.items as string[]).join(' ') : ''
+          return n + `${t} ${items}`.trim().split(/\s+/).filter(Boolean).length
+        }, 0)
+      : undefined,
   }
 
   return (

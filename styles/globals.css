@@ -2030,3 +2030,20 @@ span.pd-tech { display: inline-flex; }
   float: left; height: 0; pointer-events: none;
   color: var(--text-3);
 }
+
+/* ── Breadcrumbs ────────────────────────────────────────────────────── */
+.breadcrumbs { margin-bottom: 20px; }
+.breadcrumbs ol {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  list-style: none; padding: 0; margin: 0;
+}
+.breadcrumbs li { display: flex; align-items: center; gap: 8px; }
+.breadcrumbs a,
+.breadcrumbs span {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+}
+.breadcrumbs a { color: var(--text-3); text-decoration: none; transition: color .15s; }
+.breadcrumbs a:hover { color: var(--primary); }
+.breadcrumbs [aria-current="page"] { color: var(--text-2); }
+.breadcrumbs-sep { color: var(--text-3); opacity: .45; }
