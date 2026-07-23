@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
+import { slugify } from '@/lib/utils'
 
 export async function GET(req: NextRequest) {
   const admin = req.nextUrl.searchParams.get('admin')
@@ -15,6 +16,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json()
+  if (typeof body.slug === 'string' && body.slug) body.slug = slugify(body.slug)
   const col = await getCollection('portfolio')
   const result = await col.insertOne({ ...body, updatedAt: new Date().toISOString() } as never)
   return NextResponse.json({ _id: result.insertedId, ...body }, { status: 201 })

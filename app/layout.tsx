@@ -64,8 +64,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // ── Site-wide Organization + WebSite schema ──
   // Read live from the settings collection so editing your address, phone,
   // email, or socials in the admin automatically updates the structured data.
-  // Every other schema on the site references ORG_ID as its publisher, so this
-  // must be emitted once site-wide for those references to resolve.
+  //
+  // Why site-wide rather than homepage-only: every page-level schema on this
+  // site (WebPage, Service, Article, CreativeWork) declares
+  // `publisher: { "@id": ".../#organization" }`. Under schema.org's @id graph
+  // model those references only resolve if the Organization node they point to
+  // is present in the same document. Emitting it once per page is the standard
+  // way to keep that graph valid — it is a single canonical node with a stable
+  // @id, not duplicated conflicting entities, so Google de-duplicates it to one
+  // organization. (Google's "one page per entity" advice targets duplicate
+  // *conflicting* markup, not a shared @id node.)
   let orgLd: object | null = null
   let siteLd: object | null = null
   try {

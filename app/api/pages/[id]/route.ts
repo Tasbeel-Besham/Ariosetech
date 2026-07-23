@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
+import { slugify, slugifyPath } from '@/lib/utils'
 import { ObjectId } from 'mongodb'
 
 type P = { params: Promise<{ id: string }> }
@@ -27,6 +28,22 @@ export async function PUT(req: NextRequest, { params }: P) {
 
   // Handle slug change → add to slugHistory + create redirect
   const updates: Record<string, unknown> = { ...body, updatedAt: new Date() }
+
+  // Enforce SEO-safe URLs on every save: lowercase, spaces/underscores become
+  // hyphens, accents folded. Applied server-side so a manually typed slug like
+  // "About Us" can never become the URL "/About Us".
+  if (typeof body.slug === 'string' && body.slug) {
+    const clean = slugify(body.slug)
+    if (!clean) return NextResponse.json({ error: 'Slug must contain at least one letter or number' }, { status: 400 })
+    body.slug = clean
+    updates.slug = clean
+  }
+  if (typeof body.fullPath === 'string' && body.fullPath) {
+    const cleanPath = slugifyPath(body.fullPath)
+    body.fullPath = cleanPath
+    updates.fullPath = cleanPath
+  }
+
   if (body.slug && body.slug !== existingDoc.slug) {
     const oldSlug = existingDoc.slug
     const oldPath = existingDoc.fullPath

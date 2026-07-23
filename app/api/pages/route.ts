@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
+import { slugify } from '@/lib/utils'
 
 export async function GET() {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -13,8 +14,14 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { title, slug, parentId } = await req.json()
-  if (!title || !slug) return NextResponse.json({ error: 'title and slug required' }, { status: 400 })
+  const { title, slug: rawSlug, parentId } = await req.json()
+  if (!title || !rawSlug) return NextResponse.json({ error: 'title and slug required' }, { status: 400 })
+
+  // Enforce SEO-safe URLs regardless of what was typed: lowercase, spaces and
+  // underscores -> hyphens, accents folded, punctuation stripped. Done here on
+  // the server so no client path can save a bad slug.
+  const slug = slugify(String(rawSlug))
+  if (!slug) return NextResponse.json({ error: 'Slug must contain at least one letter or number' }, { status: 400 })
 
   const col = await getCollection('pages')
   const existing = await col.findOne({ slug })
