@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Check, ExternalLink } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
+import { caseStudySchema, breadcrumbSchema } from '@/lib/schema'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -43,8 +44,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
   if (!item) notFound()
 
   // Normalize fields that may arrive as a comma-separated string (from the seed
-  // or the admin form) or as an array. `stack` is stored as a string in some
-  // records; calling .map() on a string crashes the page server-side.
+  // or the admin form) or as an array. Calling .map() on a string crashes SSR.
   const stackList: string[] = Array.isArray((item as any).stack)
     ? (item as any).stack
     : typeof (item as any).stack === 'string' && (item as any).stack.trim()
@@ -58,8 +58,29 @@ export default async function PortfolioDetailPage({ params }: Props) {
   const F = { fontFamily: 'var(--font-display)' } as React.CSSProperties
   const M = { fontFamily: 'var(--font-mono)' } as React.CSSProperties
 
+  // Structured data for this case study: CreativeWork describing the project
+  // plus a breadcrumb trail. Generated from the saved item, so editing the
+  // project in Admin → Portfolio updates the schema automatically.
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
+  const caseUrl = `${SITE_URL}/portfolio/${(item.category || 'other').toLowerCase()}/${item.slug}`
+  const caseLd = caseStudySchema({
+    title: item.title,
+    description: item.summary || item.challenge || undefined,
+    url: caseUrl,
+    image: item.image || undefined,
+    clientName: item.client || undefined,
+    keywords: [item.category, ...stackList].filter(Boolean) as string[],
+  })
+  const crumbLd = breadcrumbSchema([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Portfolio', url: `${SITE_URL}/portfolio` },
+    { name: item.title, url: caseUrl },
+  ])
+
   return (
     <div style={{ '--proj-color': color } as React.CSSProperties}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(caseLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }} />
       {/* Hero */}
       <section className="pd-hero">
         <div className="pd-hero-glow" />

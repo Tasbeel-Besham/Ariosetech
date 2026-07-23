@@ -52,12 +52,54 @@ export const metadata: Metadata = {
 import Animations from '@/components/ui/Animations'
 import SpotlightEffect from '@/components/ui/SpotlightEffect'
 import { getTheme, themeToCss } from '@/lib/theme'
+import { getCollection } from '@/lib/db/mongodb'
+import { organizationSchema, webSiteSchema } from '@/lib/schema'
 
 // Read the live theme on every request so admin colour changes apply immediately.
 export const dynamic = 'force-dynamic'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const theme = await getTheme()
+
+  // ── Site-wide Organization + WebSite schema ──
+  // Read live from the settings collection so editing your address, phone,
+  // email, or socials in the admin automatically updates the structured data.
+  // Every other schema on the site references ORG_ID as its publisher, so this
+  // must be emitted once site-wide for those references to resolve.
+  let orgLd: object | null = null
+  let siteLd: object | null = null
+  try {
+    const col = await getCollection('settings')
+    const doc = (await col.findOne({ key: 'site_settings' })) as Record<string, any> | null
+    const s: Record<string, any> = (doc?.value ?? doc ?? {}) as Record<string, any>
+    const addr = String(s.address || '95 College Road, Block E, PCSIR Staff Colony, Lahore, 54770')
+    const parts = addr.split(',').map(x => x.trim())
+    orgLd = organizationSchema({
+      logo: s.logo_url || LOGO,
+      description: 'WordPress, Shopify and WooCommerce development agency building e-commerce stores for businesses in the USA, UAE, UK and Switzerland since 2017.',
+      foundingDate: '2017',
+      email: s.email || 'info@ariosetech.com',
+      telephone: s.phone || '+92 300 9484 739',
+      address: {
+        street: parts.slice(0, Math.max(1, parts.length - 2)).join(', ') || undefined,
+        city: 'Lahore',
+        region: 'Punjab',
+        postalCode: parts[parts.length - 1] || undefined,
+        country: 'PK',
+      },
+      sameAs: [s.facebook, s.instagram, s.linkedin, 'https://clutch.co/profile/ariosetech']
+        .filter(Boolean) as string[],
+      ratingValue: '4.9',
+      reviewCount: '16',
+    })
+    siteLd = webSiteSchema()
+  } catch {
+    // Settings unavailable — still emit a baseline Organization so the graph
+    // never breaks.
+    orgLd = organizationSchema({ logo: LOGO, foundingDate: '2017' })
+    siteLd = webSiteSchema()
+  }
+
   return (
     <html lang="en" suppressHydrationWarning className={`${manrope.variable} ${inter.variable} ${roadRadio.variable}`}>
       <head>
@@ -67,6 +109,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         }} />
         {/* Live brand theme from admin → overrides static defaults in globals.css */}
         <style id="site-theme" dangerouslySetInnerHTML={{ __html: themeToCss(theme) }} />
+        {/* Site-wide structured data: Organization + WebSite. Present on every
+            page so the publisher references in page-level schema resolve. */}
+        {orgLd && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
+        )}
+        {siteLd && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteLd) }} />
+        )}
       </head>
       <body>
         <Animations />

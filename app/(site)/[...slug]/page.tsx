@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getCollection } from '@/lib/db/mongodb'
-import { webPageSchema, serviceSchema, breadcrumbSchema, trailFromPath, isServicePath } from '@/lib/schema'
+import { webPageSchema, serviceSchema, breadcrumbSchema, trailFromPath, isServicePath, faqSchema, faqFromSections, itemListSchema } from '@/lib/schema'
 import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
 import SetFooterCta from '@/components/layout/SetFooterCta'
@@ -99,6 +99,31 @@ export default async function DynamicPage({ params }: Props) {
   ]
   if (isServicePath(page.fullPath)) {
     schemas.push(serviceSchema({ name: page.title || 'Service', description: desc, url: pageUrl }))
+  }
+
+  // ── Automatic FAQPage ──
+  // Any page with an FAQ section gets FAQPage schema generated from its saved
+  // items. Editors add or edit FAQ entries in the builder and the structured
+  // data follows automatically — no separate step, never out of sync.
+  const faqs = faqFromSections(page.layout?.sections)
+  if (faqs.length > 0) schemas.push(faqSchema(faqs))
+
+  // ── Automatic ItemList for hub pages ──
+  // A hub (e.g. /industries) lists child pages via a services-overview section;
+  // emit ItemList so Google understands the collection.
+  const overview = (page.layout?.sections as Record<string, any>[] | undefined)
+    ?.find(s => s?.type === 'services-overview' && Array.isArray(s?.props?.items) && s.props.items.length > 2)
+  if (overview) {
+    const listItems = (overview.props.items as Record<string, any>[])
+      .map(it => ({
+        name: String(it?.title || '').trim(),
+        url: it?.href ? new URL(String(it.href), SITE_URL).toString() : pageUrl,
+        description: it?.desc ? String(it.desc) : undefined,
+      }))
+      .filter(it => it.name)
+    if (listItems.length > 2) {
+      schemas.push(itemListSchema({ name: page.title || 'List', url: pageUrl, items: listItems }))
+    }
   }
 
   return (

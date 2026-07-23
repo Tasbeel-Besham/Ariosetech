@@ -125,3 +125,143 @@ export function trailFromPath(fullPath: string, pageTitle: string): BreadcrumbIt
 export function isServicePath(fullPath: string): boolean {
   return /^\/services(\/|$)/.test(fullPath)
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Organization + WebSite — the site-wide entity graph.
+   Every other schema references ORG_ID as its publisher, so this MUST be
+   emitted once site-wide (root layout) or those references resolve to
+   nothing. This is the single most important schema for brand identity,
+   knowledge-panel eligibility, and AI/LLM citation.
+   ═══════════════════════════════════════════════════════════════════════ */
+export function organizationSchema(opts?: {
+  logo?: string
+  sameAs?: string[]
+  email?: string
+  telephone?: string
+  address?: { street?: string; city?: string; region?: string; postalCode?: string; country?: string }
+  foundingDate?: string
+  description?: string
+  ratingValue?: string
+  reviewCount?: string
+}) {
+  const o = opts || {}
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': ORG_ID,
+    name: ORG_NAME,
+    alternateName: 'ArioseTech',
+    url: SITE_URL,
+    ...(o.logo ? { logo: { '@type': 'ImageObject', url: o.logo } } : {}),
+    ...(o.description ? { description: o.description } : {}),
+    ...(o.foundingDate ? { foundingDate: o.foundingDate } : {}),
+    ...(o.email || o.telephone ? {
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        ...(o.email ? { email: o.email } : {}),
+        ...(o.telephone ? { telephone: o.telephone } : {}),
+        availableLanguage: ['English', 'Urdu'],
+      },
+    } : {}),
+    ...(o.address ? {
+      address: {
+        '@type': 'PostalAddress',
+        ...(o.address.street ? { streetAddress: o.address.street } : {}),
+        ...(o.address.city ? { addressLocality: o.address.city } : {}),
+        ...(o.address.region ? { addressRegion: o.address.region } : {}),
+        ...(o.address.postalCode ? { postalCode: o.address.postalCode } : {}),
+        ...(o.address.country ? { addressCountry: o.address.country } : {}),
+      },
+    } : {}),
+    ...(o.sameAs && o.sameAs.length ? { sameAs: o.sameAs } : {}),
+    ...(o.ratingValue && o.reviewCount ? {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: o.ratingValue,
+        reviewCount: o.reviewCount,
+        bestRating: '5',
+      },
+    } : {}),
+  }
+}
+
+/** WebSite schema with SearchAction — helps Google understand site search. */
+export function webSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    name: ORG_NAME,
+    url: SITE_URL,
+    publisher: { '@id': ORG_ID },
+  }
+}
+
+/** CreativeWork — for portfolio case-study pages. */
+export function caseStudySchema(opts: {
+  title: string
+  description?: string
+  url: string
+  image?: string
+  clientName?: string
+  datePublished?: string
+  keywords?: string[]
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: opts.title,
+    headline: opts.title,
+    description: opts.description || undefined,
+    url: opts.url,
+    ...(opts.image ? { image: opts.image } : {}),
+    ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
+    ...(opts.keywords && opts.keywords.length ? { keywords: opts.keywords.join(', ') } : {}),
+    ...(opts.clientName ? { about: { '@type': 'Organization', name: opts.clientName } } : {}),
+    creator: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+  }
+}
+
+/** ItemList — for hub pages listing children (industries, services, portfolio). */
+export function itemListSchema(opts: {
+  name: string
+  url: string
+  items: { name: string; url: string; description?: string }[]
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: opts.name,
+    url: opts.url,
+    numberOfItems: opts.items.length,
+    itemListElement: opts.items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      url: it.url,
+      ...(it.description ? { description: it.description } : {}),
+    })),
+  }
+}
+
+/**
+ * Pull FAQ pairs out of a page's saved sections so FAQPage schema is generated
+ * automatically whenever an editor adds/edits an FAQ section — no manual step.
+ */
+export function faqFromSections(sections: unknown): { q: string; a: string }[] {
+  if (!Array.isArray(sections)) return []
+  const out: { q: string; a: string }[] = []
+  for (const s of sections as Record<string, any>[]) {
+    if (!s || s.type !== 'faq') continue
+    const items = s.props?.items
+    if (!Array.isArray(items)) continue
+    for (const it of items) {
+      const q = (it?.q ?? it?.question ?? '').toString().trim()
+      const a = (it?.a ?? it?.answer ?? '').toString().trim()
+      if (q && a) out.push({ q, a })
+    }
+  }
+  return out
+}
