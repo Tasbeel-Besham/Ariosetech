@@ -1,13 +1,16 @@
 "use client";
 import Link from 'next/link'
 import { IconBox, CheckSVG, ArrowSVG } from '@/components/ui/IconBox'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type CheckItem = { value: string }
-type Props = { eyebrow?: string; headline?: string; subheadline?: string; subhead?: string; desc?: string; note?: string; guarantee?: string; ctaLabel?: string; ctaHref?: string; items?: CheckItem[] }
+type Props = {
+  headingTag?: string;
+  eyebrow?: string; headline?: string; subheadline?: string; subhead?: string; desc?: string; note?: string; guarantee?: string; ctaLabel?: string; ctaHref?: string; items?: CheckItem[] }
 
 const DEFAULT_ITEMS = ['Performance bottleneck analysis','SEO issues & keyword opportunities','Conversion barrier identification','Security vulnerability check','Mobile experience assessment','Detailed action plan, no obligation']
 
-export default function AuditSection({ eyebrow='Free Audit', headline='Get Your Free Website Performance Audit', subheadline, subhead, desc="Find out exactly how to improve your site's speed, SEO, security, and conversion rates with our comprehensive 25-point website audit.", note, guarantee, ctaLabel='Get My Free Audit Report', ctaHref='/contact', items=[] }: Props) {
+export default function AuditSection({ headingTag='h2', eyebrow='Free Audit', headline='Get Your Free Website Performance Audit', subheadline, subhead, desc="Find out exactly how to improve your site's speed, SEO, security, and conversion rates with our comprehensive 25-point website audit.", note, guarantee, ctaLabel='Get My Free Audit Report', ctaHref='/contact', items=[] }: Props) {
   const F = { fontFamily:'var(--font-display)' } as const
   const M = { fontFamily:'var(--font-mono)' } as const
   const sub = subheadline || subhead || "Discover what's holding your website back from peak performance."
@@ -19,7 +22,7 @@ export default function AuditSection({ eyebrow='Free Audit', headline='Get Your 
         <div className="audit-card">
           <div>
             <p className="eyebrow">{eyebrow}</p>
-            <h2 className="audit-headline">{headline}</h2>
+            <SectionHeading as={headingTag} className="audit-headline">{headline}</SectionHeading>
             <p className="audit-sub">{sub}</p>
             <p className="audit-desc">{desc}</p>
             <p className="audit-note">{noteText}</p>

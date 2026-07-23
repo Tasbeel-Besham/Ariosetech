@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type ServiceCard = {
   icon?: string
@@ -12,6 +13,7 @@ type ServiceCard = {
 }
 
 type Props = {
+  headingTag?: string
   eyebrow?: string
   headline?: string
   intro?: string
@@ -25,6 +27,7 @@ const ArrowSVG = () => (
 export default function ServiceGridSection({
   eyebrow = 'What We Do',
   headline = 'Everything You Need to Succeed Online',
+  headingTag = 'h2',
   intro = 'Four focused disciplines, one expert team. Whatever stage your business is at, we have a service built to move it forward.',
   items = [],
 }: Props) {
@@ -33,7 +36,7 @@ export default function ServiceGridSection({
       <div className="container">
         <div className="svcgrid-header">
           {eyebrow && <p className="eyebrow justify-center">{eyebrow}</p>}
-          <h2 className="svcgrid-headline">{headline}</h2>
+          <SectionHeading as={headingTag} className="svcgrid-headline">{headline}</SectionHeading>
           {intro && <p className="svcgrid-intro">{intro}</p>}
         </div>
 

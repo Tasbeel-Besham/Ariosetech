@@ -4,17 +4,21 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRight } from '@/components/ui/Icons'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type Item = { 
   title: string; client: string; platform: string; result: string; resultLabel: string; quote: string; 
   image?: string; url?: string; slug?: string; cat?: string 
 }
 
-type Props = { eyebrow?: string; headline?: string; intro?: string; items?: Item[]; ctaLabel?: string; ctaHref?: string }
+type Props = {
+  headingTag?: string;
+  eyebrow?: string; headline?: string; intro?: string; items?: Item[]; ctaLabel?: string; ctaHref?: string }
 
 export default function PortfolioSection({ 
   eyebrow='Our Work', 
   headline='Success Stories That Speak for Themselves', 
+  headingTag = 'h2',
   intro='', 
   items=[], 
   ctaLabel='Start a Project', 
@@ -243,9 +247,7 @@ export default function PortfolioSection({
               <p className="eyebrow font-mono text-primary uppercase tracking-widest flex items-center gap-8 mb-14 font-bold text-10">
                 <span className="opacity-50"> - </span> {eyebrow}
               </p>
-              <h2 className="font-display font-extrabold leading-none tracking-tighter text-white max-w-[700px] pf-headline">
-                {headline}
-              </h2>
+              <SectionHeading as={headingTag} className="font-display font-extrabold leading-none tracking-tighter text-white max-w-[700px] pf-headline">{headline}</SectionHeading>
             </div>
             {intro && (
               <div className="text-right">

@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*'
 
@@ -49,11 +50,14 @@ function ScrambleText({ text, delay = 0, className, style }: { text: string; del
 
 type ApproachItem = { n: string; title: string; sub: string; desc: string }
 
-type Props = { eyebrow?: string; headline?: string; scrambleWord?: string; items?: ApproachItem[] }
+type Props = {
+  headingTag?: string;
+  eyebrow?: string; headline?: string; scrambleWord?: string; items?: ApproachItem[] }
 
 export default function ApproachSection({ 
   eyebrow = "Why We're Different", 
   headline = "Our ", 
+  headingTag = 'h2',
   scrambleWord = "Approach",
   items = []
 }: Props) {

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://ariosetech.com/terms-of-service' },
   title: 'Terms of Service',
   description: 'Read the terms and conditions governing use of ARIOSETECH services and website.',
 }

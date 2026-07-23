@@ -1,11 +1,14 @@
 "use client";
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type Post = { _id: string; slug: string; title: string; excerpt: string; category: string; date: string; readTime: number }
-type Props = { eyebrow?: string; headline?: string; ctaLabel?: string; ctaHref?: string; limit?: number }
+type Props = {
+  headingTag?: string;
+  eyebrow?: string; headline?: string; ctaLabel?: string; ctaHref?: string; limit?: number }
 
-export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest Insights & Tutorials', ctaLabel='All Articles', ctaHref='/blog', limit=3 }: Props) {
+export default function BlogSection({ headingTag='h2', eyebrow='Knowledge Base', headline='Latest Insights & Tutorials', ctaLabel='All Articles', ctaHref='/blog', limit=3 }: Props) {
   const [posts, setPosts] = useState<Post[]>([])
   const [loaded, setLoaded] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
@@ -54,7 +57,7 @@ export default function BlogSection({ eyebrow='Knowledge Base', headline='Latest
         <div className="flex items-end justify-between flex-wrap gap-20 mb-64">
           <div>
             <p className="eyebrow">{eyebrow}</p>
-            <h2 className="font-display font-extrabold leading-none tracking-tighter text-[clamp(2rem,4vw,3rem)]">{headline}</h2>
+            <SectionHeading as={headingTag} className="font-display font-extrabold leading-none tracking-tighter text-[clamp(2rem,4vw,3rem)]">{headline}</SectionHeading>
           </div>
           <Link href={ctaHref} className="btn btn-outline btn-lg shrink-0">
             {ctaLabel}

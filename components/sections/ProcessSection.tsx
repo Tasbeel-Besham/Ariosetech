@@ -1,10 +1,13 @@
 "use client";
 import type { CSSProperties } from 'react'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type Step = { n: string; title: string; sub: string; desc: string; time: string }
-type Props = { eyebrow?: string; headline?: string; items?: Step[]; steps?: Step[] }
+type Props = {
+  headingTag?: string;
+  eyebrow?: string; headline?: string; items?: Step[]; steps?: Step[] }
 
-export default function ProcessSection({ eyebrow='How We Work', headline='Your Success Journey in 5 Simple Steps', items=[], steps=[] }: Props) {
+export default function ProcessSection({ headingTag='h2', eyebrow='How We Work', headline='Your Success Journey in 5 Simple Steps', items=[], steps=[] }: Props) {
   const safe = items.length ? items : steps
 
   return (
@@ -12,7 +15,7 @@ export default function ProcessSection({ eyebrow='How We Work', headline='Your S
       <div className="container">
         <div className="text-center mb-[60px]">
           <p className="eyebrow sr justify-center">{eyebrow}</p>
-          <h2 className="sr process-headline">{headline}</h2>
+          <SectionHeading as={headingTag} className="sr process-headline">{headline}</SectionHeading>
         </div>
         <div className="process-grid" style={{ '--process-cols': safe.length } as CSSProperties}>
           {safe.map(({n,title,sub,desc,time},i) => (

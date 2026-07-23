@@ -1,10 +1,12 @@
 'use client'
 import Link from 'next/link'
 import { CheckSVG, ArrowSVG } from '@/components/ui/IconBox'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type Cap = { title?: string; desc?: string }
 
 type Props = {
+  headingTag?: string
   eyebrow?: string
   headline?: string
   desc?: string
@@ -25,6 +27,7 @@ const DEFAULT_ITEMS: Cap[] = [
 export default function CapabilitiesSection({
   eyebrow = 'How We Work',
   headline = 'The standard behind every project',
+  headingTag = 'h2',
   desc = 'Whatever platform you need, the fundamentals never change. This is what you get with ARIOSETECH — on every engagement, at every price point.',
   ctaLabel = 'Start Your Project',
   ctaHref = '/contact',
@@ -38,7 +41,7 @@ export default function CapabilitiesSection({
           {/* Sticky claim */}
           <div className="cap-claim">
             <p className="eyebrow">{eyebrow}</p>
-            <h2 className="cap-headline">{headline}</h2>
+            <SectionHeading as={headingTag} className="cap-headline">{headline}</SectionHeading>
             <p className="cap-desc">{desc}</p>
             {ctaLabel && (
               <Link href={ctaHref} className="btn btn-primary btn-lg cap-cta">

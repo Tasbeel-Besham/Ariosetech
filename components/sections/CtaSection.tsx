@@ -1,7 +1,10 @@
 "use client";
 import Link from 'next/link'
+import SectionHeading from '@/components/ui/SectionHeading'
 
-type Props = { eyebrow?: string; headline?: string; subheadline?: string; desc?: string; tags?: string; trust?: string; ctaPrimaryLabel?: string; ctaPrimaryHref?: string; ctaLabel?: string; ctaHref?: string; ctaSecondaryLabel?: string; ctaSecondaryHref?: string; secondaryLabel?: string; secondaryHref?: string }
+type Props = {
+  headingTag?: string;
+  eyebrow?: string; headline?: string; subheadline?: string; desc?: string; tags?: string; trust?: string; ctaPrimaryLabel?: string; ctaPrimaryHref?: string; ctaLabel?: string; ctaHref?: string; ctaSecondaryLabel?: string; ctaSecondaryHref?: string; secondaryLabel?: string; secondaryHref?: string }
 
 export default function CtaSection({ eyebrow='Get Started Today', headline='Start Your Success Story Today', subheadline, desc, tags, trust, ctaPrimaryLabel, ctaPrimaryHref, ctaLabel='Schedule Free Consultation', ctaHref='/contact', ctaSecondaryLabel, ctaSecondaryHref, secondaryLabel='View Our Portfolio', secondaryHref='/portfolio' }: Props) {
   const body = subheadline || desc || 'Join 100+ successful businesses that chose ARIOSETECH for their web development needs.'

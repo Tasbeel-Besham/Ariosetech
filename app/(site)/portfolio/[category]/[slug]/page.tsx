@@ -34,6 +34,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!item) return {}
   return {
     title: `${item.title}, Case Study`,
+    alternates: { canonical: `https://ariosetech.com/portfolio/${(item.category||'other').toLowerCase()}/${item.slug}` },
+    openGraph: {
+      type: 'article',
+      title: item.title,
+      description: item.summary || undefined,
+      url: `https://ariosetech.com/portfolio/${(item.category||'other').toLowerCase()}/${item.slug}`,
+      ...(item.image ? { images: [item.image] } : {}),
+    },
     description: item.summary,
   }
 }

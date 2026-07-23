@@ -45,6 +45,7 @@ const HERO_DEFAULT_PROPS = {
 const HERO_SCHEMA: SectionDefinition['schema'] = [
   { type: 'text',     name: 'eyebrow',          label: 'Eyebrow badge' },
   { type: 'text',     name: 'headline',          label: 'Main headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
   { type: 'textarea', name: 'subheadline',       label: 'Subheadline' },
   { type: 'textarea', name: 'supportingText',    label: 'Supporting text (below subheadline)' },
   { type: 'text',     name: 'ctaPrimaryLabel',   label: 'Primary CTA label' },
@@ -78,6 +79,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline', label: 'Section headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
       { type: 'repeater', name: 'items',    label: 'Service Tabs', fields: [
         { type: 'text',     name: 'label',    label: 'Tab label' },
@@ -111,6 +113,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline', label: 'Section headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
       { type: 'repeater', name: 'items',    label: 'Services', fields: [
         { type: 'text',     name: 'num',      label: 'Number (e.g. 01)' },
@@ -146,6 +149,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'desc',     label: 'Description' },
       { type: 'text',     name: 'ctaLabel', label: 'CTA label' },
       { type: 'text',     name: 'ctaHref',  label: 'CTA URL' },
@@ -177,6 +181,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'desc',     label: 'Left column description (Optional)' },
       { type: 'text',     name: 'ctaLabel', label: 'CTA Button Label (Optional)' },
       { type: 'text',     name: 'ctaHref',  label: 'CTA Button URL (Optional)' },
@@ -201,6 +206,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'intro',    label: 'Intro text' },
       { type: 'repeater', name: 'items', label: 'Projects', fields: [
         { type: 'text',     name: 'title',       label: 'Project name' },
@@ -234,6 +240,7 @@ export function initRegistry() {
     schema: [
       { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text', name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'repeater', name: 'items', label: 'Testimonials', fields: [
         { type: 'text',     name: 'name',     label: 'Name' },
         { type: 'text',     name: 'role',     label: 'Role / Company' },
@@ -261,6 +268,7 @@ export function initRegistry() {
     schema: [
       { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text', name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'repeater', name: 'steps', label: 'Process steps', fields: [
         { type: 'text',     name: 'n',     label: 'Step number (01, 02…)' },
         { type: 'text',     name: 'title', label: 'Title' },
@@ -301,6 +309,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'intro',    label: 'Intro text' },
       { type: 'repeater', name: 'metrics',  label: 'Metrics', fields: [
         { type: 'text',     name: 'value', label: 'Value (e.g. 150%)' },
@@ -328,6 +337,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'intro',    label: 'Intro' },
       { type: 'repeater', name: 'steps',    label: 'Steps', fields: [
         { type: 'text',     name: 'n',     label: 'Number (01, 02…)' },
@@ -355,6 +365,7 @@ export function initRegistry() {
     schema: [
       { type: 'text', name: 'eyebrow',      label: 'Eyebrow' },
       { type: 'text', name: 'headline',     label: 'Headline text' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'text', name: 'scrambleWord', label: 'Scramble-effect word' },
       { type: 'repeater', name: 'items', label: 'Cards', fields: [
         { type: 'text',     name: 'n',     label: 'Number (e.g. 01)' },
@@ -382,6 +393,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text',     name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'intro',    label: 'Intro text' },
       { type: 'text',     name: 'ctaLabel', label: 'CTA label' },
       { type: 'text',     name: 'ctaHref',  label: 'CTA URL' },
@@ -409,6 +421,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',       label: 'Eyebrow' },
       { type: 'text',     name: 'headline',       label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'desc',           label: 'Description' },
       { type: 'textarea', name: 'trust',          label: 'Trust badges (comma separated)' },
       { type: 'text',     name: 'ctaLabel',       label: 'Primary CTA label' },
@@ -432,6 +445,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',   label: 'Eyebrow' },
       { type: 'text',     name: 'headline',  label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'text',     name: 'subhead',   label: 'Sub-headline' },
       { type: 'textarea', name: 'desc',      label: 'Description' },
       { type: 'text',     name: 'ctaLabel',  label: 'CTA label' },
@@ -448,6 +462,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text',     name: 'headline', label: 'Heading' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'body',     label: 'Body text' },
       { type: 'select',   name: 'align',    label: 'Alignment', options: ['left', 'center', 'right'] },
     ],
@@ -469,6 +484,7 @@ export function initRegistry() {
     schema: [
       { type: 'text', name: 'eyebrow',   label: 'Eyebrow' },
       { type: 'text', name: 'headline',  label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'text', name: 'guarantee', label: 'Response guarantee text' },
       { type: 'text', name: 'email',     label: 'Email address' },
       { type: 'text', name: 'emailDesc', label: 'Email description' },
@@ -496,6 +512,7 @@ export function initRegistry() {
     schema: [
       { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text', name: 'headline', label: 'Headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'repeater', name: 'items', label: 'FAQ items', fields: [
         { type: 'text',     name: 'q', label: 'Question' },
         { type: 'textarea', name: 'a', label: 'Answer' },
@@ -521,6 +538,7 @@ export function initRegistry() {
     schema: [
       { type: 'text',     name: 'eyebrow',  label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline', label: 'Section headline' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
       { type: 'repeater', name: 'items',    label: 'Service cards', fields: [
         { type: 'textarea', name: 'icon',     label: 'Icon (SVG code)' },
@@ -551,6 +569,7 @@ export function initRegistry() {
     schema: [
       { type: 'text', name: 'eyebrow',  label: 'Eyebrow (optional)' },
       { type: 'text', name: 'headline', label: 'Headline (optional)' },
+      { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
       { type: 'repeater', name: 'items', label: 'Stats', fields: [
         { type: 'text', name: 'value', label: 'Big number' },
         { type: 'text', name: 'label', label: 'Label' },

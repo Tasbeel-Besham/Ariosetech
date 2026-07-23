@@ -1,7 +1,10 @@
 "use client";
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type Item = { name: string; role: string; initials: string; quote: string; image?: string }
-type Props = { eyebrow?: string; headline?: string; items?: Item[]; clutchRating?: string; clutchCount?: string; clutchUrl?: string; googleUrl?: string }
+type Props = {
+  headingTag?: string;
+  eyebrow?: string; headline?: string; items?: Item[]; clutchRating?: string; clutchCount?: string; clutchUrl?: string; googleUrl?: string }
 
 const StarSVG = () => <svg width="14" height="14" viewBox="0 0 14 14" fill="var(--primary)"><path d="M7 1l1.5 4.5H13L9.5 8l1.3 4L7 10l-3.8 2 1.3-4L1 5.5h4.5z"/></svg>
 
@@ -23,6 +26,7 @@ function RatingBadge({ rating, count, url, label }: { rating: string; count: str
 export default function TestimonialsSection({
   eyebrow='Client Reviews',
   headline='What Our Clients Say About Working With Us',
+  headingTag = 'h2',
   items=[],
   clutchRating='4.9',
   clutchCount='16',
@@ -36,7 +40,7 @@ export default function TestimonialsSection({
         <div className="flex items-end justify-between flex-wrap gap-20 mb-[56px]">
           <div>
             <p className="eyebrow sr">{eyebrow}</p>
-            <h2 className="sr font-display font-extrabold leading-none tracking-tighter section-headline">{headline}</h2>
+            <SectionHeading as={headingTag} className="sr font-display font-extrabold leading-none tracking-tighter section-headline">{headline}</SectionHeading>
           </div>
           <div className="sr flex gap-3 flex-wrap">
             <RatingBadge rating={clutchRating} count={clutchCount} url={clutchUrl} label="Clutch" />

@@ -1,4 +1,5 @@
 'use client'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type Stat = {
   value?: string
@@ -7,6 +8,7 @@ type Stat = {
 }
 
 type Props = {
+  headingTag?: string
   eyebrow?: string
   headline?: string
   items?: Stat[]
@@ -15,6 +17,7 @@ type Props = {
 export default function StatBandSection({
   eyebrow = '',
   headline = '',
+  headingTag = 'h2',
   items = [],
 }: Props) {
   return (
@@ -24,7 +27,7 @@ export default function StatBandSection({
         {(eyebrow || headline) && (
           <div className="statband-header">
             {eyebrow && <p className="eyebrow justify-center">{eyebrow}</p>}
-            {headline && <h2 className="statband-headline">{headline}</h2>}
+            {headline && <SectionHeading as={headingTag} className="statband-headline">{headline}</SectionHeading>}
           </div>
         )}
         <div className="statband-grid">

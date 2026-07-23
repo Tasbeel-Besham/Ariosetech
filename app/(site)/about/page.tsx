@@ -9,6 +9,7 @@ import SetFooterCta from '@/components/layout/SetFooterCta'
 import Reveal from '@/components/motion/Reveal'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://ariosetech.com/about' },
   title: 'About ARIOSETECH, Professional Web Development Since 2017',
   description: 'Meet the team behind 100+ successful web development projects. WordPress, WooCommerce, and Shopify specialists based in Lahore, Pakistan.',
 }

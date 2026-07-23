@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { ArrowSVG } from '@/components/ui/IconBox'
+import SectionHeading from '@/components/ui/SectionHeading'
 
 type ServiceItem = {
   num?: string
@@ -14,6 +15,7 @@ type ServiceItem = {
 }
 
 type Props = {
+  headingTag?: string
   eyebrow?: string
   headline?: string
   intro?: string
@@ -30,6 +32,7 @@ const DEFAULT_ITEMS: ServiceItem[] = [
 export default function ServicesOverviewSection({
   eyebrow = 'What We Do',
   headline = 'Services built around your growth',
+  headingTag = 'h2',
   intro = 'Four core capabilities, one senior team. Every engagement is scoped to your business goals — not a template.',
   items = [],
 }: Props) {
@@ -39,7 +42,7 @@ export default function ServicesOverviewSection({
       <div className="container">
         <div className="svc-ov-head">
           <p className="eyebrow">{eyebrow}</p>
-          <h2 className="svc-ov-headline">{headline}</h2>
+          <SectionHeading as={headingTag} className="svc-ov-headline">{headline}</SectionHeading>
           {intro && <p className="svc-ov-intro">{intro}</p>}
         </div>
 
