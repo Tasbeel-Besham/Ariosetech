@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import type { BlogBlock } from '@/types'
 import { headingId } from './BlogContent'
 
-type Heading = { id: string; text: string; level: 2 | 3 }
+type Heading = { id: string; text: string }
 
 /**
  * Table of contents built from the post's h2/h3 blocks.
@@ -14,9 +14,11 @@ type Heading = { id: string; text: string; level: 2 | 3 }
  * headings, since a TOC adds no value there.
  */
 export default function TableOfContents({ blocks }: { blocks: BlogBlock[] }) {
+  // Only h2 headings go in the table of contents — h3 and deeper are omitted so
+  // the TOC stays a clean, top-level outline of the article's main sections.
   const headings: Heading[] = (blocks || [])
-    .filter(b => (b.type === 'h2' || b.type === 'h3') && (b.text || '').trim())
-    .map(b => ({ id: headingId(b.text || ''), text: b.text || '', level: b.type === 'h2' ? 2 : 3 }))
+    .filter(b => b.type === 'h2' && (b.text || '').trim())
+    .map(b => ({ id: headingId(b.text || ''), text: b.text || '' }))
 
   const [active, setActive] = useState<string>('')
 
@@ -58,7 +60,7 @@ export default function TableOfContents({ blocks }: { blocks: BlogBlock[] }) {
       <p className="blog-toc-title">On this page</p>
       <ul>
         {headings.map(h => (
-          <li key={h.id} className={h.level === 3 ? 'blog-toc-sub' : ''}>
+          <li key={h.id}>
             <a
               href={`#${h.id}`}
               onClick={e => jump(e, h.id)}
