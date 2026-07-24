@@ -2079,3 +2079,103 @@ span.pd-tech { display: inline-flex; }
 
 /* The TOC sits as a clean block at the top of the article body on all screens
    — predictable, no float/wrap edge cases, and works on mobile as-is. */
+
+/* ══ Service Showcase — compact interactive grid ══════════════════════
+   All services visible at once; click a card to expand its detail inline. */
+.svcx { position: relative; overflow: hidden; }
+.svcx-glow {
+  position: absolute; top: -10%; left: 50%; transform: translateX(-50%);
+  width: 80%; height: 60%; pointer-events: none;
+  background: radial-gradient(ellipse, rgba(var(--primary-rgb),0.10) 0%, transparent 65%);
+  filter: blur(40px);
+}
+.svcx-head { max-width: 640px; margin-bottom: 44px; }
+.svcx-headline {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.9rem, 3.6vw, 2.7rem); letter-spacing: -0.03em;
+  line-height: 1.05; margin-top: 6px;
+}
+.svcx-intro { color: var(--text-2); margin-top: 14px; line-height: 1.7; font-size: 1.02rem; }
+
+/* Grid: 2 cols on desktop, 1 on mobile. Open card spans full width. */
+.svcx-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+}
+@media (max-width: 760px) { .svcx-grid { grid-template-columns: 1fr; } }
+
+.svcx-card {
+  position: relative; cursor: pointer;
+  border: 1px solid var(--border); border-radius: 16px;
+  background: var(--bg-2); overflow: hidden;
+  transition: border-color .25s, background .25s, transform .25s, opacity .25s;
+}
+.svcx-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(to bottom, var(--primary), var(--primary-2, var(--primary)));
+  transform: scaleY(0); transform-origin: top; transition: transform .3s ease;
+}
+.svcx-card:hover { border-color: rgba(var(--primary-rgb),0.4); }
+.svcx-card.is-open {
+  grid-column: 1 / -1;                 /* open card takes the full row */
+  border-color: rgba(var(--primary-rgb),0.55);
+  background: var(--bg-3);
+}
+.svcx-card.is-open::before { transform: scaleY(1); }
+.svcx-card.is-dim { opacity: 0.62; }
+.svcx-card.is-dim:hover { opacity: 1; }
+
+.svcx-card-top {
+  display: flex; align-items: center; gap: 16px;
+  padding: 22px 24px;
+}
+.svcx-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.svcx-card-titlewrap { flex: 1; min-width: 0; }
+.svcx-card-title {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.16rem;
+  letter-spacing: -0.02em; color: var(--heading, #fff); line-height: 1.2;
+}
+.svcx-card-tagline {
+  font-size: 0.86rem; color: var(--text-3); margin-top: 3px;
+}
+.svcx-price {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--primary); white-space: nowrap;
+  padding: 5px 10px; border-radius: 20px;
+  background: rgba(var(--primary-rgb),0.10); flex-shrink: 0;
+}
+.svcx-toggle {
+  font-size: 1.4rem; color: var(--text-3); width: 22px; text-align: center;
+  flex-shrink: 0; transition: color .2s;
+}
+.svcx-card.is-open .svcx-toggle { color: var(--primary); }
+
+/* Expanding detail */
+.svcx-detail { overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1); }
+.svcx-detail-inner { padding: 0 24px 24px; }
+.svcx-desc { color: var(--text-2); line-height: 1.75; margin-bottom: 18px; max-width: 720px; }
+.svcx-features {
+  list-style: none; padding: 0; margin: 0 0 22px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 24px;
+  max-width: 720px;
+}
+@media (max-width: 620px) { .svcx-features { grid-template-columns: 1fr; } }
+.svcx-features li {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 0.92rem; color: var(--text);
+}
+.svcx-features li svg { color: var(--primary); flex-shrink: 0; }
+.svcx-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--primary); text-decoration: none;
+  padding: 11px 20px; border-radius: 10px;
+  border: 1px solid rgba(var(--primary-rgb),0.35);
+  transition: background .2s, border-color .2s;
+}
+.svcx-cta:hover { background: rgba(var(--primary-rgb),0.10); border-color: var(--primary); }
+
+/* Light mode adjustments */
+[data-theme="light"] .svcx-card { background: #fff; box-shadow: 0 4px 18px -10px rgba(40,40,90,0.16); }
+[data-theme="light"] .svcx-card.is-open { background: var(--bg-2); }

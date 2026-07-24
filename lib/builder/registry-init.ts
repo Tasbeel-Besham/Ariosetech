@@ -24,6 +24,7 @@ import HowItWorksSection        from '@/components/sections/HowItWorksSection'
 import BlogSection              from '@/components/sections/BlogSection'
 import ApproachSection          from '@/components/sections/ApproachSection'
 import ServicesOverviewSection  from '@/components/sections/ServicesOverviewSection'
+import ServiceShowcaseSection   from '@/components/sections/ServiceShowcaseSection'
 import CapabilitiesSection      from '@/components/sections/CapabilitiesSection'
 import ServiceGridSection       from '@/components/sections/ServiceGridSection'
 import StatBandSection          from '@/components/sections/StatBandSection'
@@ -117,6 +118,48 @@ export function initRegistry() {
       { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
       { type: 'repeater', name: 'items',    label: 'Services', fields: [
         { type: 'text',     name: 'num',      label: 'Number (e.g. 01)' },
+        { type: 'text',     name: 'title',    label: 'Service title' },
+        { type: 'text',     name: 'tagline',  label: 'Short tagline' },
+        { type: 'textarea', name: 'desc',     label: 'Description' },
+        { type: 'textarea', name: 'features', label: 'Features (comma separated)' },
+        { type: 'text',     name: 'price',    label: 'Price label' },
+        { type: 'text',     name: 'href',     label: 'Link URL' },
+      ]},
+    ],
+  })
+
+  // ── SERVICE SHOWCASE (compact interactive grid) ──────────────
+  // Every service visible at once; click a card to expand its detail inline.
+  // Designed to replace long stacked service sections with one scannable block.
+  registerSection({
+    type: 'service-showcase', label: 'Service Showcase (grid)', category: 'Sections', icon: '🗂️',
+    component: ServiceShowcaseSection as C,
+    defaultProps: {
+      eyebrow: 'What We Do',
+      headline: 'Everything you need to launch and grow',
+      intro: 'Click any service to see exactly what is included. One senior team, scoped to your goals — not a template.',
+      items: [
+        { icon: '🧩', title: 'WordPress Development', tagline: 'Powerful, scalable websites', price: 'From $799',
+          desc: 'Custom themes, complex functionality, and lightning-fast, SEO-ready builds — from brochure sites to membership platforms.',
+          features: 'Custom themes,Speed optimization,Security hardening,Migrations,Maintenance,SEO-ready builds', href: '/services/wordpress' },
+        { icon: '🛒', title: 'WooCommerce Development', tagline: 'Stores built to sell', price: 'From $1,299',
+          desc: 'Profitable online stores with seamless checkout, payment gateways, and inventory that scales — including COD workflows built for markets like Pakistan.',
+          features: 'Store setup,Payment gateways,Multi-vendor,COD workflows,Inventory sync,Conversion optimization', href: '/services/woocommerce' },
+        { icon: '🏬', title: 'Shopify Development', tagline: 'Scale without limits', price: 'From $999',
+          desc: 'From your first storefront to Shopify Plus — custom themes, app integrations, and conversion-focused design that grows with you.',
+          features: 'Custom themes,Shopify Plus,App integration,CRO,Migrations,International selling', href: '/services/shopify' },
+        { icon: '📈', title: 'SEO Services', tagline: 'Get found faster', price: 'Custom',
+          desc: 'Technical, local, and content SEO that moves you up the rankings and brings customers who are ready to buy.',
+          features: 'Technical SEO,Local SEO,Content strategy,Core Web Vitals,Link building,Analytics', href: '/services/seo' },
+      ],
+    },
+    schema: [
+      { type: 'text',     name: 'eyebrow',    label: 'Eyebrow badge' },
+      { type: 'text',     name: 'headline',   label: 'Section headline' },
+      { type: 'select',   name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
+      { type: 'textarea', name: 'intro',      label: 'Intro paragraph' },
+      { type: 'repeater', name: 'items',      label: 'Services', fields: [
+        { type: 'text',     name: 'icon',     label: 'Icon (emoji)' },
         { type: 'text',     name: 'title',    label: 'Service title' },
         { type: 'text',     name: 'tagline',  label: 'Short tagline' },
         { type: 'textarea', name: 'desc',     label: 'Description' },
