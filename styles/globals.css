@@ -2050,9 +2050,14 @@ span.pd-tech { display: inline-flex; }
 
 /* ── Blog table of contents ─────────────────────────────────────────── */
 .blog-toc {
-  margin: 0 0 40px; padding: 20px 22px;
-  border: 1px solid var(--border); border-radius: 14px;
-  background: var(--bg-2);
+  margin: 0; padding: 0;
+}
+/* When collapsed to a top block on mobile, give it the card treatment back. */
+@media (max-width: 1020px) {
+  .blog-toc {
+    margin: 0 0 32px; padding: 20px 22px;
+    border: 1px solid var(--border); border-radius: 14px; background: var(--bg-2);
+  }
 }
 .blog-toc-title {
   font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em;
@@ -2077,8 +2082,22 @@ span.pd-tech { display: inline-flex; }
 }
 .blog-toc-sub a { font-size: 13px; }
 
-/* The TOC sits as a clean block at the top of the article body on all screens
-   — predictable, no float/wrap edge cases, and works on mobile as-is. */
+/* ── Blog two-column layout: left TOC sidebar + article ──────────────── */
+.bp-layout {
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+.bp-toc-col { position: sticky; top: 92px; }
+.bp-article-col { max-width: 760px; min-width: 0; }
+
+/* On tablet/mobile the sidebar collapses: TOC becomes a block above content. */
+@media (max-width: 1020px) {
+  .bp-layout { grid-template-columns: 1fr; gap: 0; max-width: 760px; }
+  .bp-toc-col { position: static; margin-bottom: 8px; }
+}
 
 /* ══ Service Showcase — compact interactive grid ══════════════════════
    All services visible at once; click a card to expand its detail inline. */
@@ -2179,3 +2198,13 @@ span.pd-tech { display: inline-flex; }
 /* Light mode adjustments */
 [data-theme="light"] .svcx-card { background: #fff; box-shadow: 0 4px 18px -10px rgba(40,40,90,0.16); }
 [data-theme="light"] .svcx-card.is-open { background: var(--bg-2); }
+
+/* Service showcase SVG icons */
+.svcx-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; flex-shrink: 0; border-radius: 11px;
+  background: rgba(var(--primary-rgb), 0.10);
+  color: var(--primary);
+}
+.svcx-svg { width: 22px; height: 22px; }
+.svcx-card.is-open .svcx-icon { background: rgba(var(--primary-rgb), 0.16); }

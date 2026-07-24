@@ -155,11 +155,14 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         )}
 
-        {/* Body */}
+        {/* Body — two-column on desktop: sticky TOC sidebar (left) + article */}
         <div className="bp-content-section">
-          <div className="container bp-narrow">
-            <TableOfContents blocks={post.content} />
-            <BlogContent blocks={post.content} />
+          <div className="container bp-layout">
+            <aside className="bp-toc-col">
+              <TableOfContents blocks={post.content} />
+            </aside>
+            <div className="bp-article-col">
+              <BlogContent blocks={post.content} />
 
             {post.tags.length > 0 && (
               <div className="bp-tags">
@@ -175,6 +178,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <p className="bp-author-role">WordPress, Shopify &amp; WooCommerce specialists since 2017</p>
               </div>
               <Link href="/contact" className="btn btn-primary btn-sm bp-author-cta">Work with us</Link>
+            </div>
             </div>
           </div>
         </div>

@@ -106,8 +106,11 @@ export default async function AuthorPage({ params }: Props) {
 
       <section className="section pt-[120px]">
         <div className="container max-w-[860px]">
-          <Link href="/blog" className="font-mono text-11 uppercase tracking-widest font-semibold" style={{ color: 'var(--primary)' }}>
-            ← Back to Blog
+          <Link href="/blog" className="inline-flex items-center gap-2 font-mono text-11 uppercase tracking-widest font-semibold mb-2 hover:opacity-80 transition-opacity" style={{ color: 'var(--primary)' }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to Blog
           </Link>
 
           {/* Profile header */}
