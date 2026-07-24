@@ -19,15 +19,29 @@ type Author = {
 async function getAuthor(slug: string): Promise<Author | null> {
   try {
     const col = await getCollection<Author>('authors')
-    return (await col.findOne({ slug, published: { $ne: false } } as never)) as Author | null
+    // Case-insensitive slug match so /author/Tasbeel-Besham resolves the same
+    // record as /author/tasbeel-besham rather than 404ing.
+    const safe = String(slug).trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return (await col.findOne({
+      slug: { $regex: `^${safe}$`, $options: 'i' },
+      published: { $ne: false },
+    } as never)) as Author | null
   } catch { return null }
 }
 
 async function getPosts(authorName: string) {
   try {
     const col = await getCollection('blogs')
+    // Match the byline case-insensitively and tolerate surrounding whitespace,
+    // so an author record named "Tasbeel Besham" still finds posts saved as
+    // "tasbeel besham" or "Tasbeel Besham ". An exact-match query silently
+    // returned nothing whenever the casing differed.
+    const safe = authorName.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     return await col
-      .find({ author: authorName, published: { $ne: false } } as never)
+      .find({
+        author: { $regex: `^\\s*${safe}\\s*$`, $options: 'i' },
+        published: { $ne: false },
+      } as never)
       .sort({ publishedAt: -1 })
       .limit(24)
       .toArray()
