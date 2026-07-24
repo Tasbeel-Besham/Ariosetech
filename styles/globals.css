@@ -2047,3 +2047,35 @@ span.pd-tech { display: inline-flex; }
 .breadcrumbs a:hover { color: var(--primary); }
 .breadcrumbs [aria-current="page"] { color: var(--text-2); }
 .breadcrumbs-sep { color: var(--text-3); opacity: .45; }
+
+/* ── Blog table of contents ─────────────────────────────────────────── */
+.blog-toc {
+  margin: 0 0 40px; padding: 20px 22px;
+  border: 1px solid var(--border); border-radius: 14px;
+  background: var(--bg-2);
+}
+.blog-toc-title {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 700; color: var(--text-3);
+  margin: 0 0 12px;
+}
+.blog-toc ul { list-style: none; margin: 0; padding: 0; }
+.blog-toc li { margin: 0; }
+.blog-toc li + li { margin-top: 2px; }
+.blog-toc-sub { padding-left: 16px; }
+.blog-toc a {
+  display: block; padding: 5px 10px; border-radius: 8px;
+  font-size: 14px; line-height: 1.4; color: var(--text-2);
+  text-decoration: none; border-left: 2px solid transparent;
+  transition: color .15s, background .15s, border-color .15s;
+}
+.blog-toc a:hover { color: var(--primary); background: rgba(var(--primary-rgb), 0.05); }
+.blog-toc a.is-active {
+  color: var(--primary); font-weight: 600;
+  border-left-color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.06);
+}
+.blog-toc-sub a { font-size: 13px; }
+
+/* The TOC sits as a clean block at the top of the article body on all screens
+   — predictable, no float/wrap edge cases, and works on mobile as-is. */

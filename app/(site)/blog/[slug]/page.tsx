@@ -7,6 +7,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc } from '@/types'
 import ReadingProgress from '@/components/ui/ReadingProgress'
 import BlogContent from '@/components/blog/BlogContent'
+import TableOfContents from '@/components/blog/TableOfContents'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -134,7 +135,6 @@ export default async function BlogPostPage({ params }: Props) {
             <Link href="/blog" className="bp-back">
               <ArrowLeft size={14} /> Back to Blog
             </Link>
-            <span className="blog-cat mb-16 inline-block">{post.category}</span>
             <h1 className="bp-title">{post.title}</h1>
             <p className="bp-excerpt">{post.excerpt}</p>
             <div className="bp-meta-row">
@@ -158,6 +158,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Body */}
         <div className="bp-content-section">
           <div className="container bp-narrow">
+            <TableOfContents blocks={post.content} />
             <BlogContent blocks={post.content} />
 
             {post.tags.length > 0 && (

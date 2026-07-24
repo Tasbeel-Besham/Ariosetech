@@ -2,6 +2,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { BlogBlock } from '@/types'
 
+/**
+ * Turn a heading's text into a stable URL-fragment id so the table of contents
+ * (and deep links / shares) can jump to it. Kept in sync with the same helper
+ * used by the TOC component so anchors always match.
+ */
+export function headingId(text: string): string {
+  return String(text || '')
+    .toLowerCase().trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
 /** Renders the rich block content of a blog post. */
 export default function BlogContent({ blocks }: { blocks: BlogBlock[] }) {
   return (
@@ -9,10 +23,10 @@ export default function BlogContent({ blocks }: { blocks: BlogBlock[] }) {
       {blocks.map((block, i) => {
         switch (block.type) {
           case 'h2':
-            return <h2 key={i} className="bp-h2">{block.text}</h2>
+            return <h2 key={i} id={headingId(block.text || '')} className="bp-h2 scroll-mt-[100px]">{block.text}</h2>
 
           case 'h3':
-            return <h3 key={i} className="bp-h3">{block.text}</h3>
+            return <h3 key={i} id={headingId(block.text || '')} className="bp-h3 scroll-mt-[100px]">{block.text}</h3>
 
           case 'p':
             return <p key={i} className="bp-p">{block.text}</p>
