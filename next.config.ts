@@ -28,7 +28,9 @@ const nextConfig: NextConfig = {
       { source: '/laprima', destination: '/portfolio', permanent: true },
       { source: '/laprima/:path*', destination: '/portfolio', permanent: true },
       { source: '/tag/:slug*', destination: '/blog', permanent: true },
-      { source: '/author/:slug*', destination: '/blog', permanent: true },
+      // NOTE: /author/:slug is a LIVE route (author profile pages), so it must
+      // NOT be redirected. Legacy WordPress author archives that no longer
+      // exist will correctly 404 via the author page's notFound() instead.
       { source: '/wp-content/:path*', destination: '/', permanent: true },
       // ── From the GSC 404 export (Jul 2026) ──
       // Old top-level service pages → new /services/* structure
