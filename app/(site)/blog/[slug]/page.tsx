@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: Props) {
   try {
     const all = await col.find({ published: true, slug: { $ne: slug } }).sort({ date: -1 }).limit(12).toArray()
     const sameCat = all.filter(p => p.category === post.category)
-    related = [...sameCat, ...all.filter(p => p.category !== post.category)].slice(0, 3)
+    related = [...sameCat, ...all.filter(p => p.category !== post.category)].slice(0, 9)
   } catch { /* ignore */ }
 
   // Resolve the byline to an author profile (if one exists) so the schema can
@@ -216,8 +216,9 @@ export default async function BlogPostPage({ params }: Props) {
               </div>
             )}
 
-            {/* Why trust our experts — EEAT trust block highlighting the
-                writer and reviewer behind the content. */}
+            {/* Why trust our experts — EEAT trust block. Always renders; uses
+                the matched author/reviewer record when available, otherwise a
+                team fallback so the section is never missing. */}
             <div className="bp-trust">
               <div className="bp-trust-text">
                 <h2 className="bp-trust-title">Why trust our experts?</h2>
@@ -229,27 +230,32 @@ export default async function BlogPostPage({ params }: Props) {
                   and honest so you always get reliable, actionable guidance.
                 </p>
               </div>
-              {(reviewerRec || authorRec) && (() => {
-                const person = reviewerRec || authorRec!
+              {(() => {
+                const person = reviewerRec || authorRec
                 const label = reviewerRec ? 'Reviewed By' : 'Written By'
+                const name = person?.name || post.author || 'ARIOSETECH Team'
+                const role = person?.role || 'WordPress, Shopify & WooCommerce specialists since 2017'
+                const bio = person?.bio
+                const avatar = person?.avatar
+                const slug = person?.slug
                 return (
                   <div className="bp-trust-card">
                     <div className="bp-trust-card-head">
-                      {person.avatar ? (
+                      {avatar ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={person.avatar} alt={person.name} className="bp-trust-photo" />
+                        <img src={avatar} alt={name} className="bp-trust-photo" />
                       ) : (
-                        <div className="bp-trust-photo bp-reviewer-initial">{person.name.charAt(0)}</div>
+                        <div className="bp-trust-photo bp-reviewer-initial">{name.charAt(0)}</div>
                       )}
                       <div>
                         <p className="bp-reviewer-label">{label}</p>
-                        <p className="bp-trust-name">{person.name}</p>
+                        <p className="bp-trust-name">{name}</p>
                       </div>
                     </div>
-                    {person.role && <p className="bp-trust-role">{person.role}</p>}
-                    {person.bio && <p className="bp-trust-bio">{person.bio}</p>}
+                    {role && <p className="bp-trust-role">{role}</p>}
+                    {bio && <p className="bp-trust-bio">{bio}</p>}
                     <div className="bp-trust-actions">
-                      {person.slug && <Link href={`/author/${person.slug}`} className="bp-reviewer-link">View Bio →</Link>}
+                      {slug && <Link href={`/author/${slug}`} className="bp-reviewer-link">View Bio →</Link>}
                       <Link href="/contact" className="btn btn-primary btn-sm">Work with us</Link>
                     </div>
                   </div>
@@ -261,17 +267,22 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </article>
 
-      {/* Related */}
+      {/* Related — horizontal scroll so more than 3 posts are reachable */}
       {related.length > 0 && (
         <section className="section section--dark">
           <div className="container">
-            <p className="eyebrow mb-[28px]">Keep Reading</p>
-            <div className="blog-grid">
+            <div className="flex items-center justify-between mb-[28px]">
+              <p className="eyebrow">Keep Reading</p>
+              {related.length > 3 && (
+                <span className="font-mono text-10 uppercase tracking-wider text-text-3">Scroll for more →</span>
+              )}
+            </div>
+            <div className="blog-scroll">
               {related.map(p => (
-                <Link key={String(p._id)} href={`/blog/${p.slug}`} className="blog-card group">
+                <Link key={String(p._id)} href={`/blog/${p.slug}`} className="blog-card group blog-scroll-card">
                   <div className="blog-card-media">
                     {(p.featuredImage || p.coverImage) ? (
-                      <Image src={(p.featuredImage || p.coverImage)!} alt={p.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" sizes="(max-width: 700px) 100vw, 360px" />
+                      <Image src={(p.featuredImage || p.coverImage)!} alt={p.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" sizes="360px" />
                     ) : (
                       <div className="blog-card-fallback"><span>{p.category}</span></div>
                     )}
@@ -291,15 +302,6 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </section>
       )}
-
-      {/* CTA */}
-      <section className="bp-cta">
-        <div className="container bp-narrow text-center">
-          <h2 className="bp-cta-title">Need help with your project?</h2>
-          <p className="bp-cta-desc">Get a free quote within 24 hours. No commitment required.</p>
-          <Link href="/contact" className="btn btn-primary btn-lg">Get Free Quote <ArrowRight size={15} /></Link>
-        </div>
-      </section>
     </>
   )
 }

@@ -2272,3 +2272,24 @@ span.pd-tech { display: inline-flex; }
 .bp-trust-role { font-size: 0.9rem; color: var(--primary); font-weight: 600; margin-bottom: 10px; }
 .bp-trust-bio { font-size: 0.9rem; color: var(--text-2); line-height: 1.6; margin-bottom: 16px; }
 .bp-trust-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+/* ── Blog: horizontally scrollable "Keep Reading" row ───────────────── */
+.blog-scroll {
+  display: flex; gap: 24px;
+  overflow-x: auto; overflow-y: hidden;
+  padding-bottom: 14px; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin; scrollbar-color: rgba(var(--primary-rgb),0.4) transparent;
+}
+.blog-scroll::-webkit-scrollbar { height: 8px; }
+.blog-scroll::-webkit-scrollbar-track { background: var(--bg-2); border-radius: 4px; }
+.blog-scroll::-webkit-scrollbar-thumb {
+  background: rgba(var(--primary-rgb),0.35); border-radius: 4px;
+}
+.blog-scroll::-webkit-scrollbar-thumb:hover { background: rgba(var(--primary-rgb),0.55); }
+.blog-scroll-card {
+  flex: 0 0 340px; max-width: 340px; scroll-snap-align: start;
+}
+@media (max-width: 640px) {
+  .blog-scroll-card { flex-basis: 82%; max-width: 82%; }
+}
