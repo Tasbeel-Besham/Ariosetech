@@ -2293,3 +2293,28 @@ span.pd-tech { display: inline-flex; }
 @media (max-width: 640px) {
   .blog-scroll-card { flex-basis: 82%; max-width: 82%; }
 }
+
+/* ── Blog: compact sticky expert card in the sidebar ────────────────── */
+.bp-side-expert {
+  margin-top: 24px; padding: 16px;
+  border: 1px solid var(--border); border-radius: 14px;
+  background: var(--bg-2);
+}
+.bp-side-expert-head { display: flex; gap: 11px; align-items: center; margin-bottom: 10px; }
+.bp-side-expert-photo {
+  width: 46px; height: 46px; border-radius: 10px; object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.bp-side-expert-name {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.98rem;
+  color: var(--heading); line-height: 1.2;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bp-side-expert-role {
+  font-size: 0.8rem; color: var(--text-2); line-height: 1.5; margin-bottom: 10px;
+}
+/* On mobile the sidebar collapses to a top block; hide the sticky duplicate
+   there since the hero card already shows the expert. */
+@media (max-width: 1020px) {
+  .bp-side-expert { display: none; }
+}

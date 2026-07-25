@@ -206,6 +206,33 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="container bp-layout">
             <aside className="bp-toc-col">
               <TableOfContents blocks={post.content} />
+              {/* Compact reviewer/author card — stays visible in the sticky
+                  sidebar as the reader scrolls, so the expert behind the piece
+                  is always in view (reinforces EEAT throughout the article). */}
+              {(reviewerRec || authorRec) && (() => {
+                const person = reviewerRec || authorRec!
+                const label = reviewerRec ? 'Reviewed By' : 'Written By'
+                return (
+                  <div className="bp-side-expert">
+                    <div className="bp-side-expert-head">
+                      {person.avatar ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={person.avatar} alt={person.name} className="bp-side-expert-photo" />
+                      ) : (
+                        <div className="bp-side-expert-photo bp-reviewer-initial">{person.name.charAt(0)}</div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="bp-reviewer-label">{label}</p>
+                        <p className="bp-side-expert-name">{person.name}</p>
+                      </div>
+                    </div>
+                    {person.role && <p className="bp-side-expert-role">{person.role}</p>}
+                    {person.slug && (
+                      <Link href={`/author/${person.slug}`} className="bp-reviewer-link">View Bio →</Link>
+                    )}
+                  </div>
+                )
+              })()}
             </aside>
             <div className="bp-article-col">
               <BlogContent blocks={post.content} />
