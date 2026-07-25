@@ -21,6 +21,7 @@ export default function NewBlogPost() {
     excerpt: '',
     category: 'WordPress',
     author: 'ARIOSETECH Team',
+    reviewedBy: '',
     date: new Date().toISOString().split('T')[0],
     readTime: 5,
     tags: '',
@@ -119,6 +120,10 @@ export default function NewBlogPost() {
               <div>
                 <label className={lblClass}>Author</label>
                 <input value={form.author} onChange={e => set('author', e.target.value)} className={inpClass} />
+              </div>
+              <div>
+                <label className={lblClass}>Reviewed By (optional)</label>
+                <input value={form.reviewedBy || ''} onChange={e => set('reviewedBy', e.target.value)} placeholder="Author name of the reviewer" className={inpClass} />
               </div>
               <div>
                 <label className={lblClass}>Publish Date</label>

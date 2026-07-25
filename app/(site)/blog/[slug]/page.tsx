@@ -76,26 +76,44 @@ export default async function BlogPostPage({ params }: Props) {
     '@type': 'Organization', name: post.author || 'ARIOSETECH', url: SITE,
   }
   let authorSlug: string | null = null
-  if (post.author) {
-    try {
-      const aCol = await getCollection('authors')
-      const a = await aCol.findOne({ name: post.author, published: { $ne: false } } as never) as Record<string, any> | null
-      if (a?.slug) {
-        authorSlug = a.slug
+  let authorRec: Record<string, any> | null = null
+  let reviewerRec: Record<string, any> | null = null
+  let reviewedByLd: Record<string, unknown> | null = null
+  try {
+    const aCol = await getCollection('authors')
+    // Author (writer)
+    if (post.author) {
+      authorRec = await aCol.findOne({ name: post.author, published: { $ne: false } } as never) as Record<string, any> | null
+      if (authorRec?.slug) {
+        authorSlug = authorRec.slug
         authorLd = {
           '@type': 'Person',
-          name: a.name,
-          url: `${SITE}/author/${a.slug}`,
-          ...(a.role ? { jobTitle: a.role } : {}),
-          ...(a.avatar ? { image: a.avatar } : {}),
-          ...(a.bio ? { description: a.bio } : {}),
-          ...(([a.linkedin, a.twitter, a.website].filter(Boolean).length)
-            ? { sameAs: [a.linkedin, a.twitter, a.website].filter(Boolean) } : {}),
+          name: authorRec.name,
+          url: `${SITE}/author/${authorRec.slug}`,
+          ...(authorRec.role ? { jobTitle: authorRec.role } : {}),
+          ...(authorRec.avatar ? { image: authorRec.avatar } : {}),
+          ...(authorRec.bio ? { description: authorRec.bio } : {}),
+          ...(([authorRec.linkedin, authorRec.twitter, authorRec.website].filter(Boolean).length)
+            ? { sameAs: [authorRec.linkedin, authorRec.twitter, authorRec.website].filter(Boolean) } : {}),
           worksFor: { '@type': 'Organization', name: 'ARIOSETECH', url: SITE },
         }
       }
-    } catch { /* no authors collection yet — fall back to Organization */ }
-  }
+    }
+    // Reviewer (medical/technical reviewer) — an optional second author record.
+    const reviewerName = (post as Record<string, any>).reviewedBy
+    if (reviewerName) {
+      reviewerRec = await aCol.findOne({ name: reviewerName, published: { $ne: false } } as never) as Record<string, any> | null
+      if (reviewerRec) {
+        reviewedByLd = {
+          '@type': 'Person',
+          name: reviewerRec.name,
+          ...(reviewerRec.slug ? { url: `${SITE}/author/${reviewerRec.slug}` } : {}),
+          ...(reviewerRec.role ? { jobTitle: reviewerRec.role } : {}),
+          ...(reviewerRec.avatar ? { image: reviewerRec.avatar } : {}),
+        }
+      }
+    }
+  } catch { /* no authors collection yet — fall back to Organization */ }
 
   // Article structured data for SEO / rich results.
   const jsonLd = {
@@ -110,6 +128,7 @@ export default async function BlogPostPage({ params }: Props) {
     dateModified: post.updatedAt || post.publishedAt || post.date,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${slug}` },
     keywords: post.tags?.join(', '),
+    ...(reviewedByLd ? { reviewedBy: reviewedByLd } : {}),
     // Extra context Google uses for article understanding and eligibility.
     articleSection: post.category || undefined,
     inLanguage: 'en',
@@ -141,8 +160,35 @@ export default async function BlogPostPage({ params }: Props) {
               <span className="bp-meta"><Calendar size={13} /> {fmtDate(post.date)}</span>
               <span className="bp-dot" />
               <span className="bp-meta"><Clock size={13} /> {readMins} min read</span>
-              {post.author && <><span className="bp-dot" /><span className="bp-meta">{post.author}</span></>}
+              {post.author && <><span className="bp-dot" /><span className="bp-meta">By {post.author}</span></>}
             </div>
+
+            {/* Reviewed By / Written By card — shows the expert behind the post.
+                Renders a reviewer if set, otherwise the author, when a matching
+                author record with a photo/role exists. Strong EEAT signal. */}
+            {(reviewerRec || authorRec) && (() => {
+              const person = reviewerRec || authorRec!
+              const label = reviewerRec ? 'Reviewed By' : 'Written By'
+              return (
+                <div className="bp-reviewer">
+                  {person.avatar ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={person.avatar} alt={person.name} className="bp-reviewer-photo" />
+                  ) : (
+                    <div className="bp-reviewer-photo bp-reviewer-initial">{person.name.charAt(0)}</div>
+                  )}
+                  <div className="bp-reviewer-body">
+                    <p className="bp-reviewer-label">{label}</p>
+                    <p className="bp-reviewer-name">{person.name}</p>
+                    {person.role && <p className="bp-reviewer-role">{person.role}</p>}
+                    {person.bio && <p className="bp-reviewer-bio">{person.bio}</p>}
+                    {person.slug && (
+                      <Link href={`/author/${person.slug}`} className="bp-reviewer-link">View Bio →</Link>
+                    )}
+                  </div>
+                </div>
+              )
+            })()}
           </div>
         </header>
 
@@ -170,14 +216,45 @@ export default async function BlogPostPage({ params }: Props) {
               </div>
             )}
 
-            {/* Author card */}
-            <div className="bp-author">
-              <div className="bp-author-avatar">{(post.author || 'A').charAt(0)}</div>
-              <div>
-                <p className="bp-author-name">{post.author || 'ARIOSETECH Team'}</p>
-                <p className="bp-author-role">WordPress, Shopify &amp; WooCommerce specialists since 2017</p>
+            {/* Why trust our experts — EEAT trust block highlighting the
+                writer and reviewer behind the content. */}
+            <div className="bp-trust">
+              <div className="bp-trust-text">
+                <h2 className="bp-trust-title">Why trust our experts?</h2>
+                <p className="bp-trust-desc">
+                  At ARIOSETECH, every article is written by specialists who build and operate
+                  real e-commerce stores &mdash; not generalists. Our content is grounded in
+                  hands-on experience across WordPress, WooCommerce and Shopify, and reflects
+                  what actually works for stores in live markets. We keep it practical, current,
+                  and honest so you always get reliable, actionable guidance.
+                </p>
               </div>
-              <Link href="/contact" className="btn btn-primary btn-sm bp-author-cta">Work with us</Link>
+              {(reviewerRec || authorRec) && (() => {
+                const person = reviewerRec || authorRec!
+                const label = reviewerRec ? 'Reviewed By' : 'Written By'
+                return (
+                  <div className="bp-trust-card">
+                    <div className="bp-trust-card-head">
+                      {person.avatar ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={person.avatar} alt={person.name} className="bp-trust-photo" />
+                      ) : (
+                        <div className="bp-trust-photo bp-reviewer-initial">{person.name.charAt(0)}</div>
+                      )}
+                      <div>
+                        <p className="bp-reviewer-label">{label}</p>
+                        <p className="bp-trust-name">{person.name}</p>
+                      </div>
+                    </div>
+                    {person.role && <p className="bp-trust-role">{person.role}</p>}
+                    {person.bio && <p className="bp-trust-bio">{person.bio}</p>}
+                    <div className="bp-trust-actions">
+                      {person.slug && <Link href={`/author/${person.slug}`} className="bp-reviewer-link">View Bio →</Link>}
+                      <Link href="/contact" className="btn btn-primary btn-sm">Work with us</Link>
+                    </div>
+                  </div>
+                )
+              })()}
             </div>
             </div>
           </div>

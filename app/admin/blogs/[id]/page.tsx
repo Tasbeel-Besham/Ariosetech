@@ -18,7 +18,8 @@ export default function EditBlogPost() {
   const [showMediaModal, setShowMediaModal] = useState(false)
   const [form, setForm] = useState({
     title: '', slug: '', excerpt: '', category: 'WordPress',
-    author: 'ARIOSETECH Team', date: new Date().toISOString().split('T')[0],
+    author: 'ARIOSETECH Team',
+    reviewedBy: '', date: new Date().toISOString().split('T')[0],
     readTime: 5, tags: '', published: false,
     content: [] as BlogBlock[],
     seo: { title: '', description: '', keywords: '', ogImage: '' },
@@ -32,6 +33,7 @@ export default function EditBlogPost() {
         excerpt: data.excerpt || '',
         category: data.category || 'WordPress',
         author: data.author || 'ARIOSETECH Team',
+        reviewedBy: data.reviewedBy || '',
         date: data.date || new Date().toISOString().split('T')[0],
         readTime: data.readTime || data.readingTime || 5,
         tags: (data.tags || []).join(', '),
