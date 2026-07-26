@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import CtaSection from '@/components/sections/CtaSection'
 import { Search, Check, ExternalLink, AlertCircle, Loader } from '@/components/ui/Icons'
@@ -30,8 +30,8 @@ export default function WordPressDetectorClient({ compact = false }: { compact?:
   const [result, setResult]   = useState<WPResult | null>(null)
   const [error, setError]     = useState('')
 
-  const detect = async () => {
-    const input = url.trim()
+  const detect = async (override?: string) => {
+    const input = (override ?? url).trim()
     if (!input) return
     // Normalize URL
     const normalized = input.startsWith('http') ? input : `https://${input}`
@@ -51,6 +51,19 @@ export default function WordPressDetectorClient({ compact = false }: { compact?:
       setLoading(false)
     }
   }
+
+  // Auto-run when a ?url= param is present (e.g. arriving from a service-page
+  // hero bar). Prefills the input and immediately runs the detection so the
+  // user sees results here without re-entering anything.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const initial = params.get('url')
+    if (initial) {
+      setUrl(initial)
+      detect(initial)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   return (
@@ -85,7 +98,7 @@ export default function WordPressDetectorClient({ compact = false }: { compact?:
                 onBlur={e => (e.target.style.borderColor = 'var(--border)')}
               />
             </div>
-            <button onClick={detect} disabled={loading || !url.trim()} className="btn btn-primary btn-lg shrink-0">
+            <button onClick={() => detect()} disabled={loading || !url.trim()} className="btn btn-primary btn-lg shrink-0">
               {loading ? <Loader size={16} /> : <Search size={15} />}
               {loading ? 'Detecting…' : 'Detect Theme'}
             </button>

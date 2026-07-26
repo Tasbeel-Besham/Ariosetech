@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import CtaSection from '@/components/sections/CtaSection'
 
@@ -73,8 +73,8 @@ export default function ShopifyDetectorClient({ compact = false }: { compact?: b
   const [result, setResult]   = useState<ShopifyResult | null>(null)
   const [error, setError]     = useState('')
 
-  const detect = async () => {
-    const input = url.trim()
+  const detect = async (override?: string) => {
+    const input = (override ?? url).trim()
     if (!input) return
     const normalized = input.startsWith('http') ? input : `https://${input}`
     setLoading(true); setResult(null); setError('')
@@ -93,6 +93,17 @@ export default function ShopifyDetectorClient({ compact = false }: { compact?: b
       setLoading(false)
     }
   }
+
+  // Auto-run when a ?url= param is present (arriving from a service-page bar).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const initial = params.get('url')
+    if (initial) {
+      setUrl(initial)
+      detect(initial)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   return (
@@ -129,7 +140,7 @@ export default function ShopifyDetectorClient({ compact = false }: { compact?: b
                 onBlur={e => (e.target.style.borderColor = 'var(--border)')}
               />
             </div>
-            <button onClick={detect} disabled={loading || !url.trim()} className="btn btn-primary btn-lg shrink-0">
+            <button onClick={() => detect()} disabled={loading || !url.trim()} className="btn btn-primary btn-lg shrink-0">
               {loading ? <Loader2 size={16} /> : <ShoppingBag size={15} />}
               {loading ? 'Detecting…' : 'Detect Theme'}
             </button>

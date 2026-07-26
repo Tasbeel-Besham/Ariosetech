@@ -2505,3 +2505,35 @@ select,
    results still show normally. */
 .tool-hero-tool .dt-empty { display: none; }
 .tool-hero-tool .dt-results:empty { display: none; }
+
+/* ── Tool Hero input BAR (redirects to tool page) ───────────────────── */
+.tool-hero-barwrap { min-width: 0; align-self: center; }
+.tool-hero-bar {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  padding: 20px; border: 1px solid var(--border); border-radius: 16px;
+  background: var(--bg-2); box-shadow: 0 20px 60px -30px rgba(0,0,0,0.5);
+}
+.tool-hero-bar-field { position: relative; flex: 1; min-width: 220px; display: flex; }
+.tool-hero-bar-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--text-3); pointer-events: none;
+}
+.tool-hero-bar-input {
+  width: 100%; padding: 14px 16px 14px 40px;
+  border: 1px solid var(--border); border-radius: 11px;
+  background: var(--bg-3); color: var(--text); font-size: 15px; outline: none;
+  transition: border-color .15s;
+}
+.tool-hero-bar-input:focus { border-color: rgba(var(--primary-rgb),0.55); }
+.tool-hero-bar-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 24px; border-radius: 11px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
+  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  white-space: nowrap; transition: opacity .15s;
+}
+.tool-hero-bar-btn:hover { opacity: .9; }
+.tool-hero-bar-hint {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-3);
+  margin-top: 12px; padding-left: 4px;
+}

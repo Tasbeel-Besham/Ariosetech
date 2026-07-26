@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search } from '@/components/ui/Icons'
 
 type Check = {
@@ -30,8 +30,8 @@ export default function SeoAuditClient() {
   const [result, setResult] = useState<Result | null>(null)
   const [error, setError] = useState('')
 
-  const run = async () => {
-    const input = url.trim()
+  const run = async (override?: string) => {
+    const input = (override ?? url).trim()
     if (!input) return
     setLoading(true); setResult(null); setError('')
     try {
@@ -50,6 +50,17 @@ export default function SeoAuditClient() {
     }
   }
 
+  // Auto-run when a ?url= param is present (arriving from a service-page bar).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const initial = params.get('url')
+    if (initial) {
+      setUrl(initial)
+      run(initial)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const scoreColor = (s: number) => (s >= 80 ? 'var(--success, #22c55e)' : s >= 55 ? '#f59e0b' : 'var(--danger, #ef4444)')
 
   return (
@@ -67,7 +78,7 @@ export default function SeoAuditClient() {
             className="seo-audit-input"
           />
         </div>
-        <button onClick={run} disabled={loading} className="seo-audit-btn">
+        <button onClick={() => run()} disabled={loading} className="seo-audit-btn">
           {loading ? 'Auditing…' : 'Run Free Audit'}
         </button>
       </div>
