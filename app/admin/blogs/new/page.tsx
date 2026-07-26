@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AdminShell from '@/components/layout/AdminShell'
 import { ArrowLeft, Save, Eye } from '@/components/ui/Icons'
@@ -11,16 +11,19 @@ import type { BlogBlock } from '@/types'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
 
+type AuthorLite = { _id?: string; name: string; slug?: string }
+
 export default function NewBlogPost() {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
   const [showMediaModal, setShowMediaModal] = useState(false)
+  const [authors, setAuthors] = useState<AuthorLite[]>([])
   const [form, setForm] = useState({
     title: '',
     slug: '',
     excerpt: '',
     category: 'WordPress',
-    author: 'ARIOSETECH Team',
+    author: '',
     reviewedBy: '',
     date: new Date().toISOString().split('T')[0],
     readTime: 5,
@@ -32,6 +35,33 @@ export default function NewBlogPost() {
 
   const set = (key: string, val: unknown) => setForm(f => ({ ...f, [key]: val }))
   const setSeo = (key: string, val: string) => setForm(f => ({ ...f, seo: { ...f.seo, [key]: val } }))
+
+  // Load author records for the dropdowns, and default the Author to whoever is
+  // logged in (matched to an author record by name when one exists).
+  useEffect(() => {
+    let cancelled = false
+    Promise.all([
+      fetch('/api/authors').then(r => r.json()).catch(() => []),
+      fetch('/api/auth/me').then(r => r.json()).catch(() => null),
+    ]).then(([list, me]) => {
+      if (cancelled) return
+      const authorList: AuthorLite[] = Array.isArray(list) ? list : []
+      setAuthors(authorList)
+      // Default the author: prefer an author record matching the logged-in
+      // username, else the first author record, else the raw username.
+      setForm(f => {
+        if (f.author) return f
+        let def = ''
+        if (me?.username) {
+          const match = authorList.find(a => a.name.toLowerCase() === String(me.username).toLowerCase())
+          def = match?.name || me.username
+        }
+        if (!def && authorList.length) def = authorList[0].name
+        return { ...f, author: def }
+      })
+    })
+    return () => { cancelled = true }
+  }, [])
 
   const autoSlug = (title: string) => title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()
 
@@ -118,12 +148,25 @@ export default function NewBlogPost() {
                 </select>
               </div>
               <div>
-                <label className={lblClass}>Author</label>
-                <input value={form.author} onChange={e => set('author', e.target.value)} className={inpClass} />
+                <label className={lblClass}>Written By (Author)</label>
+                <select value={form.author} onChange={e => set('author', e.target.value)} className={inpClass}>
+                  {authors.length === 0 && <option value={form.author}>{form.author || 'No authors yet'}</option>}
+                  {/* keep a current value that isn't in the list selectable */}
+                  {form.author && !authors.some(a => a.name === form.author) && (
+                    <option value={form.author}>{form.author}</option>
+                  )}
+                  {authors.map(a => <option key={a._id || a.name} value={a.name}>{a.name}</option>)}
+                </select>
               </div>
               <div>
                 <label className={lblClass}>Reviewed By (optional)</label>
-                <input value={form.reviewedBy || ''} onChange={e => set('reviewedBy', e.target.value)} placeholder="Author name of the reviewer" className={inpClass} />
+                <select value={form.reviewedBy || ''} onChange={e => set('reviewedBy', e.target.value)} className={inpClass}>
+                  <option value="">— Same as author —</option>
+                  {form.reviewedBy && !authors.some(a => a.name === form.reviewedBy) && (
+                    <option value={form.reviewedBy}>{form.reviewedBy}</option>
+                  )}
+                  {authors.map(a => <option key={a._id || a.name} value={a.name}>{a.name}</option>)}
+                </select>
               </div>
               <div>
                 <label className={lblClass}>Publish Date</label>

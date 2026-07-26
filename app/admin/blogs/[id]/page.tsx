@@ -11,11 +11,14 @@ import type { BlogBlock } from '@/types'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
 
+type AuthorLite = { _id?: string; name: string; slug?: string }
+
 export default function EditBlogPost() {
   const { id } = useParams<{ id: string }>()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [showMediaModal, setShowMediaModal] = useState(false)
+  const [authors, setAuthors] = useState<AuthorLite[]>([])
   const [form, setForm] = useState({
     title: '', slug: '', excerpt: '', category: 'WordPress',
     author: 'ARIOSETECH Team',
@@ -24,6 +27,10 @@ export default function EditBlogPost() {
     content: [] as BlogBlock[],
     seo: { title: '', description: '', keywords: '', ogImage: '' },
   })
+
+  useEffect(() => {
+    fetch('/api/authors').then(r => r.json()).then(d => { if (Array.isArray(d)) setAuthors(d) }).catch(() => {})
+  }, [])
 
   useEffect(() => {
     fetch(`/api/blogs/${id}`).then(r => r.json()).then(data => {
@@ -120,9 +127,21 @@ export default function EditBlogPost() {
             </div>
             <div className="grid grid-cols-[1fr_1fr_1fr_80px] gap-3 max-md:grid-cols-2 max-sm:grid-cols-1">
               <div><label className={lblClass}>Category</label><select value={form.category} onChange={e => set('category', e.target.value)} className={inpClass}>{CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
-              <div><label className={lblClass}>Author</label><input value={form.author} onChange={e => set('author', e.target.value)} className={inpClass} /></div>
+              <div><label className={lblClass}>Written By</label>
+                <select value={form.author} onChange={e => set('author', e.target.value)} className={inpClass}>
+                  {form.author && !authors.some(a => a.name === form.author) && <option value={form.author}>{form.author}</option>}
+                  {authors.map(a => <option key={a._id || a.name} value={a.name}>{a.name}</option>)}
+                </select>
+              </div>
               <div><label className={lblClass}>Date</label><input type="date" value={form.date} onChange={e => set('date', e.target.value)} className={inpClass} /></div>
               <div><label className={lblClass}>Read (min)</label><input type="number" value={form.readTime} onChange={e => set('readTime', e.target.value)} min={1} className={inpClass} /></div>
+            </div>
+            <div><label className={lblClass}>Reviewed By (optional)</label>
+              <select value={form.reviewedBy || ''} onChange={e => set('reviewedBy', e.target.value)} className={inpClass}>
+                <option value="">— Same as author —</option>
+                {form.reviewedBy && !authors.some(a => a.name === form.reviewedBy) && <option value={form.reviewedBy}>{form.reviewedBy}</option>}
+                {authors.map(a => <option key={a._id || a.name} value={a.name}>{a.name}</option>)}
+              </select>
             </div>
             <div><label className={lblClass}>Tags</label><input value={form.tags} onChange={e => set('tags', e.target.value)} placeholder="WordPress, Speed" className={inpClass} /></div>
           </div>
