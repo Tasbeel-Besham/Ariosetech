@@ -2451,13 +2451,14 @@ select,
   background: radial-gradient(ellipse, rgba(var(--primary-rgb),0.14) 0%, transparent 65%);
 }
 .tool-hero-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
 }
 @media (max-width: 980px) {
   .tool-hero { padding: 108px 0 48px; }
   .tool-hero-grid { grid-template-columns: 1fr; gap: 32px; }
 }
 
+.tool-hero-copy { padding-top: 4px; }
 .tool-hero-badge {
   display: inline-flex; margin-bottom: 18px;
   padding: 6px 14px; border-radius: 20px;
@@ -2495,5 +2496,12 @@ select,
 .tool-hero-tool .dt-hero,
 .tool-hero-tool .dt-hero-glow { padding: 0; background: none; }
 .tool-hero-tool .dt-hero .container { padding: 0; }
-.tool-hero-tool .dt-results { padding-top: 18px; }
+.tool-hero-tool .dt-results {
+  padding: 0; min-height: 0; border-bottom: none;
+}
 .tool-hero-tool .dt-results .container { padding: 0; }
+/* The big "enter a URL above" placeholder is redundant inside the hero (the
+   caption already says what to do) and it inflates the box — hide it. Real
+   results still show normally. */
+.tool-hero-tool .dt-empty { display: none; }
+.tool-hero-tool .dt-results:empty { display: none; }
