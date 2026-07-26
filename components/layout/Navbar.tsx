@@ -113,6 +113,7 @@ const SERVICE_TABS = [
 const TOOL_LINKS = [
   { label: 'WordPress Theme Detector', href: '/tools/wordpress-theme-detector', desc: 'Find any WP theme instantly' },
   { label: 'Shopify Theme Detector',   href: '/tools/shopify-theme-detector',   desc: 'Detect any Shopify theme' },
+  { label: 'SEO Audit Tool',           href: '/tools/seo-audit',                desc: 'Check your on-page SEO free' },
 ]
 
 type NavItem = { label: string; href: string; hasMega?: boolean; hasTools?: boolean; hasChildren?: boolean; hasIndustries?: boolean; children?: Array<{ label: string; href: string; desc?: string }>; target?: string }

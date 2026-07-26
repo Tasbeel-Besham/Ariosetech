@@ -28,6 +28,7 @@ const STATIC_ROUTES = [
   '/industries/education',
   '/tools/wordpress-theme-detector',
   '/tools/shopify-theme-detector',
+  '/tools/seo-audit',
   '/portfolio/wordpress',
   '/portfolio/woocommerce',
   '/portfolio/shopify',

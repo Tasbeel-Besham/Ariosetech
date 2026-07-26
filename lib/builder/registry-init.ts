@@ -25,6 +25,7 @@ import BlogSection              from '@/components/sections/BlogSection'
 import ApproachSection          from '@/components/sections/ApproachSection'
 import ServicesOverviewSection  from '@/components/sections/ServicesOverviewSection'
 import ServiceShowcaseSection   from '@/components/sections/ServiceShowcaseSection'
+import EmbeddedToolSection      from '@/components/sections/EmbeddedToolSection'
 import CapabilitiesSection      from '@/components/sections/CapabilitiesSection'
 import ServiceGridSection       from '@/components/sections/ServiceGridSection'
 import StatBandSection          from '@/components/sections/StatBandSection'
@@ -125,6 +126,29 @@ export function initRegistry() {
         { type: 'text',     name: 'price',    label: 'Price label' },
         { type: 'text',     name: 'href',     label: 'Link URL' },
       ]},
+    ],
+  })
+
+  // ── EMBEDDED TOOL (free tool widget inside any page) ─────────────
+  // Drops a tool's interactive widget into a service page. Value-first + lead
+  // capture + internal linking, without duplicating the canonical tool page.
+  registerSection({
+    type: 'embedded-tool', label: 'Embedded Tool', category: 'Sections', icon: '🛠️',
+    component: EmbeddedToolSection as C,
+    defaultProps: {
+      eyebrow: 'Free Tool',
+      headline: 'Check your current setup, free',
+      intro: 'Enter your site URL to see what it is running right now. No signup. Then let us show you what we would improve.',
+      tool: 'wordpress-theme-detector',
+      showFullLink: true,
+    },
+    schema: [
+      { type: 'text',   name: 'eyebrow',     label: 'Eyebrow badge' },
+      { type: 'text',   name: 'headline',    label: 'Section headline' },
+      { type: 'select', name: 'headingTag',  label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
+      { type: 'textarea', name: 'intro',     label: 'Intro paragraph' },
+      { type: 'select', name: 'tool',        label: 'Which tool', options: ['wordpress-theme-detector','shopify-theme-detector','seo-audit'] },
+      { type: 'boolean', name: 'showFullLink', label: 'Show link to full tool page' },
     ],
   })
 
