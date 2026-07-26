@@ -2318,3 +2318,27 @@ span.pd-tech { display: inline-flex; }
 @media (max-width: 1020px) {
   .bp-side-expert { display: none; }
 }
+
+/* ── Hide the text caret on non-editable content ─────────────────────────
+   Chrome's "Caret Browsing" (F7) drops a blinking text cursor into body text
+   wherever you click. It's a browser setting, not something the site controls,
+   but we can make the caret transparent on everything that isn't a real form
+   field — so it never shows on headings, paragraphs, or cards. Inputs, text
+   areas, and selects keep a normal, visible caret so typing still works. */
+*:not(input):not(textarea):not(select):not([contenteditable="true"]) {
+  caret-color: transparent;
+}
+/* Real editable fields keep a visible caret. */
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  caret-color: auto;
+}
+
+/* Ensure the rich-text blog editor always shows a caret while writing, even
+   though it uses a contenteditable div rather than a native input. */
+.blog-editor-surface,
+.blog-editor-surface * {
+  caret-color: var(--primary) !important;
+}
