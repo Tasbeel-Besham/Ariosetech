@@ -24,7 +24,7 @@ type WPResult = {
   error?: string
 }
 
-export default function WordPressDetectorClient() {
+export default function WordPressDetectorClient({ compact = false }: { compact?: boolean }) {
   const [url, setUrl]         = useState('')
   const [loading, setLoading] = useState(false)
   const [result, setResult]   = useState<WPResult | null>(null)
@@ -59,6 +59,7 @@ export default function WordPressDetectorClient() {
       <section className="dt-hero">
         <div className="dt-hero-glow" />
         <div className="container flex flex-col items-center md:items-start text-center md:text-left relative z-1">
+          {!compact && (<>
           <div className="dt-badge">
             <span className="dt-badge-text">Free Tool</span>
           </div>
@@ -68,6 +69,7 @@ export default function WordPressDetectorClient() {
           <p className="dt-lede">
             Discover the WordPress theme and plugins powering any website, instantly and for free.
           </p>
+          </>)}
 
           {/* Search bar */}
           <div className="flex flex-col md:flex-row w-full dt-input-row">

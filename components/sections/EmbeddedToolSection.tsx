@@ -21,12 +21,12 @@ const TOOLS: Record<string, { label: string; href: string; widget: React.ReactNo
   'wordpress-theme-detector': {
     label: 'WordPress Theme Detector',
     href: '/tools/wordpress-theme-detector',
-    widget: <WordPressDetectorClient />,
+    widget: <WordPressDetectorClient compact />,
   },
   'shopify-theme-detector': {
     label: 'Shopify Theme Detector',
     href: '/tools/shopify-theme-detector',
-    widget: <ShopifyDetectorClient />,
+    widget: <ShopifyDetectorClient compact />,
   },
   'seo-audit': {
     label: 'SEO Audit Tool',

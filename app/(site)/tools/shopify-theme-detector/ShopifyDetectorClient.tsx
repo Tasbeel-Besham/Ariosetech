@@ -67,7 +67,7 @@ type ShopifyResult = {
   error?: string
 }
 
-export default function ShopifyDetectorClient() {
+export default function ShopifyDetectorClient({ compact = false }: { compact?: boolean }) {
   const [url, setUrl]         = useState('')
   const [loading, setLoading] = useState(false)
   const [result, setResult]   = useState<ShopifyResult | null>(null)
@@ -101,6 +101,7 @@ export default function ShopifyDetectorClient() {
       <section className="dt-hero">
         <div className="dt-hero-glow dt-hero-glow-soft" />
         <div className="container flex flex-col items-center md:items-start text-center md:text-left relative z-1">
+          {!compact && (<>
           <div className="dt-badge dt-badge-soft">
             <span className="dt-badge-text">Free Tool</span>
           </div>
@@ -110,6 +111,7 @@ export default function ShopifyDetectorClient() {
           <p className="dt-lede">
             Instantly find the Shopify theme powering any online store, free, fast, and accurate.
           </p>
+          </>)}
 
           {/* Search */}
           <div className="flex flex-col md:flex-row w-full dt-input-row">

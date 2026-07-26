@@ -26,6 +26,7 @@ import ApproachSection          from '@/components/sections/ApproachSection'
 import ServicesOverviewSection  from '@/components/sections/ServicesOverviewSection'
 import ServiceShowcaseSection   from '@/components/sections/ServiceShowcaseSection'
 import EmbeddedToolSection      from '@/components/sections/EmbeddedToolSection'
+import ToolHeroSection          from '@/components/sections/ToolHeroSection'
 import CapabilitiesSection      from '@/components/sections/CapabilitiesSection'
 import ServiceGridSection       from '@/components/sections/ServiceGridSection'
 import StatBandSection          from '@/components/sections/StatBandSection'
@@ -149,6 +150,33 @@ export function initRegistry() {
       { type: 'textarea', name: 'intro',     label: 'Intro paragraph' },
       { type: 'select', name: 'tool',        label: 'Which tool', options: ['wordpress-theme-detector','shopify-theme-detector','seo-audit'] },
       { type: 'boolean', name: 'showFullLink', label: 'Show link to full tool page' },
+    ],
+  })
+
+  // ── TOOL HERO (hero with a tool built in) ────────────────────────
+  // A compact hero for service pages: headline + CTA on the left, the live
+  // tool widget on the right. Puts the relevant tool at the very top without
+  // the tall animated homepage hero pushing content down.
+  registerSection({
+    type: 'tool-hero', label: 'Tool Hero (hero + tool)', category: 'Sections', icon: '🚀',
+    component: ToolHeroSection as C,
+    defaultProps: {
+      eyebrow: 'Free Tool',
+      headline: 'Powerful WordPress development for your business',
+      subheadline: 'Custom themes, speed, and security — built to grow. Check your current site, then let us show you what we would improve.',
+      ctaLabel: 'Get a Free Quote',
+      ctaHref: '/contact',
+      tool: 'wordpress-theme-detector',
+      toolLabel: 'Try it now — free, no signup',
+    },
+    schema: [
+      { type: 'text',     name: 'eyebrow',     label: 'Eyebrow badge' },
+      { type: 'text',     name: 'headline',    label: 'Hero headline (H1)' },
+      { type: 'textarea', name: 'subheadline', label: 'Subheadline' },
+      { type: 'text',     name: 'ctaLabel',    label: 'Button label' },
+      { type: 'text',     name: 'ctaHref',     label: 'Button link' },
+      { type: 'select',   name: 'tool',        label: 'Which tool', options: ['wordpress-theme-detector','shopify-theme-detector','seo-audit'] },
+      { type: 'text',     name: 'toolLabel',   label: 'Caption above tool' },
     ],
   })
 
