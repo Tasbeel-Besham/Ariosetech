@@ -2695,3 +2695,52 @@ select,
   background: rgba(var(--ink-rgb, 255,255,255), 0.2); transition: all .2s; padding: 0;
 }
 .pd-carousel-dot.is-active { background: var(--primary); width: 26px; border-radius: 5px; }
+
+/* ── Portfolio gallery editor (admin) — thumbnail uploader ──────────── */
+.pf-gallery-editor {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+.pf-gallery-thumb {
+  position: relative; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--border); background: var(--bg-3);
+}
+.pf-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pf-gallery-remove {
+  position: absolute; top: 6px; right: 6px;
+  width: 22px; height: 22px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(0,0,0,0.65); color: #fff; font-size: 15px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s; backdrop-filter: blur(4px);
+}
+.pf-gallery-remove:hover { background: var(--danger, #ef4444); }
+.pf-gallery-order {
+  position: absolute; bottom: 6px; left: 6px; right: 6px;
+  display: flex; justify-content: space-between; gap: 4px;
+  opacity: 0; transition: opacity .15s;
+}
+.pf-gallery-thumb:hover .pf-gallery-order { opacity: 1; }
+.pf-gallery-order button {
+  width: 24px; height: 24px; border-radius: 6px; border: none; cursor: pointer;
+  background: rgba(0,0,0,0.65); color: #fff; font-size: 16px; line-height: 1;
+  display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+  transition: background .15s;
+}
+.pf-gallery-order button:hover { background: var(--primary); }
+.pf-gallery-order button:only-child { margin-left: auto; }
+
+.pf-gallery-add {
+  aspect-ratio: 4 / 3; border-radius: 10px; cursor: pointer;
+  border: 1.5px dashed var(--border); background: var(--bg-3);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; color: var(--text-3); transition: all .2s;
+}
+.pf-gallery-add:hover {
+  border-color: rgba(var(--primary-rgb),0.55); color: var(--primary);
+  background: rgba(var(--primary-rgb),0.05);
+}
+.pf-gallery-add-plus { font-size: 26px; line-height: 1; font-weight: 300; }
+.pf-gallery-add-text {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.08em; font-weight: 600;
+}

@@ -15,7 +15,7 @@ export default function NewPortfolio() {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
   const [isCustomCat, setIsCustomCat] = useState(false)
-  const [showMediaModal, setShowMediaModal] = useState(false)
+  const [mediaTarget, setMediaTarget] = useState<string | null>(null)
   const [results, setResults] = useState<Result[]>([])
   const [form, setForm] = useState({
     title: '', client: '', clientUrl: '', slug: '', category: 'wordpress',
@@ -123,21 +123,30 @@ export default function NewPortfolio() {
               <label className={lblClass}>Cover Image URL</label>
               <div className="flex gap-1.5">
                 <input value={form.image} onChange={e => set('image', e.target.value)} className={`${inpClass} flex-1`} placeholder="https://… or /image.jpg" />
-                <button onClick={() => setShowMediaModal(true)} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] whitespace-nowrap hover:bg-white/5 transition-colors">
+                <button onClick={() => setMediaTarget('cover')} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] whitespace-nowrap hover:bg-white/5 transition-colors">
                   Library
                 </button>
               </div>
             </div>
             <div>
-              <label className={lblClass}>Gallery images (carousel)</label>
-              <textarea
-                value={form.gallery || ''}
-                onChange={e => set('gallery', e.target.value)}
-                rows={4}
-                className={`${inpClass} resize-y`}
-                placeholder={"One image URL per line — these appear in the carousel at the bottom of the case study.\nhttps://…/screenshot-1.jpg\nhttps://…/screenshot-2.jpg"}
-              />
-              <p className="text-text-3 text-[11px] mt-1">One URL per line. Leave blank to auto-use any images from the content sections.</p>
+              <label className={lblClass}>Gallery Images (Carousel)</label>
+              <div className="pf-gallery-editor">
+                {(form.gallery ? form.gallery.split('\n').filter(Boolean) : []).map((img: string, i: number) => {
+                  const arr = form.gallery.split('\n').filter(Boolean)
+                  return (
+                    <div key={i} className="pf-gallery-thumb">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={img} alt={`Gallery ${i + 1}`} />
+                      <button type="button" onClick={() => set('gallery', arr.filter((_: string, x: number) => x !== i).join('\n'))} className="pf-gallery-remove" aria-label="Remove">×</button>
+                    </div>
+                  )
+                })}
+                <button type="button" onClick={() => setMediaTarget('gallery')} className="pf-gallery-add">
+                  <span className="pf-gallery-add-plus">+</span>
+                  <span className="pf-gallery-add-text">Add Image</span>
+                </button>
+              </div>
+              <p className="text-text-3 text-[11px] mt-2">Upload or pick images for the carousel. Blank = auto-use content-section images.</p>
             </div>
           </div>
         </div>
@@ -170,10 +179,17 @@ export default function NewPortfolio() {
             </div>
           ))}
         </div>
-        {showMediaModal && (
+        {mediaTarget && (
           <MediaPickerModal 
-            onClose={() => setShowMediaModal(false)}
-            onSelect={(url) => { set('image', url); setShowMediaModal(false) }}
+            onClose={() => setMediaTarget(null)}
+            onSelect={(url) => {
+              if (mediaTarget === 'gallery') {
+                set('gallery', [...(form.gallery ? form.gallery.split('\n').filter(Boolean) : []), url].join('\n'))
+              } else {
+                set('image', url)
+              }
+              setMediaTarget(null)
+            }}
           />
         )}
       </div>

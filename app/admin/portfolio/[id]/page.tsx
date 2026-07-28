@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import AdminShell from '@/components/layout/AdminShell'
 import { Save, ArrowLeft, Plus, Trash2, ChevronUp, ChevronDown, GripVertical } from '@/components/ui/Icons'
@@ -52,6 +52,8 @@ export default function EditPortfolio() {
   const [meta, setMeta]         = useState({ slug: '', clientUrl: '', image: '', gallery: '', category: 'wordpress', featured: false, published: true })
   const [picking, setPicking]   = useState(false)
   const [mediaTarget, setMediaTarget] = useState<string | null>(null)
+  const galleryFileRef = useRef<HTMLInputElement>(null)
+  const [galleryUploading, setGalleryUploading] = useState(false)
 
   /* Load */
   useEffect(() => {
@@ -156,6 +158,9 @@ export default function EditPortfolio() {
 
   const CORE_TYPES = ['title','client','summary','challenge','solution','quote','stack','results']
 
+  // Gallery as an array for the thumbnail editor (stored as newline string).
+  const galleryArr: string[] = meta.gallery ? meta.gallery.split('\n').filter(Boolean) : []
+
   return (
     <AdminShell>
       <div className="py-7 px-8 max-w-[820px]">
@@ -197,10 +202,74 @@ export default function EditPortfolio() {
               </button>
             </div>
           </div>
-          <div>
-            <label className={lblClass}>Gallery images (carousel)</label>
-            <textarea value={meta.gallery} onChange={e => setMeta(m => ({ ...m, gallery: e.target.value }))} rows={4} className={`${inpClass} resize-y`} placeholder={"One image URL per line — shown in the carousel.\nhttps://…/shot-1.jpg\nhttps://…/shot-2.jpg"} />
-            <p className="text-text-3 text-[11px] mt-1">One URL per line. Blank = auto-use content-section images.</p>
+          <div className="md:col-span-2">
+            <label className={lblClass}>Gallery Images (Carousel)</label>
+            <div className="pf-gallery-editor">
+              {galleryArr.map((img, i) => (
+                <div key={i} className="pf-gallery-thumb">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img} alt={`Gallery ${i + 1}`} />
+                  <button
+                    type="button"
+                    onClick={() => setMeta(m => ({ ...m, gallery: galleryArr.filter((_, x) => x !== i).join('\n') }))}
+                    className="pf-gallery-remove"
+                    aria-label="Remove image"
+                  >×</button>
+                  <div className="pf-gallery-order">
+                    {i > 0 && (
+                      <button type="button" onClick={() => {
+                        const a = [...galleryArr]; [a[i - 1], a[i]] = [a[i], a[i - 1]]
+                        setMeta(m => ({ ...m, gallery: a.join('\n') }))
+                      }} aria-label="Move left">‹</button>
+                    )}
+                    {i < galleryArr.length - 1 && (
+                      <button type="button" onClick={() => {
+                        const a = [...galleryArr]; [a[i + 1], a[i]] = [a[i], a[i + 1]]
+                        setMeta(m => ({ ...m, gallery: a.join('\n') }))
+                      }} aria-label="Move right">›</button>
+                    )}
+                  </div>
+                </div>
+              ))}
+              <button type="button" onClick={() => galleryFileRef.current?.click()} className="pf-gallery-add">
+                <span className="pf-gallery-add-plus">{galleryUploading ? '…' : '↑'}</span>
+                <span className="pf-gallery-add-text">{galleryUploading ? 'Uploading' : 'Upload'}</span>
+              </button>
+              <button type="button" onClick={() => setMediaTarget('gallery')} className="pf-gallery-add">
+                <span className="pf-gallery-add-plus">+</span>
+                <span className="pf-gallery-add-text">Library</span>
+              </button>
+              <input
+                ref={galleryFileRef}
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+                onChange={async e => {
+                  const files = Array.from(e.target.files || [])
+                  if (!files.length) return
+                  setGalleryUploading(true)
+                  try {
+                    const urls: string[] = []
+                    for (const f of files) {
+                      const fd = new FormData()
+                      fd.append('files', f)
+                      const res = await fetch('/api/media/upload', { method: 'POST', body: fd })
+                      const data = await res.json()
+                      const url = data?.uploaded?.[0]?.url || data?.url
+                      if (url) urls.push(url)
+                    }
+                    if (urls.length) {
+                      setMeta(m => ({ ...m, gallery: [...(m.gallery ? m.gallery.split('\n').filter(Boolean) : []), ...urls].join('\n') }))
+                    }
+                  } finally {
+                    setGalleryUploading(false)
+                    if (galleryFileRef.current) galleryFileRef.current.value = ''
+                  }
+                }}
+              />
+            </div>
+            <p className="text-text-3 text-[11px] mt-2">Upload or pick images for the carousel at the bottom of the case study. Drag order with the arrows. Blank = auto-use content-section images.</p>
           </div>
           <div>
             <label className={lblClass}>Category</label>
@@ -422,6 +491,9 @@ export default function EditPortfolio() {
             onSelect={(url) => {
               if (mediaTarget === 'meta') {
                 setMeta(m => ({ ...m, image: url }))
+              } else if (mediaTarget === 'gallery') {
+                // Append the chosen image to the gallery (newline-separated).
+                setMeta(m => ({ ...m, gallery: [...(m.gallery ? m.gallery.split('\n').filter(Boolean) : []), url].join('\n') }))
               } else {
                 update(mediaTarget, { value: url })
               }
