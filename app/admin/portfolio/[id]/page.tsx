@@ -204,41 +204,22 @@ export default function EditPortfolio() {
           </div>
           <div className="md:col-span-2">
             <label className={lblClass}>Gallery Images (Carousel)</label>
-            <div className="pf-gallery-editor">
-              {galleryArr.map((img, i) => (
-                <div key={i} className="pf-gallery-thumb">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img} alt={`Gallery ${i + 1}`} />
-                  <button
-                    type="button"
-                    onClick={() => setMeta(m => ({ ...m, gallery: galleryArr.filter((_, x) => x !== i).join('\n') }))}
-                    className="pf-gallery-remove"
-                    aria-label="Remove image"
-                  >×</button>
-                  <div className="pf-gallery-order">
-                    {i > 0 && (
-                      <button type="button" onClick={() => {
-                        const a = [...galleryArr]; [a[i - 1], a[i]] = [a[i], a[i - 1]]
-                        setMeta(m => ({ ...m, gallery: a.join('\n') }))
-                      }} aria-label="Move left">‹</button>
-                    )}
-                    {i < galleryArr.length - 1 && (
-                      <button type="button" onClick={() => {
-                        const a = [...galleryArr]; [a[i + 1], a[i]] = [a[i], a[i + 1]]
-                        setMeta(m => ({ ...m, gallery: a.join('\n') }))
-                      }} aria-label="Move right">›</button>
-                    )}
-                  </div>
-                </div>
-              ))}
-              <button type="button" onClick={() => galleryFileRef.current?.click()} className="pf-gallery-add">
-                <span className="pf-gallery-add-plus">{galleryUploading ? '…' : '↑'}</span>
-                <span className="pf-gallery-add-text">{galleryUploading ? 'Uploading' : 'Upload'}</span>
+
+            {/* Compact action toolbar */}
+            <div className="pf-gallery-toolbar">
+              <button type="button" onClick={() => galleryFileRef.current?.click()} disabled={galleryUploading} className="pf-gallery-btn pf-gallery-btn-primary">
+                {galleryUploading ? (
+                  <><span className="pf-gallery-spinner" /> Uploading…</>
+                ) : (
+                  <>↑ Upload images</>
+                )}
               </button>
-              <button type="button" onClick={() => setMediaTarget('gallery')} className="pf-gallery-add">
-                <span className="pf-gallery-add-plus">+</span>
-                <span className="pf-gallery-add-text">Library</span>
+              <button type="button" onClick={() => setMediaTarget('gallery')} className="pf-gallery-btn">
+                + From library
               </button>
+              {galleryArr.length > 0 && (
+                <span className="pf-gallery-count">{galleryArr.length} image{galleryArr.length === 1 ? '' : 's'}</span>
+              )}
               <input
                 ref={galleryFileRef}
                 type="file"
@@ -269,7 +250,42 @@ export default function EditPortfolio() {
                 }}
               />
             </div>
-            <p className="text-text-3 text-[11px] mt-2">Upload or pick images for the carousel at the bottom of the case study. Drag order with the arrows. Blank = auto-use content-section images.</p>
+
+            {/* Thumbnails — only render once there are images */}
+            {galleryArr.length > 0 ? (
+              <div className="pf-gallery-grid">
+                {galleryArr.map((img, i) => (
+                  <div key={i} className="pf-gallery-thumb">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img} alt={`Gallery ${i + 1}`} />
+                    <button
+                      type="button"
+                      onClick={() => setMeta(m => ({ ...m, gallery: galleryArr.filter((_, x) => x !== i).join('\n') }))}
+                      className="pf-gallery-remove"
+                      aria-label="Remove image"
+                    >×</button>
+                    <div className="pf-gallery-order">
+                      {i > 0 && (
+                        <button type="button" onClick={() => {
+                          const a = [...galleryArr]; [a[i - 1], a[i]] = [a[i], a[i - 1]]
+                          setMeta(m => ({ ...m, gallery: a.join('\n') }))
+                        }} aria-label="Move left">‹</button>
+                      )}
+                      {i < galleryArr.length - 1 && (
+                        <button type="button" onClick={() => {
+                          const a = [...galleryArr]; [a[i + 1], a[i]] = [a[i], a[i + 1]]
+                          setMeta(m => ({ ...m, gallery: a.join('\n') }))
+                        }} aria-label="Move right">›</button>
+                      )}
+                    </div>
+                    <span className="pf-gallery-num">{i + 1}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="pf-gallery-empty">No images yet — upload or pick from the library to build the carousel.</div>
+            )}
+            <p className="text-text-3 text-[11px] mt-2">These appear in the carousel at the bottom of the case study. Reorder with the ‹ › arrows on each image. Blank = auto-use content-section images.</p>
           </div>
           <div>
             <label className={lblClass}>Category</label>

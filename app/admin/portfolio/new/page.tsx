@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import AdminShell from '@/components/layout/AdminShell'
 import { Save, ArrowLeft, Plus, Trash2 } from '@/components/ui/Icons'
@@ -16,6 +16,8 @@ export default function NewPortfolio() {
   const [saving, setSaving] = useState(false)
   const [isCustomCat, setIsCustomCat] = useState(false)
   const [mediaTarget, setMediaTarget] = useState<string | null>(null)
+  const galleryFileRef = useRef<HTMLInputElement>(null)
+  const [galleryUploading, setGalleryUploading] = useState(false)
   const [results, setResults] = useState<Result[]>([])
   const [form, setForm] = useState({
     title: '', client: '', clientUrl: '', slug: '', category: 'wordpress',
@@ -130,23 +132,58 @@ export default function NewPortfolio() {
             </div>
             <div>
               <label className={lblClass}>Gallery Images (Carousel)</label>
-              <div className="pf-gallery-editor">
-                {(form.gallery ? form.gallery.split('\n').filter(Boolean) : []).map((img: string, i: number) => {
-                  const arr = form.gallery.split('\n').filter(Boolean)
-                  return (
-                    <div key={i} className="pf-gallery-thumb">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img} alt={`Gallery ${i + 1}`} />
-                      <button type="button" onClick={() => set('gallery', arr.filter((_: string, x: number) => x !== i).join('\n'))} className="pf-gallery-remove" aria-label="Remove">×</button>
+              {(() => {
+                const arr = form.gallery ? form.gallery.split('\n').filter(Boolean) : []
+                return (
+                  <>
+                    <div className="pf-gallery-toolbar">
+                      <button type="button" onClick={() => galleryFileRef.current?.click()} disabled={galleryUploading} className="pf-gallery-btn pf-gallery-btn-primary">
+                        {galleryUploading ? (<><span className="pf-gallery-spinner" /> Uploading…</>) : (<>↑ Upload images</>)}
+                      </button>
+                      <button type="button" onClick={() => setMediaTarget('gallery')} className="pf-gallery-btn">+ From library</button>
+                      {arr.length > 0 && <span className="pf-gallery-count">{arr.length} image{arr.length === 1 ? '' : 's'}</span>}
+                      <input ref={galleryFileRef} type="file" accept="image/*" multiple hidden onChange={async e => {
+                        const files = Array.from(e.target.files || [])
+                        if (!files.length) return
+                        setGalleryUploading(true)
+                        try {
+                          const urls: string[] = []
+                          for (const f of files) {
+                            const fd = new FormData(); fd.append('files', f)
+                            const res = await fetch('/api/media/upload', { method: 'POST', body: fd })
+                            const data = await res.json()
+                            const url = data?.uploaded?.[0]?.url || data?.url
+                            if (url) urls.push(url)
+                          }
+                          if (urls.length) set('gallery', [...arr, ...urls].join('\n'))
+                        } finally {
+                          setGalleryUploading(false)
+                          if (galleryFileRef.current) galleryFileRef.current.value = ''
+                        }
+                      }} />
                     </div>
-                  )
-                })}
-                <button type="button" onClick={() => setMediaTarget('gallery')} className="pf-gallery-add">
-                  <span className="pf-gallery-add-plus">+</span>
-                  <span className="pf-gallery-add-text">Add Image</span>
-                </button>
-              </div>
-              <p className="text-text-3 text-[11px] mt-2">Upload or pick images for the carousel. Blank = auto-use content-section images.</p>
+                    {arr.length > 0 ? (
+                      <div className="pf-gallery-grid">
+                        {arr.map((img: string, i: number) => (
+                          <div key={i} className="pf-gallery-thumb">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={img} alt={`Gallery ${i + 1}`} />
+                            <button type="button" onClick={() => set('gallery', arr.filter((_: string, x: number) => x !== i).join('\n'))} className="pf-gallery-remove" aria-label="Remove">×</button>
+                            <div className="pf-gallery-order">
+                              {i > 0 && <button type="button" onClick={() => { const a = [...arr]; [a[i-1],a[i]]=[a[i],a[i-1]]; set('gallery', a.join('\n')) }} aria-label="Move left">‹</button>}
+                              {i < arr.length - 1 && <button type="button" onClick={() => { const a = [...arr]; [a[i+1],a[i]]=[a[i],a[i+1]]; set('gallery', a.join('\n')) }} aria-label="Move right">›</button>}
+                            </div>
+                            <span className="pf-gallery-num">{i + 1}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="pf-gallery-empty">No images yet — upload or pick from the library to build the carousel.</div>
+                    )}
+                  </>
+                )
+              })()}
+              <p className="text-text-3 text-[11px] mt-2">These appear in the carousel at the bottom of the case study. Reorder with the ‹ › arrows. Blank = auto-use content-section images.</p>
             </div>
           </div>
         </div>
