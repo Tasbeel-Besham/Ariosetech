@@ -49,7 +49,7 @@ export default function EditPortfolio() {
   const [saving, setSaving]     = useState(false)
   const [isCustomCat, setIsCustomCat] = useState(false)
   const [blocks, setBlocks]     = useState<Block[]>([])
-  const [meta, setMeta]         = useState({ slug: '', clientUrl: '', image: '', category: 'wordpress', featured: false, published: true })
+  const [meta, setMeta]         = useState({ slug: '', clientUrl: '', image: '', gallery: '', category: 'wordpress', featured: false, published: true })
   const [picking, setPicking]   = useState(false)
   const [mediaTarget, setMediaTarget] = useState<string | null>(null)
 
@@ -75,6 +75,7 @@ export default function EditPortfolio() {
         slug:      d.slug      || '',
         clientUrl: d.clientUrl || '',
         image:     d.image     || '',
+        gallery:   Array.isArray(d.gallery) ? d.gallery.join('\n') : (d.gallery || ''),
         category:  d.category  || 'wordpress',
         featured:  d.featured  || false,
         published: d.published !== false,
@@ -195,6 +196,11 @@ export default function EditPortfolio() {
                 Library
               </button>
             </div>
+          </div>
+          <div>
+            <label className={lblClass}>Gallery images (carousel)</label>
+            <textarea value={meta.gallery} onChange={e => setMeta(m => ({ ...m, gallery: e.target.value }))} rows={4} className={`${inpClass} resize-y`} placeholder={"One image URL per line — shown in the carousel.\nhttps://…/shot-1.jpg\nhttps://…/shot-2.jpg"} />
+            <p className="text-text-3 text-[11px] mt-1">One URL per line. Blank = auto-use content-section images.</p>
           </div>
           <div>
             <label className={lblClass}>Category</label>

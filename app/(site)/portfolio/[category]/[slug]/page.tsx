@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Check, ExternalLink } from '@/components/ui/Icon
 import { getCollection } from '@/lib/db/mongodb'
 import { caseStudySchema, breadcrumbSchema } from '@/lib/schema'
 import Breadcrumbs from '@/components/ui/Breadcrumbs'
+import PortfolioCarousel from '@/components/portfolio/PortfolioCarousel'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -13,7 +14,7 @@ type PortfolioSection = { id: string; type: string; title: string; content: stri
 type PortfolioItem = {
   _id: unknown; slug: string; title: string; client: string; clientUrl?: string
   category: string; summary: string; challenge: string; solution: string; quote: string
-  results: { label: string; value: string }[]; stack: string[]; image?: string
+  results: { label: string; value: string }[]; stack: string[]; image?: string; gallery?: string[]
   sections?: PortfolioSection[]
   featured: boolean; published: boolean; updatedAt: string
 }
@@ -63,6 +64,21 @@ export default async function PortfolioDetailPage({ params }: Props) {
     ? (item as any).results
     : []
 
+  // Gallery for the carousel. Accepts an array or comma/newline-separated string.
+  // Falls back to any images used in the body sections so the carousel is
+  // populated even before a dedicated gallery is set.
+  const rawGallery = (item as any).gallery
+  let galleryList: string[] = Array.isArray(rawGallery)
+    ? rawGallery.filter(Boolean)
+    : typeof rawGallery === 'string' && rawGallery.trim()
+      ? rawGallery.split(/[\n,]/).map((s: string) => s.trim()).filter(Boolean)
+      : []
+  if (galleryList.length === 0 && Array.isArray(item.sections)) {
+    galleryList = item.sections
+      .filter((s: PortfolioSection) => s.type === 'image' && s.content)
+      .map((s: PortfolioSection) => s.content as string)
+  }
+
   const color = CAT_COLOR[item.category] || '#766cff'
   const F = { fontFamily: 'var(--font-display)' } as React.CSSProperties
   const M = { fontFamily: 'var(--font-mono)' } as React.CSSProperties
@@ -97,30 +113,38 @@ export default async function PortfolioDetailPage({ params }: Props) {
           { name: item.title },
         ]} />
       </div>
-      {/* Hero */}
-      <section className="pd-hero">
+      {/* Hero — text on the left, project image featured on the right */}
+      <section className="pd-hero pd-hero-img">
         <div className="pd-hero-glow" />
         <div className="container relative z-1">
           <Link href={`/portfolio/${(item.category || 'other').toLowerCase()}`} className="pd-back hover:text-[var(--text-2)]">
             <ArrowLeft size={13} /> Back to Portfolio
           </Link>
 
-          <div className="flex items-center gap-10 mb-16">
-            <span className="pd-cat">
-              {item.category}
-            </span>
+          <div className="pd-hero-grid">
+            <div className="pd-hero-copy">
+              <div className="flex items-center gap-10 mb-6">
+                <span className="pd-cat">{item.category}</span>
+              </div>
+              <h1 className="pd-title">{item.title}</h1>
+              <p className="pd-client">{item.client}</p>
+              <p className="pd-summary">{item.summary}</p>
+              {item.clientUrl && (
+                <a href={item.clientUrl} target="_blank" rel="noopener noreferrer" className="pd-visit">
+                  Visit Live Site <ExternalLink size={14} />
+                </a>
+              )}
+            </div>
+
+            {item.image && (
+              <div className="pd-hero-media">
+                <div className="pd-hero-media-frame">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.image} alt={item.title} className="pd-hero-media-img" />
+                </div>
+              </div>
+            )}
           </div>
-
-          <h1 className="pd-title">{item.title}</h1>
-          <p className="pd-client">{item.client}</p>
-          <p className="pd-summary">{item.summary}</p>
-
-          {item.clientUrl && (
-            <a href={item.clientUrl} target="_blank" rel="noopener noreferrer"
-              className="pd-visit">
-              Visit Live Site <ExternalLink size={14} />
-            </a>
-          )}
         </div>
       </section>
 
@@ -268,6 +292,11 @@ export default async function PortfolioDetailPage({ params }: Props) {
           </div>
         </section>
       ))}
+
+      {/* Project gallery carousel */}
+      {galleryList.length > 0 && (
+        <PortfolioCarousel images={galleryList} title={item.title} />
+      )}
 
       {/* CTA */}
       <section className="pd-section-100">

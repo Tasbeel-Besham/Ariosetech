@@ -19,7 +19,7 @@ export default function NewPortfolio() {
   const [results, setResults] = useState<Result[]>([])
   const [form, setForm] = useState({
     title: '', client: '', clientUrl: '', slug: '', category: 'wordpress',
-    summary: '', challenge: '', solution: '', quote: '', stack: '', image: '',
+    summary: '', challenge: '', solution: '', quote: '', stack: '', image: '', gallery: '',
     featured: false, published: true,
   })
 
@@ -127,6 +127,17 @@ export default function NewPortfolio() {
                   Library
                 </button>
               </div>
+            </div>
+            <div>
+              <label className={lblClass}>Gallery images (carousel)</label>
+              <textarea
+                value={form.gallery || ''}
+                onChange={e => set('gallery', e.target.value)}
+                rows={4}
+                className={`${inpClass} resize-y`}
+                placeholder={"One image URL per line — these appear in the carousel at the bottom of the case study.\nhttps://…/screenshot-1.jpg\nhttps://…/screenshot-2.jpg"}
+              />
+              <p className="text-text-3 text-[11px] mt-1">One URL per line. Leave blank to auto-use any images from the content sections.</p>
             </div>
           </div>
         </div>
