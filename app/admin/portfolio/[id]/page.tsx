@@ -49,7 +49,7 @@ export default function EditPortfolio() {
   const [saving, setSaving]     = useState(false)
   const [isCustomCat, setIsCustomCat] = useState(false)
   const [blocks, setBlocks]     = useState<Block[]>([])
-  const [meta, setMeta]         = useState({ slug: '', clientUrl: '', image: '', gallery: '', category: 'wordpress', featured: false, published: true })
+  const [meta, setMeta]         = useState({ slug: '', clientUrl: '', image: '', screenshot: '', gallery: '', category: 'wordpress', featured: false, published: true })
   const [picking, setPicking]   = useState(false)
   const [mediaTarget, setMediaTarget] = useState<string | null>(null)
   const galleryFileRef = useRef<HTMLInputElement>(null)
@@ -77,6 +77,7 @@ export default function EditPortfolio() {
         slug:      d.slug      || '',
         clientUrl: d.clientUrl || '',
         image:     d.image     || '',
+        screenshot: d.screenshot || '',
         gallery:   Array.isArray(d.gallery) ? d.gallery.join('\n') : (d.gallery || ''),
         category:  d.category  || 'wordpress',
         featured:  d.featured  || false,
@@ -201,6 +202,20 @@ export default function EditPortfolio() {
                 Library
               </button>
             </div>
+          </div>
+          <div>
+            <label className={lblClass}>Full-Page Screenshot</label>
+            <div className="flex gap-1.5">
+              <input value={meta.screenshot} onChange={e => setMeta(m => ({ ...m, screenshot: e.target.value }))} className={`${inpClass} flex-1`} placeholder="Tall header-to-footer capture…" />
+              <button onClick={() => setMediaTarget('screenshot')} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] whitespace-nowrap hover:bg-white/5 transition-colors">
+                Library
+              </button>
+            </div>
+            {meta.screenshot && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={meta.screenshot} alt="" className="mt-2 w-full max-h-28 object-cover object-top rounded-md border border-border" />
+            )}
+            <p className="text-text-3 text-[11px] mt-1.5">Scrolls header-to-footer when someone hovers this project on the portfolio grid. Blank = the cover image is used and sits still.</p>
           </div>
           <div className="md:col-span-2">
             <label className={lblClass}>Gallery Images (Carousel)</label>
@@ -507,6 +522,8 @@ export default function EditPortfolio() {
             onSelect={(url) => {
               if (mediaTarget === 'meta') {
                 setMeta(m => ({ ...m, image: url }))
+              } else if (mediaTarget === 'screenshot') {
+                setMeta(m => ({ ...m, screenshot: url }))
               } else if (mediaTarget === 'gallery') {
                 // Append the chosen image to the gallery (newline-separated).
                 setMeta(m => ({ ...m, gallery: [...(m.gallery ? m.gallery.split('\n').filter(Boolean) : []), url].join('\n') }))

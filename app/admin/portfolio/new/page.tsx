@@ -21,7 +21,7 @@ export default function NewPortfolio() {
   const [results, setResults] = useState<Result[]>([])
   const [form, setForm] = useState({
     title: '', client: '', clientUrl: '', slug: '', category: 'wordpress',
-    summary: '', challenge: '', solution: '', quote: '', stack: '', image: '', gallery: '',
+    summary: '', challenge: '', solution: '', quote: '', stack: '', image: '', screenshot: '', gallery: '',
     featured: false, published: true,
   })
 
@@ -131,6 +131,20 @@ export default function NewPortfolio() {
               </div>
             </div>
             <div>
+              <label className={lblClass}>Full-Page Screenshot (pans on hover)</label>
+              <div className="flex gap-1.5">
+                <input value={form.screenshot} onChange={e => set('screenshot', e.target.value)} className={`${inpClass} flex-1`} placeholder="Tall header-to-footer capture…" />
+                <button onClick={() => setMediaTarget('screenshot')} className="px-2.5 bg-bg-3 border border-border rounded-sm text-white cursor-pointer text-[11px] whitespace-nowrap hover:bg-white/5 transition-colors">
+                  Library
+                </button>
+              </div>
+              {form.screenshot && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.screenshot} alt="" className="mt-2 w-full max-h-32 object-cover object-top rounded-md border border-border" />
+              )}
+              <p className="text-text-3 text-[11px] mt-1.5">Shown on the portfolio grid card and scrolls from header to footer on hover. Blank = the cover image is used instead and sits still.</p>
+            </div>
+            <div>
               <label className={lblClass}>Gallery Images (Carousel)</label>
               {(() => {
                 const arr = form.gallery ? form.gallery.split('\n').filter(Boolean) : []
@@ -222,6 +236,8 @@ export default function NewPortfolio() {
             onSelect={(url) => {
               if (mediaTarget === 'gallery') {
                 set('gallery', [...(form.gallery ? form.gallery.split('\n').filter(Boolean) : []), url].join('\n'))
+              } else if (mediaTarget === 'screenshot') {
+                set('screenshot', url)
               } else {
                 set('image', url)
               }
