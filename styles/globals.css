@@ -2582,21 +2582,31 @@ select,
   background: linear-gradient(135deg, var(--bg-2), var(--bg-3));
 }
 
-/* The tall screenshot — starts at the top, pans down on hover.
-   The image is full width; its height is auto so a long page is tall.
-   translateY moves it up to reveal the bottom of the page. */
+/* The tall screenshot — starts at the header, pans to the footer on hover.
+   Distance and duration are measured in PortfolioSection.tsx from the image's
+   real intrinsic size and applied inline, so the pan always lands exactly on
+   the bottom of the page and long pages don't scroll faster than short ones.
+   This rule only supplies the easing and the paint hints. */
 .pfc-shot {
   position: absolute; top: 0; left: 0; width: 100%; height: auto; display: block;
-  transform: translateY(0);
-  transition: transform 4s ease-in-out;      /* the slow pan */
+  transform: translate3d(0, 0, 0);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.25, 1);
+  transition-duration: 0ms;                  /* overridden inline per card */
+  will-change: transform;
+  backface-visibility: hidden;               /* avoids sub-pixel shimmer mid-pan */
+  user-select: none; -webkit-user-drag: none;
 }
-.pfc:hover .pfc-shot {
-  /* Pan down: move the image up by (its height - frame height). calc via % of
-     its own height works because the image is much taller than the frame. */
-  transform: translateY(calc(-100% + 100cqh));
+
+/* A normal cover image is shorter than the frame, so there is nothing to pan —
+   fill the window instead of leaving a gap under it. */
+.pfc-shot--cover {
+  height: 100%; object-fit: cover; object-position: top center;
 }
-/* Fallback: container-query height unit needs the frame as a container. */
-.pfc-frame { container-type: size; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pfc-shot { transition: none !important; transform: none !important; }
+}
 
 .pfc-frame-overlay {
   position: absolute; inset: 0; pointer-events: none;

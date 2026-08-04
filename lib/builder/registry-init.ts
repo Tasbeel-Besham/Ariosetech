@@ -310,7 +310,11 @@ export function initRegistry() {
         { type: 'text',     name: 'result',      label: 'Result figure (e.g. 300%)' },
         { type: 'text',     name: 'resultLabel', label: 'Result label (e.g. Increase in sales)' },
         { type: 'textarea', name: 'quote',       label: 'Client quote (optional)' },
-        { type: 'text',     name: 'image',       label: 'Image URL (optional)' },
+        // The tall full-page capture that pans on hover. Upload a screenshot of
+        // the whole page (header → footer) at roughly 1000–1440px wide.
+        { type: 'image',    name: 'screenshot',  label: 'Full-page screenshot (pans on hover)' },
+        // Static cover thumbnail. Used only when no screenshot is set.
+        { type: 'image',    name: 'image',       label: 'Cover image (fallback)' },
         { type: 'text',     name: 'url',         label: 'Live site URL (optional)' },
         { type: 'text',     name: 'slug',        label: 'Case-study slug (optional)' },
         { type: 'text',     name: 'cat',         label: 'Category tag (optional)' },

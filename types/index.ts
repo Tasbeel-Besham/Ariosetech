@@ -128,6 +128,8 @@ export type PortfolioDoc = {
   results: { label: string; value: string }[]
   stack: string[]
   image?: string
+  /** Tall full-page capture used for the hover pan on portfolio cards. */
+  screenshot?: string
   featured: boolean
   published: boolean
   updatedAt: string

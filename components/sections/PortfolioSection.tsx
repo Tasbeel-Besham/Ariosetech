@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRight } from '@/components/ui/Icons'
@@ -8,7 +8,7 @@ import SectionHeading from '@/components/ui/SectionHeading'
 
 type Item = {
   title: string; client: string; platform: string; result: string; resultLabel: string; quote: string;
-  image?: string; url?: string; slug?: string; cat?: string
+  image?: string; screenshot?: string; url?: string; slug?: string; cat?: string
 }
 
 type Props = {
@@ -16,30 +16,113 @@ type Props = {
   eyebrow?: string; headline?: string; intro?: string; items?: Item[]; ctaLabel?: string; ctaHref?: string
 }
 
-/**
- * Portfolio grid — FexArt-style: a 3-column grid of project cards. Each card is
- * a framed screenshot on a tinted background with the category + title below.
- * On hover, a tall full-page screenshot pans from top to bottom inside the
- * frame, revealing the whole page. Rendered in the ARIOSETECH brand palette.
- */
+/* ── Pan tuning ────────────────────────────────────────────────────
+   Duration is derived from how far the image actually has to travel, at a
+   constant speed. A 6000px page and a 1500px page therefore scroll at the same
+   perceived rate instead of both taking a fixed 4 seconds — which made short
+   screenshots crawl and long ones blur past.                                  */
+const PAN_SPEED_PX_PER_SEC = 420   // felt rate of the downward pan
+const MIN_PAN_MS           = 1200  // never snap, even on barely-tall images
+const MAX_PAN_MS           = 9000  // never hold the user hostage on a huge page
+const RETURN_MS            = 650   // snap back up faster than it went down
+const MIN_TRAVEL_PX        = 24    // below this there is nothing worth panning
 
-// One card, so each manages its own hover-pan independently.
+/**
+ * Portfolio grid — a 3-column grid of project cards. Each card is a framed
+ * screenshot on a tinted background with the category + title below.
+ *
+ * On hover, the full-page screenshot pans from the header all the way to the
+ * footer inside the frame. The travel distance is measured from the image's
+ * real intrinsic size once it loads, so it always lands exactly on the bottom
+ * of the page — no guessing, and no dependence on container-query units.
+ *
+ * Images come from two separate fields, set per project in the builder:
+ *   screenshot → the tall full-page capture that pans (preferred)
+ *   image      → a normal cover thumbnail (used as fallback; sits still)
+ */
 function ProjectCard({ item, index }: { item: Item; index: number }) {
   const catClass = (item.cat || 'other').toLowerCase()
   const href = item.slug ? `/portfolio/${catClass}/${item.slug}` : (item.url || '#')
 
-  // A full-page screenshot service is used when no image is provided, so the
-  // pan effect always has a tall image to scroll through.
-  const screenshot =
-    item.image ||
-    (item.url ? `https://image.thum.io/get/width/1000/crop/3000/noanimate/${item.url}` : '')
+  // Prefer the tall screenshot; fall back to the cover image, which simply
+  // fills the frame since there is nothing to scroll through.
+  const shot = item.screenshot || item.image || ''
+
+  const frameRef = useRef<HTMLDivElement>(null)
+  const imgRef   = useRef<HTMLImageElement>(null)
+  const [isTall, setIsTall] = useState(false)
+  const [pan, setPan]       = useState({ y: 0, ms: 0 })
+
+  /** How far the image can travel inside the frame, and how long that takes. */
+  const measure = useCallback(() => {
+    const frame = frameRef.current
+    const img   = imgRef.current
+    if (!frame || !img || !img.naturalWidth || !img.naturalHeight) return { travel: 0, ms: 0 }
+
+    // The image is rendered at 100% frame width, so its on-screen height is
+    // proportional to its intrinsic aspect ratio.
+    const renderedHeight = frame.clientWidth * (img.naturalHeight / img.naturalWidth)
+    const travel = Math.max(0, Math.round(renderedHeight - frame.clientHeight))
+    if (travel < MIN_TRAVEL_PX) return { travel: 0, ms: 0 }
+
+    const ms = Math.min(MAX_PAN_MS, Math.max(MIN_PAN_MS, (travel / PAN_SPEED_PX_PER_SEC) * 1000))
+    return { travel, ms }
+  }, [])
+
+  // Decide once the image loads whether it's a pannable full-page capture or a
+  // normal cover that should just fill the frame.
+  const handleLoad = useCallback(() => {
+    setIsTall(measure().travel > 0)
+  }, [measure])
+
+  // Cached images can be complete before React attaches onLoad.
+  useEffect(() => {
+    if (imgRef.current?.complete) handleLoad()
+  }, [handleLoad])
+
+  // Re-evaluate on resize: the grid drops from 3 to 2 to 1 column, which
+  // changes frame width and therefore the rendered image height.
+  useEffect(() => {
+    const onResize = () => {
+      setIsTall(measure().travel > 0)
+      setPan({ y: 0, ms: 0 })
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [measure])
+
+  const start = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const { travel, ms } = measure()
+    if (!travel) return
+    setPan({ y: -travel, ms })
+  }
+
+  const stop = () => setPan(p => (p.y === 0 ? p : { y: 0, ms: RETURN_MS }))
 
   return (
-    <Link href={href} className="pfc" style={{ animationDelay: `${index * 0.06}s` }}>
-      <div className="pfc-frame">
-        {screenshot ? (
+    <Link
+      href={href}
+      className="pfc"
+      style={{ animationDelay: `${index * 0.06}s` }}
+      onMouseEnter={start}
+      onMouseLeave={stop}
+      onFocus={start}
+      onBlur={stop}
+    >
+      <div className="pfc-frame" ref={frameRef}>
+        {shot ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={screenshot} alt={item.title} className="pfc-shot" loading="lazy" />
+          <img
+            ref={imgRef}
+            src={shot}
+            alt={`${item.title} — full page screenshot`}
+            onLoad={handleLoad}
+            className={`pfc-shot${isTall ? '' : ' pfc-shot--cover'}`}
+            style={{ transform: `translate3d(0, ${pan.y}px, 0)`, transitionDuration: `${pan.ms}ms` }}
+            loading="lazy"
+            draggable={false}
+          />
         ) : (
           <div className="pfc-fallback"><span>{item.platform}</span></div>
         )}
@@ -84,7 +167,8 @@ export default function PortfolioSection({
             platform: item.category || 'other', cat: item.category || 'other',
             result, resultLabel,
             quote: item.quote || item.summary || '',
-            image: item.image, url: item.clientUrl, slug: item.slug,
+            image: item.image, screenshot: item.screenshot,
+            url: item.clientUrl, slug: item.slug,
           }
         })
         setDbItems(mapped)
