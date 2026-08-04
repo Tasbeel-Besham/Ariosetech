@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import AdminShell from '@/components/layout/AdminShell'
 import { Upload, Copy, Trash2, Check } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
+import { compressImage } from '@/lib/media/upload'
 
 type MediaItem = { _id: string; url: string; alt: string; width?: number; height?: number; size?: number; createdAt: string }
 
@@ -27,14 +28,26 @@ export default function MediaAdmin() {
     setUploading(true)
     let done = 0
     for (const file of files) {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('alt', file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '))
-      const res = await fetch('/api/media/upload', { method: 'POST', body: fd })
-      if (res.ok) { done++ }
-      else {
-        const { error } = await res.json()
-        toast.error(error || `Failed: ${file.name}`)
+      try {
+        // Downscale before sending. The host rejects any request body over
+        // 4.5 MB at the edge, so large screenshots never reach the route and
+        // the failure arrives as a non-JSON error page.
+        const prepared = await compressImage(file)
+        const fd = new FormData()
+        fd.append('file', prepared)
+        fd.append('alt', file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '))
+        const res = await fetch('/api/media/upload', { method: 'POST', body: fd })
+        if (res.ok) {
+          done++
+        } else {
+          const raw = await res.text()
+          let msg = ''
+          try { msg = JSON.parse(raw)?.error } catch { /* HTML error page */ }
+          if (res.status === 413) msg = `${file.name} is too large for the server (4.5 MB cap).`
+          toast.error(msg || `Failed: ${file.name}`)
+        }
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : `Failed: ${file.name}`)
       }
       setProgress(Math.round((done / files.length) * 100))
     }

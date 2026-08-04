@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { X } from '@/components/ui/Icons'
+import { uploadImageFiles, formatBytes } from '@/lib/media/upload'
 
 type MediaItem = { _id: string; url: string; alt?: string }
 
@@ -20,6 +21,7 @@ export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, o
   const [loading, setLoading]     = useState(true)
   const [uploading, setUploading] = useState(false)
   const [error, setError]         = useState('')
+  const [progress, setProgress]   = useState('')
   const [query, setQuery]         = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -44,23 +46,25 @@ export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, o
     if (!files.length) return
     setUploading(true)
     setError('')
+    setProgress('')
     try {
-      const urls: string[] = []
-      for (const f of files) {
-        const fd = new FormData()
-        fd.append('files', f)
-        const res  = await fetch('/api/media/upload', { method: 'POST', body: fd })
-        const data = await res.json()
-        if (!res.ok) { setError(data?.error || `Upload failed for ${f.name}`); continue }
-        // The endpoint returns a single object for one file, { uploaded: [] } for many.
-        const url = data?.url || data?.uploaded?.[0]?.url
-        if (url) urls.push(url)
-      }
-      await load()
+      // Large images are downscaled in the browser first. Without this a
+      // full-page screenshot (typically 4-8 MB) is rejected by the host's
+      // 4.5 MB request-body cap before the upload route ever runs.
+      const { urls, errors } = await uploadImageFiles(files, (done, total, name) => {
+        setProgress(total > 1 ? `Uploading ${done + 1} of ${total}…` : `Preparing ${name}…`)
+      })
+
+      if (errors.length) setError(errors.join(' · '))
+      if (urls.length) await load()
       // One file in, one field to fill — select it and get out of the way.
-      if (urls.length === 1) { onSelect(urls[0]); return }
+      if (urls.length === 1 && !errors.length) { onSelect(urls[0]); return }
+    } catch (e) {
+      // Nothing should reach here, but a stuck spinner is the worst outcome.
+      setError(e instanceof Error ? e.message : 'Upload failed.')
     } finally {
       setUploading(false)
+      setProgress('')
       if (fileRef.current) fileRef.current.value = ''
     }
   }
@@ -89,7 +93,7 @@ export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, o
               disabled={uploading}
               className="px-3 py-1.5 rounded-md bg-primary text-white text-xs font-semibold cursor-pointer border-none disabled:opacity-60 disabled:cursor-default hover:opacity-90 transition-opacity"
             >
-              {uploading ? 'Uploading…' : '↑ Upload'}
+              {uploading ? (progress || 'Uploading…') : '↑ Upload'}
             </button>
             <button onClick={onClose} className="bg-transparent border-none text-gray-2 cursor-pointer hover:text-white transition-colors"><X size={20} /></button>
           </div>

@@ -6,6 +6,7 @@ import { Save, ArrowLeft, Plus, Trash2 } from '@/components/ui/Icons'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
+import { uploadImageFiles } from '@/lib/media/upload'
 
 type Result = { label: string; value: string }
 
@@ -161,15 +162,13 @@ export default function NewPortfolio() {
                         if (!files.length) return
                         setGalleryUploading(true)
                         try {
-                          const urls: string[] = []
-                          for (const f of files) {
-                            const fd = new FormData(); fd.append('files', f)
-                            const res = await fetch('/api/media/upload', { method: 'POST', body: fd })
-                            const data = await res.json()
-                            const url = data?.uploaded?.[0]?.url || data?.url
-                            if (url) urls.push(url)
-                          }
+                          // Downscaled in the browser first — the host rejects
+                          // any request body over 4.5 MB.
+                          const { urls, errors } = await uploadImageFiles(files)
+                          if (errors.length) toast.error(errors[0])
                           if (urls.length) set('gallery', [...arr, ...urls].join('\n'))
+                        } catch (err) {
+                          toast.error(err instanceof Error ? err.message : 'Upload failed')
                         } finally {
                           setGalleryUploading(false)
                           if (galleryFileRef.current) galleryFileRef.current.value = ''
