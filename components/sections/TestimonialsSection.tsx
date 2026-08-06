@@ -1,5 +1,6 @@
 "use client";
 import SectionHeading from '@/components/ui/SectionHeading'
+import Image from 'next/image'
 
 type Item = { name: string; role: string; initials: string; quote: string; image?: string }
 type Props = {
@@ -56,8 +57,7 @@ export default function TestimonialsSection({
               <p className="text-gray-2 leading-loose italic mb-[28px] flex-1 text-base">&ldquo;{t.quote}&rdquo;</p>
               <div className="flex items-center gap-[14px] pt-[20px] border-t border-subtle">
                 {t.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={t.image} alt={t.name} className="w-11 h-11 rounded-xl object-cover shrink-0" />
+                  <Image src={t.image} alt={t.name} width={44} height={44} className="w-11 h-11 rounded-xl object-cover shrink-0" />
                 ) : (
                   <div className="w-11 h-11 rounded-xl bg-grad flex items-center justify-center font-display text-sm font-extrabold text-white shrink-0">{t.initials}</div>
                 )}

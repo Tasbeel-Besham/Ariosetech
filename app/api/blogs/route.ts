@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { slugify } from '@/lib/utils'
+import { revalidateSite } from '@/lib/cache'
 
 export async function GET(req: NextRequest) {
   const admin = req.nextUrl.searchParams.get('admin')
@@ -28,5 +29,6 @@ export async function POST(req: NextRequest) {
     updatedAt: new Date().toISOString(),
   }
   const result = await col.insertOne(doc as never)
+  revalidateSite()
   return NextResponse.json({ _id: result.insertedId, ...doc }, { status: 201 })
 }

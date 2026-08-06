@@ -3,6 +3,7 @@ import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
 import { validateLayout } from '@/lib/builder/engine'
+import { revalidateSite } from '@/lib/cache'
 
 export async function POST(req: NextRequest) {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -15,5 +16,6 @@ export async function POST(req: NextRequest) {
     { _id: new ObjectId(pageId) },
     { $set: { layout, status: 'draft', updatedAt: new Date() } } as never
   )
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

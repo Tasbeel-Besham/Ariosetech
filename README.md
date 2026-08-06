@@ -1,149 +1,132 @@
-# Portfolio hover-scroll screenshots — v2 (upload fix included)
+# ARIOSETECH — SEO fix pack (items 1, 2, 3, 5)
 
-Extract into your `ariosetech-v2` project root. The folder structure matches, so
-all ten files land in place. One is new (`lib/media/upload.ts`); the rest
-overwrite.
+Extract into your `ariosetech-v2` project root. 29 files; one is new
+(`lib/cache.ts`), the rest overwrite.
 
-**Commit before you extract.** These are full-file replacements, so `git diff`
-is your undo.
+**Commit before you extract.** `git diff` is your undo.
 
----
-
-## Why the screenshot upload was failing
-
-Your host caps the request body of a serverless function at **4.5 MB** and
-returns `413 FUNCTION_PAYLOAD_TOO_LARGE` above that. It's enforced at the
-infrastructure level and cannot be raised from `vercel.json` or from route
-config.
-
-- Normal portfolio picture → a few hundred KB → passes.
-- Full-page screenshot → a 1440×6000 PNG is routinely 4–8 MB → **rejected at
-  the edge.** `/api/media/upload` never runs.
-
-It also failed *silently*. The 413 comes back as an HTML error page, so
-`res.json()` threw inside a `try/finally` that had no `catch` — the spinner
-stopped and no message appeared.
-
-### The fix
-
-`lib/media/upload.ts` compresses images **in the browser** before they're sent:
-
-- Downscales to max 1400px wide, 12000px tall, 40 MP total area.
-- Re-encodes to WebP at quality 0.82 (JPEG fallback on older browsers).
-- Skips files under 900 KB, plus GIF and SVG, which shouldn't be re-encoded.
-- Returns the original if re-encoding made it bigger.
-
-A 6 MB PNG screenshot typically lands around 400–700 KB. Comfortably under the
-cap, and much better for the visitors loading one per portfolio card.
-
-Every upload path now reads the response as text first, so a 413 or any other
-non-JSON error surfaces as a readable message instead of a stuck spinner.
-
-**No env vars or plan changes needed.**
+This pack does **not** touch the portfolio screenshot work from the previous
+zip — different files, no conflict. Apply either order.
 
 ---
 
-## The other thing to understand
+## 1. Portfolio category canonical bug
 
-The Portfolio Showcase section has two sources, and one silently overrides the
-other:
+`app/(site)/portfolio/[category]/page.tsx`
 
-```ts
-const displayItems = safeItems.length > 0 ? safeItems : dbItems
-```
+**Was:** every category page declared `/portfolio` as its canonical, telling
+Google that `/portfolio/wordpress`, `/woocommerce`, `/shopify` and `/seo` were
+duplicates that shouldn't be indexed in their own right — while your sitemap
+submitted them.
 
-- **Builder's Projects list has items** → only those show; your case studies are
-  ignored entirely.
-- **Builder's Projects list is empty** → pulls every *published* case study from
-  Admin → Portfolio automatically.
+**Now:**
+- Self-referencing canonical: `/portfolio/{category}`.
+- Per-category title and description. They previously all inherited the same
+  title and description from the `/portfolio` page document, so even once
+  indexed they'd compete with an identical snippet.
+- **Crawl-trap closed.** `[category]` matches any string, so `/portfolio/foo`
+  returned a valid 200 — unlimited indexable URLs serving identical content.
+  Valid categories are now the four base ones plus whatever's actually in the
+  portfolio collection; anything else 404s.
 
-Since your case studies already exist, **leave the builder's Projects list
-empty.** Use the repeater only for a hand-picked subset on one page.
-
----
-
-## How to add the images
-
-### Path A — case studies (recommended)
-
-1. Admin → Portfolio → open a project.
-2. Meta row now has **Cover Image URL** and **Full-Page Screenshot**.
-3. **Library** → **Upload** → pick your capture. It compresses, uploads, fills
-   the field, previews.
-4. Save with **Published** ticked.
-5. Hover a card on any page with a Portfolio Showcase section whose Projects
-   list is empty.
-
-### Path B — hand-picked in the builder
-
-Select the section → **Projects** → each item has **Full-page screenshot** and
-**Cover image**, both with a Library button.
-
-### Which image shows
-
-`screenshot` wins. Blank → the cover image is used and sits still. Both blank →
-platform-name placeholder.
+**Verify after deploy:** view-source on `/portfolio/shopify` and confirm the
+canonical points at itself. Then request indexing for all four in Search
+Console — they need a recrawl to recover.
 
 ---
 
-## Files
+## 2. Preloader — the LCP blocker
 
-| File | What changed |
-| --- | --- |
-| `lib/media/upload.ts` | **New.** Browser-side compression + upload with real error messages. |
-| `components/ui/MediaPickerModal.tsx` | Upload + search added; uses the compressing uploader; per-file errors shown. |
-| `app/admin/media/page.tsx` | Compresses before upload; handles non-JSON 413 responses. |
-| `app/admin/portfolio/[id]/page.tsx` | Added **Full-Page Screenshot** field; gallery upload uses the compressing uploader. |
-| `app/admin/portfolio/new/page.tsx` | Same, on the create form. |
-| `components/builder/panels/PropertiesPanel.tsx` | Repeater sub-fields render by type — previously everything except `textarea` fell through to a plain text input, which is why image fields in a repeater had no picker. Picker state moved to local React state so it stops being saved into the layout. |
-| `components/sections/PortfolioSection.tsx` | Hover pan measures the image's real intrinsic size in JS. Reads `screenshot`, falls back to `image`. |
-| `lib/builder/registry-init.ts` | Portfolio repeater: added `screenshot`; `image` changed from `text` to `image` type. |
-| `styles/globals.css` | Replaced the `100cqh` pan rule with easing + paint hints. Added `.pfc-shot--cover` and a reduced-motion guard. |
-| `types/index.ts` | Added `screenshot?: string` to `PortfolioDoc`. |
+`components/ui/Preloader.tsx`
 
----
+An opaque full-screen overlay delays Largest Contentful Paint by exactly as
+long as it stays up. LCP counts pixels the user can actually see, so the hero
+being in the DOM behind the curtain doesn't count. The old timings held it for
+~1900 ms; on top of server response time that put LCP past Google's 2500 ms
+"good" threshold on every page for every visitor.
 
-## Two things to know
+**Now:**
+- **Once per browser session.** Reloads and direct entries to other pages in
+  the same session skip it entirely.
+- **Shorter** — gone by ~1000 ms instead of ~1900 ms.
+- **Skipped** for `prefers-reduced-motion` and data-saver users.
+- `aria-hidden` + `pointer-events-none` so screen readers no longer announce
+  "Loading 0%" before your actual content.
 
-**Nothing needs migrating.** `screenshot` is a new field. Existing projects keep
-their cover image and won't pan until you add a capture.
-
-**One behaviour was removed.** The old card auto-generated a thum.io screenshot
-when a project had a `clientUrl` but no `image`. That's gone; affected projects
-show the platform-name placeholder until you upload something. Easy to restore
-as a last-resort fallback if you want it.
+To remove it completely, set `ENABLED = false` at the top of the file. Given
+you're chasing Core Web Vitals in competitive markets, that's worth
+considering — the animation costs you roughly a second of LCP on first visit
+and buys nothing a search engine values.
 
 ---
 
-## Capturing the screenshots
+## 3. Caching (ISR) with on-demand invalidation
 
-- **Chrome DevTools** — Cmd/Ctrl+Shift+P → "Capture full size screenshot". Set
-  the device toolbar to 1440px wide first.
-- **Firefox** — right-click → "Take Screenshot" → "Save full page".
+`export const dynamic = 'force-dynamic'` → `export const revalidate = 3600` on
+the 6 public page routes, the root layout, and `sitemap.xml`.
 
-Export at whatever size is convenient — compression handles the rest now. PNG
-straight out of DevTools is fine.
+That alone would mean admin edits take up to an hour to appear, so `lib/cache.ts`
+adds `revalidateSite()`, now called from **16 mutating API routes** (pages,
+blogs, portfolio, services, menus, header, footer, theme, settings, builder
+save/publish). Publishing still updates the live site instantly — it just no
+longer costs a MongoDB round trip on every anonymous request.
 
-Do glance at each capture before uploading, though. The pan reveals the entire
-page including the footer, so a stale copyright year or a frozen cookie banner
-ends up on display at full size.
+`revalidatePath('/', 'layout')` flushes the whole public site. Coarse on
+purpose: your content is small and heavily interlinked — renaming a page changes
+the nav on every other page — so targeted invalidation would routinely serve
+stale navigation.
+
+**API routes keep `force-dynamic`.** That's correct for them; only pages were
+wrong.
+
+**Watch after deploy:** confirm an admin publish still shows up immediately on
+the live URL. If anything looks stale, the cause will be a mutating route that
+doesn't call `revalidateSite()` yet — the fix is one import plus one line.
 
 ---
 
-## Tuning
+## 5. next/image
 
-Pan feel — top of `components/sections/PortfolioSection.tsx`:
+Converted 7 raw `<img>` tags on public pages: testimonial avatars, the three
+blog author/reviewer photos, the case-study hero and body images, and the author
+page avatar. Each gets responsive `srcset`, correct intrinsic dimensions (no
+layout shift) and lazy loading. The case-study hero is marked `priority` since
+it's that page's LCP element.
 
-```ts
-const PAN_SPEED_PX_PER_SEC = 420   // raise = faster
-const MIN_PAN_MS           = 1200
-const MAX_PAN_MS           = 9000
-const RETURN_MS            = 650
-```
+Added `i.ibb.co` to `remotePatterns` in `next.config.ts` — that's the ImgBB
+fallback host in your upload route, and `next/image` throws on non-whitelisted
+hosts.
 
-Compression — top of `lib/media/upload.ts`:
+**Two deliberate exceptions:**
+- `PortfolioSection.tsx` keeps a raw `<img>`. The hover pan measures
+  `naturalWidth`/`naturalHeight` off the element and needs `height: auto` with
+  absolute positioning — `next/image` fights both. Those images are already
+  compressed client-side to ~1400px WebP, so the loss is small.
+- The theme-detector tools keep raw `<img>` because they render screenshots from
+  arbitrary third-party domains, which can't be whitelisted in advance.
 
-```ts
-const MAX_WIDTH = 1400   // raise for sharper screenshots, at the cost of size
-const QUALITY   = 0.82
-```
+---
+
+## Not included
+
+**`ignoreBuildErrors` / `ignoreDuringBuilds`** are still `true` in
+`next.config.ts`. Flipping them is the right call, but it will almost certainly
+fail your next build until the backlog of existing type errors is cleared — not
+something to trigger blind inside an SEO deploy. Worth doing as its own task;
+happy to work through the errors with you.
+
+---
+
+## After deploying
+
+1. Search Console → URL Inspection → Request Indexing for `/portfolio/wordpress`,
+   `/woocommerce`, `/shopify`, `/seo`.
+2. PageSpeed Insights on the homepage and one case study. Lab LCP should drop
+   noticeably straight away; **field data (CrUX) takes ~28 days** to reflect the
+   change, so don't judge it by the field numbers next week.
+3. Re-submit `sitemap.xml`.
+4. Spot-check that `/portfolio/some-nonsense` now 404s.
+
+Canonical recovery typically takes two to six weeks — Google has to recrawl and
+re-evaluate. Nothing has gone wrong if the four pages don't reappear
+immediately.

@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
 import { ServicePageDoc } from '@/types'
+import { revalidateSite } from '@/lib/cache'
 
 export async function GET() {
   try {
@@ -29,6 +30,7 @@ export async function POST(req: Request) {
     }
 
     const result = await col.insertOne(doc as ServicePageDoc)
+    revalidateSite()
     return NextResponse.json({ success: true, id: result.insertedId })
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })

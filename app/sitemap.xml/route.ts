@@ -1,4 +1,7 @@
-export const dynamic = 'force-dynamic'
+// Cached and regenerated on demand. Previously force-dynamic, which meant
+// every visitor and every crawl paid a full MongoDB round trip. Admin saves
+// call revalidateSite() so published changes still appear immediately.
+export const revalidate = 3600
 
 import { getCollection } from '@/lib/db/mongodb'
 

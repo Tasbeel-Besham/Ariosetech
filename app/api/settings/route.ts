@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 const DEFAULTS = {
   logo_url: 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png',
@@ -32,5 +33,6 @@ export async function POST(req: NextRequest) {
     { $set: { key: 'site_settings', value: body, updatedAt: new Date() } } as never,
     { upsert: true }
   )
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

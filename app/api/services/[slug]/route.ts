@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
 import { ServicePageDoc } from '@/types'
+import { revalidateSite } from '@/lib/cache'
 
 export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -32,6 +33,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
       { $set: { ...updateData, updatedAt: new Date() } }
     )
     
+    revalidateSite()
     return NextResponse.json({ success: true })
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
@@ -43,6 +45,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ slug:
     const { slug } = await params
     const col = await getCollection<ServicePageDoc>('services')
     await col.deleteOne({ slug })
+    revalidateSite()
     return NextResponse.json({ success: true })
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })

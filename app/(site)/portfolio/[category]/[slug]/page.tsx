@@ -6,6 +6,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import { caseStudySchema, breadcrumbSchema } from '@/lib/schema'
 import Breadcrumbs from '@/components/ui/Breadcrumbs'
 import PortfolioCarousel from '@/components/portfolio/PortfolioCarousel'
+import Image from 'next/image'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -139,8 +140,9 @@ export default async function PortfolioDetailPage({ params }: Props) {
             {item.image && (
               <div className="pd-hero-media">
                 <div className="pd-hero-media-frame">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.image} alt={item.title} className="pd-hero-media-img" />
+                  {/* Hero image: the LCP element on this page, so priority
+                      loads it eagerly instead of waiting on lazy discovery. */}
+                  <Image src={item.image} alt={item.title} width={1280} height={800} priority sizes="(max-width: 900px) 100vw, 900px" className="pd-hero-media-img" />
                 </div>
               </div>
             )}
@@ -235,8 +237,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
 
             {sec.type === 'image' && sec.content && (
               <div className="pd-img-frame">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={sec.content} alt={sec.title || 'Project image'} className="pd-img" />
+                <Image src={sec.content} alt={sec.title || 'Project image'} width={1280} height={800} sizes="(max-width: 900px) 100vw, 900px" className="pd-img" />
               </div>
             )}
 

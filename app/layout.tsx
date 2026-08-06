@@ -55,8 +55,10 @@ import { getTheme, themeToCss } from '@/lib/theme'
 import { getCollection } from '@/lib/db/mongodb'
 import { organizationSchema, webSiteSchema } from '@/lib/schema'
 
-// Read the live theme on every request so admin colour changes apply immediately.
-export const dynamic = 'force-dynamic'
+// Cached and regenerated on demand. Previously force-dynamic, which meant
+// every visitor and every crawl paid a full MongoDB round trip. Admin saves
+// call revalidateSite() so published changes still appear immediately.
+export const revalidate = 3600
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const theme = await getTheme()

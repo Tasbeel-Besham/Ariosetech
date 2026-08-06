@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 const DEFAULT = {
   key: 'footer',
@@ -47,5 +48,6 @@ export async function POST(req: NextRequest) {
     { $set: { ...body, key: 'footer', updatedAt: new Date() } } as never,
     { upsert: true }
   )
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

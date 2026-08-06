@@ -13,7 +13,10 @@ type Props = { params: Promise<{ slug: string }> }
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
-export const dynamic = 'force-dynamic'
+// Cached and regenerated on demand. Previously force-dynamic, which meant
+// every visitor and every crawl paid a full MongoDB round trip. Admin saves
+// call revalidateSite() so published changes still appear immediately.
+export const revalidate = 3600
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -172,8 +175,7 @@ export default async function BlogPostPage({ params }: Props) {
               return (
                 <div className="bp-reviewer">
                   {person.avatar ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={person.avatar} alt={person.name} className="bp-reviewer-photo" />
+                    <Image src={person.avatar} alt={person.name} width={62} height={62} className="bp-reviewer-photo" />
                   ) : (
                     <div className="bp-reviewer-photo bp-reviewer-initial">{person.name.charAt(0)}</div>
                   )}
@@ -216,8 +218,7 @@ export default async function BlogPostPage({ params }: Props) {
                   <div className="bp-side-expert">
                     <div className="bp-side-expert-head">
                       {person.avatar ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={person.avatar} alt={person.name} className="bp-side-expert-photo" />
+                        <Image src={person.avatar} alt={person.name} width={46} height={46} className="bp-side-expert-photo" />
                       ) : (
                         <div className="bp-side-expert-photo bp-reviewer-initial">{person.name.charAt(0)}</div>
                       )}
@@ -269,8 +270,7 @@ export default async function BlogPostPage({ params }: Props) {
                   <div className="bp-trust-card">
                     <div className="bp-trust-card-head">
                       {avatar ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={avatar} alt={name} className="bp-trust-photo" />
+                        <Image src={avatar} alt={name} width={58} height={58} className="bp-trust-photo" />
                       ) : (
                         <div className="bp-trust-photo bp-reviewer-initial">{name.charAt(0)}</div>
                       )}

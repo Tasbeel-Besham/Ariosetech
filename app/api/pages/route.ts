@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { slugify } from '@/lib/utils'
+import { revalidateSite } from '@/lib/cache'
 
 export async function GET() {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -37,5 +38,6 @@ export async function POST(req: NextRequest) {
     createdAt: new Date(), updatedAt: new Date(),
   }
   const result = await col.insertOne(page as never)
+  revalidateSite()
   return NextResponse.json({ ...page, _id: result.insertedId }, { status: 201 })
 }

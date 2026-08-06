@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 type P = { params: Promise<{ id: string }> }
 
@@ -19,6 +20,7 @@ export async function PUT(req: NextRequest, { params }: P) {
   const body = await req.json()
   const col = await getCollection('blogs')
   await col.updateOne({ _id: new ObjectId(id) }, { $set: { ...body, updatedAt: new Date().toISOString() } })
+  revalidateSite()
   return NextResponse.json({ success: true })
 }
 
@@ -26,5 +28,6 @@ export async function DELETE(_: NextRequest, { params }: P) {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await params
   await (await getCollection('blogs')).deleteOne({ _id: new ObjectId(id) })
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

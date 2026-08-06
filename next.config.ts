@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'ariosetech.com' },
       { protocol: 'https', hostname: 'image.thum.io' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
+      // ImgBB is the fallback host in /api/media/upload
+      { protocol: 'https', hostname: 'i.ibb.co' },
     ],
   },
   async redirects() {

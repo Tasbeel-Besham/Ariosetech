@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 function toOid(id: string) {
   try { return new ObjectId(id) } catch { return null }
@@ -31,6 +32,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     { _id: oid } as never,
     { $set: { ...update, updatedAt: new Date().toISOString() } } as never
   )
+  revalidateSite()
   return NextResponse.json({ success: true })
 }
 
@@ -41,5 +43,6 @@ export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id:
   const oid = toOid(id)
   if (!oid) return NextResponse.json({ error: 'Invalid id' }, { status: 400 })
   await col.deleteOne({ _id: oid } as never)
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

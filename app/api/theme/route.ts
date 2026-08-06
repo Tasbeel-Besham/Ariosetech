@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 const DEFAULT = {
   key: 'theme', colorPrimary: '#766cff', colorSecondary: '#9b8fff',
@@ -29,5 +30,6 @@ export async function POST(req: NextRequest) {
     { $set: { ...safe, key: 'theme', updatedAt: new Date() }, $unset: { colorBg: '', colorText: '', colorAccent: '' } } as never,
     { upsert: true },
   )
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

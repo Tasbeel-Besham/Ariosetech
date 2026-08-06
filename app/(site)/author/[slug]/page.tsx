@@ -3,8 +3,12 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getCollection } from '@/lib/db/mongodb'
 import { personSchema, profilePageSchema, breadcrumbSchema } from '@/lib/schema'
+import Image from 'next/image'
 
-export const dynamic = 'force-dynamic'
+// Cached and regenerated on demand. Previously force-dynamic, which meant
+// every visitor and every crawl paid a full MongoDB round trip. Admin saves
+// call revalidateSite() so published changes still appear immediately.
+export const revalidate = 3600
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
@@ -116,9 +120,8 @@ export default async function AuthorPage({ params }: Props) {
           {/* Profile header */}
           <div className="flex flex-col sm:flex-row items-start gap-7 mt-8 mb-12">
             {author.avatar ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={author.avatar} alt={author.name}
-                   className="w-[104px] h-[104px] rounded-2xl object-cover shrink-0 border border-subtle" />
+              <Image src={author.avatar} alt={author.name} width={104} height={104}
+                     className="w-[104px] h-[104px] rounded-2xl object-cover shrink-0 border border-subtle" />
             ) : (
               <div className="w-[104px] h-[104px] rounded-2xl bg-grad flex items-center justify-center font-display text-3xl font-extrabold text-white shrink-0">
                 {author.name.charAt(0)}

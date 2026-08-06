@@ -3,6 +3,7 @@ import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { slugify, slugifyPath } from '@/lib/utils'
 import { ObjectId } from 'mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 type P = { params: Promise<{ id: string }> }
 
@@ -61,6 +62,7 @@ export async function PUT(req: NextRequest, { params }: P) {
   }
 
   await col.updateOne({ _id: new ObjectId(id) }, { $set: updates } as never)
+  revalidateSite()
   return NextResponse.json({ success: true })
 }
 
@@ -68,5 +70,6 @@ export async function DELETE(_: NextRequest, { params }: P) {
   if (!await requireAuth()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await params
   await (await getCollection('pages')).deleteOne({ _id: new ObjectId(id) })
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

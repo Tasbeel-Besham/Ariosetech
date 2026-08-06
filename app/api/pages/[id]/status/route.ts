@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 type P = { params: Promise<{ id: string }> }
 
@@ -14,5 +15,6 @@ export async function PATCH(req: NextRequest, { params }: P) {
     { _id: new ObjectId(id) },
     { $set: { status, updatedAt: new Date() } } as never
   )
+  revalidateSite()
   return NextResponse.json({ success: true })
 }
