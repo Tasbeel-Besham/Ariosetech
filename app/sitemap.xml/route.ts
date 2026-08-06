@@ -1,70 +1,73 @@
-// Rendered per request.
-//
-// This was briefly `revalidate = 3600`. That was wrong for this app: the root
-// layout's force-dynamic had been forcing EVERY page to render per request, so
-// switching it made the whole site prerender at build time — including pages
-// whose files were never touched. Any page whose database read failed or came
-// back empty during the build got that empty result baked in and served until
-// the next revalidation.
-//
-// Caching is still worth doing here, but only once the build is known to reach
-// MongoDB reliably. Correct beats fast.
+// Rendered per request, straight from the database. Never prerendered — a
+// sitemap baked at build time can advertise a stale or empty set of URLs.
 export const dynamic = 'force-dynamic'
 
 import { getCollection } from '@/lib/db/mongodb'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
-// Static routes that are not stored in the pages collection
-const STATIC_ROUTES = [
+/**
+ * Routes that exist as FILES in the app, so they can never 404.
+ *
+ * Everything else — /services, /industries/*, and any other builder page — is
+ * supplied by the `pages` collection below.
+ *
+ * This list previously also hardcoded /services, /services/business-automation,
+ * /about/team, /industries and eleven /industries/* paths. None of those are
+ * code routes: they're builder pages resolved through [...slug]. If one is
+ * unpublished, renamed or deleted in the admin, the URL 404s while the sitemap
+ * keeps submitting it — which is exactly what produces "Submitted URL not
+ * found (404)" in Search Console. They were also redundant, because the pages
+ * loop already emits every published page.
+ */
+const FILE_ROUTES = [
   '/',
   '/about',
   '/contact',
   '/faq',
   '/blog',
-  '/services',
-  '/services/business-automation',
-  '/about/team',
-  '/industries',
-  '/industries/fashion-apparel',
-  '/industries/beauty-cosmetics',
-  '/industries/sports-equipment',
-  '/industries/fragrances-perfumes',
-  '/industries/b2b-wholesale',
-  '/industries/health-wellness',
-  '/industries/home-decor',
-  '/industries/jewelry-accessories',
-  '/industries/transport-logistics',
-  '/industries/telecommunications',
-  '/industries/education',
+  '/privacy-policy',
+  '/terms-of-service',
   '/tools/wordpress-theme-detector',
   '/tools/shopify-theme-detector',
   '/tools/seo-audit',
+  // Always resolve — these four are the base categories in the route's guard.
   '/portfolio/wordpress',
   '/portfolio/woocommerce',
   '/portfolio/shopify',
   '/portfolio/seo',
-  '/privacy-policy',
-  '/terms-of-service',
 ]
 
-type UrlEntry = { loc: string; lastmod?: string; priority: string }
-
-function iso(d: unknown): string | undefined {
-  if (!d) return undefined
-  const date = new Date(d as string | number | Date)
-  return isNaN(date.getTime()) ? undefined : date.toISOString().slice(0, 10)
-}
+type UrlEntry = { loc: string; lastmod?: string }
 
 /**
- * Every DB read here is individually fail-safe.
+ * Escape XML entities.
  *
- * This route is now prerendered at build time rather than run per request. An
- * unhandled throw during prerender does not degrade the sitemap — it fails the
- * entire deployment. A database blip lasting five seconds should never be able
- * to do that, so a failed read degrades to an empty list and the sitemap still
- * ships with its static routes. ISR regenerates the full one within the hour.
+ * A single unescaped `&` in one slug makes the whole document malformed, and
+ * Search Console rejects the entire sitemap with a parse error rather than
+ * skipping the bad line. Cheap insurance against one bad slug taking out
+ * every URL.
  */
+function xml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
+/** W3C date (YYYY-MM-DD), or undefined if the value isn't a usable date. */
+function iso(...candidates: unknown[]): string | undefined {
+  for (const c of candidates) {
+    if (!c) continue
+    const date = new Date(c as string | number | Date)
+    if (!isNaN(date.getTime())) return date.toISOString().slice(0, 10)
+  }
+  return undefined
+}
+
+/** Each read is independently guarded: one failing collection must not empty the sitemap. */
 async function safeFind<T>(name: string, filter: Record<string, unknown>): Promise<T[]> {
   try {
     const col = await getCollection(name)
@@ -84,44 +87,54 @@ export async function GET() {
   ])
 
   const entries = new Map<string, UrlEntry>()
-  const add = (path: string, lastmod?: string, priority = '0.8') => {
-    const loc = `${SITE_URL}${path === '/' ? '/' : path.replace(/\/+$/, '')}`
-    if (!entries.has(loc)) entries.set(loc, { loc, lastmod, priority })
+  const add = (path: string, lastmod?: string) => {
+    if (!path || !path.startsWith('/')) return
+    const clean = path === '/' ? '/' : path.replace(/\/+$/, '')
+    const loc = `${SITE_URL}${clean}`
+    // First write wins, so a file route never gets overwritten by a DB row.
+    if (!entries.has(loc)) entries.set(loc, { loc, lastmod })
   }
 
-  for (const r of STATIC_ROUTES) add(r, undefined, r === '/' ? '1.0' : '0.7')
+  for (const r of FILE_ROUTES) add(r)
 
   for (const p of pages) {
-    const doc = p as unknown as { fullPath: string; updatedAt?: Date; seo?: { robots?: { index?: boolean } } }
-    if (doc.seo?.robots?.index === false) continue // don't advertise noindexed pages
-    add(doc.fullPath, iso(doc.updatedAt), '0.9')
+    if (p?.seo?.robots?.index === false) continue // don't advertise noindexed pages
+    add(String(p.fullPath || ''), iso(p.updatedAt, p.createdAt))
   }
 
-  for (const a of authors as Record<string, any>[]) {
-    if (a?.slug) add(`/author/${a.slug}`, undefined, '0.5')
+  for (const a of authors) {
+    if (a?.slug) add(`/author/${a.slug}`, iso(a.updatedAt))
   }
 
   for (const b of blogs) {
-    const doc = b as unknown as { slug: string; updatedAt?: string }
-    add(`/blog/${doc.slug}`, iso(doc.updatedAt), '0.6')
+    // `date` as a fallback — many posts carry only a publish date, and a
+    // sitemap with no lastmod anywhere gives Google nothing to prioritise on.
+    if (b?.slug) add(`/blog/${b.slug}`, iso(b.updatedAt, b.date))
   }
 
   for (const item of portfolio) {
-    const doc = item as unknown as { slug: string; category?: string; updatedAt?: string }
-    if (doc.category && doc.slug) add(`/portfolio/${doc.category}/${doc.slug}`, iso(doc.updatedAt), '0.6')
+    if (!item?.slug) continue
+    // Lowercased, and defaulted to 'other' exactly as the route does. The
+    // category was previously used raw: a project stored as "Shopify"
+    // produced /portfolio/Shopify/slug in the sitemap while the page's own
+    // canonical said /portfolio/shopify/slug — a self-inflicted duplicate.
+    // Items with no category were skipped entirely, so they never appeared.
+    const cat = String(item.category || 'other').toLowerCase()
+    add(`/portfolio/${cat}/${item.slug}`, iso(item.updatedAt, item.date))
   }
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${[...entries.values()].map(u => `  <url>
-    <loc>${u.loc}</loc>${u.lastmod ? `
+    <loc>${xml(u.loc)}</loc>${u.lastmod ? `
     <lastmod>${u.lastmod}</lastmod>` : ''}
-    <changefreq>weekly</changefreq>
-    <priority>${u.priority}</priority>
   </url>`).join('\n')}
 </urlset>`
 
-  return new Response(xml, {
-    headers: { 'Content-Type': 'application/xml' },
+  return new Response(body, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400',
+    },
   })
 }

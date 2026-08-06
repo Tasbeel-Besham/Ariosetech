@@ -1,85 +1,82 @@
-# URGENT — rollback + serialization fix
+# Sitemap fixes
 
-10 files. Apply on top of everything else and redeploy. This reverts a change
-of mine that broke your site.
+One file: `app/sitemap.xml/route.ts`. Apply after the rollback zip.
 
-Verified: `next build` compiles with **no database access at build time** and
-`tsc` 0 errors, `eslint` 0 errors.
+Verified: `next build` compiles, `tsc` 0 errors, and the generation logic was
+tested against hostile input (ampersands in slugs, trailing slashes, missing
+dates, duplicates, malformed paths).
 
 ---
 
-## What I broke
+## 1. Fifteen URLs were being submitted that may not exist
 
-Your original `app/layout.tsx` had `export const dynamic = 'force-dynamic'`.
-Because it was on the **root layout**, it forced *every page in the app* to
-render per request. I read that as a performance problem and changed it to
-`revalidate = 3600`.
+This is the most likely source of Search Console errors.
 
-That flipped the entire site from "always fresh from the database" to
-"prerendered at build time" — **including pages whose files I never edited.**
+`STATIC_ROUTES` hardcoded `/services`, `/services/business-automation`,
+`/about/team`, `/industries` and eleven `/industries/*` paths. **None of those
+are code routes.** They're builder pages resolved through `[...slug]`, so they
+only exist while a matching published page sits in the database.
 
-The consequence: any page whose database read failed or returned empty *during
-the build* had that empty result baked into the deployment and served to
-everyone. That is exactly your blog page with no blogs, and your portfolio page
-still saying "No projects to show yet" — I confirmed the latter is live right
-now.
+Unpublish one, rename its slug, or delete it, and the URL 404s — while the
+sitemap keeps submitting it. That is exactly what produces **"Submitted URL not
+found (404)"** in Search Console.
 
-I then made it worse by adding `generateStaticParams` to four routes, which
-made the build itself depend on MongoDB being reachable. Vercel's build
-machines are not usually in a MongoDB Atlas IP allowlist, so a build that can't
-connect produces a site full of empty pages, silently, with a green checkmark.
+They were also redundant: the pages loop already emits every published page,
+with a real `lastmod`. The hardcoded list now contains only the 14 routes that
+exist as files and therefore cannot 404.
 
-**This is my error, not a configuration problem on your side.** The caching idea
-was sound; applying it to a root layout that was deliberately dynamic was not,
-and I should have treated `force-dynamic` on a root layout as a decision someone
-made on purpose rather than an oversight.
+**Check this first.** Search Console → Pages → "Submitted URL not found (404)".
+If `/about/team` or any `/industries/*` path is listed, that's this bug.
 
-## What this zip does
+## 2. Portfolio URLs could contradict their own canonical
 
-1. **Restores `force-dynamic`** on the root layout and the 7 other routes I
-   changed. Back to your original rendering behaviour.
-2. **Removes all 4 `generateStaticParams`**, so the build no longer touches the
-   database at all.
-3. **Fixes a second bug** (below).
+The category was used raw: a project stored as `"Shopify"` produced
+`/portfolio/Shopify/thekapra` in the sitemap, while the page's own canonical
+says `/portfolio/shopify/thekapra`. You were submitting a URL that the page
+itself disowns — Search Console reports that as **"Duplicate, submitted URL not
+selected as canonical"** or **"Alternate page with proper canonical tag."**
 
-Everything else stays: the server-side data hydration still runs — now per
-request, which is where it always should have been. Your portfolio and blog
-content will be in the server HTML *and* always current.
+Now lowercased to match the route exactly.
 
-## The second bug
+Related: items with no category were skipped entirely, so any case study missing
+one was never submitted at all. They now default to `other`, matching what the
+route does.
 
-`lib/builder/server-data.ts` passed raw MongoDB documents into `BuilderRenderer`,
-which is a Client Component. A Mongo document carries an `ObjectId` `_id` and
-`Date` fields — class instances React cannot serialize across the
-server/client boundary. That throws *"Only plain objects can be passed to Client
-Components"*, which takes down the **entire page**, not just the section.
+## 3. One bad slug could invalidate the entire sitemap
 
-Any builder page containing a blog section would have crashed. Now every field
-is mapped to a plain string or number before it crosses the boundary.
+There was no XML escaping. A single `&` in a blog slug makes the document
+malformed, and Search Console rejects **the whole sitemap** with a parse error
+rather than skipping the bad line — so one typo silently costs you every URL.
+
+Now escaped, and tested with `&` and quotes in slugs.
+
+## 4. Smaller things
+
+- **`lastmod` fallback** — blogs and case studies used only `updatedAt`. Posts
+  carrying just a `date` produced no `lastmod` at all. Now falls back to `date`,
+  then `createdAt`.
+- **`changefreq` and `priority` removed** — Google has ignored both for years.
+  They were noise.
+- **`Content-Type`** now declares `charset=utf-8`.
+- **Cache headers** — one hour at the CDN with stale-while-revalidate, so
+  repeated crawler fetches don't each hit MongoDB. The route itself stays
+  `force-dynamic`.
+
+---
+
+## What I could not check
+
+I could not fetch your live sitemap or the `/industries/*` pages from here, so I
+cannot confirm which of those 15 URLs currently 404. The fix removes the risk
+either way, but the Search Console coverage report will tell you what damage was
+already done.
 
 ## After deploying
 
-1. `/blog` — posts should be back
-2. `/portfolio` — projects should be back; also check
-   `view-source:` and search for a client name, it should be in the raw HTML
-3. `/contact` — confirm the form is back
-4. `/about` — confirm the icons render
-
-## About re-introducing caching later
-
-Worth doing, but not before verifying your MongoDB Atlas Network Access allows
-Vercel to connect during builds, and then only on individual pages — never on
-the root layout, where one line silently changes every route in the app.
-
----
-
-## Still unexplained
-
-I could not reproduce the **About page icon** problem. Those icons are inline
-`<svg>` elements hardcoded in `app/(site)/about/page.tsx`, and I verified that
-file is byte-identical to your original — I never touched it, nor `Icons.tsx`,
-nor `contact/page.tsx`. I also diffed `globals.css` against your original and
-confirmed nothing was removed except the intended `.pfc-shot` block.
-
-If the icons are still wrong after this deploy, send me a screenshot and I'll
-chase it properly rather than guess.
+1. Load `https://ariosetech.com/sitemap.xml` — confirm it renders and that no
+   `/industries/*` path appears unless that page really exists.
+2. Search Console → Sitemaps → resubmit.
+3. Pages report → check "Submitted URL not found (404)" shrinks over the next
+   few crawls.
+4. Spot-check one case-study URL from the sitemap against the canonical in that
+   page's source — they should match character for character.
