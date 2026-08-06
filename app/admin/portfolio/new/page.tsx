@@ -232,6 +232,12 @@ export default function NewPortfolio() {
         {mediaTarget && (
           <MediaPickerModal 
             onClose={() => setMediaTarget(null)}
+            // The gallery takes many images, so it opens in multi-select.
+            multiple={mediaTarget === 'gallery'}
+            onSelectMany={(urls) => {
+              set('gallery', [...(form.gallery ? form.gallery.split('\n').filter(Boolean) : []), ...urls].join('\n'))
+              setMediaTarget(null)
+            }}
             onSelect={(url) => {
               if (mediaTarget === 'gallery') {
                 set('gallery', [...(form.gallery ? form.gallery.split('\n').filter(Boolean) : []), url].join('\n'))

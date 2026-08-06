@@ -515,15 +515,24 @@ export default function EditPortfolio() {
         </div>
 
         {mediaTarget && (
-          <MediaPickerModal 
+          <MediaPickerModal
             onClose={() => setMediaTarget(null)}
+            // The gallery takes many images, so it opens in multi-select.
+            // Every other target is a single field.
+            multiple={mediaTarget === 'gallery'}
+            onSelectMany={(urls) => {
+              setMeta(m => ({
+                ...m,
+                gallery: [...(m.gallery ? m.gallery.split('\n').filter(Boolean) : []), ...urls].join('\n'),
+              }))
+              setMediaTarget(null)
+            }}
             onSelect={(url) => {
               if (mediaTarget === 'meta') {
                 setMeta(m => ({ ...m, image: url }))
               } else if (mediaTarget === 'screenshot') {
                 setMeta(m => ({ ...m, screenshot: url }))
               } else if (mediaTarget === 'gallery') {
-                // Append the chosen image to the gallery (newline-separated).
                 setMeta(m => ({ ...m, gallery: [...(m.gallery ? m.gallery.split('\n').filter(Boolean) : []), url].join('\n') }))
               } else {
                 update(mediaTarget, { value: url })

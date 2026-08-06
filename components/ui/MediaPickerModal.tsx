@@ -5,6 +5,19 @@ import { uploadImageFiles } from '@/lib/media/upload'
 
 type MediaItem = { _id: string; url: string; alt?: string }
 
+type Props = {
+  onClose: () => void
+  /** Single-select: fires on click and the modal closes. */
+  onSelect: (url: string) => void
+  /**
+   * Multi-select. Clicking toggles a selection instead of closing, and
+   * `onSelectMany` fires once with everything chosen. For galleries, where
+   * picking eight images one modal-open at a time is miserable.
+   */
+  multiple?: boolean
+  onSelectMany?: (urls: string[]) => void
+}
+
 /**
  * Media library picker.
  *
@@ -16,13 +29,14 @@ type MediaItem = { _id: string; url: string; alt?: string }
  *
  * Props are unchanged, so every existing call site keeps working.
  */
-export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, onSelect: (url: string) => void }) {
+export function MediaPickerModal({ onClose, onSelect, multiple = false, onSelectMany }: Props) {
   const [items, setItems]         = useState<MediaItem[]>([])
   const [loading, setLoading]     = useState(true)
   const [uploading, setUploading] = useState(false)
   const [error, setError]         = useState('')
   const [progress, setProgress]   = useState('')
   const [query, setQuery]         = useState('')
+  const [picked, setPicked]       = useState<string[]>([])
   const fileRef = useRef<HTMLInputElement>(null)
 
   const load = useCallback(() => {
@@ -42,6 +56,16 @@ export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, o
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
+  const confirm = () => {
+    if (picked.length === 0) return
+    if (onSelectMany) onSelectMany(picked)
+    else picked.forEach(onSelect)
+  }
+
+  // Order matters — a gallery renders in the order images were picked.
+  const toggle = (url: string) =>
+    setPicked(p => (p.includes(url) ? p.filter(u => u !== url) : [...p, url]))
+
   const handleFiles = async (files: File[]) => {
     if (!files.length) return
     setUploading(true)
@@ -57,6 +81,13 @@ export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, o
 
       if (errors.length) setError(errors.join(' · '))
       if (urls.length) await load()
+
+      if (multiple) {
+        // Freshly uploaded images join the selection rather than closing the
+        // modal — you're usually mid-way through building a gallery.
+        setPicked(p => [...p, ...urls.filter(u => !p.includes(u))])
+        return
+      }
       // One file in, one field to fill — select it and get out of the way.
       if (urls.length === 1 && !errors.length) { onSelect(urls[0]); return }
     } catch (e) {
@@ -123,22 +154,63 @@ export function MediaPickerModal({ onClose, onSelect }: { onClose: () => void, o
             </div>
           ) : (
             <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
-              {visible.map(item => (
-                <button
-                  key={item._id}
-                  onClick={() => onSelect(item.url)}
-                  className="border border-subtle bg-bg-3 rounded-lg p-2 cursor-pointer flex items-center justify-center h-[100px] w-full overflow-hidden hover:border-primary transition-colors"
-                  title={item.alt || item.url}
-                >
-                  {/* object-top so tall full-page screenshots show their header,
-                      which is how you recognise which site it is. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.url} alt={item.alt || 'Media'} className="max-w-full max-h-full object-contain object-top" />
-                </button>
-              ))}
+              {visible.map(item => {
+                const order = picked.indexOf(item.url)
+                const isPicked = order !== -1
+                return (
+                  <button
+                    key={item._id}
+                    onClick={() => (multiple ? toggle(item.url) : onSelect(item.url))}
+                    className={`relative bg-bg-3 rounded-lg p-2 cursor-pointer flex items-center justify-center h-[100px] w-full overflow-hidden border transition-colors ${
+                      isPicked ? 'border-primary ring-1 ring-primary' : 'border-subtle hover:border-primary'
+                    }`}
+                    title={item.alt || item.url}
+                  >
+                    {/* object-top so tall full-page screenshots show their header,
+                        which is how you recognise which site it is. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.url} alt={item.alt || 'Media'} className="max-w-full max-h-full object-contain object-top" />
+                    {isPicked && (
+                      // The number, not a tick — in a gallery, pick order is
+                      // render order.
+                      <span className="absolute top-1 right-1 w-5 h-5 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center">
+                        {order + 1}
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
             </div>
           )}
         </div>
+
+        {/* Footer — multi-select only */}
+        {multiple && (
+          <div className="p-4 border-t border-subtle flex items-center justify-between gap-3">
+            <span className="font-mono text-[11px] text-text-3">
+              {picked.length === 0 ? 'Nothing selected' : `${picked.length} selected`}
+            </span>
+            <div className="flex items-center gap-2">
+              {picked.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setPicked([])}
+                  className="px-3 py-2 rounded-md bg-transparent border border-border text-text-3 text-xs cursor-pointer hover:text-white transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={confirm}
+                disabled={picked.length === 0}
+                className="px-4 py-2 rounded-md bg-primary text-white text-xs font-semibold border-none cursor-pointer disabled:opacity-40 disabled:cursor-default hover:opacity-90 transition-opacity"
+              >
+                Add {picked.length > 0 ? picked.length : ''} {picked.length === 1 ? 'image' : 'images'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
