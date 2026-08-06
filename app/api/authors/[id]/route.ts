@@ -3,6 +3,7 @@ import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { slugify } from '@/lib/utils'
 import { ObjectId } from 'mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,6 +35,7 @@ export async function PUT(req: NextRequest, { params }: P) {
   delete (updates as Record<string, unknown>)._id
 
   await col.updateOne({ _id: new ObjectId(id) } as never, { $set: updates } as never)
+  revalidateSite()
   return NextResponse.json({ success: true })
 }
 
@@ -42,5 +44,6 @@ export async function DELETE(_req: NextRequest, { params }: P) {
   const { id } = await params
   const col = await getCollection('authors')
   await col.deleteOne({ _id: new ObjectId(id) } as never)
+  revalidateSite()
   return NextResponse.json({ success: true })
 }

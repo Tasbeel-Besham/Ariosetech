@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { slugify } from '@/lib/utils'
+import { revalidateSite } from '@/lib/cache'
 
 export const dynamic = 'force-dynamic'
 
@@ -55,5 +56,6 @@ export async function POST(req: NextRequest) {
     updatedAt: new Date(),
   }
   const result = await col.insertOne(doc as never)
+  revalidateSite()
   return NextResponse.json({ _id: result.insertedId, ...doc }, { status: 201 })
 }

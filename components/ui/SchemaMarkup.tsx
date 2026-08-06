@@ -75,12 +75,15 @@ export default function SchemaMarkup({
         addressCountry: 'PK',
       },
       areaServed: ['PK', 'US', 'AE', 'CH', 'GB'],
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '5.0',
-        reviewCount: '30',
-        bestRating: '5',
-      },
+      // NO aggregateRating here. Google does not display review snippets for
+      // LocalBusiness/Organization (or subtypes like ProfessionalService) when
+      // the entity being reviewed controls the reviews — "self-serving"
+      // reviews. It earns zero rich results and risks a Spammy Structured
+      // Markup manual action, which strips rich results across the domain.
+      // This block also claimed 5.0/30 while the page visibly showed 4.9/16
+      // (Clutch); structured data contradicting visible content is exactly
+      // what that manual action targets. The visible Clutch and Google links
+      // are the correct way to carry this trust signal.
       sameAs: [
         'https://wa.me/923009484739',
       ],

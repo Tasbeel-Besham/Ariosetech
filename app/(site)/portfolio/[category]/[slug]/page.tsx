@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Check, ExternalLink } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
@@ -8,7 +8,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs'
 import PortfolioCarousel from '@/components/portfolio/PortfolioCarousel'
 import Image from 'next/image'
 
-type Props = { params: Promise<{ slug: string }> }
+type Props = { params: Promise<{ category: string; slug: string }> }
 
 type PortfolioSection = { id: string; type: string; title: string; content: string; items?: string[] }
 
@@ -31,10 +31,38 @@ async function getItem(slug: string) {
   } catch { return null }
 }
 
+/** The one canonical path for an item. */
+function canonicalPath(item: { category?: string; slug: string }): string {
+  return `/portfolio/${(item.category || 'other').toLowerCase()}/${item.slug}`
+}
+
+/**
+ * Prerender published case studies. Falls back to on-demand rendering if the
+ * database is unreachable rather than failing the build.
+ */
+export async function generateStaticParams() {
+  try {
+    const col = await getCollection<PortfolioItem>('portfolio')
+    const items = await col.find({ published: true }).toArray()
+    return items
+      .filter(i => i.slug)
+      .map(i => ({ category: (i.category || 'other').toLowerCase(), slug: String(i.slug) }))
+  } catch (e) {
+    console.error('[build] could not enumerate case studies:', e)
+    return []
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
+  const { category, slug } = await params
   const item = await getItem(slug)
   if (!item) return {}
+  // The category segment was previously ignored, so /portfolio/<anything>/<slug>
+  // served identical content at unlimited URLs. Mismatches are noindexed here
+  // and 301'd in the page component.
+  if ((category || '').toLowerCase() !== (item.category || 'other').toLowerCase()) {
+    return { robots: 'noindex,follow' }
+  }
   return {
     title: `${item.title}, Case Study`,
     alternates: { canonical: `https://ariosetech.com/portfolio/${(item.category||'other').toLowerCase()}/${item.slug}` },
@@ -50,9 +78,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PortfolioDetailPage({ params }: Props) {
-  const { slug } = await params
+  const { category, slug } = await params
   const item = await getItem(slug)
   if (!item) notFound()
+
+  // Send any wrong-category URL to the single canonical one with a 301. A
+  // redirect rather than a 404 so existing inbound links keep working and pass
+  // their authority on.
+  if ((category || '').toLowerCase() !== (item.category || 'other').toLowerCase()) {
+    permanentRedirect(canonicalPath(item))
+  }
 
   // Normalize fields that may arrive as a comma-separated string (from the seed
   // or the admin form) or as an array. Calling .map() on a string crashes SSR.

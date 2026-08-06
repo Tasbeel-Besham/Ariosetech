@@ -175,6 +175,11 @@ export function organizationSchema(opts?: {
       },
     } : {}),
     ...(o.sameAs && o.sameAs.length ? { sameAs: o.sameAs } : {}),
+    // WARNING: do not pass ratingValue/reviewCount for ARIOSETECH's own
+    // Organization. Google does not show review snippets when the reviewed
+    // entity controls the reviews, and markup that contradicts what the page
+    // visibly displays is a Spammy Structured Markup manual-action risk.
+    // Kept only for legitimate future use on Product/Service entities.
     ...(o.ratingValue && o.reviewCount ? {
       aggregateRating: {
         '@type': 'AggregateRating',

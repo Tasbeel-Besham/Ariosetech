@@ -99,8 +99,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       },
       sameAs: [s.facebook, s.instagram, s.linkedin, 'https://clutch.co/profile/ariosetech']
         .filter(Boolean) as string[],
-      ratingValue: '4.9',
-      reviewCount: '16',
+      // ratingValue/reviewCount deliberately omitted — see SchemaMarkup.tsx.
+      // Self-serving Organization ratings are ineligible for rich results and
+      // are a manual-action risk.
     })
     siteLd = webSiteSchema()
   } catch {

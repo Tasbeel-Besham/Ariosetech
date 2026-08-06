@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
 import { hashPassword } from '@/lib/auth'
 import { ObjectId } from 'mongodb'
+import { revalidateSite } from '@/lib/cache'
 
 let counter = 1
 function sec(type: string, props: Record<string, unknown> = {}) {
@@ -1414,6 +1415,7 @@ export async function POST(req: NextRequest) {
       { upsert: true }
     )
 
+    revalidateSite()
     return NextResponse.json({ success: true, seeded: { pages: PAGES.length, blogs: BLOGS.length, portfolio: PORTFOLIO_DB.length, services: SERVICES_DB.length }, message: 'All pages and services seeded.' })
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 })
