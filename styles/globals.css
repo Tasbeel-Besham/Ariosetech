@@ -2783,20 +2783,36 @@ select,
 
 
 
-/* ── Breadcrumb bar ───────────────────────────────────────────────────
-   Rendered site-wide from the layout, directly under the fixed 64px header.
 
-   The bar owns the header clearance. The first section on the page used to
-   carry its own (.hero-section-wrapper > .container had pt-[88px], .section
-   100px, .pd-hero 100px) and the two stacked into roughly 200px of empty
-   space. `.with-breadcrumbs` on <main> collapses the second one.
+/* ── Breadcrumb bar ───────────────────────────────────────────────────
+   Rendered site-wide from the layout.
+
+   TWO THINGS THIS GETS RIGHT THAT EARLIER VERSIONS DID NOT:
+
+   1. No header clearance. .nav-header is `position: sticky`, not fixed, so it
+      occupies space in normal flow and content already begins below it. The
+      old `pt-[92px]` on the breadcrumb wrapper — and the 82px that replaced
+      it — were pure waste stacked on top of the hero's own 88px.
+
+   2. No background seam. The bar is pulled up into the section below with a
+      negative margin, so the hero's decorative backdrop (grid + glow) paints
+      behind it. Previously the bar sat above that backdrop on the flat page
+      background, producing the visible horizontal edge.
+
+   Net effect: the breadcrumb lives inside the hero's existing top padding
+   rather than adding a band of its own.
 ──────────────────────────────────────────────────────────────────────── */
 .breadcrumb-bar {
+  position: relative;
+  z-index: 5;                 /* above .hero-backdrop (z-0), below nothing else */
   width: 100%;
   max-width: 1240px;
-  margin: 0 auto;
-  padding: 82px clamp(20px, 4vw, 48px) 0;
+  margin: 0 auto -32px;       /* pull the next section up underneath */
+  padding: 20px clamp(20px, 4vw, 48px) 0;
+  pointer-events: none;       /* the empty half of the row must not eat clicks
+                                 on the hero beneath it */
 }
+.breadcrumb-bar .bc-list { pointer-events: auto; }
 
 .bc-list {
   display: flex;
@@ -2806,8 +2822,10 @@ select,
   list-style: none;
   margin: 0;
   padding: 0;
-  /* Long trails scroll rather than wrap onto a second line, which would
-     reintroduce the height this fix removes. */
+  width: fit-content;
+  max-width: 100%;
+  /* Long trails scroll rather than wrap to a second line, which would add back
+     the height this is meant to remove. */
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -2827,10 +2845,7 @@ select,
   text-decoration: none;
 }
 
-.bc-link {
-  color: var(--text-3);
-  transition: color 0.16s var(--ease, ease);
-}
+.bc-link { color: var(--text-3); transition: color 0.16s var(--ease, ease); }
 .bc-link:hover { color: var(--primary); }
 
 .bc-home { display: inline-flex; align-items: center; gap: 6px; }
@@ -2839,40 +2854,35 @@ select,
 
 .bc-current {
   color: var(--text-2);
-  /* Keeps a long case-study or post title from pushing the row wide. */
-  max-width: 38ch;
+  max-width: 38ch;            /* a long case-study title can't widen the row */
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.bc-sep {
-  color: var(--text-3);
-  opacity: 0.3;
-  font-size: 10px;
-  line-height: 1;
-  user-select: none;
-}
+.bc-sep { color: var(--text-3); opacity: 0.3; font-size: 10px; line-height: 1; user-select: none; }
 
-/* ── Collapse the following section's own header clearance ── */
-.with-breadcrumbs .hero-section-wrapper > .container { padding-top: 26px; }
-.with-breadcrumbs > section:first-of-type.section { padding-top: 40px; }
+/* ── Tighten the first section's top padding ──
+   It only needs enough room to clear the overlapping breadcrumb plus a little
+   breathing space — not the full standalone-hero value. */
+.with-breadcrumbs .hero-section-wrapper > .container { padding-top: 60px; }
+.with-breadcrumbs > section:first-of-type.section { padding-top: 76px; }
 .with-breadcrumbs .pd-hero,
-.with-breadcrumbs .dt-hero { padding-top: 26px; }
-.with-breadcrumbs .faqp-main { padding-top: 40px; }
+.with-breadcrumbs .dt-hero { padding-top: 76px; }
+.with-breadcrumbs .faqp-main { padding-top: 76px; }
 
 @media (max-width: 768px) {
-  .breadcrumb-bar { padding-top: 74px; }
+  .breadcrumb-bar { padding-top: 14px; margin-bottom: -26px; }
   .bc-current { max-width: 22ch; }
-  .with-breadcrumbs .hero-section-wrapper > .container { padding-top: 18px; }
-  .with-breadcrumbs > section:first-of-type.section { padding-top: 28px; }
+  .with-breadcrumbs .hero-section-wrapper > .container { padding-top: 46px; }
+  .with-breadcrumbs > section:first-of-type.section { padding-top: 56px; }
   .with-breadcrumbs .pd-hero,
-  .with-breadcrumbs .dt-hero { padding-top: 18px; }
-  .with-breadcrumbs .faqp-main { padding-top: 28px; }
+  .with-breadcrumbs .dt-hero { padding-top: 56px; }
+  .with-breadcrumbs .faqp-main { padding-top: 56px; }
 }
 
 @media (max-width: 640px) {
   /* .section carries !important at this breakpoint, so match it. */
-  .with-breadcrumbs > section:first-of-type.section { padding-top: 28px !important; }
+  .with-breadcrumbs > section:first-of-type.section { padding-top: 56px !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
