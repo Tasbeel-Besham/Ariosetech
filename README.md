@@ -1,64 +1,67 @@
-# Portfolio hover pan — slower, steadier
+# IndexNow — instant indexing for Bing / ChatGPT / Copilot / Perplexity
 
-Two files. Apply after all previous zips (`styles/globals.css` overlaps and this
-is newest).
+2 new files. Nothing overwritten. Safe to deploy before setup — with no
+`INDEXNOW_KEY` set, everything is a silent no-op.
 
 Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors.
 
----
+## What this is and isn't
 
-## Why it felt fast
+IndexNow pushes a "this URL changed" notification to search engines instead of
+waiting for a crawler. Bing, Yandex, Seznam, Naver and Yep support it.
 
-Two causes, and the second mattered more than the first.
+**Google does not**, and hasn't since the protocol launched in 2021. This does
+nothing for Google — sitemap and Search Console remain your only levers there.
+It is also **not a ranking factor**; it affects discovery speed only.
 
-**1. The speed was too high.** 420 px/s of image travel inside a ~400px frame
-is quick — the whole page went by in about three seconds.
+The reason to bother: Bing's index is what ChatGPT Search and Microsoft Copilot
+run on, and a significant source for Perplexity. Your buyers increasingly ask an
+assistant for agency shortlists. Being in that index within minutes instead of
+weeks is worth fifteen minutes of setup.
 
-**2. The easing doubled it in the middle.** The pan used
-`cubic-bezier(0.4, 0, 0.25, 1)`, a symmetric ease-in-out. That shape peaks at
-roughly **twice its average speed** halfway through, so even a reasonable
-average read as a whip through the centre of the image — exactly the part
-someone is trying to look at.
+## Setup
 
-## What changed
+1. Generate a key:
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"
+   ```
+2. Create `public/<key>.txt` containing exactly that key, nothing else. It must
+   resolve at `https://ariosetech.com/<key>.txt`. A static file in `/public` is
+   served ahead of any route, which is why it goes there and not in a handler.
+3. Vercel → Settings → Environment Variables → `INDEXNOW_KEY=<key>`
+4. Redeploy, then confirm the key file loads in a browser.
 
-| | Before | After |
-|---|---|---|
-| Speed | 420 px/s | 165 px/s |
-| Peak speed | ~2x average | ~1.2x average |
-| Max duration | 9s | 16s |
-| Return | 650ms | 520ms |
+## Use
 
-The pan easing is now `cubic-bezier(0.25, 0.1, 0.75, 0.9)` — close to linear
-with soft ends, because reading a page is a steady motion, not a swing. The
-return keeps a normal ease-out; snapping back should feel like a release.
+```bash
+# everything published
+curl -X POST https://ariosetech.com/api/indexnow \
+  -H 'Cookie: admin_token=<your session cookie>'
 
-Raising the cap from 9s to 16s matters more than it looks: with a 9s ceiling,
-any screenshot needing more than that was silently sped up to fit. Long pages
-now travel at the same rate as short ones instead of rushing.
-
-A typical 1400x6000 screenshot in a 400px frame now takes about 8.5 seconds
-end to end, versus roughly 3.4 before.
-
-## Also added: hover intent
-
-A 140ms delay before the pan starts. Sweeping the cursor across the grid used to
-set every card it touched into motion at once, which read as chaotic. The timer
-is cleared on mouse-out and on unmount, so filtering the grid mid-hover doesn't
-leave a pending animation behind.
-
-## Tuning
-
-Top of `components/sections/PortfolioSection.tsx`:
-
-```ts
-const PAN_SPEED_PX_PER_SEC = 165   // lower = slower
-const MIN_PAN_MS           = 1800
-const MAX_PAN_MS           = 16000
-const RETURN_MS            = 520
-const START_DELAY_MS       = 140
+# specific URLs
+curl -X POST https://ariosetech.com/api/indexnow \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: admin_token=<your session cookie>' \
+  -d '{"urls":["/blog/my-new-post"]}'
 ```
 
-Speed is the only one worth touching. Try 130 if it's still brisk, 200 if it now
-drags. Duration is derived from real travel distance, so changing it keeps every
-card consistent regardless of screenshot height.
+Auth is required — without it anyone could make your site spam the protocol,
+which is how a host gets rate-limited.
+
+## Why it isn't wired into every save
+
+The protocol asks you to submit on real changes only. Re-submitting the whole
+site every time someone fixes a typo is exactly the behaviour that gets a host
+throttled. So this is deliberate: call it after publishing something new or
+making a substantive update.
+
+If you'd rather automate it, the right trigger is your publish action with the
+single affected URL — not a bulk resubmit. `submitUrlsInBackground(['/blog/x'])`
+from `lib/indexnow.ts` does that without delaying the response.
+
+## Errors
+
+- **403** — key file unreachable or contents don't match `INDEXNOW_KEY`
+- **422** — a URL was off-host, or the key format was rejected
+
+Both are logged, never thrown. A failed submission can't break an admin save.
