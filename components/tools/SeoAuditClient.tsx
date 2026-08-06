@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { Search } from '@/components/ui/Icons'
+import Link from 'next/link'
 
 type Check = {
   id: string
@@ -125,7 +126,7 @@ export default function SeoAuditClient() {
           {/* Honest scope note + CTA */}
           <p className="seo-audit-note">
             This checks on-page technical SEO from your page&apos;s HTML. A full audit also covers site speed,
-            backlinks, and a complete crawl &mdash; <a href="/contact">get a complete SEO audit from our team →</a>
+            backlinks, and a complete crawl &mdash; <Link href="/contact">get a complete SEO audit from our team →</Link>
           </p>
         </div>
       )}

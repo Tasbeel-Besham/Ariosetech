@@ -48,18 +48,31 @@ function iso(d: unknown): string | undefined {
   return isNaN(date.getTime()) ? undefined : date.toISOString().slice(0, 10)
 }
 
+/**
+ * Every DB read here is individually fail-safe.
+ *
+ * This route is now prerendered at build time rather than run per request. An
+ * unhandled throw during prerender does not degrade the sitemap — it fails the
+ * entire deployment. A database blip lasting five seconds should never be able
+ * to do that, so a failed read degrades to an empty list and the sitemap still
+ * ships with its static routes. ISR regenerates the full one within the hour.
+ */
+async function safeFind<T>(name: string, filter: Record<string, unknown>): Promise<T[]> {
+  try {
+    const col = await getCollection(name)
+    return (await col.find(filter as never).toArray()) as T[]
+  } catch (e) {
+    console.error(`[sitemap] could not read "${name}":`, e)
+    return []
+  }
+}
+
 export async function GET() {
-  const [pagesCol, blogsCol, portfolioCol, authorsCol] = await Promise.all([
-    getCollection('pages'),
-    getCollection('blogs'),
-    getCollection('portfolio'),
-    getCollection('authors'),
-  ])
   const [pages, blogs, portfolio, authors] = await Promise.all([
-    pagesCol.find({ status: 'published' }).toArray(),
-    blogsCol.find({ published: true }).toArray(),
-    portfolioCol.find({ published: true }).toArray().catch(() => []),
-    authorsCol.find({ published: { $ne: false } } as never).toArray().catch(() => []),
+    safeFind<Record<string, any>>('pages',     { status: 'published' }),
+    safeFind<Record<string, any>>('blogs',     { published: true }),
+    safeFind<Record<string, any>>('portfolio', { published: true }),
+    safeFind<Record<string, any>>('authors',   { published: { $ne: false } }),
   ])
 
   const entries = new Map<string, UrlEntry>()

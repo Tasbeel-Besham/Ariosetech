@@ -288,9 +288,9 @@ function renderBentoContent(text: string) {
   if (!text) return null;
   
   const lines = text.split('\n');
-  let introPara: string[] = [];
-  let columns: { title: string, items: string[] }[] = [];
-  let outroPara: string[] = [];
+  const introPara: string[] = [];
+  const columns: { title: string, items: string[] }[] = [];
+  const outroPara: string[] = [];
   let currentColumn = -1;
   let parsingColumns = false;
   

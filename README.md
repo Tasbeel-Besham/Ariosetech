@@ -1,132 +1,141 @@
-# ARIOSETECH — SEO fix pack (items 1, 2, 3, 5)
+# ARIOSETECH — build hardening (remaining fixes)
 
-Extract into your `ariosetech-v2` project root. 29 files; one is new
-(`lib/cache.ts`), the rest overwrite.
+Extract into your `ariosetech-v2` project root. 11 files.
 
-**Commit before you extract.** `git diff` is your undo.
+**Apply this AFTER the `ariosetech-seo-fixes` zip.** Four files overlap
+(`next.config.ts`, `app/layout.tsx`, `app/sitemap.xml/route.ts`,
+`app/(site)/portfolio/[category]/page.tsx`) and the versions here are newer.
+`components/ui/MediaPickerModal.tsx` also supersedes the portfolio-screenshot
+zip's copy — one unused import removed, nothing else.
 
-This pack does **not** touch the portfolio screenshot work from the previous
-zip — different files, no conflict. Apply either order.
-
----
-
-## 1. Portfolio category canonical bug
-
-`app/(site)/portfolio/[category]/page.tsx`
-
-**Was:** every category page declared `/portfolio` as its canonical, telling
-Google that `/portfolio/wordpress`, `/woocommerce`, `/shopify` and `/seo` were
-duplicates that shouldn't be indexed in their own right — while your sitemap
-submitted them.
-
-**Now:**
-- Self-referencing canonical: `/portfolio/{category}`.
-- Per-category title and description. They previously all inherited the same
-  title and description from the `/portfolio` page document, so even once
-  indexed they'd compete with an identical snippet.
-- **Crawl-trap closed.** `[category]` matches any string, so `/portfolio/foo`
-  returned a valid 200 — unlimited indexable URLs serving identical content.
-  Valid categories are now the four base ones plus whatever's actually in the
-  portfolio collection; anything else 404s.
-
-**Verify after deploy:** view-source on `/portfolio/shopify` and confirm the
-canonical points at itself. Then request indexing for all four in Search
-Console — they need a recrawl to recover.
+Verified by actually running `tsc`, `eslint` and `next build` against your code
+with dependencies installed. Final state: **0 type errors, 0 lint errors,
+build passes.**
 
 ---
 
-## 2. Preloader — the LCP blocker
+## I was wrong about the type-error backlog
 
-`components/ui/Preloader.tsx`
+I said flipping `ignoreBuildErrors` would "almost certainly fail your next
+build until the backlog of existing type errors is cleared." I ran it. There is
+no backlog — **0 TypeScript errors.** The caution was unfounded and cost you a
+round trip. Both flags are now `false`:
 
-An opaque full-screen overlay delays Largest Contentful Paint by exactly as
-long as it stays up. LCP counts pixels the user can actually see, so the hero
-being in the DOM behind the curtain doesn't count. The old timings held it for
-~1900 ms; on top of server response time that put LCP past Google's 2500 ms
-"good" threshold on every page for every visitor.
+```ts
+eslint:     { ignoreDuringBuilds: false },
+typescript: { ignoreBuildErrors: false },
+```
 
-**Now:**
-- **Once per browser session.** Reloads and direct entries to other pages in
-  the same session skip it entirely.
-- **Shorter** — gone by ~1000 ms instead of ~1900 ms.
-- **Skipped** for `prefers-reduced-motion` and data-saver users.
-- `aria-hidden` + `pointer-events-none` so screen readers no longer announce
-  "Loading 0%" before your actual content.
+A broken type or a bad link now fails the deploy instead of shipping a broken
+page you'd discover from a ranking drop.
 
-To remove it completely, set `ENABLED = false` at the top of the file. Given
-you're chasing Core Web Vitals in competitive markets, that's worth
-considering — the animation costs you roughly a second of LCP on first visit
-and buys nothing a search engine values.
+### Lint: 18 errors → 0
 
----
+Five were real, in shipped code, and are fixed:
 
-## 3. Caching (ISR) with on-demand invalidation
+| File | Error | Fix |
+| --- | --- | --- |
+| `components/sections/WhyUsSection.tsx` | 3 × `prefer-const` | `let` → `const` |
+| `app/admin/authors/page.tsx` | `<a>` to an internal page | `<Link>` |
+| `components/tools/SeoAuditClient.tsx` | `<a href="/contact">` | `<Link>` — this one also forced a full page reload instead of a client-side transition |
 
-`export const dynamic = 'force-dynamic'` → `export const revalidate = 3600` on
-the 6 public page routes, the root layout, and `sitemap.xml`.
+The other 13 were all in throwaway root-level files never imported by the app —
+`find-icons.js`, `generate-icons.js`, `replace-icons.js`, `fix-image-icon.js`,
+`scratch_db.js`, `seed-footer.js`, `db.ts`, `old_hero.tsx` — plus the
+auto-generated `next-env.d.ts`, whose triple-slash reference is required and
+cannot be "fixed". These are now in the `ignores` block of `eslint.config.mjs`
+so lint gates the code that actually ships.
 
-That alone would mean admin edits take up to an hour to appear, so `lib/cache.ts`
-adds `revalidateSite()`, now called from **16 mutating API routes** (pages,
-blogs, portfolio, services, menus, header, footer, theme, settings, builder
-save/publish). Publishing still updates the live site instantly — it just no
-longer costs a MongoDB round trip on every anonymous request.
+133 warnings remain (mostly `any` and unused imports). Warnings don't fail
+builds. Worth chipping away at, not worth blocking on.
 
-`revalidatePath('/', 'layout')` flushes the whole public site. Coarse on
-purpose: your content is small and heavily interlinked — renaming a page changes
-the nav on every other page — so targeted invalidation would routinely serve
-stale navigation.
-
-**API routes keep `force-dynamic`.** That's correct for them; only pages were
-wrong.
-
-**Watch after deploy:** confirm an admin publish still shows up immediately on
-the live URL. If anything looks stale, the cause will be a mutating route that
-doesn't call `revalidateSite()` yet — the fix is one import plus one line.
+**Those eight root files are dead weight** — consider deleting them or moving
+them under `scripts/`. I left them alone since they're yours and I can't tell
+what you still use.
 
 ---
 
-## 5. next/image
+## A regression from the last zip — found and fixed
 
-Converted 7 raw `<img>` tags on public pages: testimonial avatars, the three
-blog author/reviewer photos, the case-study hero and body images, and the author
-page avatar. Each gets responsive `srcset`, correct intrinsic dimensions (no
-layout shift) and lazy loading. The case-study hero is marked `priority` since
-it's that page's LCP element.
+Moving pages from `force-dynamic` to `revalidate` means Next now **prerenders at
+build time**, so the build talks to MongoDB. It didn't before.
 
-Added `i.ibb.co` to `remotePatterns` in `next.config.ts` — that's the ImgBB
-fallback host in your upload route, and `next/image` throws on non-whitelisted
-hosts.
+`app/sitemap.xml/route.ts` had unguarded DB reads. My first build failed:
 
-**Two deliberate exceptions:**
-- `PortfolioSection.tsx` keeps a raw `<img>`. The hover pan measures
-  `naturalWidth`/`naturalHeight` off the element and needs `height: auto` with
-  absolute positioning — `next/image` fights both. Those images are already
-  compressed client-side to ~1400px WebP, so the loss is small.
-- The theme-detector tools keep raw `<img>` because they render screenshots from
-  arbitrary third-party domains, which can't be whitelisted in advance.
+```
+MongoServerSelectionError: Server selection timed out after 5000 ms
+Export encountered an error on /sitemap.xml/route, exiting the build.
+```
+
+On Vercel your DB is reachable, so you might never have hit this — but it meant
+**a five-second database blip during a build would fail the whole deployment.**
+Previously that was impossible.
+
+Every build-time DB read is now individually fail-safe. A failed read degrades
+to an empty list; the sitemap still ships with its static routes and ISR fills
+in the rest within the hour. I re-ran the build with MongoDB unreachable and it
+**completed successfully** — that's the proof the guards hold.
+
+Same treatment for `blog/[slug]`, whose `generateMetadata` and page component
+both had unguarded reads that would now run at build.
 
 ---
 
-## Not included
+## Prerendering the pages that matter
 
-**`ignoreBuildErrors` / `ignoreDuringBuilds`** are still `true` in
-`next.config.ts`. Flipping them is the right call, but it will almost certainly
-fail your next build until the backlog of existing type errors is cleared — not
-something to trigger blind inside an SEO deploy. Worth doing as its own task;
-happy to work through the errors with you.
+Added `generateStaticParams` so your SEO landing pages are prerendered rather
+than rendered on demand. Without it, the first visitor after each revalidation —
+frequently Googlebot — pays for the database round trip.
+
+| Route | Effect |
+| --- | --- |
+| `app/(site)/[...slug]/page.tsx` | Prerenders every published page — this is `/services/*` and `/industries/*`, your actual landing pages |
+| `app/(site)/portfolio/[category]/page.tsx` | Prerenders the four category pages |
+| `app/(site)/blog/[slug]/page.tsx` | Prerenders published posts |
+
+Confirmed in the build output:
+
+```
+● /portfolio/[category]
+  ├ /portfolio/wordpress
+  ├ /portfolio/woocommerce
+  ├ /portfolio/shopify
+  └ /portfolio/seo
+```
+
+All three return `[]` if the DB is unreachable, falling back to on-demand
+rendering rather than failing the build.
+
+---
+
+## One thing to fix on your machine
+
+Your local `node_modules` is **missing all six `@tiptap/*` packages** even though
+they're in `package.json`. Your blog rich-text editor imports them, so a local
+`npm run build` fails with five "Cannot find module" errors that have nothing to
+do with your code. Vercel installs from `package.json` so production is fine.
+
+```bash
+npm install
+```
+
+Worth doing before you trust any local build result.
 
 ---
 
 ## After deploying
 
-1. Search Console → URL Inspection → Request Indexing for `/portfolio/wordpress`,
-   `/woocommerce`, `/shopify`, `/seo`.
-2. PageSpeed Insights on the homepage and one case study. Lab LCP should drop
-   noticeably straight away; **field data (CrUX) takes ~28 days** to reflect the
-   change, so don't judge it by the field numbers next week.
-3. Re-submit `sitemap.xml`.
-4. Spot-check that `/portfolio/some-nonsense` now 404s.
+1. Watch this deploy specifically. It's the first that can fail on type or lint
+   errors — that's the point, but it's a change in behaviour.
+2. If it fails, the error will name a file and line. Nothing here is subtle.
+3. Confirm `/portfolio/shopify` and a `/services/*` page still render.
 
-Canonical recovery typically takes two to six weeks — Google has to recrawl and
-re-evaluate. Nothing has gone wrong if the four pages don't reappear
-immediately.
+## Still outstanding
+
+Neither is a code change:
+
+- **Market focus.** Six markets from a standing start is still the most likely
+  reason to see nothing move in six months.
+- **Homepage copy.** "Save 60%" leads on price to buyers you've priced at
+  $10,000+ minimum, and the process section appears twice with near-identical
+  content. Both are admin edits. Happy to draft alternatives.

@@ -15,6 +15,33 @@ export const revalidate = 3600
 
 type Props = { params: Promise<{ slug: string[] }> }
 
+/**
+ * Prerender every published page at build time.
+ *
+ * These are the real SEO landing pages — /services/*, /industries/* — and
+ * without this they render on demand, so the first visitor after each
+ * revalidation (often Googlebot) waits on a MongoDB round trip. Paths not
+ * listed here still work; they fall back to on-demand rendering and are cached
+ * from then on.
+ *
+ * Returns [] if the database is unreachable rather than throwing. A build must
+ * never fail because of a transient DB blip.
+ */
+export async function generateStaticParams() {
+  try {
+    const col = await getCollection<PageDoc>('pages')
+    const pages = await col.find({ status: 'published' }).toArray()
+    return pages
+      .map(p => String(p.fullPath || ''))
+      .filter(fp => fp.startsWith('/') && fp !== '/')
+      .map(fp => ({ slug: fp.replace(/^\/+/, '').split('/') }))
+      .filter(x => x.slug.length > 0 && x.slug.every(Boolean))
+  } catch (e) {
+    console.error('[build] could not enumerate pages:', e)
+    return []
+  }
+}
+
 async function getPageData(slugArray: string[]) {
   const path = '/' + slugArray.join('/')
   try {

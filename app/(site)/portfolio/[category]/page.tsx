@@ -67,6 +67,14 @@ async function allowedCategories(): Promise<Set<string>> {
   return base
 }
 
+/**
+ * Prerender the four core category pages. Others (project-specific tags) still
+ * resolve on demand via allowedCategories().
+ */
+export async function generateStaticParams() {
+  return BASE_CATEGORIES.map(category => ({ category }))
+}
+
 async function getPortfolioPage() {
   try {
     const col = await getCollection<PageDoc>('pages')

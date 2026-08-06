@@ -1,8 +1,12 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
+  // Both were previously `true`, which meant a TypeScript error or a lint
+  // error could ship to production as a broken page — you would find out from
+  // a ranking drop rather than a failed deploy. The codebase currently has 0
+  // type errors and 0 lint errors, so the build can gate on them properly.
+  eslint: { ignoreDuringBuilds: false },
+  typescript: { ignoreBuildErrors: false },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },

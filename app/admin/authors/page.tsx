@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
 
 type Author = {
   _id?: string
@@ -62,12 +63,12 @@ export default function AuthorsAdmin() {
 
   return (
     <div className="admin-page">
-      <a href="/admin/dashboard" className="inline-flex items-center gap-2 font-mono text-11 uppercase tracking-widest font-semibold mb-6 hover:opacity-80 transition-opacity" style={{ color: 'var(--primary)' }}>
+      <Link href="/admin/dashboard" className="inline-flex items-center gap-2 font-mono text-11 uppercase tracking-widest font-semibold mb-6 hover:opacity-80 transition-opacity" style={{ color: 'var(--primary)' }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
         </svg>
         Back to Dashboard
-      </a>
+      </Link>
       <div className="flex items-start justify-between flex-wrap gap-4 mb-8">
         <div>
           <h1 className="admin-page__title">Authors</h1>

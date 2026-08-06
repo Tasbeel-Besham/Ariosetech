@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { X } from '@/components/ui/Icons'
-import { uploadImageFiles, formatBytes } from '@/lib/media/upload'
+import { uploadImageFiles } from '@/lib/media/upload'
 
 type MediaItem = { _id: string; url: string; alt?: string }
 

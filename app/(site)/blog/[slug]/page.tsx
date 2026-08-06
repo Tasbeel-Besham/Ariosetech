@@ -18,10 +18,36 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 // call revalidateSite() so published changes still appear immediately.
 export const revalidate = 3600
 
+/**
+ * Prerender published posts so the first visitor after each revalidation is not
+ * the one paying for the database round trip. Returns [] if the DB is
+ * unreachable — posts then render on demand instead of failing the build.
+ */
+export async function generateStaticParams() {
+  try {
+    const col = await getCollection<BlogDoc>('blogs')
+    const posts = await col.find({ published: true }).toArray()
+    return posts.map(p => ({ slug: String(p.slug) })).filter(p => p.slug)
+  } catch (e) {
+    console.error('[build] could not enumerate blog posts:', e)
+    return []
+  }
+}
+
+/** Fail-safe lookup — this now runs at build time as well as per request. */
+async function getPost(slug: string): Promise<BlogDoc | null> {
+  try {
+    const col = await getCollection<BlogDoc>('blogs')
+    return await col.findOne({ slug, published: true })
+  } catch (e) {
+    console.error('[blog] lookup failed:', e)
+    return null
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const col = await getCollection<BlogDoc>('blogs')
-  const post = await col.findOne({ slug, published: true })
+  const post = await getPost(slug)
   if (!post) return {}
 
   const seo = post.seo || {}
@@ -56,8 +82,7 @@ function fmtDate(d: string) {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
-  const col = await getCollection<BlogDoc>('blogs')
-  const post = await col.findOne({ slug, published: true })
+  const post = await getPost(slug)
   if (!post) notFound()
 
   const cover = post.featuredImage || post.coverImage
@@ -66,6 +91,7 @@ export default async function BlogPostPage({ params }: Props) {
   // Related posts: same category first, then most recent, excluding this one.
   let related: BlogDoc[] = []
   try {
+    const col = await getCollection<BlogDoc>('blogs')
     const all = await col.find({ published: true, slug: { $ne: slug } }).sort({ date: -1 }).limit(12).toArray()
     const sameCat = all.filter(p => p.category === post.category)
     related = [...sameCat, ...all.filter(p => p.category !== post.category)].slice(0, 9)
