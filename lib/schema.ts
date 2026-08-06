@@ -1,3 +1,4 @@
+import { labelForSegment } from '@/lib/breadcrumb-labels'
 /**
  * JSON-LD schema builders. Pure functions — given some facts about a page,
  * they return a schema.org object. Used both by the auto-attach on dynamic
@@ -106,17 +107,17 @@ export function articleSchema(opts: {
 }
 
 /** Build the breadcrumb trail from a URL path like /services/wordpress. */
-export function trailFromPath(fullPath: string, pageTitle: string): BreadcrumbItem[] {
+export function trailFromPath(fullPath: string, _pageTitle?: string): BreadcrumbItem[] {
+  // Labels come from the same helper the visible breadcrumb uses. Google
+  // requires structured data to describe what is actually on the page, so the
+  // two must not drift. The last crumb previously used the page title while
+  // the visible trail used the URL segment — that mismatch is now gone.
   const trail: BreadcrumbItem[] = [{ name: 'Home', url: `${SITE_URL}/` }]
   const parts = fullPath.split('/').filter(Boolean)
   let acc = ''
-  parts.forEach((part, i) => {
+  parts.forEach(part => {
     acc += `/${part}`
-    const isLast = i === parts.length - 1
-    trail.push({
-      name: isLast ? pageTitle : part.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-      url: `${SITE_URL}${acc}`,
-    })
+    trail.push({ name: labelForSegment(part), url: `${SITE_URL}${acc}` })
   })
   return trail
 }

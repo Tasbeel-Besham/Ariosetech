@@ -1,54 +1,79 @@
-# Breadcrumb spacing fix
+# Breadcrumbs — centralized, compact, on every page
 
-Extract into your project root. 3 files. Apply **after** all five previous zips —
-all three files overlap with earlier ones and these are newest.
+Extract into your project root. 7 files. Apply **after** all previous zips —
+four files overlap and these are newest.
 
-Verified: `tsc` 0 errors, `next build` compiles.
+Verified: `tsc` 0 errors, `eslint` 0 errors, `next build` compiles.
 
-## The cause
+---
 
-The header is fixed, so whichever element comes first has to carry the clearance
-for it. Two elements were both doing that:
+## Why /about had no breadcrumb
 
-1. The breadcrumb wrapper — `pt-[92px]`
-2. The section right below it — `.hero-section-wrapper > .container` has
-   `pt-[88px]`, `.section` has `100px`, `.pd-hero` has `100px`
+Breadcrumbs were added page by page, and only two routes ever got them: the
+catch-all and case studies. **Eleven routes had none** — /about, /contact,
+/blog, /blog/[slug], /faq, /portfolio/[category], /author/[slug],
+/privacy-policy, /terms-of-service and all three /tools pages. Any new page
+would have started out missing them too.
 
-Neither knew about the other, so the offsets stacked: roughly 92 + 20 + 88 =
-**200px of empty space** between the breadcrumb and the first heading. On pages
-without breadcrumbs the hero's own 88px is correct, which is why this only shows
-up on service, industry and case-study pages.
+They're now rendered once from `app/(site)/layout.tsx` and derived from the
+pathname, so every page has them automatically and they can't fall out of sync
+with the URL. The two per-page copies were removed so nothing renders twice.
 
-## The fix
+Homepage returns `null` — a breadcrumb there would only point at itself.
 
-The bar now owns the header clearance and the next sibling drops its own:
+## The spacing
 
-```css
-.breadcrumb-bar { padding-top: 96px; padding-bottom: 0; }
-.breadcrumb-bar .breadcrumbs { margin-bottom: 0; }
+The header is fixed at 64px, so whichever element comes first carries the
+clearance. Two were doing it: the breadcrumb bar **and** the section below
+(`.hero-section-wrapper > .container` at 88px, `.section` at 100px, `.pd-hero`
+at 100px). They stacked into ~200px of dead space.
 
-.breadcrumb-bar + .hero-section-wrapper > .container { padding-top: 28px; }
-.breadcrumb-bar + .section  { padding-top: 44px; }
-.breadcrumb-bar + .pd-hero  { padding-top: 28px; }
-.breadcrumb-bar + .dt-hero  { padding-top: 28px; }
-```
+The bar now owns the clearance and `.with-breadcrumbs` on `<main>` collapses the
+section's. **About 200px down to roughly 108px.**
 
-Roughly 200px down to about 124px, with the breadcrumb sitting close to the
-content it describes rather than floating alone in a band.
+A class on `<main>` rather than an adjacent-sibling selector because pages emit
+`<script>` tags for their JSON-LD, which sit between the bar and the section in
+the DOM and would break `+` matching. That's why the previous attempt was
+fragile.
 
-The adjacent-sibling selectors mean pages **without** breadcrumbs are completely
-untouched — the homepage hero keeps its original spacing.
+## The design
 
-Both call sites now use `className="container breadcrumb-bar"` instead of the
-inline `pt-[92px] pb-0` utilities, so the spacing lives in one place.
+Minimal, matching the mono/uppercase treatment already in your UI:
 
-Mobile breakpoints included (768px and 640px). Note `.section` carries
-`!important` at 640px in your stylesheet, so the override matches it.
+- House icon for Home, then 10px uppercase mono at `0.12em` tracking
+- Muted `--text-3`, hover to `--primary`, current page in `--text-2`
+- Separators at 30% opacity
+- Whole row is ~12px tall
+- Long trails scroll horizontally instead of wrapping to a second line, which
+  would put the height straight back
+- Current crumb truncates with an ellipsis at 38ch (22ch on mobile), so a long
+  case-study title can't widen the row
+
+## Label casing
+
+`lib/breadcrumb-labels.ts` holds one shared label map. Without it,
+`/services/woocommerce` renders as "Woocommerce" — careless on a page selling
+WooCommerce expertise. Covers WordPress, WooCommerce, Shopify, SEO, FAQ, UI/UX,
+API, SaaS, B2B, USA, UAE, UK and more. Add to `LABEL_OVERRIDES` as needed.
+
+## Structured data now matches
+
+Google requires structured data to describe visible content. Two mismatches
+existed:
+
+1. `trailFromPath` used the **page title** for the last crumb while the visible
+   trail used the URL segment.
+2. Case studies declared three levels (Home / Portfolio / Title) while the URL
+   and visible trail have four (Home / Portfolio / Category / Slug).
+
+Both now build from the same helper as the visible component.
 
 ## Check after deploy
 
-- `/services/woocommerce` — the gap in your screenshot
-- `/portfolio/shopify/<any-case-study>` — uses `.pd-hero`
-- The homepage — should be **unchanged**; if its hero moved, something matched
-  that shouldn't have
+- `/about` — breadcrumb present, was missing
+- `/services/woocommerce` — reads "WooCommerce", not "Woocommerce"
+- `/portfolio` — the gap in your screenshot
+- A case study — four levels, long title truncates
+- The homepage — **no breadcrumb, spacing unchanged**
 - One page at 375px wide
+- Rich Results Test on a case study — BreadcrumbList should list four items

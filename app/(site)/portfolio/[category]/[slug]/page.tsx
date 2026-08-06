@@ -3,8 +3,7 @@ import { notFound, permanentRedirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Check, ExternalLink } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
-import { caseStudySchema, breadcrumbSchema } from '@/lib/schema'
-import Breadcrumbs from '@/components/ui/Breadcrumbs'
+import { caseStudySchema, breadcrumbSchema, trailFromPath } from '@/lib/schema'
 import PortfolioCarousel from '@/components/portfolio/PortfolioCarousel'
 import Image from 'next/image'
 
@@ -132,23 +131,17 @@ export default async function PortfolioDetailPage({ params }: Props) {
     clientName: item.client || undefined,
     keywords: [item.category, ...stackList].filter(Boolean) as string[],
   })
-  const crumbLd = breadcrumbSchema([
-    { name: 'Home', url: SITE_URL },
-    { name: 'Portfolio', url: `${SITE_URL}/portfolio` },
-    { name: item.title, url: caseUrl },
-  ])
+  // Built from the path with the same helper the visible breadcrumb uses.
+  // This previously declared three levels (Home / Portfolio / Title) while the
+  // URL and the visible trail have four (Home / Portfolio / Category / Slug) —
+  // structured data that doesn't match the page.
+  const crumbLd = breadcrumbSchema(trailFromPath(canonicalPath(item)))
 
   return (
     <div style={{ '--proj-color': color } as React.CSSProperties}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(caseLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }} />
-      <div className="container breadcrumb-bar">
-        <Breadcrumbs items={[
-          { name: 'Home', url: '/' },
-          { name: 'Portfolio', url: '/portfolio' },
-          { name: item.title },
-        ]} />
-      </div>
+      {/* Visible breadcrumbs are rendered site-wide by the layout. */}
       {/* Hero — text on the left, project image featured on the right */}
       <section className="pd-hero pd-hero-img">
         <div className="pd-hero-glow" />

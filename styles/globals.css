@@ -2782,35 +2782,99 @@ select,
 }
 
 
+
 /* ── Breadcrumb bar ───────────────────────────────────────────────────
-   The header is fixed, so whichever element comes first has to carry the
-   clearance for it. On pages with breadcrumbs that is this bar — but the
-   section below it was also sized to clear the header on its own
-   (.hero-section-wrapper > .container has pt-[88px], .section has 100px,
-   .pd-hero has 100px). The two offsets stacked, leaving roughly 220px of
-   empty space between the breadcrumb and the first heading.
+   Rendered site-wide from the layout, directly under the fixed 64px header.
 
-   The bar now owns the clearance and the next sibling drops its own. */
+   The bar owns the header clearance. The first section on the page used to
+   carry its own (.hero-section-wrapper > .container had pt-[88px], .section
+   100px, .pd-hero 100px) and the two stacked into roughly 200px of empty
+   space. `.with-breadcrumbs` on <main> collapses the second one.
+──────────────────────────────────────────────────────────────────────── */
 .breadcrumb-bar {
-  padding-top: 96px;
-  padding-bottom: 0;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 82px clamp(20px, 4vw, 48px) 0;
 }
-.breadcrumb-bar .breadcrumbs { margin-bottom: 0; }
 
-.breadcrumb-bar + .hero-section-wrapper > .container { padding-top: 28px; }
-.breadcrumb-bar + .section  { padding-top: 44px; }
-.breadcrumb-bar + .pd-hero  { padding-top: 28px; }
-.breadcrumb-bar + .dt-hero  { padding-top: 28px; }
+.bc-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 7px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Long trails scroll rather than wrap onto a second line, which would
+     reintroduce the height this fix removes. */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.bc-list::-webkit-scrollbar { display: none; }
+
+.bc-item { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+
+.bc-link,
+.bc-current {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.bc-link {
+  color: var(--text-3);
+  transition: color 0.16s var(--ease, ease);
+}
+.bc-link:hover { color: var(--primary); }
+
+.bc-home { display: inline-flex; align-items: center; gap: 6px; }
+.bc-home svg { opacity: 0.75; }
+.bc-home:hover svg { opacity: 1; }
+
+.bc-current {
+  color: var(--text-2);
+  /* Keeps a long case-study or post title from pushing the row wide. */
+  max-width: 38ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bc-sep {
+  color: var(--text-3);
+  opacity: 0.3;
+  font-size: 10px;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── Collapse the following section's own header clearance ── */
+.with-breadcrumbs .hero-section-wrapper > .container { padding-top: 26px; }
+.with-breadcrumbs > section:first-of-type.section { padding-top: 40px; }
+.with-breadcrumbs .pd-hero,
+.with-breadcrumbs .dt-hero { padding-top: 26px; }
+.with-breadcrumbs .faqp-main { padding-top: 40px; }
 
 @media (max-width: 768px) {
-  .breadcrumb-bar { padding-top: 78px; }
-  .breadcrumb-bar + .hero-section-wrapper > .container { padding-top: 20px; }
-  .breadcrumb-bar + .section  { padding-top: 32px; }
-  .breadcrumb-bar + .pd-hero  { padding-top: 20px; }
-  .breadcrumb-bar + .dt-hero  { padding-top: 20px; }
+  .breadcrumb-bar { padding-top: 74px; }
+  .bc-current { max-width: 22ch; }
+  .with-breadcrumbs .hero-section-wrapper > .container { padding-top: 18px; }
+  .with-breadcrumbs > section:first-of-type.section { padding-top: 28px; }
+  .with-breadcrumbs .pd-hero,
+  .with-breadcrumbs .dt-hero { padding-top: 18px; }
+  .with-breadcrumbs .faqp-main { padding-top: 28px; }
 }
 
 @media (max-width: 640px) {
   /* .section carries !important at this breakpoint, so match it. */
-  .breadcrumb-bar + .section { padding-top: 32px !important; }
+  .with-breadcrumbs > section:first-of-type.section { padding-top: 28px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-link { transition: none; }
 }
