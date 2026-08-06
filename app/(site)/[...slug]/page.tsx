@@ -171,7 +171,7 @@ export default async function DynamicPage({ params }: Props) {
           Google expects structured data to describe visible content, and this
           adds internal links from deep pages back up the hierarchy. */}
       {page.fullPath !== '/' && (
-        <div className="container pt-[92px] pb-0">
+        <div className="container breadcrumb-bar">
           <Breadcrumbs items={trailFromPath(page.fullPath, page.title || 'Page')} />
         </div>
       )}

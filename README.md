@@ -1,80 +1,54 @@
-# ARIOSETECH — server-rendering fix (zip 5)
+# Breadcrumb spacing fix
 
-Extract into your project root. 5 files. Apply **after** the previous four zips
-(`portfolio-screenshots` → `seo-fixes` → `build-hardening` →
-`compliance-fixes`). Two files overlap with earlier zips; these are newest.
+Extract into your project root. 3 files. Apply **after** all five previous zips —
+all three files overlap with earlier ones and these are newest.
 
-Verified: `tsc` 0 errors, `eslint` 0 errors, `next build` compiles.
+Verified: `tsc` 0 errors, `next build` compiles.
 
----
+## The cause
 
-## The finding
+The header is fixed, so whichever element comes first has to carry the clearance
+for it. Two elements were both doing that:
 
-I fetched `https://ariosetech.com/portfolio` as a non-JavaScript crawler sees
-it. The entire page body is:
+1. The breadcrumb wrapper — `pt-[92px]`
+2. The section right below it — `.hero-section-wrapper > .container` has
+   `pt-[88px]`, `.section` has `100px`, `.pd-hero` has `100px`
 
-> **"No projects to show yet."**
-
-Your case studies are not in the server HTML. `BuilderRenderer` is a
-`'use client'` component, so every section is a client component, and
-`PortfolioSection` fetched `/api/portfolio` inside a `useEffect`. The projects
-only exist after JavaScript runs.
-
-Google does render JavaScript, and its cached snippet for `/portfolio` does show
-your project text — so this is not invisible to Google today. But rendering is a
-deferred second pass: slower, not guaranteed for every page on every crawl, and
-skipped entirely by many other crawlers, including several of the pipelines
-feeding AI answers.
-
-Your strongest commercial proof — real clients, real numbers — was the one thing
-not in the HTML.
-
-`BlogSection` had the same pattern.
-
----
+Neither knew about the other, so the offsets stacked: roughly 92 + 20 + 88 =
+**200px of empty space** between the breadcrumb and the first heading. On pages
+without breadcrumbs the hero's own 88px is correct, which is why this only shows
+up on service, industry and case-study pages.
 
 ## The fix
 
-`lib/builder/server-data.ts` fills these sections' data **on the server**,
-before `BuilderRenderer` runs. The sections receive it as ordinary props and
-skip their client fetch, so the content is in the initial HTML with no change to
-how the builder works.
+The bar now owns the header clearance and the next sibling drops its own:
 
-Deliberately not a rewrite of the builder into server components — that would
-touch all 25 section types for no additional benefit.
+```css
+.breadcrumb-bar { padding-top: 96px; padding-bottom: 0; }
+.breadcrumb-bar .breadcrumbs { margin-bottom: 0; }
 
-- `app/(site)/[...slug]/page.tsx` — hydrates before render (this serves
-  `/portfolio`, `/services/*`, `/industries/*`)
-- `app/(site)/portfolio/[category]/page.tsx` — hydrates both the builder path
-  and the fallback path
-- `PortfolioSection` / `BlogSection` — skip the client fetch when props arrive
+.breadcrumb-bar + .hero-section-wrapper > .container { padding-top: 28px; }
+.breadcrumb-bar + .section  { padding-top: 44px; }
+.breadcrumb-bar + .pd-hero  { padding-top: 28px; }
+.breadcrumb-bar + .dt-hero  { padding-top: 28px; }
+```
 
-A hand-picked list in the page builder still wins over the full collection, and
-every read is fail-safe: on a DB error the section falls back to its old
-client-side fetch rather than breaking the page or the build.
+Roughly 200px down to about 124px, with the breadcrumb sitting close to the
+content it describes rather than floating alone in a band.
 
-**Verify after deploy:** `view-source:https://ariosetech.com/portfolio` and
-search for a client name. It should be in the raw HTML.
+The adjacent-sibling selectors mean pages **without** breadcrumbs are completely
+untouched — the homepage hero keeps its original spacing.
 
----
+Both call sites now use `className="container breadcrumb-bar"` instead of the
+inline `pt-[92px] pb-0` utilities, so the spacing lives in one place.
 
-## Also found on the live site (no code change needed)
+Mobile breakpoints included (768px and 640px). Note `.section` carries
+`!important` at 640px in your stylesheet, so the override matches it.
 
-**Legacy WordPress URLs are still indexed but redirect correctly.**
-`/contact-us/` and `/category/stories/` both 301 properly — Google's index is
-simply stale and showing old cached content, including some Lorem ipsum from the
-old WordPress build. This resolves on recrawl. Nothing to fix.
+## Check after deploy
 
-**Title tags duplicate the brand.** The live contact page title is
-*"Contact ARIOSETECH, Get a Free Quote | ARIOSETECH"*. The `%s | ARIOSETECH`
-template appends the brand to a title that already contains it. Fix in the
-admin per page — trim the page-level SEO title to *"Contact, Get a Free Quote"*
-and let the template add the brand.
-
-**Duplicate FAQ entries on `/contact`.** *"What is your pricing structure?"* and
-*"How does your pricing work?"* are the same question twice, and both are in
-your FAQ schema. Merge them in the admin.
-
-**Twitter card metadata is generic.** `twitter:title` on `/contact` reads
-*"WordPress, Shopify & WooCommerce Development Agency"* while `og:title` is
-page-specific. Low priority; affects social CTR only.
+- `/services/woocommerce` — the gap in your screenshot
+- `/portfolio/shopify/<any-case-study>` — uses `.pd-hero`
+- The homepage — should be **unchanged**; if its hero moved, something matched
+  that shouldn't have
+- One page at 375px wide

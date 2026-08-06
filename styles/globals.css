@@ -2780,3 +2780,37 @@ select,
   padding: 22px; border: 1.5px dashed var(--border); border-radius: 10px;
   text-align: center; color: var(--text-3); font-size: 12.5px; background: var(--bg-3);
 }
+
+
+/* ── Breadcrumb bar ───────────────────────────────────────────────────
+   The header is fixed, so whichever element comes first has to carry the
+   clearance for it. On pages with breadcrumbs that is this bar — but the
+   section below it was also sized to clear the header on its own
+   (.hero-section-wrapper > .container has pt-[88px], .section has 100px,
+   .pd-hero has 100px). The two offsets stacked, leaving roughly 220px of
+   empty space between the breadcrumb and the first heading.
+
+   The bar now owns the clearance and the next sibling drops its own. */
+.breadcrumb-bar {
+  padding-top: 96px;
+  padding-bottom: 0;
+}
+.breadcrumb-bar .breadcrumbs { margin-bottom: 0; }
+
+.breadcrumb-bar + .hero-section-wrapper > .container { padding-top: 28px; }
+.breadcrumb-bar + .section  { padding-top: 44px; }
+.breadcrumb-bar + .pd-hero  { padding-top: 28px; }
+.breadcrumb-bar + .dt-hero  { padding-top: 28px; }
+
+@media (max-width: 768px) {
+  .breadcrumb-bar { padding-top: 78px; }
+  .breadcrumb-bar + .hero-section-wrapper > .container { padding-top: 20px; }
+  .breadcrumb-bar + .section  { padding-top: 32px; }
+  .breadcrumb-bar + .pd-hero  { padding-top: 20px; }
+  .breadcrumb-bar + .dt-hero  { padding-top: 20px; }
+}
+
+@media (max-width: 640px) {
+  /* .section carries !important at this breakpoint, so match it. */
+  .breadcrumb-bar + .section { padding-top: 32px !important; }
+}

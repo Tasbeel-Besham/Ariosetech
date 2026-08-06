@@ -142,7 +142,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
     <div style={{ '--proj-color': color } as React.CSSProperties}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(caseLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }} />
-      <div className="container pt-[92px] pb-0">
+      <div className="container breadcrumb-bar">
         <Breadcrumbs items={[
           { name: 'Home', url: '/' },
           { name: 'Portfolio', url: '/portfolio' },
