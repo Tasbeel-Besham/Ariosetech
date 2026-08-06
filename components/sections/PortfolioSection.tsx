@@ -153,8 +153,11 @@ export default function PortfolioSection({
   const defaultFilter = pathname?.match(/^\/portfolio\/([^/]+)\/?$/) ? pathname.split('/')[2].toLowerCase() : 'all'
   const [filter, setFilter] = useState(defaultFilter)
 
-  // Fetch full portfolio from the DB (same behaviour as before).
+  // Fetch only if the server did not already supply items. Pages now hydrate
+  // this on the server (lib/builder/server-data.ts) so the projects appear in
+  // the initial HTML; this fetch is the fallback for any path that doesn't.
   useEffect(() => {
+    if (safeItems.length > 0) return
     fetch('/api/portfolio')
       .then(r => r.json())
       .then(data => {
@@ -174,7 +177,7 @@ export default function PortfolioSection({
         setDbItems(mapped)
       })
       .catch(console.error)
-  }, [])
+  }, [safeItems.length])
 
   // Explicit page picks win; otherwise fall back to the full DB collection.
   const displayItems = safeItems.length > 0 ? safeItems : dbItems

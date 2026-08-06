@@ -4,6 +4,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
 import PortfolioSection from '@/components/sections/PortfolioSection'
+import { withServerData, getPortfolioItems } from '@/lib/builder/server-data'
 import CtaSection from '@/components/sections/CtaSection'
 
 // Cached, with on-demand invalidation when portfolio items or pages are saved.
@@ -141,12 +142,15 @@ export default async function CategoryPage({ params }: Props) {
   const page = await getPortfolioPage()
 
   if (page && page.layout?.sections && page.layout.sections.length > 0) {
-    return <BuilderRenderer sections={page.layout.sections} />
+    const sections = await withServerData(page.layout.sections)
+    return <BuilderRenderer sections={sections} />
   }
 
+  // Fallback path: pass items in as props so they are server-rendered too.
+  const items = await getPortfolioItems()
   return (
     <>
-      <PortfolioSection />
+      <PortfolioSection items={items} />
       <CtaSection />
     </>
   )

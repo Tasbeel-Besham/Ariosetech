@@ -6,14 +6,19 @@ import SectionHeading from '@/components/ui/SectionHeading'
 type Post = { _id: string; slug: string; title: string; excerpt: string; category: string; date: string; readTime: number }
 type Props = {
   headingTag?: string;
-  eyebrow?: string; headline?: string; ctaLabel?: string; ctaHref?: string; limit?: number }
+  eyebrow?: string; headline?: string; ctaLabel?: string; ctaHref?: string; limit?: number;
+  /** Server-supplied posts (lib/builder/server-data.ts). When present the
+   *  client fetch is skipped and the list is in the initial HTML. */
+  posts?: Post[] }
 
-export default function BlogSection({ headingTag='h2', eyebrow='Knowledge Base', headline='Latest Insights & Tutorials', ctaLabel='All Articles', ctaHref='/blog', limit=3 }: Props) {
-  const [posts, setPosts] = useState<Post[]>([])
-  const [loaded, setLoaded] = useState(false)
+export default function BlogSection({ headingTag='h2', eyebrow='Knowledge Base', headline='Latest Insights & Tutorials', ctaLabel='All Articles', ctaHref='/blog', limit=3, posts: serverPosts }: Props) {
+  const initial = Array.isArray(serverPosts) ? serverPosts.slice(0, limit) : []
+  const [posts, setPosts] = useState<Post[]>(initial)
+  const [loaded, setLoaded] = useState(initial.length > 0)
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
+    if (initial.length > 0) return
     fetch(`/api/blogs?limit=${limit}&published=true`)
       .then(r => r.json())
       .then(data => {

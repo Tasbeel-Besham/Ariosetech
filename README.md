@@ -1,86 +1,80 @@
-# ARIOSETECH — Google compliance fixes (zip 4 of 4)
+# ARIOSETECH — server-rendering fix (zip 5)
 
-Extract into your project root. 7 files. Apply **last**, after
-`portfolio-screenshots` → `seo-fixes` → `build-hardening`. `app/layout.tsx`
-overlaps with earlier zips; this version is newest.
+Extract into your project root. 5 files. Apply **after** the previous four zips
+(`portfolio-screenshots` → `seo-fixes` → `build-hardening` →
+`compliance-fixes`). Two files overlap with earlier zips; these are newest.
 
 Verified: `tsc` 0 errors, `eslint` 0 errors, `next build` compiles.
 
 ---
 
-## 1. Self-serving review markup — the most serious finding
+## The finding
 
-Your site emitted this on the homepage, attached to your own
-`ProfessionalService` entity:
+I fetched `https://ariosetech.com/portfolio` as a non-JavaScript crawler sees
+it. The entire page body is:
 
-```json
-"aggregateRating": { "ratingValue": "5.0", "reviewCount": "30" }
-```
+> **"No projects to show yet."**
 
-Two problems.
+Your case studies are not in the server HTML. `BuilderRenderer` is a
+`'use client'` component, so every section is a client component, and
+`PortfolioSection` fetched `/api/portfolio` inside a `useEffect`. The projects
+only exist after JavaScript runs.
 
-**It is ineligible by policy.** Google stopped showing review rich results for
-`LocalBusiness` and `Organization` (and subtypes like `ProfessionalService`)
-when the entity being reviewed controls the reviews. This is the "self-serving
-reviews" rule. The markup earns you nothing — no stars, ever.
+Google does render JavaScript, and its cached snippet for `/portfolio` does show
+your project text — so this is not invisible to Google today. But rendering is a
+deferred second pass: slower, not guaranteed for every page on every crawl, and
+skipped entirely by many other crawlers, including several of the pipelines
+feeding AI answers.
 
-**The numbers contradicted the page.** The schema claimed 5.0 from 30 reviews.
-Your page visibly shows 4.9 from 16 on Clutch, and a separate 5.0 for Google.
-Structured data that doesn't match visible content is precisely what the
-*Spammy Structured Markup* manual action targets — and that action strips rich
-results across the whole domain, including your legitimate FAQ, Breadcrumb and
-Article markup.
+Your strongest commercial proof — real clients, real numbers — was the one thing
+not in the HTML.
 
-So it was zero upside against a real, sitewide downside. Removed from
-`SchemaMarkup.tsx` and `app/layout.tsx`, with a warning comment left in
-`lib/schema.ts` so the capability isn't reintroduced by accident.
-
-**Your visible Clutch and Google review links are the correct way to carry this
-signal** — keep those. If you want stars in search results, they have to come
-from a third-party platform's own markup, not yours.
+`BlogSection` had the same pattern.
 
 ---
 
-## 2. Second crawl trap — case study URLs
+## The fix
 
-`app/(site)/portfolio/[category]/[slug]/page.tsx` looked items up by `slug`
-alone and ignored the `category` segment entirely. So
-`/portfolio/anything/thekapra` returned 200 with identical content — unlimited
-duplicate URLs for every case study.
+`lib/builder/server-data.ts` fills these sections' data **on the server**,
+before `BuilderRenderer` runs. The sections receive it as ordinary props and
+skip their client fetch, so the content is in the initial HTML with no change to
+how the builder works.
 
-Now: a wrong category **301-redirects** to the single correct URL (a redirect
-rather than a 404, so any existing inbound links keep working and pass their
-authority), and mismatched URLs are marked `noindex` in metadata.
+Deliberately not a rewrite of the builder into server components — that would
+touch all 25 section types for no additional benefit.
 
-Also on that route:
-- `Props` type was missing the `category` param altogether.
-- Added `generateStaticParams` so case studies prerender.
+- `app/(site)/[...slug]/page.tsx` — hydrates before render (this serves
+  `/portfolio`, `/services/*`, `/industries/*`)
+- `app/(site)/portfolio/[category]/page.tsx` — hydrates both the builder path
+  and the fallback path
+- `PortfolioSection` / `BlogSection` — skip the client fetch when props arrive
 
----
+A hand-picked list in the page builder still wins over the full collection, and
+every read is fail-safe: on a DB error the section falls back to its old
+client-side fetch rather than breaking the page or the build.
 
-## 3. Cache invalidation gaps
-
-Auditing my own work from the last zip, three mutating routes were missing
-`revalidateSite()`:
-
-- `app/api/authors/route.ts`
-- `app/api/authors/[id]/route.ts`
-- `app/api/seed/route.ts`
-
-Authors are published content — `/author/[slug]` pages, blog bylines, and the
-`Person` structured data that carries your E-E-A-T signal. Editing an author
-would have left all of that stale for up to an hour. Fixed.
-
-I re-checked every remaining mutating route. The others (`users`, `auth`,
-`media`, `leads`, `forms`, `tracking`, `tools`, `submit`) don't touch published
-content and correctly don't invalidate.
+**Verify after deploy:** `view-source:https://ariosetech.com/portfolio` and
+search for a client name. It should be in the raw HTML.
 
 ---
 
-## Verify after deploy
+## Also found on the live site (no code change needed)
 
-1. `/portfolio/other/thekapra` still loads (it's linked from your homepage).
-2. `/portfolio/wrongcategory/thekapra` 301s to the correct URL.
-3. Rich Results Test on the homepage — no more AggregateRating, FAQ and
-   Organization still valid.
-4. Edit an author, confirm `/author/<slug>` updates immediately.
+**Legacy WordPress URLs are still indexed but redirect correctly.**
+`/contact-us/` and `/category/stories/` both 301 properly — Google's index is
+simply stale and showing old cached content, including some Lorem ipsum from the
+old WordPress build. This resolves on recrawl. Nothing to fix.
+
+**Title tags duplicate the brand.** The live contact page title is
+*"Contact ARIOSETECH, Get a Free Quote | ARIOSETECH"*. The `%s | ARIOSETECH`
+template appends the brand to a title that already contains it. Fix in the
+admin per page — trim the page-level SEO title to *"Contact, Get a Free Quote"*
+and let the template add the brand.
+
+**Duplicate FAQ entries on `/contact`.** *"What is your pricing structure?"* and
+*"How does your pricing work?"* are the same question twice, and both are in
+your FAQ schema. Merge them in the admin.
+
+**Twitter card metadata is generic.** `twitter:title` on `/contact` reads
+*"WordPress, Shopify & WooCommerce Development Agency"* while `og:title` is
+page-specific. Low priority; affects social CTR only.

@@ -5,6 +5,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs'
 import { webPageSchema, serviceSchema, breadcrumbSchema, trailFromPath, isServicePath, faqSchema, faqFromSections, itemListSchema } from '@/lib/schema'
 import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
+import { withServerData } from '@/lib/builder/server-data'
 import SetFooterCta from '@/components/layout/SetFooterCta'
 
 
@@ -157,6 +158,10 @@ export default async function DynamicPage({ params }: Props) {
     }
   }
 
+  // Fill data-driven sections (portfolio, blog) on the server so their content
+  // lands in the initial HTML instead of appearing only after a client fetch.
+  const sections = await withServerData(page.layout.sections)
+
   return (
     <>
       {schemas.map((s, i) => (
@@ -179,7 +184,7 @@ export default async function DynamicPage({ params }: Props) {
         />
       )}
       <BuilderRenderer
-        sections={page.layout.sections}
+        sections={sections}
         pageName={page.title || 'Page'}
         pageUrl={pageUrl}
       />
