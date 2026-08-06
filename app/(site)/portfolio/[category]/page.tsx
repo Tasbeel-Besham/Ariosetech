@@ -7,10 +7,18 @@ import PortfolioSection from '@/components/sections/PortfolioSection'
 import { withServerData, getPortfolioItems } from '@/lib/builder/server-data'
 import CtaSection from '@/components/sections/CtaSection'
 
-// Cached, with on-demand invalidation when portfolio items or pages are saved.
-// Previously force-dynamic, so every crawl and every visitor paid a full round
-// trip to MongoDB.
-export const revalidate = 3600
+// Rendered per request.
+//
+// This was briefly `revalidate = 3600`. That was wrong for this app: the root
+// layout's force-dynamic had been forcing EVERY page to render per request, so
+// switching it made the whole site prerender at build time — including pages
+// whose files were never touched. Any page whose database read failed or came
+// back empty during the build got that empty result baked in and served until
+// the next revalidation.
+//
+// Caching is still worth doing here, but only once the build is known to reach
+// MongoDB reliably. Correct beats fast.
+export const dynamic = 'force-dynamic'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
@@ -66,14 +74,6 @@ async function allowedCategories(): Promise<Set<string>> {
     // DB unavailable — fall back to the base list rather than 404 everything.
   }
   return base
-}
-
-/**
- * Prerender the four core category pages. Others (project-specific tags) still
- * resolve on demand via allowedCategories().
- */
-export async function generateStaticParams() {
-  return BASE_CATEGORIES.map(category => ({ category }))
 }
 
 async function getPortfolioPage() {

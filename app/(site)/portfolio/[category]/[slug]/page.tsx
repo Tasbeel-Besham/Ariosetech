@@ -35,23 +35,6 @@ function canonicalPath(item: { category?: string; slug: string }): string {
   return `/portfolio/${(item.category || 'other').toLowerCase()}/${item.slug}`
 }
 
-/**
- * Prerender published case studies. Falls back to on-demand rendering if the
- * database is unreachable rather than failing the build.
- */
-export async function generateStaticParams() {
-  try {
-    const col = await getCollection<PortfolioItem>('portfolio')
-    const items = await col.find({ published: true }).toArray()
-    return items
-      .filter(i => i.slug)
-      .map(i => ({ category: (i.category || 'other').toLowerCase(), slug: String(i.slug) }))
-  } catch (e) {
-    console.error('[build] could not enumerate case studies:', e)
-    return []
-  }
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, slug } = await params
   const item = await getItem(slug)

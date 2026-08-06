@@ -31,18 +31,19 @@ type Props = Record<string, unknown>
 /** Map a portfolio document to the shape PortfolioSection expects. */
 function toPortfolioItem(doc: Record<string, any>) {
   const results = Array.isArray(doc.results) ? doc.results : []
+  // Every field forced to a primitive — see toBlogPost for why.
   return {
-    title: doc.title || '',
-    client: doc.client || '',
-    platform: doc.category || 'other',
-    cat: doc.category || 'other',
-    result: results[0]?.value || '',
-    resultLabel: results[0]?.label || '',
-    quote: doc.quote || doc.summary || '',
-    image: doc.image || '',
-    screenshot: doc.screenshot || '',
-    url: doc.clientUrl || '',
-    slug: doc.slug || '',
+    title: String(doc.title || ''),
+    client: String(doc.client || ''),
+    platform: String(doc.category || 'other'),
+    cat: String(doc.category || 'other'),
+    result: String(results[0]?.value || ''),
+    resultLabel: String(results[0]?.label || ''),
+    quote: String(doc.quote || doc.summary || ''),
+    image: String(doc.image || ''),
+    screenshot: String(doc.screenshot || ''),
+    url: String(doc.clientUrl || ''),
+    slug: String(doc.slug || ''),
   }
 }
 
@@ -61,6 +62,27 @@ async function fetchPortfolioItems() {
   }
 }
 
+/**
+ * Map a blog document to the plain shape BlogSection expects.
+ *
+ * This must not return the raw document. BuilderRenderer is a Client
+ * Component, and a Mongo doc carries an ObjectId `_id` and Date fields —
+ * class instances, which React cannot serialize across the server/client
+ * boundary. Passing one through throws "Only plain objects can be passed to
+ * Client Components", which takes down the whole page, not just the section.
+ */
+function toBlogPost(doc: Record<string, any>) {
+  return {
+    _id: String(doc._id ?? ''),
+    slug: String(doc.slug ?? ''),
+    title: String(doc.title ?? ''),
+    excerpt: String(doc.excerpt ?? ''),
+    category: String(doc.category ?? ''),
+    date: doc.date instanceof Date ? doc.date.toISOString() : String(doc.date ?? ''),
+    readTime: Number(doc.readTime ?? 0),
+  }
+}
+
 async function fetchBlogPosts(limit: number) {
   try {
     const col = await getCollection('blogs')
@@ -69,7 +91,7 @@ async function fetchBlogPosts(limit: number) {
       .sort({ date: -1 })
       .limit(Math.max(1, Math.min(limit || 3, 24)))
       .toArray()
-    return docs as Record<string, unknown>[]
+    return (docs as Record<string, any>[]).map(toBlogPost)
   } catch (e) {
     console.error('[server-data] blog read failed:', e)
     return []

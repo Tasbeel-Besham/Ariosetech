@@ -8,39 +8,20 @@ import { withServerData } from '@/lib/builder/server-data'
 import SetFooterCta from '@/components/layout/SetFooterCta'
 
 
-// Cached and regenerated on demand. Previously force-dynamic, which meant
-// every visitor and every crawl paid a full MongoDB round trip. Admin saves
-// call revalidateSite() so published changes still appear immediately.
-export const revalidate = 3600
+// Rendered per request.
+//
+// This was briefly `revalidate = 3600`. That was wrong for this app: the root
+// layout's force-dynamic had been forcing EVERY page to render per request, so
+// switching it made the whole site prerender at build time — including pages
+// whose files were never touched. Any page whose database read failed or came
+// back empty during the build got that empty result baked in and served until
+// the next revalidation.
+//
+// Caching is still worth doing here, but only once the build is known to reach
+// MongoDB reliably. Correct beats fast.
+export const dynamic = 'force-dynamic'
 
 type Props = { params: Promise<{ slug: string[] }> }
-
-/**
- * Prerender every published page at build time.
- *
- * These are the real SEO landing pages — /services/*, /industries/* — and
- * without this they render on demand, so the first visitor after each
- * revalidation (often Googlebot) waits on a MongoDB round trip. Paths not
- * listed here still work; they fall back to on-demand rendering and are cached
- * from then on.
- *
- * Returns [] if the database is unreachable rather than throwing. A build must
- * never fail because of a transient DB blip.
- */
-export async function generateStaticParams() {
-  try {
-    const col = await getCollection<PageDoc>('pages')
-    const pages = await col.find({ status: 'published' }).toArray()
-    return pages
-      .map(p => String(p.fullPath || ''))
-      .filter(fp => fp.startsWith('/') && fp !== '/')
-      .map(fp => ({ slug: fp.replace(/^\/+/, '').split('/') }))
-      .filter(x => x.slug.length > 0 && x.slug.every(Boolean))
-  } catch (e) {
-    console.error('[build] could not enumerate pages:', e)
-    return []
-  }
-}
 
 async function getPageData(slugArray: string[]) {
   const path = '/' + slugArray.join('/')

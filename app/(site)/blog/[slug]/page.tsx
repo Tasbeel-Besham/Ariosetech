@@ -13,26 +13,18 @@ type Props = { params: Promise<{ slug: string }> }
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
-// Cached and regenerated on demand. Previously force-dynamic, which meant
-// every visitor and every crawl paid a full MongoDB round trip. Admin saves
-// call revalidateSite() so published changes still appear immediately.
-export const revalidate = 3600
-
-/**
- * Prerender published posts so the first visitor after each revalidation is not
- * the one paying for the database round trip. Returns [] if the DB is
- * unreachable — posts then render on demand instead of failing the build.
- */
-export async function generateStaticParams() {
-  try {
-    const col = await getCollection<BlogDoc>('blogs')
-    const posts = await col.find({ published: true }).toArray()
-    return posts.map(p => ({ slug: String(p.slug) })).filter(p => p.slug)
-  } catch (e) {
-    console.error('[build] could not enumerate blog posts:', e)
-    return []
-  }
-}
+// Rendered per request.
+//
+// This was briefly `revalidate = 3600`. That was wrong for this app: the root
+// layout's force-dynamic had been forcing EVERY page to render per request, so
+// switching it made the whole site prerender at build time — including pages
+// whose files were never touched. Any page whose database read failed or came
+// back empty during the build got that empty result baked in and served until
+// the next revalidation.
+//
+// Caching is still worth doing here, but only once the build is known to reach
+// MongoDB reliably. Correct beats fast.
+export const dynamic = 'force-dynamic'
 
 /** Fail-safe lookup — this now runs at build time as well as per request. */
 async function getPost(slug: string): Promise<BlogDoc | null> {
