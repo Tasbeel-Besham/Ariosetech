@@ -21,11 +21,22 @@ type Props = {
    constant speed. A 6000px page and a 1500px page therefore scroll at the same
    perceived rate instead of both taking a fixed 4 seconds — which made short
    screenshots crawl and long ones blur past.                                  */
-const PAN_SPEED_PX_PER_SEC = 420   // felt rate of the downward pan
-const MIN_PAN_MS           = 1200  // never snap, even on barely-tall images
-const MAX_PAN_MS           = 9000  // never hold the user hostage on a huge page
-const RETURN_MS            = 650   // snap back up faster than it went down
+const PAN_SPEED_PX_PER_SEC = 165   // felt rate of the downward pan
+const MIN_PAN_MS           = 1800  // never snap, even on barely-tall images
+const MAX_PAN_MS           = 16000 // long pages take their time rather than rush
+const RETURN_MS            = 520   // return faster than the pan, but not a snap
+const START_DELAY_MS       = 140   // hover intent — ignore a mouse passing over
 const MIN_TRAVEL_PX        = 24    // below this there is nothing worth panning
+
+/* Easing.
+   The pan previously used cubic-bezier(0.4, 0, 0.25, 1). A symmetric ease of
+   that shape peaks at roughly twice its average speed in the middle, so even a
+   sensible average read as a whip through the centre of the image. Reading a
+   page is a steady motion: this curve is close to linear with only soft ends,
+   holding peak speed near ~1.2x average. The return keeps a normal ease-out —
+   snapping back should feel like a release, not a scroll. */
+const PAN_EASE    = 'cubic-bezier(0.25, 0.1, 0.75, 0.9)'
+const RETURN_EASE = 'cubic-bezier(0.4, 0, 0.2, 1)'
 
 /**
  * Portfolio grid — a 3-column grid of project cards. Each card is a framed
@@ -50,8 +61,9 @@ function ProjectCard({ item, index }: { item: Item; index: number }) {
 
   const frameRef = useRef<HTMLDivElement>(null)
   const imgRef   = useRef<HTMLImageElement>(null)
+  const delayRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const [isTall, setIsTall] = useState(false)
-  const [pan, setPan]       = useState({ y: 0, ms: 0 })
+  const [pan, setPan]       = useState({ y: 0, ms: 0, ease: PAN_EASE })
 
   /** How far the image can travel inside the frame, and how long that takes. */
   const measure = useCallback(() => {
@@ -85,7 +97,7 @@ function ProjectCard({ item, index }: { item: Item; index: number }) {
   useEffect(() => {
     const onResize = () => {
       setIsTall(measure().travel > 0)
-      setPan({ y: 0, ms: 0 })
+      setPan({ y: 0, ms: 0, ease: PAN_EASE })
     }
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
@@ -93,12 +105,24 @@ function ProjectCard({ item, index }: { item: Item; index: number }) {
 
   const start = () => {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const { travel, ms } = measure()
-    if (!travel) return
-    setPan({ y: -travel, ms })
+    // Brief delay so sweeping the cursor across the grid doesn't set every
+    // card in motion at once.
+    clearTimeout(delayRef.current)
+    delayRef.current = setTimeout(() => {
+      const { travel, ms } = measure()
+      if (!travel) return
+      setPan({ y: -travel, ms, ease: PAN_EASE })
+    }, START_DELAY_MS)
   }
 
-  const stop = () => setPan(p => (p.y === 0 ? p : { y: 0, ms: RETURN_MS }))
+  const stop = () => {
+    clearTimeout(delayRef.current)
+    setPan(p => (p.y === 0 ? p : { y: 0, ms: RETURN_MS, ease: RETURN_EASE }))
+  }
+
+  // Don't leave a pending start running after the card unmounts (filtering the
+  // grid does exactly that).
+  useEffect(() => () => clearTimeout(delayRef.current), [])
 
   return (
     <Link
@@ -119,7 +143,11 @@ function ProjectCard({ item, index }: { item: Item; index: number }) {
             alt={`${item.title} — full page screenshot`}
             onLoad={handleLoad}
             className={`pfc-shot${isTall ? '' : ' pfc-shot--cover'}`}
-            style={{ transform: `translate3d(0, ${pan.y}px, 0)`, transitionDuration: `${pan.ms}ms` }}
+            style={{
+              transform: `translate3d(0, ${pan.y}px, 0)`,
+              transitionDuration: `${pan.ms}ms`,
+              transitionTimingFunction: pan.ease,
+            }}
             loading="lazy"
             draggable={false}
           />

@@ -1,57 +1,64 @@
-# Breadcrumb — tight spacing + no background seam
+# Portfolio hover pan — slower, steadier
 
-**One file: `styles/globals.css`.** Drop it in, replacing the existing one.
-Apply after all previous zips. No component or page changes.
+Two files. Apply after all previous zips (`styles/globals.css` overlaps and this
+is newest).
 
-Verified: `next build` compiles, `tsc` 0 errors.
+Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors.
 
 ---
 
-## I was wrong about the header
+## Why it felt fast
 
-I built the last two fixes on the assumption that the header is fixed and
-something had to clear it. It isn't — `.nav-header` is `position: sticky`, which
-occupies space in normal flow. Content already starts below it.
+Two causes, and the second mattered more than the first.
 
-So there was never any clearance to carry. The original `pt-[92px]` on the
-breadcrumb wrapper, and the 82px I replaced it with, were **both pure waste**,
-sitting on top of the hero's own `pt-[88px]`. That's why the gap stayed large
-after two attempts — I kept re-adding the thing that was causing it.
+**1. The speed was too high.** 420 px/s of image travel inside a ~400px frame
+is quick — the whole page went by in about three seconds.
 
-## The background seam
+**2. The easing doubled it in the middle.** The pan used
+`cubic-bezier(0.4, 0, 0.25, 1)`, a symmetric ease-in-out. That shape peaks at
+roughly **twice its average speed** halfway through, so even a reasonable
+average read as a whip through the centre of the image — exactly the part
+someone is trying to look at.
 
-The bar sat above the hero, on the flat page background. The hero's decorative
-backdrop — the faint grid and brand glow — began at the hero's top edge, so the
-boundary showed as a hard horizontal line right under the breadcrumb.
-
-Now the bar is pulled into the section below with `margin-bottom: -32px` and
-`z-index: 5`, so the hero's backdrop paints **behind** it. No edge, because
-there's no longer a boundary there. The breadcrumb now lives inside the hero's
-existing top padding instead of adding a band of its own.
-
-## Numbers
+## What changed
 
 | | Before | After |
 |---|---|---|
-| Header bottom → breadcrumb | ~110px | 20px |
-| Header bottom → hero eyebrow | ~130px | 60px |
+| Speed | 420 px/s | 165 px/s |
+| Peak speed | ~2x average | ~1.2x average |
+| Max duration | 9s | 16s |
+| Return | 650ms | 520ms |
 
-Mobile: 14px and 46px.
+The pan easing is now `cubic-bezier(0.25, 0.1, 0.75, 0.9)` — close to linear
+with soft ends, because reading a page is a steady motion, not a swing. The
+return keeps a normal ease-out; snapping back should feel like a release.
 
-`.section`, `.pd-hero`, `.dt-hero` and `.faqp-main` starts tightened to 76px
-(56px mobile) — enough to clear the overlapping breadcrumb plus breathing room.
+Raising the cap from 9s to 16s matters more than it looks: with a 9s ceiling,
+any screenshot needing more than that was silently sped up to fit. Long pages
+now travel at the same rate as short ones instead of rushing.
 
-## One detail worth knowing
+A typical 1400x6000 screenshot in a 400px frame now takes about 8.5 seconds
+end to end, versus roughly 3.4 before.
 
-The bar is `pointer-events: none` with the list re-enabling itself. It now
-overlaps the hero, and a full-width invisible strip would otherwise swallow
-clicks on anything beneath it — including a hero CTA sitting high in the layout.
+## Also added: hover intent
 
-## Check after deploy
+A 140ms delay before the pan starts. Sweeping the cursor across the grid used to
+set every card it touched into motion at once, which read as chaotic. The timer
+is cleared on mouse-out and on unmount, so filtering the grid mid-hover doesn't
+leave a pending animation behind.
 
-- `/services` in **light mode** — the seam from your screenshot should be gone
-- `/services` in dark mode
-- The homepage — no breadcrumb, spacing **unchanged**
-- A case study (`.pd-hero`) and `/faq` (`.faqp-main`)
-- Hover a hero button near the top to confirm clicks aren't blocked
-- One page at 375px
+## Tuning
+
+Top of `components/sections/PortfolioSection.tsx`:
+
+```ts
+const PAN_SPEED_PX_PER_SEC = 165   // lower = slower
+const MIN_PAN_MS           = 1800
+const MAX_PAN_MS           = 16000
+const RETURN_MS            = 520
+const START_DELAY_MS       = 140
+```
+
+Speed is the only one worth touching. Try 130 if it's still brisk, 200 if it now
+drags. Duration is derived from real travel distance, so changing it keeps every
+card consistent regardless of screenshot height.
