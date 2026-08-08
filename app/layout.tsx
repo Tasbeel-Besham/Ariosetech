@@ -20,6 +20,8 @@ const OG_IMAGE = process.env.NEXT_PUBLIC_OG_IMAGE || LOGO
 const FAVICON = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539349/ariosetech/cmeul8vugjeeujikb4e5.png'
 
 export const metadata: Metadata = {
+  // Lets browsers, feed readers and aggregators auto-discover /rss.xml.
+  alternates: { types: { 'application/rss+xml': [{ url: '/rss.xml', title: 'ARIOSETECH Blog' }] } },
   title: { default: 'ARIOSETECH, Consider It Solved', template: '%s | ARIOSETECH' },
   description: 'Professional WordPress, Shopify & WooCommerce development since 2017. 100+ businesses scaled globally.',
   metadataBase: new URL('https://ariosetech.com'),

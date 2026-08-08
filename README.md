@@ -1,82 +1,98 @@
-# Sitemap fixes
+# Cleanup + blogging improvements
 
-One file: `app/sitemap.xml/route.ts`. Apply after the rollback zip.
+8 files (1 new: `app/rss.xml/route.ts`). Apply after the sitemap zip.
 
-Verified: `next build` compiles, `tsc` 0 errors, and the generation logic was
-tested against hostile input (ampersands in slugs, trailing slashes, missing
-dates, duplicates, malformed paths).
-
----
-
-## 1. Fifteen URLs were being submitted that may not exist
-
-This is the most likely source of Search Console errors.
-
-`STATIC_ROUTES` hardcoded `/services`, `/services/business-automation`,
-`/about/team`, `/industries` and eleven `/industries/*` paths. **None of those
-are code routes.** They're builder pages resolved through `[...slug]`, so they
-only exist while a matching published page sits in the database.
-
-Unpublish one, rename its slug, or delete it, and the URL 404s — while the
-sitemap keeps submitting it. That is exactly what produces **"Submitted URL not
-found (404)"** in Search Console.
-
-They were also redundant: the pages loop already emits every published page,
-with a real `lastmod`. The hardcoded list now contains only the 14 routes that
-exist as files and therefore cannot 404.
-
-**Check this first.** Search Console → Pages → "Submitted URL not found (404)".
-If `/about/team` or any `/industries/*` path is listed, that's this bug.
-
-## 2. Portfolio URLs could contradict their own canonical
-
-The category was used raw: a project stored as `"Shopify"` produced
-`/portfolio/Shopify/thekapra` in the sitemap, while the page's own canonical
-says `/portfolio/shopify/thekapra`. You were submitting a URL that the page
-itself disowns — Search Console reports that as **"Duplicate, submitted URL not
-selected as canonical"** or **"Alternate page with proper canonical tag."**
-
-Now lowercased to match the route exactly.
-
-Related: items with no category were skipped entirely, so any case study missing
-one was never submitted at all. They now default to `other`, matching what the
-route does.
-
-## 3. One bad slug could invalidate the entire sitemap
-
-There was no XML escaping. A single `&` in a blog slug makes the document
-malformed, and Search Console rejects **the whole sitemap** with a parse error
-rather than skipping the bad line — so one typo silently costs you every URL.
-
-Now escaped, and tested with `&` and quotes in slugs.
-
-## 4. Smaller things
-
-- **`lastmod` fallback** — blogs and case studies used only `updatedAt`. Posts
-  carrying just a `date` produced no `lastmod` at all. Now falls back to `date`,
-  then `createdAt`.
-- **`changefreq` and `priority` removed** — Google has ignored both for years.
-  They were noise.
-- **`Content-Type`** now declares `charset=utf-8`.
-- **Cache headers** — one hour at the CDN with stale-while-revalidate, so
-  repeated crawler fetches don't each hit MongoDB. The route itself stays
-  `force-dynamic`.
+Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors. The RSS
+generator was tested against ampersands, HTML in excerpts, missing dates and
+null slugs.
 
 ---
 
-## What I could not check
+## Deleted — dead weight
 
-I could not fetch your live sitemap or the `/industries/*` pages from here, so I
-cannot confirm which of those 15 URLs currently 404. The fix removes the risk
-either way, but the Search Console coverage report will tell you what damage was
-already done.
+**The `<meta name="keywords">` tag.** Google has ignored it since 2009. It was
+being written on every builder page and into your Article schema, so filling it
+in returned nothing while publishing your target keyword list to any competitor
+who viewed source.
 
-## After deploying
+Removed from three places:
+- `app/(site)/[...slug]/page.tsx` — the meta tag
+- `lib/schema.ts` — two places feeding it into JSON-LD
+- Both blog editors — the "Focus Keywords" / "Keywords" input, so nobody wastes
+  time filling a field that does nothing
 
-1. Load `https://ariosetech.com/sitemap.xml` — confirm it renders and that no
-   `/industries/*` path appears unless that page really exists.
-2. Search Console → Sitemaps → resubmit.
-3. Pages report → check "Submitted URL not found (404)" shrinks over the next
-   few crawls.
-4. Spot-check one case-study URL from the sitemap against the canonical in that
-   page's source — they should match character for character.
+**Your stored data is untouched.** The `keywords` field still exists on the
+type and in the database; it simply isn't rendered. Nothing to migrate, and it's
+reversible.
+
+## Fixed — the blog listing had no limit
+
+`/blog` fetched and rendered **every** published post on one page. That grows
+without bound: slower LCP, more bytes, worse crawl target with every post you
+publish. Now capped at 24, which is roughly two screens of cards.
+
+You'll want real pagination once you pass that — worth doing properly with
+`/blog/page/2` URLs rather than a "load more" button, since infinite scroll
+hides content from crawlers.
+
+## Added — RSS feed at `/rss.xml`
+
+Three reasons this earns its place:
+
+1. **Perplexity and similar engines weight freshness heavily**, and a feed is
+   the cheapest possible signal that new content exists.
+2. **Feed readers and newsletter tools can't subscribe without one** — Feedly,
+   Inoreader, Mailchimp RSS campaigns.
+3. **Other people's automation consumes feeds** — roundup newsletters, Slack
+   bots, "best posts this week" lists. Those are brand mentions you don't have
+   to ask for, which is the lever that correlates most strongly with AI
+   visibility.
+
+Not a ranking factor. A distribution channel.
+
+Auto-discovery added to `<head>` so browsers and readers find it, plus `host` in
+robots.txt.
+
+---
+
+## Delete these yourself — I won't touch your files
+
+Eight dead files in your project root, none imported by the app. They produced
+every one of the lint errors that forced `ignoreDuringBuilds: true`:
+
+```
+find-icons.js   fix-image-icon.js   generate-icons.js   replace-icons.js
+scratch_db.js   seed-footer.js      db.ts               old_hero.tsx
+```
+
+**Four unused dependencies** — zero imports anywhere in `app/`, `components/`,
+`lib/`, `styles/` or config:
+
+```bash
+npm uninstall react-hook-form zod @hookform/resolvers geist
+```
+
+They don't reach your bundle (unused imports are tree-shaken), so this is
+install time and audit surface, not page weight. Verify with `npm run build`
+before committing.
+
+---
+
+## SEO mistakes I could NOT fix in code
+
+Your keyword cannibalization lives in **database content**, not files. `/` and
+`/services` currently target near-identical terms, and `/services/wordpress`
+overlaps `/portfolio/wordpress`. Fixing that means rewriting titles, meta
+descriptions and H1s in the admin — your copy, your voice, and you asked me not
+to touch public-facing copy.
+
+The rule: one primary term per page, and the title, H1, first paragraph and
+inbound anchor text should agree. `/` should own the brand plus your strongest
+service; `/services` should be a hub that links out rather than competing.
+
+## Check after deploying
+
+1. `https://ariosetech.com/rss.xml` — should list your posts
+2. Paste it into [validator.w3.org/feed](https://validator.w3.org/feed/)
+3. `/blog` still renders; view source and confirm no `<meta name="keywords">`
+4. Open a post in the admin — the Keywords input is gone, everything else works

@@ -102,7 +102,6 @@ export function articleSchema(opts: {
     author: { '@type': 'Organization', name: opts.author || ORG_NAME },
     publisher: { '@type': 'Organization', name: ORG_NAME, '@id': ORG_ID },
     mainEntityOfPage: { '@type': 'WebPage', '@id': opts.url },
-    keywords: opts.keywords?.length ? opts.keywords.join(', ') : undefined,
   }
 }
 
@@ -223,7 +222,6 @@ export function caseStudySchema(opts: {
     url: opts.url,
     ...(opts.image ? { image: opts.image } : {}),
     ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
-    ...(opts.keywords && opts.keywords.length ? { keywords: opts.keywords.join(', ') } : {}),
     ...(opts.clientName ? { about: { '@type': 'Organization', name: opts.clientName } } : {}),
     creator: { '@id': ORG_ID },
     publisher: { '@id': ORG_ID },

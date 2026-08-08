@@ -68,7 +68,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    keywords: seo.keywords?.length ? seo.keywords.join(', ') : undefined,
     openGraph: {
       type: 'website',
       siteName: 'ARIOSETECH',

@@ -204,11 +204,12 @@ export default function NewBlogPost() {
               <textarea value={form.seo.description} onChange={e => setSeo('description', e.target.value)} rows={2} placeholder={form.excerpt || 'Describe this post for search engines…'} className={`${inpClass} resize-y`} />
               <p className={`font-mono text-[10px] mt-1 ${form.seo.description.length > 160 ? 'text-[#ff4d6d]' : 'text-text-3'}`}>{form.seo.description.length}/160</p>
             </div>
+            {/* The "Focus Keywords" input was removed. It wrote a
+                <meta name="keywords"> tag, which Google has ignored since 2009 —
+                so filling it in returned nothing and published the target list
+                to anyone reading the page source. The stored data is untouched;
+                it simply is not rendered any more. */}
             <div className="grid grid-cols-2 gap-3 max-md:grid-cols-1">
-              <div>
-                <label className={lblClass}>Focus Keywords (comma separated)</label>
-                <input value={form.seo.keywords} onChange={e => setSeo('keywords', e.target.value)} placeholder="wordpress speed, site optimization" className={inpClass} />
-              </div>
               <div>
                 <label className={lblClass}>OG Image URL</label>
                 <div className="flex gap-1.5">

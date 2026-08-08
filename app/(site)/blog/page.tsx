@@ -40,7 +40,11 @@ export default async function BlogPage() {
   let posts: BlogDoc[] = []
   try {
     const col = await getCollection<BlogDoc>('blogs')
-    posts = await col.find({ published: true }).sort({ date: -1 }).toArray()
+    // Bounded. This was unbounded: every published post was fetched and
+    // rendered on one page, so the page grew without limit as the blog did —
+    // slower LCP, more bytes, and a worse crawl target every time you publish.
+    // 24 is roughly two screens of cards; add pagination when you outgrow it.
+    posts = await col.find({ published: true }).sort({ date: -1 }).limit(24).toArray()
   } catch { /* DB not configured */ }
 
   const [featured, ...rest] = posts

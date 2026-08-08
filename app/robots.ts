@@ -10,5 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: 'https://ariosetech.com/sitemap.xml',
+    host: 'https://ariosetech.com',
   }
 }

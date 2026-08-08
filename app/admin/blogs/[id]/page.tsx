@@ -166,7 +166,8 @@ export default function EditBlogPost() {
               <p className={`font-mono text-[10px] mt-1 ${form.seo.description.length > 160 ? 'text-[#ff4d6d]' : 'text-text-3'}`}>{form.seo.description.length}/160</p>
             </div>
             <div className="grid grid-cols-2 gap-3 max-md:grid-cols-1">
-              <div><label className={lblClass}>Keywords</label><input value={form.seo.keywords} onChange={e => setSeo('keywords', e.target.value)} placeholder="wordpress, speed" className={inpClass} /></div>
+              {/* Keywords input removed — it wrote a <meta name="keywords">
+                  tag, ignored by Google since 2009. Stored data is untouched. */}
               <div>
                 <label className={lblClass}>OG Image URL</label>
                 <div className="flex gap-1.5">
