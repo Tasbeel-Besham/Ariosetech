@@ -2958,3 +2958,321 @@ select,
 @media (prefers-reduced-motion: reduce) {
   .blog-pager-num, .blog-pager-arrow { transition: none; }
 }
+
+/* ══ INDUSTRIES PAGE ═══════════════════════════════════════════════════
+   A technical-manual treatment: an index with dotted leaders, then numbered
+   specimen entries. Hairlines and type do the work — no cards, no icon grid,
+   no gradient panels. All `.ind-` prefixed so nothing collides with the
+   existing section styles.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.ind-shell {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+.ind-eyebrow {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 0 0 18px;
+}
+
+/* ── Index (hero) ── */
+.ind-index { padding: 72px 0 88px; border-bottom: 1px solid var(--border); }
+
+.ind-index-lede { max-width: 720px; margin-bottom: 64px; }
+
+.ind-index-title {
+  font-family: var(--font-display, inherit);
+  font-weight: 800;
+  /* Tight leading and a slight negative track so a long sentence reads as one
+     considered statement rather than a stacked slogan. */
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--heading);
+  margin: 0 0 24px;
+  text-wrap: balance;
+}
+
+.ind-index-intro {
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.72;
+  color: var(--text-2);
+  margin: 0;
+  max-width: 62ch;
+}
+
+.ind-toc-note {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0 0 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-2);
+}
+
+.ind-toc-list { list-style: none; margin: 0; padding: 0; }
+
+.ind-toc-link {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  transition: background-color 0.16s var(--ease, ease), padding-left 0.16s var(--ease, ease);
+}
+.ind-toc-link:hover {
+  background: rgba(var(--primary-rgb), 0.05);
+  padding-left: 12px;
+}
+.ind-toc-link:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+.ind-toc-num {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  flex-shrink: 0;
+  width: 26px;
+}
+
+.ind-toc-name {
+  font-family: var(--font-display, inherit);
+  font-size: clamp(15px, 1.7vw, 19px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--heading);
+  flex-shrink: 0;
+}
+.ind-toc-link:hover .ind-toc-name { color: var(--primary); }
+
+/* The dotted leader — the signature detail. Fills the gap between the name and
+   its specialism the way a printed contents page does. */
+.ind-toc-leader {
+  flex: 1;
+  min-width: 24px;
+  height: 1px;
+  align-self: center;
+  background-image: radial-gradient(circle, var(--text-3) 1px, transparent 1px);
+  background-size: 6px 1px;
+  background-repeat: repeat-x;
+  opacity: 0.45;
+}
+
+.ind-toc-focus {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+/* ── Contrast ── */
+.ind-contrast { padding: 88px 0; border-bottom: 1px solid var(--border); }
+
+.ind-contrast-head { max-width: 680px; margin-bottom: 56px; }
+
+.ind-contrast-title,
+.ind-entries-title {
+  font-family: var(--font-display, inherit);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  color: var(--heading);
+  margin: 0 0 18px;
+  text-wrap: balance;
+}
+
+.ind-contrast-intro {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-2);
+  margin: 0;
+  max-width: 58ch;
+}
+
+.ind-contrast-rows { display: flex; flex-direction: column; gap: 0; }
+
+.ind-pair { padding: 34px 0; border-top: 1px solid var(--border); }
+.ind-pair:last-child { border-bottom: 1px solid var(--border); }
+
+.ind-pair-subject {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0 0 22px;
+}
+
+.ind-pair-cols {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.ind-pair-split { background: var(--border-2); align-self: stretch; }
+
+.ind-pair-label {
+  font-family: var(--font-display, inherit);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--heading);
+  margin: 0 0 10px;
+}
+
+.ind-pair-text {
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* ── Entries ── */
+.ind-entries { padding: 88px 0 96px; }
+
+.ind-entries-head { max-width: 620px; margin-bottom: 56px; }
+
+.ind-entry-list { display: flex; flex-direction: column; }
+
+.ind-entry {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 24px;
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  /* Offsets the sticky header when the index links jump down the page. */
+  scroll-margin-top: 88px;
+}
+.ind-entry:last-child { border-bottom: 1px solid var(--border); }
+
+.ind-entry-mark { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+
+.ind-entry-num {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--primary);
+}
+
+.ind-entry-rule { width: 28px; height: 1px; background: var(--border-3); }
+
+.ind-entry-name {
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--heading);
+  margin: 0 0 24px;
+}
+
+.ind-entry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 22px; }
+
+.ind-entry-label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0 0 9px;
+}
+
+.ind-entry-text { font-size: 14.5px; line-height: 1.74; color: var(--text-2); margin: 0; }
+
+.ind-entry-stack { display: flex; align-items: center; gap: 10px; margin: 0; flex-wrap: wrap; }
+
+.ind-entry-stack-label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.ind-entry-stack-value {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+  padding: 5px 11px;
+  border: 1px solid var(--border-2);
+  border-radius: 999px;
+}
+
+/* ── Closing ── */
+.ind-closing { margin-top: 72px; padding-top: 40px; border-top: 2px solid var(--border-3); max-width: 640px; }
+
+.ind-closing-title {
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--heading);
+  margin: 0 0 14px;
+}
+
+.ind-closing-text { font-size: 15px; line-height: 1.72; color: var(--text-2); margin: 0 0 22px; }
+
+.ind-closing-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  text-decoration: none;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.35);
+  transition: border-color 0.16s var(--ease, ease), gap 0.16s var(--ease, ease);
+}
+.ind-closing-link:hover { border-bottom-color: var(--primary); gap: 14px; }
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .ind-pair-cols { grid-template-columns: 1fr; gap: 24px; }
+  .ind-pair-split { display: none; }
+  .ind-pair-col + .ind-pair-col { padding-top: 22px; border-top: 1px solid var(--border); }
+  .ind-entry-grid { grid-template-columns: 1fr; gap: 22px; }
+}
+
+@media (max-width: 640px) {
+  .ind-index { padding: 48px 0 60px; }
+  .ind-contrast, .ind-entries { padding: 60px 0; }
+  .ind-index-lede { margin-bottom: 44px; }
+
+  /* The leader dots need horizontal room to read as leaders. Below this width
+     there isn't any, so the specialism moves under the name instead. */
+  .ind-toc-link { flex-wrap: wrap; gap: 8px 12px; padding: 14px 4px; }
+  .ind-toc-leader { display: none; }
+  .ind-toc-focus { width: 100%; padding-left: 38px; }
+
+  .ind-entry { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
+  .ind-entry-mark { flex-direction: row; align-items: center; gap: 10px; }
+  .ind-entry-rule { width: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ind-toc-link, .ind-closing-link { transition: none; }
+}
