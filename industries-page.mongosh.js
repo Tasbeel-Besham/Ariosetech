@@ -1,0 +1,236 @@
+// /industries page — v2
+//   mongosh "<YOUR_MONGODB_URI>" industries-page.mongosh.js
+//
+// Safe to re-run. If /industries exists it updates in place (same _id) after
+// backing the old layout up to `page_layout_backups`. Otherwise it inserts.
+
+const doc = {
+  "title": "Industries",
+  "slug": "industries",
+  "parentId": null,
+  "fullPath": "/industries",
+  "layout": {
+    "sections": [
+      {
+        "id": "ind-hero-01",
+        "type": "hero-interactive",
+        "props": {
+          "eyebrow": "Industry-Specific E-commerce Development",
+          "headline": "We have built this before, in your industry",
+          "headingTag": "h1",
+          "subheadline": "Eleven verticals, each with its own catalogue rules, pricing logic and definition of “in stock”. We know which ones apply to you before the first call.",
+          "supportingText": "",
+          "ctaPrimaryLabel": "Get a Free Quote",
+          "ctaPrimaryHref": "/contact",
+          "ctaSecondaryLabel": "See Our Work",
+          "ctaSecondaryHref": "/portfolio",
+          "trust": "11 Industries Served,100+ Projects Delivered,Since 2017,30-Day Guarantee"
+        },
+        "meta": {
+          "label": "Hero"
+        }
+      },
+      {
+        "id": "ind-directory-02",
+        "type": "industry-directory",
+        "props": {
+          "headingTag": "h2",
+          "eyebrow": "Choose your industry",
+          "headline": "Eleven verticals we know well enough to skip the discovery call",
+          "intro": "A perfume store and a wholesale fabric supplier both sell products. Almost nothing else about them matches — not the variants, not the pricing rules, not what \"in stock\" means. Pick yours to see how we build for it.",
+          "countLabel": "11 industries",
+          "items": [
+            {
+              "name": "Fashion & Apparel",
+              "href": "/industries/fashion-apparel",
+              "note": "Colour and size multiply into thousands of variants, and colour is the first filter shoppers touch.",
+              "tags": "Shopify · WooCommerce"
+            },
+            {
+              "name": "Beauty & Cosmetics",
+              "href": "/industries/beauty-cosmetics",
+              "note": "Shade is the whole decision, and ingredient lists change by market.",
+              "tags": "Shopify · WooCommerce"
+            },
+            {
+              "name": "Fragrances & Perfumes",
+              "href": "/industries/fragrances-perfumes",
+              "note": "You cannot smell a website, so samples carry the discovery load.",
+              "tags": "Shopify · WooCommerce"
+            },
+            {
+              "name": "Sports Equipment",
+              "href": "/industries/sports-equipment",
+              "note": "Custom kit is made after the order, so the page promises a date, not a quantity.",
+              "tags": "Shopify Liquid"
+            },
+            {
+              "name": "B2B Wholesale",
+              "href": "/industries/b2b-wholesale",
+              "note": "Price depends on who is logged in and what was agreed offline.",
+              "tags": "WooCommerce · Plus"
+            },
+            {
+              "name": "Jewelry & Accessories",
+              "href": "/industries/jewelry-accessories",
+              "note": "High value per parcel, and configurators that price a combination rather than a product.",
+              "tags": "Shopify · WooCommerce"
+            },
+            {
+              "name": "Health & Wellness",
+              "href": "/industries/health-wellness",
+              "note": "Revenue lives in the second order, so subscription mechanics matter more than the storefront.",
+              "tags": "Shopify · WooCommerce"
+            },
+            {
+              "name": "Home & Decor",
+              "href": "/industries/home-decor",
+              "note": "Freight, not parcels. Free shipping here is a way to lose money quietly.",
+              "tags": "WooCommerce"
+            },
+            {
+              "name": "Transport & Logistics",
+              "href": "/industries/transport-logistics",
+              "note": "Nothing is bought from the page. The job is a quote request detailed enough to price.",
+              "tags": "WordPress · Next.js"
+            },
+            {
+              "name": "Telecommunications",
+              "href": "/industries/telecommunications",
+              "note": "Availability is a postcode question before it is a product question.",
+              "tags": "WordPress · MySQL"
+            },
+            {
+              "name": "Education",
+              "href": "/industries/education",
+              "note": "Enrolment is decided over several visits, often by someone who is not the student.",
+              "tags": "WordPress · Next.js"
+            }
+          ]
+        },
+        "meta": {
+          "label": "Industry Directory"
+        }
+      },
+      {
+        "id": "ind-contrast-03",
+        "type": "industry-contrast",
+        "props": {
+          "headingTag": "h2",
+          "eyebrow": "Why the vertical matters",
+          "headline": "The same brief, built two different ways",
+          "intro": "Each pair below looks like one job on a proposal. In the build they diverge early, and the decision that separates them is usually made in the first week.",
+          "pairs": [
+            {
+              "subject": "A product with options",
+              "left": "Fashion",
+              "leftDetail": "Colour and size multiply into hundreds of variants, each needing its own stock count, and shoppers filter by colour before anything else. Get the colour taxonomy wrong and the filter silently returns nothing.",
+              "right": "Perfume",
+              "rightDetail": "One scent, three bottle sizes, and a sample that is a different product with different margins. The decision is whether a sample purchase discounts the full bottle later."
+            },
+            {
+              "subject": "A price",
+              "left": "Retail",
+              "leftDetail": "One number, visible to everyone, occasionally discounted by a coupon. The checkout maths is addition.",
+              "right": "Wholesale",
+              "rightDetail": "Price depends on who is logged in, how many units they take, and what was agreed on their contract. Nothing is shown until an account is approved."
+            },
+            {
+              "subject": "Shipping",
+              "left": "Jewelry",
+              "leftDetail": "Small, light, insured, signature on delivery. Cost barely moves with basket size, so free shipping is safe to offer.",
+              "right": "Home & Decor",
+              "rightDetail": "A sofa ships by freight with a delivery window, a kerbside option, and a return that costs more than the margin. Free shipping here is a way to lose money quietly."
+            },
+            {
+              "subject": "\"In stock\"",
+              "left": "Sports Equipment",
+              "leftDetail": "Custom kit is made after the order, so stock is really lead time. The page has to promise a date, not a quantity.",
+              "right": "Telecommunications",
+              "rightDetail": "Availability is a postcode question before it is a product question. The wrong answer wastes an engineer visit."
+            }
+          ]
+        },
+        "meta": {
+          "label": "Why the vertical matters"
+        }
+      },
+      {
+        "id": "ind-cta-04",
+        "type": "cta",
+        "props": {
+          "eyebrow": "Not on the list?",
+          "headline": "Tell us how your products are ordered, priced and delivered",
+          "headingTag": "h2",
+          "desc": "Eleven verticals is where our experience runs deep. It is not a limit. Describe your setup and we will tell you honestly whether we are the right build partner.",
+          "trust": "No Long-Term Contracts,30-Day Money-Back Guarantee,Free Post-Launch Support,Transparent Pricing",
+          "ctaLabel": "Describe Your Project",
+          "ctaHref": "/contact",
+          "secondaryLabel": "View Our Portfolio",
+          "secondaryHref": "/portfolio"
+        },
+        "meta": {
+          "label": "Closing CTA"
+        }
+      }
+    ]
+  },
+  "status": "published",
+  "seo": {
+    "title": "Industries We Build For | E-commerce Development by Vertical",
+    "description": "Eleven industries, and the specific technical problem each one hits — variant-heavy fashion catalogues, wholesale tier pricing, freight shipping for decor, postcode availability checks.",
+    "keywords": [],
+    "canonicalUrl": "https://ariosetech.com/industries",
+    "ogTitle": "Industries We Build For",
+    "ogDescription": "Eleven industries, and the specific technical problem each one hits.",
+    "ogImage": "",
+    "twitterTitle": "Industries We Build For",
+    "twitterDescription": "Eleven industries, and the specific technical problem each one hits.",
+    "twitterImage": "",
+    "robots": {
+      "index": true,
+      "follow": true
+    }
+  },
+  "footerCta": {
+    "headline": "Not sure which of these you are?",
+    "desc": "Tell us how your products are ordered, priced and delivered. We will tell you what that changes about the build.",
+    "primaryLabel": "Get a Free Quote",
+    "primaryHref": "/contact"
+  },
+  "schema": null,
+  "relatedPages": [],
+  "relatedBlogs": [],
+  "slugHistory": [],
+  "createdAt": new Date(),
+  "updatedAt": new Date()
+};
+
+const existing = db.pages.findOne({ fullPath: "/industries" });
+
+if (existing) {
+  db.page_layout_backups.insertOne({
+    fullPath: "/industries",
+    pageId: existing._id,
+    layout: existing.layout || { sections: [] },
+    createdAt: new Date(),
+    note: "Backup before industries redesign v2"
+  });
+  print("Backed up " + (((existing.layout || {}).sections || []).length) + " existing section(s).");
+
+  db.pages.updateOne(
+    { _id: existing._id },
+    { $set: {
+        layout: doc.layout,
+        seo: doc.seo,
+        footerCta: doc.footerCta,
+        status: doc.status,
+        updatedAt: new Date()
+    }}
+  );
+  print("Updated /industries in place (_id kept: " + existing._id + ").");
+} else {
+  print("Inserted /industries: " + db.pages.insertOne(doc).insertedId);
+}
+
+print("Done. Check /industries, then edit copy in the admin builder.");

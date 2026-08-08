@@ -1,80 +1,70 @@
-# Industries page — redesign
+# Industries page — v2
 
-6 files (4 new). Apply after the blog pagination zip — `styles/globals.css` and
-`lib/builder/registry-init.ts` overlap and these are newest.
+**Replaces v1 entirely.** 4 code files + the page document.
 
-Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors.
+Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors, and all 11
+directory links confirmed to point at real `/industries/<slug>` pages with no
+in-page anchors.
 
 ---
 
-## The design idea
+## What was wrong with v1
 
-An industries page is normally a grid of eleven identical icon cards. That says
-nothing — eleven interchangeable tiles read as *"we'll take any work"*, which is
-the opposite of the argument you want to make.
+**No hero.** I built a custom opener instead of using the site hero that runs on
+every other page, so /industries didn't look like it belonged to the site.
 
-This is built as a **technical index instead**:
+**It went nowhere.** The index linked to `#anchors` further down the same page.
+You have a real page per industry, so that was the wrong model twice over — it
+gave visitors a dead end, and it wasted the internal links that should be
+passing authority from this page to eleven child pages.
 
-1. **Industry Index** — the hero is a real table of contents. Eleven verticals,
-   numbered, with dotted leaders running to a one-word specialism. Each row
-   jumps to its entry. The structure is honest rather than decorative: it's a
-   genuine index, and the count is the argument.
-2. **Industry Contrast** — the case, made by comparison. Four pairs of
-   businesses that look like one job on a proposal, with the technical decision
-   that separates them. Purely typographic; an icon would only decorate it.
-3. **Industry Entries** — eleven numbered specimen entries: the problem that
-   vertical actually hits, what gets built for it, the stack it lands on.
+**It also duplicated them.** Eleven long entries here would compete with the
+eleven pages that cover the same ground properly.
 
-Hairlines and type carry the design. No cards, no gradient panels, no icon grid.
-The one flourish is the dotted leader in the index, and everything around it is
-kept quiet so it reads as the signature rather than one effect among many.
+## What v2 is
 
-**Nothing is behind a tab or an accordion.** All eleven entries are in the DOM
-at load, so crawlers and answer engines see the whole page without running
-JavaScript — the same failure that made your portfolio invisible.
+| # | Section | Notes |
+|---|---|---|
+| 1 | `hero-interactive` | Your standard site hero, so the page matches everything else |
+| 2 | `industry-directory` | **New.** 11 rows, each a real link to `/industries/<slug>` |
+| 3 | `industry-contrast` | Kept from v1 — makes the case without duplicating child pages |
+| 4 | `cta` | Your existing site CTA |
 
-## The content
+**Removed:** `industry-index` and `industry-entries` are deregistered and their
+component files deleted. Nothing else used them.
 
-Written to be specific rather than salesy, and grounded in work you've actually
-done — the colour-taxonomy filter failure from the 845-product catalogue, custom
-kit lead times, wholesale tier pricing, postcode-first availability.
+## The directory design
 
-**Read it before publishing.** It's my draft in my words, and it should be
-yours. Every field is editable in the builder, so you can rewrite in place.
+Editorial two-column: a sticky lede on the left, the linked list on the right.
+Rows rather than a card grid — eleven identical cards read as filler, a list
+reads as a directory, which is what this is.
 
-Two things I'd check specifically: the stack lines ("Shopify · WooCommerce")
-should match what you'd actually recommend, and the closing note says eleven
-verticals is where you're strong but not a limit — make sure that's the position
-you want to take.
+Each row carries a number, the industry name, a one-line "what changes here",
+and platform tags. On hover an accent bar grows from the centre, the row shifts
+3px, and the arrow slides. That's the only flourish; everything else stays
+quiet.
 
-## Applying the layout
+Tags hide below 860px and the layout stacks below 1024px, so the name and
+descriptor always carry the row on mobile.
 
-The page content lives in MongoDB, so a code deploy alone won't change it. Deploy
-first, then:
+## Applying it
+
+Deploy the code first, then:
 
 ```bash
-node scripts/build-industries-page.mjs             # dry run — shows the plan
-node scripts/build-industries-page.mjs --apply     # writes it
-node scripts/build-industries-page.mjs --restore   # undo
+mongosh "<YOUR_MONGODB_URI>" industries-page.mongosh.js
 ```
 
-Needs `MONGODB_URI` (reads `.env.local` if it's there). Before writing, it copies
-your current layout to a `page_layout_backups` collection, so `--restore` puts
-it back exactly.
-
-It only replaces `layout.sections`. Your SEO settings, slug, title and status are
-untouched. It will not create the page — if `/industries` doesn't exist yet,
-create it in the admin first.
-
-**Alternatively, ignore the script entirely.** The three sections appear in the
-builder's section list once deployed, so you can assemble the page by hand and
-never run it.
+Safe to re-run. If `/industries` exists it updates in place keeping the same
+`_id`, after copying the old layout to `page_layout_backups`. `industries-page.json`
+is the same document for Compass, but only use it if the page does not already
+exist — a plain insert would create a duplicate `fullPath`.
 
 ## Check after applying
 
 - `/industries` in dark **and** light mode
-- 375px wide — the leader dots hide below 640px and the specialism moves under
-  the name, since dots need horizontal room to read as leaders
-- Click an index row; it should jump to that entry with the heading clear of the
-  sticky header
-- Tab through the index — focus outlines should be visible
+- Click three or four rows — each should land on that industry page
+- 375px wide — tags hidden, rows still readable
+- Tab through the list; focus outlines visible
+- **Read the copy.** Still my draft. The one-line descriptors and the hero
+  subheadline are the ones most worth rewriting in your voice.

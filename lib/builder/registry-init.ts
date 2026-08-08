@@ -7,9 +7,8 @@ import { registerSection, getSection } from '@/lib/builder/registry'
 import type { SectionDefinition } from '@/types'
 
 import InteractiveHeroSection   from '@/components/sections/InteractiveHeroSection'
-import IndustryIndexSection     from '@/components/sections/IndustryIndexSection'
+import IndustryDirectorySection from '@/components/sections/IndustryDirectorySection'
 import IndustryContrastSection  from '@/components/sections/IndustryContrastSection'
-import IndustryEntriesSection   from '@/components/sections/IndustryEntriesSection'
 import ServicesAccordionSection from '@/components/sections/ServicesAccordionSection'
 import WhyUsSection             from '@/components/sections/WhyUsSection'
 import PortfolioSection         from '@/components/sections/PortfolioSection'
@@ -686,30 +685,32 @@ export function initRegistry() {
      accordions, so crawlers and answer engines see all eleven verticals
      without running JavaScript. */
 
+
   registerSection({
-    type: 'industry-index',
+    type: 'industry-directory',
     category: 'Sections',
-    label: 'Industry Index',
-    icon: '\u{1F4D1}',
-    component: IndustryIndexSection as C,
+    label: 'Industry Directory',
+    icon: '\u{1F9ED}',
+    component: IndustryDirectorySection as C,
     defaultProps: {
-      headingTag: 'h1',
+      headingTag: 'h2',
       eyebrow: 'Industries',
-      headline: 'We build for eleven kinds of catalogue. They are not the same catalogue.',
-      intro: 'A perfume store and a wholesale fabric supplier both sell products. Almost nothing else about them matches \u2014 not the variants, not the pricing rules, not what "in stock" means. These are the industries we know well enough to skip the discovery call.',
-      note: 'Select an industry, or read the entries below.',
-      rows: [],
+      headline: 'Eleven verticals we know well enough to skip the discovery call',
+      intro: 'A perfume store and a wholesale fabric supplier both sell products. Almost nothing else about them matches \u2014 not the variants, not the pricing rules, not what "in stock" means. Pick yours to see how we build for it.',
+      countLabel: '11 industries',
+      items: [],
     },
     schema: [
-      { type: 'select',   name: 'headingTag', label: 'Heading tag (SEO)', options: ['h1','h2','h3'] },
-      { type: 'text',     name: 'eyebrow',  label: 'Eyebrow' },
-      { type: 'textarea', name: 'headline', label: 'Headline' },
-      { type: 'textarea', name: 'intro',    label: 'Intro paragraph' },
-      { type: 'text',     name: 'note',     label: 'Index note' },
-      { type: 'repeater', name: 'rows', label: 'Index rows (leave empty for defaults)', fields: [
-        { type: 'text', name: 'name',   label: 'Industry name' },
-        { type: 'text', name: 'focus',  label: 'Specialism (1-2 words)' },
-        { type: 'text', name: 'anchor', label: 'Anchor id (must match an entry)' },
+      { type: 'select',   name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h1'] },
+      { type: 'text',     name: 'eyebrow',    label: 'Eyebrow' },
+      { type: 'textarea', name: 'headline',   label: 'Headline' },
+      { type: 'textarea', name: 'intro',      label: 'Intro paragraph' },
+      { type: 'text',     name: 'countLabel', label: 'Count badge (optional)' },
+      { type: 'repeater', name: 'items', label: 'Industries (leave empty for defaults)', fields: [
+        { type: 'text',     name: 'name', label: 'Industry name' },
+        { type: 'text',     name: 'href', label: 'Link (e.g. /industries/fashion-apparel)' },
+        { type: 'textarea', name: 'note', label: 'One-line descriptor' },
+        { type: 'text',     name: 'tags', label: 'Platform tags (optional)' },
       ]},
     ],
   })
@@ -742,37 +743,4 @@ export function initRegistry() {
     ],
   })
 
-  registerSection({
-    type: 'industry-entries',
-    category: 'Sections',
-    label: 'Industry Entries',
-    icon: '\u{1F5C2}\uFE0F',
-    component: IndustryEntriesSection as C,
-    defaultProps: {
-      headingTag: 'h2',
-      eyebrow: 'The entries',
-      headline: 'What each one actually needs',
-      entries: [],
-      closingTitle: 'Not on the list?',
-      closingText: 'Eleven verticals is where our experience is deep enough to be useful on day one. It is not a limit. If you sell something that is not here, tell us how it is ordered, priced and delivered, and we will tell you honestly whether we are the right build partner.',
-      ctaLabel: 'Describe your project',
-      ctaHref: '/contact',
-    },
-    schema: [
-      { type: 'select',   name: 'headingTag',   label: 'Heading tag (SEO)', options: ['h2','h3'] },
-      { type: 'text',     name: 'eyebrow',      label: 'Eyebrow' },
-      { type: 'textarea', name: 'headline',     label: 'Headline' },
-      { type: 'repeater', name: 'entries', label: 'Entries (leave empty for defaults)', fields: [
-        { type: 'text',     name: 'anchor',  label: 'Anchor id' },
-        { type: 'text',     name: 'name',    label: 'Industry name' },
-        { type: 'textarea', name: 'problem', label: 'The problem' },
-        { type: 'textarea', name: 'build',   label: 'What we build' },
-        { type: 'text',     name: 'stack',   label: 'Stack line' },
-      ]},
-      { type: 'text',     name: 'closingTitle', label: 'Closing title' },
-      { type: 'textarea', name: 'closingText',  label: 'Closing text' },
-      { type: 'text',     name: 'ctaLabel',     label: 'CTA label' },
-      { type: 'text',     name: 'ctaHref',      label: 'CTA link' },
-    ],
-  })
 }
