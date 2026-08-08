@@ -1,10 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
-import { ArrowRight } from '@/components/ui/Icons'
-import SetFooterCta from '@/components/layout/SetFooterCta'
-import { getCollection } from '@/lib/db/mongodb'
-import type { BlogDoc } from '@/types'
+import BlogListing from '@/components/blog/BlogListing'
+import { getBlogPage } from '@/lib/blog'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
@@ -19,136 +15,11 @@ export const metadata: Metadata = {
     url: `${SITE}/blog`,
   },
 }
-// Rendered per request.
-//
-// This was briefly `revalidate = 3600`. That was wrong for this app: the root
-// layout's force-dynamic had been forcing EVERY page to render per request, so
-// switching it made the whole site prerender at build time — including pages
-// whose files were never touched. Any page whose database read failed or came
-// back empty during the build got that empty result baked in and served until
-// the next revalidation.
-//
-// Caching is still worth doing here, but only once the build is known to reach
-// MongoDB reliably. Correct beats fast.
+
+// Rendered per request, matching the rest of the site.
 export const dynamic = 'force-dynamic'
 
-function fmtDate(d: string) {
-  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-}
-
 export default async function BlogPage() {
-  let posts: BlogDoc[] = []
-  try {
-    const col = await getCollection<BlogDoc>('blogs')
-    // Bounded. This was unbounded: every published post was fetched and
-    // rendered on one page, so the page grew without limit as the blog did —
-    // slower LCP, more bytes, and a worse crawl target every time you publish.
-    // 24 is roughly two screens of cards; add pagination when you outgrow it.
-    posts = await col.find({ published: true }).sort({ date: -1 }).limit(24).toArray()
-  } catch { /* DB not configured */ }
-
-  const [featured, ...rest] = posts
-
-  return (
-    <>
-      <SetFooterCta
-        headline="Got a project instead of just a question?"
-        desc="Reading up is smart. When you're ready to build, fix, or grow your site, we're here."
-        primaryLabel="Get a Free Quote"
-        primaryHref="/contact"
-      />
-      {/* Header */}
-      <section className="blog-head">
-        <div className="blog-head-glow" aria-hidden="true" />
-        <div className="container relative z-1">
-          <p className="eyebrow mb-16">Knowledge Base</p>
-          <h1 className="blog-head-title">Insights &amp; Expertise</h1>
-          <p className="blog-head-sub">
-            Practical articles on WordPress, Shopify, WooCommerce and e-commerce growth, written by the engineers who build them.
-          </p>
-        </div>
-      </section>
-
-      {posts.length === 0 && (
-        <section className="section">
-          <div className="container text-center py-[60px]">
-            <p className="text-text-3 text-[15px]">No posts yet. Check back soon.</p>
-          </div>
-        </section>
-      )}
-
-      {/* Featured */}
-      {featured && (
-        <section className="section section--no-border pt-[56px] pb-[32px]">
-          <div className="container">
-            <Link href={`/blog/${featured.slug}`} className="blog-feature group">
-              <div className="blog-feature-media">
-                {(featured.featuredImage || featured.coverImage) ? (
-                  <Image
-                    src={(featured.featuredImage || featured.coverImage)!}
-                    alt={featured.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    sizes="(max-width: 900px) 100vw, 560px"
-                    priority
-                  />
-                ) : (
-                  <div className="blog-feature-fallback"><span>{featured.category}</span></div>
-                )}
-              </div>
-              <div className="blog-feature-body">
-                <div className="blog-badges">
-                  <span className="blog-cat">{featured.category}</span>
-                  <span className="blog-featured-flag">Featured</span>
-                </div>
-                <h2 className="blog-feature-title">{featured.title}</h2>
-                <p className="blog-feature-excerpt">{featured.excerpt}</p>
-                <div className="blog-feature-foot">
-                  <span className="blog-meta">{fmtDate(featured.date)} · {featured.readTime || featured.readingTime || 5} min read</span>
-                  <span className="blog-readmore">Read article <ArrowRight size={14} /></span>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </section>
-      )}
-
-      {/* Grid */}
-      {rest.length > 0 && (
-        <section className="section pt-[24px]">
-          <div className="container">
-            <p className="eyebrow mb-[28px]">All Articles</p>
-            <div className="blog-grid">
-              {rest.map((post) => (
-                <Link key={String(post._id)} href={`/blog/${post.slug}`} className="blog-card group">
-                  <div className="blog-card-media">
-                    {(post.featuredImage || post.coverImage) ? (
-                      <Image
-                        src={(post.featuredImage || post.coverImage)!}
-                        alt={post.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                        sizes="(max-width: 700px) 100vw, 360px"
-                      />
-                    ) : (
-                      <div className="blog-card-fallback"><span>{post.category}</span></div>
-                    )}
-                    <span className="blog-card-cat">{post.category}</span>
-                  </div>
-                  <div className="blog-card-body">
-                    <h3 className="blog-card-title">{post.title}</h3>
-                    <p className="blog-card-excerpt">{post.excerpt}</p>
-                    <div className="blog-card-foot">
-                      <span className="blog-meta">{fmtDate(post.date)} · {post.readTime || post.readingTime || 5} min</span>
-                      <ArrowRight size={14} className="text-primary transition-transform group-hover:translate-x-0.5" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-    </>
-  )
+  const data = await getBlogPage(1)
+  return <BlogListing data={data} />
 }

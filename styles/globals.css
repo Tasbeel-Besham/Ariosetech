@@ -2890,3 +2890,71 @@ select,
 @media (prefers-reduced-motion: reduce) {
   .bc-link { transition: none; }
 }
+
+/* ── Blog pagination ──────────────────────────────────────────────────
+   Numbered links rather than a "load more" button: content behind a click
+   is content a crawler may never reach. These are real anchors. */
+.blog-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.blog-pager-nums { display: flex; align-items: center; gap: 6px; }
+
+.blog-pager-num,
+.blog-pager-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: var(--text-2);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: border-color 0.16s var(--ease, ease), color 0.16s var(--ease, ease);
+}
+
+.blog-pager-num:hover,
+.blog-pager-arrow:hover { border-color: var(--primary); color: var(--primary); }
+
+.blog-pager-num.is-current {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  cursor: default;
+}
+
+.blog-pager-arrow.is-disabled {
+  opacity: 0.35;
+  cursor: default;
+  border-color: var(--border);
+  color: var(--text-3);
+}
+
+.blog-pager-gap { color: var(--text-3); font-size: 12px; padding: 0 2px; user-select: none; }
+
+.blog-head-page { color: var(--text-3); font-weight: 500; }
+
+@media (max-width: 640px) {
+  .blog-pager { gap: 6px; margin-top: 40px; padding-top: 24px; }
+  .blog-pager-num, .blog-pager-arrow { min-width: 32px; height: 32px; padding: 0 9px; font-size: 10px; }
+  /* Prev/Next carry the load on a narrow screen; numbers would wrap badly. */
+  .blog-pager-nums { order: -1; width: 100%; justify-content: center; margin-bottom: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-pager-num, .blog-pager-arrow { transition: none; }
+}

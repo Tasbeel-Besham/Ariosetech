@@ -1,98 +1,60 @@
-# Cleanup + blogging improvements
+# Blog pagination
 
-8 files (1 new: `app/rss.xml/route.ts`). Apply after the sitemap zip.
+5 files (3 new). Apply after the cleanup zip — `styles/globals.css` and
+`app/(site)/blog/page.tsx` overlap and these are newest.
 
-Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors. The RSS
-generator was tested against ampersands, HTML in excerpts, missing dates and
-null slugs.
+Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors. The
+page-window logic was tested at 3, 12, first, middle and last pages.
 
----
+## What this replaces
 
-## Deleted — dead weight
+The listing was capped at 24 posts in the last zip — which stopped the page
+growing without bound, but meant post 25 became unreachable. This is the proper
+fix: 12 per page at `/blog`, `/blog/page/2`, `/blog/page/3` and so on.
 
-**The `<meta name="keywords">` tag.** Google has ignored it since 2009. It was
-being written on every builder page and into your Article schema, so filling it
-in returned nothing while publishing your target keyword list to any competitor
-who viewed source.
+## Why numbered links and not "load more"
 
-Removed from three places:
-- `app/(site)/[...slug]/page.tsx` — the meta tag
-- `lib/schema.ts` — two places feeding it into JSON-LD
-- Both blog editors — the "Focus Keywords" / "Keywords" input, so nobody wastes
-  time filling a field that does nothing
+Content behind a button click is content a crawler may never reach. Every page
+link here is a real `<a href>`, so Google can walk the whole archive. Same class
+of bug as the portfolio one, where your case studies existed only after
+JavaScript ran.
 
-**Your stored data is untouched.** The `keywords` field still exists on the
-type and in the database; it simply isn't rendered. Nothing to migrate, and it's
-reversible.
+## The SEO details that matter
 
-## Fixed — the blog listing had no limit
+**Self-referencing canonicals.** `/blog/page/2` canonicalises to itself, not to
+`/blog`. Pointing paginated pages at page 1 is a common and damaging mistake —
+it tells Google the posts listed on page 3 are duplicates of page 1, so posts
+only reachable from deeper pages stop being discovered.
 
-`/blog` fetched and rendered **every** published post on one page. That grows
-without bound: slower LCP, more bytes, worse crawl target with every post you
-publish. Now capped at 24, which is roughly two screens of cards.
+**Distinct titles per page.** "Blog — Page 2 | …" rather than the same title
+repeated across every paginated URL.
 
-You'll want real pagination once you pass that — worth doing properly with
-`/blog/page/2` URLs rather than a "load more" button, since infinite scroll
-hides content from crawlers.
+**`/blog/page/1` redirects to `/blog`.** Otherwise the same content sits at two
+URLs competing with each other.
 
-## Added — RSS feed at `/rss.xml`
+**Past the last page returns 404.** An empty 200 is a soft-404 — Google reports
+those as errors, and it would let a crawler wander through unlimited empty
+pages. Non-numeric input (`/blog/page/abc`) 404s too, with `noindex` on the
+metadata as a second line of defence.
 
-Three reasons this earns its place:
+**Featured card only on page 1.** On later pages every post gets an equal card.
 
-1. **Perplexity and similar engines weight freshness heavily**, and a feed is
-   the cheapest possible signal that new content exists.
-2. **Feed readers and newsletter tools can't subscribe without one** — Feedly,
-   Inoreader, Mailchimp RSS campaigns.
-3. **Other people's automation consumes feeds** — roundup newsletters, Slack
-   bots, "best posts this week" lists. Those are brand mentions you don't have
-   to ask for, which is the lever that correlates most strongly with AI
-   visibility.
+## Change the page size
 
-Not a ranking factor. A distribution channel.
-
-Auto-discovery added to `<head>` so browsers and readers find it, plus `host` in
-robots.txt.
-
----
-
-## Delete these yourself — I won't touch your files
-
-Eight dead files in your project root, none imported by the app. They produced
-every one of the lint errors that forced `ignoreDuringBuilds: true`:
-
-```
-find-icons.js   fix-image-icon.js   generate-icons.js   replace-icons.js
-scratch_db.js   seed-footer.js      db.ts               old_hero.tsx
-```
-
-**Four unused dependencies** — zero imports anywhere in `app/`, `components/`,
-`lib/`, `styles/` or config:
-
-```bash
-npm uninstall react-hook-form zod @hookform/resolvers geist
-```
-
-They don't reach your bundle (unused imports are tree-shaken), so this is
-install time and audit surface, not page weight. Verify with `npm run build`
-before committing.
-
----
-
-## SEO mistakes I could NOT fix in code
-
-Your keyword cannibalization lives in **database content**, not files. `/` and
-`/services` currently target near-identical terms, and `/services/wordpress`
-overlaps `/portfolio/wordpress`. Fixing that means rewriting titles, meta
-descriptions and H1s in the admin — your copy, your voice, and you asked me not
-to touch public-facing copy.
-
-The rule: one primary term per page, and the title, H1, first paragraph and
-inbound anchor text should agree. `/` should own the brand plus your strongest
-service; `/services` should be a hub that links out rather than competing.
+`POSTS_PER_PAGE` at the top of `lib/blog.ts`. Counting and slicing happen in
+MongoDB, so this stays cheap however large the blog gets.
 
 ## Check after deploying
 
-1. `https://ariosetech.com/rss.xml` — should list your posts
-2. Paste it into [validator.w3.org/feed](https://validator.w3.org/feed/)
-3. `/blog` still renders; view source and confirm no `<meta name="keywords">`
-4. Open a post in the admin — the Keywords input is gone, everything else works
+1. `/blog` — 12 posts, pagination bar at the bottom (only once you have 13+)
+2. `/blog/page/2` — loads, no featured card, title says "Page 2"
+3. View source on page 2 — canonical points at `/blog/page/2`, not `/blog`
+4. `/blog/page/1` — redirects to `/blog`
+5. `/blog/page/999` and `/blog/page/abc` — both 404
+6. One page at 375px wide — numbers move above the Prev/Next row
+
+## Not included: the sitemap
+
+Paginated URLs are deliberately left out. Google discovers them by following
+links, and listing them adds bulk without adding value — your sitemap should
+advertise the posts themselves, which it already does.
