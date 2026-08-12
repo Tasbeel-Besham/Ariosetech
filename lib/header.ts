@@ -1,4 +1,5 @@
 import { getCollection } from '@/lib/db/mongodb'
+import { cache } from 'react'
 
 /** Raw menu documents, transformed in the navbar (the transform builds JSX icons). */
 export type RawMenus = {
@@ -38,7 +39,40 @@ export const HEADER_FALLBACK: HeaderSettings = {
  * Fail-safe: any error returns the fallback, so the header still renders (as
  * the wordmark) rather than the page failing.
  */
-export async function getHeaderSettings(): Promise<HeaderSettings> {
+/* ── Caching ───────────────────────────────────────────────────────────
+   Reading this on the server fixes the flash, but it also puts five database
+   queries in front of every page render — and the whole site is
+   force-dynamic, so every request would pay that.
+
+   Header branding and menus change only when someone saves them in the admin,
+   which is rare. A short in-process TTL means a warm serverless instance
+   serves them from memory instead. `clearHeaderCache()` is called by the
+   admin save routes, so edits still appear immediately rather than up to a
+   minute later.
+   ──────────────────────────────────────────────────────────────────── */
+
+const TTL_MS = 60_000
+let memo: { at: number; value: HeaderSettings } | null = null
+
+/** Called by the header/settings/menus save routes so admin edits show at once. */
+export function clearHeaderCache(): void {
+  memo = null
+}
+
+/**
+ * Per-request deduplication on top of the TTL cache. `cache()` guarantees one
+ * call per render pass even if several components ask for it.
+ */
+export const getHeaderSettings = cache(async (): Promise<HeaderSettings> => {
+  if (memo && Date.now() - memo.at < TTL_MS) return memo.value
+  const value = await readHeaderSettings()
+  // Only cache a real read. Caching a fallback would pin the wordmark in place
+  // for a minute after a transient database blip.
+  if (value !== HEADER_FALLBACK) memo = { at: Date.now(), value }
+  return value
+})
+
+async function readHeaderSettings(): Promise<HeaderSettings> {
   try {
     const [settingsCol, headerCol, menusCol] = await Promise.all([
       getCollection('settings'),

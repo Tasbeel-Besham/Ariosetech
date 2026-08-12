@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { revalidateSite } from '@/lib/cache'
+import { clearHeaderCache } from '@/lib/header'
 
 export async function GET(req: NextRequest) {
   const col = await getCollection('menus')
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     { $set: { ...body, updatedAt: new Date() } } as never,
     { upsert: true }
   )
-  revalidateSite()
+  clearHeaderCache()
+    revalidateSite()
   return NextResponse.json({ success: true })
 }

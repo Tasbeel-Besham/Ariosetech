@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { revalidateSite } from '@/lib/cache'
+import { clearHeaderCache } from '@/lib/header'
 
 const DEFAULT: Record<string, unknown> = {
   key: 'header', logo: '', logoAlt: 'ARIOSETECH', logoWidth: 160,
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
   const col = await getCollection('site_config')
   await col.updateOne({ key: 'header' }, { $set: { ...body, key: 'header', updatedAt: new Date() } } as never, { upsert: true })
-  revalidateSite()
+  clearHeaderCache()
+    revalidateSite()
   return NextResponse.json({ success: true })
 }

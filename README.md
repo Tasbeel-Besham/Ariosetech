@@ -1,75 +1,85 @@
-# Header flash — complete fix + a no-terminal Shopify fix
+# Header flash — complete fix (v2)
 
-Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors.
+Supersedes `ariosetech-header-ssr`. Verified: `next build` compiles, `tsc` 0
+errors, `eslint` 0 errors, and the cache logic was unit-tested including
+failure recovery.
 
 ---
 
-## The header flash: my last fix was half a fix
+## Your observation explains it exactly
 
-Your two screenshots show more than the logo changing. Look at the nav order:
+> "I see it on a few pages, and those are the pages where I see the loading screen"
 
-- **First paint:** HOME · SERVICES · **INDUSTRIES · PORTFOLIO · TOOLS** · ABOUT · BLOG · CONTACT
-- **A second later:** HOME · SERVICES · **TOOLS · INDUSTRIES · PORTFOLIO** · ABOUT · CONTACT · BLOG
+That correlation is the diagnosis, and it confirms the cause.
 
-The links reshuffle too. That told me I fixed the wrong half.
+The loading screen shows **once per browser session**. So the pages where you
+see it are the pages you loaded **fresh** — typed the URL, refreshed, or arrived
+from outside. Clicking a link inside the site is a client-side navigation: the
+layout never unmounts, the navbar keeps the logo it already has, and there is
+nothing to flash.
 
-Last time I server-rendered the **branding** (logo, site name, width) but left the
-**menus** being fetched in a `useEffect`. So the navbar still painted with the
-hardcoded fallback menu and then swapped to your saved one — same flash, second
-cause.
+So it isn't "a few pages". It is **every full page load**, which happens to be
+the same set of pages where the preloader appears. Same trigger, two symptoms.
 
-### Now fixed properly
+On a fresh load the sequence was:
 
-The menu transforms were buried inside that `useEffect`, meaning the resolved
-menus could only exist after the browser ran JavaScript. They are now plain
-functions (`resolveNavLinks`, `resolveServiceTabs`, `resolveToolLinks`) used as
-`useState` lazy initialisers.
+1. Server sends HTML with an empty logo → the text wordmark paints
+2. Preloader covers the screen for about a second
+3. Browser fetches `/api/settings` and `/api/menus`
+4. Curtain lifts — if the fetch hasn't landed yet, you watch the swap
 
-That matters because **client components are pre-rendered on the server** in the
-App Router. State computed from props during first render lands in the server
-HTML. State set from an effect does not. That distinction was the whole bug.
+On a cold serverless start those API calls can easily outlast the preloader,
+which is why it is intermittent rather than constant.
 
-`lib/header.ts` now reads the menus alongside the branding, and the client fetch
-is skipped entirely when server data is present — so there is no second paint at
-all, and five API round trips disappear from every page load.
+## What changed since the last zip
 
-One trap handled: Mongo documents carry `ObjectId` and `Date` instances, which
-React cannot serialize into a client component. They are JSON round-tripped
-before being passed, otherwise the page throws "Only plain objects can be passed
-to Client Components" — the same class of bug that took down the portfolio
-earlier.
+The previous version server-rendered only the **branding**. Your screenshots
+showed the nav **order** changing too, so the menus were still client-fetched.
+Both are now read on the server.
 
-## The Shopify page: fix it in 20 seconds, no terminal
+The menu transforms moved out of `useEffect` into plain functions used as
+`useState` lazy initialisers. Client components are pre-rendered on the server,
+so state computed from props during first render lands in the HTML — state set
+from an effect does not. That distinction was the entire bug.
 
-I have given you a mongosh script twice. Here is a version needing no terminal:
+## And a cost I introduced, now handled
 
-1. Open `https://ariosetech.com/admin/pages` — make sure you are logged in
-2. Press **F12**, click **Console**
-3. Paste all of `fix-shopify-in-browser.js`, press **Enter**
+Reading this server-side puts five database queries in front of every page
+render, and the site is force-dynamic, so every request would pay it. That would
+have traded a visible flash for a slower server response — a bad deal.
+
+`lib/header.ts` now has a 60-second in-process cache plus React `cache()` for
+per-request dedup. Header settings change only when you save them in the admin,
+so a warm instance serves them from memory.
+
+`clearHeaderCache()` is called by the header, settings and menus save routes, so
+your admin edits still appear immediately rather than up to a minute later.
+
+One detail worth knowing: a **fallback result is never cached**. If the database
+blips, the header falls back to the wordmark for that one request and the next
+request retries — rather than pinning the wordmark in place for a minute.
+
+## How to confirm it is actually deployed
+
+This is the check that settles it:
+
+```
+view-source:https://ariosetech.com/services/shopify
+```
+
+Search for your logo URL. If it is in the raw HTML, the fix is live. If you only
+find the wordmark text, the deploy has not gone out yet — and no amount of
+refreshing will change the behaviour.
+
+## The Shopify content — still needs one action
+
+`fix-shopify-in-browser.js` is included again. No terminal:
+
+1. Open `/admin/pages` while logged in
+2. **F12** → **Console**
+3. Paste the file, Enter
 4. Reload `/services/shopify`
 
-It uses your own admin API with the session cookie you already have, so it can
-only do what you could do by hand in the builder. Safe to run twice — it checks
-the state and stops if already fixed.
-
-It does four things:
-- Unhides the real Shopify hero, restoring the H1 "Professional Shopify
-  Development Services" (the page currently has **no correct H1** — the tool's
-  WordPress headline is standing in for it)
-- Rewrites the tool hero for Shopify and sets it to `h2` so you don't end up
-  with two `h1` elements
-- Puts the hero first
-- Adds the meta title and description the page never had
-
-**To be explicit about why deploying alone never fixed this:** that headline is
-a value saved in your MongoDB `pages` collection, not a string in the codebase.
-No code deploy rewrites database rows. The code change I made earlier only
-affects sections added *from now on*.
-
-## What to check
-
-1. Hard-refresh any page. The logo **and** the nav order should be correct on
-   the first frame — no reshuffle.
-2. `view-source:` and search for your logo URL; it should be in the raw HTML.
-3. Run the console script, reload `/services/shopify`.
-4. Confirm exactly one `<h1>` on that page (Console: `document.querySelectorAll('h1').length`).
+That headline lives in your MongoDB `pages` collection, not in the code. Nothing
+in a deploy rewrites database rows, so this will keep saying WordPress until the
+script runs or you edit the two fields in the builder by hand.
