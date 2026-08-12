@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
+import type { HeaderSettings } from '@/lib/header'
 import Link from 'next/link'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import { usePathname } from 'next/navigation'
@@ -494,11 +495,21 @@ function MobileDrawer({
 }
 
 /* ── Main Navbar ── */
-export default function Navbar() {
+/**
+ * `initialHeader` is read on the server by the site layout and seeds this
+ * component's state. Without it the navbar started with an empty logo, painted
+ * the text wordmark, then fetched /api/settings and swapped in the real image —
+ * a visible flash plus a layout shift on every page load.
+ *
+ * The client fetch below still runs, but now only to pick up menu data; the
+ * logo fields are skipped when the server already supplied them.
+ */
+export default function Navbar({ initialHeader }: { initialHeader?: HeaderSettings } = {}) {
+  const seeded = Boolean(initialHeader?.logoUrl)
   const [scrolled, setScrolled]     = useState(false)
-  const [logoUrl, setLogoUrl]       = useState('')
-  const [logoWidth, setLogoWidth]   = useState(160)
-  const [siteName, setSiteName]     = useState('ARIOSETECH')
+  const [logoUrl, setLogoUrl]       = useState(initialHeader?.logoUrl || '')
+  const [logoWidth, setLogoWidth]   = useState(initialHeader?.logoWidth || 160)
+  const [siteName, setSiteName]     = useState(initialHeader?.siteName || 'ARIOSETECH')
   const [tagline]                   = useState('Consider It Solved')
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -535,13 +546,17 @@ export default function Navbar() {
       fetch('/api/menus?location=services_mega').then(r => r.json()).catch(() => []),
       fetch('/api/menus?location=tools').then(r => r.json()).catch(() => [])
     ]).then(([headerData, settingsData, headerMenu, servicesMenu, toolsMenu]) => {
-      const logo = String(settingsData.logo_url || headerData.logo || '').trim()
-      if (logo) setLogoUrl(logo)
-      
-      const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
-      if (alt) setSiteName(alt)
-      
-      if (headerData.logoWidth) setLogoWidth(Number(headerData.logoWidth) || 160)
+      // Only apply branding here if the server did not already supply it.
+      // Re-setting identical values would repaint the logo for no reason.
+      if (!seeded) {
+        const logo = String(settingsData.logo_url || headerData.logo || '').trim()
+        if (logo) setLogoUrl(logo)
+
+        const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
+        if (alt) setSiteName(alt)
+
+        if (headerData.logoWidth) setLogoWidth(Number(headerData.logoWidth) || 160)
+      }
 
       if (Array.isArray(headerMenu) && headerMenu.length > 0) {
         const dbItems = headerMenu[0].items.map((i: any) => ({
@@ -611,6 +626,9 @@ export default function Navbar() {
         })))
       }
     })
+  // `seeded` comes from a server-rendered prop and never changes for the life
+  // of this component, so the effect intentionally runs once.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
