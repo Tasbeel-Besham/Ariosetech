@@ -76,13 +76,18 @@ async function readHeaderSettings(): Promise<HeaderSettings> {
   try {
     const [settingsCol, headerCol, menusCol] = await Promise.all([
       getCollection('settings'),
-      getCollection('header'),
+      // The header document lives in `site_config`, which is what
+      // /api/header reads and writes. `header` is not a collection that
+      // exists anywhere else in this codebase.
+      getCollection('site_config'),
       getCollection('menus'),
     ])
 
     const [settings, header, headerMenu, servicesMenu, toolsMenu] = await Promise.all([
-      settingsCol.findOne({} as never).catch(() => null),
-      headerCol.findOne({} as never).catch(() => null),
+      // Both of these were unfiltered findOne({}) calls, which return whichever
+      // document Mongo happens to hand back first rather than the one we want.
+      settingsCol.findOne({ key: 'site_settings' } as never).catch(() => null),
+      headerCol.findOne({ key: 'header' } as never).catch(() => null),
       // Menus too, not just branding. The nav LINKS were also arriving via the
       // client fetch, which is why the link order visibly reshuffles a moment
       // after the logo appears — two separate symptoms of the same cause.
@@ -91,7 +96,14 @@ async function readHeaderSettings(): Promise<HeaderSettings> {
       menusCol.find({ location: 'tools' } as never).toArray().catch(() => []),
     ])
 
-    const s = (settings || {}) as Record<string, unknown>
+    // /api/settings POST writes the payload nested under `value`, while the
+    // seed script and older documents wrote it flat. Read either shape, the
+    // same way app/layout.tsx already does for the Organization schema.
+    const settingsDoc = (settings || {}) as Record<string, unknown>
+    const nested = settingsDoc.value
+    const s = (nested && typeof nested === 'object' && !Array.isArray(nested)
+      ? nested
+      : settingsDoc) as Record<string, unknown>
     const h = (header || {}) as Record<string, unknown>
 
     // Same precedence the client fetch used, so behaviour is unchanged.
