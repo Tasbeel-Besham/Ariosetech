@@ -494,6 +494,84 @@ function MobileDrawer({
   )
 }
 
+/* ── Menu resolution ───────────────────────────────────────────────────
+   These were inline inside a useEffect, which meant the resolved menus only
+   existed after the browser ran JavaScript — so the nav painted with the
+   hardcoded defaults and then visibly reshuffled into the saved order.
+
+   As plain functions they can seed useState on the FIRST render. Client
+   components are pre-rendered on the server, so the correct order now ships in
+   the server HTML and nothing reorders.
+   ──────────────────────────────────────────────────────────────────── */
+
+function resolveNavLinks(headerMenu: any[]): NavItem[] {
+  if (!Array.isArray(headerMenu) || headerMenu.length === 0) return NAV_LINKS
+  const items = headerMenu[0]?.items
+  if (!Array.isArray(items) || items.length === 0) return NAV_LINKS
+
+  const dbItems = items.map((i: any) => ({
+    ...i,
+    hasMega: String(i.label || '').toLowerCase() === 'services',
+    hasTools: String(i.label || '').toLowerCase() === 'tools',
+    hasIndustries: typeof i.href === 'string' && i.href.startsWith('/industries'),
+    // Any item with its own children becomes a normal dropdown — this is how
+    // you add new dropdowns from the admin without touching code.
+    hasChildren: Array.isArray(i.children) && i.children.length > 0
+      && String(i.label || '').toLowerCase() !== 'services'
+      && String(i.label || '').toLowerCase() !== 'tools'
+      && !(typeof i.href === 'string' && i.href.startsWith('/industries')),
+  }))
+
+  // Guarantee code-defined nav items that a saved DB menu predates. Without
+  // this, a header menu saved before Industries existed would hide it
+  // permanently. Matched on href so we never duplicate an existing item.
+  for (const required of ['/industries']) {
+    const present = dbItems.some((i: any) =>
+      typeof i.href === 'string' && i.href.startsWith(required))
+    if (present) continue
+    const fromCode = NAV_LINKS.find(n => n.href === required)
+    if (!fromCode) continue
+    const at = dbItems.findIndex((i: any) =>
+      typeof i.href === 'string' && i.href.startsWith('/portfolio'))
+    const item = { ...fromCode, hasMega: false, hasTools: false, hasIndustries: true, hasChildren: false }
+    if (at >= 0) dbItems.splice(at, 0, item)
+    else dbItems.push(item)
+  }
+  return dbItems
+}
+
+function resolveServiceTabs(servicesMenu: any[]) {
+  if (!Array.isArray(servicesMenu) || servicesMenu.length === 0) return SERVICE_TABS
+  const items = servicesMenu[0]?.items
+  if (!Array.isArray(items) || items.length === 0) return SERVICE_TABS
+
+  const dbTabs = items.map((i: any, idx: number) => ({
+    id: idx + 1,
+    label: i.label,
+    href: i.href,
+    icon: getIcon(i.label),
+    items: i.children || [],
+  }))
+
+  // Guarantee code-defined categories a saved menu predates, matched on href
+  // so we never duplicate.
+  for (const required of ['/services/business-automation']) {
+    const present = dbTabs.some((t: any) =>
+      typeof t.href === 'string' && t.href.includes(required))
+    if (present) continue
+    const tab = SERVICE_TABS.find(t => t.href.includes(required))
+    if (tab) dbTabs.push({ ...tab, id: dbTabs.length + 1 })
+  }
+  return dbTabs
+}
+
+function resolveToolLinks(toolsMenu: any[]) {
+  if (!Array.isArray(toolsMenu) || toolsMenu.length === 0) return TOOL_LINKS
+  const items = toolsMenu[0]?.items
+  if (!Array.isArray(items) || items.length === 0) return TOOL_LINKS
+  return items.map((i: any) => ({ label: i.label, href: i.href, desc: i.desc || '' }))
+}
+
 /* ── Main Navbar ── */
 /**
  * `initialHeader` is read on the server by the site layout and seeds this
@@ -505,7 +583,8 @@ function MobileDrawer({
  * logo fields are skipped when the server already supplied them.
  */
 export default function Navbar({ initialHeader }: { initialHeader?: HeaderSettings } = {}) {
-  const seeded = Boolean(initialHeader?.logoUrl)
+  // True when the layout supplied server-read data, which is the normal path.
+  const seeded = Boolean(initialHeader)
   const [scrolled, setScrolled]     = useState(false)
   const [logoUrl, setLogoUrl]       = useState(initialHeader?.logoUrl || '')
   const [logoWidth, setLogoWidth]   = useState(initialHeader?.logoWidth || 160)
@@ -514,9 +593,15 @@ export default function Navbar({ initialHeader }: { initialHeader?: HeaderSettin
   const [mobileOpen, setMobileOpen] = useState(false)
 
   // Dynamic state
-  const [navLinks, setNavLinks] = useState<NavItem[]>(NAV_LINKS)
-  const [serviceTabs, setServiceTabs] = useState(SERVICE_TABS)
-  const [toolLinks, setToolLinks] = useState(TOOL_LINKS)
+  // Lazy initialisers: these run during the FIRST render, including the
+  // server render, so the resolved menus are in the HTML rather than being
+  // patched in after hydration.
+  const [navLinks, setNavLinks] = useState<NavItem[]>(
+    () => resolveNavLinks((initialHeader?.menus?.header as any[]) || []))
+  const [serviceTabs, setServiceTabs] = useState(
+    () => resolveServiceTabs((initialHeader?.menus?.services as any[]) || []))
+  const [toolLinks, setToolLinks] = useState(
+    () => resolveToolLinks((initialHeader?.menus?.tools as any[]) || []))
 
   // Services shifting state
   const [megaOpen, setMegaOpen]   = useState(false)
@@ -539,6 +624,12 @@ export default function Navbar({ initialHeader }: { initialHeader?: HeaderSettin
   const toolsTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
+    // The layout reads all of this on the server and passes it in, so in normal
+    // operation there is nothing to do here and no second paint. This fetch
+    // remains only as a fallback for any render path that mounts the navbar
+    // without server data.
+    if (seeded) return
+
     Promise.all([
       fetch('/api/header').then(r => r.json()).catch(() => ({})),
       fetch('/api/settings').then(r => r.json()).catch(() => ({})),
@@ -546,88 +637,20 @@ export default function Navbar({ initialHeader }: { initialHeader?: HeaderSettin
       fetch('/api/menus?location=services_mega').then(r => r.json()).catch(() => []),
       fetch('/api/menus?location=tools').then(r => r.json()).catch(() => [])
     ]).then(([headerData, settingsData, headerMenu, servicesMenu, toolsMenu]) => {
-      // Only apply branding here if the server did not already supply it.
-      // Re-setting identical values would repaint the logo for no reason.
-      if (!seeded) {
-        const logo = String(settingsData.logo_url || headerData.logo || '').trim()
-        if (logo) setLogoUrl(logo)
+      const logo = String(settingsData.logo_url || headerData.logo || '').trim()
+      if (logo) setLogoUrl(logo)
 
-        const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
-        if (alt) setSiteName(alt)
+      const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
+      if (alt) setSiteName(alt)
 
-        if (headerData.logoWidth) setLogoWidth(Number(headerData.logoWidth) || 160)
-      }
+      if (headerData.logoWidth) setLogoWidth(Number(headerData.logoWidth) || 160)
 
-      if (Array.isArray(headerMenu) && headerMenu.length > 0) {
-        const dbItems = headerMenu[0].items.map((i: any) => ({
-          ...i,
-          hasMega: i.label.toLowerCase() === 'services',
-          hasTools: i.label.toLowerCase() === 'tools',
-          hasIndustries: typeof i.href === 'string' && i.href.startsWith('/industries'),
-          // Any item with its own children becomes a normal dropdown — this is how
-          // you add new dropdowns from the admin without touching code.
-          hasChildren: Array.isArray(i.children) && i.children.length > 0
-            && i.label.toLowerCase() !== 'services' && i.label.toLowerCase() !== 'tools'
-            && !(typeof i.href === 'string' && i.href.startsWith('/industries')),
-        }))
-
-        // Guarantee code-defined nav items that a saved DB menu predates. Without
-        // this, a header menu saved before Industries existed would hide it
-        // permanently. Matched on href so we never duplicate an existing item.
-        for (const required of ['/industries']) {
-          const present = dbItems.some((i: any) =>
-            typeof i.href === 'string' && i.href.startsWith(required))
-          if (!present) {
-            const fromCode = NAV_LINKS.find(n => n.href === required)
-            if (fromCode) {
-              // Insert before Portfolio if present, else append.
-              const at = dbItems.findIndex((i: any) =>
-                typeof i.href === 'string' && i.href.startsWith('/portfolio'))
-              const item = { ...fromCode, hasMega: false, hasTools: false, hasIndustries: true, hasChildren: false }
-              if (at >= 0) dbItems.splice(at, 0, item)
-              else dbItems.push(item)
-            }
-          }
-        }
-        setNavLinks(dbItems)
-      }
-
-      if (Array.isArray(servicesMenu) && servicesMenu.length > 0
-          && Array.isArray(servicesMenu[0].items) && servicesMenu[0].items.length > 0) {
-        const dbTabs = servicesMenu[0].items.map((i: any, idx: number) => ({
-          id: idx + 1,
-          label: i.label,
-          href: i.href,
-          icon: getIcon(i.label),
-          items: i.children || []
-        }))
-        // Guarantee the Business Automation category is present even if the saved
-        // database menu predates it — merge it in rather than relying on the DB
-        // menu being edited by hand. Match on the href so we never duplicate it.
-        // Guarantee code-defined categories that a saved DB menu predates —
-        // merge them in rather than relying on the DB menu being edited by hand.
-        // Matched on href so we never duplicate.
-        for (const required of ['/services/business-automation']) {
-          const present = dbTabs.some((t: any) =>
-            typeof t.href === 'string' && t.href.includes(required))
-          if (!present) {
-            const tab = SERVICE_TABS.find(t => t.href.includes(required))
-            if (tab) dbTabs.push({ ...tab, id: dbTabs.length + 1 })
-          }
-        }
-        setServiceTabs(dbTabs)
-      }
-
-      if (Array.isArray(toolsMenu) && toolsMenu.length > 0) {
-        setToolLinks(toolsMenu[0].items.map((i: any) => ({
-          label: i.label,
-          href: i.href,
-          desc: i.desc || ''
-        })))
-      }
+      setNavLinks(resolveNavLinks(headerMenu))
+      setServiceTabs(resolveServiceTabs(servicesMenu))
+      setToolLinks(resolveToolLinks(toolsMenu))
     })
-  // `seeded` comes from a server-rendered prop and never changes for the life
-  // of this component, so the effect intentionally runs once.
+  // `seeded` is derived from a server-rendered prop and never changes for the
+  // life of this component, so the effect intentionally runs once.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
