@@ -1,30 +1,44 @@
 'use client'
 import { useState, useEffect } from 'react'
+import type { HeaderSettings } from '@/lib/header'
 import Link from 'next/link'
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from '@/components/ui/Icons'
 import { useFooterCta } from '@/components/layout/FooterCtaContext'
 import ReviewsBadge from '@/components/ui/ReviewsBadge'
 
-const SOCIALS = [
-  { icon:<Facebook  size={16} />, href:'https://www.facebook.com/ArioseTech/', label:'Facebook' },
-  { icon:<Instagram size={16} />, href:'https://www.instagram.com/_ariosetech/', label:'Instagram' },
-  { icon:<Linkedin  size={16} />, href:'https://linkedin.com/company/ariosetech', label:'LinkedIn' },
-  { icon:<Twitter   size={16} />, href:'https://twitter.com/ariosetech', label:'Twitter' },
+/* Icons stay static; the hrefs come from Settings. `key` maps to the field
+   name saved by the admin Settings screen. */
+const SOCIAL_ICONS = [
+  { key: 'facebook',  icon: <Facebook  size={16} />, label: 'Facebook',  fallback: 'https://www.facebook.com/ArioseTech/' },
+  { key: 'instagram', icon: <Instagram size={16} />, label: 'Instagram', fallback: 'https://www.instagram.com/_ariosetech/' },
+  { key: 'linkedin',  icon: <Linkedin  size={16} />, label: 'LinkedIn',  fallback: 'https://linkedin.com/company/ariosetech' },
+  { key: 'twitter',   icon: <Twitter   size={16} />, label: 'Twitter',   fallback: 'https://twitter.com/ariosetech' },
 ]
 
-const M = { fontFamily: 'var(--font-mono)' } as const
+/**
+ * `initialHeader` is read on the server by the site layout (same object the
+ * navbar gets) and seeds the logo state, so the real logo is in the HTML on
+ * first paint instead of the text wordmark flashing and then being replaced.
+ * Everything else still hydrates from /api/settings + /api/footer.
+ */
+export default function Footer({ initialHeader }: { initialHeader?: HeaderSettings } = {}) {
+  const [logoUrl, setLogoUrl] = useState(initialHeader?.logoUrl || '')
+  const [siteName, setSiteName] = useState(initialHeader?.siteName || 'ARIOSETECH')
 
-export default function Footer() {
-  const [logoUrl, setLogoUrl] = useState('')
-  const [siteName, setSiteName] = useState('ARIOSETECH')
-  
+  // Contact + socials, sourced from Settings
+  const [email, setEmail] = useState('info@ariosetech.com')
+  const [phone, setPhone] = useState('+92 300 9484 739')
+  const [whatsapp, setWhatsapp] = useState('https://wa.me/923009484739')
+  const [address, setAddress] = useState('95 College Road, Block E, PCSIR Staff Colony, Lahore, 54770')
+  const [socialUrls, setSocialUrls] = useState<Record<string, string>>({})
+
   // Footer data states
   const [ctaHeadline, setCtaHeadline] = useState('Ready to grow your business online?')
   const [ctaDesc, setCtaDesc] = useState('Join 100+ successful businesses. Professional results, affordable pricing, and ongoing support.')
   const [ctaLabel, setCtaLabel] = useState('Schedule Free Consultation')
   const [ctaHref, setCtaHref] = useState('/contact')
   const [tagline, setTagline] = useState('Professional WordPress, Shopify & WooCommerce Development since 2017. Trusted by 100+ businesses in the USA, UAE, and Switzerland.')
-  const [bottomText, setBottomText] = useState(`© ${new Date().getFullYear()} ARIOSETECH. All rights reserved.`)
+  const [bottomText, setBottomText] = useState('')
   const [columns, setColumns] = useState<any[]>([])
 
   // Per-page CTA override (set by pages via <SetFooterCta/>). Falls back to
@@ -35,6 +49,8 @@ export default function Footer() {
   const shownLabel    = pageCta?.primaryLabel || ctaLabel
   const shownHref     = pageCta?.primaryHref || ctaHref
 
+  const shownBottom = bottomText || `© ${new Date().getFullYear()} ${siteName}. All rights reserved.`
+
   useEffect(() => {
     Promise.all([
       fetch('/api/header').then(r => r.json()).catch(() => ({})),
@@ -43,9 +59,23 @@ export default function Footer() {
     ]).then(([headerData, settingsData, footerData]) => {
       const logo = String(settingsData.logo_url || headerData.logo || '').trim()
       if (logo && logo.startsWith('http')) setLogoUrl(logo)
-      
-      const alt = String(settingsData.site_name || headerData.logoAlt || 'ARIOSETECH').trim()
+
+      const alt = String(settingsData.site_name || headerData.logoAlt || '').trim()
       if (alt) setSiteName(alt)
+
+      // Contact details from Settings
+      if (settingsData.email) setEmail(String(settingsData.email).trim())
+      if (settingsData.phone) setPhone(String(settingsData.phone).trim())
+      if (settingsData.whatsapp) setWhatsapp(String(settingsData.whatsapp).trim())
+      if (settingsData.address) setAddress(String(settingsData.address).trim())
+
+      // Social URLs from Settings (only keys that are actually filled in)
+      const urls: Record<string, string> = {}
+      for (const s of SOCIAL_ICONS) {
+        const v = String(settingsData[s.key] || '').trim()
+        if (v) urls[s.key] = v
+      }
+      if (Object.keys(urls).length) setSocialUrls(urls)
 
       if (footerData.ctaHeadline) setCtaHeadline(footerData.ctaHeadline)
       if (footerData.ctaDesc) setCtaDesc(footerData.ctaDesc)
@@ -124,7 +154,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-col sm:flex-row w-full md:w-auto gap-[14px] shrink-0">
             <Link href={shownHref} className="btn btn-primary btn-lg">{shownLabel}</Link>
-            <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg">
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-lg">
               WhatsApp Us
             </a>
           </div>
@@ -139,7 +169,14 @@ export default function Footer() {
           <div className="col-span-full lg:col-span-1">
             <Link href="/" className="footer-logo-link">
               <div className="footer-wordmark">
-                {logoUrl ? <img src={logoUrl} alt={siteName} className="footer-logo-img" /> : siteName}
+                {logoUrl
+                  ? <img
+                      src={logoUrl}
+                      alt={siteName}
+                      className="footer-logo-img"
+                      onError={() => setLogoUrl('')}
+                    />
+                  : siteName}
               </div>
             </Link>
             <p className="footer-about">
@@ -148,12 +185,16 @@ export default function Footer() {
 
             {/* Socials */}
             <div className="flex gap-8">
-              {SOCIALS.map(s => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
-                  className="footer-social">
-                  {s.icon}
-                </a>
-              ))}
+              {SOCIAL_ICONS.map(s => {
+                const href = socialUrls[s.key] || s.fallback
+                if (!href) return null
+                return (
+                  <a key={s.label} href={href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                    className="footer-social">
+                    {s.icon}
+                  </a>
+                )
+              })}
             </div>
           </div>
 
@@ -179,15 +220,15 @@ export default function Footer() {
           <div>
             <p className="footer-col-title">Contact</p>
             <div className="flex flex-col gap-12">
-              <a href="mailto:info@ariosetech.com" className="footer-contact-link">
-                <Mail size={16} className="shrink-0" /> info@ariosetech.com
+              <a href={`mailto:${email}`} className="footer-contact-link">
+                <Mail size={16} className="shrink-0" /> {email}
               </a>
-              <a href="https://wa.me/923009484739" target="_blank" rel="noopener noreferrer" className="footer-contact-link">
-                <Phone size={16} className="shrink-0" /> +92 300 9484 739
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="footer-contact-link">
+                <Phone size={16} className="shrink-0" /> {phone}
               </a>
               <div className="footer-address">
                 <MapPin size={16} className="shrink-0 mt-3" />
-                <span>95 College Road, Block E, PCSIR<br/>Staff Colony, Lahore, 54770</span>
+                <span>{address}</span>
               </div>
             </div>
           </div>
@@ -204,7 +245,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between footer-bottom">
           <p className="footer-fineprint">
-            {bottomText}
+            {shownBottom}
           </p>
           <div className="flex gap-x-6 gap-y-3 flex-wrap items-center">
             {['Privacy Policy','Terms of Service','FAQ'].map(t => (

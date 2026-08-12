@@ -13,7 +13,8 @@ import { getHeaderSettings } from '@/lib/header'
  * branding can be read on the server and handed to the navbar as props.
  *
  * The practical effect: the correct logo is in the HTML on first paint instead
- * of the text wordmark flashing and then being replaced.
+ * of the text wordmark flashing and then being replaced. The same object is
+ * handed to <Footer> so the footer logo behaves identically.
  */
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const header = await getHeaderSettings()
@@ -33,7 +34,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       }} />
       <Navbar initialHeader={header} />
       <SiteMain>{children}</SiteMain>
-      <Footer />
+      <Footer initialHeader={header} />
       <Animations />
     </FooterCtaProvider>
   )
