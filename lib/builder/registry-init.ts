@@ -162,16 +162,28 @@ export function initRegistry() {
   registerSection({
     type: 'tool-hero', label: 'Tool Hero (hero + tool)', category: 'Sections', icon: '🚀',
     component: ToolHeroSection as C,
+    // Platform-NEUTRAL defaults on purpose. These were previously
+    // WordPress-specific ("Powerful WordPress development for your business",
+    // tool: wordpress-theme-detector). Someone added this section to
+    // /services/shopify, switched the tool dropdown to the Shopify detector,
+    // and left the headline untouched — shipping a Shopify page whose H1 said
+    // WordPress. Neutral defaults read as unfinished rather than as confident
+    // copy about the wrong platform, so a half-configured section is obvious.
     defaultProps: {
+      // h2 by default: this section is usually added below an existing hero
+      // that already owns the page's h1. Set it to h1 only on a standalone
+      // /tools/* page where this is the page heading.
+      headingTag: 'h2',
       eyebrow: 'Free Tool',
-      headline: 'Powerful WordPress development for your business',
-      subheadline: 'Custom themes, speed, and security — built to grow. Check your current site, then let us show you what we would improve.',
+      headline: 'Check your site in seconds',
+      subheadline: 'Run the free check below, then talk to us about what we would improve.',
       ctaLabel: 'Get a Free Quote',
       ctaHref: '/contact',
       tool: 'wordpress-theme-detector',
       toolLabel: 'Try it now — free, no signup',
     },
     schema: [
+      { type: 'select',   name: 'headingTag',  label: 'Heading tag (h1 only if page has no other hero)', options: ['h2','h1','h3'] },
       { type: 'text',     name: 'eyebrow',     label: 'Eyebrow badge' },
       { type: 'text',     name: 'headline',    label: 'Hero headline (H1)' },
       { type: 'textarea', name: 'subheadline', label: 'Subheadline' },

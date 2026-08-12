@@ -7,7 +7,18 @@ const nextConfig: NextConfig = {
   // type errors and 0 lint errors, so the build can gate on them properly.
   eslint: { ignoreDuringBuilds: false },
   typescript: { ignoreBuildErrors: false },
+  // Note on canonical URLs: Next redirects /path/ to /path by default, so
+  // trailing-slash duplicates are already handled. The www -> apex redirect is
+  // in redirects() below.
   images: {
+    // AVIF first, WebP second, original as the last resort. Next only serves a
+    // format the requesting browser advertises support for, so this is safe
+    // everywhere and typically 20-30% smaller than WebP alone. Only the
+    // default (['image/webp']) was in effect before.
+    formats: ['image/avif', 'image/webp'],
+    // A year. These URLs are content-hashed, so a long TTL costs nothing and
+    // saves repeat optimisation work on every cold cache.
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
       { protocol: 'https', hostname: '**.amazonaws.com' },
@@ -22,6 +33,15 @@ const nextConfig: NextConfig = {
     // Permanently redirect leftover WordPress URLs so they stop wasting crawl
     // budget and pass any residual authority to real pages. 301 = permanent.
     return [
+      // www -> apex, preserving the path. Without this, any page reachable at
+      // www.ariosetech.com is a full duplicate of the apex version competing
+      // for the same rankings.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.ariosetech.com' }],
+        destination: 'https://ariosetech.com/:path*',
+        permanent: true,
+      },
       { source: '/contact-us', destination: '/contact', permanent: true },
       { source: '/contact-us/:path*', destination: '/contact', permanent: true },
       { source: '/about-us', destination: '/about', permanent: true },

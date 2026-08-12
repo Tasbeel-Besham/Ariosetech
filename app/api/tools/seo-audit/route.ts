@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { logToolError } from '@/lib/tool-errors'
 
 /**
  * Basic on-page SEO audit. Fetches the page's public HTML and checks the
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
       finalUrl = res.url || normalized
       html = await res.text()
     } catch {
+      logToolError('seo-audit', 'unreachable', url)
       return NextResponse.json({ error: 'Could not reach this URL. Make sure it is publicly accessible.' }, { status: 400 })
     }
 

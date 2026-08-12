@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { logToolError } from '@/lib/tool-errors'
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
       html     = await res.text()
       finalUrl = res.url
     } catch {
+      logToolError('shopify-detector', 'unreachable', url)
       return NextResponse.json({ error: 'Could not reach this URL. Make sure it is publicly accessible.' }, { status: 400 })
     }
 
@@ -168,6 +170,8 @@ export async function POST(req: NextRequest) {
     })
 
   } catch (err) {
+    // `url` is scoped inside the try block, so the host is not available here.
+    logToolError('shopify-detector', 'internal', '', err)
     console.error('[detect-shopify]', err)
     return NextResponse.json({ error: 'Detection failed. Please try again.' }, { status: 500 })
   }

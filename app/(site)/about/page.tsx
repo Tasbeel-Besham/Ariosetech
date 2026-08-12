@@ -93,9 +93,15 @@ export default function AboutPage() {
             <div className="g-2 gap-[16px]">
               {[
                 { value: '100+', label: 'Projects Delivered' },
-                { value: '7+', label: 'Years Experience' },
+                // 2017 to now is 8+ years. '7+' was written when the site launched
+                // and never moved; it undersells you and contradicts /about/team,
+                // which says 'built over eight years'.
+                { value: '8+', label: 'Years Experience' },
                 { value: '40+', label: 'Industries Served' },
-                { value: '5.0★', label: 'Clutch Rating' },
+                // Was '5.0★ Clutch Rating', which contradicted the reviews block
+                // further down this same page (Clutch 4.9 from 16 reviews). A stat
+                // a visitor can disprove by scrolling costs more trust than it buys.
+                { value: '4.9★', label: 'Clutch Rating' },
               ].map((s, i) => (
                 <div key={s.label} className="card p-[40px_32px] text-center relative overflow-hidden" style={{ animationDelay: `${i * 0.1}s` }}>
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-brand-gradient" />

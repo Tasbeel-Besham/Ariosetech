@@ -1,70 +1,131 @@
-# Industries page — v2
+# Technical SEO checklist — worked through
 
-**Replaces v1 entirely.** 4 code files + the page document.
+Everything from the previous two zips is included here, so this supersedes both
+`ariosetech-content-fixes` and `ariosetech-service-content`. Apply this one.
 
-Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors, and all 11
-directory links confirmed to point at real `/industries/<slug>` pages with no
-in-page anchors.
+Verified: `next build` compiles, `tsc` 0 errors, `eslint` 0 errors.
 
 ---
 
-## What was wrong with v1
+## The checklist, item by item
 
-**No hero.** I built a custom opener instead of using the site hero that runs on
-every other page, so /industries didn't look like it belonged to the site.
+| # | Item | Status |
+| --- | --- | --- |
+| 1 | One canonical URL — HTTPS, non-www, no trailing slash | **Fixed** — www→apex redirect added |
+| 2 | 301 redirects for legacy URLs | **Already done** — 43 rules, 0 chains, 0 duplicates |
+| 3 | Only canonical indexable URLs in sitemap | **Already fixed** (sitemap zip) |
+| 4 | Accurate `lastmod` | **Already fixed** (sitemap zip) |
+| 5 | Validate in Rich Results Test | **Yours to run** — see below |
+| 6 | Remove duplicate Service / FAQPage schema | **Already correct** — verified, see below |
+| 7 | Markup only where visible evidence supports it | **Already fixed** — AggregateRating removed |
+| 8 | Article schema: author, dates, image, reviewer | **Already correct** — verified |
+| 9 | Image dimensions, alt, WebP/AVIF, lazy, LCP priority | **Fixed** — AVIF added; rest already done |
+| 10 | PageSpeed Insights on each template | **Yours to run** |
+| 11 | Screaming Frog / GSC crawl | **Yours to run** |
+| 12 | Track tool errors | **Fixed** — logging added |
 
-**It went nowhere.** The index linked to `#anchors` further down the same page.
-You have a real page per industry, so that was the wrong model twice over — it
-gave visitors a dead end, and it wasted the internal links that should be
-passing authority from this page to eleven child pages.
+---
 
-**It also duplicated them.** Eleven long entries here would compete with the
-eleven pages that cover the same ground properly.
+## A bug my own earlier fix would have introduced
 
-## What v2 is
+Unhiding the Shopify hero (from the content-fixes zip) would have given
+`/services/shopify` **two `<h1>` elements** — one from `hero-interactive`, one
+from `tool-hero`, which hard-coded its heading as `h1`.
 
-| # | Section | Notes |
-|---|---|---|
-| 1 | `hero-interactive` | Your standard site hero, so the page matches everything else |
-| 2 | `industry-directory` | **New.** 11 rows, each a real link to `/industries/<slug>` |
-| 3 | `industry-contrast` | Kept from v1 — makes the case without duplicating child pages |
-| 4 | `cta` | Your existing site CTA |
+`ToolHeroSection` now takes a `headingTag` prop defaulting to **h2**, and the
+builder exposes it as a dropdown. Dropping this section onto a page that already
+has a hero can no longer break the heading order. The standalone `/tools/*`
+pages are unaffected — their `h1` lives in their own client components, which I
+checked.
 
-**Removed:** `industry-index` and `industry-entries` are deregistered and their
-component files deleted. Nothing else used them.
+Caught by working item 11 (heading order) before shipping, not after.
 
-## The directory design
+## What I verified rather than assumed
 
-Editorial two-column: a sticky lede on the left, the linked list on the right.
-Rows rather than a card grid — eleven identical cards read as filler, a list
-reads as a directory, which is what this is.
+**Item 6 — duplicate FAQPage schema.** Not present. `faqFromSections()` walks
+every `faq` section on a page and merges them into **one** `FAQPage` object.
+Even a page with three FAQ sections emits one valid block. `Service` schema is
+emitted once, only under `/services/*`. No change needed.
 
-Each row carries a number, the industry name, a one-line "what changes here",
-and platform tags. On hover an accent bar grows from the centre, the row shifts
-3px, and the arrow slides. That's the only flourish; everything else stays
-quiet.
+**Item 8 — Article schema.** Already complete: it resolves the byline to a real
+author profile, emits `Person` with a URL when one exists, falls back to
+`Organization` when it doesn't, and includes `dateModified` and `reviewedBy`.
+Better than most agency blogs.
 
-Tags hide below 860px and the layout stacks below 1024px, so the name and
-descriptor always carry the row on mobile.
+**Item 9 — images.** Dimensions, alt text, lazy loading and LCP `priority` were
+done in the earlier zip. The gap was formats: Next defaults to WebP only.
+`formats: ['image/avif', 'image/webp']` now serves AVIF where supported —
+typically 20-30% smaller than WebP — falling back automatically. Cache TTL
+raised to a year, which is safe because the URLs are content-hashed.
 
-## Applying it
+## Item 1 — the www redirect
 
-Deploy the code first, then:
+Trailing slashes were already handled (Next redirects `/path/` → `/path` by
+default). www was not. If that DNS record ever resolves, every page on your site
+exists twice at two hosts, competing for the same rankings.
 
-```bash
-mongosh "<YOUR_MONGODB_URI>" industries-page.mongosh.js
+Added as the first redirect rule, path-preserving. It's a safety net behind
+whatever your DNS does, not a replacement for it.
+
+## Item 12 — tool error tracking
+
+`lib/tool-errors.ts`, wired into all three tool routes. Failures previously went
+to `console.error` only, which means they vanish into log retention and nobody
+reviews them.
+
+Now recorded to a `tool_errors` collection with tool, failure kind
+(`unreachable` / `blocked` / `not_detected` / `timeout` / `internal`), the target
+**host only**, and a timestamp. Never awaited, never throws, stores no personal
+data — no IP, no user agent, no session, and no full URL with whatever query
+string someone pasted.
+
+Self-pruning at 90 days on roughly 1 request in 50, so the collection cannot
+grow without bound.
+
+What you're looking for is the **rate and the pattern**. One site blocking
+scrapers is noise. Forty timeouts in an hour is an outage:
+
+```js
+db.tool_errors.aggregate([
+  { $match: { at: { $gte: new Date(Date.now() - 7*86400000) } } },
+  { $group: { _id: { tool: "$tool", kind: "$kind" }, n: { $sum: 1 } } },
+  { $sort: { n: -1 } }
+])
 ```
 
-Safe to re-run. If `/industries` exists it updates in place keeping the same
-`_id`, after copying the old layout to `page_layout_backups`. `industries-page.json`
-is the same document for Compass, but only use it if the page does not already
-exist — a plain insert would create a duplicate `fullPath`.
+`getToolErrorSummary()` is exported if you want it on the admin dashboard.
 
-## Check after applying
+## Also included from the previous two zips
 
-- `/industries` in dark **and** light mode
-- Click three or four rows — each should land on that industry page
-- 375px wide — tags hidden, rows still readable
-- Tab through the list; focus outlines visible
-- **Read the copy.** Still my draft. The one-line descriptors and the hero
-  subheadline are the ones most worth rewriting in your voice.
+- `/services/shopify` WordPress copy + hidden hero
+- Meta title/description for the 5 pages that had none
+- 9 broken portfolio links
+- Invented case studies on `/services/wordpress`
+- `/services/business-automation` orphan link
+- Full WordPress service detail incl. the unused plan tiers
+- About page: 5.0★→4.9★ Clutch, 7+→8+ years
+
+Run both scripts after deploying:
+
+```bash
+mongosh "<YOUR_MONGODB_URI>" fix-content.mongosh.js
+mongosh "<YOUR_MONGODB_URI>" fix-wordpress-content.mongosh.js
+```
+
+---
+
+## The three I can't do for you
+
+**Rich Results Test (5)** — run it on the homepage, one service page, one blog
+post and one case study after deploying. Confirm `AggregateRating` is gone and
+`FAQPage`, `BreadcrumbList`, `Service` and `Article` still validate.
+
+**PageSpeed Insights (10)** — your instinct here is right: *do not optimise
+blindly*. Lab numbers will improve immediately from the preloader and caching
+work; **field data takes ~28 days** to catch up, and field data is what ranking
+uses. Judging this next week will mislead you.
+
+**Screaming Frog / GSC (11)** — a crawl is the only way to catch what static
+analysis can't: real 404s from typo'd links, redirect chains introduced by
+content edits, orphan pages. Worth doing once now as a baseline, then quarterly.
+Set it to obey robots.txt so you see the site as Googlebot does.

@@ -34,6 +34,17 @@ const TOOLS: Record<string, { path: string; placeholder: string; button: string;
 }
 
 type Props = {
+  /**
+   * Heading level. Defaults to h2, NOT h1.
+   *
+   * This section hard-coded an <h1>. On /services/shopify it sits alongside a
+   * hero-interactive section that also renders an h1 — two h1s on one page,
+   * with the tool's headline competing against the page's real subject.
+   * Defaulting to h2 means dropping this section onto an existing page can no
+   * longer break the heading order; set it to h1 explicitly only on the
+   * standalone /tools/* pages where this IS the page heading.
+   */
+  headingTag?: string
   eyebrow?: string
   headline?: string
   subheadline?: string
@@ -44,6 +55,7 @@ type Props = {
 }
 
 export default function ToolHeroSection({
+  headingTag = 'h2',
   eyebrow = 'Free Tool',
   headline = 'Powerful WordPress development for your business',
   subheadline = 'Custom themes, speed, and security — built to grow. Check your current site, then let us show you what we would improve.',
@@ -52,6 +64,7 @@ export default function ToolHeroSection({
   tool = 'wordpress-theme-detector',
   toolLabel = 'Try it now — free, no signup',
 }: Props) {
+  const Heading = (headingTag || 'h2') as 'h1' | 'h2' | 'h3'
   const router = useRouter()
   const [url, setUrl] = useState('')
   const t = TOOLS[tool] || TOOLS['wordpress-theme-detector']
@@ -71,7 +84,7 @@ export default function ToolHeroSection({
           {/* Left: message */}
           <div className="tool-hero-copy">
             {eyebrow && <div className="tool-hero-badge"><span>{eyebrow}</span></div>}
-            <h1 className="tool-hero-title">{headline}</h1>
+            <Heading className="tool-hero-title">{headline}</Heading>
             {subheadline && <p className="tool-hero-sub">{subheadline}</p>}
             {ctaLabel && (
               <Link href={ctaHref} className="btn btn-primary btn-lg tool-hero-cta">
