@@ -1,5 +1,6 @@
 'use client'
 import { useState, useRef } from 'react'
+import Image from 'next/image'
 import { ArrowLeft, ArrowRight } from '@/components/ui/Icons'
 
 /**
@@ -50,8 +51,20 @@ export default function PortfolioCarousel({ images, title }: { images: string[];
           <div className="pd-carousel-track" ref={trackRef} onScroll={onScroll}>
             {images.map((src, i) => (
               <div key={i} className="pd-carousel-slide">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt={`${title} screenshot ${i + 1}`} className="pd-carousel-img" loading="lazy" />
+                {/* Gallery screenshots were raw <img>: no AVIF/WebP conversion,
+                    no responsive srcset, and no intrinsic dimensions, so each
+                    slide shipped a full-size Cloudinary PNG and shifted layout
+                    while loading. The first slide is eager since it is often
+                    in view; the rest stay lazy. */}
+                <Image
+                  src={src}
+                  alt={`${title} screenshot ${i + 1}`}
+                  width={1280}
+                  height={800}
+                  sizes="(max-width: 900px) 100vw, 900px"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  className="pd-carousel-img"
+                />
               </div>
             ))}
           </div>

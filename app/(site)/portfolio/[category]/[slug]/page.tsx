@@ -48,6 +48,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${item.title}, Case Study`,
     alternates: { canonical: `https://ariosetech.com/portfolio/${(item.category||'other').toLowerCase()}/${item.slug}` },
+    // Twitter was falling through to the site-wide default, so every case
+    // study shared on X showed the generic agency card and logo instead of the
+    // project's own title and screenshot. openGraph was set; twitter was not.
+    twitter: {
+      card: 'summary_large_image',
+      title: `${item.title} — ${item.client}`,
+      description: item.summary || `${item.title} case study by ARIOSETECH.`,
+      images: item.image ? [item.image] : [],
+    },
     openGraph: {
       type: 'article',
       title: item.title,
