@@ -187,11 +187,31 @@ export default async function CategoryPage({ params }: Props) {
     <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
   ))
 
+  /**
+   * The page heading.
+   *
+   * These four category URLs previously rendered NO <h1> at all. They reuse the
+   * /portfolio page document, and that document has no hero section — its first
+   * block is the portfolio grid, whose headline renders as an <h2>. A crawl on
+   * 15 Aug 2026 confirmed h1 count = 0 on /portfolio/{wordpress,woocommerce,
+   * shopify,seo}.
+   *
+   * Two things were wrong with that. Every page should state what it is in an
+   * <h1>, and — worse — all four URLs were serving the identical heading text
+   * from the shared document, so nothing distinguished them from each other or
+   * from /portfolio. Using CATEGORY_COPY gives each one a distinct, accurate
+   * heading that matches its <title>, its canonical and its breadcrumb trail.
+   */
+  const heading = (
+    <h1 className="sr-only">{copy?.title || `${label} Projects`}</h1>
+  )
+
   if (page && page.layout?.sections && page.layout.sections.length > 0) {
     const sections = await withServerData(page.layout.sections)
     return (
       <>
         {schemaTags}
+        {heading}
         <BuilderRenderer sections={sections} />
       </>
     )
@@ -201,6 +221,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <>
       {schemaTags}
+      {heading}
       <PortfolioSection items={allItems} />
       <CtaSection />
     </>
