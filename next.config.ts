@@ -95,9 +95,15 @@ const nextConfig: NextConfig = {
       { source: '/wp-includes/:path*', destination: '/', permanent: true },
       { source: '/wp-login.php', destination: '/', permanent: true },
       { source: '/xmlrpc.php', destination: '/', permanent: true },
-      // Paginated archives (/page/2, /blog/page/3)
+      // Paginated archives (/page/2) — the legacy WordPress form only.
+      //
+      // NOTE: /blog/page/:num is deliberately NOT redirected. It is a LIVE
+      // route (app/(site)/blog/page/[page]/page.tsx) and BlogListing renders
+      // "Previous"/"Next" links straight at it. A rule here 301'd every
+      // paginated URL back to page 1, so pagination was unreachable for users
+      // and Google alike — the same trap the /author/:slug and
+      // /portfolio/:category/:slug notes above warn about.
       { source: '/page/:num(\\d+)', destination: '/blog', permanent: true },
-      { source: '/blog/page/:num(\\d+)', destination: '/blog', permanent: true },
       // Common WP leftovers
       { source: '/sample-page', destination: '/', permanent: true },
       { source: '/hello-world', destination: '/blog', permanent: true },

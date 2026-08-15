@@ -10,7 +10,11 @@ import Reveal from '@/components/motion/Reveal'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://ariosetech.com/about' },
-  title: 'About ARIOSETECH, Professional Web Development Since 2017',
+  // The root layout's template is '%s | ARIOSETECH', so naming the brand here
+  // too shipped "About ARIOSETECH, ... | ARIOSETECH" — 70 characters with the
+  // brand twice, in a budget where roughly 60 survive to the SERP. Same fault
+  // that was fixed on /blog and /blog/page/[page].
+  title: 'About Us — Professional Web Development Since 2017',
   description: 'Meet the team behind 100+ successful web development projects. WordPress, WooCommerce, and Shopify specialists based in Lahore, Pakistan.',
 }
 

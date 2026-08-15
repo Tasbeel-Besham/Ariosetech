@@ -179,12 +179,24 @@ export async function GET() {
 
   for (const item of portfolio) {
     if (!item?.slug) continue
-    // Lowercased, and defaulted to 'other' exactly as the route does. The
-    // category was previously used raw: a project stored as "Shopify"
-    // produced /portfolio/Shopify/slug in the sitemap while the page's own
-    // canonical said /portfolio/shopify/slug — a self-inflicted duplicate.
-    // Items with no category were skipped entirely, so they never appeared.
-    const cat = String(item.category || 'other').toLowerCase()
+    // Lowercased: a project stored as "Shopify" produced /portfolio/Shopify/slug
+    // in the sitemap while the page's own canonical said
+    // /portfolio/shopify/slug — a self-inflicted duplicate.
+    const cat = String(item.category || '').trim().toLowerCase()
+    // An uncategorised project must NOT fall back to 'other'. The [category]
+    // route resolves BASE_CATEGORIES plus the distinct categories actually
+    // present in the collection, and 'other' is in neither — so every
+    // /portfolio/other/{slug} we emitted was a URL the site 404s on, submitted
+    // to Google by our own sitemap. That is where the "Not found (404)" entry
+    // for /portfolio/other/drscents came from, and /portfolio/other/rishta-zone
+    // was still being crawled on 8 Aug 2026.
+    //
+    // Skipping is the honest answer: no sitemap entry beats a broken one. To
+    // get one of these listed, set its category in /admin/portfolio.
+    if (!cat) {
+      console.warn(`[sitemap] skipping uncategorised portfolio item "${item.slug}"`)
+      continue
+    }
     add(`/portfolio/${cat}/${item.slug}`, iso(item.updatedAt, item.date))
   }
 
