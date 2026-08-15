@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getCollection } from '@/lib/db/mongodb'
-import { personSchema, profilePageSchema, breadcrumbSchema } from '@/lib/schema'
+import { personSchema, profilePageSchema } from '@/lib/schema'
 import Image from 'next/image'
 
 // Rendered per request.
@@ -101,13 +101,13 @@ export default async function AuthorPage({ params }: Props) {
     knowsAbout: author.expertise,
   })
 
+  // BreadcrumbList removed from here on purpose. This page declared
+  // "Home / Blog / {name}" while the visible breadcrumb bar on /author/{slug}
+  // reads "Home / Author / {name}" — structured data that contradicts what the
+  // page shows. <AutoBreadcrumbs> now emits the trail it actually renders, so
+  // the two can no longer disagree.
   const schemas = [
     profilePageSchema({ name: author.name, url, person }),
-    breadcrumbSchema([
-      { name: 'Home', url: SITE_URL },
-      { name: 'Blog', url: `${SITE_URL}/blog` },
-      { name: author.name, url },
-    ]),
   ]
 
   return (

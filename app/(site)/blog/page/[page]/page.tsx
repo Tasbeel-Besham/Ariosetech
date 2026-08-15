@@ -27,7 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     // Distinct title per page. Identical titles across paginated URLs is one of
     // the most common ways a blog generates its own duplicate-content problem.
-    title: `Blog — Page ${page} | WordPress, Shopify & WooCommerce Insights — ARIOSETECH`,
+    // The brand is appended once by the root layout's template — repeating it
+    // here rendered "... — ARIOSETECH | ARIOSETECH" on every paginated URL.
+    title: `Blog — Page ${page} — WordPress, Shopify & WooCommerce Insights`,
     description: `Page ${page} of articles on WordPress, Shopify, WooCommerce and e-commerce growth from the ARIOSETECH engineering team.`,
     // Self-referencing. Paginated pages should NOT canonicalise to /blog —
     // that tells Google the posts listed here are duplicates of page 1, and

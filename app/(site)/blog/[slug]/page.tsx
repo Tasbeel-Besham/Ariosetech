@@ -80,6 +80,18 @@ export default async function BlogPostPage({ params }: Props) {
   const cover = post.featuredImage || post.coverImage
   const readMins = post.readTime || post.readingTime || 5
 
+  // Visible "Updated" date — only when it is genuinely later than publication.
+  const updatedLabel = (() => {
+    const raw = (post as Record<string, any>).updatedAt
+    if (!raw) return null
+    const updated = new Date(raw)
+    const published = new Date(post.publishedAt || post.date)
+    if (isNaN(updated.getTime()) || isNaN(published.getTime())) return null
+    // At least 24h after publication before it counts as an update.
+    if (updated.getTime() - published.getTime() < 86_400_000) return null
+    return fmtDate(updated.toISOString())
+  })()
+
   // Related posts: same category first, then most recent, excluding this one.
   let related: BlogDoc[] = []
   try {
@@ -146,7 +158,13 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.publishedAt || post.date,
     author: authorLd,
     publisher: { '@type': 'Organization', name: 'ARIOSETECH', url: SITE },
-    dateModified: post.updatedAt || post.publishedAt || post.date,
+    // Same rule as the visible "Updated" line above, so the two agree. Without
+    // it, a same-day tweak that the page does not show as an update still went
+    // out as a dateModified — structured data claiming a freshness the page
+    // does not display.
+    dateModified: updatedLabel
+      ? new Date((post as Record<string, any>).updatedAt).toISOString()
+      : post.publishedAt || post.date,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${slug}` },
     keywords: post.tags?.join(', '),
     ...(reviewedByLd ? { reviewedBy: reviewedByLd } : {}),
@@ -179,6 +197,18 @@ export default async function BlogPostPage({ params }: Props) {
             <p className="bp-excerpt">{post.excerpt}</p>
             <div className="bp-meta-row">
               <span className="bp-meta"><Calendar size={13} /> {fmtDate(post.date)}</span>
+              {/* The schema below carries dateModified, but nothing on the page
+                  said so. Google's article guidance asks for the updated date
+                  to be visible to readers too, and an "Updated" line is a real
+                  freshness signal on evergreen how-to posts like these. Shown
+                  only when the edit is at least a day after publication, so a
+                  typo fix on launch day does not fake a refresh. */}
+              {updatedLabel && (
+                <>
+                  <span className="bp-dot" />
+                  <span className="bp-meta">Updated {updatedLabel}</span>
+                </>
+              )}
               <span className="bp-dot" />
               <span className="bp-meta"><Clock size={13} /> {readMins} min read</span>
               {post.author && <><span className="bp-dot" /><span className="bp-meta">By {post.author}</span></>}

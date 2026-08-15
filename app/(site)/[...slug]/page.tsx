@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getCollection } from '@/lib/db/mongodb'
-import { webPageSchema, serviceSchema, breadcrumbSchema, trailFromPath, isServicePath, faqSchema, faqFromSections, itemListSchema } from '@/lib/schema'
+import { webPageSchema, serviceSchema, isServicePath, faqSchema, faqFromSections, itemListSchema } from '@/lib/schema'
 import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
 import { withServerData } from '@/lib/builder/server-data'
@@ -36,14 +36,54 @@ async function getPageData(slugArray: string[]) {
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 const DEFAULT_OG_IMAGE = 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png'
 
-/** Pull a usable description out of the page's own sections when no SEO description is set. */
+/**
+ * Pull a usable description out of the page's own sections when no SEO
+ * description is set.
+ *
+ * A page that ships with no <meta name="description"> hands Google a blank
+ * cheque to write the snippet itself, usually from whatever text happens to be
+ * near the top. That is why this fallback exists at all.
+ *
+ * It was checking exactly four prop names — desc, intro, sub, body — which is
+ * why /services and /services/wordpress still went out with no description:
+ * their heroes store the copy under `subheadline`, a name the old list did not
+ * know about. The section components between them use at least a dozen names
+ * for "the paragraph under the heading", so the list now covers all of them,
+ * in rough order of how well each one summarises a page.
+ *
+ * Hidden sections are skipped — describing a page by text it never shows is
+ * both wrong and a snippet Google will overwrite anyway.
+ */
+const DESCRIPTION_PROPS = [
+  // Explicit summaries first — closest in intent to a meta description.
+  'seoDescription', 'metaDescription', 'summary',
+  // Hero sub-copy. `subheadline` is what InteractiveHeroSection and
+  // ToolHeroSection use, and it is the single most common miss.
+  'subheadline', 'subhead', 'subtitle', 'sub',
+  // Generic body copy.
+  'desc', 'description', 'intro', 'lede', 'lead', 'blurb', 'body', 'text', 'copy',
+] as const
+
+/** Collapse whitespace and trim to a length Google will actually display. */
+function tidy(raw: string): string {
+  const clean = raw.replace(/\s+/g, ' ').trim()
+  if (clean.length <= 160) return clean
+  // Cut on a word boundary rather than mid-word.
+  const cut = clean.slice(0, 160)
+  const lastSpace = cut.lastIndexOf(' ')
+  return (lastSpace > 100 ? cut.slice(0, lastSpace) : cut).replace(/[,;:\s]+$/, '')
+}
+
 function deriveDescription(page: PageDoc): string | undefined {
   const sections = page.layout?.sections || []
   for (const s of sections) {
+    if ((s as { meta?: { hidden?: boolean } }).meta?.hidden) continue
     const p = (s as { props?: Record<string, unknown> }).props || {}
-    const candidate = (p.desc || p.intro || p.sub || p.body) as string | undefined
-    if (typeof candidate === 'string' && candidate.trim().length > 40) {
-      return candidate.trim().slice(0, 160)
+    for (const key of DESCRIPTION_PROPS) {
+      const candidate = p[key]
+      if (typeof candidate === 'string' && candidate.replace(/\s+/g, ' ').trim().length > 40) {
+        return tidy(candidate)
+      }
     }
   }
   return undefined
@@ -104,9 +144,11 @@ export default async function DynamicPage({ params }: Props) {
   // schema when the path is under /services.
   const seo = page.seo || {}
   const desc = seo.description || deriveDescription(page)
+  // BreadcrumbList is NOT emitted here. It is emitted once, site-wide, by
+  // <AutoBreadcrumbs> from the same trail it visibly renders \u2014 see that file.
+  // Emitting it in both places produced two BreadcrumbList nodes per page.
   const schemas: object[] = [
     webPageSchema({ title: (seo.title || page.title || '').replace(/\s*[|\u2014-]\s*ARIOSETECH\s*$/i, ''), description: desc, url: pageUrl, image: seo.ogImage }),
-    breadcrumbSchema(trailFromPath(page.fullPath, page.title || 'Page')),
   ]
   if (isServicePath(page.fullPath)) {
     schemas.push(serviceSchema({ name: page.title || 'Service', description: desc, url: pageUrl }))
@@ -122,8 +164,10 @@ export default async function DynamicPage({ params }: Props) {
   // ── Automatic ItemList for hub pages ──
   // A hub (e.g. /industries) lists child pages via a services-overview section;
   // emit ItemList so Google understands the collection.
+  // `!s.meta?.hidden` matters: BuilderRenderer skips hidden sections, so an
+  // ItemList built from one would describe a list the page never shows.
   const overview = (page.layout?.sections as Record<string, any>[] | undefined)
-    ?.find(s => s?.type === 'services-overview' && Array.isArray(s?.props?.items) && s.props.items.length > 2)
+    ?.find(s => s?.type === 'services-overview' && !s?.meta?.hidden && Array.isArray(s?.props?.items) && s.props.items.length > 2)
   if (overview) {
     const listItems = (overview.props.items as Record<string, any>[])
       .map(it => ({

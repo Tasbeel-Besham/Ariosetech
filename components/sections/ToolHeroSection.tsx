@@ -57,8 +57,17 @@ type Props = {
 export default function ToolHeroSection({
   headingTag = 'h2',
   eyebrow = 'Free Tool',
-  headline = 'Powerful WordPress development for your business',
-  subheadline = 'Custom themes, speed, and security — built to grow. Check your current site, then let us show you what we would improve.',
+  // Platform-neutral by default.
+  //
+  // This used to default to "Powerful WordPress development for your business".
+  // A section saved without an explicit headline therefore advertised WordPress
+  // wherever it was dropped — which is exactly what happened on
+  // /services/shopify, where this section renders above the real Shopify hero
+  // and put WordPress copy in the page's opening heading. A default that names
+  // one platform cannot be correct on a page about another; this one is safe
+  // anywhere and still reads as a real headline if nobody overrides it.
+  headline = 'See what your site is running — then see what it could be',
+  subheadline = 'Run the free check below, then talk to us about what we would improve.',
   ctaLabel = 'Get a Free Quote',
   ctaHref = '/contact',
   tool = 'wordpress-theme-detector',

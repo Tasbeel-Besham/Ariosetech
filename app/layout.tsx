@@ -103,9 +103,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       },
       sameAs: [s.facebook, s.instagram, s.linkedin, 'https://clutch.co/profile/ariosetech']
         .filter(Boolean) as string[],
-      // ratingValue/reviewCount deliberately omitted — see SchemaMarkup.tsx.
-      // Self-serving Organization ratings are ineligible for rich results and
-      // are a manual-action risk.
+      // ratingValue/reviewCount deliberately omitted. Self-serving
+      // Organization ratings — where the reviewed entity controls the reviews
+      // — are ineligible for rich results and are a Spammy Structured Markup
+      // manual-action risk. The visible Clutch and Google review links are the
+      // correct way to carry that trust signal.
     })
     siteLd = webSiteSchema()
   } catch {

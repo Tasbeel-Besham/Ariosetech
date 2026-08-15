@@ -1,127 +1,27 @@
-import React from 'react';
+/**
+ * RETIRED — do not re-import this component.
+ *
+ * It previously rendered on every builder page (via BuilderRenderer) and was
+ * the source of three structured-data faults on the live site:
+ *
+ *   1. Duplicate Service schema. The route files already emit Service schema
+ *      for /services/* paths, so those pages carried two Service nodes.
+ *
+ *   2. Duplicate FAQPage schema. Same FAQ sections, marked up twice.
+ *
+ *   3. A conflicting Organization node. It emitted a `ProfessionalService`
+ *      using `${SITE}/#organization` — the exact @id the real `Organization`
+ *      node in app/layout.tsx uses. Two different @types sharing one @id makes
+ *      the entity graph ambiguous, and every `publisher: { "@id": ... }`
+ *      reference on the site points at that id.
+ *
+ * Structured data now lives in the route files (see lib/schema.ts for the
+ * builders) and BreadcrumbList lives in components/ui/AutoBreadcrumbs.tsx, so
+ * each page emits exactly one node per entity, matching what it visibly shows.
+ *
+ * The file is kept as this note rather than deleted so the reasoning survives
+ * in the repo. There is no default export — importing it will fail the build,
+ * which is the intended guard rail.
+ */
 
-type FaqItem = {
-  q: string;
-  a: string;
-};
-
-type SchemaProps = {
-  pageUrl: string;
-  pageName: string;
-  pageDescription?: string;
-  faqs?: FaqItem[];
-  type?: 'WebPage' | 'Service' | 'Organization';
-};
-
-export default function SchemaMarkup({ 
-  pageUrl, 
-  pageName, 
-  pageDescription, 
-  faqs, 
-  type = 'WebPage' 
-}: SchemaProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com';
-  // pageUrl may arrive absolute (from BuilderRenderer) or relative — never double the origin.
-  const fullUrl = pageUrl.startsWith('http') ? pageUrl : `${baseUrl}${pageUrl}`;
-
-  const schemaObjects: any[] = [];
-
-  // Main Page/Service Schema
-  if (type === 'Service') {
-    schemaObjects.push({
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: pageName,
-      description: pageDescription,
-      provider: {
-        '@type': 'Organization',
-        name: 'Ariosetech',
-        url: baseUrl,
-      },
-      url: fullUrl,
-    });
-  } else if (type === 'WebPage') {
-    schemaObjects.push({
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: pageName,
-      description: pageDescription,
-      url: fullUrl,
-      publisher: {
-        '@type': 'Organization',
-        name: 'Ariosetech',
-      }
-    });
-  } else if (type === 'Organization') {
-    schemaObjects.push({
-      '@context': 'https://schema.org',
-      '@type': 'ProfessionalService',
-      '@id': `${baseUrl}/#organization`,
-      name: 'ARIOSETECH',
-      alternateName: 'Ariosetech Web Development',
-      url: baseUrl,
-      logo: 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png',
-      image: 'https://res.cloudinary.com/daeozrcaf/image/upload/v1776539376/ariosetech/wqycpdxj4iknsfi82fsd.png',
-      description: pageDescription || 'Professional WordPress, Shopify and WooCommerce development agency since 2017.',
-      email: 'info@ariosetech.com',
-      telephone: '+92-300-9484739',
-      foundingDate: '2017',
-      priceRange: '$$',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '95 College Road, Block E, PCSIR Staff Colony',
-        addressLocality: 'Lahore',
-        postalCode: '54770',
-        addressCountry: 'PK',
-      },
-      areaServed: ['PK', 'US', 'AE', 'CH', 'GB'],
-      // NO aggregateRating here. Google does not display review snippets for
-      // LocalBusiness/Organization (or subtypes like ProfessionalService) when
-      // the entity being reviewed controls the reviews — "self-serving"
-      // reviews. It earns zero rich results and risks a Spammy Structured
-      // Markup manual action, which strips rich results across the domain.
-      // This block also claimed 5.0/30 while the page visibly showed 4.9/16
-      // (Clutch); structured data contradicting visible content is exactly
-      // what that manual action targets. The visible Clutch and Google links
-      // are the correct way to carry this trust signal.
-      sameAs: [
-        'https://wa.me/923009484739',
-      ],
-      contactPoint: {
-        '@type': 'ContactPoint',
-        telephone: '+92-300-9484739',
-        contactType: 'customer service',
-        email: 'info@ariosetech.com',
-        availableLanguage: ['English', 'Urdu'],
-      },
-    });
-  }
-
-  // FAQ Schema
-  if (faqs && faqs.length > 0) {
-    schemaObjects.push({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((faq) => ({
-        '@type': 'Question',
-        name: faq.q,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.a,
-        },
-      })),
-    });
-  }
-
-  return (
-    <>
-      {schemaObjects.map((schema, index) => (
-        <script
-          key={index}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
-    </>
-  );
-}
+export const SCHEMA_MARKUP_RETIRED = true

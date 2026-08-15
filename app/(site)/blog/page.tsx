@@ -5,7 +5,11 @@ import { getBlogPage } from '@/lib/blog'
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
 export const metadata: Metadata = {
-  title: 'Blog | WordPress, Shopify & WooCommerce Insights — ARIOSETECH',
+  // No brand name here. The root layout's title template already appends
+  // " | ARIOSETECH", so spelling it out produced the live title
+  // "Blog | WordPress, Shopify & WooCommerce Insights — ARIOSETECH | ARIOSETECH"
+  // — the brand twice, and 14 wasted characters in a 60-character budget.
+  title: 'Blog — WordPress, Shopify & WooCommerce Insights',
   description: 'Expert articles on WordPress, Shopify, WooCommerce and e-commerce growth from the ARIOSETECH engineering team.',
   alternates: { canonical: `${SITE}/blog` },
   openGraph: {

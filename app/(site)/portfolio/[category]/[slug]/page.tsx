@@ -3,7 +3,7 @@ import { notFound, permanentRedirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Check, ExternalLink } from '@/components/ui/Icons'
 import { getCollection } from '@/lib/db/mongodb'
-import { caseStudySchema, breadcrumbSchema, trailFromPath } from '@/lib/schema'
+import { caseStudySchema } from '@/lib/schema'
 import PortfolioCarousel from '@/components/portfolio/PortfolioCarousel'
 import Image from 'next/image'
 
@@ -123,17 +123,13 @@ export default async function PortfolioDetailPage({ params }: Props) {
     clientName: item.client || undefined,
     keywords: [item.category, ...stackList].filter(Boolean) as string[],
   })
-  // Built from the path with the same helper the visible breadcrumb uses.
-  // This previously declared three levels (Home / Portfolio / Title) while the
-  // URL and the visible trail have four (Home / Portfolio / Category / Slug) —
-  // structured data that doesn't match the page.
-  const crumbLd = breadcrumbSchema(trailFromPath(canonicalPath(item)))
-
   return (
     <div style={{ '--proj-color': color } as React.CSSProperties}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(caseLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }} />
-      {/* Visible breadcrumbs are rendered site-wide by the layout. */}
+      {/* Visible breadcrumbs — and the matching BreadcrumbList schema — are
+          rendered site-wide by <AutoBreadcrumbs> in the layout. This page used
+          to emit its own copy from the same path helper, which meant every
+          case study carried two identical BreadcrumbList nodes. */}
       {/* Hero — text on the left, project image featured on the right */}
       <section className="pd-hero pd-hero-img">
         <div className="pd-hero-glow" />

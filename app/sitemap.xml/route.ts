@@ -38,6 +38,30 @@ const FILE_ROUTES = [
   '/portfolio/seo',
 ]
 
+/**
+ * Last time the hand-written pages had a material content change.
+ *
+ * These routes are .tsx files, not database rows, so there is no updatedAt to
+ * read — which is why all fourteen of them went out with no <lastmod> at all
+ * while the 64 database-driven URLs had one. A sitemap where the most important
+ * URLs (including the homepage) carry no date gives Google nothing to
+ * prioritise on when it decides what to recrawl.
+ *
+ * Deliberately a hand-maintained constant rather than a build timestamp: a
+ * date that moves on every deploy is a lie, and Google discounts lastmod it
+ * finds unreliable. Bump the entry when you actually change the page's copy.
+ */
+const STATIC_LASTMOD: Record<string, string> = {
+  '/about': '2026-08-08',
+  '/contact': '2026-07-21',
+  '/faq': '2026-07-21',
+  '/privacy-policy': '2026-07-21',
+  '/terms-of-service': '2026-07-21',
+  '/tools/wordpress-theme-detector': '2026-08-08',
+  '/tools/shopify-theme-detector': '2026-08-08',
+  '/tools/seo-audit': '2026-08-08',
+}
+
 type UrlEntry = { loc: string; lastmod?: string }
 
 /**
@@ -95,7 +119,48 @@ export async function GET() {
     if (!entries.has(loc)) entries.set(loc, { loc, lastmod })
   }
 
-  for (const r of FILE_ROUTES) add(r)
+  /**
+   * Freshness for the routes whose content is a live query rather than a file.
+   *
+   * `/` and `/blog` change whenever a post is published; each /portfolio/:cat
+   * changes whenever a project in that category changes. Taking the newest
+   * child date is the honest answer for all of them, and it is the one that
+   * actually earns a recrawl when you publish. Falls back to the static table,
+   * then to nothing — never to today's date.
+   */
+  const newestOf = (docs: Record<string, any>[], ...fields: string[]): string | undefined => {
+    let best: string | undefined
+    for (const d of docs) {
+      const when = iso(...fields.map(f => d?.[f]))
+      if (when && (!best || when > best)) best = when
+    }
+    return best
+  }
+
+  const newestBlog = newestOf(blogs, 'updatedAt', 'date')
+  const newestPage = newestOf(pages, 'updatedAt', 'createdAt')
+  const newestPortfolio = newestOf(portfolio, 'updatedAt', 'date')
+  // The homepage surfaces the latest posts and projects, so either moving it
+  // is a genuine content change.
+  const homeLastmod = [newestBlog, newestPortfolio, newestPage]
+    .filter(Boolean)
+    .sort()
+    .pop() as string | undefined
+
+  const byCategory = (cat: string) =>
+    newestOf(
+      portfolio.filter(p => String(p?.category || 'other').toLowerCase() === cat),
+      'updatedAt',
+      'date',
+    )
+
+  for (const r of FILE_ROUTES) {
+    let lastmod: string | undefined = STATIC_LASTMOD[r]
+    if (r === '/') lastmod = homeLastmod || lastmod
+    else if (r === '/blog') lastmod = newestBlog
+    else if (r.startsWith('/portfolio/')) lastmod = byCategory(r.slice('/portfolio/'.length))
+    add(r, lastmod)
+  }
 
   for (const p of pages) {
     if (p?.seo?.robots?.index === false) continue // don't advertise noindexed pages

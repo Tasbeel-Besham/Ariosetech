@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { trailFor } from '@/lib/breadcrumb-labels'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
+
 /**
  * Site-wide breadcrumb trail.
  *
@@ -17,6 +19,18 @@ import { trailFor } from '@/lib/breadcrumb-labels'
  * also uses — Google expects structured data to match visible content.
  *
  * Returns null on the homepage, where a breadcrumb would only point at itself.
+ *
+ * ── BreadcrumbList structured data ──
+ * Emitted here, from the same `trail` the markup below renders, rather than
+ * page by page. Three routes used to build their own BreadcrumbList while the
+ * other ten showed a visible trail with no schema at all, and /author/[slug]
+ * declared "Home / Blog / Name" while the visible bar said "Home / Author /
+ * Name" — structured data contradicting the page, which is what Google's
+ * spammy-markup guidance is aimed at. One source, no drift, and every page
+ * that shows a trail now describes it.
+ *
+ * This is a client component, but Next server-renders it on first response, so
+ * the JSON-LD is in the initial HTML where crawlers read it — no JS required.
  */
 export default function AutoBreadcrumbs() {
   const pathname = usePathname() || '/'
@@ -25,8 +39,25 @@ export default function AutoBreadcrumbs() {
   const trail = trailFor(pathname)
   if (trail.length < 2) return null
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: trail.map((crumb, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: crumb.name,
+      // The last crumb has no href (it is the current page), so fall back to
+      // the pathname itself — every ListItem needs a resolvable item URL.
+      item: `${SITE_URL}${crumb.href ?? pathname}`,
+    })),
+  }
+
   return (
     <nav aria-label="Breadcrumb" className="breadcrumb-bar">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <ol className="bc-list">
         {trail.map((crumb, i) => {
           const last = i === trail.length - 1

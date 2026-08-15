@@ -79,7 +79,19 @@ export function faqSchema(faqs: { q: string; a: string }[]) {
   }
 }
 
-/** Article / BlogPosting schema. */
+/**
+ * Article / BlogPosting schema.
+ *
+ * `author` used to be emitted as an Organization no matter what was passed in.
+ * Google's article guidance is explicit that the author should be the person
+ * who wrote the piece, with a `url` pointing at a page about them — attributing
+ * everything to the company is the weaker E-E-A-T signal and is what triggers
+ * the "author missing url" warning in the Rich Results Test.
+ *
+ * Pass `authorUrl` (an /author/{slug} profile) to get a Person; without one it
+ * still falls back to the Organization, because a Person with no URL and no
+ * profile page behind it is a claim nothing on the site supports.
+ */
 export function articleSchema(opts: {
   headline: string
   description?: string
@@ -88,8 +100,21 @@ export function articleSchema(opts: {
   datePublished?: string
   dateModified?: string
   author?: string
+  authorUrl?: string
+  authorJobTitle?: string
+  reviewedBy?: { name: string; url?: string; jobTitle?: string }
   keywords?: string[]
 }) {
+  const author = opts.author && opts.authorUrl
+    ? {
+        '@type': 'Person',
+        name: opts.author,
+        url: opts.authorUrl,
+        ...(opts.authorJobTitle ? { jobTitle: opts.authorJobTitle } : {}),
+        worksFor: { '@id': ORG_ID },
+      }
+    : { '@type': 'Organization', name: opts.author || ORG_NAME, '@id': ORG_ID }
+
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -99,7 +124,19 @@ export function articleSchema(opts: {
     image: opts.image ? [opts.image] : undefined,
     datePublished: opts.datePublished || undefined,
     dateModified: opts.dateModified || opts.datePublished || undefined,
-    author: { '@type': 'Organization', name: opts.author || ORG_NAME },
+    author,
+    ...(opts.reviewedBy?.name
+      ? {
+          reviewedBy: {
+            '@type': 'Person',
+            name: opts.reviewedBy.name,
+            ...(opts.reviewedBy.url ? { url: opts.reviewedBy.url } : {}),
+            ...(opts.reviewedBy.jobTitle ? { jobTitle: opts.reviewedBy.jobTitle } : {}),
+          },
+        }
+      : {}),
+    ...(opts.keywords?.length ? { keywords: opts.keywords.join(', ') } : {}),
+    inLanguage: 'en',
     publisher: { '@type': 'Organization', name: ORG_NAME, '@id': ORG_ID },
     mainEntityOfPage: { '@type': 'WebPage', '@id': opts.url },
   }
@@ -253,12 +290,18 @@ export function itemListSchema(opts: {
 /**
  * Pull FAQ pairs out of a page's saved sections so FAQPage schema is generated
  * automatically whenever an editor adds/edits an FAQ section — no manual step.
+ *
+ * Hidden sections are skipped. BuilderRenderer renders only sections without
+ * `meta.hidden`, so including them here would mark up questions and answers
+ * that no visitor can see — the definition of unsupported structured data, and
+ * the thing Google's spammy-markup policy actually penalises.
  */
 export function faqFromSections(sections: unknown): { q: string; a: string }[] {
   if (!Array.isArray(sections)) return []
   const out: { q: string; a: string }[] = []
   for (const s of sections as Record<string, any>[]) {
     if (!s || s.type !== 'faq') continue
+    if (s.meta?.hidden) continue
     const items = s.props?.items
     if (!Array.isArray(items)) continue
     for (const it of items) {

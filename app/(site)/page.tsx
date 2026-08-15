@@ -2,6 +2,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import type { Metadata } from 'next'
 import type { PageDoc, BlogDoc, PortfolioDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
+import { webPageSchema, faqSchema, faqFromSections } from '@/lib/schema'
 import HomeClient from './HomeClient'
 
 // Rendered per request.
@@ -80,7 +81,32 @@ export default async function Home() {
 
   // If the dynamic builder layout is found, use it
   if (layout) {
-    return <BuilderRenderer sections={layout.sections} pageName="Home" pageUrl="https://ariosetech.com/" />
+    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
+
+    // ── Homepage structured data ──
+    // BuilderRenderer used to emit this indirectly, but it hardcoded
+    // `type="Service"`, so the homepage claimed to be a commercial Service
+    // offering literally named "Home". WebPage is what this page is; the
+    // FAQPage comes from the FAQ section the page visibly renders. No
+    // BreadcrumbList — the homepage has no breadcrumb trail to describe.
+    const homeSchemas: object[] = [
+      webPageSchema({
+        title: 'WordPress, Shopify & WooCommerce Development Agency',
+        description: 'Professional WordPress, Shopify & WooCommerce development since 2017. 100+ businesses scaled globally.',
+        url: `${SITE_URL}/`,
+      }),
+    ]
+    const homeFaqs = faqFromSections(layout.sections)
+    if (homeFaqs.length > 0) homeSchemas.push(faqSchema(homeFaqs))
+
+    return (
+      <>
+        {homeSchemas.map((s, i) => (
+          <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        ))}
+        <BuilderRenderer sections={layout.sections} pageName="Home" pageUrl={`${SITE_URL}/`} />
+      </>
+    )
   }
 
   // Fallback to static HomeClient if DB fails or isn't seeded

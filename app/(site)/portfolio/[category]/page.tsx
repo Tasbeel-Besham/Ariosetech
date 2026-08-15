@@ -5,6 +5,7 @@ import type { PageDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
 import PortfolioSection from '@/components/sections/PortfolioSection'
 import { withServerData, getPortfolioItems } from '@/lib/builder/server-data'
+import { webPageSchema, itemListSchema } from '@/lib/schema'
 import CtaSection from '@/components/sections/CtaSection'
 
 // Rendered per request.
@@ -140,17 +141,67 @@ export default async function CategoryPage({ params }: Props) {
   if (!allowed.has(cat)) notFound()
 
   const page = await getPortfolioPage()
+  const copy = CATEGORY_COPY[cat]
+  const label = copy?.label || cat.charAt(0).toUpperCase() + cat.slice(1)
+  const catUrl = `${SITE_URL}/portfolio/${cat}`
+
+  // ── Structured data ──
+  // These four category URLs previously emitted no schema at all: the builder
+  // branch called BuilderRenderer without a pageUrl, and the fallback branch
+  // rendered raw sections. WebPage describes the page; ItemList describes the
+  // projects it actually lists, which is the part worth understanding.
+  // BreadcrumbList comes from <AutoBreadcrumbs> site-wide.
+  // NB: getPortfolioItems() returns the shape PortfolioSection consumes, where
+  // the category lives on `cat` (not `category`) and the blurb on `quote`.
+  const allItems = await getPortfolioItems()
+  const catItems = allItems.filter(p => String(p.cat || '').toLowerCase() === cat)
+
+  const schemas: object[] = [
+    webPageSchema({
+      title: copy?.title || `${label} Projects`,
+      description:
+        copy?.description ||
+        `Selected ${label} projects delivered by ARIOSETECH — real builds with the results behind them.`,
+      url: catUrl,
+    }),
+  ]
+  if (catItems.length > 2) {
+    schemas.push(
+      itemListSchema({
+        name: copy?.title || `${label} Projects`,
+        url: catUrl,
+        items: catItems
+          .map(p => ({
+            name: String(p.title || ''),
+            url: `${SITE_URL}/portfolio/${cat}/${p.slug}`,
+            description: p.quote ? String(p.quote) : undefined,
+          }))
+          // Drop anything with no title or no slug — a bare /portfolio/{cat}/
+          // entry in an ItemList points at a URL that does not exist.
+          .filter(i => Boolean(i.name) && !i.url.endsWith('/')),
+      }),
+    )
+  }
+
+  const schemaTags = schemas.map((s, i) => (
+    <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+  ))
 
   if (page && page.layout?.sections && page.layout.sections.length > 0) {
     const sections = await withServerData(page.layout.sections)
-    return <BuilderRenderer sections={sections} />
+    return (
+      <>
+        {schemaTags}
+        <BuilderRenderer sections={sections} />
+      </>
+    )
   }
 
   // Fallback path: pass items in as props so they are server-rendered too.
-  const items = await getPortfolioItems()
   return (
     <>
-      <PortfolioSection items={items} />
+      {schemaTags}
+      <PortfolioSection items={allItems} />
       <CtaSection />
     </>
   )

@@ -4,49 +4,43 @@ import { sectionRegistry } from '@/lib/builder/registry'
 import FallbackSection from '@/components/sections/FallbackSection'
 import type { SectionInstance } from '@/types'
 import { motion } from 'framer-motion'
-import SchemaMarkup from '@/components/ui/SchemaMarkup'
 
 initRegistry()
 
-export function BuilderRenderer({
-  sections,
-  pageName,
-  pageUrl,
-}: {
+/**
+ * Renders a builder page's sections.
+ *
+ * NOTE ON STRUCTURED DATA — deliberately none here.
+ *
+ * This component used to emit <SchemaMarkup type="Service" faqs={...} /> for
+ * every page it rendered. That produced two problems on the live site:
+ *
+ *   1. DUPLICATES. The route files that render this component
+ *      (app/(site)/[...slug]/page.tsx and app/(site)/page.tsx) already emit
+ *      Service and FAQPage schema built from the same sections. Every
+ *      /services/* URL therefore shipped TWO Service nodes and TWO FAQPage
+ *      nodes describing the same thing.
+ *
+ *   2. UNSUPPORTED CLAIMS. It hardcoded type="Service", so every non-service
+ *      builder page — the homepage, /portfolio, /industries/* — claimed to be
+ *      a commercial Service offering named after the page. Google's guidance
+ *      is that markup must describe what is visibly on the page.
+ *
+ * Schema now lives in the route files, which know what the page actually is.
+ * The `pageName` / `pageUrl` props are kept so existing call sites still
+ * type-check; they are no longer used for markup.
+ */
+export function BuilderRenderer(props: {
   sections: SectionInstance[]
+  /** Accepted for call-site compatibility; no longer used for markup. */
   pageName?: string
+  /** Accepted for call-site compatibility; no longer used for markup. */
   pageUrl?: string
 }) {
-  const visible = sections.filter(s => !s.meta?.hidden)
-
-  const faqs: Array<{ q: string; a: string }> = []
-  let description = ''
-
-  visible.forEach(s => {
-    if (s.type === 'faq' && Array.isArray(s.props?.items)) {
-      faqs.push(...(s.props.items as Array<{ q: string; a: string }>))
-    }
-    // FIX: was 'interactive_hero' (underscore) — correct keys use dashes
-    if (
-      (s.type === 'hero-interactive') &&
-      s.props?.desc &&
-      !description
-    ) {
-      description = s.props.desc as string
-    }
-  })
+  const visible = props.sections.filter(s => !s.meta?.hidden)
 
   return (
     <div>
-      {pageUrl && (
-        <SchemaMarkup
-          type="Service"
-          pageUrl={pageUrl}
-          pageName={pageName || 'Service Page'}
-          pageDescription={description}
-          faqs={faqs}
-        />
-      )}
       {visible.map((section, index) => {
         const def = sectionRegistry[section.type]
         if (!def) return <FallbackSection key={section.id} type={section.type} />
