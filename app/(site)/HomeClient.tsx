@@ -5,7 +5,6 @@ import ClutchWidget from '@/components/ui/ClutchWidget'
 import InteractiveHeroSection from '@/components/sections/InteractiveHeroSection'
 import ServicesAccordionSection from '@/components/sections/ServicesAccordionSection'
 import ApproachSection from '@/components/sections/ApproachSection'
-import SchemaMarkup from '@/components/ui/SchemaMarkup'
 import { IconBox, CheckSVG, ArrowSVG, ChevSVG } from '@/components/ui/IconBox'
 const StarSVG = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="var(--primary)">
@@ -162,12 +161,26 @@ export default function HomeClient({ blogs, portfolio }: { blogs:BlogItem[]; por
 
   return (
     <>
-      <SchemaMarkup
-        type="Organization"
-        pageUrl="/"
-        pageName="Ariosetech"
-        pageDescription="Ariosetech is a premium web development agency specializing in WordPress, Shopify, and WooCommerce development for businesses."
-        faqs={FAQS}
+      {/* ── FAQPage only ──
+          This used to be <SchemaMarkup type="Organization" faqs={FAQS} />,
+          which emitted a ProfessionalService node using the @id
+          "https://ariosetech.com/#organization" — the exact id the real
+          Organization node in app/layout.tsx already publishes on every page.
+          Two different @types sharing one @id makes the entity graph
+          ambiguous, and every `publisher: { "@id": ... }` on the site points
+          there. The Organization now comes from the root layout alone; this
+          component contributes only the FAQ it actually renders below. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: FAQS.map(({ q, a }) => ({
+            '@type': 'Question',
+            name: q,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        }) }}
       />
       {/* ══ HERO ══════════════════════════════════════════════════════ */}
       <InteractiveHeroSection />
