@@ -2,6 +2,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import type { Metadata } from 'next'
 import type { PageDoc, BlogDoc, PortfolioDoc } from '@/types'
 import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
+import { withServerData } from '@/lib/builder/server-data'
 import { webPageSchema, faqSchema, faqFromSections } from '@/lib/schema'
 import HomeClient from './HomeClient'
 
@@ -96,7 +97,22 @@ export default async function Home() {
         url: `${SITE_URL}/`,
       }),
     ]
-    const homeFaqs = faqFromSections(layout.sections)
+    /**
+     * Hydrate data-driven sections on the server before rendering.
+     *
+     * Without this, BlogSection falls back to its client-side fetch of
+     * /api/blogs — and robots.txt disallows /api/. Googlebot honours that while
+     * rendering, so it never retrieved the list and the homepage went out with
+     * ZERO links to any blog post. A crawl on 25 Aug 2026 found 15 internal
+     * links on the homepage: none to posts, none to /industries/*.
+     *
+     * /portfolio/[category] already did this; the homepage was the one builder
+     * route that skipped it. withServerData is fail-safe — on a read error the
+     * section simply falls back to its old client fetch.
+     */
+    const sections = await withServerData(layout.sections)
+
+    const homeFaqs = faqFromSections(sections)
     if (homeFaqs.length > 0) homeSchemas.push(faqSchema(homeFaqs))
 
     return (
@@ -104,7 +120,7 @@ export default async function Home() {
         {homeSchemas.map((s, i) => (
           <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
         ))}
-        <BuilderRenderer sections={layout.sections} pageName="Home" pageUrl={`${SITE_URL}/`} />
+        <BuilderRenderer sections={sections} pageName="Home" pageUrl={`${SITE_URL}/`} />
       </>
     )
   }
