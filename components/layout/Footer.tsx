@@ -8,6 +8,65 @@ import ReviewsBadge from '@/components/ui/ReviewsBadge'
 
 /* Icons stay static; the hrefs come from Settings. `key` maps to the field
    name saved by the admin Settings screen. */
+/**
+ * Footer navigation, rendered on the SERVER.
+ *
+ * These used to live inside the component as a fallback only reached after
+ * /api/footer resolved, with the state initialised to []. That meant the
+ * server rendered a footer with NO links at all and they appeared only after
+ * hydration — so Googlebot, which reads the initial HTML, never saw a single
+ * footer link. Seeding the state with this constant puts the whole footer
+ * navigation in the first response; Settings still overrides it on the client.
+ */
+const DEFAULT_COLUMNS = [
+  { title: 'WordPress', links: [
+    { label: 'Website Development', href: '/services/wordpress' },
+    { label: 'Migration Services', href: '/services/wordpress#migration' },
+    { label: 'Speed Optimization', href: '/services/wordpress#speed' },
+    { label: 'Website Redesign', href: '/services/wordpress#redesign' },
+  ]},
+  { title: 'Shopify', links: [
+    { label: 'Store Development', href: '/services/shopify' },
+    { label: 'Migration Services', href: '/services/shopify#migration' },
+    { label: 'Store Redesign', href: '/services/shopify#redesign' },
+    { label: 'App Development', href: '/services/shopify#app-dev' },
+  ]},
+  { title: 'WooCommerce', links: [
+    { label: 'Store Development', href: '/services/woocommerce' },
+    { label: 'Theme Customization', href: '/services/woocommerce#theme' },
+    { label: 'Payment Gateway', href: '/services/woocommerce#payments' },
+    { label: 'Migration Services', href: '/services/woocommerce#migration' },
+  ]},
+  { title: 'Company', links: [
+    { label: 'About Us', href: '/about' },
+    { label: 'Meet the Team', href: '/about/team' },
+    { label: 'Industries', href: '/industries' },
+    { label: 'Portfolio', href: '/portfolio' },
+    { label: 'SEO Case Studies', href: '/portfolio/seo' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'FAQ', href: '/faq' },
+    { label: 'Contact', href: '/contact' },
+  ]},
+  { title: 'Free Tools', links: [
+    { label: 'WordPress Theme Detector', href: '/tools/wordpress-theme-detector' },
+    { label: 'Shopify Theme Detector', href: '/tools/shopify-theme-detector' },
+    { label: 'SEO Audit Tool', href: '/tools/seo-audit' },
+  ]},
+]
+
+/**
+ * Links that must survive a saved footer config that predates these pages.
+ * Without them the tool pages and /portfolio/seo have no inbound link from
+ * anywhere on the site — a sitemap entry says a URL exists, an internal link
+ * says it matters, and these had only the first signal.
+ */
+const REQUIRED_COMPANY_LINKS = [
+  { label: 'Meet the Team', href: '/about/team' },
+  { label: 'Industries', href: '/industries' },
+  { label: 'SEO Case Studies', href: '/portfolio/seo' },
+]
+const TOOLS_COLUMN = DEFAULT_COLUMNS[DEFAULT_COLUMNS.length - 1]
+
 const SOCIAL_ICONS = [
   { key: 'facebook',  icon: <Facebook  size={16} />, label: 'Facebook',  fallback: 'https://www.facebook.com/ArioseTech/' },
   { key: 'instagram', icon: <Instagram size={16} />, label: 'Instagram', fallback: 'https://www.instagram.com/_ariosetech/' },
@@ -39,7 +98,7 @@ export default function Footer({ initialHeader }: { initialHeader?: HeaderSettin
   const [ctaHref, setCtaHref] = useState('/contact')
   const [tagline, setTagline] = useState('Professional WordPress, Shopify & WooCommerce Development since 2017. Trusted by 100+ businesses in the USA, UAE, and Switzerland.')
   const [bottomText, setBottomText] = useState('')
-  const [columns, setColumns] = useState<any[]>([])
+  const [columns, setColumns] = useState<any[]>(DEFAULT_COLUMNS)
 
   // Per-page CTA override (set by pages via <SetFooterCta/>). Falls back to
   // the global footer config when a page hasn't set its own.
@@ -91,49 +150,26 @@ export default function Footer({ initialHeader }: { initialHeader?: HeaderSettin
         const cols = footerData.columns.map((c: any) => ({ ...c, links: [...(c.links || [])] }))
         const target =
           cols.find((c: any) => /company|about/i.test(String(c.title || ''))) || cols[0]
+        const hasHref = (links: any[], href: string) => links.some((l: any) =>
+          typeof l?.href === 'string' && l.href.replace(/\/$/, '') === href)
         if (target) {
-          const required = [
-            { label: 'Meet the Team', href: '/about/team' },
-            { label: 'Industries', href: '/industries' },
-          ]
-          for (const link of required) {
-            const exists = target.links.some((l: any) =>
-              typeof l?.href === 'string' && l.href.replace(/\/$/, '') === link.href)
-            if (!exists) target.links.push(link)
+          for (const link of REQUIRED_COMPANY_LINKS) {
+            if (!hasHref(target.links, link.href)) target.links.push(link)
           }
+        }
+        // Same guarantee for the tool pages: reuse a tools column if the saved
+        // config has one, otherwise append it.
+        const toolsCol = cols.find((c: any) => /tool/i.test(String(c.title || '')))
+        if (toolsCol) {
+          for (const link of TOOLS_COLUMN.links) {
+            if (!hasHref(toolsCol.links, link.href)) toolsCol.links.push(link)
+          }
+        } else {
+          cols.push({ ...TOOLS_COLUMN, links: [...TOOLS_COLUMN.links] })
         }
         setColumns(cols)
       } else {
-        // Fallback matching default layout
-        setColumns([
-          { title: 'WordPress', links: [
-            { label: 'Website Development', href: '/services/wordpress' },
-            { label: 'Migration Services', href: '/services/wordpress#migration' },
-            { label: 'Speed Optimization', href: '/services/wordpress#speed' },
-            { label: 'Website Redesign', href: '/services/wordpress#redesign' },
-          ]},
-          { title: 'Shopify', links: [
-            { label: 'Store Development', href: '/services/shopify' },
-            { label: 'Migration Services', href: '/services/shopify#migration' },
-            { label: 'Store Redesign', href: '/services/shopify#redesign' },
-            { label: 'App Development', href: '/services/shopify#app-dev' },
-          ]},
-          { title: 'WooCommerce', links: [
-            { label: 'Store Development', href: '/services/woocommerce' },
-            { label: 'Theme Customization', href: '/services/woocommerce#theme' },
-            { label: 'Payment Gateway', href: '/services/woocommerce#payments' },
-            { label: 'Migration Services', href: '/services/woocommerce#migration' },
-          ]},
-          { title: 'Company', links: [
-            { label: 'About Us', href: '/about' },
-            { label: 'Meet the Team', href: '/about/team' },
-            { label: 'Industries', href: '/industries' },
-            { label: 'Portfolio', href: '/portfolio' },
-            { label: 'Blog', href: '/blog' },
-            { label: 'FAQ', href: '/faq' },
-            { label: 'Contact', href: '/contact' },
-          ]}
-        ])
+        setColumns(DEFAULT_COLUMNS)
       }
     })
   }, [])
