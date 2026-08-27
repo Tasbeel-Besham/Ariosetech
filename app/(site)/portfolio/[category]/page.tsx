@@ -208,11 +208,29 @@ export default async function CategoryPage({ params }: Props) {
 
   if (page && page.layout?.sections && page.layout.sections.length > 0) {
     const sections = await withServerData(page.layout.sections)
+
+    /**
+     * Demote any <h1> the shared document supplies.
+     *
+     * /portfolio and /portfolio/{category} render the SAME page document. The
+     * index needs that document to carry the page's <h1> (it has no hero
+     * section, so without it the index emits none at all). Category pages
+     * already render their own category-specific <h1> above, so leaving the
+     * document's heading at h1 here would give every category page two — and
+     * all four would share the identical text, which is the duplication this
+     * route exists to avoid.
+     */
+    const catSections = sections.map(s => {
+      const props = (s as { props?: Record<string, unknown> })?.props
+      if (props?.headingTag !== 'h1') return s
+      return { ...s, props: { ...props, headingTag: 'h2' } }
+    })
+
     return (
       <>
         {schemaTags}
         {heading}
-        <BuilderRenderer sections={sections} />
+        <BuilderRenderer sections={catSections} />
       </>
     )
   }
