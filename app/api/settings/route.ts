@@ -10,8 +10,8 @@ const DEFAULTS = {
   email: 'info@ariosetech.com', phone: '+92 300 9484 739',
   whatsapp: 'https://wa.me/923009484739',
   address: '95 College Road, Block E, PCSIR Staff Colony, Lahore, 54770',
-  facebook: 'https://facebook.com/ariosetech',
-  instagram: 'https://instagram.com/ariosetech',
+  facebook: 'https://www.facebook.com/ariosetechnologies/',
+  instagram: 'https://www.instagram.com/ariose.tech/',
   linkedin: 'https://linkedin.com/company/ariosetech',
 }
 
