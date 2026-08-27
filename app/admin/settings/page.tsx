@@ -17,8 +17,8 @@ export default function SettingsAdmin() {
     email: 'info@ariosetech.com', phone: '+92 300 9484 739',
     whatsapp: 'https://wa.me/923009484739',
     address: '95 College Road, Block E, PCSIR Staff Colony, Lahore, 54770',
-    facebook: 'https://facebook.com/ariosetech',
-    instagram: 'https://instagram.com/ariosetech',
+    facebook: 'https://www.facebook.com/ariosetechnologies/',
+    instagram: 'https://www.instagram.com/ariose.tech/',
     linkedin: 'https://linkedin.com/company/ariosetech',
     logo_url: LOGO_URL,
     favicon_url: FAVICON_URL,
@@ -188,8 +188,8 @@ export default function SettingsAdmin() {
           <h2 className="font-display text-[15px] font-bold text-white mb-4">Social Media</h2>
           <div className="grid grid-cols-2 gap-3.5 max-sm:grid-cols-1">
             {[
-              { k:'facebook',  l:'Facebook URL',  ph:'https://facebook.com/ariosetech' },
-              { k:'instagram', l:'Instagram URL', ph:'https://instagram.com/ariosetech' },
+              { k:'facebook',  l:'Facebook URL',  ph:'https://www.facebook.com/ariosetechnologies/' },
+              { k:'instagram', l:'Instagram URL', ph:'https://www.instagram.com/ariose.tech/' },
               { k:'linkedin',  l:'LinkedIn URL',  ph:'https://linkedin.com/company/ariosetech' },
             ].map(({ k, l, ph }) => (
               <div key={k}><label className={lblClass}>{l}</label><input value={settings[k]||''} onChange={e=>set(k,e.target.value)} placeholder={ph} className={inpClass} /></div>
