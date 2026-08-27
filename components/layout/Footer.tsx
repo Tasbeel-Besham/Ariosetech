@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import type { HeaderSettings } from '@/lib/header'
 import Link from 'next/link'
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from '@/components/ui/Icons'
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from '@/components/ui/Icons'
 import { useFooterCta } from '@/components/layout/FooterCtaContext'
 import ReviewsBadge from '@/components/ui/ReviewsBadge'
 
@@ -68,10 +68,9 @@ const REQUIRED_COMPANY_LINKS = [
 const TOOLS_COLUMN = DEFAULT_COLUMNS[DEFAULT_COLUMNS.length - 1]
 
 const SOCIAL_ICONS = [
-  { key: 'facebook',  icon: <Facebook  size={16} />, label: 'Facebook',  fallback: 'https://www.facebook.com/ArioseTech/' },
-  { key: 'instagram', icon: <Instagram size={16} />, label: 'Instagram', fallback: 'https://www.instagram.com/_ariosetech/' },
+  { key: 'facebook',  icon: <Facebook  size={16} />, label: 'Facebook',  fallback: 'https://www.facebook.com/ariosetechnologies/' },
+  { key: 'instagram', icon: <Instagram size={16} />, label: 'Instagram', fallback: 'https://www.instagram.com/ariose.tech/' },
   { key: 'linkedin',  icon: <Linkedin  size={16} />, label: 'LinkedIn',  fallback: 'https://linkedin.com/company/ariosetech' },
-  { key: 'twitter',   icon: <Twitter   size={16} />, label: 'Twitter',   fallback: 'https://twitter.com/ariosetech' },
 ]
 
 /**
