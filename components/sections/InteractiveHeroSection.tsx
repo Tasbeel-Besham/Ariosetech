@@ -41,6 +41,22 @@ const LockSVG = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
 )
 
+const METRIC_ICONS = {
+  speed: <SpeedSVG />,
+  star: <StarSVG />,
+  lock: <LockSVG />,
+} as const
+
+/**
+ * Fallback hero stats. Overridden per page by the `stats` prop from the
+ * builder; the icons and accent bars stay with the position.
+ */
+const DEFAULT_METRICS = [
+  { icon: 'speed' as const, val: '90+', lbl: 'PageSpeed Target', bar: 0.92 },
+  { icon: 'star'  as const, val: '5.0', lbl: 'Google Reviews',   bar: 1.0  },
+  { icon: 'lock'  as const, val: '24h', lbl: 'Free Quote',       bar: 0.98 },
+]
+
 type Props = {
   eyebrow?: string
   headline?: string
@@ -55,7 +71,17 @@ type Props = {
   codeFilename?: string
   codeLines?: Tok[][]
   metrics?: { ico: React.ReactNode, val: string, lbl: string, c1: string, c2: string, bar: number }[]
-  marqueeItems?: string[]
+  /**
+   * The three hero stat tiles, editable from the builder.
+   *
+   * `metrics` above carries React nodes for the icons, so it can only be set
+   * from code — which is why these numbers sat hardcoded and un-editable while
+   * claiming things like a 5.0 rating. `stats` is plain data: supply a value
+   * and a label, and the existing icon for that position is reused.
+   */
+  stats?: { value?: string, label?: string }[]
+  /** Accepts an array, or a comma-separated string from the builder field. */
+  marqueeItems?: string[] | string
 }
 
 /** Strip leading decorative glyphs (checkmarks, emoji) that DB content sometimes carries —
@@ -93,8 +119,14 @@ export default function InteractiveHeroSection({
   codeFilename = 'ariosetech-store / functions.php',
   codeLines = DEFAULT_CODE_LINES,
   metrics,
-  marqueeItems = ['WordPress Development', 'WooCommerce Stores', 'Shopify Development', 'SEO Optimization', 'Speed Optimization', '24/7 Support', '30-Day Guarantee', 'USA · UAE · Switzerland', 'Since 2017'],
+  stats,
+  marqueeItems = ['WordPress Development', 'WooCommerce Stores', 'Shopify Development', 'SEO Optimization', 'Speed Optimization', '24/7 Support', '30 Days Free Support', 'USA · UAE · Switzerland', 'Since 2017'],
 }: Props) {
+  // The builder stores this as one comma-separated string; code passes an array.
+  const marqueeList = Array.isArray(marqueeItems)
+    ? marqueeItems
+    : String(marqueeItems || '').split(',').map(t => t.trim()).filter(Boolean)
+
   const [typedLines, setTypedLines] = useState<Tok[][]>([])
   const [currentLine, setCurrentLine] = useState<Tok[]>([])
   const lineIdxRef = useRef(0)
@@ -290,11 +322,12 @@ export default function InteractiveHeroSection({
 
           {/* Metrics */}
           <div className="flex gap-[14px]">
-            {(metrics || [
-              { ico: <SpeedSVG />, val: '90+', lbl: 'PageSpeed Target', c1: B_PRI, c2: B_SEC, bar: 0.92 },
-              { ico: <StarSVG />, val: '5.0', lbl: 'Google Reviews', c1: B_PRI, c2: B_SEC, bar: 1.0 },
-              { ico: <LockSVG />, val: '24h', lbl: 'Free Quote', c1: B_PRI, c2: B_SEC, bar: 0.98 },
-            ]).map((m, i) => (
+            {(metrics || DEFAULT_METRICS.map((m, i) => ({
+              ico: METRIC_ICONS[m.icon],
+              val: stats?.[i]?.value || m.val,
+              lbl: stats?.[i]?.label || m.lbl,
+              c1: B_PRI, c2: B_SEC, bar: m.bar,
+            }))).map((m, i) => (
               <div key={m.lbl + i} className="flex-1 rounded-xl p-[16px] relative overflow-hidden bg-white/5 border border-white/10">
                 <div className="mb-8 flex text-primary/80">{m.ico}</div>
                 <div className="font-display font-extrabold text-white mb-4 text-[20px]">{m.val}</div>
@@ -311,7 +344,7 @@ export default function InteractiveHeroSection({
         <div className="flex whitespace-nowrap animate-[ticker_55s_linear_infinite]">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex">
-              {marqueeItems.map(text => (
+              {marqueeList.map(text => (
                 <span key={text} className="inline-flex items-center gap-16 px-[36px] font-mono font-semibold tracking-widest uppercase text-white/20 text-[9.5px]">
                   <span className="w-[4px] h-[4px] rounded-full bg-primary/40" />
                   {text}
