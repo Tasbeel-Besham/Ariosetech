@@ -96,6 +96,14 @@ export type BlogDoc = {
   content: BlogBlock[]
   featuredImage?: string
   coverImage?: string
+  /**
+   * Alt text describing the cover photo itself.
+   *
+   * Templates previously fell back to the post title, which describes the
+   * article rather than the image — accurate-sounding but useless to anyone
+   * using a screen reader, and no help in image search.
+   */
+  imageAlt?: string
   status: 'draft' | 'published'
   published: boolean
   category: string
