@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
-import { slugify, slugifyPath } from '@/lib/utils'
+import { slugifyPath } from '@/lib/utils'
 import { ObjectId } from 'mongodb'
 import { revalidateSite } from '@/lib/cache'
 
@@ -33,9 +33,17 @@ export async function PUT(req: NextRequest, { params }: P) {
   // Enforce SEO-safe URLs on every save: lowercase, spaces/underscores become
   // hyphens, accents folded. Applied server-side so a manually typed slug like
   // "About Us" can never become the URL "/About Us".
+  //
+  // slugifyPath, NOT slugify. Some pages legitimately store a multi-segment
+  // slug ("services/wordpress"), and slugify() turns the separator into a
+  // hyphen — "services-wordpress". That made the comparison below see a
+  // renamed page, rewrite fullPath to "/services-wordpress", and 404 the live
+  // URL. slugifyPath cleans each segment and keeps the "/" intact, so a
+  // multi-segment slug round-trips unchanged while a single-segment slug is
+  // sanitised exactly as before.
   if (typeof body.slug === 'string' && body.slug) {
-    const clean = slugify(body.slug)
-    if (!clean) return NextResponse.json({ error: 'Slug must contain at least one letter or number' }, { status: 400 })
+    const clean = slugifyPath(body.slug).replace(/^\/+|\/+$/g, '')
+    if (!clean.replace(/\//g, '')) return NextResponse.json({ error: 'Slug must contain at least one letter or number' }, { status: 400 })
     body.slug = clean
     updates.slug = clean
   }
@@ -48,7 +56,12 @@ export async function PUT(req: NextRequest, { params }: P) {
   if (body.slug && body.slug !== existingDoc.slug) {
     const oldSlug = existingDoc.slug
     const oldPath = existingDoc.fullPath
-    const newPath = `/${body.slug}`
+    // Keep the page where it lives: swap only the final segment of the current
+    // path. Rebuilding as `/${slug}` moved every nested page to the site root
+    // on any rename — /services/wordpress would have become /wordpress.
+    const parent = (oldPath || '').replace(/\/[^/]*$/, '')
+    const lastSegment = body.slug.split('/').filter(Boolean).pop() || body.slug
+    const newPath = `${parent}/${lastSegment}`.replace(/\/+/g, '/')
     updates.fullPath = newPath
     updates.slugHistory = [...(existingDoc.slugHistory || []), oldSlug]
 
