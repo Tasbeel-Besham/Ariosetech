@@ -5,7 +5,8 @@ import Image from 'next/image'
 type Item = { name: string; role: string; initials: string; quote: string; image?: string }
 type Props = {
   headingTag?: string;
-  eyebrow?: string; headline?: string; items?: Item[]; clutchRating?: string; clutchCount?: string; clutchUrl?: string; googleUrl?: string }
+  eyebrow?: string; headline?: string; items?: Item[]; clutchRating?: string; clutchCount?: string; clutchUrl?: string; googleUrl?: string;
+  ctaLabel?: string; ctaHref?: string }
 
 const StarSVG = () => <svg width="14" height="14" viewBox="0 0 14 14" fill="var(--primary)"><path d="M7 1l1.5 4.5H13L9.5 8l1.3 4L7 10l-3.8 2 1.3-4L1 5.5h4.5z"/></svg>
 
@@ -33,6 +34,8 @@ export default function TestimonialsSection({
   clutchCount='16',
   clutchUrl='https://clutch.co/profile/ariosetech',
   googleUrl='https://g.co/kgs/oiGmWD7',
+  ctaLabel,
+  ctaHref,
 }: Props) {
   const safe = Array.isArray(items) ? items : []
   return (
@@ -69,10 +72,12 @@ export default function TestimonialsSection({
             </div>
           ))}
         </div>
+        {/* The label and destination are editable in the builder; the Clutch
+            link stays the default so existing pages render unchanged. */}
         <div className="mt-10 text-center">
-          <a href={clutchUrl} target="_blank" rel="noopener noreferrer"
+          <a href={ctaHref || clutchUrl} target="_blank" rel="noopener noreferrer"
              className="inline-flex items-center gap-2 font-mono text-11 uppercase tracking-widest font-semibold" style={{ color: 'var(--primary)' }}>
-            Read all {clutchCount} verified reviews on Clutch →
+            {ctaLabel || `Read all ${clutchCount} verified reviews on Clutch`} →
           </a>
         </div>
       </div>
