@@ -246,7 +246,7 @@ export default async function BlogPostPage({ params }: Props) {
         {cover && (
           <div className="container bp-wide">
             <div className="bp-cover">
-              <Image src={cover} alt={post.title} fill className="object-cover" sizes="(max-width: 900px) 100vw, 860px" priority />
+              <Image src={cover} alt={post.imageAlt || post.title} fill className="object-cover" sizes="(max-width: 900px) 100vw, 860px" priority />
             </div>
           </div>
         )}
@@ -357,7 +357,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <Link key={String(p._id)} href={`/blog/${p.slug}`} className="blog-card group blog-scroll-card">
                   <div className="blog-card-media">
                     {(p.featuredImage || p.coverImage) ? (
-                      <Image src={(p.featuredImage || p.coverImage)!} alt={p.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" sizes="360px" />
+                      <Image src={(p.featuredImage || p.coverImage)!} alt={p.imageAlt || p.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" sizes="360px" />
                     ) : (
                       <div className="blog-card-fallback"><span>{p.category}</span></div>
                     )}
