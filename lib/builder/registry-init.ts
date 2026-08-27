@@ -44,7 +44,7 @@ const HERO_DEFAULT_PROPS = {
   ctaPrimaryHref:    '/contact',
   ctaSecondaryLabel: 'View Portfolio',
   ctaSecondaryHref:  '/portfolio',
-  trust:             'No Contracts,30-Day Guarantee,Free Support,Transparent Pricing',
+  trust:             'No Contracts,30 Days Free Support,Transparent Pricing',
 }
 
 const HERO_SCHEMA: SectionDefinition['schema'] = [
@@ -58,6 +58,11 @@ const HERO_SCHEMA: SectionDefinition['schema'] = [
   { type: 'text',     name: 'ctaSecondaryLabel', label: 'Secondary CTA label' },
   { type: 'text',     name: 'ctaSecondaryHref',  label: 'Secondary CTA URL' },
   { type: 'textarea', name: 'trust',             label: 'Trust badges (comma separated)' },
+  { type: 'textarea', name: 'marqueeItems',      label: 'Ticker items (comma separated)' },
+  { type: 'repeater', name: 'stats',             label: 'Stat tiles (max 3)', fields: [
+    { type: 'text', name: 'value', label: 'Value (e.g. 90+)' },
+    { type: 'text', name: 'label', label: 'Label' },
+  ]},
 ]
 
 export function initRegistry() {
@@ -354,6 +359,8 @@ export function initRegistry() {
       { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text', name: 'headline', label: 'Headline' },
       { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
+      { type: 'text', name: 'ctaLabel', label: 'Bottom link label (Optional)' },
+      { type: 'text', name: 'ctaHref',  label: 'Bottom link URL (Optional)' },
       { type: 'repeater', name: 'items', label: 'Testimonials', fields: [
         { type: 'text',     name: 'name',     label: 'Name' },
         { type: 'text',     name: 'role',     label: 'Role / Company' },
@@ -382,6 +389,7 @@ export function initRegistry() {
       { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text', name: 'headline', label: 'Headline' },
       { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
+      { type: 'textarea', name: 'intro', label: 'Intro paragraph (Optional)' },
       { type: 'repeater', name: 'steps', label: 'Process steps', fields: [
         { type: 'text',     name: 'n',     label: 'Step number (01, 02…)' },
         { type: 'text',     name: 'title', label: 'Title' },
@@ -527,7 +535,7 @@ export function initRegistry() {
     defaultProps: {
       eyebrow: 'Get Started Today', headline: 'Start Your Success Story Today',
       desc: 'Join 100+ successful businesses that chose ARIOSETECH.',
-      trust: 'No Long-Term Contracts,30-Day Money-Back Guarantee,Free Post-Launch Support,Transparent Pricing',
+      trust: 'No Long-Term Contracts,30 Days Free Support,Transparent Pricing',
       ctaLabel: 'Schedule Free Consultation', ctaHref: '/contact',
       secondaryLabel: 'View Our Portfolio',   secondaryHref: '/portfolio',
     },
@@ -564,6 +572,9 @@ export function initRegistry() {
       { type: 'text',     name: 'ctaLabel',  label: 'CTA label' },
       { type: 'text',     name: 'ctaHref',   label: 'CTA URL' },
       { type: 'text',     name: 'guarantee', label: 'Guarantee text' },
+      { type: 'repeater', name: 'items', label: 'Checklist ("This can cover:")', fields: [
+        { type: 'text', name: 'value', label: 'Checklist item' },
+      ]},
     ],
   })
 
@@ -617,7 +628,7 @@ export function initRegistry() {
       items: [
         { q: 'How long does a WordPress website take?',       a: 'Most projects complete in 2-3 weeks. Complex builds may take 4-6 weeks.' },
         { q: 'What is included in your maintenance plans?',   a: 'Regular updates, security monitoring, backups, performance optimization, and priority support.' },
-        { q: 'Do you offer a money-back guarantee?',          a: 'Yes — a 30-day money-back guarantee on all development projects.' },
+        { q: 'Is any free support included after launch?',    a: 'Yes — every project includes 30 days of free support after launch for bug fixes and minor adjustments.' },
         { q: 'Can you work with my existing WordPress site?', a: 'Absolutely. Redesigns, migrations, speed fixes, security, and feature additions.' },
         { q: 'Do you offer ongoing support after launch?',    a: '30 days free post-launch support included. Then flexible monthly plans from $79/mo.' },
       ],
@@ -626,6 +637,9 @@ export function initRegistry() {
       { type: 'text', name: 'eyebrow',  label: 'Eyebrow' },
       { type: 'text', name: 'headline', label: 'Headline' },
       { type: 'select', name: 'headingTag', label: 'Heading tag (SEO)', options: ['h2','h3','h4','h1','h5','h6'] },
+      { type: 'textarea', name: 'subheadline', label: 'Intro paragraph (Optional)' },
+      { type: 'text',     name: 'ctaLabel',    label: 'CTA label' },
+      { type: 'text',     name: 'ctaHref',     label: 'CTA URL' },
       { type: 'repeater', name: 'items', label: 'FAQ items', fields: [
         { type: 'text',     name: 'q', label: 'Question' },
         { type: 'textarea', name: 'a', label: 'Answer' },
