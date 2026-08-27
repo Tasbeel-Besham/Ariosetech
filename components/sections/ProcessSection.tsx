@@ -5,9 +5,9 @@ import SectionHeading from '@/components/ui/SectionHeading'
 type Step = { n: string; title: string; sub: string; desc: string; time: string }
 type Props = {
   headingTag?: string;
-  eyebrow?: string; headline?: string; items?: Step[]; steps?: Step[] }
+  eyebrow?: string; headline?: string; intro?: string; items?: Step[]; steps?: Step[] }
 
-export default function ProcessSection({ headingTag='h2', eyebrow='How We Work', headline='Your Success Journey in 5 Simple Steps', items=[], steps=[] }: Props) {
+export default function ProcessSection({ headingTag='h2', eyebrow='How We Work', headline='Your Success Journey in 5 Simple Steps', intro, items=[], steps=[] }: Props) {
   const safe = items.length ? items : steps
 
   return (
@@ -16,6 +16,7 @@ export default function ProcessSection({ headingTag='h2', eyebrow='How We Work',
         <div className="text-center mb-[60px]">
           <p className="eyebrow sr justify-center">{eyebrow}</p>
           <SectionHeading as={headingTag} className="sr process-headline">{headline}</SectionHeading>
+          {intro ? <p className="sr mx-auto mt-[18px] max-w-[62ch] text-[16px] leading-[1.75]" style={{ color: 'var(--text-2)' }}>{intro}</p> : null}
         </div>
         <div className="process-grid" style={{ '--process-cols': safe.length } as CSSProperties}>
           {safe.map(({n,title,sub,desc,time},i) => (
