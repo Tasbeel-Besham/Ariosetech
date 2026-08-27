@@ -81,7 +81,7 @@ export default function BlogListing({ data }: { data: BlogPageData }) {
                 {(featured.featuredImage || featured.coverImage) ? (
                   <Image
                     src={(featured.featuredImage || featured.coverImage)!}
-                    alt={featured.title}
+                    alt={featured.imageAlt || featured.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     sizes="(max-width: 900px) 100vw, 560px"
@@ -120,7 +120,7 @@ export default function BlogListing({ data }: { data: BlogPageData }) {
                     {(post.featuredImage || post.coverImage) ? (
                       <Image
                         src={(post.featuredImage || post.coverImage)!}
-                        alt={post.title}
+                        alt={post.imageAlt || post.title}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                         sizes="(max-width: 700px) 100vw, 360px"
