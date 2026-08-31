@@ -70,18 +70,42 @@ export type PageDoc = {
   updatedAt: Date
 }
 
-export type BlogBlockType = 'h2' | 'h3' | 'p' | 'image' | 'quote' | 'list' | 'code' | 'callout' | 'divider' | 'button'
+export type BlogBlockType = 'h2' | 'h3' | 'p' | 'image' | 'quote' | 'list' | 'code' | 'callout' | 'divider' | 'button' | 'cta' | 'table'
 
 export type BlogBlock = {
   type: BlogBlockType
-  /** Main text for h2/h3/p/quote/callout, or the button label. */
+  /** Main text for h2/h3/p/quote/callout/cta, or the button label. */
   text?: string
-  /** Image URL (image block) or button URL (button block). */
+  /**
+   * The same content as `text`, but keeping inline markup (bold, italic, links,
+   * inline code) as a sanitised HTML string.
+   *
+   * Only present when the text actually carries formatting, so posts written
+   * before this existed are unchanged and still render from `text` alone.
+   * `text` is always kept in sync as the plain-text version, because excerpts,
+   * JSON-LD and heading anchors all need words without markup.
+   */
+  html?: string
+  /** Per-item inline markup for list blocks, index-aligned with `items`. */
+  itemsHtml?: string[]
+  /** Image URL, button URL, or the CTA button's destination. */
   url?: string
-  /** Image alt text or caption; quote attribution. */
+  /** Image alt text or caption; quote attribution; CTA supporting line. */
   caption?: string
+  /** Label on a CTA block's button. */
+  label?: string
   /** One item per line for list blocks. */
   items?: string[]
+  /**
+   * Table cells, row-major: rows[0] is the header row when `hasHeader` is not
+   * false. Ragged rows are padded on render, so a malformed paste can never
+   * break the table's shape.
+   */
+  rows?: string[][]
+  /** Per-cell inline markup, index-aligned with `rows`. */
+  rowsHtml?: string[][]
+  /** false = every row is a data row. Defaults to true (first row is a header). */
+  hasHeader?: boolean
   /** true = ordered list, false/undefined = bullet list. */
   ordered?: boolean
   /** Language hint for code blocks (display only). */
