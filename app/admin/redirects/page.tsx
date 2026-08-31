@@ -130,7 +130,7 @@ export default function RedirectsAdmin() {
         <p className="text-text-2 text-[13px] leading-relaxed">
           A <strong>301</strong> tells Google the page moved for good and hands the old URL&rsquo;s ranking signal to the new one.
           Add one whenever you delete a page, rename a slug, or merge two pages that were competing with each other.
-          Renaming a page in the builder writes its redirect here automatically. Changes go live within about a minute.
+          Renaming a page in the builder writes its redirect here automatically. Changes go live within a couple of minutes.
         </p>
       </div>
 
