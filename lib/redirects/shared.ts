@@ -112,6 +112,12 @@ export function resolveChain(from: string, to: string, existing: Pick<RedirectDo
   for (const r of existing) {
     if (r.enabled === false) continue
     if (r.from === from) continue // the row being written is about to be replaced
+    // A row whose source equals its destination is a no-op — the map route
+    // drops it and it never fires. Following it here would make the walk below
+    // revisit the same path twice and report a loop that does not exist, which
+    // is exactly what a stale self-referential row left behind by a renamed
+    // page did: it blocked every new redirect pointing at that page.
+    if (r.from === r.to) continue
     byFrom.set(r.from, r.to)
   }
   let current = to
