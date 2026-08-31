@@ -65,12 +65,25 @@ export async function PUT(req: NextRequest, { params }: P) {
     updates.fullPath = newPath
     updates.slugHistory = [...(existingDoc.slugHistory || []), oldSlug]
 
-    // Create redirect entry
+    // Record the rename in the redirect table so the old URL keeps working.
+    // Until the middleware started reading this collection these rows were
+    // inert — a renamed page 404'd at its old address and lost every link and
+    // ranking signal pointing at it. They now serve a real 301.
     const redirectsCol = await getCollection('redirects')
+    const now = new Date()
     await redirectsCol.updateOne(
       { from: oldPath },
-      { $set: { from: oldPath, to: newPath, type: 301 } } as never,
+      {
+        $set: { from: oldPath, to: newPath, type: 301, enabled: true, updatedAt: now },
+        $setOnInsert: { source: 'slug-change', createdAt: now },
+      } as never,
       { upsert: true }
+    )
+    // If anything already redirected *to* the old path, repoint it at the new
+    // one rather than leaving a two-hop chain behind.
+    await redirectsCol.updateMany(
+      { to: oldPath, from: { $ne: oldPath } },
+      { $set: { to: newPath, updatedAt: now } } as never,
     )
   }
 
