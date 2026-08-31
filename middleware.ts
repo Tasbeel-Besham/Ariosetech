@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isProtectedPath, type RedirectMap } from '@/lib/redirects/shared'
 
 const SECRET = process.env.ADMIN_JWT_SECRET || 'change-this-in-production'
 
@@ -62,6 +63,77 @@ function lowercasePathRedirect(req: NextRequest): NextResponse | null {
   return NextResponse.redirect(url, 301)
 }
 
+/* ────────────────────────────────────────────────────────────────────────────
+ * Database-managed redirects
+ *
+ * The `redirects` collection is edited at /admin/redirects and is also written
+ * automatically whenever a page's slug changes. Middleware cannot query Mongo
+ * (Edge runtime, no TCP sockets), so it fetches the compact map from
+ * /api/redirects/map and holds it in module scope.
+ *
+ * The cache is stale-while-revalidate on purpose. Only the very first request
+ * an edge instance serves waits for the fetch; after that a stale map is used
+ * immediately and refreshed in the background, so a visitor never pays for the
+ * round trip. A new redirect therefore goes live within about a minute per
+ * region rather than instantly — the right trade for a table that changes a
+ * few times a month and is read on every request.
+ *
+ * Note on ordering: `redirects()` in next.config.ts runs BEFORE middleware in
+ * Next's routing pipeline, so those code-level rules always win over a row
+ * here. The admin screen warns when a new row would be shadowed by one.
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+const REDIRECT_TTL_MS = 60_000
+let redirectCache: { map: RedirectMap; at: number } | null = null
+let redirectInflight: Promise<void> | null = null
+
+function refreshRedirectMap(origin: string): Promise<void> {
+  if (redirectInflight) return redirectInflight
+  redirectInflight = fetch(`${origin}/api/redirects/map`, { headers: { 'x-redirect-map': '1' } })
+    .then(r => (r.ok ? r.json() : {}))
+    .then((map: RedirectMap) => { redirectCache = { map: map || {}, at: Date.now() } })
+    .catch(() => {
+      // Fail open. Keep whatever map we already have and try again next request
+      // rather than 500ing the page.
+      if (!redirectCache) redirectCache = { map: {}, at: Date.now() }
+    })
+    .finally(() => { redirectInflight = null })
+  return redirectInflight
+}
+
+async function getRedirectMap(origin: string): Promise<RedirectMap> {
+  const cached = redirectCache
+  if (!cached) {
+    // Cold instance: nothing to serve, so this one request waits.
+    await refreshRedirectMap(origin)
+    return redirectCache ? (redirectCache as { map: RedirectMap }).map : {}
+  }
+  // Warm but stale: serve the old map now, refresh behind the response.
+  if (Date.now() - cached.at >= REDIRECT_TTL_MS) void refreshRedirectMap(origin)
+  return cached.map
+}
+
+async function databaseRedirect(req: NextRequest): Promise<NextResponse | null> {
+  const { pathname, search } = req.nextUrl
+  if (isProtectedPath(pathname) || pathname === '/') return null
+
+  const key = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
+  const map = await getRedirectMap(req.nextUrl.origin)
+  const hit = map[key]
+  if (!hit) return null
+
+  const [to, status] = hit
+  // Carry the query string through so campaign tags (?utm_source=…) and any
+  // other tracking parameters survive the hop.
+  const target = /^https?:\/\//i.test(to)
+    ? new URL(to)
+    : new URL(to, req.nextUrl.origin)
+  if (search && !target.search) target.search = search
+
+  if (target.pathname === pathname && target.origin === req.nextUrl.origin) return null
+  return NextResponse.redirect(target, status)
+}
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
@@ -69,6 +141,11 @@ export async function middleware(req: NextRequest) {
   // resolved to their real routes rather than handled as separate URLs.
   const cased = lowercasePathRedirect(req)
   if (cased) return securityHeaders(cased)
+
+  // Then the managed redirect table, so an old URL is resolved before any
+  // route tries to render it (and 404s).
+  const managed = await databaseRedirect(req)
+  if (managed) return securityHeaders(managed)
 
   // Protect admin routes
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
