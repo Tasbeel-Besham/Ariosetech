@@ -18,6 +18,9 @@ const BLOCK_TYPES: { type: BlogBlockType; label: string }[] = [
 const TAG_LABEL: Record<BlogBlockType, string> = {
   h2: 'H2', h3: 'H3', p: 'P', image: 'IMG', quote: '“ ”',
   list: 'LIST', code: '</>', callout: '!', divider: '—', button: 'BTN',
+  // Created in the rich editor. Labelled here so this legacy block list can
+  // still display a post that contains them rather than failing to render.
+  cta: 'CTA', table: 'TABLE',
 }
 
 const inp = 'w-full bg-bg-3 border border-border rounded-lg py-2 px-3 text-[13px] text-white outline-none box-border font-body transition-colors focus:border-primary/50'
