@@ -256,6 +256,24 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="container bp-layout">
             <aside className="bp-toc-col">
               <TableOfContents blocks={post.content} />
+
+              {/* Free audit CTA — sits directly under the TOC so it travels
+                  with the sticky sidebar and stays in view for the whole
+                  read, without competing with the article or the nav. */}
+              <aside className="bp-audit-cta" aria-labelledby="bp-audit-cta-title">
+                <p className="bp-audit-cta-eyebrow">Free, no obligation</p>
+                <p className="bp-audit-cta-title" id="bp-audit-cta-title">
+                  Get Your Free Website Audit
+                </p>
+                <p className="bp-audit-cta-text">
+                  We&rsquo;ll review your site&rsquo;s speed, SEO and conversion issues and send
+                  you the specific fixes worth making.
+                </p>
+                <Link href="/contact" className="bp-audit-cta-btn">
+                  Request my free audit
+                  <span aria-hidden="true"> &rarr;</span>
+                </Link>
+              </aside>
               {/* Compact reviewer/author card — stays visible in the sticky
                   sidebar as the reader scrolls, so the expert behind the piece
                   is always in view (reinforces EEAT throughout the article). */}
