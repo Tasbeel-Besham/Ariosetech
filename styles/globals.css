@@ -1668,8 +1668,20 @@ span.pd-tech { display: inline-flex; }
 .bp-figcaption { font-size: 13px; color: var(--text-3); text-align: center; margin-top: 10px; font-style: italic; }
 
 /* Quote */
-.bp-quote { margin: 32px 0; padding: 4px 0 4px 24px; border-left: 3px solid var(--primary); }
-.bp-quote-text { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; color: var(--heading); line-height: 1.5; letter-spacing: -0.01em; }
+/* Quote: a vertical bar on the left, italic text, indented off the measure and
+   a barely-there tint so it reads as set apart without shouting. */
+.bp-quote {
+  margin: 32px 0;
+  padding: 16px 20px 16px 24px;
+  border-left: 3px solid var(--primary);
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.07), rgba(var(--primary-rgb), 0.02) 60%, transparent);
+}
+.bp-quote-text {
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; font-style: italic;
+  color: var(--heading); line-height: 1.6; letter-spacing: -0.01em; margin: 0;
+}
+.bp-quote-text em, .bp-quote-text i { font-style: normal; }
 .bp-quote-cite { display: block; margin-top: 12px; font-size: 14px; color: var(--text-3); font-style: normal; }
 
 /* List */
@@ -1693,8 +1705,58 @@ span.pd-tech { display: inline-flex; }
 /* Divider */
 .bp-divider { border: none; height: 1px; background: var(--border-2); margin: 40px 0; }
 
+/* Tables. The wrapper scrolls rather than the page: a three-column pricing
+   comparison is wider than a phone, and letting the article body scroll
+   sideways breaks reading everywhere else in the post. */
+.bp-table-wrap {
+  margin: 32px 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+.bp-table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.6; min-width: 480px; }
+.bp-table th,
+.bp-table td { padding: 13px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+.bp-table thead th {
+  background: var(--bg-2);
+  font-family: var(--font-display); font-weight: 700; color: var(--heading);
+  font-size: 13px; letter-spacing: 0.01em;
+  border-bottom: 1px solid var(--border-2);
+  position: sticky; top: 0;
+}
+.bp-table tbody tr:last-child td { border-bottom: none; }
+.bp-table tbody tr:nth-child(even) { background: rgba(var(--primary-rgb), 0.025); }
+.bp-table td { color: var(--text-2); }
+.bp-table td:first-child { color: var(--text-bright); font-weight: 500; }
+.bp-table a { color: var(--primary); text-decoration: underline; }
+
 /* Button */
 .bp-btn-wrap { margin: 32px 0; }
+
+/* Call to action: headline, supporting line and a button in one boxed unit.
+   Deliberately heavier than .bp-callout — a callout is an aside, this is an
+   ask, and it has to read as a break in the article rather than a note in it. */
+.bp-ctablock {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  flex-wrap: wrap;
+  margin: 40px 0;
+  padding: 26px 28px;
+  border: 1px solid rgba(var(--primary-rgb), 0.28);
+  border-radius: 16px;
+  background: var(--primary-soft);
+}
+.bp-ctablock-body { flex: 1 1 260px; min-width: 0; }
+.bp-ctablock-title {
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;
+  color: var(--heading); line-height: 1.35; letter-spacing: -0.01em; margin: 0;
+}
+.bp-ctablock-text { font-size: 15px; color: var(--text-2); line-height: 1.6; margin: 8px 0 0; }
+.bp-ctablock-btn { flex: 0 0 auto; white-space: nowrap; }
+@media (max-width: 560px) {
+  .bp-ctablock { padding: 22px; }
+  .bp-ctablock-btn { width: 100%; text-align: center; justify-content: center; }
+}
 
 .bp-tags { margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 8px; }
 
@@ -2009,10 +2071,18 @@ span.pd-tech { display: inline-flex; }
 .blog-editor-surface ol { list-style: decimal; }
 .blog-editor-surface li { margin: 0.35em 0; }
 .blog-editor-surface li p { margin: 0; }
+/* Mirrors .bp-quote so a quote looks the same while writing as when published. */
 .blog-editor-surface blockquote {
-  border-left: 3px solid rgba(var(--primary-rgb), 0.5);
-  padding-left: 1em; font-style: italic; color: var(--text-2);
+  margin: 1.2em 0;
+  padding: 0.65em 1em 0.65em 1.1em;
+  border-left: 3px solid var(--primary);
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.09), rgba(var(--primary-rgb), 0.03) 60%, transparent);
+  font-style: italic;
+  color: var(--text-2);
 }
+.blog-editor-surface blockquote p { margin: 0; }
+.blog-editor-surface blockquote em, .blog-editor-surface blockquote i { font-style: normal; }
 .blog-editor-surface pre {
   background: var(--bg-3); border: 1px solid var(--border);
   border-radius: 10px; padding: 14px 16px; font-family: var(--font-mono);
@@ -2292,6 +2362,58 @@ span.pd-tech { display: inline-flex; }
 }
 @media (max-width: 640px) {
   .blog-scroll-card { flex-basis: 82%; max-width: 82%; }
+}
+
+/* ── Blog: free-audit CTA under the TOC ──────────────────────────────
+   Sits inside the sticky sidebar, so it follows the reader down the page.
+   Deliberately quieter than a full-width banner: the article is the reason
+   they are here, and a sidebar card that shouts competes with it. The purple
+   wash and hairline glow are the same language as the rest of the site. */
+.bp-audit-cta {
+  display: block;
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid rgba(var(--primary-rgb), 0.32);
+  border-radius: 14px;
+  background:
+    linear-gradient(160deg, rgba(var(--primary-rgb), 0.14), rgba(var(--primary-rgb), 0.04) 55%, transparent),
+    var(--bg-2);
+  box-shadow: 0 0 0 1px rgba(var(--primary-rgb), 0.06), 0 10px 30px -18px rgba(var(--primary-rgb), 0.55);
+}
+.bp-audit-cta-eyebrow {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.09em;
+  color: var(--primary); margin: 0 0 8px;
+}
+.bp-audit-cta-title {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.02rem;
+  line-height: 1.28; letter-spacing: -0.01em; color: var(--heading); margin: 0 0 8px;
+}
+.bp-audit-cta-text {
+  font-size: 0.82rem; line-height: 1.6; color: var(--text-2); margin: 0 0 14px;
+}
+.bp-audit-cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+  width: 100%; padding: 10px 14px;
+  border-radius: 10px; background: var(--grad); color: #fff;
+  font-family: var(--font-body); font-size: 0.83rem; font-weight: 700;
+  text-align: center; text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+.bp-audit-cta-btn:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px -12px rgba(var(--primary-rgb), 0.9);
+}
+.bp-audit-cta-btn:focus-visible {
+  outline: 2px solid var(--primary); outline-offset: 2px;
+}
+/* Tablet/mobile: the sidebar collapses to a block above the article, where a
+   card between the TOC and the first paragraph would push the article down.
+   Keep it, but tighten it and let it sit inline with the reading measure. */
+@media (max-width: 1020px) {
+  .bp-audit-cta { margin: 16px 0 4px; padding: 16px; }
+  .bp-audit-cta-btn { width: auto; display: inline-flex; }
 }
 
 /* ── Blog: compact sticky expert card in the sidebar ────────────────── */
