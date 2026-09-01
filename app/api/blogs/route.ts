@@ -5,6 +5,7 @@ import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { slugify } from '@/lib/utils'
 import { revalidateSite } from '@/lib/cache'
+import { sanitizeBlocks } from '@/lib/blog/editor-convert'
 
 export async function GET(req: NextRequest) {
   const admin = req.nextUrl.searchParams.get('admin')
@@ -23,6 +24,10 @@ export async function POST(req: NextRequest) {
   if (existing) return NextResponse.json({ error: 'Slug exists' }, { status: 409 })
   const doc = {
     ...body,
+    // Block text may carry inline markup (bold, links) from the editor, so it
+    // is filtered through the allowlist before it is ever stored. The renderer
+    // sanitises again, but nothing unsafe should reach the database at all.
+    ...(Array.isArray(body.content) ? { content: sanitizeBlocks(body.content) } : {}),
     status: body.published ? 'published' : 'draft',
     publishedAt: body.published ? new Date().toISOString() : null,
     seo: body.seo || { title: '', description: '', ogImage: '' },
