@@ -2364,6 +2364,54 @@ span.pd-tech { display: inline-flex; }
   .blog-scroll-card { flex-basis: 82%; max-width: 82%; }
 }
 
+/* ── Blog: bylines (written by / reviewed by) ────────────────────────
+   Two compact credits side by side under the article meta. Kept small on
+   purpose: the byline's job at the top of the page is to say who stands
+   behind the piece, not to tell their life story — the full bio sits at the
+   end of the article where it does not push the opening paragraph down. */
+.bp-bylines {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 14px 30px;
+  margin-top: 22px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.bp-byline { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.bp-byline-photo {
+  width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.bp-byline-body { min-width: 0; }
+.bp-byline-name {
+  display: block;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.95rem;
+  color: var(--heading); line-height: 1.25; margin: 1px 0 0;
+  text-decoration: none;
+}
+a.bp-byline-name:hover { color: var(--primary); }
+.bp-byline-role {
+  font-size: 0.78rem; color: var(--text-3); line-height: 1.45; margin: 2px 0 0;
+}
+@media (max-width: 560px) {
+  .bp-bylines { gap: 14px 18px; }
+  .bp-byline { flex: 1 1 100%; }
+}
+
+/* Reviewer credit under the end-of-article author bio. */
+.bp-trust-reviewer {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.bp-trust-reviewer-photo {
+  width: 30px; height: 30px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--border); font-size: 12px;
+}
+.bp-trust-reviewer-text {
+  font-size: 0.8rem; color: var(--text-3); line-height: 1.5; margin: 0;
+}
+.bp-trust-reviewer-name { color: var(--text-2); font-weight: 600; text-decoration: none; }
+a.bp-trust-reviewer-name:hover { color: var(--primary); }
+
 /* ── Blog: free-audit CTA under the TOC ──────────────────────────────
    Sits inside the sticky sidebar, so it follows the reader down the page.
    Deliberately quieter than a full-width banner: the article is the reason
