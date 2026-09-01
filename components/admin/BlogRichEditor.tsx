@@ -7,32 +7,133 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { useEffect, useCallback, useState } from 'react'
 import type { BlogBlock } from '@/types'
 import { docToBlocks, blocksToDoc } from '@/lib/blog/editor-convert'
+import { transformPastedHTML } from '@/lib/blog/paste-transform'
 
 /* ── Custom node: callout / button ──
    These aren't standard rich text, so they live as an atomic node holding a
    data payload. They round-trip through the converter untouched. */
+const BLOCK_LABEL: Record<string, string> = { button: 'Button', cta: 'Call to action', callout: 'Callout', table: 'Table' }
+
+/** Grid editor for a table block. Blog tables are simple comparison grids —
+ *  no merged cells — so a plain grid of inputs is easier to drive than a
+ *  ProseMirror table, and it keeps the stored shape a clean string[][]. */
+function TableBlockEditor({ data, set }: { data: BlogBlock; set: (patch: Partial<BlogBlock>) => void }) {
+  const rows: string[][] = data.rows?.length ? data.rows : [['', ''], ['', '']]
+  const width = Math.max(...rows.map(r => r.length), 1)
+  const hasHeader = data.hasHeader !== false
+
+  // Every edit rewrites the whole grid, which also normalises ragged rows.
+  const commit = (next: string[][]) => {
+    const w = Math.max(...next.map(r => r.length), 1)
+    set({ rows: next.map(r => { const c = [...r]; while (c.length < w) c.push(''); return c }), rowsHtml: undefined })
+  }
+  const setCell = (r: number, c: number, v: string) =>
+    commit(rows.map((row, ri) => ri === r ? row.map((cell, ci) => (ci === c ? v : cell)) : row))
+  const addRow = () => commit([...rows, Array(width).fill('')])
+  const addCol = () => commit(rows.map(r => [...r, '']))
+  const delRow = (r: number) => rows.length > 1 && commit(rows.filter((_, i) => i !== r))
+  const delCol = (c: number) => width > 1 && commit(rows.map(r => r.filter((_, i) => i !== c)))
+
+  const cellCls = 'w-full py-1.5 px-2 rounded-md border border-border bg-bg text-text text-[13px] outline-none focus:border-[rgba(var(--primary-rgb),0.5)]'
+  const mini = 'px-1.5 text-text-3 hover:text-red-400 text-[11px] leading-none'
+
+  return (
+    <div>
+      <label className="flex items-center gap-2 mb-2 text-[12px] text-text-2 cursor-pointer">
+        <input type="checkbox" checked={hasHeader} onChange={e => set({ hasHeader: e.target.checked })} />
+        First row is a header
+      </label>
+
+      <div className="overflow-x-auto">
+        <table className="border-separate border-spacing-1">
+          <tbody>
+            {rows.map((row, r) => (
+              <tr key={r}>
+                {row.map((cell, c) => (
+                  <td key={c} className="align-top">
+                    {r === 0 && (
+                      <div className="flex justify-end">
+                        <button type="button" onClick={() => delCol(c)} className={mini} title="Delete this column">&times; col</button>
+                      </div>
+                    )}
+                    <input
+                      value={cell}
+                      onChange={e => setCell(r, c, e.target.value)}
+                      placeholder={r === 0 && hasHeader ? `Header ${c + 1}` : ''}
+                      className={cellCls}
+                      style={r === 0 && hasHeader ? { fontWeight: 700 } : undefined}
+                    />
+                  </td>
+                ))}
+                <td className="align-bottom">
+                  <button type="button" onClick={() => delRow(r)} className={mini} title="Delete this row">&times; row</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="flex gap-2 mt-2">
+        <button type="button" onClick={addRow} className="btn btn-outline btn-sm">+ Row</button>
+        <button type="button" onClick={addCol} className="btn btn-outline btn-sm">+ Column</button>
+      </div>
+    </div>
+  )
+}
+
 function CustomBlockView({ node, updateAttributes, deleteNode }: any) {
   const data: BlogBlock = node.attrs.data || { type: 'callout', text: '' }
   const set = (patch: Partial<BlogBlock>) =>
     updateAttributes({ data: { ...data, ...patch } })
+
+  const field = 'w-full py-2 px-3 rounded-lg border border-border bg-bg text-text text-sm outline-none mb-2'
 
   return (
     <NodeViewWrapper>
       <div contentEditable={false} className="my-4 rounded-xl border border-border bg-bg-2 p-4">
         <div className="flex items-center justify-between mb-3">
           <span className="font-mono text-10 uppercase tracking-wider font-bold text-primary">
-            {data.type === 'button' ? 'Button' : 'Callout'}
+            {BLOCK_LABEL[data.type] || 'Callout'}
           </span>
           <button type="button" onClick={deleteNode}
                   className="text-text-3 hover:text-red-400 text-xs">Remove</button>
         </div>
-        <input
-          value={data.text || ''}
-          onChange={e => set({ text: e.target.value })}
-          placeholder={data.type === 'button' ? 'Button label' : 'Callout text'}
-          className="w-full py-2 px-3 rounded-lg border border-border bg-bg text-text text-sm outline-none mb-2"
-        />
-        {data.type === 'button' && (
+
+        {data.type === 'table' ? (
+          <TableBlockEditor data={data} set={set} />
+        ) : (
+          <input
+            value={data.text || ''}
+            onChange={e => set({ text: e.target.value })}
+            placeholder={
+              data.type === 'button' ? 'Button label'
+                : data.type === 'cta' ? 'Headline — e.g. Need this done properly?'
+                : 'Callout text'
+            }
+            className={field}
+          />
+        )}
+
+        {data.type === 'cta' && (
+          <>
+            <textarea
+              value={data.caption || ''}
+              onChange={e => set({ caption: e.target.value })}
+              rows={2}
+              placeholder="Supporting line — one sentence on what they get."
+              className={field}
+            />
+            <input
+              value={data.label || ''}
+              onChange={e => set({ label: e.target.value })}
+              placeholder="Button label — e.g. Get a free quote"
+              className={field}
+            />
+          </>
+        )}
+
+        {(data.type === 'button' || data.type === 'cta') && (
           <input
             value={data.url || ''}
             onChange={e => set({ url: e.target.value })}
@@ -50,7 +151,22 @@ const CustomBlock = Node.create({
   group: 'block',
   atom: true,
   addAttributes() {
-    return { data: { default: { type: 'callout', text: '' } } }
+    return {
+      data: {
+        default: { type: 'callout', text: '' },
+        // The payload has to survive a round trip through HTML, because that is
+        // how pasted content reaches the editor: transformPastedHTML rewrites a
+        // <table> into <div data-custom-block data-payload="…"> and TipTap then
+        // parses that back into this node. Without these two, a pasted table
+        // would arrive as an empty block.
+        parseHTML: (el: HTMLElement) => {
+          const raw = el.getAttribute('data-payload')
+          if (!raw) return { type: 'callout', text: '' }
+          try { return JSON.parse(raw) } catch { return { type: 'callout', text: '' } }
+        },
+        renderHTML: (attrs: Record<string, unknown>) => ({ 'data-payload': JSON.stringify(attrs.data ?? {}) }),
+      },
+    }
   },
   parseHTML() { return [{ tag: 'div[data-custom-block]' }] },
   renderHTML({ HTMLAttributes }) { return ['div', mergeAttributes(HTMLAttributes, { 'data-custom-block': '' })] },
@@ -84,84 +200,11 @@ export default function BlogRichEditor({
       /**
        * Normalise pasted HTML before TipTap parses it.
        *
-       * Google Docs (and Word) don't paste semantic tags — a heading arrives as
-       * <p style="font-weight:700;font-size:20pt"> and bold text as
-       * <span style="font-weight:700">. Without this, everything lands as plain
-       * paragraphs and you'd re-format the whole article by hand.
-       *
-       * We rewrite those styled elements into real <h2>/<h3>/<strong>/<em>
-       * tags, then let TipTap's normal parser take over.
+       * Lives in lib/blog/paste-transform.ts so the rules can be unit-tested
+       * against real Google Docs markup — the ordering inside it is subtle and
+       * getting it wrong is what silently destroyed pasted tables.
        */
-      transformPastedHTML(html: string) {
-        if (!html) return html
-        try {
-          const doc = new DOMParser().parseFromString(html, 'text/html')
-
-          // Google Docs wraps everything in <b id="docs-internal-guid-…"> with
-          // no semantic meaning — unwrap it so its children are read directly.
-          doc.querySelectorAll('b[id^="docs-internal-guid"]').forEach(b => {
-            const parent = b.parentNode
-            if (!parent) return
-            while (b.firstChild) parent.insertBefore(b.firstChild, b)
-            parent.removeChild(b)
-          })
-
-          const fontSize = (el: Element): number => {
-            const s = el.getAttribute('style') || ''
-            const m = s.match(/font-size:\s*([\d.]+)\s*(pt|px)/i)
-            if (!m) return 0
-            const v = parseFloat(m[1])
-            return m[2].toLowerCase() === 'px' ? v * 0.75 : v // px → pt
-          }
-          const isBoldish = (el: Element): boolean => {
-            const s = el.getAttribute('style') || ''
-            const m = s.match(/font-weight:\s*(\d{3}|bold)/i)
-            if (!m) return false
-            return m[1].toLowerCase() === 'bold' || parseInt(m[1], 10) >= 600
-          }
-
-          // Paragraphs that are visually headings → real heading tags.
-          doc.querySelectorAll('p').forEach(p => {
-            const size = fontSize(p)
-            const inner = p.querySelector('span, b, strong')
-            const size2 = inner ? fontSize(inner) : 0
-            const s = Math.max(size, size2)
-            const bold = isBoldish(p) || (inner ? isBoldish(inner) : false)
-            const text = (p.textContent || '').trim()
-            if (!text) return
-            // Heading heuristics: large text, or bold + short line.
-            let tag: string | null = null
-            if (s >= 18) tag = 'h2'
-            else if (s >= 14 && bold) tag = 'h3'
-            else if (bold && text.length < 90 && !/[.!?]$/.test(text)) tag = 'h3'
-            if (tag) {
-              const h = doc.createElement(tag)
-              h.textContent = text
-              p.replaceWith(h)
-            }
-          })
-
-          // Inline styled spans → real <strong>/<em> so marks survive.
-          doc.querySelectorAll('span').forEach(sp => {
-            const style = sp.getAttribute('style') || ''
-            const bold = isBoldish(sp)
-            const italic = /font-style:\s*italic/i.test(style)
-            if (!bold && !italic) return
-            let node: globalThis.Node = doc.createTextNode(sp.textContent || '')
-            if (italic) { const em = doc.createElement('em'); em.appendChild(node); node = em }
-            if (bold)   { const st = doc.createElement('strong'); st.appendChild(node); node = st }
-            sp.replaceWith(node as ChildNode)
-          })
-
-          // Strip Google's styling wrappers and empty paragraphs.
-          doc.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'))
-          doc.querySelectorAll('p').forEach(p => { if (!(p.textContent || '').trim() && !p.querySelector('img')) p.remove() })
-
-          return doc.body.innerHTML
-        } catch {
-          return html
-        }
-      },
+      transformPastedHTML,
     },
     onUpdate: ({ editor }) => {
       onChange(docToBlocks(editor.getJSON() as never))
@@ -193,11 +236,13 @@ export default function BlogRichEditor({
     editor.chain().focus().setLink({ href: url }).run()
   }, [editor])
 
-  const insertCustom = (type: 'callout' | 'button') => {
-    editor?.chain().focus().insertContent({
-      type: 'customBlock',
-      attrs: { data: type === 'button' ? { type: 'button', text: '', url: '' } : { type: 'callout', text: '' } },
-    }).run()
+  const insertCustom = (type: 'callout' | 'button' | 'cta' | 'table') => {
+    const data: BlogBlock =
+      type === 'button' ? { type: 'button', text: '', url: '' }
+        : type === 'cta' ? { type: 'cta', text: '', caption: '', label: '', url: '/contact' }
+        : type === 'table' ? { type: 'table', rows: [['', '', ''], ['', '', '']], hasHeader: true }
+        : { type: 'callout', text: '' }
+    editor?.chain().focus().insertContent({ type: 'customBlock', attrs: { data } }).run()
   }
 
   // ── HTML source mode ──
@@ -248,7 +293,10 @@ export default function BlogRichEditor({
         <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()}
                 className={editor.isActive('orderedList') ? btnOn : btn}>1. List</button>
         <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                className={editor.isActive('blockquote') ? btnOn : btn}>Quote</button>
+                className={editor.isActive('blockquote') ? btnOn : btn}
+                title="Turn the selected paragraph into a quote (click again to remove it)">
+          &ldquo; Quote
+        </button>
         <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                 className={editor.isActive('codeBlock') ? btnOn : btn}>Code</button>
 
@@ -257,6 +305,10 @@ export default function BlogRichEditor({
         <button type="button" onClick={addImage} className={btn}>+ Image</button>
         <button type="button" onClick={() => insertCustom('callout')} className={btn}>+ Callout</button>
         <button type="button" onClick={() => insertCustom('button')} className={btn}>+ Button</button>
+        <button type="button" onClick={() => insertCustom('table')} className={btn}
+                title="Insert a table — pasting one from Google Docs or Word also works now">+ Table</button>
+        <button type="button" onClick={() => insertCustom('cta')} className={btn}
+                title="Headline, supporting line and a button — the mid-article conversion block">+ CTA</button>
         <button type="button" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={btn}>+ Divider</button>
 
         <span className="flex-1" />
@@ -282,7 +334,8 @@ export default function BlogRichEditor({
             <button type="button" onClick={applyHtml} className="btn btn-primary btn-sm">Apply HTML</button>
             <button type="button" onClick={() => setHtmlMode(false)} className="btn btn-outline btn-sm">Cancel</button>
             <span className="text-text-3 text-[11.5px]">
-              Supported tags: h2, h3, p, ul/ol, blockquote, pre/code, img, hr, strong, em, a
+              Blocks: h2, h3, p, ul/ol, blockquote, pre/code, img, hr &middot;
+              Inline: strong, em, u, s, code, a, br &mdash; these are kept when you apply.
             </span>
           </div>
         </div>
@@ -291,7 +344,7 @@ export default function BlogRichEditor({
       )}
 
       <div className="px-4 py-2 border-t border-border text-text-3 text-[11px] font-mono">
-        Type naturally · Enter = new paragraph · Paste from Google Docs keeps headings &amp; formatting · &lt;/&gt; HTML for source editing
+        Type naturally · Enter = new paragraph · Paste from Google Docs keeps headings, tables, links &amp; formatting · &lt;/&gt; HTML for source editing
       </div>
     </div>
   )
