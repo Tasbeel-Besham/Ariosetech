@@ -165,9 +165,16 @@ export default async function BlogPostPage({ params }: Props) {
     dateModified: updatedLabel
       ? new Date((post as Record<string, any>).updatedAt).toISOString()
       : post.publishedAt || post.date,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/blog/${slug}` },
+    // `reviewedBy` is defined on WebPage, not on Article/BlogPosting, so it
+    // goes on the mainEntityOfPage node. Sitting on the BlogPosting it was
+    // flagged invalid by the schema.org validator and carried no weight —
+    // the reviewer signal was being published into a property Google ignores.
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE}/blog/${slug}`,
+      ...(reviewedByLd ? { reviewedBy: reviewedByLd } : {}),
+    },
     keywords: post.tags?.join(', '),
-    ...(reviewedByLd ? { reviewedBy: reviewedByLd } : {}),
     // Extra context Google uses for article understanding and eligibility.
     articleSection: post.category || undefined,
     inLanguage: 'en',
@@ -211,34 +218,59 @@ export default async function BlogPostPage({ params }: Props) {
               )}
               <span className="bp-dot" />
               <span className="bp-meta"><Clock size={13} /> {readMins} min read</span>
-              {post.author && <><span className="bp-dot" /><span className="bp-meta">By {post.author}</span></>}
             </div>
 
-            {/* Reviewed By / Written By card — shows the expert behind the post.
-                Renders a reviewer if set, otherwise the author, when a matching
-                author record with a photo/role exists. Strong EEAT signal. */}
-            {(reviewerRec || authorRec) && (() => {
-              const person = reviewerRec || authorRec!
-              const label = reviewerRec ? 'Reviewed By' : 'Written By'
-              return (
-                <div className="bp-reviewer">
-                  {person.avatar ? (
-                    <Image src={person.avatar} alt={person.name} width={62} height={62} className="bp-reviewer-photo" />
-                  ) : (
-                    <div className="bp-reviewer-photo bp-reviewer-initial">{person.name.charAt(0)}</div>
-                  )}
-                  <div className="bp-reviewer-body">
-                    <p className="bp-reviewer-label">{label}</p>
-                    <p className="bp-reviewer-name">{person.name}</p>
-                    {person.role && <p className="bp-reviewer-role">{person.role}</p>}
-                    {person.bio && <p className="bp-reviewer-bio">{person.bio}</p>}
-                    {person.slug && (
-                      <Link href={`/author/${person.slug}`} className="bp-reviewer-link">View Bio →</Link>
+            {/* Bylines: who wrote it, then who checked it.
+                Previously this rendered the reviewer OR the author, never both,
+                so on a reviewed post the person who actually wrote the article
+                appeared nowhere but a line of grey text — the weakest possible
+                signal for the author entity Google is trying to resolve. Both
+                now get a photo, a linked name and a role, with the writer
+                first, and the long bio moved to the end of the article where it
+                does not push the opening paragraph down the page. */}
+            {(authorRec || reviewerRec || post.author) && (
+              <div className="bp-bylines">
+                {(authorRec || post.author) && (
+                  <div className="bp-byline">
+                    {authorRec?.avatar ? (
+                      <Image src={authorRec.avatar} alt={authorRec.name} width={44} height={44} className="bp-byline-photo" />
+                    ) : (
+                      <div className="bp-byline-photo bp-reviewer-initial">
+                        {(authorRec?.name || post.author || 'A').charAt(0)}
+                      </div>
                     )}
+                    <div className="bp-byline-body">
+                      <p className="bp-reviewer-label">Written by</p>
+                      {authorRec?.slug ? (
+                        <Link href={`/author/${authorRec.slug}`} className="bp-byline-name">{authorRec.name}</Link>
+                      ) : (
+                        <p className="bp-byline-name">{authorRec?.name || post.author}</p>
+                      )}
+                      {authorRec?.role && <p className="bp-byline-role">{authorRec.role}</p>}
+                    </div>
                   </div>
-                </div>
-              )
-            })()}
+                )}
+
+                {reviewerRec && (
+                  <div className="bp-byline">
+                    {reviewerRec.avatar ? (
+                      <Image src={reviewerRec.avatar} alt={reviewerRec.name} width={44} height={44} className="bp-byline-photo" />
+                    ) : (
+                      <div className="bp-byline-photo bp-reviewer-initial">{reviewerRec.name.charAt(0)}</div>
+                    )}
+                    <div className="bp-byline-body">
+                      <p className="bp-reviewer-label">Reviewed by</p>
+                      {reviewerRec.slug ? (
+                        <Link href={`/author/${reviewerRec.slug}`} className="bp-byline-name">{reviewerRec.name}</Link>
+                      ) : (
+                        <p className="bp-byline-name">{reviewerRec.name}</p>
+                      )}
+                      {reviewerRec.role && <p className="bp-byline-role">{reviewerRec.role}</p>}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </header>
 
@@ -324,14 +356,16 @@ export default async function BlogPostPage({ params }: Props) {
                   and honest so you always get reliable, actionable guidance.
                 </p>
               </div>
+              {/* The full bio belongs to whoever wrote the piece; the reviewer
+                  is credited underneath rather than replacing them. */}
               {(() => {
-                const person = reviewerRec || authorRec
-                const label = reviewerRec ? 'Reviewed By' : 'Written By'
+                const person = authorRec || reviewerRec
                 const name = person?.name || post.author || 'ARIOSETECH Team'
                 const role = person?.role || 'WordPress, Shopify & WooCommerce specialists since 2017'
                 const bio = person?.bio
                 const avatar = person?.avatar
                 const slug = person?.slug
+                const rev = reviewerRec && reviewerRec.name !== name ? reviewerRec : null
                 return (
                   <div className="bp-trust-card">
                     <div className="bp-trust-card-head">
@@ -341,12 +375,30 @@ export default async function BlogPostPage({ params }: Props) {
                         <div className="bp-trust-photo bp-reviewer-initial">{name.charAt(0)}</div>
                       )}
                       <div>
-                        <p className="bp-reviewer-label">{label}</p>
+                        <p className="bp-reviewer-label">{authorRec ? 'Written By' : 'Reviewed By'}</p>
                         <p className="bp-trust-name">{name}</p>
                       </div>
                     </div>
                     {role && <p className="bp-trust-role">{role}</p>}
                     {bio && <p className="bp-trust-bio">{bio}</p>}
+                    {rev && (
+                      <div className="bp-trust-reviewer">
+                        {rev.avatar ? (
+                          <Image src={rev.avatar} alt={rev.name} width={30} height={30} className="bp-trust-reviewer-photo" />
+                        ) : (
+                          <div className="bp-trust-reviewer-photo bp-reviewer-initial">{rev.name.charAt(0)}</div>
+                        )}
+                        <p className="bp-trust-reviewer-text">
+                          Reviewed by{' '}
+                          {rev.slug ? (
+                            <Link href={`/author/${rev.slug}`} className="bp-trust-reviewer-name">{rev.name}</Link>
+                          ) : (
+                            <span className="bp-trust-reviewer-name">{rev.name}</span>
+                          )}
+                          {rev.role ? `, ${rev.role}` : ''}
+                        </p>
+                      </div>
+                    )}
                     <div className="bp-trust-actions">
                       {slug && <Link href={`/author/${slug}`} className="bp-reviewer-link">View Bio →</Link>}
                       <Link href="/contact" className="btn btn-primary btn-sm">Work with us</Link>
