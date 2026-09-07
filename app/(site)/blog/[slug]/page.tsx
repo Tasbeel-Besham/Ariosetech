@@ -8,6 +8,7 @@ import type { BlogDoc } from '@/types'
 import ReadingProgress from '@/components/ui/ReadingProgress'
 import BlogContent from '@/components/blog/BlogContent'
 import TableOfContents from '@/components/blog/TableOfContents'
+import { liveFilter } from '@/lib/blog/status'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -30,7 +31,7 @@ export const dynamic = 'force-dynamic'
 async function getPost(slug: string): Promise<BlogDoc | null> {
   try {
     const col = await getCollection<BlogDoc>('blogs')
-    return await col.findOne({ slug, published: true })
+    return await col.findOne({ slug, ...liveFilter() })
   } catch (e) {
     console.error('[blog] lookup failed:', e)
     return null
@@ -96,7 +97,7 @@ export default async function BlogPostPage({ params }: Props) {
   let related: BlogDoc[] = []
   try {
     const col = await getCollection<BlogDoc>('blogs')
-    const all = await col.find({ published: true, slug: { $ne: slug } }).sort({ date: -1 }).limit(12).toArray()
+    const all = await col.find({ ...liveFilter(), slug: { $ne: slug } }).sort({ date: -1 }).limit(12).toArray()
     const sameCat = all.filter(p => p.category === post.category)
     related = [...sameCat, ...all.filter(p => p.category !== post.category)].slice(0, 9)
   } catch { /* ignore */ }
