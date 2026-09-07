@@ -6,11 +6,12 @@ import { getCollection } from '@/lib/db/mongodb'
 import { slugify } from '@/lib/utils'
 import { revalidateSite } from '@/lib/cache'
 import { sanitizeBlocks } from '@/lib/blog/editor-convert'
+import { liveFilter, normalizeStatus } from '@/lib/blog/status'
 
 export async function GET(req: NextRequest) {
   const admin = req.nextUrl.searchParams.get('admin')
   const col = await getCollection('blogs')
-  const filter = admin ? {} : { published: true }
+  const filter = admin ? {} : liveFilter()
   const blogs = await col.find(filter).sort({ date: -1 }).toArray()
   return NextResponse.json(blogs)
 }
@@ -28,8 +29,10 @@ export async function POST(req: NextRequest) {
     // is filtered through the allowlist before it is ever stored. The renderer
     // sanitises again, but nothing unsafe should reach the database at all.
     ...(Array.isArray(body.content) ? { content: sanitizeBlocks(body.content) } : {}),
-    status: body.published ? 'published' : 'draft',
-    publishedAt: body.published ? new Date().toISOString() : null,
+    // status / published / scheduledFor / publishedAt are all derived together
+    // so the record cannot contradict itself — published with a future date, or
+    // scheduled with no date. See lib/blog/status.ts.
+    ...normalizeStatus(body),
     seo: body.seo || { title: '', description: '', ogImage: '' },
     updatedAt: new Date().toISOString(),
   }
