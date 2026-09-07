@@ -2,6 +2,7 @@
 export const dynamic = 'force-dynamic'
 
 import { getCollection } from '@/lib/db/mongodb'
+import { liveFilter } from '@/lib/blog/status'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 const TITLE = 'ARIOSETECH Blog'
@@ -50,7 +51,7 @@ export async function GET() {
   try {
     const col = await getCollection('blogs')
     posts = await col
-      .find({ published: true } as never)
+      .find(liveFilter() as never)
       .sort({ date: -1 })
       .limit(MAX_ITEMS)
       .toArray() as Record<string, any>[]
