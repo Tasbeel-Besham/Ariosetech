@@ -1,5 +1,6 @@
 import { getCollection } from '@/lib/db/mongodb'
 import type { BlogDoc } from '@/types'
+import { liveFilter } from '@/lib/blog/status'
 
 /** Posts per listing page. */
 export const POSTS_PER_PAGE = 12
@@ -26,7 +27,8 @@ export async function getBlogPage(page: number): Promise<BlogPageData> {
 
   try {
     const col = await getCollection<BlogDoc>('blogs')
-    const filter = { published: true }
+    // Includes scheduled posts whose time has arrived — see lib/blog/status.ts.
+    const filter = liveFilter()
 
     const total = await col.countDocuments(filter as never)
     const totalPages = Math.max(1, Math.ceil(total / POSTS_PER_PAGE))
