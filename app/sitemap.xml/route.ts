@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic'
 
 import { getCollection } from '@/lib/db/mongodb'
+import { liveFilter } from '@/lib/blog/status'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ariosetech.com'
 
@@ -105,7 +106,7 @@ async function safeFind<T>(name: string, filter: Record<string, unknown>): Promi
 export async function GET() {
   const [pages, blogs, portfolio, authors] = await Promise.all([
     safeFind<Record<string, any>>('pages',     { status: 'published' }),
-    safeFind<Record<string, any>>('blogs',     { published: true }),
+    safeFind<Record<string, any>>('blogs',     liveFilter()),
     safeFind<Record<string, any>>('portfolio', { published: true }),
     safeFind<Record<string, any>>('authors',   { published: { $ne: false } }),
   ])
