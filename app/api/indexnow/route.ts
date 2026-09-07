@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { getCollection } from '@/lib/db/mongodb'
 import { submitUrls } from '@/lib/indexnow'
+import { liveFilter } from '@/lib/blog/status'
 
 export const dynamic = 'force-dynamic'
 
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
 
   await Promise.all([
     safe('pages', { status: 'published' }, d => (typeof d.fullPath === 'string' && d.fullPath !== '/' ? d.fullPath : null)),
-    safe('blogs', { published: true }, d => (d.slug ? `/blog/${d.slug}` : null)),
+    safe('blogs', liveFilter(), d => (d.slug ? `/blog/${d.slug}` : null)),
     safe('portfolio', { published: true }, d =>
       d.slug ? `/portfolio/${String(d.category || 'other').toLowerCase()}/${d.slug}` : null),
     safe('authors', { published: { $ne: false } }, d => (d.slug ? `/author/${d.slug}` : null)),
