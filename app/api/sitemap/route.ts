@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextResponse } from 'next/server'
 import { getCollection } from '@/lib/db/mongodb'
+import { liveFilter } from '@/lib/blog/status'
 
 export async function GET() {
   const [pagesCol, blogsCol] = await Promise.all([
@@ -10,7 +11,7 @@ export async function GET() {
   ])
   const [pages, blogs] = await Promise.all([
     pagesCol.find({ status: 'published' }).toArray(),
-    blogsCol.find({ published: true }).toArray(),
+    blogsCol.find(liveFilter()).toArray(),
   ])
 
   const urls = [
