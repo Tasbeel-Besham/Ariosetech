@@ -4,8 +4,19 @@ import Link from 'next/link'
 import AdminShell from '@/components/layout/AdminShell'
 import { Plus, Pencil, Trash2, Eye } from '@/components/ui/Icons'
 import toast from 'react-hot-toast'
+import { displayStatus, describeDelay } from '@/lib/blog/status'
 
-type Blog = { _id: string; title: string; slug: string; category: string; published: boolean; date: string }
+type Blog = {
+  _id: string; title: string; slug: string; category: string
+  published: boolean; date: string
+  status?: string; scheduledFor?: string | null
+}
+
+const STATUS_STYLE: Record<string, string> = {
+  published: 'bg-[#00e5a0]/10 border-[#00e5a0]/30 text-[#00e5a0]',
+  scheduled: 'bg-[#60a5fa]/10 border-[#60a5fa]/30 text-[#60a5fa]',
+  draft: 'bg-[#fbbf24]/10 border-[#fbbf24]/30 text-[#fbbf24]',
+}
 
 export default function BlogsAdmin() {
   const [blogs, setBlogs] = useState<Blog[]>([])
@@ -58,11 +69,24 @@ export default function BlogsAdmin() {
                     </td>
                     <td className="py-3.5 px-4"><span className="tag">{b.category}</span></td>
                     <td className="py-3.5 px-4">
-                      <span className={`font-mono text-[10px] py-1 px-2.5 rounded-full uppercase tracking-wider border ${
-                        b.published ? 'bg-[#00e5a0]/10 border-[#00e5a0]/30 text-[#00e5a0]' : 'bg-[#fbbf24]/10 border-[#fbbf24]/30 text-[#fbbf24]'
-                      }`}>
-                        {b.published ? 'Published' : 'Draft'}
-                      </span>
+                      {/* Computed, not read off the record: a scheduled post
+                          whose time has passed is live, and nothing rewrites
+                          the stored status when that moment arrives. */}
+                      {(() => {
+                        const state = displayStatus(b)
+                        return (
+                          <>
+                            <span className={`font-mono text-[10px] py-1 px-2.5 rounded-full uppercase tracking-wider border ${STATUS_STYLE[state]}`}>
+                              {state}
+                            </span>
+                            {state === 'scheduled' && b.scheduledFor && (
+                              <span className="block font-mono text-[10px] text-text-3 mt-1">
+                                {describeDelay(b.scheduledFor)}
+                              </span>
+                            )}
+                          </>
+                        )
+                      })()}
                     </td>
                     <td className="py-3.5 px-4 font-mono text-[11px] text-text-3">
                       {new Date(b.date).toLocaleDateString()}
