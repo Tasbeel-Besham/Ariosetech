@@ -4,6 +4,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
 import { revalidateSite } from '@/lib/cache'
 import { sanitizeBlocks } from '@/lib/blog/editor-convert'
+import { normalizeStatus } from '@/lib/blog/status'
 
 type P = { params: Promise<{ id: string }> }
 
@@ -20,10 +21,19 @@ export async function PUT(req: NextRequest, { params }: P) {
   const { id } = await params
   const body = await req.json()
   const col = await getCollection('blogs')
+
+  // The previous record is read for one reason: `publishedAt` is when the post
+  // FIRST went live, and it has to survive every later edit. Re-stamping it on
+  // each save would keep resetting the article's age in schema.org, telling
+  // Google a two-year-old post was written this afternoon.
+  const previous = await col.findOne({ _id: new ObjectId(id) }) as { publishedAt?: string | null } | null
+  if (!previous) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
   // Same allowlist pass as on create — see the note in ../route.ts.
   const updates = {
     ...body,
     ...(Array.isArray(body.content) ? { content: sanitizeBlocks(body.content) } : {}),
+    ...normalizeStatus(body, previous),
     updatedAt: new Date().toISOString(),
   }
   delete updates._id
