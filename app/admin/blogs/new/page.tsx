@@ -8,6 +8,8 @@ import toast from 'react-hot-toast'
 import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 import BlogRichEditor from '@/components/admin/BlogRichEditor'
 import type { BlogBlock } from '@/types'
+import PublishControl, { saveLabel, type Visibility } from '@/components/admin/PublishControl'
+import type { BlogStatus } from '@/lib/blog/status'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
 
@@ -28,7 +30,8 @@ export default function NewBlogPost() {
     date: new Date().toISOString().split('T')[0],
     readTime: 5,
     tags: '',
-    published: false,
+    status: 'draft' as BlogStatus,
+    scheduledFor: null as string | null,
     content: [{ type: 'p', text: '' }] as BlogBlock[],
     seo: { title: '', description: '', keywords: '', ogImage: '' },
   })
@@ -65,7 +68,12 @@ export default function NewBlogPost() {
 
   const autoSlug = (title: string) => title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()
 
-  const save = async (publish = false) => {
+  /**
+   * One save path for all three states. The old version took a `publish`
+   * boolean from whichever button was clicked, which is how the edit screen
+   * ended up unpublishing live posts; the state now comes from the form.
+   */
+  const save = async () => {
     if (!form.title || !form.slug) return toast.error('Title and slug are required')
     setSaving(true)
     const res = await fetch('/api/blogs', {
@@ -73,8 +81,6 @@ export default function NewBlogPost() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...form,
-        published: publish,
-        status: publish ? 'published' : 'draft',
         tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
         readTime: Number(form.readTime),
         seo: {
@@ -87,7 +93,11 @@ export default function NewBlogPost() {
     })
     setSaving(false)
     if (res.ok) {
-      toast.success(publish ? 'Published!' : 'Draft saved!')
+      toast.success(
+        form.status === 'published' ? 'Published!'
+        : form.status === 'scheduled' ? 'Scheduled!'
+        : 'Draft saved!'
+      )
       router.push('/admin/blogs')
     } else {
       const { error } = await res.json()
@@ -113,11 +123,8 @@ export default function NewBlogPost() {
             <h1 className="font-display text-[20px] font-extrabold text-white tracking-tight">New Post</h1>
           </div>
           <div className="flex gap-2.5">
-            <button onClick={() => save(false)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">
-              <Save size={14} /> Save Draft
-            </button>
-            <button onClick={() => save(true)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
-              <Eye size={14} /> {saving ? 'Publishing…' : 'Publish'}
+            <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+              {form.status === 'published' ? <Eye size={14} /> : <Save size={14} />} {saveLabel(form.status, saving)}
             </button>
           </div>
         </div>
@@ -184,6 +191,15 @@ export default function NewBlogPost() {
           </div>
         </div>
 
+        {/* Visibility */}
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Visibility</h2>
+          <PublishControl
+            value={{ status: form.status, scheduledFor: form.scheduledFor }}
+            onChange={(v: Visibility) => setForm(f => ({ ...f, status: v.status, scheduledFor: v.scheduledFor }))}
+          />
+        </div>
+
         {/* Content editor */}
         <div className={cardClass}>
           <h2 className="font-display text-[15px] font-bold text-white mb-5">Content</h2>
@@ -244,11 +260,8 @@ export default function NewBlogPost() {
         {/* Bottom save */}
         <div className="flex gap-2.5 justify-end">
           <Link href="/admin/blogs" className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-3 text-[13px] no-underline flex items-center transition-colors hover:bg-bg-3">Cancel</Link>
-          <button onClick={() => save(false)} disabled={saving} className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">
-            Save Draft
-          </button>
-          <button onClick={() => save(true)} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
-            {saving ? 'Publishing…' : 'Publish Post'}
+          <button onClick={save} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+            {saveLabel(form.status, saving)}
           </button>
         </div>
 
