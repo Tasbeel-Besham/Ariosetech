@@ -108,6 +108,39 @@ const nextConfig: NextConfig = {
       { source: '/sample-page', destination: '/', permanent: true },
       { source: '/hello-world', destination: '/blog', permanent: true },
       { source: '/portfolio-item/:slug*', destination: '/portfolio', permanent: true },
+      // ── Retired blog posts (Sep 2026) ──
+      //
+      // These nine posts were deleted from the CMS on purpose. Every one of
+      // them was live long enough to be crawled and to accumulate impressions,
+      // so leaving them to 404 throws that signal away — a 404 tells Google the
+      // URL is simply gone, while a 301 hands what the URL earned to the page
+      // that now covers the topic.
+      //
+      // They live here rather than in the `redirects` collection deliberately.
+      // A retired post is a permanent fact about the URL space, not something
+      // an editor should be able to unpick by accident, and code rules run
+      // before middleware so they cannot be shadowed by a stray database row.
+      //
+      // The flip side, and the reason each one is listed explicitly instead of
+      // via a pattern: a rule here will shadow a real post if one of these
+      // slugs is ever published again. If a topic comes back, delete its line
+      // below in the same commit that publishes it.
+      //
+      // Two security posts (/blog/wordpress-security-best-practices and
+      // /blog/10-wordpress-security-best-practices) are deliberately absent —
+      // they were called out separately and are left untouched pending a
+      // decision on which of the pair should absorb the other.
+      { source: '/blog/complete-guide-woocommerce-vs-shopify', destination: '/services/woocommerce', permanent: true },
+      { source: '/blog/woocommerce-vs-shopify-pakistan', destination: '/services/woocommerce', permanent: true },
+      { source: '/blog/woocommerce-cash-on-delivery-pakistan-setup', destination: '/services/woocommerce', permanent: true },
+      { source: '/blog/reduce-cod-return-rate-pakistan', destination: '/services/woocommerce', permanent: true },
+      { source: '/blog/best-courier-online-store-pakistan', destination: '/services/woocommerce', permanent: true },
+      { source: '/blog/how-to-optimize-ecommerce-site-speed', destination: '/services/woocommerce', permanent: true },
+      { source: '/blog/shopify-vs-woocommerce-for-fashion', destination: '/services/shopify', permanent: true },
+      { source: '/blog/wordpress-speed-optimization-guide', destination: '/services/wordpress', permanent: true },
+      // Core Web Vitals is a technical-SEO topic, so it goes to the SEO
+      // service rather than to WordPress speed work.
+      { source: '/blog/core-web-vitals-explained', destination: '/services/seo', permanent: true },
       // Query-string permalinks (?p=123 / ?page_id=7) on the root
       { source: '/', has: [{ type: 'query', key: 'p' }], destination: '/blog', permanent: true },
       { source: '/', has: [{ type: 'query', key: 'page_id' }], destination: '/', permanent: true },
