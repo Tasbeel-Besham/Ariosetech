@@ -5,6 +5,7 @@ import { BuilderRenderer } from '@/components/builder/canvas/BuilderRenderer'
 import { withServerData } from '@/lib/builder/server-data'
 import { webPageSchema, faqSchema, faqFromSections } from '@/lib/schema'
 import HomeClient from './HomeClient'
+import { liveFilter } from '@/lib/blog/status'
 
 // Rendered per request.
 //
@@ -135,7 +136,7 @@ export default async function Home() {
       getCollection<PortfolioDoc>('portfolio'),
     ])
     const [blogsRaw, portfolioRaw] = await Promise.all([
-      blogsCol.find({ published: true }).sort({ date: -1 }).limit(3).toArray(),
+      blogsCol.find(liveFilter()).sort({ date: -1 }).limit(3).toArray(),
       portfolioCol.find({ published: true }).sort({ featured: -1 }).limit(3).toArray(),
     ])
 
