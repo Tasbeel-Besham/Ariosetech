@@ -128,8 +128,15 @@ export type BlogDoc = {
    * using a screen reader, and no help in image search.
    */
   imageAlt?: string
-  status: 'draft' | 'published'
+  /**
+   * 'scheduled' is resolved at query time against `scheduledFor` — see
+   * lib/blog/status.ts. A scheduled post has `published: false` until its time
+   * arrives; the gate, not the flag, is what makes it visible.
+   */
+  status: 'draft' | 'scheduled' | 'published'
   published: boolean
+  /** UTC ISO timestamp a scheduled post goes live. Null unless scheduled. */
+  scheduledFor?: string | null
   category: string
   tags: string[]
   readingTime?: number
