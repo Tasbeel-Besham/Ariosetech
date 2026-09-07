@@ -8,6 +8,8 @@ import toast from 'react-hot-toast'
 import { MediaPickerModal } from '@/components/ui/MediaPickerModal'
 import BlogRichEditor from '@/components/admin/BlogRichEditor'
 import type { BlogBlock } from '@/types'
+import PublishControl, { saveLabel, type Visibility } from '@/components/admin/PublishControl'
+import { displayStatus, type BlogStatus } from '@/lib/blog/status'
 
 const CATEGORIES = ['E-Commerce', 'WordPress', 'WooCommerce', 'Shopify', 'SEO', 'Performance', 'Security', 'General']
 
@@ -23,7 +25,9 @@ export default function EditBlogPost() {
     title: '', slug: '', excerpt: '', category: 'WordPress',
     author: 'ARIOSETECH Team',
     reviewedBy: '', date: new Date().toISOString().split('T')[0],
-    readTime: 5, tags: '', published: false,
+    readTime: 5, tags: '',
+    status: 'draft' as BlogStatus,
+    scheduledFor: null as string | null,
     content: [] as BlogBlock[],
     seo: { title: '', description: '', keywords: '', ogImage: '' },
   })
@@ -44,7 +48,11 @@ export default function EditBlogPost() {
         date: data.date || new Date().toISOString().split('T')[0],
         readTime: data.readTime || data.readingTime || 5,
         tags: (data.tags || []).join(', '),
-        published: data.published || false,
+        // Derived, not read straight off the record: a scheduled post whose
+        // time has passed is live, and showing it as "Scheduled" would invite
+        // someone to "fix" a post that is already working.
+        status: displayStatus(data),
+        scheduledFor: data.scheduledFor || null,
         content: data.content || [],
         seo: {
           title: data.seo?.title || '',
@@ -59,15 +67,21 @@ export default function EditBlogPost() {
   const set = (key: string, val: unknown) => setForm(f => ({ ...f, [key]: val }))
   const setSeo = (key: string, val: string) => setForm(f => ({ ...f, seo: { ...f.seo, [key]: val } }))
 
-  const save = async (publish: boolean) => {
+  /**
+   * Saving no longer decides the post's state.
+   *
+   * This function used to take a `publish` boolean straight from the button:
+   * "Save" passed false, which set published:false and pulled a live post off
+   * the site. Fixing a typo on a published article silently unpublished it.
+   * The state now comes from the Visibility control, so Save means save.
+   */
+  const save = async () => {
     setSaving(true)
     const res = await fetch(`/api/blogs/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...form,
-        published: publish,
-        status: publish ? 'published' : 'draft',
         tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
         readTime: Number(form.readTime),
         seo: {
@@ -79,7 +93,13 @@ export default function EditBlogPost() {
       }),
     })
     setSaving(false)
-    if (res.ok) { toast.success(publish ? 'Published!' : 'Saved!') }
+    if (res.ok) {
+      toast.success(
+        form.status === 'published' ? 'Published!'
+        : form.status === 'scheduled' ? 'Scheduled!'
+        : 'Saved as draft'
+      )
+    }
     else { const { error } = await res.json(); toast.error(error || 'Failed') }
   }
 
@@ -101,11 +121,8 @@ export default function EditBlogPost() {
             <h1 className="font-display text-[20px] font-extrabold text-white tracking-tight">Edit Post</h1>
           </div>
           <div className="flex gap-2.5">
-            <button onClick={() => save(false)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">
-              <Save size={14} /> Save
-            </button>
-            <button onClick={() => save(true)} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
-              <Eye size={14} /> {saving ? 'Saving…' : 'Publish'}
+            <button onClick={save} disabled={saving} className="flex items-center gap-1.5 py-2.5 px-[18px] rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+              {form.status === 'published' ? <Eye size={14} /> : <Save size={14} />} {saveLabel(form.status, saving)}
             </button>
           </div>
         </div>
@@ -147,6 +164,15 @@ export default function EditBlogPost() {
           </div>
         </div>
 
+        {/* Visibility */}
+        <div className={cardClass}>
+          <h2 className="font-display text-[15px] font-bold text-white mb-5">Visibility</h2>
+          <PublishControl
+            value={{ status: form.status, scheduledFor: form.scheduledFor }}
+            onChange={(v: Visibility) => setForm(f => ({ ...f, status: v.status, scheduledFor: v.scheduledFor }))}
+          />
+        </div>
+
         <div className={cardClass}>
           <h2 className="font-display text-[15px] font-bold text-white mb-5">Content</h2>
           <BlogRichEditor blocks={form.content} onChange={blocks => set('content', blocks)} />
@@ -183,9 +209,8 @@ export default function EditBlogPost() {
 
         <div className="flex gap-2.5 justify-end">
           <Link href="/admin/blogs" className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-3 text-[13px] no-underline flex items-center transition-colors hover:bg-bg-3">Cancel</Link>
-          <button onClick={() => save(false)} disabled={saving} className="py-2.5 px-5 rounded-lg border border-border bg-transparent text-text-2 text-[13px] font-semibold cursor-pointer font-display transition-colors hover:bg-bg-3">Save Draft</button>
-          <button onClick={() => save(true)} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
-            {saving ? 'Saving…' : 'Publish'}
+          <button onClick={save} disabled={saving} className="py-2.5 px-6 rounded-lg border-none bg-gradient-to-br from-primary to-primary-dark text-white text-[13px] font-bold cursor-pointer font-display transition-opacity hover:opacity-90 disabled:opacity-70">
+            {saveLabel(form.status, saving)}
           </button>
         </div>
 
