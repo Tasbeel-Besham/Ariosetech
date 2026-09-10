@@ -109,7 +109,6 @@ export default async function BlogPostPage({ params }: Props) {
   let authorLd: Record<string, unknown> = {
     '@type': 'Organization', name: post.author || 'ARIOSETECH', url: SITE,
   }
-  let authorSlug: string | null = null
   let authorRec: Record<string, any> | null = null
   let reviewerRec: Record<string, any> | null = null
   let reviewedByLd: Record<string, unknown> | null = null
@@ -119,7 +118,6 @@ export default async function BlogPostPage({ params }: Props) {
     if (post.author) {
       authorRec = await aCol.findOne({ name: post.author, published: { $ne: false } } as never) as Record<string, any> | null
       if (authorRec?.slug) {
-        authorSlug = authorRec.slug
         authorLd = {
           '@type': 'Person',
           name: authorRec.name,
@@ -242,10 +240,16 @@ export default async function BlogPostPage({ params }: Props) {
                     )}
                     <div className="bp-byline-body">
                       <p className="bp-reviewer-label">Written by</p>
-                      {authorRec?.slug ? (
-                        <Link href={`/author/${authorRec.slug}`} className="bp-byline-name">{authorRec.name}</Link>
+                      {/* Jumps to the bio block at the end of the article rather
+                          than off to the profile page. A reader checking who
+                          wrote this mid-article wants the credentials, not to
+                          lose their place in the piece — and the profile page
+                          is still one click away from that block and from the
+                          sidebar card, so no /author link is lost. */}
+                      {authorRec ? (
+                        <a href="#author-bio" className="bp-byline-name">{authorRec.name}</a>
                       ) : (
-                        <p className="bp-byline-name">{authorRec?.name || post.author}</p>
+                        <p className="bp-byline-name">{post.author}</p>
                       )}
                       {authorRec?.role && <p className="bp-byline-role">{authorRec.role}</p>}
                     </div>
@@ -261,11 +265,7 @@ export default async function BlogPostPage({ params }: Props) {
                     )}
                     <div className="bp-byline-body">
                       <p className="bp-reviewer-label">Reviewed by</p>
-                      {reviewerRec.slug ? (
-                        <Link href={`/author/${reviewerRec.slug}`} className="bp-byline-name">{reviewerRec.name}</Link>
-                      ) : (
-                        <p className="bp-byline-name">{reviewerRec.name}</p>
-                      )}
+                      <a href="#author-bio" className="bp-byline-name">{reviewerRec.name}</a>
                       {reviewerRec.role && <p className="bp-byline-role">{reviewerRec.role}</p>}
                     </div>
                   </div>
@@ -346,7 +346,7 @@ export default async function BlogPostPage({ params }: Props) {
             {/* Why trust our experts — EEAT trust block. Always renders; uses
                 the matched author/reviewer record when available, otherwise a
                 team fallback so the section is never missing. */}
-            <div className="bp-trust">
+            <div className="bp-trust" id="author-bio">
               <div className="bp-trust-text">
                 <h2 className="bp-trust-title">Why trust our experts?</h2>
                 <p className="bp-trust-desc">
@@ -357,8 +357,10 @@ export default async function BlogPostPage({ params }: Props) {
                   and honest so you always get reliable, actionable guidance.
                 </p>
               </div>
-              {/* The full bio belongs to whoever wrote the piece; the reviewer
-                  is credited underneath rather than replacing them. */}
+              {/* The full bio belongs to whoever wrote the piece. The reviewer
+                  is credited in the top byline and in the sticky sidebar card,
+                  so repeating it here just said "Reviewed by" twice on one
+                  screen. */}
               {(() => {
                 const person = authorRec || reviewerRec
                 const name = person?.name || post.author || 'ARIOSETECH Team'
@@ -366,7 +368,6 @@ export default async function BlogPostPage({ params }: Props) {
                 const bio = person?.bio
                 const avatar = person?.avatar
                 const slug = person?.slug
-                const rev = reviewerRec && reviewerRec.name !== name ? reviewerRec : null
                 return (
                   <div className="bp-trust-card">
                     <div className="bp-trust-card-head">
@@ -382,24 +383,6 @@ export default async function BlogPostPage({ params }: Props) {
                     </div>
                     {role && <p className="bp-trust-role">{role}</p>}
                     {bio && <p className="bp-trust-bio">{bio}</p>}
-                    {rev && (
-                      <div className="bp-trust-reviewer">
-                        {rev.avatar ? (
-                          <Image src={rev.avatar} alt={rev.name} width={30} height={30} className="bp-trust-reviewer-photo" />
-                        ) : (
-                          <div className="bp-trust-reviewer-photo bp-reviewer-initial">{rev.name.charAt(0)}</div>
-                        )}
-                        <p className="bp-trust-reviewer-text">
-                          Reviewed by{' '}
-                          {rev.slug ? (
-                            <Link href={`/author/${rev.slug}`} className="bp-trust-reviewer-name">{rev.name}</Link>
-                          ) : (
-                            <span className="bp-trust-reviewer-name">{rev.name}</span>
-                          )}
-                          {rev.role ? `, ${rev.role}` : ''}
-                        </p>
-                      </div>
-                    )}
                     <div className="bp-trust-actions">
                       {slug && <Link href={`/author/${slug}`} className="bp-reviewer-link">View Bio →</Link>}
                       <Link href="/contact" className="btn btn-primary btn-sm">Work with us</Link>
