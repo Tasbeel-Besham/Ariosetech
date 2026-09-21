@@ -4,7 +4,7 @@ import { getCollection } from '@/lib/db/mongodb'
 import { ObjectId } from 'mongodb'
 import { revalidateSite } from '@/lib/cache'
 import { sanitizeBlocks } from '@/lib/blog/editor-convert'
-import { normalizeStatus } from '@/lib/blog/status'
+import { normalizeStatus, isLive } from '@/lib/blog/status'
 
 type P = { params: Promise<{ id: string }> }
 
@@ -13,6 +13,12 @@ export async function GET(_: NextRequest, { params }: P) {
   const col = await getCollection('blogs')
   const blog = await col.findOne({ _id: new ObjectId(id) })
   if (!blog) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  // Same rule as the list route: a post that is not live yet is only for
+  // the admin. Answer 404 rather than 401 so the endpoint does not confirm
+  // that an unpublished post with this id exists.
+  if (!isLive(blog as never) && !await requireAuth()) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  }
   return NextResponse.json(blog)
 }
 
