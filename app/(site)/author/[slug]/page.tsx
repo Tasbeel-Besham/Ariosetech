@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getCollection } from '@/lib/db/mongodb'
 import { personSchema, profilePageSchema } from '@/lib/schema'
 import Image from 'next/image'
+import { liveFilter } from '@/lib/blog/status'
 
 // Rendered per request.
 //
@@ -52,9 +53,14 @@ async function getPosts(authorName: string) {
     return await col
       .find({
         author: { $regex: `^\\s*${safe}\\s*$`, $options: 'i' },
-        published: { $ne: false },
+        // The shared live gate. `published: { $ne: false }` both hid posts
+        // that went live on a schedule (they keep published:false) and would
+        // have shown any draft saved without the flag at all.
+        ...liveFilter(),
       } as never)
-      .sort({ publishedAt: -1 })
+      // `date`, not `publishedAt`: a scheduled post has no publishedAt, so
+      // sorting on it pushed every scheduled post to the bottom.
+      .sort({ date: -1 })
       .limit(24)
       .toArray()
   } catch { return [] }
