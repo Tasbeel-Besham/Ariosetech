@@ -110,7 +110,7 @@ const nextConfig: NextConfig = {
       { source: '/portfolio-item/:slug*', destination: '/portfolio', permanent: true },
       // ── Retired blog posts (Sep 2026) ──
       //
-      // These nine posts were deleted from the CMS on purpose. Every one of
+      // These posts were deleted from the CMS on purpose. Every one of
       // them was live long enough to be crawled and to accumulate impressions,
       // so leaving them to 404 throws that signal away — a 404 tells Google the
       // URL is simply gone, while a 301 hands what the URL earned to the page
@@ -137,10 +137,17 @@ const nextConfig: NextConfig = {
       { source: '/blog/best-courier-online-store-pakistan', destination: '/services/woocommerce', permanent: true },
       { source: '/blog/how-to-optimize-ecommerce-site-speed', destination: '/services/woocommerce', permanent: true },
       { source: '/blog/shopify-vs-woocommerce-for-fashion', destination: '/services/shopify', permanent: true },
-      { source: '/blog/wordpress-speed-optimization-guide', destination: '/services/wordpress', permanent: true },
+      // /blog/wordpress-speed-optimization-guide was here until the topic was
+      // rescheduled for 1 Oct 2026 — a rule for a live slug makes the post
+      // unreachable, exactly the trap described above.
       // Core Web Vitals is a technical-SEO topic, so it goes to the SEO
       // service rather than to WordPress speed work.
       { source: '/blog/core-web-vitals-explained', destination: '/services/seo', permanent: true },
+      // Old WordPress slug for the cost article, still linked from the
+      // redesign post and likely from external sites.
+      { source: '/blog/how-much-does-wordpress-website-development-cost', destination: '/blog/wordpress-website-development-cost', permanent: true },
+      // Legacy WordPress post still requested from a stale link.
+      { source: '/show-at-the-university-of-the-michigan-started', destination: '/blog', permanent: true },
       // Query-string permalinks (?p=123 / ?page_id=7) on the root
       { source: '/', has: [{ type: 'query', key: 'p' }], destination: '/blog', permanent: true },
       { source: '/', has: [{ type: 'query', key: 'page_id' }], destination: '/', permanent: true },
