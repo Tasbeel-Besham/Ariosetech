@@ -10,6 +10,14 @@ import { liveFilter, normalizeStatus } from '@/lib/blog/status'
 
 export async function GET(req: NextRequest) {
   const admin = req.nextUrl.searchParams.get('admin')
+  // The admin view includes drafts and scheduled posts, i.e. full article
+  // text that is not public yet. Unauthenticated, anyone could read (and
+  // republish) a post weeks before it goes live, leaving ours looking like
+  // the copy. The admin screens call this same-origin, so the session cookie
+  // is sent automatically and nothing there changes.
+  if (admin && !await requireAuth()) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
   const col = await getCollection('blogs')
   const filter = admin ? {} : liveFilter()
   const blogs = await col.find(filter).sort({ date: -1 }).toArray()
