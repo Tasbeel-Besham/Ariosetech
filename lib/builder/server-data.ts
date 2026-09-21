@@ -1,5 +1,6 @@
 import { getCollection } from '@/lib/db/mongodb'
 import type { SectionInstance } from '@/types'
+import { liveFilter } from '@/lib/blog/status'
 
 /**
  * Server-side data hydration for sections that would otherwise fetch on the client.
@@ -86,8 +87,11 @@ function toBlogPost(doc: Record<string, any>) {
 async function fetchBlogPosts(limit: number) {
   try {
     const col = await getCollection('blogs')
+    // Same gate as every other public blog query — a plain published:true
+    // here hid every post that went live on a schedule, because those keep
+    // published:false and are made visible by the time check instead.
     const docs = await col
-      .find({ published: true } as never)
+      .find(liveFilter() as never)
       .sort({ date: -1 })
       .limit(Math.max(1, Math.min(limit || 3, 24)))
       .toArray()
